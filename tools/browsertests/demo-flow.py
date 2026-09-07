@@ -33,7 +33,7 @@ async def main():
         check(not await page.is_visible("#landing"), "landing verdwijnt na laden")
         nF = await page.evaluate("DATA.formulas.length")
         nM = await page.evaluate("DATA.materials.length")
-        check(nF == 16 and nM == 194, f"16 formules en 194 materialen geladen (gevonden {nF}/{nM})")
+        check(nF == 16 and nM == 199, f"16 formules en 199 materialen geladen (gevonden {nF}/{nM})")
         state = await page.text_content("#saveState")
         check("this browser" in state or "Unsaved" in state, f"saveState verwijst naar browseropslag: '{state}'")
 
@@ -48,11 +48,11 @@ async def main():
         await page.click("#tabM")
         await page.wait_for_timeout(300)
         n_badge = await page.evaluate("document.querySelectorAll('#list .item .sub span[title]').length")
-        check(n_badge == 194, f"194 materialen tonen het label 'starter' in de lijst (gevonden {n_badge})")
+        check(n_badge == 199, f"199 materialen tonen het label 'starter' in de lijst (gevonden {n_badge})")
         await page.fill("#searchBox", "starter")
         await page.wait_for_timeout(300)
         n_hit = await page.evaluate("document.querySelectorAll('#list .item').length")
-        check(n_hit == 194, f"zoeken op 'starter' vindt alle 194 (gevonden {n_hit})")
+        check(n_hit == 199, f"zoeken op 'starter' vindt alle 199 (gevonden {n_hit})")
         await page.fill("#searchBox", "")
         await page.wait_for_timeout(300)
 

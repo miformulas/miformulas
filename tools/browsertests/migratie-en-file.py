@@ -17,13 +17,13 @@ async def main():
         html=open('/home/claude/site/index.html',encoding='utf-8').read()
         print(("OK   " if 'kMpd' not in html else "FOUT ")+"geen token in het HTML-bestand")
         await b.close()
-        # C. file:// -> klassieke bestandsmodus, geen starterknop, geen probe
+        # C. file:// -> bestandsmodus, starterknop (maakt het databestand aan, sinds 260907b), geen probe
         b=await p.chromium.launch(); ctx=await b.new_context(); page=await ctx.new_page()
         errs=[]; page.on("pageerror", lambda e: errs.append(str(e)))
         await page.goto("file:///home/claude/site/index.html"); await page.wait_for_timeout(800)
         st=await page.is_visible("#btnStarter"); op=await page.text_content("#btnOpen")
         modes=await page.evaluate("[DEMO, REMOTE]")
-        print(("OK   " if (not st and "Open data file" in op and modes==[False,False]) else "FOUT ")+"file://: bestandsmodus, 'Open data file…', DEMO=REMOTE=false (%s, starterknop %s)"%(modes, st))
+        print(("OK   " if (st and "Open data file" in op and modes==[False,False]) else "FOUT ")+"file://: bestandsmodus, starterknop, 'Open data file…', DEMO=REMOTE=false (%s, starterknop %s)"%(modes, st))
         print(("OK   " if not errs else "FOUT ")+"file://: geen JavaScript-fouten"+("" if not errs else ": "+errs[0][:200]))
         await b.close()
 asyncio.run(main())

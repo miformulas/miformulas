@@ -45,7 +45,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(800)
 
     check("protocol is file:", page.evaluate("location.protocol") == "file:")
-    check("build stamp 260907e", page.locator("#build").inner_text().strip() == "260907e")
+    check("build stamp 260907f", page.locator("#build").inner_text().strip() == "260907f")
     hint = page.locator("#landingHint").inner_text()
     check("hint mentions own computer", "from your own computer" in hint)
     check("hint recommends Documents\\miFormulas", "Documents\\miFormulas" in hint)

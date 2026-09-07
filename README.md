@@ -88,6 +88,8 @@ The manual is in `docs/`.
   own storage. Good for trying it out; use Backup to download a file.
 - **In a file.** Download the app (one HTML file) and open it from your computer
   in Chrome or Edge. "Open data file…" then reads and writes a JSON file of your own.
+  The same works on miformulas.com itself: open your data file there once and the
+  site remembers it (Reopen), so an installed copy of the site keeps your own file.
 - **On a server.** Put `index.html` and `server/data.php` on any web server with
   PHP, create a writable `data` folder beside them, set a token in `data.php`, and
   give the same token in Settings on each device. The endpoint returns the JSON

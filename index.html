@@ -288,7 +288,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260907e</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260907f</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -2445,6 +2445,7 @@ $("#storageHintClose").addEventListener("click", () => { sessionStorage.setItem(
 /* ---------- settings ---------- */
 async function openSettings(){
   const loc = (await idb.get("locale")) || "", url = (await idb.get("serverUrl")) || "", tok = (await idb.get("token")) || "";
+  let remembered = null; try{ remembered = FALLBACK ? null : await idb.get("fileHandle"); }catch(e){}
   const locales = [["","Browser default"],["nl-BE","1.234,56  (nl-BE)"],["de-DE","1.234,56  (de-DE)"],["fr-FR","1 234,56  (fr-FR)"],["en-GB","1,234.56  (en-GB)"],["en-US","1,234.56  (en-US)"]];
   openDialog(`<h3 style="margin-top:0">Settings</h3>
     <div class="fieldGrid">
@@ -2453,7 +2454,8 @@ async function openSettings(){
       <label>Access token</label><input id="setToken" type="password" value="${esc(tok)}" autocomplete="off">
     </div>
     <div class="hint" style="margin-top:.6rem">A server is optional: without one the data lives in a local file or in this browser. Give <code>data.php</code> for the endpoint next to the app, or a full URL. Changing the server reloads the app.</div>
-    ${DEMO ? `<div style="margin-top:.8rem"><button class="small" id="setReset">Delete the data kept in this browser…</button></div>` : ""}`,
+    ${DEMO ? `<div style="margin-top:.8rem"><button class="small" id="setReset">Delete the data kept in this browser…</button></div>` : ""}
+    ${remembered ? `<div style="margin-top:.5rem"><button class="small" id="setForget">Forget the remembered data file \u201c${esc(remembered.name)}\u201d…</button></div>` : ""}`,
   "Apply", () => {
     const nl = $("#setLocale").value || null, ns = $("#setServer").value.trim() || null, nt = $("#setToken").value.trim() || null;
     const serverChanged = (ns||"") !== (url||"") || (nt||"") !== (tok||"");
@@ -2464,6 +2466,12 @@ async function openSettings(){
       else if (DATA) render();
     })();
   }, "26rem");
+  $("#setForget")?.addEventListener("click", async () => {
+    if (!confirm("Forget the remembered data file? The file itself is not touched; the app just stops offering Reopen for it.")) return;
+    if (DIRTY) await saveData();
+    await idb.set("fileHandle", null);
+    $("#dlg").close(); location.reload();
+  });
   $("#setReset")?.addEventListener("click", async () => {
     if (!confirm("Delete the data kept in this browser? Download a Backup first if you want to keep it.")) return;
     await idb.set("demoData", null); await idb.set("dailyBak", null);
@@ -2474,6 +2482,21 @@ $("#btnSettings").addEventListener("click", openSettings);
 $("#btnSettingsLanding").addEventListener("click", openSettings);
 
 /* ---------- boot & render ---------- */
+// a data file was opened here before (Chrome/Edge): offer to reopen it; onGone runs when it no longer exists
+function offerReopen(onGone){
+  $("#landingHint").textContent = "Your data file \u201c" + RESTORE.name + "\u201d is remembered. Click Reopen to continue; Chrome or Edge may ask once per session for permission to write to it. Open data file\u2026 switches to another file.";
+  const b = $("#btnReopen");
+  b.style.display = ""; b.textContent = `Reopen \u201c${RESTORE.name}\u201d`;
+  b.addEventListener("click", async () => {
+    try{
+      if (await RESTORE.requestPermission({mode:"readwrite"}) !== "granted") return;
+      if (await loadFromHandle(RESTORE)) boot();
+    }catch(e){   // the file is gone (moved, renamed, deleted): forget it and let the caller offer a fresh start
+      b.style.display = "none"; RESTORE = null; await idb.set("fileHandle", null);
+      onGone();
+    }
+  });
+}
 const canSave = () => REMOTE || DEMO || !!HANDLE;   // server, browser storage or a writable local file → editing on a phone is safe
 function lockInputs(){
   const keep = new Set(["searchBox","verSel","sortSel","cmpA","cmpB","cmpSortSel","bSortSel","scaleW",
@@ -2571,9 +2594,12 @@ function boot(){
       if (await remoteLoad()) boot();
       return;
     }
-    // no server: the browser keeps the data
+    // no server: the browser keeps the data, unless a data file was opened here before (then that file is used)
     DEMO = true;
-    $("#landingHint").textContent = "Your data stays in this browser. Use Backup to download it, and Settings to connect a server of your own.";
+    if (await tryRestore()){ boot(); return; }
+    const BROWSER_MSG = "Your data stays in this browser. Use Backup to download it, and Settings to connect a server of your own.";
+    const demoStart = async (hint) => {
+    $("#landingHint").textContent = hint;
     const demo = await idb.get("demoData");
     if (demo){
       try{ DATA = migrate(JSON.parse(demo)); boot(); return; }
@@ -2588,6 +2614,9 @@ function boot(){
     $("#btnDownload").addEventListener("click", () => {
       $("#landingHint").textContent = "miFormulas.html is now in your Downloads folder. Move it to a folder of its own, for instance Documents\\miFormulas, and open it there in Chrome or Edge; it then keeps your data in a file next to it. If you already made formulas here, click Backup first and open that file in the downloaded app.";
     });
+    };   // end demoStart
+    if (RESTORE) offerReopen(() => demoStart("The remembered data file could not be opened; it was probably moved, renamed or deleted. " + BROWSER_MSG));
+    else await demoStart(BROWSER_MSG);
     return;
   }
   const bak = await idb.get("dailyBak");
@@ -2645,20 +2674,7 @@ function boot(){
       }, "28rem");
   });
   }   // end offerStarter
-  if (RESTORE){
-    $("#landingHint").textContent = "Your data file \u201c" + RESTORE.name + "\u201d is remembered. Click Reopen to continue; Chrome or Edge may ask once per session for permission to write to it. Open data file\u2026 switches to another file.";
-    const b = $("#btnReopen");
-    b.style.display = ""; b.textContent = `Reopen “${RESTORE.name}”`;
-    b.addEventListener("click", async () => {
-      try{
-        if (await RESTORE.requestPermission({mode:"readwrite"}) !== "granted") return;
-        if (await loadFromHandle(RESTORE)) boot();
-      }catch(e){   // the file is gone (moved, renamed, deleted): forget it and offer a fresh start
-        b.style.display = "none"; RESTORE = null; await idb.set("fileHandle", null);
-        offerStarter(GONE_MSG);
-      }
-    });
-  } else offerStarter(FRESH_MSG);
+  if (RESTORE) offerReopen(() => offerStarter(GONE_MSG)); else offerStarter(FRESH_MSG);
   }catch(e){ try{ console.warn("miFormulas: start-up stopped early", e); }catch(_){} /* sandboxed viewers: manual file open still works */ }
 })();
 </script>
