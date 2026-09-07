@@ -288,7 +288,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260907</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260907b</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -457,7 +457,14 @@ function markDirty(){
    DEMO:   served over http(s) without a server — the browser keeps the data in IndexedDB
    otherwise the read-mostly fallback with a file picker (iOS, Firefox) */
 let REMOTE = false, DEMO = false, API = "";
-const STARTER_URL = "data/miformulas-starter.json";   // loaded on first visit in DEMO mode
+const STARTER_URL = location.protocol === "file:" ? "https://miformulas.com/data/miformulas-starter.json" : "data/miformulas-starter.json";   // next to the app on a server; the downloaded app fetches it from the site
+async function loadStarter(){
+  try{
+    const r = await fetch(STARTER_URL, {cache: "no-store"});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return migrate(await r.json());
+  }catch(e){ alert("The starter set could not be loaded (" + e.message + ")." + (location.protocol === "file:" ? "\n\nIt is fetched from miformulas.com, so this needs an internet connection." : "")); return null; }
+}
 let ETAG = null, TOKEN = null, CONFLICT = false;
 async function probeServer(){
   // earlier builds always talked to data.php next to the app; keep that working without configuration
@@ -2575,12 +2582,11 @@ function boot(){
     const bs = $("#btnStarter"); bs.style.display = "";
     $("#btnDownload").style.display = ""; $("#btnFormulair").style.display = "";
     bs.addEventListener("click", async () => {
-      try{
-        const r = await fetch(STARTER_URL, {cache: "no-store"});
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        DATA = migrate(await r.json());
-      }catch(e){ alert("The starter set could not be loaded (" + e.message + ")."); return; }
-      boot(); markDirty();
+      const d = await loadStarter(); if (!d) return;
+      DATA = d; boot(); markDirty();
+    });
+    $("#btnDownload").addEventListener("click", () => {
+      $("#landingHint").textContent = "miFormulas.html is now in your Downloads folder. Move it to a folder of its own, for instance Documents\\miFormulas, and open it there in Chrome or Edge; it then keeps your data in a file next to it. If you already made formulas here, click Backup first and open that file in the downloaded app.";
     });
     return;
   }
@@ -2612,6 +2618,17 @@ function boot(){
     return;
   }
   if (await tryRestore()){ boot(); return; }
+  if (!RESTORE) $("#landingHint").textContent = "You are running the app from your own computer. Keep miFormulas.html in a folder of its own, for instance Documents\\miFormulas, with your data file next to it and a subfolder \u201cbackups\u201d for Backup copies. Open a data file, or start with the starter set: you then choose where to keep your data file.";
+  const bsf = $("#btnStarter"); bsf.style.display = "";
+  bsf.addEventListener("click", async () => {
+    const d = await loadStarter(); if (!d) return;
+    DATA = d;
+    try{
+      const h = await window.showSaveFilePicker({id:"miformulas-data", suggestedName:"miformulas-data.json", types:[{description:"miFormulas data", accept:{"application/json":[".json"]}}]});
+      HANDLE = h; await idb.set("fileHandle", h);
+    }catch(e){ /* picker cancelled: the app runs without a file; Backup still works */ }
+    boot(); if (HANDLE) saveData(); else markDirty();
+  });
   if (RESTORE){
     const b = $("#btnReopen");
     b.style.display = ""; b.textContent = `Reopen “${RESTORE.name}”`;

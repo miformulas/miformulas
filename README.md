@@ -15,11 +15,15 @@ runs in any modern browser.
   browser's own storage on that computer; use *Backup* to download a copy.
 - **Keep it on your own computer.** Open https://miformulas.com, click
   **Download the app** on the start screen and save the file (it is called
-  `miFormulas.html`). Double-click it to open it in your browser. In Chrome or
-  Edge, *Open data file…* then reads and writes a data file of your own, so
-  your formulas live where you can see and back them up. Firefox cannot write
-  to a file; there you keep working in the browser's storage and use *Backup*
-  to save.
+  `miFormulas.html`). Give it a folder of its own, for instance
+  `Documents\miFormulas`, and double-click it to open it in Chrome or Edge.
+  Choose *Start with the starter set*: the app then asks where to keep your
+  data file (`miformulas-data.json`, best next to the app). If you already
+  made formulas on miformulas.com, click *Backup* there first and use *Open
+  data file…* in the downloaded app to continue with that file. Keep a
+  subfolder `backups` for the copies *Backup* makes. Firefox cannot write to a
+  file; there you keep working in the browser's storage and use *Backup* to
+  save.
 - **Coming from Formulair?** Open https://miformulas.com/formulair-import.html;
   it converts your Formulair database in the browser, nothing is uploaded. See
   *Coming from Formulair* below.
