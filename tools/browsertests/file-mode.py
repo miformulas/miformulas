@@ -1,4 +1,4 @@
-"""Bestandsmodus (gedownloade app geopend via file://): hint, starterset, aanmaak van het databestand.
+"""Bestandsmodus (gedownloade app geopend via file://): hint, dialoog, starterset, aanmaak van het databestand.
 Draait rechtstreeks op public\index.html; de starterset wordt vanaf schijf geserveerd omdat de test miformulas.com nabootst."""
 import json, os, sys
 from playwright.sync_api import sync_playwright
@@ -41,7 +41,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(800)
 
     check("protocol is file:", page.evaluate("location.protocol") == "file:")
-    check("build stamp 260907b", page.locator("#build").inner_text().strip() == "260907b")
+    check("build stamp 260907c", page.locator("#build").inner_text().strip() == "260907c")
     hint = page.locator("#landingHint").inner_text()
     check("hint mentions own computer", "from your own computer" in hint)
     check("hint recommends Documents\\miFormulas", "Documents\\miFormulas" in hint)
@@ -52,11 +52,24 @@ with sync_playwright() as p:
     check("STARTER_URL absolute", page.evaluate("STARTER_URL") == "https://miformulas.com/data/miformulas-starter.json")
 
     page.click("#btnStarter")
+    page.wait_for_timeout(1200)
+    check("dialog explains the data file", page.locator("#dlg").evaluate("d => d.open") and "miformulas-data.json" in page.locator("#dlg").inner_text())
+    check("dialog names Documents\\miFormulas and backups", "Documents\\miFormulas" in page.locator("#dlg").inner_text() and "backups" in page.locator("#dlg").inner_text())
+    check("picker not yet opened", page.evaluate("window.__pickerOpts") is None)
+    # Cancel in the dialog: back to the start screen with a hint
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    check("dialog cancel: landing stays", page.locator("#landing").is_visible())
+    check("dialog cancel: hint says nothing saved", "No data file was created" in page.locator("#landingHint").inner_text())
+    # again, now through Choose location
+    page.click("#btnStarter"); page.wait_for_timeout(1200)
+    check("OK button says Choose location", page.locator("#dlgOk").inner_text().startswith("Choose location"))
+    page.click("#dlgOk")
     page.wait_for_timeout(1500)
     check("landing gone", not page.locator("#landing").is_visible())
     opts = page.evaluate("window.__pickerOpts")
     check("save picker suggested miformulas-data.json", opts and opts.get("suggestedName") == "miformulas-data.json")
     check("save picker id miformulas-data", opts and opts.get("id") == "miformulas-data")
+    check("save picker starts in Documents", opts and opts.get("startIn") == "documents")
     w = page.evaluate("window.__written")
     check("data file written once", len(w) == 1)
     d = json.loads(w[0]) if w else {}
@@ -65,19 +78,18 @@ with sync_playwright() as p:
     st = page.locator("#saveState").inner_text()
     check("state shows Saved (file)", st.startswith("Saved") and "browser" not in st)
     check("no dialogs", not any(m.startswith("DIALOG") for m in msgs))
-    
 
-    # cancelled picker: app runs without a file
+    # cancelled picker: back to the start screen
     page2 = ctx.new_page()
     page2.route("https://miformulas.com/data/miformulas-starter.json",
                 lambda r: r.fulfill(status=200, content_type="application/json", body=STARTER,
                                     headers={"Access-Control-Allow-Origin": "*"}))
     page2.add_init_script("window.showSaveFilePicker = async () => { throw new DOMException('cancel','AbortError'); }; window.showOpenFilePicker = async () => {};")
     page2.goto(APP); page2.wait_for_timeout(800)
-    page2.click("#btnStarter"); page2.wait_for_timeout(1500)
-    check("cancelled picker: app still boots", not page2.locator("#landing").is_visible())
-    st2 = page2.locator("#saveState").inner_text()
-    check("cancelled picker: no file access state", "No file access" in st2 or "Unsaved" in st2)
+    page2.click("#btnStarter"); page2.wait_for_timeout(1200); page2.click("#dlgOk"); page2.wait_for_timeout(1000)
+    check("cancelled picker: landing stays", page2.locator("#landing").is_visible())
+    check("cancelled picker: hint says nothing saved", "No data file was created" in page2.locator("#landingHint").inner_text())
+    check("cancelled picker: no file handle stored", page2.evaluate("idb.get('fileHandle').then(h => !h)"))
 
     # offline: clear message
     page3 = ctx.new_page()
@@ -87,7 +99,7 @@ with sync_playwright() as p:
     page3.goto(APP); page3.wait_for_timeout(800)
     page3.click("#btnStarter"); page3.wait_for_timeout(1500)
     check("offline: alert mentions internet", any("internet connection" in m for m in dl))
-    check("offline: landing stays", page3.locator("#landing").is_visible())
+    check("offline: landing stays, no dialog", page3.locator("#landing").is_visible() and not page3.locator("#dlg").evaluate("d => d.open"))
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")
