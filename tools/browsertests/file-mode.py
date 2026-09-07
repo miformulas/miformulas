@@ -1,4 +1,4 @@
-"""Bestandsmodus (gedownloade app geopend via file://): hint, dialoog, starterset, aanmaak van het databestand, herstart met Reopen.
+"""Bestandsmodus (gedownloade app geopend via file://): hint, dialoog, starterset, aanmaak van het databestand, herstart met Reopen, verdwenen bestand.
 Draait rechtstreeks op public\index.html; de starterset wordt vanaf schijf geserveerd omdat de test miformulas.com nabootst."""
 import json, os, sys
 from playwright.sync_api import sync_playwright
@@ -30,7 +30,7 @@ with sync_playwright() as p:
       function FakeHandle(name){ this.name = name; this.kind = 'file'; this.__fake = true; }
       FakeHandle.prototype.queryPermission = async () => window.__perm || 'granted';
       FakeHandle.prototype.requestPermission = async () => { window.__perm = 'granted'; return 'granted'; };
-      FakeHandle.prototype.getFile = async function(){ return new File([localStorage.getItem('fakefile') || '{}'], this.name); };
+      FakeHandle.prototype.getFile = async function(){ if (localStorage.getItem('fakegone')) throw new DOMException('gone','NotFoundError'); return new File([localStorage.getItem('fakefile') || '{}'], this.name); };
       FakeHandle.prototype.createWritable = async () => ({ write: async (s) => { window.__written.push(s); localStorage.setItem('fakefile', s); }, close: async () => {} });
       const desc = Object.getOwnPropertyDescriptor(IDBRequest.prototype, 'result');
       Object.defineProperty(IDBRequest.prototype, 'result', { get(){ const v = desc.get.call(this); if (v && v.__fake) Object.setPrototypeOf(v, FakeHandle.prototype); return v; } });
@@ -45,7 +45,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(800)
 
     check("protocol is file:", page.evaluate("location.protocol") == "file:")
-    check("build stamp 260907d", page.locator("#build").inner_text().strip() == "260907d")
+    check("build stamp 260907e", page.locator("#build").inner_text().strip() == "260907e")
     hint = page.locator("#landingHint").inner_text()
     check("hint mentions own computer", "from your own computer" in hint)
     check("hint recommends Documents\\miFormulas", "Documents\\miFormulas" in hint)
@@ -98,7 +98,26 @@ with sync_playwright() as p:
     pr.click("#btnReopen"); pr.wait_for_timeout(1200)
     check("restart: reopened, landing gone", not pr.locator("#landing").is_visible())
     check("restart: 16 formulas loaded", pr.evaluate("DATA.formulas.length") == 16)
-    pr.evaluate("idb.set('fileHandle', null)"); pr.evaluate("localStorage.removeItem('fakefile')")
+
+    # restart after the data file was deleted: Reopen fails -> forget it, offer the starter set
+    pg = ctx.new_page()
+    pg.route("https://miformulas.com/data/miformulas-starter.json",
+             lambda r: r.fulfill(status=200, content_type="application/json", body=STARTER,
+                                 headers={"Access-Control-Allow-Origin": "*"}))
+    pg.add_init_script(FAKE_FS + " window.__perm = 'prompt';")
+    pg.goto(APP); pg.wait_for_timeout(1000)
+    pg.evaluate("localStorage.setItem('fakegone', '1')")
+    check("gone: Reopen offered first", pg.locator("#btnReopen").is_visible() and not pg.locator("#btnStarter").is_visible())
+    pg.click("#btnReopen"); pg.wait_for_timeout(1000)
+    check("gone: landing stays", pg.locator("#landing").is_visible())
+    check("gone: Reopen hidden", not pg.locator("#btnReopen").is_visible())
+    check("gone: starter offered", pg.locator("#btnStarter").is_visible())
+    check("gone: hint explains", "could not be opened" in pg.locator("#landingHint").inner_text())
+    check("gone: handle forgotten", pg.evaluate("idb.get('fileHandle').then(h => !h)"))
+    pg.evaluate("localStorage.removeItem('fakegone')")
+    pg.click("#btnStarter"); pg.wait_for_timeout(1200); pg.click("#dlgOk"); pg.wait_for_timeout(1500)
+    check("gone: starter set creates a new file", not pg.locator("#landing").is_visible() and pg.evaluate("DATA.formulas.length") == 16)
+    pg.evaluate("idb.set('fileHandle', null)"); pg.evaluate("localStorage.removeItem('fakefile')")
 
     # cancelled picker: back to the start screen
     page2 = ctx.new_page()
