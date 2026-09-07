@@ -17,8 +17,9 @@ runs in any modern browser.
   **Download the app** on the start screen and save the file (it is called
   `miFormulas.html`). Give it a folder of its own, for instance
   `Documents\miFormulas`, and double-click it to open it in Chrome or Edge.
-  Choose *Start with the starter set*: the app then asks where to keep your
-  data file (`miformulas-data.json`, best next to the app). If you already
+  Choose *Start with the starter set*: the app explains and then asks where to
+  keep your data file (`miformulas-data.json`, in the same folder as the app).
+  If you already
   made formulas on miformulas.com, click *Backup* there first and use *Open
   data file…* in the downloaded app to continue with that file. Keep a
   subfolder `backups` for the copies *Backup* makes. Firefox cannot write to a

@@ -288,7 +288,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260907b</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260907c</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -2620,14 +2620,26 @@ function boot(){
   if (await tryRestore()){ boot(); return; }
   if (!RESTORE) $("#landingHint").textContent = "You are running the app from your own computer. Keep miFormulas.html in a folder of its own, for instance Documents\\miFormulas, with your data file next to it and a subfolder \u201cbackups\u201d for Backup copies. Open a data file, or start with the starter set: you then choose where to keep your data file.";
   const bsf = $("#btnStarter"); bsf.style.display = "";
+  const NOFILE_MSG = "No data file was created, so nothing is saved. Start with the starter set to try again, or open an existing data file.";
   bsf.addEventListener("click", async () => {
-    const d = await loadStarter(); if (!d) return;
-    DATA = d;
-    try{
-      const h = await window.showSaveFilePicker({id:"miformulas-data", suggestedName:"miformulas-data.json", types:[{description:"miFormulas data", accept:{"application/json":[".json"]}}]});
-      HANDLE = h; await idb.set("fileHandle", h);
-    }catch(e){ /* picker cancelled: the app runs without a file; Backup still works */ }
-    boot(); if (HANDLE) saveData(); else markDirty();
+    const d = await loadStarter(); if (!d) return;   // fetched first; the dialog button below gives the picker a fresh user gesture
+    const dlg = $("#dlg");
+    const onCancel = () => { $("#landingHint").textContent = NOFILE_MSG; };
+    dlg.addEventListener("cancelled", onCancel, {once: true});
+    openDialog(`<h3 style="margin-top:0">Where to keep your data file</h3>
+      <p>The starter set will be saved as your data file, <b>miformulas-data.json</b>.</p>
+      <p>In the next window, go to the folder where miFormulas.html is (for instance <b>Documents\\miFormulas</b>) and keep that file name. The app remembers the file and saves to it automatically; make a subfolder <b>backups</b> there for Backup copies.</p>`,
+      "Choose location\u2026", () => {
+        dlg.removeEventListener("cancelled", onCancel);
+        (async () => {
+          let h = null;
+          try{ h = await window.showSaveFilePicker({id:"miformulas-data", startIn:"documents", suggestedName:"miformulas-data.json", types:[{description:"miFormulas data", accept:{"application/json":[".json"]}}]}); }
+          catch(e){ /* cancelled */ }
+          if (!h){ $("#landingHint").textContent = NOFILE_MSG; return; }
+          DATA = d; HANDLE = h; await idb.set("fileHandle", h);
+          boot(); saveData();
+        })();
+      }, "28rem");
   });
   if (RESTORE){
     const b = $("#btnReopen");
