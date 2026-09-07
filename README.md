@@ -6,6 +6,30 @@ that you own.
 
 Try it at **https://miformulas.com**
 
+## Download and install
+
+There is nothing to install. The whole app is one file, `index.html`, and it
+runs in any modern browser.
+
+- **Just try it.** Open https://miformulas.com. Your work is kept in the
+  browser's own storage on that computer; use *Backup* to download a copy.
+- **Keep it on your own computer.** Open https://miformulas.com, click
+  **Download the app** on the start screen and save the file (it is called
+  `miFormulas.html`). Double-click it to open it in your browser. In Chrome or
+  Edge, *Open data file…* then reads and writes a data file of your own, so
+  your formulas live where you can see and back them up. Firefox cannot write
+  to a file; there you keep working in the browser's storage and use *Backup*
+  to save.
+- **Coming from Formulair?** Open https://miformulas.com/formulair-import.html;
+  it converts your Formulair database in the browser, nothing is uploaded. See
+  *Coming from Formulair* below.
+- **Everything at once.** On this GitHub page click the green **Code** button,
+  then **Download ZIP**. The ZIP holds the app, the Formulair importer, the
+  starter data, the server endpoint and the tools.
+
+Updating is the same as installing: download the new `miFormulas.html` and
+open it. Your data file is separate and stays untouched.
+
 ## What it does
 
 **Two-level formulas.** A base formula keeps an immutable version history. On top
