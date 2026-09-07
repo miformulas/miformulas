@@ -1,0 +1,256 @@
+<!doctype html>
+<!--
+  miFormulas - import from Formulair
+  Copyright (C) 2026 Mathieu Isenbaert
+
+  This program is free software: you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation, either version 3 of the License, or (at your option)
+  any later version, subject to the additional terms in the file NOTICE.
+  This program is distributed WITHOUT ANY WARRANTY. See https://www.gnu.org/licenses/
+
+  Embeds sql.js @@SQLJS_VERSION@@ (https://github.com/sql-js/sql.js, MIT licence),
+  SQLite compiled to WebAssembly, so the database is read entirely in your browser.
+  Nothing is uploaded anywhere.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>miFormulas · import from Formulair</title>
+<style>
+:root{--ground:#FBFCFD;--surface:#FFFFFF;--panel:#EDF1F5;--ink:#212A33;--muted:#6C7A88;--line:#DCE3EA;--accent:#A2277E;--accent-ink:#7E1B62;--accent-soft:#F9E3F1;--amber:#DD8500;--amber-soft:#FFEFD2;--danger:#C42F1F;--ok:#2E7D4F;--ok-soft:#E3F3E9}
+@media (prefers-color-scheme: dark){:root{--ground:#14101A;--surface:#1E1826;--panel:#2A2233;--ink:#EDE6F0;--muted:#A597AE;--line:#453050;--accent:#E667B0;--accent-ink:#F08CC5;--accent-soft:#3A1F38;--amber:#FFB454;--amber-soft:#3B2A12;--ok:#7ED39E;--ok-soft:#1E3A2A}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif}
+main{max-width:46rem;margin:0 auto;padding:2rem 1.2rem 4rem}
+h1{font-size:1.5rem;margin:0 0 .2rem}h1 span{color:var(--accent)}
+h2{font-size:1.05rem;margin:1.6rem 0 .5rem}
+p{margin:.4rem 0}
+.hint{font-size:.85rem;color:var(--muted)}
+code{background:var(--panel);padding:.05rem .35rem;border-radius:4px;font-size:.88em}
+.drop{margin:1rem 0;padding:1.6rem;border:2px dashed var(--line);border-radius:10px;text-align:center;background:var(--surface);cursor:pointer}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+button{font:inherit;padding:.45rem .9rem;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button:disabled{opacity:.5;cursor:default}
+.box{border:1px solid var(--line);border-radius:8px;padding:.9rem 1.1rem;background:var(--surface);margin:.8rem 0}
+.warn{background:var(--amber-soft);border-color:var(--amber)}
+.ok{background:var(--ok-soft);border-color:var(--ok)}
+.err{background:var(--accent-soft);border-color:var(--danger)}
+table{border-collapse:collapse;margin:.4rem 0}td{padding:.15rem .8rem .15rem 0}td:first-child{color:var(--muted)}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+#log{white-space:pre-wrap;font-size:.83rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>mi<span>Formulas</span> · import from Formulair</h1>
+<p class="hint">Reads the Formulair database entirely in your browser and turns it into a miFormulas data file. Nothing leaves your computer.</p>
+
+<h2>1. Find the database</h2>
+<p>Quit Formulair first (⌘Q), so that its last changes are written to the file. Then, in the Finder, choose <b>Go › Go to Folder…</b> and paste:</p>
+<p><code>~/Library/Containers/co.uk.lux-terra.Formulair/Data/Library/Application Support/Formulair/</code></p>
+<p>The file is <code>DataModel.sqlite</code>. Copy it somewhere handy, for instance the Desktop.</p>
+
+<h2>2. Read it</h2>
+<div class="drop" id="drop">
+  <p><b>Drop DataModel.sqlite here</b> or click to choose it</p>
+  <p class="hint">The file can be large (Formulair keeps a long sync history inside it); reading takes a moment.</p>
+  <input type="file" id="file" style="display:none">
+</div>
+<div id="out"></div>
+<div id="log"></div>
+
+<h2>What you get</h2>
+<p>Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category, colour marks per line and every material with its dilutions, CAS, supplier, cost, IFRA limit, pyramid level, stock and description. Categories keep their colours. Nothing is converted or renamed.</p>
+<p>Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there. They stay separate here too. Grouping them into one base formula with versions is a decision for you, later, in miFormulas.</p>
+</main>
+<script>
+/* ---- sql.js, embedded (not in strict mode: its loader assigns to an undeclared `module`) ---- */
+@@SQLJS_JS@@
+const SQLJS_WASM_B64 = "@@SQLJS_WASM_B64@@";
+</script>
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const log = s => { $("#log").textContent += s + "\n"; };
+const EPOCH = Date.UTC(2001, 0, 1);
+const pad2 = n => String(n).padStart(2, "0");
+function cdDate(ts){ if (ts == null) return ""; const d = new Date(EPOCH + ts * 1000); return `${d.getUTCFullYear()}-${pad2(d.getUTCMonth()+1)}-${pad2(d.getUTCDate())}`; }
+function cdStamp(ts){ if (ts == null) return ""; const d = new Date(EPOCH + ts * 1000); return `${cdDate(ts)}T${pad2(d.getUTCHours())}:${pad2(d.getUTCMinutes())}:${pad2(d.getUTCSeconds())}`; }
+function colourOf(blob){
+  if (!blob) return null;
+  const txt = new TextDecoder("latin1").decode(blob);
+  const m = txt.match(/(\d\.\d+|\d) (\d\.\d+|\d) (\d\.\d+|\d)/);
+  if (!m) return null;
+  return "#" + [m[1], m[2], m[3]].map(x => Math.round(parseFloat(x) * 255).toString(16).padStart(2, "0").toUpperCase()).join("");
+}
+function b64ToBytes(b64){ const s = atob(b64); const a = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+const trim = s => (s == null ? "" : String(s)).trim();
+const byLower = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
+
+function rows(db, sql){ const r = db.exec(sql); return r.length ? r[0].values : []; }
+
+function convert(db){
+  const rmcat = new Map(rows(db, "select Z_PK, ZNAME from ZRMCATEGORY").map(([pk, n]) => [pk, n || "Uncategorised"]));
+  const fcat  = new Map(rows(db, "select Z_PK, ZNAME from ZFCATEGORY").map(([pk, n]) => [pk, n || "Uncategorised"]));
+  const supp  = new Map(rows(db, "select Z_PK, ZNAME from ZSUPPLIER").map(([pk, n]) => [pk, n || ""]));
+  const colours = {};
+  for (const [pk, name, blob] of rows(db, "select Z_PK, ZNAME, ZCOLOUR from ZRMCATEGORY")){
+    const col = colourOf(blob); if (name && col) colours[name] = col;
+  }
+  const materials = [], matByPk = new Map();
+  for (const [pk, name, cas, cat, sup, cost, ifra, inv, pyr, solv, desc, ts] of rows(db,
+      "select Z_PK, ZNAME, ZCAS, ZCATEGORY, ZSUPPLIER, ZCOST, ZIFRA, ZINVENTORY, ZPYRAMID, ZISSOLVENT, ZODOURDESCRIPTION, ZTIMESTAMP from ZINGREDIENT order by Z_PK")){
+    const m = {
+      id: "m-f" + pk, name: trim(name), cas: trim(cas),
+      category: rmcat.get(cat) ?? "Uncategorised", supplier: supp.get(sup) ?? "",
+      costPerGram: (cost == null || cost === 0) ? null : cost,
+      ifraLimit: ifra == null ? null : ifra,
+      inventory: trim(inv) || null,
+      pyramid: (pyr == null || pyr > 4) ? null : Math.trunc(pyr),
+      isSolvent: !!solv, description: trim(desc), dilutions: [], locations: {}, density: null,
+      modified: cdStamp(ts),
+    };
+    materials.push(m); matByPk.set(pk, m);
+  }
+  const dilByPk = new Map();
+  for (const [pk, ing, pct0, base, date, notes] of rows(db,
+      "select Z_PK, ZINGREDIENT, ZDILUTION, ZISBASEDILUTION, ZDATE, ZNOTES from ZDILUTIONENTRY order by Z_PK")){
+    const m = matByPk.get(ing); if (!m) continue;
+    const pct = pct0 == null ? 100 : +pct0;
+    dilByPk.set(pk, [m, pct]);
+    if (!m.dilutions.some(d => Math.abs(d.pct - pct) < 1e-9))
+      m.dilutions.push({pct, isBase: !!base, date: cdDate(date), notes: trim(notes)});
+  }
+  for (const m of materials){
+    m.dilutions.sort((a, b) => b.pct - a.pct);
+    if (m.dilutions.length && !m.dilutions.some(d => d.isBase)) m.dilutions[0].isBase = true;
+  }
+  const linesByF = new Map();
+  for (const [fpk, dpk, qty, remark, added] of rows(db,
+      "select ZFORMULA, ZDILUTIONENTRY, ZQUANTITY, ZREMARK, ZDATEADDED from ZFORMULAENTRY order by ZDATEADDED, Z_PK")){
+    const d = dilByPk.get(dpk); if (!d) continue;
+    const [m, pct] = d;
+    if (!linesByF.has(fpk)) linesByF.set(fpk, []);
+    linesByF.get(fpk).push({materialId: m.id, dilutionPct: pct, weightG: Math.round((+qty || 0) * 1e6) / 1e6,
+                            remark: (remark == null || remark === 1) ? null : Math.trunc(remark)});
+  }
+  const formulas = [];
+  for (const [pk, title0, cat, date, notes] of rows(db, "select Z_PK, ZTITLE, ZCATEGORY, ZDATE, ZNOTES from ZFORMULA order by ZTITLE")){
+    const title = trim(title0) || ("Formula " + pk), day = cdDate(date);
+    formulas.push({
+      id: "f-f" + pk, name: title, category: fcat.get(cat) ?? "Uncategorised",
+      created: day, modified: cdStamp(date), frozenImport: true,
+      versions: [{v: 1, name: "", date: day, notes: trim(notes), lines: linesByF.get(pk) || [],
+                  sourceName: title, imported: true, frozen: true}],
+      variations: [],
+    });
+  }
+  const mcats = [...new Set([...materials.map(m => m.category), ...rmcat.values()])].sort(byLower);
+  const fcats = [...new Set([...formulas.map(f => f.category), ...fcat.values()])].sort(byLower);
+  const d = new Date();
+  return {
+    meta: {schema: 1, generated: `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`,
+           source: "Formulair DataModel.sqlite (flat import)", uiLanguage: "en"},
+    materialCategories: mcats, formulaCategories: fcats,
+    suppliers: [...new Set([...supp.values()].filter(Boolean))].sort(byLower),
+    materials, formulas, categoryColours: colours, shopSites: [], orderList: [],
+  };
+}
+
+function serialize(data){
+  return JSON.stringify(data, (k, v) => (typeof v === "number" && !Number.isInteger(v)) ? +v.toFixed(6) : v, 1);
+}
+
+let RESULT = null, RESULT_TEXT = "";
+async function handle(file){
+  $("#out").innerHTML = ""; $("#log").textContent = "";
+  if (!file) return;
+  log(`Reading ${file.name} (${(file.size / 1048576).toFixed(1)} MB)…`);
+  let bytes;
+  try{ bytes = new Uint8Array(await file.arrayBuffer()); }
+  catch(e){ show("err", "The file could not be read: " + e.message); return; }
+  const head = new TextDecoder("latin1").decode(bytes.slice(0, 16));
+  if (head !== "SQLite format 3\0"){ show("err", "This is not an SQLite database. Choose DataModel.sqlite from the Formulair folder."); return; }
+  const walMode = bytes[18] === 2 || bytes[19] === 2;
+  log("Starting SQLite…");
+  let SQL;
+  try{ SQL = await initSqlJs({wasmBinary: b64ToBytes(SQLJS_WASM_B64)}); }
+  catch(e){ show("err", "SQLite could not start in this browser: " + e.message); return; }
+  let db;
+  try{ db = new SQL.Database(bytes); }
+  catch(e){ show("err", "The database could not be opened: " + e.message); return; }
+  try{
+    const tabs = rows(db, "select name from sqlite_master where type='table'").map(r => r[0]);
+    for (const t of ["ZINGREDIENT", "ZFORMULA", "ZFORMULAENTRY", "ZDILUTIONENTRY"])
+      if (!tabs.includes(t)){ show("err", `Table ${t} is missing; this does not look like a Formulair database.`); return; }
+    log("Converting…");
+    RESULT = convert(db);
+  }catch(e){ show("err", "Conversion failed: " + e.message); console.error(e); return; }
+  finally{ try{ db.close(); }catch(e){} }
+  RESULT_TEXT = serialize(RESULT);
+  const nLines = RESULT.formulas.reduce((a, f) => a + f.versions[0].lines.length, 0);
+  const nNotes = RESULT.formulas.filter(f => f.versions[0].notes).length;
+  const nEmpty = RESULT.formulas.filter(f => !f.versions[0].lines.length).length;
+  let html = `<div class="box ok"><b>Read successfully.</b>
+    <table>
+    <tr><td>Materials</td><td>${RESULT.materials.length}</td></tr>
+    <tr><td>Formulas</td><td>${RESULT.formulas.length}${nEmpty ? ` <span class="hint">(${nEmpty} without lines)</span>` : ""}</td></tr>
+    <tr><td>Formula lines</td><td>${nLines}</td></tr>
+    <tr><td>Formulas with notes</td><td>${nNotes}</td></tr>
+    <tr><td>Material categories</td><td>${RESULT.materialCategories.length}, ${Object.keys(RESULT.categoryColours).length} with a colour</td></tr>
+    <tr><td>Suppliers</td><td>${RESULT.suppliers.length}</td></tr>
+    <tr><td>Data file</td><td>${(RESULT_TEXT.length / 1024).toFixed(0)} kB</td></tr>
+    </table>
+    <div class="row">
+      <button class="primary" id="btnDl">Download miformulas-data.json</button>
+      <button id="btnOpen">Open in miFormulas in this browser</button>
+    </div>
+    <p class="hint" style="margin-top:.6rem">Download: keep the file next to the app and open it with “Open data file…”. Open here: the data goes into this browser's storage and miFormulas starts with it; use Backup there to get a file later.</p>
+  </div>`;
+  if (walMode) html += `<div class="box warn"><b>Check that Formulair was closed before you copied the file.</b> This database keeps its latest changes in a separate <code>-wal</code> file until the app closes; a copy made while Formulair was open may miss the most recent edits. If in doubt, quit Formulair, copy again and read the file once more.</div>`;
+  $("#out").innerHTML = html;
+  $("#btnDl").addEventListener("click", download);
+  $("#btnOpen").addEventListener("click", openHere);
+  log("Done.");
+}
+function show(kind, msg){ $("#out").innerHTML = `<div class="box ${kind}">${esc(msg)}</div>`; }
+function download(){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([RESULT_TEXT], {type: "application/json"}));
+  a.download = "miformulas-data.json"; a.click(); URL.revokeObjectURL(a.href);
+}
+/* hand the data to miFormulas next to this page through its browser storage (same origin) */
+function idbSet(key, value){ return new Promise((res, rej) => {
+  const r = indexedDB.open("miformulas", 1);
+  r.onupgradeneeded = () => { try{ r.result.createObjectStore("kv"); }catch(e){} };
+  r.onerror = () => rej(r.error);
+  r.onsuccess = () => { const db = r.result; const t = db.transaction("kv", "readwrite"); t.objectStore("kv").put(value, key);
+    t.oncomplete = () => { db.close(); res(); }; t.onerror = () => rej(t.error); };
+}); }
+function idbGet(key){ return new Promise((res) => {
+  const r = indexedDB.open("miformulas", 1);
+  r.onupgradeneeded = () => { try{ r.result.createObjectStore("kv"); }catch(e){} };
+  r.onerror = () => res(undefined);
+  r.onsuccess = () => { const db = r.result; try{ const g = db.transaction("kv").objectStore("kv").get(key); g.onsuccess = () => { db.close(); res(g.result); }; g.onerror = () => res(undefined); }catch(e){ res(undefined); } };
+}); }
+async function openHere(){
+  if (location.protocol === "file:"){ alert("Opening directly works when this page is served from the same web address as miFormulas. Use Download instead, and open the file in the app."); return; }
+  const existing = await idbGet("demoData");
+  if (existing && !confirm("miFormulas already keeps data in this browser. Replace it with the Formulair import? Download a Backup from miFormulas first if you want to keep it.")) return;
+  try{ await idbSet("demoData", RESULT_TEXT); await idbSet("serverUrl", null); }
+  catch(e){ alert("Could not store the data in this browser: " + e.message); return; }
+  location.href = "index.html";
+}
+const drop = $("#drop"), input = $("#file");
+drop.addEventListener("click", () => input.click());
+input.addEventListener("change", () => handle(input.files[0]));
+drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("over"); });
+drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+drop.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); handle(e.dataTransfer.files[0]); });
+</script>
+</body>
+</html>

@@ -1,0 +1,8127 @@
+{
+ "meta": {
+  "schema": 1,
+  "generated": "2026-09-07",
+  "source": "miFormulas starter data",
+  "uiLanguage": "en"
+ },
+ "materialCategories": [
+  "Additives",
+  "Aldehydes",
+  "Amber",
+  "Animalic",
+  "Balsamic/coumarinic",
+  "Bases & replacers",
+  "Citrus",
+  "Earthy",
+  "Flowers - green",
+  "Flowers - red",
+  "Flowers - spicy",
+  "Flowers - white",
+  "Fresh",
+  "Fruits",
+  "Herbal - Green",
+  "Moss",
+  "Musks",
+  "Phenolic",
+  "Predils",
+  "Solvents",
+  "Spices",
+  "Uncategorised",
+  "Woody",
+  "Woody - amber",
+  "Woody - green",
+  "Woody - sandal"
+ ],
+ "formulaCategories": [
+  "Bases & Accords",
+  "Prediluties",
+  "Uncategorised"
+ ],
+ "suppliers": [],
+ "materials": [
+  {
+   "id": "m1",
+   "name": "Jasmonal H",
+   "cas": "101-86-0",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 9.9,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m2",
+   "name": "Vertofix cœur",
+   "cas": "32388-55-9",
+   "category": "Woody",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m3",
+   "name": "Dihydromyrcenol",
+   "cas": "18479-58-8",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m4",
+   "name": "Iso E Super",
+   "cas": "54464-57-2",
+   "category": "Woody - amber",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 20,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m5",
+   "name": "Patchouli Oil",
+   "cas": "8014-09-3",
+   "category": "Woody",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m6",
+   "name": "Hedione",
+   "cas": "24851-98-7",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m7",
+   "name": "Lemon Oil",
+   "cas": "",
+   "category": "Citrus",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m8",
+   "name": "Linalool",
+   "cas": "78-70-6",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m9",
+   "name": "Methyl Ionone Gamma",
+   "cas": "",
+   "category": "Flowers - spicy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m10",
+   "name": "Hydroxycitronellal",
+   "cas": "107-75-5",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 2.1,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m11",
+   "name": "Benzyl Salicylate",
+   "cas": "118-58-1",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 7.3,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m12",
+   "name": "Lyral",
+   "cas": "31906-04-4",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.2,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m13",
+   "name": "Rosemary CT camphor EO",
+   "cas": "8000-25-7",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m14",
+   "name": "Juniper Berry Oil",
+   "cas": "84603-69-0",
+   "category": "Woody - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m15",
+   "name": "Linalyl Acetate",
+   "cas": "115-95-7",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m16",
+   "name": "Citronellol",
+   "cas": "106-22-9",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 12,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m17",
+   "name": "Fixolide",
+   "cas": "",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m18",
+   "name": "Musk Ketone",
+   "cas": "81-14-1",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m19",
+   "name": "Nerol",
+   "cas": "106-25-2",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m20",
+   "name": "Mousse Metra",
+   "cas": "",
+   "category": "Moss",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m21",
+   "name": "Damascone Beta",
+   "cas": "23726-91-2",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.043,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    },
+    {
+     "pct": 1.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m22",
+   "name": "Cypress EO (IFF)",
+   "cas": "8013-86-3",
+   "category": "Woody - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m23",
+   "name": "Lavender Oil",
+   "cas": "",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 40.0,
+     "isBase": false,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m24",
+   "name": "Phenyl Ethyl Alcohol (PEA)",
+   "cas": "60-12-8",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m25",
+   "name": "Timberol",
+   "cas": "",
+   "category": "Woody",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m26",
+   "name": "Allyl Amyl Glycolate",
+   "cas": "67634-00-8",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m27",
+   "name": "Orris Givco",
+   "cas": "",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m28",
+   "name": "Basil sweet EO",
+   "cas": "84775-71-3",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m29",
+   "name": "Galbanum Oil",
+   "cas": "8023-91-4",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m30",
+   "name": "Geranium Egypt Oil",
+   "cas": "8000-46-2",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 26.5,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m31",
+   "name": "Ylang Ylang Oil",
+   "cas": "8006-81-3",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.73,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m32",
+   "name": "Benzyl Acetate",
+   "cas": "140-11-4",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m33",
+   "name": "Styrallyl Acetate",
+   "cas": "93-92-5",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m34",
+   "name": "Coumarin",
+   "cas": "91-64-5",
+   "category": "Balsamic/coumarinic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 1.5,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m35",
+   "name": "Estragole",
+   "cas": "",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m36",
+   "name": "Eugenol",
+   "cas": "97-53-0",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 2.5,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m37",
+   "name": "Geraniol",
+   "cas": "106-24-1",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 4.7,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m38",
+   "name": "Phenylethyl Phenylacetate",
+   "cas": "",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m39",
+   "name": "Animalys 1745",
+   "cas": "",
+   "category": "Animalic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m40",
+   "name": "Fir balsam abs.",
+   "cas": "8007-47-4",
+   "category": "Woody - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m41",
+   "name": "Labdanum Absolute",
+   "cas": "8016-26-0",
+   "category": "Amber",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 27.78,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m42",
+   "name": "Ionone Pure",
+   "cas": "",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m43",
+   "name": "Cashmeran",
+   "cas": "33704-61-9",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 3.8,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m44",
+   "name": "Isodamascone",
+   "cas": "39872-57-6",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.043,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m45",
+   "name": "Costus Oliffac",
+   "cas": "",
+   "category": "Animalic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m46",
+   "name": "Eucalyptus Oil",
+   "cas": "",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m47",
+   "name": "Adoxal",
+   "cas": "141-13-9",
+   "category": "Aldehydes",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m48",
+   "name": "Triplal",
+   "cas": "68039-49-6",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 2.5,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m49",
+   "name": "Scotch Pine",
+   "cas": "",
+   "category": "Woody - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m50",
+   "name": "Isobutyl Quinoline",
+   "cas": "93-19-6",
+   "category": "Earthy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m51",
+   "name": "DEP",
+   "cas": "84-66-2",
+   "category": "Solvents",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": null,
+   "isSolvent": true,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m52",
+   "name": "Lilial",
+   "cas": "80-54-6",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 1.4,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m53",
+   "name": "Florol",
+   "cas": "63500-71-0",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m54",
+   "name": "Cis-3-Hexenyl Salicylate",
+   "cas": "65405-77-8",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m55",
+   "name": "Ethylene Brassylate",
+   "cas": "105-95-3",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m56",
+   "name": "Helional",
+   "cas": "1205-17-0",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 2.6,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m57",
+   "name": "Mefranal",
+   "cas": "55066-49-4",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m58",
+   "name": "Liffarome",
+   "cas": "67633-96-9",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.56,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m59",
+   "name": "Coriander seed EO",
+   "cas": "8008-52-4",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m60",
+   "name": "Traseolide",
+   "cas": "",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m61",
+   "name": "Cis-3-Hexenyl Acetate",
+   "cas": "3681-71-8",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m62",
+   "name": "Hexyl Salicylate",
+   "cas": "6259-76-3",
+   "category": "Flowers - spicy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 6.5,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m63",
+   "name": "Spearmint Oil",
+   "cas": "8008-79-5",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.65,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m64",
+   "name": "Undecavertol",
+   "cas": "81782-77-6",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m65",
+   "name": "Damascenone",
+   "cas": "23696-85-7",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.043,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m66",
+   "name": "Phenoxyacetaldehyde",
+   "cas": "",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m67",
+   "name": "Floralozone",
+   "cas": "67634-15-5",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m68",
+   "name": "Cis-3-Hexenol",
+   "cas": "928-96-1",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m69",
+   "name": "Mandarin yellow It. EO",
+   "cas": "8008-31-9",
+   "category": "Citrus",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m70",
+   "name": "Bourgeonal",
+   "cas": "18127-01-0",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.47,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m71",
+   "name": "Terpineol",
+   "cas": "",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m72",
+   "name": "Jasmone cis",
+   "cas": "488-10-8",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m73",
+   "name": "Ionone Beta",
+   "cas": "14901-07-6",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m74",
+   "name": "Decalactone gamma",
+   "cas": "706-14-9",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m75",
+   "name": "Linalool oxide furanoid",
+   "cas": "60047-17-8",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m76",
+   "name": "Ethyl Acetoacetate",
+   "cas": "141-97-9",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m77",
+   "name": "Ethyl Linalool",
+   "cas": "10339-55-6",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m78",
+   "name": "Pomme Oliffac",
+   "cas": "",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m79",
+   "name": "Isoeugenol",
+   "cas": "97-54-1",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.11,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m80",
+   "name": "Ambroxan",
+   "cas": "",
+   "category": "Woody - amber",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m81",
+   "name": "Bacdanol",
+   "cas": "28219-61-6",
+   "category": "Woody - sandal",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m82",
+   "name": "Rhodinol Bourbon",
+   "cas": "",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m83",
+   "name": "Geranyl Acetate",
+   "cas": "105-87-3",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m84",
+   "name": "Phenylacetic Aldehyde",
+   "cas": "",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 50.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m85",
+   "name": "Oeillet 35",
+   "cas": "",
+   "category": "Flowers - spicy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "Base with its own formula in this library: see the formula “Oeillet 35” under Bases & Accords.",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m86",
+   "name": "Kephalis",
+   "cas": "36306-87-3",
+   "category": "Amber",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m87",
+   "name": "Bergamot Oil",
+   "cas": "",
+   "category": "Citrus",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m88",
+   "name": "Melisflor",
+   "cas": "",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m89",
+   "name": "Lavandin grosso EO",
+   "cas": "8022-18-2",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m90",
+   "name": "Vetiver Oil",
+   "cas": "8016-96-4",
+   "category": "Woody",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m91",
+   "name": "Sandalwood Firmenich",
+   "cas": "",
+   "category": "Woody - sandal",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m92",
+   "name": "Sandalwood India EO",
+   "cas": "8006-87-9",
+   "category": "Woody - sandal",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m93",
+   "name": "Rose de Mai Absolute",
+   "cas": "",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m94",
+   "name": "Citral",
+   "cas": "5392-40-5",
+   "category": "Citrus",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.6,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m95",
+   "name": "Tarragon Oil",
+   "cas": "",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m96",
+   "name": "Neroli Substitute",
+   "cas": "",
+   "category": "Bases & replacers",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m97",
+   "name": "Clary Sage Oil",
+   "cas": "8016-63-5",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m98",
+   "name": "Dynamone",
+   "cas": "",
+   "category": "Woody",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m99",
+   "name": "Pepper Oil",
+   "cas": "",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m100",
+   "name": "Galaxolide",
+   "cas": "1222-05-5",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m101",
+   "name": "Exaltolide",
+   "cas": "",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m102",
+   "name": "Habanolide",
+   "cas": "111879-80-2",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m103",
+   "name": "Isobutyl Salicylate",
+   "cas": "87-19-4",
+   "category": "Flowers - spicy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 1.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m104",
+   "name": "Damascone Alpha",
+   "cas": "24720-09-0",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.043,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    },
+    {
+     "pct": 1.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m105",
+   "name": "Cardamom Oil",
+   "cas": "8000-66-6",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m106",
+   "name": "Isoamyl Salicylate",
+   "cas": "87-20-7",
+   "category": "Flowers - spicy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m107",
+   "name": "Calone",
+   "cas": "28940-11-6",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    },
+    {
+     "pct": 1.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m108",
+   "name": "Cassis Base 345",
+   "cas": "",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m109",
+   "name": "Guaiacwood Oil",
+   "cas": "8016-23-7",
+   "category": "Woody",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m110",
+   "name": "Melonal",
+   "cas": "106-72-9",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m111",
+   "name": "Galbex",
+   "cas": "",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m112",
+   "name": "Methyl Ionone Total",
+   "cas": "",
+   "category": "Flowers - spicy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m113",
+   "name": "Precyclemone B",
+   "cas": "52474-60-9",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m114",
+   "name": "BHT",
+   "cas": "",
+   "category": "Additives",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": null,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m115",
+   "name": "Evernyl",
+   "cas": "",
+   "category": "Moss",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m116",
+   "name": "Methyl Octine Carbonate",
+   "cas": "111-80-8",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.01,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 1.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m117",
+   "name": "Sandalore",
+   "cas": "65113-99-7",
+   "category": "Woody - sandal",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 1.2,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m118",
+   "name": "Cornmint Oil",
+   "cas": "",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m119",
+   "name": "Vanillin",
+   "cas": "121-33-5",
+   "category": "Balsamic/coumarinic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m120",
+   "name": "Dimetol",
+   "cas": "13254-34-7",
+   "category": "Citrus",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m121",
+   "name": "Isobutavan",
+   "cas": "20665-85-4",
+   "category": "Balsamic/coumarinic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m122",
+   "name": "Cinnamyl alcohol",
+   "cas": "104-54-1",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 1.2,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m123",
+   "name": "Aldehyde C12 MNA",
+   "cas": "110-41-8",
+   "category": "Aldehydes",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m124",
+   "name": "Phenylpropyl Alcohol",
+   "cas": "",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m125",
+   "name": "Ethyl Vanillin",
+   "cas": "121-32-4",
+   "category": "Balsamic/coumarinic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m126",
+   "name": "Ethyl Maltol",
+   "cas": "4940-11-8",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m127",
+   "name": "Ambrettolide",
+   "cas": "7779-50-2",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m128",
+   "name": "Ebanol",
+   "cas": "67801-20-1",
+   "category": "Woody - sandal",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m129",
+   "name": "Hexalon",
+   "cas": "79-78-7",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m130",
+   "name": "Cyclogalbanate",
+   "cas": "",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m131",
+   "name": "Oakmoss",
+   "cas": "9000-50-4",
+   "category": "Moss",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.1,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 1.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m132",
+   "name": "Petitgrain Citronnier",
+   "cas": "",
+   "category": "Citrus",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m133",
+   "name": "Tangerine Oil",
+   "cas": "",
+   "category": "Citrus",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m134",
+   "name": "Nutmeg Oil",
+   "cas": "8008-45-5",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m135",
+   "name": "Cis-6-Nonenol",
+   "cas": "",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 1.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m136",
+   "name": "Mate Absolute",
+   "cas": "",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m137",
+   "name": "Terpinyl Acetate",
+   "cas": "80-26-2",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m138",
+   "name": "Cinnamon leaf EO",
+   "cas": "8015-91-6",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 3.24,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m139",
+   "name": "Ylang ylang extra",
+   "cas": "8006-81-3",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.73,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m140",
+   "name": "Iris Butter",
+   "cas": "8002-73-1",
+   "category": "Flowers - spicy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m141",
+   "name": "Heliotropine",
+   "cas": "",
+   "category": "Balsamic/coumarinic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m142",
+   "name": "Rose Orient Type",
+   "cas": "",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m143",
+   "name": "Musk Ambrette Substitute",
+   "cas": "",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m144",
+   "name": "Jasmin 1103 (Roure Bertrand base)",
+   "cas": "",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m145",
+   "name": "Orange Flower 1103",
+   "cas": "",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m146",
+   "name": "Amyl Salicylate",
+   "cas": "2050-08-0",
+   "category": "Flowers - spicy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m147",
+   "name": "Orange sweet CP EO",
+   "cas": "8028-48-6",
+   "category": "Citrus",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m148",
+   "name": "Anisaldehyde",
+   "cas": "123-11-5",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 1.4,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m149",
+   "name": "Vetiver Java Oil",
+   "cas": "8016-96-4",
+   "category": "Woody",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m150",
+   "name": "Oakmoss Absolute",
+   "cas": "9000-50-4",
+   "category": "Moss",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.1,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 50.0,
+     "isBase": false,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m151",
+   "name": "Tonalid",
+   "cas": "1506-02-1",
+   "category": "Musks",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m152",
+   "name": "Dewberry",
+   "cas": "",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m153",
+   "name": "Canthoxal",
+   "cas": "5462-06-6",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 2.5,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 10.0,
+     "isBase": false,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m154",
+   "name": "Reseda Acetal",
+   "cas": "67633-94-7",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m155",
+   "name": "Cumin seed EO",
+   "cas": "8014-13-9",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.4,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m156",
+   "name": "Vetiverol",
+   "cas": "89-88-3",
+   "category": "Woody",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m157",
+   "name": "Methyl Ionone",
+   "cas": "",
+   "category": "Flowers - spicy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m158",
+   "name": "Santalol",
+   "cas": "",
+   "category": "Woody - sandal",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m159",
+   "name": "Cinnamyl Acetate",
+   "cas": "103-54-8",
+   "category": "Balsamic/coumarinic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m160",
+   "name": "Rose de Mai 68",
+   "cas": "",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "Base with its own formula in this library: see the formula “Rose de Mai 68” under Bases & Accords.",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m161",
+   "name": "Jasmin Absolute Type",
+   "cas": "",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m162",
+   "name": "Peru Balsam",
+   "cas": "8007-00-9",
+   "category": "Balsamic/coumarinic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.41,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m163",
+   "name": "Bergamot Substitute",
+   "cas": "",
+   "category": "Bases & replacers",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m164",
+   "name": "Ambrox DL",
+   "cas": "",
+   "category": "Woody - amber",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m165",
+   "name": "Jacynth Body",
+   "cas": "",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m166",
+   "name": "Mayol",
+   "cas": "13828-37-0",
+   "category": "Flowers - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 4.7,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m167",
+   "name": "Clove buds EO",
+   "cas": "8000-34-8",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m168",
+   "name": "Lavandin Absolute",
+   "cas": "8022-15-9",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m169",
+   "name": "Allyl Cyclohexyl Propionate",
+   "cas": "",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 1,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m170",
+   "name": "Brahmanol",
+   "cas": "72089-08-8",
+   "category": "Woody - sandal",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m171",
+   "name": "Isobornyl Cyclohexanol",
+   "cas": "",
+   "category": "Woody - sandal",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m172",
+   "name": "Osyrol",
+   "cas": "41890-92-0",
+   "category": "Woody - sandal",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m173",
+   "name": "Aldehyde C14 peach",
+   "cas": "104-67-6",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m174",
+   "name": "Cinnamon Leaf Oil",
+   "cas": "8015-91-6",
+   "category": "Spices",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 3.24,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m175",
+   "name": "Civet Liquid",
+   "cas": "",
+   "category": "Animalic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m176",
+   "name": "Indole",
+   "cas": "120-72-9",
+   "category": "Animalic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m177",
+   "name": "Anethole",
+   "cas": "",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m178",
+   "name": "Aurantiol",
+   "cas": "89-43-0",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 50.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m179",
+   "name": "Benzyl Valerate",
+   "cas": "10361-39-4",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m180",
+   "name": "Aldehyde C8",
+   "cas": "124-13-0",
+   "category": "Aldehydes",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m181",
+   "name": "Rhodinol",
+   "cas": "141-25-3",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 12,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m182",
+   "name": "Benzyl Formate",
+   "cas": "",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m183",
+   "name": "Aldehyde C16 strawberry",
+   "cas": "77-83-8",
+   "category": "Fruits",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m184",
+   "name": "Ionone Alpha",
+   "cas": "127-41-3",
+   "category": "Flowers - red",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m185",
+   "name": "Benzoin Sumatra res. (Firm.)",
+   "cas": "9000-05-9",
+   "category": "Balsamic/coumarinic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 6,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    },
+    {
+     "pct": 50.0,
+     "isBase": false,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m186",
+   "name": "Para-Cresol",
+   "cas": "106-44-5",
+   "category": "Phenolic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.005,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m187",
+   "name": "Vetiveryl acetate Haiti",
+   "cas": "62563-80-8",
+   "category": "Woody",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 0.9,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m188",
+   "name": "Althenol",
+   "cas": "",
+   "category": "Bases & replacers",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 4,
+   "isSolvent": false,
+   "description": "Base with its own formula in this library: see the formula “Althenol” under Bases & Accords.",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m189",
+   "name": "Isobornyl Acetate",
+   "cas": "125-12-2",
+   "category": "Woody - green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m190",
+   "name": "Frankincense Resinoid",
+   "cas": "",
+   "category": "Balsamic/coumarinic",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m191",
+   "name": "Jasmin 231",
+   "cas": "",
+   "category": "Flowers - white",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": null,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "Base with its own formula in this library: see the formula “Jasmin 231” under Bases & Accords.",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m192",
+   "name": "Carrot seed India",
+   "cas": "8015-88-1",
+   "category": "Earthy",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 3,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m193",
+   "name": "Menthol",
+   "cas": "2216-51-5",
+   "category": "Fresh",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 0,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m194",
+   "name": "Celery seed EO",
+   "cas": "8015-90-5",
+   "category": "Herbal - Green",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": 2,
+   "isSolvent": false,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 10.0,
+     "isBase": true,
+     "date": "",
+     "notes": "in DEP"
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m195",
+   "name": "Ethanol",
+   "cas": "64-17-5",
+   "category": "Solvents",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": null,
+   "isSolvent": true,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m196",
+   "name": "DPG",
+   "cas": "25265-71-8",
+   "category": "Solvents",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": null,
+   "isSolvent": true,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m197",
+   "name": "IPM",
+   "cas": "110-27-0",
+   "category": "Solvents",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": null,
+   "isSolvent": true,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m198",
+   "name": "TEC",
+   "cas": "77-93-0",
+   "category": "Solvents",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 99,
+   "inventory": null,
+   "pyramid": null,
+   "isSolvent": true,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  },
+  {
+   "id": "m199",
+   "name": "Benzyl Benzoate",
+   "cas": "120-51-4",
+   "category": "Solvents",
+   "supplier": "",
+   "costPerGram": null,
+   "ifraLimit": 4.8,
+   "inventory": null,
+   "pyramid": null,
+   "isSolvent": true,
+   "description": "",
+   "dilutions": [
+    {
+     "pct": 100.0,
+     "isBase": true,
+     "date": "",
+     "notes": ""
+    }
+   ],
+   "locations": {},
+   "density": null,
+   "modified": "2026-09-07",
+   "starter": true
+  }
+ ],
+ "formulas": [
+  {
+   "id": "f-1881-for-men",
+   "name": "1881 for men",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 0.13,
+       "remark": null
+      },
+      {
+       "materialId": "m2",
+       "dilutionPct": 100.0,
+       "weightG": 0.13,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.08,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m9",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m11",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m13",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m14",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m16",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m17",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m18",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m19",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m20",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m21",
+       "dilutionPct": 1.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m22",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m23",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m25",
+       "dilutionPct": 100.0,
+       "weightG": 0.007,
+       "remark": null
+      },
+      {
+       "materialId": "m26",
+       "dilutionPct": 100.0,
+       "weightG": 0.006,
+       "remark": null
+      },
+      {
+       "materialId": "m27",
+       "dilutionPct": 10.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m28",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m29",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m31",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m35",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m36",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m38",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m39",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m40",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m41",
+       "dilutionPct": 100.0,
+       "weightG": 0.004,
+       "remark": null
+      },
+      {
+       "materialId": "m42",
+       "dilutionPct": 100.0,
+       "weightG": 0.002,
+       "remark": null
+      },
+      {
+       "materialId": "m43",
+       "dilutionPct": 100.0,
+       "weightG": 0.002,
+       "remark": null
+      },
+      {
+       "materialId": "m44",
+       "dilutionPct": 10.0,
+       "weightG": 0.002,
+       "remark": null
+      },
+      {
+       "materialId": "m45",
+       "dilutionPct": 10.0,
+       "weightG": 0.002,
+       "remark": null
+      },
+      {
+       "materialId": "m46",
+       "dilutionPct": 100.0,
+       "weightG": 0.002,
+       "remark": null
+      },
+      {
+       "materialId": "m47",
+       "dilutionPct": 100.0,
+       "weightG": 0.001,
+       "remark": null
+      },
+      {
+       "materialId": "m48",
+       "dilutionPct": 10.0,
+       "weightG": 0.001,
+       "remark": null
+      },
+      {
+       "materialId": "m49",
+       "dilutionPct": 100.0,
+       "weightG": 0.001,
+       "remark": null
+      },
+      {
+       "materialId": "m50",
+       "dilutionPct": 100.0,
+       "weightG": 0.001,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.094,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-t-girl",
+   "name": "T. Girl",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.19,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.09,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.075,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.063,
+       "remark": null
+      },
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m53",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m54",
+       "dilutionPct": 100.0,
+       "weightG": 0.045,
+       "remark": null
+      },
+      {
+       "materialId": "m55",
+       "dilutionPct": 100.0,
+       "weightG": 0.043,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m57",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m58",
+       "dilutionPct": 10.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 10.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m60",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m61",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.016,
+       "remark": null
+      },
+      {
+       "materialId": "m62",
+       "dilutionPct": 10.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m63",
+       "dilutionPct": 10.0,
+       "weightG": 0.013,
+       "remark": null
+      },
+      {
+       "materialId": "m64",
+       "dilutionPct": 10.0,
+       "weightG": 0.013,
+       "remark": null
+      },
+      {
+       "materialId": "m65",
+       "dilutionPct": 10.0,
+       "weightG": 0.012,
+       "remark": null
+      },
+      {
+       "materialId": "m66",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m67",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m68",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m69",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m70",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m71",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m72",
+       "dilutionPct": 10.0,
+       "weightG": 0.007,
+       "remark": null
+      },
+      {
+       "materialId": "m73",
+       "dilutionPct": 100.0,
+       "weightG": 0.007,
+       "remark": null
+      },
+      {
+       "materialId": "m74",
+       "dilutionPct": 10.0,
+       "weightG": 0.006,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 100.0,
+       "weightG": 0.006,
+       "remark": null
+      },
+      {
+       "materialId": "m75",
+       "dilutionPct": 10.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m76",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m77",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m78",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m79",
+       "dilutionPct": 10.0,
+       "weightG": 0.003,
+       "remark": null
+      },
+      {
+       "materialId": "m80",
+       "dilutionPct": 100.0,
+       "weightG": 0.003,
+       "remark": null
+      },
+      {
+       "materialId": "m81",
+       "dilutionPct": 100.0,
+       "weightG": 0.003,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-rose-de-mai-68",
+   "name": "Rose de Mai 68",
+   "category": "Bases & Accords",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 5.0,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 1.0,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 100.0,
+       "weightG": 0.5,
+       "remark": null
+      },
+      {
+       "materialId": "m82",
+       "dilutionPct": 100.0,
+       "weightG": 1.0,
+       "remark": null
+      },
+      {
+       "materialId": "m83",
+       "dilutionPct": 100.0,
+       "weightG": 2.5,
+       "remark": null
+      },
+      {
+       "materialId": "m16",
+       "dilutionPct": 100.0,
+       "weightG": 0.5,
+       "remark": null
+      },
+      {
+       "materialId": "m84",
+       "dilutionPct": 50.0,
+       "weightG": 0.2,
+       "remark": null
+      },
+      {
+       "materialId": "m85",
+       "dilutionPct": 100.0,
+       "weightG": 0.3,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-ho-hang",
+   "name": "Ho Hang",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m86",
+       "dilutionPct": 100.0,
+       "weightG": 0.2,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m88",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 0.09,
+       "remark": null
+      },
+      {
+       "materialId": "m89",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m90",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m91",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m92",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m2",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m93",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m94",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m95",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m96",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m35",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m97",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m86",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m98",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m99",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-bv-for-men",
+   "name": "Bv for men",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.25,
+       "remark": null
+      },
+      {
+       "materialId": "m55",
+       "dilutionPct": 100.0,
+       "weightG": 0.2,
+       "remark": null
+      },
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 0.16,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m101",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m102",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m103",
+       "dilutionPct": 1.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m104",
+       "dilutionPct": 1.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m105",
+       "dilutionPct": 10.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m43",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m106",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m107",
+       "dilutionPct": 1.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m50",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m108",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m109",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-cool-water-for-men",
+   "name": "Cool Water for men",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 2.0,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 1.4,
+       "remark": null
+      },
+      {
+       "materialId": "m110",
+       "dilutionPct": 100.0,
+       "weightG": 1.0,
+       "remark": null
+      },
+      {
+       "materialId": "m2",
+       "dilutionPct": 100.0,
+       "weightG": 1.0,
+       "remark": null
+      },
+      {
+       "materialId": "m17",
+       "dilutionPct": 100.0,
+       "weightG": 0.8,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.6,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.5,
+       "remark": null
+      },
+      {
+       "materialId": "m89",
+       "dilutionPct": 100.0,
+       "weightG": 0.42,
+       "remark": null
+      },
+      {
+       "materialId": "m111",
+       "dilutionPct": 100.0,
+       "weightG": 0.4,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.3,
+       "remark": null
+      },
+      {
+       "materialId": "m14",
+       "dilutionPct": 100.0,
+       "weightG": 0.25,
+       "remark": null
+      },
+      {
+       "materialId": "m112",
+       "dilutionPct": 100.0,
+       "weightG": 0.2,
+       "remark": null
+      },
+      {
+       "materialId": "m26",
+       "dilutionPct": 100.0,
+       "weightG": 0.17,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 0.17,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.15,
+       "remark": null
+      },
+      {
+       "materialId": "m113",
+       "dilutionPct": 100.0,
+       "weightG": 0.15,
+       "remark": null
+      },
+      {
+       "materialId": "m80",
+       "dilutionPct": 100.0,
+       "weightG": 0.12,
+       "remark": null
+      },
+      {
+       "materialId": "m114",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m115",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m116",
+       "dilutionPct": 1.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m13",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m117",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m104",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m118",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-a-men",
+   "name": "A Men",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.18,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.165,
+       "remark": null
+      },
+      {
+       "materialId": "m17",
+       "dilutionPct": 100.0,
+       "weightG": 0.11,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m119",
+       "dilutionPct": 100.0,
+       "weightG": 0.055,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m120",
+       "dilutionPct": 100.0,
+       "weightG": 0.045,
+       "remark": null
+      },
+      {
+       "materialId": "m86",
+       "dilutionPct": 100.0,
+       "weightG": 0.045,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 10.0,
+       "weightG": 0.035,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.035,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m121",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m60",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m122",
+       "dilutionPct": 10.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m123",
+       "dilutionPct": 10.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m124",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m125",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m38",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m54",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m126",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-chrome",
+   "name": "Chrome",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 0.15,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.11,
+       "remark": null
+      },
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 0.11,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.085,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.07,
+       "remark": null
+      },
+      {
+       "materialId": "m26",
+       "dilutionPct": 10.0,
+       "weightG": 0.07,
+       "remark": null
+      },
+      {
+       "materialId": "m127",
+       "dilutionPct": 10.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m17",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.055,
+       "remark": null
+      },
+      {
+       "materialId": "m111",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m128",
+       "dilutionPct": 10.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m129",
+       "dilutionPct": 10.0,
+       "weightG": 0.035,
+       "remark": null
+      },
+      {
+       "materialId": "m61",
+       "dilutionPct": 10.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m130",
+       "dilutionPct": 10.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m131",
+       "dilutionPct": 1.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m132",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m133",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m73",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m113",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m54",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m134",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m107",
+       "dilutionPct": 10.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m58",
+       "dilutionPct": 10.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 10.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m135",
+       "dilutionPct": 1.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m136",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m48",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m67",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m68",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m89",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m80",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m43",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m117",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m137",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-oeillet-35",
+   "name": "Oeillet 35",
+   "category": "Bases & Accords",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m36",
+       "dilutionPct": 100.0,
+       "weightG": 0.4,
+       "remark": null
+      },
+      {
+       "materialId": "m11",
+       "dilutionPct": 100.0,
+       "weightG": 0.188,
+       "remark": null
+      },
+      {
+       "materialId": "m79",
+       "dilutionPct": 100.0,
+       "weightG": 0.16,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.08,
+       "remark": null
+      },
+      {
+       "materialId": "m138",
+       "dilutionPct": 10.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m124",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m139",
+       "dilutionPct": 100.0,
+       "weightG": 0.032,
+       "remark": null
+      },
+      {
+       "materialId": "m140",
+       "dilutionPct": 100.0,
+       "weightG": 0.024,
+       "remark": null
+      },
+      {
+       "materialId": "m141",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m142",
+       "dilutionPct": 100.0,
+       "weightG": 0.016,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-brut",
+   "name": "Brut",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m143",
+       "dilutionPct": 100.0,
+       "weightG": 0.14,
+       "remark": null
+      },
+      {
+       "materialId": "m144",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 0.095,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.09,
+       "remark": null
+      },
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 0.055,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.055,
+       "remark": null
+      },
+      {
+       "materialId": "m145",
+       "dilutionPct": 100.0,
+       "weightG": 0.055,
+       "remark": null
+      },
+      {
+       "materialId": "m146",
+       "dilutionPct": 100.0,
+       "weightG": 0.055,
+       "remark": null
+      },
+      {
+       "materialId": "m147",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m89",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m11",
+       "dilutionPct": 100.0,
+       "weightG": 0.045,
+       "remark": null
+      },
+      {
+       "materialId": "m148",
+       "dilutionPct": 100.0,
+       "weightG": 0.035,
+       "remark": null
+      },
+      {
+       "materialId": "m141",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m92",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m149",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m150",
+       "dilutionPct": 50.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m119",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m101",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-angel",
+   "name": "Angel",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 1.485,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 1.15,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.9,
+       "remark": null
+      },
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 0.625,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.4,
+       "remark": null
+      },
+      {
+       "materialId": "m151",
+       "dilutionPct": 100.0,
+       "weightG": 0.4,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.25,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.25,
+       "remark": null
+      },
+      {
+       "materialId": "m119",
+       "dilutionPct": 100.0,
+       "weightG": 0.225,
+       "remark": null
+      },
+      {
+       "materialId": "m152",
+       "dilutionPct": 100.0,
+       "weightG": 0.15,
+       "remark": null
+      },
+      {
+       "materialId": "m77",
+       "dilutionPct": 100.0,
+       "weightG": 0.14,
+       "remark": null
+      },
+      {
+       "materialId": "m153",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m69",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m134",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m54",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m84",
+       "dilutionPct": 10.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m26",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m114",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m126",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m154",
+       "dilutionPct": 10.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m92",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m117",
+       "dilutionPct": 10.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m21",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m48",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m155",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-althenol",
+   "name": "Althenol",
+   "category": "Bases & Accords",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m156",
+       "dilutionPct": 100.0,
+       "weightG": 0.75,
+       "remark": null
+      },
+      {
+       "materialId": "m157",
+       "dilutionPct": 100.0,
+       "weightG": 0.7,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.5,
+       "remark": null
+      },
+      {
+       "materialId": "m158",
+       "dilutionPct": 100.0,
+       "weightG": 0.5,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.3,
+       "remark": null
+      },
+      {
+       "materialId": "m159",
+       "dilutionPct": 100.0,
+       "weightG": 0.15,
+       "remark": null
+      },
+      {
+       "materialId": "m160",
+       "dilutionPct": 100.0,
+       "weightG": 0.15,
+       "remark": null
+      },
+      {
+       "materialId": "m143",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m18",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m161",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m162",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-acqua-di-gio-for-men",
+   "name": "Acqua di Gio for men",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.28,
+       "remark": null
+      },
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 0.13,
+       "remark": null
+      },
+      {
+       "materialId": "m163",
+       "dilutionPct": 100.0,
+       "weightG": 0.07,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.07,
+       "remark": null
+      },
+      {
+       "materialId": "m77",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m2",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m69",
+       "dilutionPct": 100.0,
+       "weightG": 0.035,
+       "remark": null
+      },
+      {
+       "materialId": "m129",
+       "dilutionPct": 10.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m110",
+       "dilutionPct": 10.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m151",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m153",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m94",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m164",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.018,
+       "remark": null
+      },
+      {
+       "materialId": "m61",
+       "dilutionPct": 10.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m9",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m55",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m165",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m166",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m167",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m115",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m97",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m107",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 10.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m168",
+       "dilutionPct": 10.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m68",
+       "dilutionPct": 10.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m53",
+       "dilutionPct": 10.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m58",
+       "dilutionPct": 10.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m13",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m11",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m169",
+       "dilutionPct": 10.0,
+       "weightG": 0.002,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-egoiste",
+   "name": "Egoiste",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.15,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m170",
+       "dilutionPct": 100.0,
+       "weightG": 0.08,
+       "remark": null
+      },
+      {
+       "materialId": "m16",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.045,
+       "remark": null
+      },
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m171",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m172",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m173",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m174",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m50",
+       "dilutionPct": 10.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m31",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m80",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m21",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m123",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m48",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m175",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m125",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m176",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m116",
+       "dilutionPct": 1.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m9",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m19",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m104",
+       "dilutionPct": 10.0,
+       "weightG": 0.005,
+       "remark": null
+      },
+      {
+       "materialId": "m177",
+       "dilutionPct": 100.0,
+       "weightG": 0.005,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-jasmin-231",
+   "name": "Jasmin 231",
+   "category": "Bases & Accords",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.7,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.65,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.615,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.22,
+       "remark": null
+      },
+      {
+       "materialId": "m139",
+       "dilutionPct": 100.0,
+       "weightG": 0.17,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.12,
+       "remark": null
+      },
+      {
+       "materialId": "m178",
+       "dilutionPct": 50.0,
+       "weightG": 0.11,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.087,
+       "remark": null
+      },
+      {
+       "materialId": "m179",
+       "dilutionPct": 10.0,
+       "weightG": 0.08,
+       "remark": null
+      },
+      {
+       "materialId": "m71",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m180",
+       "dilutionPct": 10.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m181",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m182",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m183",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m184",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m173",
+       "dilutionPct": 10.0,
+       "weightG": 0.013,
+       "remark": null
+      },
+      {
+       "materialId": "m185",
+       "dilutionPct": 50.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m186",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  },
+  {
+   "id": "f-vetiver-de-c",
+   "name": "Vetiver de C",
+   "category": "Uncategorised",
+   "created": "2026-09-07",
+   "modified": "2026-09-07",
+   "versions": [
+    {
+     "v": 1,
+     "name": "",
+     "date": "",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 0.13,
+       "remark": null
+      },
+      {
+       "materialId": "m90",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m187",
+       "dilutionPct": 100.0,
+       "weightG": 0.1,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.07,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m188",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m28",
+       "dilutionPct": 10.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m150",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.04,
+       "remark": null
+      },
+      {
+       "materialId": "m23",
+       "dilutionPct": 40.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m189",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m50",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m190",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m185",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m191",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m29",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m92",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m18",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m143",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m97",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m192",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m146",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m193",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m79",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m194",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      }
+     ]
+    }
+   ],
+   "variations": [],
+   "starter": true
+  }
+ ],
+ "categoryColours": {
+  "Moss": "#398256",
+  "Animalic": "#791A3D",
+  "Amber": "#C96E12",
+  "Aldehydes": "#A8853C",
+  "Solvents": "#FFFFFF",
+  "Earthy": "#785800",
+  "Woody - sandal": "#AA723E",
+  "Woody - green": "#807638",
+  "Musks": "#406291",
+  "Phenolic": "#707070",
+  "Flowers - white": "#48484A",
+  "Woody": "#845E3A",
+  "Balsamic/coumarinic": "#86503B",
+  "Spices": "#B51A00",
+  "Herbal - Green": "#5AD800",
+  "Flowers - spicy": "#D38301",
+  "Flowers - green": "#73B05E",
+  "Fresh": "#62BAA5",
+  "Uncategorised": "#636366",
+  "Fruits": "#FF8648",
+  "Woody - amber": "#AEB15E",
+  "Flowers - red": "#E22400",
+  "Citrus": "#F5EC00",
+  "Bases & replacers": "#FFFFFF",
+  "Additives": "#48484A",
+  "Predils": "#7A5EA8"
+ },
+ "shopSites": [],
+ "orderList": []
+}

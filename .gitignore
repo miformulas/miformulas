@@ -1,0 +1,6 @@
+# local working files, never published
+*.local.*
+*.xlsx
+node_modules/
+.DS_Store
+Thumbs.db

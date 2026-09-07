@@ -1,0 +1,43 @@
+miFormulas
+Copyright (C) 2026 Mathieu Isenbaert
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version. See the file LICENSE for the full text.
+
+------------------------------------------------------------------------------
+ADDITIONAL TERMS UNDER SECTION 7 OF THE GNU GPL VERSION 3
+------------------------------------------------------------------------------
+
+The following additional terms apply to this program and to all modified
+versions of it. They are permitted under section 7 of the GNU General Public
+License version 3. You may not remove them.
+
+1. Name reservation (GPL v3, section 7(e))
+
+   You may not use the name "miFormulas", nor any name confusingly similar to
+   it, to identify a modified version of this program, or to identify goods or
+   services derived from it. This restriction covers the program name, the
+   application title, package and repository names, domain names, and any
+   trade mark, trade name or logo.
+
+   You remain free to state factually that your work is based on or derived
+   from miFormulas, as required by term 2 below.
+
+2. Required attribution (GPL v3, section 7(b))
+
+   Every copy of this program, modified or unmodified, and every user-facing
+   interface it produces, must display the following notice in a place where a
+   user can reasonably find it, such as an "About" screen, a start screen, or
+   the documentation:
+
+       Based on miFormulas by Mathieu Isenbaert, https://miformulas.com
+
+   The notice must remain legible and must not be obscured.
+
+------------------------------------------------------------------------------
+
+If any of these additional terms is held unenforceable, it is severed and the
+remainder of this notice and the GNU General Public License version 3 continue
+to apply in full.
