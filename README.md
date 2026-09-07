@@ -19,10 +19,12 @@ runs in any modern browser.
   `Documents\miFormulas`, and double-click it to open it in Chrome or Edge.
   Choose *Start with the starter set*: the app explains and then asks where to
   keep your data file (`miformulas-data.json`, in the same folder as the app).
-  If you already
-  made formulas on miformulas.com, click *Backup* there first and use *Open
-  data file…* in the downloaded app to continue with that file. Keep a
-  subfolder `backups` for the copies *Backup* makes. Firefox cannot write to a
+  Next time you open
+  the app it offers *Reopen*; one click (and, if the browser asks, one
+  permission) and you are back in your data. If you already made formulas
+  on miformulas.com, click *Backup* there first and use *Open data file…* in
+  the downloaded app to continue with that file. Keep a subfolder `backups`
+  for the copies *Backup* makes. Firefox cannot write to a
   file; there you keep working in the browser's storage and use *Backup* to
   save.
 - **Coming from Formulair?** Open https://miformulas.com/formulair-import.html;

@@ -288,7 +288,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260907c</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260907d</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -2618,7 +2618,10 @@ function boot(){
     return;
   }
   if (await tryRestore()){ boot(); return; }
-  if (!RESTORE) $("#landingHint").textContent = "You are running the app from your own computer. Keep miFormulas.html in a folder of its own, for instance Documents\\miFormulas, with your data file next to it and a subfolder \u201cbackups\u201d for Backup copies. Open a data file, or start with the starter set: you then choose where to keep your data file.";
+  if (RESTORE){
+    $("#landingHint").textContent = "Your data file \u201c" + RESTORE.name + "\u201d is remembered. Click Reopen to continue; Chrome or Edge may ask once per session for permission to write to it. Open data file\u2026 switches to another file.";
+  } else {
+  $("#landingHint").textContent = "You are running the app from your own computer. Keep miFormulas.html in a folder of its own, for instance Documents\\miFormulas, with your data file next to it and a subfolder \u201cbackups\u201d for Backup copies. Made a data file earlier? Use Open data file\u2026; the starter set would create a new one.";
   const bsf = $("#btnStarter"); bsf.style.display = "";
   const NOFILE_MSG = "No data file was created, so nothing is saved. Start with the starter set to try again, or open an existing data file.";
   bsf.addEventListener("click", async () => {
@@ -2641,6 +2644,7 @@ function boot(){
         })();
       }, "28rem");
   });
+  }   // no remembered file
   if (RESTORE){
     const b = $("#btnReopen");
     b.style.display = ""; b.textContent = `Reopen “${RESTORE.name}”`;

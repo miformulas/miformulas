@@ -1,4 +1,4 @@
-"""Bestandsmodus (gedownloade app geopend via file://): hint, dialoog, starterset, aanmaak van het databestand.
+"""Bestandsmodus (gedownloade app geopend via file://): hint, dialoog, starterset, aanmaak van het databestand, herstart met Reopen.
 Draait rechtstreeks op public\index.html; de starterset wordt vanaf schijf geserveerd omdat de test miformulas.com nabootst."""
 import json, os, sys
 from playwright.sync_api import sync_playwright
@@ -23,17 +23,21 @@ with sync_playwright() as p:
                lambda r: r.fulfill(status=200, content_type="application/json", body=STARTER,
                                    headers={"Access-Control-Allow-Origin": "*"}))
     # fake File System Access API: showSaveFilePicker returns a handle that records what is written
-    page.add_init_script("""
+    FAKE_FS = """
+      // fake File System Access API. The handle is structured-clonable (methods on the prototype),
+      // so the app can store it in IndexedDB; when it comes back, the prototype is re-attached.
       window.__written = [];
+      function FakeHandle(name){ this.name = name; this.kind = 'file'; this.__fake = true; }
+      FakeHandle.prototype.queryPermission = async () => window.__perm || 'granted';
+      FakeHandle.prototype.requestPermission = async () => { window.__perm = 'granted'; return 'granted'; };
+      FakeHandle.prototype.getFile = async function(){ return new File([localStorage.getItem('fakefile') || '{}'], this.name); };
+      FakeHandle.prototype.createWritable = async () => ({ write: async (s) => { window.__written.push(s); localStorage.setItem('fakefile', s); }, close: async () => {} });
+      const desc = Object.getOwnPropertyDescriptor(IDBRequest.prototype, 'result');
+      Object.defineProperty(IDBRequest.prototype, 'result', { get(){ const v = desc.get.call(this); if (v && v.__fake) Object.setPrototypeOf(v, FakeHandle.prototype); return v; } });
       window.showOpenFilePicker = async () => { throw new Error('no picker in test'); };
-      window.showSaveFilePicker = async (opts) => {
-        window.__pickerOpts = opts;
-        return { name: opts.suggestedName, kind: 'file',
-          queryPermission: async () => 'granted', requestPermission: async () => 'granted',
-          getFile: async () => new File([window.__written.at(-1) || '{}'], opts.suggestedName),
-          createWritable: async () => ({ write: async (s) => window.__written.push(s), close: async () => {} }) };
-      };
-    """)
+      window.showSaveFilePicker = async (opts) => { window.__pickerOpts = opts; return new FakeHandle(opts.suggestedName); };
+    """
+    page.add_init_script(FAKE_FS)
     msgs = []
     page.on("console", lambda m: msgs.append(m.text))
     page.on("dialog", lambda d: (msgs.append("DIALOG " + d.message), d.dismiss()))
@@ -41,11 +45,12 @@ with sync_playwright() as p:
     page.wait_for_timeout(800)
 
     check("protocol is file:", page.evaluate("location.protocol") == "file:")
-    check("build stamp 260907c", page.locator("#build").inner_text().strip() == "260907c")
+    check("build stamp 260907d", page.locator("#build").inner_text().strip() == "260907d")
     hint = page.locator("#landingHint").inner_text()
     check("hint mentions own computer", "from your own computer" in hint)
     check("hint recommends Documents\\miFormulas", "Documents\\miFormulas" in hint)
     check("hint mentions backups subfolder", "backups" in hint)
+    check("hint warns that the starter set creates a new file", "Open data file" in hint and "create a new one" in hint)
     check("starter button visible", page.locator("#btnStarter").is_visible())
     check("open data file visible", page.locator("#btnOpen").is_visible())
     check("download link hidden in file mode", not page.locator("#btnDownload").is_visible())
@@ -78,6 +83,22 @@ with sync_playwright() as p:
     st = page.locator("#saveState").inner_text()
     check("state shows Saved (file)", st.startswith("Saved") and "browser" not in st)
     check("no dialogs", not any(m.startswith("DIALOG") for m in msgs))
+    check("file handle stored", page.evaluate("idb.get('fileHandle').then(h => !!h && h.name)") == "miformulas-data.json")
+    page.evaluate("localStorage.setItem('fakefile', window.__written.at(-1))")
+
+    # restart: same browser profile, permission back to "prompt" -> Reopen, no starter set
+    pr = ctx.new_page()
+    pr.add_init_script(FAKE_FS + " window.__perm = 'prompt';")
+    pr.goto(APP); pr.wait_for_timeout(1000)
+    check("restart: landing shown", pr.locator("#landing").is_visible())
+    check("restart: Reopen button visible", pr.locator("#btnReopen").is_visible() and "miformulas-data.json" in pr.locator("#btnReopen").inner_text())
+    check("restart: starter button hidden", not pr.locator("#btnStarter").is_visible())
+    hr = pr.locator("#landingHint").inner_text()
+    check("restart: hint says file is remembered", "is remembered" in hr and "miformulas-data.json" in hr)
+    pr.click("#btnReopen"); pr.wait_for_timeout(1200)
+    check("restart: reopened, landing gone", not pr.locator("#landing").is_visible())
+    check("restart: 16 formulas loaded", pr.evaluate("DATA.formulas.length") == 16)
+    pr.evaluate("idb.set('fileHandle', null)"); pr.evaluate("localStorage.removeItem('fakefile')")
 
     # cancelled picker: back to the start screen
     page2 = ctx.new_page()
