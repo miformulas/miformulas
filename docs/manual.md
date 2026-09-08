@@ -6,7 +6,9 @@ A few things set it apart. It imports your formulas and materials from Formulair
 
 There is nothing to install, no account, and your data stays in a file that you own.
 
-This manual describes build 260908b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
+
+This manual describes build 260908c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -43,7 +45,7 @@ Open https://miformulas.com in a modern browser.
 
 The start screen offers three ways in:
 
-- **Start with the starter set** loads sixteen formulas and two hundred materials to explore. They are marked "starter" so you can tell them from your own; edit or delete them as you like. Whatever you change or add from here on is your work, so make a habit of **Backup** (in the header) before you close the browser: it downloads a copy of the complete data file, named with date and time. Keep those copies together, for instance in `Documents\miFormulas\backups` (Windows) or `Documents/miFormulas/backups` (Mac).
+- **Start with the starter set** loads sixteen formulas and nearly two hundred materials to explore. They are marked "starter" so you can tell them from your own; edit or delete them as you like. Whatever you change or add from here on is your work, so make a habit of **Backup** (in the header) before you close the browser: it downloads a copy of the complete data file, named with date and time. Keep those copies together, for instance in `Documents\miFormulas\backups` (Windows) or `Documents/miFormulas/backups` (Mac).
 - **Open data file…** opens a miFormulas data file you already have: the Backup you made last time, a file made by the Formulair importer, or a file a colleague sent you. This is how you get your own work back on another computer or in another browser: choose the most recent Backup from your backups folder and carry on where you left off. In Chrome and Edge the app then keeps saving to that file and offers to reopen it next time (section 2).
 - **Import from Formulair** takes you to the importer for Formulair users (section 19).
 
@@ -61,7 +63,7 @@ miFormulas stores everything in one JSON file, `miformulas-data.json`. The app c
 
 ![Browser storage: the amber bar reminds you, and Save to a data file… moves your work into a file (Chrome and Edge).](img/edge-save-to-file.png)
 
-**In a file.** In Chrome or Edge the app can read and write a data file on your disk directly. You see the file, you can copy it, put it in a synced folder, and open it on another computer. The app remembers which file you used; the next time you open it you click **Reopen** and, if the browser asks, allow it to write to the file again. This works with the downloaded app (section 4) and just as well on miformulas.com itself: **Save to a data file…** (in the amber bar or in Settings) moves your work from the browser's storage into a file, **Open data file…** on the start screen switches to an existing file, and the site remembers the file for next time. For a site the browser can also remember the permission itself, in particular once the site is installed as an app: the app then opens straight into your data, and Reopen only appears when the browser wants a fresh click. Combined with "Install as an app" (section 5) that gives you an app with its own icon, your own data file, and updates that arrive by themselves. Firefox cannot write to files: on the site you work in the browser's storage and use Backup to save, and a downloaded copy opened in Firefox is read-mostly (pick the data file once, the app keeps a cached copy, and Backup is the way to save). Safari has not been tested.
+**In a file.** In Chrome or Edge the app can read and write a data file on your disk directly. You see the file, you can copy it, put it in a synced folder, and open it on another computer. The app remembers which file you used; the next time you open it you click **Reopen** and, if the browser asks, allow it to write to the file again. This works with the downloaded app (section 4) and just as well on miformulas.com itself: **Save to a data file…** (in the amber bar or in Settings) moves your work from the browser's storage into a file, **Open data file…** on the start screen switches to an existing file, and the site remembers the file for next time. For a site the browser can also remember the permission itself, in particular once the site is installed as an app: the app then opens straight into your data, and Reopen only appears when the browser wants a fresh click. Combined with "Install as an app" (section 5) that gives you an app with its own icon, your own data file, and updates that arrive by themselves. Firefox cannot write to files: on the site you work in the browser's storage and use Backup to save, and a downloaded copy opened in Firefox is read-mostly (pick the data file once, the app keeps a cached copy, and Backup is the way to save). Safari has no direct file access either, so expect the same there: browser storage and Backup; it has only been tried on the start screen.
 
 ![Next time, the start screen offers Reopen for the remembered data file.](img/app-start-reopen.png)
 
@@ -78,7 +80,7 @@ This is everything the app does on the network:
 - On miformulas.com it loads the starter set from the same site when you click **Start with the starter set**, and on the first visit it checks once whether a `data.php` server sits next to it. The browser also fetches the small app manifest and the icons from the same site, which is what makes "Install as an app" possible.
 - The downloaded app makes one kind of request, and only when you click **Start with the starter set**: it fetches the starter set from miformulas.com. That request carries nothing of yours; as with any web page, the server sees that an address asked for a file. Once you have a data file, the app makes no request at all, and you can use it with the network switched off.
 - In server mode the app talks only to the server address you entered in Settings.
-- **Search** in the order list and the product links open Google or the shop in a new tab, only when you click them.
+- **Search** in the order list, the product links and the links in the Help pages open Google, the shop or the site in a new tab, only when you click them.
 
 No analytics, no fonts or scripts loaded from elsewhere, nothing sent in the background. The Formulair importer reads your database in the browser and sends nothing; its database engine (sql.js) is embedded in the file.
 
@@ -88,7 +90,7 @@ The AI prompts in `docs/ai-prompts.md` are the one exception, and you choose it 
 
 **Check it yourself.** The whole app is one readable file, and the source is public under the GPL at https://github.com/miformulas/miformulas.
 
-1. Open `miFormulas.html` (or `index.html`) in a text editor and search for `fetch(`. There are four: the starter set, the `data.php` probe, and the two calls to your own server (load and save). Search for `http` and you find the address of the starter set, the Google search address used by the order list, and the licence links. There is no `<script src=`, no `XMLHttpRequest`, no `sendBeacon` and no `WebSocket`.
+1. Open `miFormulas.html` (or `index.html`) in a text editor and search for `fetch(`. There are four in the code: the starter set, the `data.php` probe, and the two calls to your own server (load and save); the fifth hit is this sentence, because the manual is embedded in the app as the Help text. Search for `http` and you find the address of the starter set, the Google search address used by the order list, the licence links, and the links in the embedded manual. Outside this paragraph there is no `<script src=`, no `XMLHttpRequest`, no `sendBeacon` and no `WebSocket`.
 2. Or watch the browser: press F12, open the Network tab, and use the app for a while. With a data file, nothing appears at all.
 3. Or compare: the file you download from miformulas.com is the file in the repository, byte for byte.
 
@@ -188,7 +190,7 @@ Save it as miFormulas in your Applications folder and drag it to the Dock. To gi
 
 ## 6. The screen
 
-The **header** holds, from left to right: the list toggle (☰, also Ctrl+B), **Home**, **+ New formula**, **+ New material**, the save state, **Undo** and **Redo**, **Save** (saving is automatic; this forces it now, also Ctrl+S), **Backup**, the reload button (⟳, use it after an update), the theme button (◐ Auto, ● Dark, ○ Light) and Settings (⚙).
+The **header** holds, from left to right: the list toggle (☰, also Ctrl+B), **Home**, **+ New formula**, **+ New material**, the save state, **Undo** and **Redo**, **Save** (saving is automatic; this forces it now, also Ctrl+S), **Backup**, the reload button (⟳, use it after an update), the theme button (◐ Auto, ● Dark, ○ Light), **Help** (?, this manual inside the app, without the screenshots) and Settings (⚙).
 
 ![The header.](img/app-header.png)
 
@@ -279,7 +281,7 @@ Change the dilution of a line by choosing another value in its dilution list. Be
 
 The same question comes up when you replace a material by another one whose dilutions differ.
 
-**Lower** and **Higher** in the tick bar shift all ticked lines to the next lower or higher dilution that the material offers, preserving rel % and exchanging the solvent in one go; lines already at their lowest or highest are skipped and reported.
+**Lower** and **Higher** in the tick bar shift all ticked lines to the next lower or higher dilution that the material offers, preserving rel % and exchanging the solvent in one go (so the formula needs a solvent line); lines already at their lowest or highest are skipped and reported.
 
 ![Ticked lines and the tick bar: marks, Lower and Higher, Create predilution…](img/app-tick-bar.png)
 
@@ -311,7 +313,7 @@ From the table view, three buttons under the lines:
 
 - **Print weighing sheet** prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, at the target weight from Batch scaling if you set one. Fridge materials carry the ❄.
 - **Formula sheet** prints the complete entry with weights, both percentages, cost, notes and trial log.
-- **Excel** downloads the entry as a CSV file that opens directly in Excel, with decimal commas.
+- **Excel** downloads the entry as a CSV file with decimal commas, which Excel set to a European locale opens directly.
 
 Printing uses the browser's print dialog; choose "Save as PDF" there for a PDF.
 
@@ -343,13 +345,13 @@ The **Categories** panel shows how the non-solvent content is spread over materi
 
 The Welcome page has the import and export buttons.
 
-**Import formula…** reads a miformulas-import JSON file: a formula transcribed from a photo or a document, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your library, the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). Nothing is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens. The file format is documented in the repository; anything that writes such a file can feed the app.
+**Import formula…** reads a miformulas-import JSON file: a formula transcribed from a photo or a document, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your library, the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). Nothing is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens. The file format is the small JSON shown in prompt 1 of `docs/ai-prompts.md`; anything that writes such a file can feed the app.
 
 ![The import page: every line with its match, the total weight, new materials and dilutions you do not stock.](img/app-import-preview.png)
 
 **Turning a photo, PDF or spreadsheet into an import file.** You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from `docs/ai-prompts.md` (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a `.json` file and import it. The prompt tells the AI assistant to transcribe verbatim, to convert nothing, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the **All materials (Excel)** export as well and the assistant uses the exact names of your library, so that every line lands on the right material. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.
 
-**All formulas (Excel)** and **All materials (Excel)** download the whole library as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. Decimals use a comma and the files open directly in Excel.
+**All formulas (Excel)** and **All materials (Excel)** download the whole library as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. Decimals use a comma, as Excel in Belgium and most of Europe expects; elsewhere open them with Excel's text import and choose the separators.
 
 ## 19. Coming from Formulair
 
@@ -407,7 +409,7 @@ Shortcuts: **Ctrl+Z** undo, **Ctrl+Y** or **Ctrl+Shift+Z** redo (up to fifty ste
 
 **Backup** in the header downloads the complete data file, named with date and time (`260907_1402_miformulas-data.json`). Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a `backups` folder.
 
-In file mode the app also keeps one **daily snapshot** in the browser: the state before the first save of the day. If the data file is lost, the start screen offers **Restore daily snapshot** with its date; load it and use Backup to write it to a file.
+The app also keeps one **daily snapshot** in the browser: the state before the first save of the day. In file mode, if the data file is lost, the start screen offers **Restore daily snapshot** with its date; load it and use Backup to write it to a file.
 
 In server mode the server keeps daily snapshots for fourteen days (section 20).
 
@@ -439,4 +441,4 @@ In server mode the server keeps daily snapshots for fourteen days (section 20).
 
 ## 24. Licence
 
-miFormulas is free software under the GNU General Public License version 3, with two additional terms under section 8: the name miFormulas is reserved, and every copy must carry the attribution "Based on miFormulas by Mathieu Isenbaert, https://miformulas.com". The full text is in the files LICENSE and NOTICE in the repository at https://github.com/miformulas/miformulas.
+miFormulas is free software under the GNU General Public License version 3, with two additional terms under section 7 of the GPL: the name miFormulas is reserved, and every copy must carry the attribution "Based on miFormulas by Mathieu Isenbaert, https://miformulas.com". The full text is in the files LICENSE and NOTICE in the repository at https://github.com/miformulas/miformulas.

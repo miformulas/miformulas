@@ -39,7 +39,7 @@ with sync_playwright() as p:
     # 1. first visit: no file remembered -> browser-storage landing with starter set
     pg = new_page()
     pg.goto(URL); pg.wait_for_timeout(1200)
-    check("build stamp 260908", pg.locator("#build").inner_text().strip() == "260908b")
+    check("build stamp 260908c", pg.locator("#build").inner_text().strip() == "260908c")
     check("fresh: starter offered", pg.locator("#btnStarter").is_visible())
     check("fresh: no Reopen", not pg.locator("#btnReopen").is_visible())
     check("fresh: hint = browser storage", "stays in this browser" in pg.locator("#landingHint").inner_text())

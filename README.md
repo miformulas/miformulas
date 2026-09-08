@@ -3,6 +3,9 @@
 A perfume formulation notebook that runs as a single HTML file in your browser.
 No installation, no account, no server required. Your data stays in a JSON file
 that you own.
+It will keep working, too: one file, no server, data in plain JSON, and free
+software under the GPL, so your copy runs as it is whatever happens to the site or
+the author, and anyone can take it further.
 
 Try it at **https://miformulas.com**
 

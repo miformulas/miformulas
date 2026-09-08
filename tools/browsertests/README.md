@@ -10,6 +10,8 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python formulair-doorsturen.py # "Open in miFormulas in this browser" -> app start met 698 formules
     python site-reopen.py          # Open data file… op de site: onthouden, Reopen, Forget in Settings, verdwenen bestand, Install-knop, Save to a data file… (36 controles)
     python file-mode.py            # gedownloade app via file://: hint, starterset van miformulas.com (nagebootst), databestand aanmaken (44 controles, incl. herstart met Reopen en verdwenen bestand; geen webserver nodig)
+    python help.py                 # Help-knop: ingebedde handleiding, inhoudstafel, terug naar de vorige weergave (17 controles)
+    python screenshots.py          # geen test: maakt de app-schermen voor docs/img (zie docstring)
 
 Vereist `pip install playwright` en `playwright install chromium`. De paden bovenaan de
 scripts (URL, SQ, referentiebestand) zijn die van de cloudsessie van 07/09/2026; pas ze aan.

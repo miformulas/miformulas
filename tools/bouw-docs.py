@@ -1,7 +1,13 @@
 """Builds the HTML pages of the documentation from the Markdown sources, and optionally the PDF.
 
-    python tools/bouw-docs.py          # docs/manual.html and docs/ai-prompts.html
+    python tools/bouw-docs.py          # docs/manual.html, docs/ai-prompts.html, and the Help text in the app
     python tools/bouw-docs.py --pdf    # also docs/miFormulas-manual.pdf (needs Playwright with Chromium)
+    python tools/bouw-docs.py --app PATH   # the app file to update (default: ../miFormulas.html next to
+                                           # the repo if it exists, else index.html); --no-app skips it
+
+The Help button of the app shows the same manual: the script writes it, without the images, into
+<template id="manualTpl"> between the MANUAL:BEGIN / MANUAL:END markers of the app file. Copy the
+app file to deploy/index.html and public/index.html afterwards, as after any change to the app.
 
 Requires the "markdown" package (pip install markdown). The Markdown files stay the source:
 edit docs/manual.md or docs/ai-prompts.md and run this script again. The pages embed their
@@ -131,7 +137,8 @@ def nav(current):
     return '<nav class="top"><b>miFormulas</b>' + "".join(
         f'<span>{label}</span>' if href == current else f'<a href="{href}">{label}</a>' for href, label in items) + "</nav>"
 
-def build_manual():
+def manual_html():
+    """the manual as an HTML fragment (before figures), plus its h2 list and the source text"""
     src = open(os.path.join(DOCS, "manual.md"), encoding="utf-8").read()
     h = convert(src)
     # the Contents list becomes a linked table of contents built from the h2 headings
@@ -141,7 +148,11 @@ def build_manual():
     h = re.sub(r'(<h2 id="contents">Contents</h2>)\s*<ol>.*?</ol>', r'\1<ol class="toc">' + toc + "</ol>", h, count=1, flags=re.S)
     # "section 19" in the text links to that section
     ids = {re.match(r"(\d+)\.", t).group(1): i for i, t in heads if re.match(r"\d+\.", t)}
-    h = re.sub(r"\b([Ss]ections?) (\d+)\b", lambda m: f'{m.group(1)} <a href="#{ids[m.group(2)]}">{m.group(2)}</a>' if m.group(2) in ids else m.group(0), h)
+    h = re.sub(r"\b([Ss]ections?) (\d+)\b(?! of the G)", lambda m: f'{m.group(1)} <a href="#{ids[m.group(2)]}">{m.group(2)}</a>' if m.group(2) in ids else m.group(0), h)
+    return h, heads, src
+
+def build_manual():
+    h, heads, src = manual_html()
     h = figures(h, DOCS)
     h = h.replace("<code>docs/ai-prompts.md</code>", '<a href="ai-prompts.html"><code>docs/ai-prompts.md</code></a>')
     h = autolink(h)
@@ -174,6 +185,35 @@ def build_prompts():
                "Ready-made prompts for using an AI assistant with miFormulas: photo to import file, materials check, Formulair grouping, server setup")
     open(os.path.join(DOCS, "ai-prompts.html"), "w", encoding="utf-8", newline="\n").write(out)
     print("wrote docs/ai-prompts.html", f"({len(prompts)} prompts)")
+
+ONLINE = "https://miformulas.com/docs/manual.html"
+
+def build_fragment():
+    """the manual for the Help button: same text, each figure replaced by a link to the online page"""
+    h, heads, src = manual_html()
+    def rep(m):
+        alt = m.group("alt")
+        before = h[:m.start()]
+        i = before.rfind('<h2 id="')
+        sec = before[i + 8:before.find('"', i + 8)] if i >= 0 else "contents"
+        return f'<p class="helpfig">Screenshot in the online manual: <a href="{ONLINE}#{sec}">{alt}</a></p>'
+    h = re.sub(r'<p>\s*<img alt="(?P<alt>[^"]*)" src="(?P<src>[^"]+)"\s*/?>\s*</p>', rep, h)
+    h = h.replace("<code>docs/ai-prompts.md</code>", '<a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>')
+    h = autolink(h)
+    assert "</template>" not in h and "<script" not in h.lower()
+    return h
+
+def update_app(path):
+    s = open(path, encoding="utf-8").read()
+    m = re.search(r"(<!-- MANUAL:BEGIN[^\n]*-->\n)(.*?)(<!-- MANUAL:END -->)", s, flags=re.S)
+    if not m:
+        print("  no MANUAL:BEGIN / MANUAL:END markers in", path, "- app not updated"); return
+    frag = '<template id="manualTpl">' + build_fragment() + "</template>\n"
+    out = s[:m.start(2)] + frag + s[m.start(3):]
+    if out == s:
+        print("app already up to date:", os.path.relpath(path, PUB)); return
+    open(path, "w", encoding="utf-8", newline="\n").write(out)
+    print("updated Help text in", os.path.relpath(path, PUB), f"({len(frag)//1024} kB)")
 
 def build_pdf():
     try:
@@ -222,5 +262,12 @@ def build_pdf():
 if __name__ == "__main__":
     build_manual()
     build_prompts()
+    if "--no-app" not in sys.argv:
+        if "--app" in sys.argv:
+            app = sys.argv[sys.argv.index("--app") + 1]
+        else:
+            master = os.path.join(PUB, "..", "miFormulas.html")
+            app = master if os.path.exists(master) else os.path.join(PUB, "index.html")
+        update_app(os.path.abspath(app))
     if "--pdf" in sys.argv:
         build_pdf()

@@ -88,7 +88,8 @@ with sync_playwright() as p:
     # ---- 2. welcome page with the amber storage bar ----
     page.click("#btnStarter"); settle(page)
     shot(page, "app-welcome.png")
-    shot(page, "app-header.png", clip={"x": 0, "y": 0, "width": 1280, "height": 44})
+    hb = page.locator("header").first.bounding_box()
+    shot(page, "app-header.png", clip={"x": 0, "y": 0, "width": 1280, "height": hb["y"] + hb["height"]})
     # the amber bar belongs on the welcome shot only
     page.add_style_tag(content="#storageHint{display:none!important}"); page.wait_for_timeout(300)
 
