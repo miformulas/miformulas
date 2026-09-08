@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>miFormulas and your own AI assistant</title>
+<meta name="description" content="Ready-made prompts for using an AI assistant with miFormulas: photo to import file, materials check, Formulair grouping, server setup">
+<link rel="icon" href="../icons/icon-192.png">
+<style>
+:root{--ground:#FBFCFD;--surface:#FFFFFF;--panel:#EDF1F5;--ink:#212A33;--muted:#6C7A88;--line:#DCE3EA;
+  --accent:#A2277E;--accent-ink:#7E1B62;--accent-soft:#F9E3F1;--amber:#DD8500;--amber-soft:#FFEFD2}
+@media (prefers-color-scheme: dark){:root{--ground:#1C1122;--surface:#2A1833;--panel:#241430;--ink:#F2E6F2;--muted:#B292BC;
+  --line:#453050;--accent:#E667B0;--accent-ink:#F08CC5;--accent-soft:#3A1F38;--amber:#FFB454;--amber-soft:#3B2A12}}
+html{background:var(--ground)}
+body{margin:0;color:var(--ink);font:16px/1.55 "Segoe UI",system-ui,-apple-system,sans-serif}
+main{max-width:52rem;margin:0 auto;padding:1.5rem 1.2rem 4rem}
+nav.top{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:baseline;font-size:.9rem;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:.6rem;margin-bottom:1.6rem}
+nav.top b{color:var(--accent-ink);font-size:1rem}
+nav.top a{color:var(--accent-ink)}
+h1{font-size:2rem;line-height:1.2;margin:.2rem 0 1rem}
+h2{font-size:1.4rem;margin:2.6rem 0 .8rem;padding-top:.4rem;border-top:1px solid var(--line);color:var(--accent-ink)}
+h3{font-size:1.1rem;margin:1.6rem 0 .5rem}
+p,li{max-width:46rem}
+a{color:var(--accent-ink)}
+code{font:.92em/1.4 ui-monospace,Consolas,"SF Mono",Menlo,monospace;background:var(--panel);padding:.05em .3em;border-radius:3px}
+pre{background:var(--panel);padding:.8rem 1rem;border-radius:6px;overflow:auto;font:.88rem/1.45 ui-monospace,Consolas,"SF Mono",Menlo,monospace}
+pre code{background:none;padding:0;font:inherit}
+ol.toc{columns:2;column-gap:2rem;padding-left:2rem;font-size:.95rem}
+ol.toc li{break-inside:avoid;padding:.08rem 0}
+ol.toc a{text-decoration:none}
+ol.toc a:hover{text-decoration:underline}
+figure{margin:1.1rem 0 1.4rem;max-width:46rem}
+figure img{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+figure.small img{max-width:min(100%,30rem)}
+figcaption{font-size:.86rem;color:var(--muted);margin-top:.4rem}
+li > figure{margin-left:0}
+hr{border:0;border-top:1px solid var(--line);margin:1.6rem 0}
+.prompt{position:relative;margin:1rem 0 1.4rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;background:var(--surface)}
+.prompt pre{margin:0;background:none;white-space:pre-wrap;word-wrap:break-word;padding:1rem 5.5rem 1rem 1rem;font:.9rem/1.5 "Segoe UI",system-ui,-apple-system,sans-serif}
+.prompt button{position:absolute;top:.5rem;right:.5rem;font:.82rem system-ui,sans-serif;padding:.3rem .7rem;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);cursor:pointer}
+.prompt button:hover{border-color:var(--accent)}
+.prompt button.done{background:var(--accent-soft);border-color:var(--accent)}
+.footer{margin-top:3rem;padding-top:.8rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+@media print{
+  html{background:#fff} body{font-size:10.5pt;color:#000}
+  main{max-width:none;padding:0}
+  nav.top{display:none}
+  h2{break-before:page;border-top:0;margin-top:0;color:#000}
+  h2#contents,h2:first-of-type{break-before:auto}
+  h2.no-break{break-before:auto}
+  figure{break-inside:avoid}
+  figure img{border-color:#bbb;max-height:40vh;width:auto}
+  figure.small img{max-width:min(100%,22rem)}
+  a{color:#000;text-decoration:none}
+  ol.toc{columns:2}
+  pre{white-space:pre-wrap;word-break:break-all}
+  .prompt{break-inside:avoid;border-color:#bbb}
+  .prompt button{display:none}
+}
+</style>
+</head>
+<body>
+<main>
+<nav class="top"><b>miFormulas</b><a href="https://miformulas.com">miformulas.com</a><a href="manual.html">Manual</a><span>AI prompts</span><a href="miFormulas-manual.pdf">Manual as PDF</a><a href="https://github.com/miformulas/miformulas">GitHub</a></nav>
+<h1 id="miformulas-and-your-own-ai-assistant">miFormulas and your own AI assistant</h1>
+<p>miFormulas itself never talks to an AI, and that is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer. But several chores around it are exactly what an AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) does well, with your files, on your account. This page collects ready-made prompts for four of them. Copy the text between the lines into the chat, attach what the prompt asks for, and check the answer before you use it: an assistant can misread a handwritten 7 as a 1 and it can state a wrong IFRA limit with full confidence.</p>
+<p>Attachments: ChatGPT, Claude and Gemini accept photos, PDFs and CSV files as attachments. Some free Copilot versions do not; paste the text of the file into the chat instead (for the materials export, the Name column is usually enough).</p>
+<h2 id="s1-photo-pdf-or-spreadsheet-to-import-file">1. Photo, PDF or spreadsheet to import file</h2>
+<p>miFormulas imports formulas from a small JSON file (type <code>miformulas-import</code>). An assistant produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet. Save the answer as a <code>.json</code> file, then in miFormulas go to the Welcome page, click <strong>Import formula…</strong>, choose the file, check the preview and confirm.</p>
+<p>Tip: attach the file <strong>All materials (Excel)</strong> from the Welcome page as well. The assistant then uses the exact names of your own library, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your library are created as "to order" for you to merge or rename.</p>
+<div class="prompt"><button type="button" title="Copy this prompt to the clipboard">Copy</button><pre>You are converting a perfume formula into an import file for the miFormulas app. Attached is the formula as a photo, scan, PDF or spreadsheet, and possibly a CSV export of my materials library.
+
+Do this:
+
+1. Transcribe the formula exactly, line by line: material name, dilution in percent, weight in grams. Copy names verbatim, including brand or supplier tags such as (Giv), (IFF), (Firm). If a line shows no dilution, use 100. If the source gives only percentages or parts, convert them to grams on a 100 g batch and say so in &quot;notes&quot;. Transcribe numbers exactly; decimal commas become decimal points in the JSON.
+2. If a materials library (CSV) is attached, use its exact spelling of the material name in &quot;material&quot; whenever a line clearly matches a library entry. When you are not sure, keep the transcribed name in &quot;material&quot; and add your best guess in &quot;comment&quot; (&quot;possibly: …&quot;). Never silently substitute one material for another.
+3. Do not convert dilutions or weights to what the library stocks. Keep them exactly as printed; the app flags unknown dilutions and I convert them myself.
+4. Use the formula name written on the sheet. If there is none, ask me instead of inventing one. Never invent version labels.
+5. Answer with the JSON only, in this shape:
+
+{
+ &quot;type&quot;: &quot;miformulas-import&quot;,
+ &quot;name&quot;: &quot;&lt;formula name as written&gt;&quot;,
+ &quot;category&quot;: &quot;&lt;category if I named one, else omit this line&gt;&quot;,
+ &quot;source&quot;: &quot;&lt;photo, PDF or spreadsheet, and the origin or author if known&gt;&quot;,
+ &quot;notes&quot;: &quot;&lt;batch conversion, illegible lines, other remarks; omit if none&gt;&quot;,
+ &quot;lines&quot;: [
+  {&quot;material&quot;: &quot;Hedione&quot;, &quot;dilutionPct&quot;: 100, &quot;weightG&quot;: 17.5},
+  {&quot;material&quot;: &quot;Iso E Super&quot;, &quot;dilutionPct&quot;: 10, &quot;weightG&quot;: 2, &quot;comment&quot;: &quot;possibly: Iso E Super (IFF)&quot;}
+ ]
+}
+
+6. After the JSON, tell me in a few lines: the total weight (and whether it is a round number such as 100 or 1000, which suggests a complete transcription), how many lines matched the library and how many are new, and every line you could not read or were unsure about, as questions.
+
+One formula per file. If the source shows several formulas, ask which one you should convert first.</pre></div>
+<p>The optional fields <code>targetFormula</code> (the exact name of an existing formula; the import then becomes a new version of it instead of a new formula), <code>versionName</code>, <code>materialId</code> and <code>cas</code> are described in the data model in the repository. The app matches materials by name, so <code>materialId</code> is not needed. Save the answer as UTF-8 text with the extension <code>.json</code>, for instance <code>260908 import Roos akkoord.json</code>; if the assistant wrapped it in a code block, remove the backticks.</p>
+<h2 id="s2-checking-and-completing-your-materials">2. Checking and completing your materials</h2>
+<p>The export <strong>All materials (Excel)</strong> on the Welcome page is a CSV with one row per material: Name, CAS, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, storage, Density, Stock, Dilutions and Description. An assistant can propose the missing CAS numbers, IFRA limits, pyramid levels, categories and one-line odour descriptions, and point out likely duplicates. The app has no materials import, so you enter what you accept by hand on the material pages; do it for the materials you added recently rather than for the whole library at once.</p>
+<p>The IFRA figures deserve the most scepticism. The source that counts is the standards library on ifrafragrance.org; the prompt asks the assistant to name the amendment it took a limit from and to say "unknown" rather than guess, and you look up every value you enter. In the app, 99 means "checked, no restriction" and an empty field means "not yet checked".</p>
+<div class="prompt"><button type="button" title="Copy this prompt to the clipboard">Copy</button><pre>Attached is a CSV export of my perfume materials library from the miFormulas app (columns: Name, CAS, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g, Dilutions %, Description). Help me check and complete it. Do not rename anything; I enter your proposals by hand.
+
+Give me a table with one row per material that has something missing or doubtful, with these columns:
+
+- Name, exactly as in the file.
+- CAS: the existing value, or a proposal when it is empty, or a correction when the existing value does not belong to that material. Mark proposals and corrections as such.
+- IFRA limit: the IFRA Standards limit for Category 4 (fine fragrance) in percent of the finished product, with the amendment number you took it from. Write &quot;no restriction&quot; when the material is not restricted under the current standards, &quot;specification&quot; when the standard is a purity specification rather than a limit, and &quot;unknown&quot; when you are not certain. Never guess a number.
+- Pyramid: Top, Top-heart, Heart, Heart-base or Base.
+- Category: a proposal from the categories already used in the file, or a new one if none fits.
+- Odour: one line, for the description field.
+- Remarks: anything else, for instance a name that looks like a typo or a dilution that seems odd.
+
+Below the table, list the likely duplicates: pairs of rows with the same CAS number or nearly identical names. Say for each pair whether they are really the same material or legitimately different products with the same CAS (a vetiver oil from Java and one from Haiti share a CAS number and must stay separate). Do not propose merging on the CAS number alone.
+
+Keep the table plain (no merged cells) so that I can copy it into a spreadsheet. Skip materials where everything is present and plausible.</pre></div>
+<h2 id="s3-grouping-formulas-that-came-from-formulair">3. Grouping formulas that came from Formulair</h2>
+<p>The Formulair importer keeps every Formulair formula as a separate frozen formula, because Formulair is flat: "Aura v04" and "Aura v05" are two formulas there. In miFormulas they belong together as versions of one formula, and "Aura v05 20%" is a variation of it. An assistant can propose that grouping from the names, for you to review; a helper inside the app for the same job is planned. Give it the names: the export <strong>All formulas (Excel)</strong> on the Welcome page has them in the first column, or copy them from the list on the left.</p>
+<p>Applying the proposal is still done by hand in the app: <strong>Copy to new formula</strong> turns a frozen import into v1 of a new formula, <strong>+ New version</strong> adds the next one (the lines of an imported version can be copied by opening it and creating the new version from it), and <strong>+ New variation</strong> makes the presentations. Frozen imports stay as they are, so nothing is lost while you regroup.</p>
+<div class="prompt"><button type="button" title="Copy this prompt to the clipboard">Copy</button><pre>Below is a list of perfume formula names that were imported from another program, where every trial was a separate formula. Propose how to group them into formulas with a version history and variations. Do not rename anything beyond splitting a name into its parts, and do not merge names that only look similar.
+
+Rules:
+
+- A stem followed by a version number (&quot;Aura v04&quot;, &quot;Aura V4&quot;, &quot;Aura v.4&quot;, &quot;Aura versie 4&quot;, &quot;Aura 4&quot;) is a version of the formula &quot;Aura&quot;. The version number is the number in the name.
+- A name with a suffix that describes a presentation rather than a new trial (&quot;20%&quot;, &quot;EDT&quot;, &quot;soap&quot;, &quot;44gr&quot;, &quot;10 ml&quot;, &quot;candle&quot;) is a variation of the version it is based on, with that suffix as its label. If the base version is not named, note which version it most likely belongs to and mark it as a question.
+- Different stems stay separate formulas, even when they share words. A date in a name is not a version number; keep it as a remark.
+- When a name fits more than one reading, list it under &quot;questions&quot; with the readings, instead of choosing.
+
+Answer with a table with the columns: Original name | Formula | Version | Variation label | Confidence (high, medium, low) | Remark. Sort by formula, then version. After the table, list the questions, and the names you left as separate single-version formulas.
+
+Here are the names:
+
+(paste the names here, one per line)</pre></div>
+<h2 id="s4-setting-up-your-own-server">4. Setting up your own server</h2>
+<p>Section 19 of the manual describes the server mode: the app and <code>server/data.php</code> on a web server with PHP, a writable <code>data</code> folder next to them, a token, and the app connecting to it. An assistant can turn that into step-by-step instructions for your own device, if you give it the two files it needs and tell it what you have. Never give it your token; you choose that yourself and type it into <code>data.php</code> and into the app.</p>
+<div class="prompt"><button type="button" title="Copy this prompt to the clipboard">Copy</button><pre>I want to run the miFormulas app on my own web server so that all my devices share one data file. Attached are the server endpoint `data.php` from the miFormulas repository and the section &quot;Your own server&quot; of its manual. Read both first.
+
+My situation: (describe your device and what you know, for example: a Synology DS220+ with DSM 7.2, Web Station is installed but I have never used it; or: a Raspberry Pi 4 with Raspberry Pi OS; or: shared hosting at provider X with PHP 8.2 and FTP access. Say whether you can already reach the device by name or address in a browser, and whether you want to reach it from outside your home.)
+
+Guide me step by step. Ask me what you need to know before each step rather than assuming. For every step, tell me exactly where to click or what to type, and how I can check that it worked. Cover: installing PHP and the web service if needed, placing `index.html`, `data.php` and the `data` folder, giving the web server&#x27;s user write access to `data`, setting a token in `data.php` (I will choose the token myself and will not tell you what it is), putting my `miformulas-data.json` in the `data` folder, opening the app in the browser and entering the token, and, if I want access from outside, the safe way to do that (a VPN such as Tailscale, with https). When something can go wrong in a way that costs data, warn me before that step.</pre></div>
+<div class="footer">miFormulas is free software (GPL v3 with two additional terms, see the licence section). Source and issues: <a href="https://github.com/miformulas/miformulas">github.com/miformulas/miformulas</a>.</div>
+</main>
+<script>
+document.querySelectorAll('.prompt button').forEach(b => b.addEventListener('click', async () => {
+  const t = b.parentElement.querySelector('pre').textContent;
+  try{ await navigator.clipboard.writeText(t); b.textContent = 'Copied'; b.classList.add('done'); }
+  catch(e){ const r = document.createRange(); r.selectNodeContents(b.parentElement.querySelector('pre'));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Select and copy'; }
+  setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('done'); }, 2500);
+}));
+</script>
+</body>
+</html>

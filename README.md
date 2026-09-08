@@ -87,7 +87,13 @@ snapshots. See below.
    Formulair** if that is where you come from.
 3. Add materials, then formulas. Ctrl+Z undoes any change.
 
-The manual is in `docs/`.
+The manual is at https://miformulas.com/docs/manual.html (also as a PDF:
+https://miformulas.com/docs/miFormulas-manual.pdf), and ready-made prompts for an
+AI assistant at https://miformulas.com/docs/ai-prompts.html; the Markdown sources
+are in `docs/`.
+
+Not there (yet): a built-in materials database; section 7 of the manual says what
+covers that today.
 
 ## Three ways to keep your data
 
