@@ -8,7 +8,7 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python opslagbalk.py           # balk bij niet-persistente browseropslag, tekstvarianten, sluiten, sessie
     python formulair-import.py     # DataModel.sqlite inlezen, download vergelijken met formulair-naar-json.py (pad SQ aanpassen)
     python formulair-doorsturen.py # "Open in miFormulas in this browser" -> app start met 698 formules
-    python site-reopen.py          # Open data file… op de site: onthouden, Reopen, Forget in Settings, verdwenen bestand (23 controles)
+    python site-reopen.py          # Open data file… op de site: onthouden, Reopen, Forget in Settings, verdwenen bestand, Install-knop, Save to a data file… (36 controles)
     python file-mode.py            # gedownloade app via file://: hint, starterset van miformulas.com (nagebootst), databestand aanmaken (44 controles, incl. herstart met Reopen en verdwenen bestand; geen webserver nodig)
 
 Vereist `pip install playwright` en `playwright install chromium`. De paden bovenaan de

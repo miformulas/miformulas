@@ -12,7 +12,14 @@ There is nothing to install. The whole app is one file, `index.html`, and it
 runs in any modern browser.
 
 - **Just try it.** Open https://miformulas.com. Your work is kept in the
-  browser's own storage on that computer; use *Backup* to download a copy.
+  browser's own storage on that computer; use *Backup* to download a copy of
+  your work, or click *Save to a data file…* in the bar under the header to keep
+  it in a file of your own (Chrome and Edge).
+- **Install it as an app.** On the start screen of miformulas.com click
+  *Install as an app* (Chrome and Edge show it when they can install the site;
+  otherwise use the browser menu, or *File › Add to Dock* in Safari on a Mac).
+  The app gets its own window and icon, keeps your data file, and updates by
+  itself.
 - **Keep it on your own computer.** Open https://miformulas.com, click
   **Download the app** on the start screen and save the file (it is called
   `miFormulas.html`). Give it a folder of its own, for instance
@@ -95,6 +102,16 @@ The manual is in `docs/`.
   give the same token in Settings on each device. The endpoint returns the JSON
   with an ETag on GET and refuses a PUT whose `If-Match` is stale, so two devices
   never overwrite each other; it also keeps daily snapshots.
+
+## Privacy
+
+Nobody but you sees your formulas. The app runs entirely in your browser and your
+data lives where you put it: the browser's storage, a file on your disk, or a server
+you own. It never uploads anything, sends no telemetry and loads no scripts from
+elsewhere; the downloaded app contacts miformulas.com only to fetch the starter set
+when you ask for it, and once you have a data file it makes no network request at
+all. You can check this in the code: the whole app is this one readable file, and the
+manual (section 3) lists every network call it contains and how to verify them.
 
 ## Coming from Formulair
 

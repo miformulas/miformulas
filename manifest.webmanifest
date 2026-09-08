@@ -1,0 +1,29 @@
+{
+ "name": "miFormulas",
+ "short_name": "miFormulas",
+ "description": "Perfume formulation app: materials, formulas with version history and variations, dilutions, batch scaling, IFRA check, weighing sheets. Your data stays with you.",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#FBFCFD",
+ "theme_color": "#3E1146",
+ "lang": "en",
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

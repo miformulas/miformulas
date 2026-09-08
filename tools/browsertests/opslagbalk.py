@@ -19,7 +19,7 @@ async def main():
         hidden=await page.evaluate("document.getElementById('storageHint').hidden")
         check(hidden == persisted, f"na laden: balk zichtbaar precies als niet persistent (persisted={persisted}, hidden={hidden})")
         txt=await page.text_content("#storageHintText")
-        check("kept in this browser" in txt and "open a data file" in txt, f"tekst voor niet-fallback: {txt[:90]}…")
+        check("kept in this browser" in txt and "Save it to a data file" in txt, f"tekst voor niet-fallback: {txt[:90]}…")
         await page.wait_for_timeout(3200)
         check(await page.evaluate("saveData._persistAsked === true"), "persist() eenmalig aangevraagd bij de eerste opslag")
         await page.click("#storageHintClose"); await page.wait_for_timeout(200)
