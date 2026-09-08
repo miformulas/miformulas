@@ -49,9 +49,9 @@ table{border-collapse:collapse;margin:.4rem 0}td{padding:.15rem .8rem .15rem 0}t
 <p class="hint">Reads the Formulair database entirely in your browser and turns it into a miFormulas data file. Nothing leaves your computer.</p>
 
 <h2>1. Find the database</h2>
-<p>Quit Formulair first (⌘Q), so that its last changes are written to the file. Then, in the Finder, choose <b>Go › Go to Folder…</b> and paste:</p>
+<p>In Formulair choose <b>File › Close</b> (Formulair then quits by itself): Close is what makes Formulair write its latest changes into the database file. Then, in the Finder, choose <b>Go › Go to Folder…</b> and paste:</p>
 <p><code>~/Library/Containers/co.uk.lux-terra.Formulair/Data/Library/Application Support/Formulair/</code></p>
-<p>The file is <code>DataModel.sqlite</code>. Copy it somewhere handy, for instance the Desktop.</p>
+<p>The file is <code>DataModel.sqlite</code>. Copy it somewhere handy, for instance the Desktop. If <code>DataModel.sqlite-wal</code> next to it is large (megabytes rather than kilobytes), your latest changes are still in that file; section 19 of the <a href="https://miformulas.com/docs/manual.html#s19-coming-from-formulair">manual</a> shows how to fold them in.</p>
 
 <h2>2. Read it</h2>
 <div class="drop" id="drop">
@@ -211,7 +211,7 @@ async function handle(file){
     </div>
     <p class="hint" style="margin-top:.6rem">Download: keep the file next to the app and open it with “Open data file…”. Open here: the data goes into this browser's storage and miFormulas starts with it; use Backup there to get a file later.</p>
   </div>`;
-  if (walMode) html += `<div class="box warn"><b>Check that Formulair was closed before you copied the file.</b> This database keeps its latest changes in a separate <code>-wal</code> file until the app closes; a copy made while Formulair was open may miss the most recent edits. If in doubt, quit Formulair, copy again and read the file once more.</div>`;
+  if (walMode) html += `<div class="box warn"><b>Did you choose File › Close in Formulair before copying?</b> This database keeps its latest changes in a separate <code>-wal</code> file until Formulair folds them in, which File › Close does (quitting alone does not always). If in doubt, choose File › Close in Formulair, copy the file again and read it once more.</div>`;
   $("#out").innerHTML = html;
   $("#btnDl").addEventListener("click", download);
   $("#btnOpen").addEventListener("click", openHere);

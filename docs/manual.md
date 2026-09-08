@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260908c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260908d. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -239,6 +239,8 @@ A **variation** is the same recipe in another presentation: the same formula at 
 
 Formulas imported from Formulair are frozen too (section 19): you read them, compare them and copy them, but to work on one you make a new version.
 
+**Move into…** appears on an imported formula that has one version and no variations, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula, or a frozen variation of one of its versions, and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version or variation as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section 19).
+
 ![A live variation "20%" made up as 50 g, following the latest version.](img/app-variation.png)
 
 **Copy to new formula** takes the version you are looking at as v1 of a new formula, optionally with the variations. **Rename** and **Change category** do what they say; categories are shared between formulas and get a colour dot.
@@ -360,7 +362,7 @@ A word about Formulair first. I discovered perfumery together with Formulair, Sa
 The importer at https://miformulas.com/formulair-import.html reads the Formulair database entirely in your browser and turns it into a miFormulas data file. Nothing leaves your computer.
 
 1. The database is the file `DataModel.sqlite` in Formulair's own folder, which the Finder keeps hidden; the steps below get a complete copy of it onto your Desktop.
-2. In Formulair choose **File**, **Close** and then quit with Cmd+Q: Close is what makes Formulair write its latest changes into the database file. In the Finder choose **Go**, **Go to Folder…**, paste `~/Library/Containers/co.uk.lux-terra.Formulair/Data/Library/Application Support/Formulair/` and copy `DataModel.sqlite` to the Desktop. A quick check: `DataModel.sqlite` should now carry today's date, and `DataModel.sqlite-wal` next to it should be small (kilobytes, not megabytes). If the -wal file is large, your latest changes are still in it: copy all three files (`DataModel.sqlite`, `-wal` and `-shm`) to a folder `Formulair` on the Desktop and fold them in with one line in Terminal, `sqlite3 ~/Desktop/Formulair/DataModel.sqlite "PRAGMA wal_checkpoint(TRUNCATE);"`, then use the `DataModel.sqlite` from that folder.
+2. In Formulair choose **File**, **Close**; Formulair writes its latest changes into the database file and quits by itself (a plain Cmd+Q does not always write them). In the Finder choose **Go**, **Go to Folder…**, paste `~/Library/Containers/co.uk.lux-terra.Formulair/Data/Library/Application Support/Formulair/` and copy `DataModel.sqlite` to the Desktop. A quick check: `DataModel.sqlite` should now carry today's date, and `DataModel.sqlite-wal` next to it should be small (kilobytes, not megabytes). If the -wal file is large, your latest changes are still in it: copy all three files (`DataModel.sqlite`, `-wal` and `-shm`) to a folder `Formulair` on the Desktop and fold them in with one line in Terminal, `sqlite3 ~/Desktop/Formulair/DataModel.sqlite "PRAGMA wal_checkpoint(TRUNCATE);"`, then use the `DataModel.sqlite` from that folder.
     
     ![Finder: Go, Go to Folder… with the Formulair path.](img/finder-go-to-folder.png)
     
@@ -374,7 +376,7 @@ The importer at https://miformulas.com/formulair-import.html reads the Formulair
 
 Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category and colour marks per line, and every material comes with its dilutions, CAS, supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted or renamed, and amounts are in grams.
 
-Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4 and v5, and turning "Aura v05 20%" into a variation, is a decision for you, made afterwards in the app (Copy to new formula and New variation are the tools). A helper that proposes such a grouping from the names is planned; until then, `docs/ai-prompts.md` has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review.
+Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4 and v5, and turning "Aura v05 20%" into a variation, is a decision for you, made afterwards in the app with **Move into…** (section 8): open "Aura v05", click Move into…, pick "Aura v04" (the app suggests it when the names differ only in the number at the end) and choose version or variation; then rename "Aura v04" to "Aura". The app never groups by itself, because every perfumer names things differently. For a large library, `docs/ai-prompts.md` has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.
 
 The same conversion exists as a command-line script, `tools/formulair-naar-json.py`, for those who prefer a terminal.
 
@@ -436,6 +438,8 @@ In server mode the server keeps daily snapshots for fourteen days (section 20).
 **Where is the data of an installed app?** In the browser that installed it, in the same place as the site: the app and the tab share their storage and their remembered file.
 
 **I want the site to forget my data file.** Open Settings (⚙): the button "Forget the remembered data file…" makes the app stop offering Reopen. The file itself is not touched.
+
+**Where do I report a problem or suggest something?** On GitHub, at https://github.com/miformulas/miformulas/issues (the **Feedback** link on the start screen goes there; writing there needs a free GitHub account). Say which browser you use and the build number shown next to the name in the header, and what you did; a Backup of a data file that shows the problem helps most, if you are willing to share it.
 
 ![Settings with a remembered data file: Forget the remembered data file…](img/edge-settings.png)
 

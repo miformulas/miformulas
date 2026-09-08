@@ -1,12 +1,13 @@
 """Reopen op de site (browseropslagstand, http): een eerder geopend databestand wordt onthouden en aangeboden.
 Vereist een webserver met de inhoud van public\\ op poort 8765 (cd public && python -m http.server 8765)."""
-import json, os, sys
+import json, os, re, sys
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 URL = "http://localhost:8765/index.html"
 STARTER = open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8").read()
+BUILD = re.search(r'id="build"[^>]*>([^<]+)<', open(os.path.join(PUB, "index.html"), encoding="utf-8").read()).group(1).strip()
 ok = fail = 0
 def check(name, cond):
     global ok, fail
@@ -39,7 +40,7 @@ with sync_playwright() as p:
     # 1. first visit: no file remembered -> browser-storage landing with starter set
     pg = new_page()
     pg.goto(URL); pg.wait_for_timeout(1200)
-    check("build stamp 260908c", pg.locator("#build").inner_text().strip() == "260908c")
+    check("build stamp", pg.locator("#build").inner_text().strip() == BUILD)
     check("fresh: starter offered", pg.locator("#btnStarter").is_visible())
     check("fresh: no Reopen", not pg.locator("#btnReopen").is_visible())
     check("fresh: hint = browser storage", "stays in this browser" in pg.locator("#landingHint").inner_text())

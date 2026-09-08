@@ -98,6 +98,12 @@ are in `docs/`.
 Not there (yet): a built-in materials database; section 7 of the manual says what
 covers that today.
 
+## Feedback
+
+Questions, problems and ideas: open an issue at
+https://github.com/miformulas/miformulas/issues. Mention your browser, the build
+number shown next to the name in the app's header, and what you did.
+
 ## Three ways to keep your data
 
 - **In the browser.** On miformulas.com the app keeps your data in the browser's

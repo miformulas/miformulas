@@ -1,12 +1,13 @@
 """Bestandsmodus (gedownloade app geopend via file://): hint, dialoog, starterset, aanmaak van het databestand, herstart met Reopen, verdwenen bestand.
 Draait rechtstreeks op public\index.html; de starterset wordt vanaf schijf geserveerd omdat de test miformulas.com nabootst."""
-import json, os, sys
+import json, os, re, sys
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 APP = "file://" + os.path.join(PUB, "index.html")
 STARTER = open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8").read()
+BUILD = re.search(r'id="build"[^>]*>([^<]+)<', open(os.path.join(PUB, "index.html"), encoding="utf-8").read()).group(1).strip()
 ok = fail = 0
 def check(name, cond):
     global ok, fail
@@ -45,7 +46,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(800)
 
     check("protocol is file:", page.evaluate("location.protocol") == "file:")
-    check("build stamp 260908c", page.locator("#build").inner_text().strip() == "260908c")
+    check("build stamp", page.locator("#build").inner_text().strip() == BUILD)
     hint = page.locator("#landingHint").inner_text()
     check("hint mentions own computer", "from your own computer" in hint)
     check("hint recommends Documents\\miFormulas", "Documents\\miFormulas" in hint)
