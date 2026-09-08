@@ -2479,6 +2479,7 @@ async function openSettings(){
       <label>Access token</label><input id="setToken" type="password" value="${esc(tok)}" autocomplete="off">
     </div>
     <div class="hint" style="margin-top:.6rem">A server is optional: without one the data lives in a local file or in this browser. Give <code>data.php</code> for the endpoint next to the app, or a full URL. Changing the server reloads the app.</div>
+    ${INSTALL_EVT && !window.matchMedia("(display-mode: standalone)").matches ? `<div style="margin-top:.8rem"><button class="small primary" id="setInstall">Install as an app</button> <span class="hint">own window and icon in the taskbar or Start menu; the browser does the installing</span></div>` : ""}
     ${DEMO && !HANDLE && DATA && window.showSaveFilePicker ? `<div style="margin-top:.8rem"><button class="small primary" id="setToFile">Save to a data file…</button> <span class="hint">keep your data in a file of your own instead of in this browser</span></div>` : ""}
     ${DEMO && !HANDLE ? `<div style="margin-top:.8rem"><button class="small" id="setReset">Delete the data kept in this browser…</button></div>` : ""}
     ${remembered ? `<div style="margin-top:.5rem"><button class="small" id="setForget">Forget the remembered data file \u201c${esc(remembered.name)}\u201d…</button></div>` : ""}`,
@@ -2493,6 +2494,11 @@ async function openSettings(){
     })();
   }, "26rem");
   $("#setToFile")?.addEventListener("click", () => { $("#dlg").close(); saveToDataFile(); });
+  $("#setInstall")?.addEventListener("click", async () => {
+    $("#dlg").close(); if (!INSTALL_EVT) return;
+    INSTALL_EVT.prompt(); try{ await INSTALL_EVT.userChoice; }catch(_){}
+    INSTALL_EVT = null; $("#btnInstall").style.display = "none";
+  });
   $("#setForget")?.addEventListener("click", async () => {
     if (!confirm("Forget the remembered data file? The file itself is not touched; the app just stops offering Reopen for it.")) return;
     if (DIRTY) await saveData();
