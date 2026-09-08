@@ -101,8 +101,9 @@ covers that today.
 ## Feedback
 
 Questions, problems and ideas: open an issue at
-https://github.com/miformulas/miformulas/issues. Mention your browser, the build
-number shown next to the name in the app's header, and what you did.
+https://github.com/miformulas/miformulas/issues, or write to info@miformulas.com
+if you would rather not use GitHub. Mention your browser, the build number shown
+next to the name in the app's header, and what you did.
 
 ## Three ways to keep your data
 
