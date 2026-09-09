@@ -1,6 +1,6 @@
 # miFormulas
 
-A perfume formulation notebook that runs as a single HTML file in your browser.
+A perfume formulation app that runs as a single HTML file in your browser.
 No installation, no account, no server required. Your data stays in a JSON file
 that you own.
 It will keep working, too: one file, no server, data in plain JSON, and free
@@ -45,37 +45,59 @@ The other ways in:
 
 ## What it does
 
+The idea behind it: **less clicking, more smelling.** Time at the screen is time
+away from the materials. So everything the app makes you do between two trials
+should be one action, not a dozen edits: shift a handful of materials to another
+dilution, bundle the traces into a predilution, start the next version, print the
+weighing sheet.
+
+**Tick lines, act on all of them at once.** Tick any number of lines in a formula
+(Shift-click ticks a range) and the tick bar does the rest. **Lower** and
+**Higher** shift every ticked line to the next dilution that material offers,
+keeping the relative percentages and exchanging the solvent in one go. **Create
+predilution…** turns the ticked lines into a weighable premix, a material and a
+new version of the formula that uses it, in one step and one Undo. Colour marks
+and bench groups work the same way. We have not seen this in any other
+formulation app.
+
+**Coming from Formulair? Bring everything.** The importer reads Formulair's
+database in your browser, nothing is uploaded, and adds every formula and
+material to miFormulas: notes, dilutions, colour marks, categories, suppliers,
+stock, IFRA limits. Materials are matched by name, formulas already imported are
+skipped, one Undo takes the whole import back. Afterwards **Move into…** folds
+"Aura v04", "Aura v05" and "Aura v05 20%" into one formula with versions and
+variations.
+
+**Bench view.** A formula laid out as a worksheet, the way a batch is built: core
+materials first, smell, then the next group. Drag lines into named groups, or
+tick them and move them together; each group shows its weight and strength;
+print it as a bench sheet in weighing order.
+
 **Two-level formulas.** A base formula keeps an immutable version history. On top
-of it sit variations: the same recipe in another presentation. A variation is
-either *living* (it stores only the deviations and follows the base) or *frozen*
-(a snapshot that never changes).
+of it sit variations: the same recipe in another presentation, either *living*
+(only the deviations, following the base) or *frozen* (a snapshot).
 
 **Perfumery percentages.** Relative % is the dilution-corrected content of a line
 divided by the total non-solvent content, so the column sums to 100 and solvent
-lines show a dash. Absolute % is content divided by total weight, so the column
-total is the concentration. Solvent lines show their share of the weight.
+lines show a dash. Absolute % is content divided by total weight, so the total is
+the concentration.
 
-**Dilutions that behave.** A material offers only the dilutions you actually own.
-100 % is not implied and any dilution can be the base dilution. The dilution
-dialog offers three methods: keep the weight, keep the percentage, or swap the
-solvent, with a check for a shortage of ethanol.
+**Dilutions that behave.** A material offers only the dilutions you actually own;
+100 % is not implied and any dilution can be the base. The dilution dialog keeps
+the weight, keeps the percentage, or swaps the solvent, and warns when the ethanol
+runs short.
 
 **Materials.** Name, CAS, supplier, category with its own colour, stock, cost per
-gram, IFRA limit, pyramid level, solvent flag, description, purchase date,
-density and storage location. Cross-reference to every formula a material appears
-in. Optional stock ledger per material.
+gram, IFRA limit, pyramid level, solvent flag, description, density and storage
+location; every formula a material appears in; an optional stock ledger.
 
-**Working tools.** Batch scaling on a factor, a target weight or a target
-absolute %. A prediluting facility that turns ticked lines into a frozen
-predilution formula plus a material, and rewrites the version to use it. Colour
-marks per line. Bench notes per version and variation. An olfactive pyramid, a
-category panel, an IFRA check panel with adjustable dosage, a comparison view
-between versions with difference marking, a bench view with draggable groups,
-printable weighing and bench sheets, and Excel/CSV export. Undo to 50 steps.
+**Also there.** Batch scaling on a factor, a target weight or a target
+concentration; an IFRA check with adjustable dosage; a comparison view between
+versions; an olfactive pyramid; printable weighing sheets; Excel/CSV export; Undo
+to 50 steps.
 
-**Storage.** In the browser, in a local JSON file (File System Access API, with a
-file picker as a fallback), or on your own server with a conflict check and daily
-snapshots. See below.
+**Storage.** In the browser, in a JSON file of your own (Chrome and Edge), or on
+your own server with a conflict check and daily snapshots. See below.
 
 ## Getting started
 
