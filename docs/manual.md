@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260909e. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260909f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -107,13 +107,15 @@ There is nothing to download or install in the usual sense: the whole app is one
 1. Open https://miformulas.com in Chrome. No Chrome? On Windows, Edge is already there and works exactly the same (the screenshots in section 5 are from Edge); on a Mac, install Chrome first, or read the Safari alternative below.
 2. Click **Install as an app** on the start screen and confirm the browser's dialog. The app opens in its own window with its own icon; section 5 has the pictures and the menu route in case the link does not appear.
 3. Click **Start with the starter set**, or **Import from Formulair** if that is where your formulas are (section 19).
-4. On the Welcome page click **Save to a data file…** (also in Settings). The app explains that it will create your data file, then asks where to keep it: choose a folder of your own, for instance `Documents\miFormulas`, and keep the name `miformulas-data.json`. From now on the app saves to that file and opens straight into it; make a subfolder `backups` there for the copies Backup makes.
+4. At the top of the Welcome page, just under the four tiles, click **Save to a data file…** – it is also in Settings. The app explains that it will create your data file, then asks where to keep it: choose a folder of your own, for instance `Documents\miFormulas`, and keep the name `miformulas-data.json`. From now on the app saves to that file and opens straight into it; make a subfolder `backups` there for the copies Backup makes.
     
     ![The app explains what it is about to create…](img/edge-save-dialog1.png)
     
     ![…and the browser asks where to keep miformulas-data.json.](img/edge-save-dialog2.png)
 
 That is all: your data is a file you can see, copy, put in a synced folder or restore from a backup, the app is a program of its own, and updates arrive by themselves.
+
+**The site hosts the app, not your data.** Installing this way puts the app on your computer, not your formulas. The page itself is loaded from miformulas.com, which is why it updates by itself, but your work stays where you put it: in this browser's storage, or in your own data file. Nothing is uploaded, there is no account, and the site never sees what you make.
 
 **The other ways in**, in order of preference:
 
@@ -144,7 +146,7 @@ If you want miFormulas to feel like a program of its own rather than a tab, inst
 
 Browsers only offer this for pages served over https, so it works with miformulas.com and with your own server if that has an https address. A downloaded `miFormulas.html` cannot be installed this way; the last part of this section shows a shortcut that comes close.
 
-**The one-click way (Chrome and Edge, Windows and Mac).** Open https://miformulas.com. When the browser can install the site, the start screen shows the link **Install as an app**, and the same button appears at the top of **Settings** (⚙) once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data and its updates with the site in a normal tab. Want your data in a file of your own? Click **Save to a data file…** on the Welcome page (also in Settings): the app creates `miformulas-data.json` where you choose and remembers it. Chrome and Edge keep the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without questions. In Safari on a Mac the start screen shows **Add to Dock…** instead, which explains the File › Add to Dock route.
+**The one-click way (Chrome and Edge, Windows and Mac).** Open https://miformulas.com. When the browser can install the site, the start screen shows the link **Install as an app**, and the same button appears at the top of **Settings** (⚙) once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data and its updates with the site in a normal tab. Want your data in a file of your own? Click **Save to a data file…** at the top of the Welcome page, under the four tiles (also in Settings): the app creates `miformulas-data.json` where you choose and remembers it. Chrome and Edge keep the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without questions. In Safari on a Mac the start screen shows **Add to Dock…** instead, which explains the File › Add to Dock route.
 
 ![The Install as an app link on the start screen.](img/edge-install-link.png)
 
@@ -453,7 +455,7 @@ In server mode the server keeps daily snapshots for fourteen days (section 20).
 
 **Can the author of miFormulas see my formulas?** No. Nothing leaves your computer unless you put it on a server of your own, and the app never contacts miformulas.com except to fetch the starter set when you ask for it. Section 3 lists every network request the app makes and how to verify that yourself in the code.
 
-**Where is the data of an installed app?** In the browser that installed it, in the same place as the site: the app and the tab share their storage and their remembered file.
+**Where is the data of an installed app?** In the browser that installed it, in the same place as the site: the app and the tab share their storage and their remembered file. The app itself is loaded from miformulas.com so that it updates by itself, but nothing you make is sent there.
 
 **I want the site to forget my data file.** Open Settings (⚙): the button "Forget the remembered data file…" makes the app stop offering Reopen. The file itself is not touched.
 

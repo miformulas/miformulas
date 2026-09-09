@@ -45,6 +45,7 @@ with sync_playwright() as p:
     check(f"starter set loaded: {base}", base == [16, 199])
     check("Welcome page says where the data is", "kept in this browser" in pg.text_content("#whereData"))
     check("Welcome page offers Save to a data file… in Chrome", pg.locator("#homeToFile").is_visible())
+    check("Save to a data file… stands out as an action (primary)", "primary" in (pg.locator("#homeToFile").get_attribute("class") or ""))
     pg.click("#btnSave"); pg.wait_for_timeout(500)
 
     # the importer's hand-over, then a restart
