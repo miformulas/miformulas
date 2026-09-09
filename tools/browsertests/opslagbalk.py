@@ -41,6 +41,36 @@ async def main():
         await page.evaluate("FALLBACK = true; updateStorageHint()"); await page.wait_for_timeout(200)
         txt=await page.text_content("#storageHintText")
         check("stays there between sessions" in txt and "Chrome or Edge" in txt, f"fallback-tekst: {txt[-80:]}")
+        # Firefox: nooit persist() vragen en persisted() niet geloven (data verdwijnt toch bij afsluiten)
+        FF = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0"
+        await ctx.close(); ctx = await b.new_context(user_agent=FF); page = await ctx.new_page()
+        page.on("pageerror", lambda e: errs.append(str(e)))
+        page.on("dialog", lambda d: asyncio.ensure_future(d.accept()))
+        await ctx.add_init_script("delete window.showOpenFilePicker; delete window.showSaveFilePicker; navigator.storage.persist = async () => { window.__persistCalled = true; return true; };")
+        await page.goto(URL); await page.wait_for_timeout(600)
+        await page.click("#btnStarter"); await page.wait_for_timeout(3400)
+        check(await page.evaluate("FIREFOX === true"), "Firefox herkend")
+        check(not await page.evaluate("window.__persistCalled === true"), "Firefox: persist() wordt niet gevraagd")
+        pf = await page.evaluate("navigator.storage.persisted()")
+        check(not await page.evaluate("document.getElementById('storageHint').hidden"), f"Firefox: balk blijft staan, ook als persisted={pf}")
+        txt = await page.text_content("#storageHintText")
+        check("even after you allow persistent storage" in txt, f"Firefox-staart in de balktekst: {txt[-70:]}")
+
+        # iOS: Add to Home Screen in plaats van een installatieknop, en geen advies over Chrome of Edge
+        IOSUA = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1"
+        await ctx.close(); ctx = await b.new_context(user_agent=IOSUA); page = await ctx.new_page()
+        page.on("pageerror", lambda e: errs.append(str(e)))
+        page.on("dialog", lambda d: asyncio.ensure_future(d.accept()))
+        await ctx.add_init_script("delete window.showOpenFilePicker; delete window.showSaveFilePicker;")
+        await page.goto(URL); await page.wait_for_timeout(600)
+        check(await page.evaluate("IOS === true && SAFARI_MAC === false"), "iOS herkend, en niet als Mac")
+        check(await page.is_visible("#btnInstall") and "Home Screen" in await page.text_content("#btnInstall"), "iOS: startscherm biedt Add to Home Screen…")
+        await page.click("#btnStarter"); await page.wait_for_timeout(900)
+        txt = await page.text_content("#storageHintText")
+        check("iPhone or iPad" in txt and "Chrome or Edge" not in txt, f"iOS-staart zonder Chrome-advies: {txt[-90:]}")
+        check(not await page.is_visible("#homeToFile"), "iOS: geen Save to a data file… op de Welcome-pagina")
+        check((await page.text_content("#btnBack")).strip() == "\u2039 Formulas", "de terugknop noemt de lijst waar hij heen gaat")
+
         # REMOTE/HANDLE: balk weg
         await page.evaluate("DEMO=false; updateStorageHint()"); await page.wait_for_timeout(200)
         check(await page.evaluate("document.getElementById('storageHint').hidden"), "buiten DEMO: balk verborgen")
