@@ -9,43 +9,39 @@ the author, and anyone can take it further.
 
 Try it at **https://miformulas.com**
 
-## Download and install
+## Recommended setup
 
-There is nothing to install. The whole app is one file, `index.html`, and it
-runs in any modern browser.
+There is nothing to install in the usual sense: the whole app is one file,
+`index.html`, and it runs in any modern browser. The setup that gives you an app
+with its own icon and your formulas in a file on your own computer:
 
-- **Just try it.** Open https://miformulas.com. Your work is kept in the
-  browser's own storage on that computer; use *Backup* to download a copy of
-  your work, or click *Save to a data file…* in the bar under the header to keep
-  it in a file of your own (Chrome and Edge).
-- **Install it as an app.** On the start screen of miformulas.com click
-  *Install as an app* (Chrome and Edge show it when they can install the site;
-  otherwise use the browser menu, or *File › Add to Dock* in Safari on a Mac).
-  The app gets its own window and icon, keeps your data file, and updates by
-  itself.
-- **Keep it on your own computer.** Open https://miformulas.com, click
-  **Download the app** on the start screen and save the file (it is called
-  `miFormulas.html`). Give it a folder of its own, for instance
-  `Documents\miFormulas`, and double-click it to open it in Chrome or Edge.
-  Choose *Start with the starter set*: the app explains and then asks where to
-  keep your data file (`miformulas-data.json`, in the same folder as the app).
-  Next time you open
-  the app it offers *Reopen*; one click (and, if the browser asks, one
-  permission) and you are back in your data. If you already made formulas
-  on miformulas.com, click *Backup* there first and use *Open data file…* in
-  the downloaded app to continue with that file. Keep a subfolder `backups`
-  for the copies *Backup* makes. Firefox cannot write to a
-  file; there you keep working in the browser's storage and use *Backup* to
-  save.
-- **Coming from Formulair?** Open https://miformulas.com/formulair-import.html;
-  it converts your Formulair database in the browser, nothing is uploaded. See
-  *Coming from Formulair* below.
+1. Open https://miformulas.com in **Chrome** (Windows or Mac). On Windows, Edge is
+   already there and works exactly the same.
+2. Click *Install as an app* on the start screen and confirm. The app opens in
+   its own window with its own icon.
+3. Click *Start with the starter set*, or *Import from Formulair*.
+4. On the Welcome page click *Save to a data file…* and choose a folder of your
+   own, for instance `Documents\miFormulas`; keep the name `miformulas-data.json`.
+   From now on the app saves to that file, opens straight into it, and updates
+   by itself.
+
+The other ways in:
+
+- **Safari on a Mac.** *File › Add to Dock* gives the same app in the Dock; Safari
+  cannot write to a data file, so the data lives in the app's storage and
+  *Backup* is your safety net.
+- **Just try it.** Open https://miformulas.com and start; your work stays in the
+  browser's storage on that computer. *Backup* downloads a copy.
+- **The app file on your own computer.** Click *Download the app* on the start
+  screen and save `miFormulas.html` in a folder of its own; open it in Chrome or
+  Edge, choose *Start with the starter set* and keep `miformulas-data.json` next
+  to it. Next time the app offers *Reopen*. Updating: download the new file and
+  replace the old one; your data file stays untouched.
+- **Coming from Formulair?** Open https://miformulas.com/formulair-import.html or
+  click *Import from Formulair* in the app; see *Coming from Formulair* below.
 - **Everything at once.** On this GitHub page click the green **Code** button,
-  then **Download ZIP**. The ZIP holds the app, the Formulair importer, the
-  starter data, the server endpoint and the tools.
-
-Updating is the same as installing: download the new `miFormulas.html` and
-open it. Your data file is separate and stays untouched.
+  then **Download ZIP**: the app, the Formulair importer, the starter data, the
+  server endpoint and the tools.
 
 ## What it does
 

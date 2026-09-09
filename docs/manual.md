@@ -8,14 +8,14 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260909d. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260909e. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
 1. [Getting started](#1-getting-started)
 2. [Where your data lives: browser, file or server](#2-where-your-data-lives-browser-file-or-server)
 3. [Privacy: who can see your formulas](#3-privacy-who-can-see-your-formulas)
-4. [Download and install](#4-download-and-install)
+4. [Recommended setup, and the other ways in](#4-recommended-setup-and-the-other-ways-in)
 5. [Install as an app with its own icon](#5-install-as-an-app-with-its-own-icon)
 6. [The screen](#6-the-screen)
 7. [Materials](#7-materials)
@@ -98,24 +98,36 @@ The AI prompts in `docs/ai-prompts.md` are the one exception, and you choose it 
 
 These checks also tell you whether a copy of the app that reached you by another road was changed. Take the app from miformulas.com or from the repository.
 
-## 4. Download and install
+## 4. Recommended setup, and the other ways in
 
-There is nothing to install. The whole app is one file, `index.html` on the site and `miFormulas.html` once downloaded, and it runs in any modern browser. Four ways to use it, and for most people the first two together are the right ones:
+There is nothing to download or install in the usual sense: the whole app is one HTML file, `index.html` on the site, and it runs in any modern browser. Still, one setup beats the others if you want an app with its own icon and your formulas in a file on your own computer.
 
-1. **Use the site, and keep your data in a file of your own.** Open https://miformulas.com and click **Start with the starter set**. Your work is now kept in the browser's own storage; an amber bar under the header says so and offers **Save to a data file…** (Chrome and Edge). Click it: the app explains that it will create your data file, then asks where to keep it. Choose a folder of your own, for instance `Documents\miFormulas`, and keep the name `miformulas-data.json`. From then on the app saves to that file, the bar disappears, and the next time you open the site it continues with that file. Then install the site as an app (section 5) and you have an app with its own icon, your own data file, and updates that arrive by themselves. If you prefer to stay in the browser's storage, use Backup regularly to download a copy of your work.
+**Recommended: Chrome, on Windows and on Mac.**
+
+1. Open https://miformulas.com in Chrome. No Chrome? On Windows, Edge is already there and works exactly the same (the screenshots in section 5 are from Edge); on a Mac, install Chrome first, or read the Safari alternative below.
+2. Click **Install as an app** on the start screen and confirm the browser's dialog. The app opens in its own window with its own icon; section 5 has the pictures and the menu route in case the link does not appear.
+3. Click **Start with the starter set**, or **Import from Formulair** if that is where your formulas are (section 19).
+4. On the Welcome page click **Save to a data file…** (also in Settings). The app explains that it will create your data file, then asks where to keep it: choose a folder of your own, for instance `Documents\miFormulas`, and keep the name `miformulas-data.json`. From now on the app saves to that file and opens straight into it; make a subfolder `backups` there for the copies Backup makes.
     
     ![The app explains what it is about to create…](img/edge-save-dialog1.png)
     
     ![…and the browser asks where to keep miformulas-data.json.](img/edge-save-dialog2.png)
 
-2. **Keep the app itself on your own computer.** On the start screen of miformulas.com click **Download the app**. The file `miFormulas.html` lands in your Downloads folder. Give it a folder of its own, for instance `Documents\miFormulas` (Windows) or `Documents/miFormulas` (Mac), and open it there in Chrome or Edge. The download is meant for Chrome and Edge; in Safari or Firefox the link says so first. The start screen now offers **Start with the starter set**; choose it and the app explains that it will create your data file, then asks where to keep it. Put `miformulas-data.json` in the same folder as the app and keep that name. From then on the app saves to that file automatically, and the next time you open the app it offers **Reopen "miformulas-data.json"**. Make a subfolder `backups` in the same folder for the copies that Backup makes.
+That is all: your data is a file you can see, copy, put in a synced folder or restore from a backup, the app is a program of its own, and updates arrive by themselves.
+
+**The other ways in**, in order of preference:
+
+- **Safari on a Mac, without Chrome.** Choose **File › Add to Dock** (the start screen's **Add to Dock…** link explains it) and you get the same app in the Dock. Safari cannot write to a data file, so the data lives in the app's storage and Backup is your safety net; section 5 has the details.
+- **Just in the browser.** Open the site and start; your work stays in the browser's storage, and an amber bar reminds you. Fine for a look; download a Backup before you leave, or click **Save to a data file…** when you decide to stay.
+- **The app file on your own computer.** For those who want the file itself, offline or on a server of their own: On the start screen of miformulas.com click **Download the app**. The file `miFormulas.html` lands in your Downloads folder. Give it a folder of its own, for instance `Documents\miFormulas` (Windows) or `Documents/miFormulas` (Mac), and open it there in Chrome or Edge. The download is meant for Chrome and Edge; in Safari or Firefox the link says so first. The start screen now offers **Start with the starter set**; choose it and the app explains that it will create your data file, then asks where to keep it. Put `miformulas-data.json` in the same folder as the app and keep that name. From then on the app saves to that file automatically, and the next time you open the app it offers **Reopen "miformulas-data.json"**. Make a subfolder `backups` in the same folder for the copies that Backup makes.
     
     ![The downloaded app, opened from your own computer.](img/app-start-file.png)
     
     ![Start with the starter set creates the data file next to the app.](img/app-data-file-dialog.png)
 
-3. **Coming from Formulair?** Open https://miformulas.com/formulair-import.html. It converts your Formulair database in the browser and nothing is uploaded. Section 19 has the steps.
-4. **Everything at once.** On the GitHub page https://github.com/miformulas/miformulas click the green **Code** button, then **Download ZIP**. The ZIP holds the app, the Formulair importer, the starter data, the server endpoint and the tools.
+- **Coming from Formulair?** Open https://miformulas.com/formulair-import.html, or click **Import from Formulair** in the app. It converts your Formulair database in the browser and adds it to miFormulas; nothing is uploaded. Section 19 has the steps.
+- **Everything at once.** On the GitHub page https://github.com/miformulas/miformulas click the green **Code** button, then **Download ZIP**. The ZIP holds the app, the Formulair importer, the starter data, the server endpoint and the tools.
+- **Your own server**, so that all your devices share one library: section 20.
 
 Two things about the downloaded app that surprise people:
 
@@ -245,7 +257,7 @@ A **variation** is the same recipe in another presentation: the same formula at 
 
 Formulas imported from Formulair are frozen too (section 19): you read them, compare them and copy them, but to work on one you make a new version.
 
-**Move into…** appears on an imported formula that has one version and no variations, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula, or a frozen variation of one of its versions, and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version or variation as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section 19).
+**Move into…** appears on an imported formula that has one version and no variations, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula, or a frozen variation of one of its versions, and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version or variation as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section 19). Mind the order: choose the formula that should remain (usually the lowest number, or the base) as the target and move the others into it one by one; a formula that has already received versions cannot be moved itself any more.
 
 ![A live variation "20%" made up as 50 g, following the latest version.](img/app-variation.png)
 
@@ -382,7 +394,7 @@ The importer at https://miformulas.com/formulair-import.html reads the Formulair
 
 Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category and colour marks per line, and every material comes with its dilutions, CAS, supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted or renamed, and amounts are in grams.
 
-Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4 and v5, and turning "Aura v05 20%" into a variation, is a decision for you, made afterwards in the app with **Move into…** (section 8): open "Aura v05", click Move into…, pick "Aura v04" (the app suggests it when the names differ only in the number at the end) and choose version or variation; then rename "Aura v04" to "Aura". The app never groups by itself, because every perfumer names things differently. For a large library, `docs/ai-prompts.md` has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.
+Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4 and v5, and turning "Aura v05 20%" into a variation, is a decision for you, made afterwards in the app with **Move into…** (section 8): open "Aura v05", click Move into…, pick "Aura v04" (the app suggests it when the names differ only in the number at the end) and choose version or variation; then rename "Aura v04" to "Aura". Start from the formula that should remain and move the others into it, because a formula that already holds several versions can no longer be moved itself. The app never groups by itself, because every perfumer names things differently. For a large library, `docs/ai-prompts.md` has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.
 
 The same conversion exists as a command-line script, `tools/formulair-naar-json.py`, for those who prefer a terminal.
 
