@@ -12,7 +12,7 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python file-mode.py            # gedownloade app via file://: hint, starterset van miformulas.com (nagebootst), databestand aanmaken (44 controles, incl. herstart met Reopen en verdwenen bestand; geen webserver nodig; leest de bouwstempel uit index.html)
     python help.py                 # Help-knop: ingebedde handleiding, inhoudstafel, terug naar de vorige weergave (17 controles)
     python move-into.py            # Move into…: geïmporteerde formule als versie of bevroren variatie van een andere, Undo, suggestie (24 controles)
-    python safari-hints.py         # Safari op de Mac: Add to Dock-link en dialoog, waarschuwing bij Download the app, alleen-lezen startscherm via file:// (15 controles)
+    python safari-hints.py         # Safari op de Mac: Add to Dock-link en dialoog, waarschuwing bij Download the app, alleen-lezen startscherm via file://, opslagbalk in tabblad en Dock-app, Import from Formulair op de Welcome-pagina (26 controles)
     python screenshots.py          # geen test: maakt de app-schermen voor docs/img (zie docstring)
 
 Vereist `pip install playwright` en `playwright install chromium`. De paden bovenaan de

@@ -1,4 +1,5 @@
-"""Safari on macOS: Add to Dock hint, download warning, read-only file:// start screen (build 260909).
+"""Safari on macOS: Add to Dock hint, download warning, read-only file:// start screen, storage bar per
+situation (tab, Dock app once), Import from Formulair on the Welcome page (build 260909b).
 Chromium plays Safari via the user agent; file access is removed with an init script.
 Needs the local webserver (cd public && python -m http.server 8765)."""
 import os, pathlib
@@ -40,6 +41,34 @@ with sync_playwright() as p:
     check("Safari: Download anyway downloads miFormulas.html", dl.value.suggested_filename == "miFormulas.html")
     check("Safari: hint after download", "Downloads folder" in pg.text_content("#landingHint"))
     check("Safari: no JavaScript errors", not errs)
+    # 2b. storage bar in a Safari tab: "browser's storage", stays between sessions, comes back every start
+    pg.click("#btnStarter"); pg.wait_for_timeout(1200)
+    bar = pg.text_content("#storageHintText")
+    check("Safari tab: bar says the data stays between sessions and names Chrome or Edge", "stays there between sessions" in bar and "Chrome or Edge" in bar and not pg.evaluate("document.getElementById('storageHint').hidden"))
+    check("Safari tab: no Save to a data file button", not pg.locator("#storageHintSave").is_visible())
+    check("Safari tab: Welcome page offers Import from Formulair…", pg.locator("#btnImpFormulair").is_visible() and pg.get_attribute("#btnImpFormulair", "href") == "formulair-import.html")
+    check("Safari tab: no Cowork mention on the Welcome page", "Cowork" not in pg.text_content("#content"))
+    pg.click("#btnSave"); pg.wait_for_timeout(600)   # make sure the browser storage holds the data
+    pg2 = ctx.new_page(); pg2.goto(URL); pg2.wait_for_timeout(1200)
+    persisted = pg2.evaluate("navigator.storage.persisted()")
+    check("Safari tab: data back in a new visit", pg2.locator("#btnImpFormulair").is_visible())
+    check(f"Safari tab: bar shows again in a new visit unless persisted (persisted={persisted})", pg2.evaluate("document.getElementById('storageHint').hidden") == persisted)
+    pg2.close()
+    ctx.close()
+
+    # 2c. Safari Dock app (standalone): "app's storage", shown once
+    ctx = b.new_context(user_agent=SAFARI_UA); ctx.add_init_script(NO_FS + " Object.defineProperty(navigator, 'standalone', {get: () => true});")
+    pg = ctx.new_page(); errs2 = []; pg.on("pageerror", lambda e: errs2.append(str(e)))
+    pg.goto(URL); pg.wait_for_timeout(700)
+    check("Dock app: no Add to Dock link when already installed", not pg.locator("#btnInstall").is_visible())
+    pg.click("#btnStarter"); pg.wait_for_timeout(1200)
+    bar = pg.text_content("#storageHintText")
+    check("Dock app: bar says app's storage and Backup now and then", "this app's storage" in bar and "Backup" in bar and not pg.evaluate("document.getElementById('storageHint').hidden"))
+    pg.click("#btnSave"); pg.wait_for_timeout(600)
+    pg.goto(URL); pg.wait_for_timeout(1200)
+    check("Dock app: bar shown only once", pg.evaluate("document.getElementById('storageHint').hidden"))
+    check("Dock app: data still there after the restart", pg.locator("#btnImpFormulair").is_visible())
+    check("Dock app: no JavaScript errors", not errs2)
     ctx.close()
 
     # 3. site in Chrome: no Add to Dock link, download goes straight through

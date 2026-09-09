@@ -40,7 +40,7 @@ async def main():
         # FALLBACK-tekst simuleren
         await page.evaluate("FALLBACK = true; updateStorageHint()"); await page.wait_for_timeout(200)
         txt=await page.text_content("#storageHintText")
-        check("cannot write to files" in txt and "Chrome or Edge" in txt, f"fallback-tekst: {txt[-80:]}")
+        check("stays there between sessions" in txt and "Chrome or Edge" in txt, f"fallback-tekst: {txt[-80:]}")
         # REMOTE/HANDLE: balk weg
         await page.evaluate("DEMO=false; updateStorageHint()"); await page.wait_for_timeout(200)
         check(await page.evaluate("document.getElementById('storageHint').hidden"), "buiten DEMO: balk verborgen")
