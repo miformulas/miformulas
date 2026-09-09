@@ -1,5 +1,5 @@
 """Safari on macOS: Add to Dock hint, download warning, read-only file:// start screen, storage bar per
-situation (tab, Dock app once), Import from Formulair on the Welcome page (build 260909b).
+situation (tab, Dock app once), Import from Formulair on the Welcome page, importer in the Dock app (build 260909c).
 Chromium plays Safari via the user agent; file access is removed with an init script.
 Needs the local webserver (cd public && python -m http.server 8765)."""
 import os, pathlib
@@ -25,8 +25,11 @@ with sync_playwright() as p:
     pg.click("#btnInstall"); pg.wait_for_timeout(300)
     dlg = pg.text_content("#dlg")
     check("Safari: dialog explains File › Add to Dock and the separate storage", "Add to Dock" in dlg and "storage of its own" in dlg)
+    check("Safari: dialog says what to do after Add", "open miFormulas from the Dock" in dlg)
     pg.click("#dlgOk"); pg.wait_for_timeout(200)
     check("Safari: dialog closes", not pg.evaluate("document.getElementById('dlg').open"))
+    check("Safari: hint on the start screen after OK", "Add to Dock" in pg.text_content("#landingHint") and "continue there" in pg.text_content("#landingHint"))
+    check("Safari: Add to Dock… link stays on one line", pg.evaluate("(() => { const r = document.getElementById('btnInstall').getClientRects(); return r.length === 1; })()"))
 
     # 2. site in Safari: download link warns first, no download without confirmation
     downloads = []; pg.on("download", lambda d: downloads.append(d))
@@ -64,11 +67,25 @@ with sync_playwright() as p:
     pg.click("#btnStarter"); pg.wait_for_timeout(1200)
     bar = pg.text_content("#storageHintText")
     check("Dock app: bar says app's storage and Backup now and then", "this app's storage" in bar and "Backup" in bar and not pg.evaluate("document.getElementById('storageHint').hidden"))
+    pg.wait_for_timeout(3500)   # first autosave asks for persistence and re-evaluates the bar
+    check("Dock app: bar still there after the first save", not pg.evaluate("document.getElementById('storageHint').hidden"))
     pg.click("#btnSave"); pg.wait_for_timeout(600)
+    pg.close(); pg = ctx.new_page(); errs2b = []; pg.on("pageerror", lambda e: errs2b.append(str(e)))   # a restart: new session, same storage
     pg.goto(URL); pg.wait_for_timeout(1200)
-    check("Dock app: bar shown only once", pg.evaluate("document.getElementById('storageHint').hidden"))
+    check("Dock app: bar shown only once (hidden after a restart)", pg.evaluate("document.getElementById('storageHint').hidden"))
     check("Dock app: data still there after the restart", pg.locator("#btnImpFormulair").is_visible())
     check("Dock app: no JavaScript errors", not errs2)
+    pg.click("#btnImpFormulair"); pg.wait_for_timeout(700)
+    check("Dock app: importer opens with a Back link", pg.url.endswith("formulair-import.html") and pg.locator("#back").is_visible())
+    check("Dock app: importer would put Open first", pg.evaluate("OPEN_FIRST === true"))
+    pg.click("#back"); pg.wait_for_timeout(1000)
+    check("Dock app: Back returns to the app with the data", pg.locator("#btnImpFormulair").is_visible())
+    ctx.close()
+
+    # 3b. importer in Chrome: Download first
+    ctx = b.new_context(user_agent=CHROME_UA); pg = ctx.new_page()
+    pg.goto(URL + "formulair-import.html"); pg.wait_for_timeout(500)
+    check("Chrome: importer keeps Download first", pg.evaluate("OPEN_FIRST === false") and pg.locator("#back").is_visible())
     ctx.close()
 
     # 3. site in Chrome: no Add to Dock link, download goes straight through

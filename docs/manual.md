@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260909b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260909c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -376,7 +376,7 @@ The importer at https://miformulas.com/formulair-import.html reads the Formulair
     
     ![The Formulair importer after reading the database.](img/formulair-import.png)
 
-4. Choose **Download miformulas-data.json** to get a data file for the downloaded app or your server, or **Open in miFormulas in this browser** to continue on the site straight away.
+4. Choose **Open in miFormulas in this browser** to continue straight away with your formulas in this browser or installed app (in Safari's Dock app this is the button to use), or **Download miformulas-data.json** to get a data file for the Chrome or Edge app or your server. **Back to miFormulas** at the top returns to the app without importing.
 
 Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category and colour marks per line, and every material comes with its dilutions, CAS, supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted or renamed, and amounts are in grams.
 
