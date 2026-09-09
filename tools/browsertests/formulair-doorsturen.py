@@ -12,7 +12,8 @@ async def main():
         await page.click("#btnOpen")
         await page.wait_for_url("**/index.html", timeout=30000); await page.wait_for_timeout(2500)
         n=await page.evaluate("DATA ? [DATA.formulas.length, DATA.materials.length, DEMO, REMOTE] : null")
-        print(("OK   " if n and n[0]==698 and n[1]==694 and n[2] and not n[3] else "FOUT ")+"na doorsturen start miFormulas met de Formulair-data: %s"%n)
+        # lege browser: "Add to miFormulas" maakt de import tot de data (bouw 260909d); met bestaande data wordt samengevoegd (merge-import.py)
+        print(("OK   " if n and n[0]==698 and n[1]==694 and n[2] and not n[3] else "FOUT ")+"na Add to miFormulas start miFormulas met de Formulair-data: %s"%n)
         st=await page.text_content("#saveState")
         print("     statusregel: %r"%st)
         # notities en kleuren aanwezig?

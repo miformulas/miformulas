@@ -296,7 +296,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260909c</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260909d</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -350,10 +350,11 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260909c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260909d. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-download-and-install">Download and install</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
+<p><strong>Which browser.</strong> Chrome or Edge, on Windows or Mac, give you everything: your data in a file of your own and the app installed with its own icon. Safari on a Mac works as a Dock app with the data in the app's storage (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>). Firefox runs the app, but keeps the data in the browser only, cannot install it and may clear the storage when it closes; use it to have a look, not for daily work.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The start screen of miformulas.com.</a></p>
 <p>The start screen offers three ways in:</p>
 <ul>
@@ -414,12 +415,12 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <li>The link between the app and your data file is kept by the browser, not by the HTML file. That is why the browser, and not miFormulas, asks once per session for permission to write to the file (for a local file it asks every session; for the site, and certainly for the installed app, it usually remembers), and why a freshly downloaded copy of the app still offers to reopen the data file you used before. Every local HTML file shares this memory, so it does not matter in which folder the app sits.</li>
 <li>If Reopen fails because the data file was moved, renamed or deleted, the app says so, forgets the file and offers the starter set again. If you still have the file, use <strong>Open data file…</strong> to point the app at its new place.</li>
 </ul>
-<p>If you already made formulas on miformulas.com before downloading the app, click <strong>Backup</strong> there first and use <strong>Open data file…</strong> in the downloaded app to continue with that file.</p>
+<p>If you already made formulas on miformulas.com before downloading the app, click <strong>Backup</strong> there first; the downloaded app's start screen has <strong>Open data file…</strong> to continue with that file. (Using the site or the installed app instead? Then you do not need the download: <strong>Save to a data file…</strong> on the Welcome page or in Settings moves your data from the browser to a file of your own.)</p>
 <p>Updating is the same as installing: download the new <code>miFormulas.html</code> and replace the old one. Your data file is separate and stays untouched.</p>
 <h2 id="s5-install-as-an-app-with-its-own-icon">5. Install as an app with its own icon</h2>
 <p>If you want miFormulas to feel like a program of its own rather than a tab, install it as an app: two minutes, no download, nothing difficult. It then opens in its own window without address bar or tabs, has its own icon in the taskbar, the Start menu or the Dock, and shows up when you switch between programs. Underneath it is the same app in the same browser: the installed app and the site in a normal tab share their data, their remembered data file and their updates.</p>
 <p>Browsers only offer this for pages served over https, so it works with miformulas.com and with your own server if that has an https address. A downloaded <code>miFormulas.html</code> cannot be installed this way; the last part of this section shows a shortcut that comes close.</p>
-<p><strong>The one-click way (Chrome and Edge, Windows and Mac).</strong> Open <a href="https://miformulas.com">https://miformulas.com</a>. When the browser can install the site, the start screen shows the link <strong>Install as an app</strong>, and the same button appears at the top of <strong>Settings</strong> (⚙) once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data, its remembered data file and its updates with the site in a normal tab. Do this after you have saved your data to a file (section <a href="#s4-download-and-install">4</a>): Chrome and Edge remember the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without Reopen and without questions. In Safari on a Mac the start screen shows <strong>Add to Dock…</strong> instead, which explains the File › Add to Dock route.</p>
+<p><strong>The one-click way (Chrome and Edge, Windows and Mac).</strong> Open <a href="https://miformulas.com">https://miformulas.com</a>. When the browser can install the site, the start screen shows the link <strong>Install as an app</strong>, and the same button appears at the top of <strong>Settings</strong> (⚙) once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data and its updates with the site in a normal tab. Want your data in a file of your own? Click <strong>Save to a data file…</strong> on the Welcome page (also in Settings): the app creates <code>miformulas-data.json</code> where you choose and remembers it. Chrome and Edge keep the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without questions. In Safari on a Mac the start screen shows <strong>Add to Dock…</strong> instead, which explains the File › Add to Dock route.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">The Install as an app link on the start screen.</a></p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">The browser's own install prompt (Edge).</a></p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">After installing, Edge offers to pin the app to the taskbar and the Start menu.</a></p>
@@ -547,7 +548,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>All formulas (Excel)</strong> and <strong>All materials (Excel)</strong> download the whole library as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. Decimals use a comma, as Excel in Belgium and most of Europe expects; elsewhere open them with Excel's text import and choose the separators.</p>
 <h2 id="s19-coming-from-formulair">19. Coming from Formulair</h2>
 <p>A word about Formulair first. I discovered perfumery together with Formulair, Sam Macer's formulation app for the Mac, and for an app built before the AI era it was remarkably complete: materials with their dilutions, formulas with notes and colour marks, costs, IFRA limits, stock. Only two things drove me to build miFormulas: the limits that come with a Mac-only app, and the possibilities that AI assistants now offer around a formulation notebook. The importer below is a bridge and a homage: everything you built in Formulair comes along.</p>
-<p>The importer at <a href="https://miformulas.com/formulair-import.html">https://miformulas.com/formulair-import.html</a> reads the Formulair database entirely in your browser and turns it into a miFormulas data file. Nothing leaves your computer.</p>
+<p>The importer at <a href="https://miformulas.com/formulair-import.html">https://miformulas.com/formulair-import.html</a> reads the Formulair database entirely in your browser and adds your formulas and materials to miFormulas, whatever it uses to save (browser storage, a data file or a server). Nothing leaves your computer.</p>
 <ol>
 <li>The database is the file <code>DataModel.sqlite</code> in Formulair's own folder, which the Finder keeps hidden; the steps below get a complete copy of it onto your Desktop.</li>
 <li>
@@ -560,7 +561,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s19-coming-from-formulair">The Formulair importer after reading the database.</a></p>
 </li>
 <li>
-<p>Choose <strong>Open in miFormulas in this browser</strong> to continue straight away with your formulas in this browser or installed app (in Safari's Dock app this is the button to use), or <strong>Download miformulas-data.json</strong> to get a data file for the Chrome or Edge app or your server. <strong>Back to miFormulas</strong> at the top returns to the app without importing.</p>
+<p>Click <strong>Add to miFormulas</strong>. The app opens and adds everything to what is already there: materials with the same name are matched (their Formulair dilutions come along and empty fields are filled in), the others are added, and every Formulair formula arrives as a frozen formula. A message tells you the counts; one Undo takes the whole import back, and a formula imported before is not imported twice. Prefer a file? <strong>Download miformulas-data.json</strong> gives the same data as a file, for a server or your own tools. <strong>Back to miFormulas</strong> at the top returns to the app without importing.</p>
 </li>
 </ol>
 <p>Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category and colour marks per line, and every material comes with its dilutions, CAS, supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted or renamed, and amounts are in grams.</p>
@@ -786,7 +787,7 @@ async function saveData(){
       await w.write(s); await w.close();
       const day = today();
       if (LASTBAK !== day){ LASTBAK = day; idb.set("dailyBak", {date: day, json: s}); }
-      DIRTY = false; $("#saveState").textContent = "Saved " + new Date().toLocaleTimeString(LOCALE,{hour:"2-digit",minute:"2-digit"}); $("#saveState").className = "";
+      DIRTY = false; $("#saveState").textContent = "Saved " + new Date().toLocaleTimeString(LOCALE,{hour:"2-digit",minute:"2-digit"}) + " \u00b7 " + HANDLE.name; $("#saveState").className = "";
     }catch(e){ $("#saveState").textContent = "Save failed — use Backup"; $("#saveState").className = "dirty"; }
   } else if (DEMO){
     const s = serialize();
@@ -1696,6 +1697,62 @@ function canMoveInto(f){
 function nameStem(name){   // "Aura v05" → ["aura", 5]; "Aura" → ["aura", null]
   const m = /^(.*?)[\s._-]*v?(\d+)[a-z]?$/i.exec(name.trim());
   return m && m[1].trim() ? [m[1].trim().toLowerCase(), +m[2]] : [name.trim().toLowerCase(), null];
+}
+/* ---------- Formulair import: added to the current library, whatever the storage mode ---------- */
+const normName = x => (x || "").trim().toLowerCase().replace(/\s+/g, " ");
+function mergeImport(pkg){
+  const before = structuredClone(DATA);
+  const byName = new Map(DATA.materials.map(m => [normName(m.name), m]));
+  const ids = new Set([...DATA.materials.map(m => m.id), ...DATA.formulas.map(f => f.id)]);
+  const idMap = new Map();
+  const n = {matAdded: 0, matMatched: 0, dilAdded: 0, fAdded: 0, fSkipped: 0};
+  for (const im of pkg.materials || []){
+    const ex = byName.get(normName(im.name));
+    if (ex){   // same name: one material; its Formulair dilutions come along, empty fields are filled in
+      n.matMatched++; idMap.set(im.id, ex.id);
+      ex.dilutions ||= [];
+      for (const d of im.dilutions || []) if (!ex.dilutions.some(x => Math.abs(x.pct - d.pct) < 1e-9)){ ex.dilutions.push({...d, isBase: false}); n.dilAdded++; }
+      ex.dilutions.sort((a, b) => b.pct - a.pct);
+      if (ex.dilutions.length && !ex.dilutions.some(d => d.isBase)) ex.dilutions[0].isBase = true;
+      for (const k of ["cas", "supplier", "description", "inventory"]) if (!ex[k] && im[k]) ex[k] = im[k];
+      for (const k of ["costPerGram", "ifraLimit", "pyramid", "density"]) if (ex[k] == null && im[k] != null) ex[k] = im[k];
+      if ((!ex.category || ex.category === "Uncategorised") && im.category && im.category !== "Uncategorised") ex.category = im.category;
+    } else {
+      const m = structuredClone(im); delete m.starter;
+      if (ids.has(m.id)) m.id = uid("m-");
+      ids.add(m.id); idMap.set(im.id, m.id);
+      DATA.materials.push(m); byName.set(normName(m.name), m); n.matAdded++;
+    }
+  }
+  const addCats = (list, extra) => { for (const c of extra || []) if (c && !list.includes(c)) list.push(c); list.sort((a, b) => a.localeCompare(b)); };
+  addCats(DATA.materialCategories ||= [], pkg.materialCategories);
+  addCats(DATA.formulaCategories ||= [], pkg.formulaCategories);
+  addCats(DATA.suppliers ||= [], pkg.suppliers);
+  DATA.categoryColours ||= {};
+  for (const [c, col] of Object.entries(pkg.categoryColours || {})) if (!DATA.categoryColours[c]) DATA.categoryColours[c] = col;
+  const known = new Set(DATA.formulas.flatMap(f => f.versions.filter(v => v.imported && v.sourceName).map(v => normName(v.sourceName))));
+  for (const inf of pkg.formulas || []){
+    if (known.has(normName(inf.name))){ n.fSkipped++; continue; }   // imported before: not twice
+    const f = structuredClone(inf); delete f.starter;
+    if (ids.has(f.id)) f.id = uid("f-");
+    ids.add(f.id);
+    for (const v of f.versions || []) for (const l of v.lines || []) l.materialId = idMap.get(l.materialId) || l.materialId;
+    DATA.formulas.push(f); n.fAdded++;
+  }
+  pushUndo(() => { for (const k of Object.keys(DATA)) delete DATA[k]; Object.assign(DATA, before); buildUsage(); });
+  buildUsage(); markDirty();
+  return n;
+}
+async function checkPendingImport(){   // left by formulair-import.html ("Add to miFormulas")
+  let txt; try{ txt = await idb.get("pendingImport"); }catch(e){ return; }
+  if (!txt) return;
+  await idb.set("pendingImport", null);   // once, even if the merge fails
+  let pkg; try{ pkg = JSON.parse(txt); }catch(e){ alert("The Formulair import could not be read; run the importer again."); return; }
+  if (!pkg || !Array.isArray(pkg.formulas) || !Array.isArray(pkg.materials)){ alert("The Formulair import is not a miFormulas data file."); return; }
+  const n = mergeImport(pkg);
+  switchTab("F", null, null); HOMEVIEW = true; render();
+  const where = REMOTE ? "on the server" : HANDLE ? `in ${HANDLE.name}` : DEMO ? "in this browser" : "in memory only (use Backup to keep it)";
+  alert(`Formulair import added ${where}.\n\nFormulas: ${n.fAdded} added${n.fSkipped ? `, ${n.fSkipped} already present (skipped)` : ""}.\nMaterials: ${n.matAdded} added, ${n.matMatched} matched by name${n.dilAdded ? ` (${n.dilAdded} dilutions added to them)` : ""}.\n\nUndo (Ctrl+Z) takes the whole import back.`);
 }
 function moveInto(f){
   const src = f.versions[0];
@@ -2952,6 +3009,7 @@ function render(){
       <div class="tile" style="background:var(--frozen-soft)"><b>${(DATA.orderList||[]).length}</b><span>to order</span></div>
     </div>
     <p class="hint">Select a formula or material on the left, or create a new one.</p>
+    <p class="hint" id="whereData">Your data: ${REMOTE ? "on the server" : HANDLE ? `in <b>${esc(HANDLE.name)}</b>` : DEMO ? "kept in this browser" : "loaded read-only"}.${DEMO && !HANDLE && !FALLBACK && window.showSaveFilePicker ? ` <button class="small" id="homeToFile" title="Keep your data in a file of your own instead of in the browser">Save to a data file\u2026</button>` : ""}</p>
     <div class="panelBox"><h3>Recently edited formulas</h3>${recent(DATA.formulas, "gof")}</div>
     <div class="panelBox"><h3>Recently edited materials</h3>${recent(DATA.materials, "gom")}</div>
     <div class="panelBox"><h3>Import & export</h3>
@@ -2966,6 +3024,7 @@ function render(){
     </div>`;
     c.querySelectorAll("[data-gom]").forEach(a => a.addEventListener("click", () => switchTab("M", a.dataset.gom, null)));
     c.querySelectorAll("[data-gof]").forEach(a => a.addEventListener("click", () => switchTab("F", a.dataset.gof, null)));
+    $("#homeToFile")?.addEventListener("click", saveToDataFile);
     $("#btnExpF")?.addEventListener("click", exportAllFormulas);
     $("#btnExpM")?.addEventListener("click", exportAllMaterials);
     $("#btnImpF")?.addEventListener("click", () => $("#impFile").click());
@@ -3000,6 +3059,7 @@ function boot(){
   $("#saveState").textContent = REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback — use Backup to save)";
   setTabs(); render();
   updateStorageHint();
+  checkPendingImport();
 }
 (async () => {
   try{
@@ -3025,10 +3085,15 @@ function boot(){
     // no server: the browser keeps the data, unless a data file was opened here before (then that file is used)
     DEMO = true;
     if (await tryRestore()){ boot(); return; }
-    const BROWSER_MSG = "Your data stays in this browser. Use Backup to download it, and Settings to connect a server of your own.";
+    const BROWSER_MSG = "Your data stays in this browser. Use Backup to download it, and Settings to connect a server of your own."
+      + (/Firefox\//.test(navigator.userAgent) ? " Firefox keeps your data in the browser only; for daily use, open miformulas.com in Chrome or Edge." : "");
     const demoStart = async (hint) => {
     $("#landingHint").textContent = hint;
     const demo = await idb.get("demoData");
+    if (!demo){   // nothing here yet, but a Formulair import waiting: that becomes the data
+      const pend = await idb.get("pendingImport");
+      if (pend){ await idb.set("pendingImport", null); try{ DATA = migrate(JSON.parse(pend)); boot(); markDirty(); return; }catch(e){ alert("The Formulair import could not be read; run the importer again."); } }
+    }
     if (demo){
       try{ DATA = migrate(JSON.parse(demo)); boot(); return; }
       catch(e){ console.warn("miFormulas: data kept in this browser could not be loaded", e); }

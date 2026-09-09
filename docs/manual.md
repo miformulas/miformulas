@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260909c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260909d. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -40,6 +40,8 @@ This manual describes build 260909c. The build number of the copy you are using 
 ## 1. Getting started
 
 Open https://miformulas.com in a modern browser.
+
+**Which browser.** Chrome or Edge, on Windows or Mac, give you everything: your data in a file of your own and the app installed with its own icon. Safari on a Mac works as a Dock app with the data in the app's storage (section 5). Firefox runs the app, but keeps the data in the browser only, cannot install it and may clear the storage when it closes; use it to have a look, not for daily work.
 
 ![The start screen of miformulas.com.](img/app-start-browser.png)
 
@@ -120,7 +122,7 @@ Two things about the downloaded app that surprise people:
 - The link between the app and your data file is kept by the browser, not by the HTML file. That is why the browser, and not miFormulas, asks once per session for permission to write to the file (for a local file it asks every session; for the site, and certainly for the installed app, it usually remembers), and why a freshly downloaded copy of the app still offers to reopen the data file you used before. Every local HTML file shares this memory, so it does not matter in which folder the app sits.
 - If Reopen fails because the data file was moved, renamed or deleted, the app says so, forgets the file and offers the starter set again. If you still have the file, use **Open data file…** to point the app at its new place.
 
-If you already made formulas on miformulas.com before downloading the app, click **Backup** there first and use **Open data file…** in the downloaded app to continue with that file.
+If you already made formulas on miformulas.com before downloading the app, click **Backup** there first; the downloaded app's start screen has **Open data file…** to continue with that file. (Using the site or the installed app instead? Then you do not need the download: **Save to a data file…** on the Welcome page or in Settings moves your data from the browser to a file of your own.)
 
 Updating is the same as installing: download the new `miFormulas.html` and replace the old one. Your data file is separate and stays untouched.
 
@@ -130,7 +132,7 @@ If you want miFormulas to feel like a program of its own rather than a tab, inst
 
 Browsers only offer this for pages served over https, so it works with miformulas.com and with your own server if that has an https address. A downloaded `miFormulas.html` cannot be installed this way; the last part of this section shows a shortcut that comes close.
 
-**The one-click way (Chrome and Edge, Windows and Mac).** Open https://miformulas.com. When the browser can install the site, the start screen shows the link **Install as an app**, and the same button appears at the top of **Settings** (⚙) once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data, its remembered data file and its updates with the site in a normal tab. Do this after you have saved your data to a file (section 4): Chrome and Edge remember the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without Reopen and without questions. In Safari on a Mac the start screen shows **Add to Dock…** instead, which explains the File › Add to Dock route.
+**The one-click way (Chrome and Edge, Windows and Mac).** Open https://miformulas.com. When the browser can install the site, the start screen shows the link **Install as an app**, and the same button appears at the top of **Settings** (⚙) once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data and its updates with the site in a normal tab. Want your data in a file of your own? Click **Save to a data file…** on the Welcome page (also in Settings): the app creates `miformulas-data.json` where you choose and remembers it. Chrome and Edge keep the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without questions. In Safari on a Mac the start screen shows **Add to Dock…** instead, which explains the File › Add to Dock route.
 
 ![The Install as an app link on the start screen.](img/edge-install-link.png)
 
@@ -363,7 +365,7 @@ The Welcome page has the import and export buttons. **Import from Formulair…**
 
 A word about Formulair first. I discovered perfumery together with Formulair, Sam Macer's formulation app for the Mac, and for an app built before the AI era it was remarkably complete: materials with their dilutions, formulas with notes and colour marks, costs, IFRA limits, stock. Only two things drove me to build miFormulas: the limits that come with a Mac-only app, and the possibilities that AI assistants now offer around a formulation notebook. The importer below is a bridge and a homage: everything you built in Formulair comes along.
 
-The importer at https://miformulas.com/formulair-import.html reads the Formulair database entirely in your browser and turns it into a miFormulas data file. Nothing leaves your computer.
+The importer at https://miformulas.com/formulair-import.html reads the Formulair database entirely in your browser and adds your formulas and materials to miFormulas, whatever it uses to save (browser storage, a data file or a server). Nothing leaves your computer.
 
 1. The database is the file `DataModel.sqlite` in Formulair's own folder, which the Finder keeps hidden; the steps below get a complete copy of it onto your Desktop.
 2. In Formulair choose **File**, **Close**; Formulair writes its latest changes into the database file and quits by itself (a plain Cmd+Q does not always write them). In the Finder choose **Go**, **Go to Folder…**, paste `~/Library/Containers/co.uk.lux-terra.Formulair/Data/Library/Application Support/Formulair/` and copy `DataModel.sqlite` to the Desktop. A quick check: `DataModel.sqlite` should now carry today's date, and `DataModel.sqlite-wal` next to it should be small (kilobytes, not megabytes). If the -wal file is large, your latest changes are still in it: copy all three files (`DataModel.sqlite`, `-wal` and `-shm`) to a folder `Formulair` on the Desktop and fold them in with one line in Terminal, `sqlite3 ~/Desktop/Formulair/DataModel.sqlite "PRAGMA wal_checkpoint(TRUNCATE);"`, then use the `DataModel.sqlite` from that folder.
@@ -376,7 +378,7 @@ The importer at https://miformulas.com/formulair-import.html reads the Formulair
     
     ![The Formulair importer after reading the database.](img/formulair-import.png)
 
-4. Choose **Open in miFormulas in this browser** to continue straight away with your formulas in this browser or installed app (in Safari's Dock app this is the button to use), or **Download miformulas-data.json** to get a data file for the Chrome or Edge app or your server. **Back to miFormulas** at the top returns to the app without importing.
+4. Click **Add to miFormulas**. The app opens and adds everything to what is already there: materials with the same name are matched (their Formulair dilutions come along and empty fields are filled in), the others are added, and every Formulair formula arrives as a frozen formula. A message tells you the counts; one Undo takes the whole import back, and a formula imported before is not imported twice. Prefer a file? **Download miformulas-data.json** gives the same data as a file, for a server or your own tools. **Back to miFormulas** at the top returns to the app without importing.
 
 Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category and colour marks per line, and every material comes with its dilutions, CAS, supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted or renamed, and amounts are in grams.
 

@@ -1,5 +1,5 @@
 """Safari on macOS: Add to Dock hint, download warning, read-only file:// start screen, storage bar per
-situation (tab, Dock app once), Import from Formulair on the Welcome page, importer in the Dock app (build 260909c).
+situation (tab, Dock app once), Import from Formulair on the Welcome page, importer in the Dock app (build 260909d).
 Chromium plays Safari via the user agent; file access is removed with an init script.
 Needs the local webserver (cd public && python -m http.server 8765)."""
 import os, pathlib
@@ -77,15 +77,15 @@ with sync_playwright() as p:
     check("Dock app: no JavaScript errors", not errs2)
     pg.click("#btnImpFormulair"); pg.wait_for_timeout(700)
     check("Dock app: importer opens with a Back link", pg.url.endswith("formulair-import.html") and pg.locator("#back").is_visible())
-    check("Dock app: importer would put Open first", pg.evaluate("OPEN_FIRST === true"))
+    check("Dock app: importer speaks of adding, not replacing", "adds your formulas" in pg.text_content("main") and "Replace" not in pg.text_content("main"))
     pg.click("#back"); pg.wait_for_timeout(1000)
     check("Dock app: Back returns to the app with the data", pg.locator("#btnImpFormulair").is_visible())
     ctx.close()
 
-    # 3b. importer in Chrome: Download first
+    # 3b. importer in Chrome: Back button, text speaks of adding
     ctx = b.new_context(user_agent=CHROME_UA); pg = ctx.new_page()
     pg.goto(URL + "formulair-import.html"); pg.wait_for_timeout(500)
-    check("Chrome: importer keeps Download first", pg.evaluate("OPEN_FIRST === false") and pg.locator("#back").is_visible())
+    check("Chrome: importer has the Back button and speaks of adding", pg.locator("a.btn#back").is_visible() and "adds your formulas" in pg.text_content("main"))
     ctx.close()
 
     # 3. site in Chrome: no Add to Dock link, download goes straight through

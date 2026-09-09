@@ -7,7 +7,8 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python migratie-en-file.py     # bestaand token zonder serverUrl -> data.php; geen token in de HTML; file:// -> bestandsmodus
     python opslagbalk.py           # balk bij niet-persistente browseropslag, tekstvarianten, sluiten, sessie
     python formulair-import.py     # DataModel.sqlite inlezen, download vergelijken met formulair-naar-json.py (pad SQ aanpassen)
-    python formulair-doorsturen.py # "Open in miFormulas in this browser" -> app start met 698 formules
+    python formulair-doorsturen.py # "Add to miFormulas" in een lege browser -> app start met 698 formules (pad SQ aanpassen)
+    python merge-import.py         # Formulair-import samengevoegd met bestaande data: naam-matching, diluties, categorieën, overslaan bij tweede import, Undo, lege browser (17 controles)
     python site-reopen.py          # Open data file… op de site: onthouden, Reopen, Forget in Settings, verdwenen bestand, Install-knop, Save to a data file… (36 controles)
     python file-mode.py            # gedownloade app via file://: hint, starterset van miformulas.com (nagebootst), databestand aanmaken (44 controles, incl. herstart met Reopen en verdwenen bestand; geen webserver nodig; leest de bouwstempel uit index.html)
     python help.py                 # Help-knop: ingebedde handleiding, inhoudstafel, terug naar de vorige weergave (17 controles)

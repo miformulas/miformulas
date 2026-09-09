@@ -90,6 +90,11 @@ snapshots. See below.
    Formulair** if that is where you come from.
 3. Add materials, then formulas. Ctrl+Z undoes any change.
 
+Which browser: Chrome or Edge (Windows or Mac) give you everything, a data file of
+your own and the app installed with its own icon. Safari on a Mac works as a Dock
+app with the data in the app's storage. Firefox runs the app but keeps the data in
+the browser only and may clear it when it closes: fine for a look, not for daily work.
+
 The manual is at https://miformulas.com/docs/manual.html (also as a PDF:
 https://miformulas.com/docs/miFormulas-manual.pdf), and ready-made prompts for an
 AI assistant at https://miformulas.com/docs/ai-prompts.html; the Markdown sources
@@ -133,12 +138,14 @@ manual (section 3) lists every network call it contains and how to verify them.
 
 `formulair-import.html` reads the Formulair database (`DataModel.sqlite`, on the
 Mac under `~/Library/Containers/co.uk.lux-terra.Formulair/…/Formulair/`) entirely
-in your browser and turns it into a miFormulas data file. Every formula comes over
+in your browser and adds everything to miFormulas with one click (materials with
+the same name are matched, nothing is replaced, one Undo takes it back), or gives
+you the data as a file. Every formula comes over
 with its notes, date, category and colour marks, and every material with its
 dilutions, CAS, supplier, cost, IFRA limit, pyramid level, stock and description.
 Formulas stay flat and frozen, one version each; grouping them into base formulas
-with versions is something you do afterwards, in the app. Quit Formulair before
-copying the file. The same conversion exists as a command-line script in
+with versions is something you do afterwards, in the app. Choose File › Close in
+Formulair before copying the file. The same conversion exists as a command-line script in
 `tools/formulair-naar-json.py`.
 
 ## Licence

@@ -33,6 +33,7 @@ code{background:var(--panel);padding:.05rem .35rem;border-radius:4px;font-size:.
 .drop.over{border-color:var(--accent);background:var(--accent-soft)}
 button{font:inherit;padding:.45rem .9rem;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer}
 button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+a.btn{float:right;font:inherit;font-size:.9rem;padding:.35rem .8rem;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-decoration:none}
 button:disabled{opacity:.5;cursor:default}
 .box{border:1px solid var(--line);border-radius:8px;padding:.9rem 1.1rem;background:var(--surface);margin:.8rem 0}
 .warn{background:var(--amber-soft);border-color:var(--amber)}
@@ -45,8 +46,9 @@ table{border-collapse:collapse;margin:.4rem 0}td{padding:.15rem .8rem .15rem 0}t
 </head>
 <body>
 <main>
+<a class="btn" id="back" href="index.html" title="Back to the app without importing">← Back to miFormulas</a>
 <h1>mi<span>Formulas</span> · import from Formulair</h1>
-<p class="hint">Reads the Formulair database entirely in your browser and turns it into a miFormulas data file. Nothing leaves your computer. <a href="index.html" id="back">← Back to miFormulas</a></p>
+<p class="hint">Reads the Formulair database entirely in your browser and adds your formulas and materials to miFormulas. Nothing leaves your computer.</p>
 
 <h2>1. Find the database</h2>
 <p>In Formulair choose <b>File › Close</b> (Formulair then quits by itself): Close is what makes Formulair write its latest changes into the database file. Then, in the Finder, choose <b>Go › Go to Folder…</b> and paste:</p>
@@ -205,15 +207,11 @@ async function handle(file){
     <tr><td>Suppliers</td><td>${RESULT.suppliers.length}</td></tr>
     <tr><td>Data file</td><td>${(RESULT_TEXT.length / 1024).toFixed(0)} kB</td></tr>
     </table>
-    <div class="row">${OPEN_FIRST
-      ? `<button class="primary" id="btnOpen">Open in miFormulas in this browser</button>
-      <button id="btnDl">Download miformulas-data.json</button>`
-      : `<button class="primary" id="btnDl">Download miformulas-data.json</button>
-      <button id="btnOpen">Open in miFormulas in this browser</button>`}
+    <div class="row">
+      <button class="primary" id="btnOpen">Add to miFormulas</button>
+      <button id="btnDl">Download miformulas-data.json</button>
     </div>
-    <p class="hint" style="margin-top:.6rem">${OPEN_FIRST
-      ? "Open in miFormulas: the data goes into this app's storage and miFormulas starts with it; use Backup there to get a file later. Download is for the Chrome or Edge app that keeps a data file next to it."
-      : "Download: keep the file next to the app and open it with “Open data file…”. Open here: the data goes into this browser's storage and miFormulas starts with it; use Backup there to get a file later."}</p>
+    <p class="hint" style="margin-top:.6rem">Add to miFormulas: your formulas and materials are added to the library of the app in this browser or installed app, wherever it keeps its data (browser storage, a data file or a server). Materials with the same name are matched, nothing is replaced, and one Undo takes it all back. Download: the same data as a file, for a server or your own tools.</p>
   </div>`;
   if (walMode) html += `<div class="box warn"><b>Did you choose File › Close in Formulair before copying?</b> This database keeps its latest changes in a separate <code>-wal</code> file until Formulair folds them in, which File › Close does (quitting alone does not always). If in doubt, choose File › Close in Formulair, copy the file again and read it once more.</div>`;
   $("#out").innerHTML = html;
@@ -241,14 +239,10 @@ function idbGet(key){ return new Promise((res) => {
   r.onerror = () => res(undefined);
   r.onsuccess = () => { const db = r.result; try{ const g = db.transaction("kv").objectStore("kv").get(key); g.onsuccess = () => { db.close(); res(g.result); }; g.onerror = () => res(undefined); }catch(e){ res(undefined); } };
 }); }
-// installed app (Safari's Dock app, Chrome/Edge app) or a browser without file access: opening here is the natural choice
-const OPEN_FIRST = location.protocol !== "file:" && (window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true || !window.showOpenFilePicker);
-async function openHere(){
-  if (location.protocol === "file:"){ alert("Opening directly works when this page is served from the same web address as miFormulas. Use Download instead, and open the file in the app."); return; }
-  const existing = await idbGet("demoData");
-  if (existing && !confirm("miFormulas already keeps data in this browser. Replace it with the Formulair import? Download a Backup from miFormulas first if you want to keep it.")) return;
-  try{ await idbSet("demoData", RESULT_TEXT); await idbSet("serverUrl", null); }
-  catch(e){ alert("Could not store the data in this browser: " + e.message); return; }
+async function openHere(){   // "Add to miFormulas": the app picks the package up at its next start and merges it
+  if (location.protocol === "file:"){ alert("Adding directly works when this page is served from the same web address as miFormulas. Use Download instead, and open the file in the app."); return; }
+  try{ await idbSet("pendingImport", RESULT_TEXT); }
+  catch(e){ alert("Could not hand the data to miFormulas: " + e.message); return; }
   location.href = "index.html";
 }
 const drop = $("#drop"), input = $("#file");
