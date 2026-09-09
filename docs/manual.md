@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260909h. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260909i. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -82,7 +82,7 @@ This is everything the app does on the network:
 - On miformulas.com it loads the starter set from the same site when you click **Start with the starter set**, and on the first visit it checks once whether a `data.php` server sits next to it. The browser also fetches the small app manifest and the icons from the same site, which is what makes "Install as an app" possible.
 - The downloaded app makes one kind of request, and only when you click **Start with the starter set**: it fetches the starter set from miformulas.com. That request carries nothing of yours; as with any web page, the server sees that an address asked for a file. Once you have a data file, the app makes no request at all, and you can use it with the network switched off.
 - In server mode the app talks only to the server address you entered in Settings.
-- **Search** in the order list, the product links and the links in the Help pages open Google, the shop or the site in a new tab, only when you click them.
+- **Search** in the order list, the product links, the **TGSC**, **Olfactorian** and **IFRA** links on a material page and the links in the Help pages open Google, DuckDuckGo, the shop or the site in a new tab, only when you click them. The IFRA link also puts the CAS number on your clipboard, nothing else.
 
 No analytics, no fonts or scripts loaded from elsewhere, nothing sent in the background. The Formulair importer reads your database in the browser and sends nothing; its database engine (sql.js) is embedded in the file.
 
@@ -92,7 +92,7 @@ The AI prompts in `docs/ai-prompts.md` are the one exception, and you choose it 
 
 **Check it yourself.** The whole app is one readable file, and the source is public under the GPL at https://github.com/miformulas/miformulas.
 
-1. Open `miFormulas.html` (or `index.html`) in a text editor and search for `fetch(`. There are four in the code: the starter set, the `data.php` probe, and the two calls to your own server (load and save); the fifth hit is this sentence, because the manual is embedded in the app as the Help text. Search for `http` and you find the address of the starter set, the Google search address used by the order list, the licence links, and the links in the embedded manual. Outside this paragraph there is no `<script src=`, no `XMLHttpRequest`, no `sendBeacon` and no `WebSocket`.
+1. Open `miFormulas.html` (or `index.html`) in a text editor and search for `fetch(`. There are four in the code: the starter set, the `data.php` probe, and the two calls to your own server (load and save); the fifth hit is this sentence, because the manual is embedded in the app as the Help text. Search for `http` and you find the address of the starter set, the Google search address used by the order list, the DuckDuckGo and IFRA addresses behind the look-up links on a material page, the licence links, and the links in the embedded manual. Outside this paragraph there is no `<script src=`, no `XMLHttpRequest`, no `sendBeacon` and no `WebSocket`.
 2. Or watch the browser: press F12, open the Network tab, and use the app for a while. With a data file, nothing appears at all.
 3. Or compare: the file you download from miformulas.com is the file in the repository, byte for byte.
 
@@ -226,6 +226,8 @@ On a phone the list and the page take turns; the app is read-only there unless i
 ## 7. Materials
 
 A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram, IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.
+
+**Look it up.** Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around: **TGSC** and **Olfactorian** search those sites for the CAS number (or the name, if there is no CAS) through DuckDuckGo, and **IFRA** opens the IFRA Standards library with the CAS number already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your library; what you enter is up to you.
 
 ![A material page: fields, dilutions and the stock ledger.](img/app-material.png)
 

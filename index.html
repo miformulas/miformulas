@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  miFormulas - a perfume formulation notebook in a single HTML file
+  miFormulas - a perfume formulation app in a single HTML file
   Copyright (C) 2026 Mathieu Isenbaert
 
   This program is free software: you can redistribute it and/or modify it
@@ -115,6 +115,7 @@ body.hidebar #btnBar{background:var(--accent-soft);color:var(--accent-ink);borde
 #content{flex:1;overflow-y:auto;padding:1.2rem 1.6rem 3rem;min-width:0}
 h2{margin:.2rem 0 .3rem;font-size:1.35rem}
 .metaLine{color:var(--muted);font-size:.85rem;margin-bottom:.6rem;display:flex;flex-wrap:wrap;gap:.3rem .5rem;align-items:center}
+.metaLine a.lookup{margin-left:.4rem}
 .chipRow{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0}
 .chip{border:1px solid var(--line);border-radius:999px;padding:.15rem .7rem;font-size:.85rem;cursor:pointer;background:var(--surface)}
 .chip.sel{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -300,7 +301,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260909h</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260909i</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -354,7 +355,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260909h. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260909i. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -384,14 +385,14 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <li>On miformulas.com it loads the starter set from the same site when you click <strong>Start with the starter set</strong>, and on the first visit it checks once whether a <code>data.php</code> server sits next to it. The browser also fetches the small app manifest and the icons from the same site, which is what makes "Install as an app" possible.</li>
 <li>The downloaded app makes one kind of request, and only when you click <strong>Start with the starter set</strong>: it fetches the starter set from miformulas.com. That request carries nothing of yours; as with any web page, the server sees that an address asked for a file. Once you have a data file, the app makes no request at all, and you can use it with the network switched off.</li>
 <li>In server mode the app talks only to the server address you entered in Settings.</li>
-<li><strong>Search</strong> in the order list, the product links and the links in the Help pages open Google, the shop or the site in a new tab, only when you click them.</li>
+<li><strong>Search</strong> in the order list, the product links, the <strong>TGSC</strong>, <strong>Olfactorian</strong> and <strong>IFRA</strong> links on a material page and the links in the Help pages open Google, DuckDuckGo, the shop or the site in a new tab, only when you click them. The IFRA link also puts the CAS number on your clipboard, nothing else.</li>
 </ul>
 <p>No analytics, no fonts or scripts loaded from elsewhere, nothing sent in the background. The Formulair importer reads your database in the browser and sends nothing; its database engine (sql.js) is embedded in the file.</p>
 <p>miformulas.com is served by GitHub Pages, a static file server: it hands the same HTML file to everyone and receives nothing back. Like any website, its logs record that a page was requested from an address. If even that is more than you want, download the app once and never visit the site again.</p>
 <p>The AI prompts in <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> are the one exception, and you choose it yourself: what you paste or attach in an AI chat goes to that AI provider, under its terms, never to miformulas.</p>
 <p><strong>Check it yourself.</strong> The whole app is one readable file, and the source is public under the GPL at <a href="https://github.com/miformulas/miformulas">https://github.com/miformulas/miformulas</a>.</p>
 <ol>
-<li>Open <code>miFormulas.html</code> (or <code>index.html</code>) in a text editor and search for <code>fetch(</code>. There are four in the code: the starter set, the <code>data.php</code> probe, and the two calls to your own server (load and save); the fifth hit is this sentence, because the manual is embedded in the app as the Help text. Search for <code>http</code> and you find the address of the starter set, the Google search address used by the order list, the licence links, and the links in the embedded manual. Outside this paragraph there is no <code>&lt;script src=</code>, no <code>XMLHttpRequest</code>, no <code>sendBeacon</code> and no <code>WebSocket</code>.</li>
+<li>Open <code>miFormulas.html</code> (or <code>index.html</code>) in a text editor and search for <code>fetch(</code>. There are four in the code: the starter set, the <code>data.php</code> probe, and the two calls to your own server (load and save); the fifth hit is this sentence, because the manual is embedded in the app as the Help text. Search for <code>http</code> and you find the address of the starter set, the Google search address used by the order list, the DuckDuckGo and IFRA addresses behind the look-up links on a material page, the licence links, and the links in the embedded manual. Outside this paragraph there is no <code>&lt;script src=</code>, no <code>XMLHttpRequest</code>, no <code>sendBeacon</code> and no <code>WebSocket</code>.</li>
 <li>Or watch the browser: press F12, open the Network tab, and use the app for a while. With a data file, nothing appears at all.</li>
 <li>Or compare: the file you download from miformulas.com is the file in the repository, byte for byte.</li>
 </ol>
@@ -480,6 +481,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything.</p>
 <h2 id="s7-materials">7. Materials</h2>
 <p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram, IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.</p>
+<p><strong>Look it up.</strong> Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around: <strong>TGSC</strong> and <strong>Olfactorian</strong> search those sites for the CAS number (or the name, if there is no CAS) through DuckDuckGo, and <strong>IFRA</strong> opens the IFRA Standards library with the CAS number already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your library; what you enter is up to you.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s7-materials">A material page: fields, dilutions and the stock ledger.</a></p>
 <p><strong>Dilutions.</strong> A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. One of them is the <strong>base</strong> dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, it only disappears from the pick list.</p>
 <p><strong>Solvent.</strong> Tick this for ethanol, DPG, IPM, TEC and the like. Solvent lines carry no aromatic content: they do not count in the relative percentages and they are what the dilution tools exchange against.</p>
@@ -2617,6 +2619,17 @@ function deliveredDialog(idx){
 }
 
 /* ---------- material view ---------- */
+// look-up links on the material page: the app copies nothing and contacts nobody; the user clicks, in a new tab.
+// DuckDuckGo rather than Google, so the query is not tied to an account. IFRA's library has no link per material:
+// it opens with the CAS number (or the name) on the clipboard, ready to paste in its search box.
+function lookupLinks(m){
+  const key = (m.cas || m.name || "").trim(); if (!key) return "";
+  const ddg = q => "https://duckduckgo.com/?q=" + encodeURIComponent(q);
+  const a = (href, label, title, extra = "") => `<a class="small lookup" href="${href}" target="_blank" rel="noopener" title="${title}"${extra}>${label} \u2197</a>`;
+  return a(ddg(key + " tgsc"), "TGSC", "Look this material up on The Good Scents Company (via DuckDuckGo)")
+    + a(ddg("site:olfactorian.com " + key), "Olfactorian", "Look this material up on Olfactorian (via DuckDuckGo)")
+    + a("https://ifrafragrance.org/safe-use/library", "IFRA", `Opens the IFRA Standards library; the ${m.cas ? "CAS number" : "name"} is put on your clipboard, paste it in the search box there`, ` data-copy="${esc(key)}"`);
+}
 function renderMaterial(m){
   const c = $("#content");
   const use = USAGE[m.id] || [];
@@ -2625,7 +2638,8 @@ function renderMaterial(m){
   c.innerHTML = `<h2>${pyrIcon(m.pyramid, catColour(m), 20)}${esc(m.name)}</h2>
   <div class="metaLine">${esc(m.cas||"no CAS")} · ${esc(m.category||"")}
     ${m.wishlist?'<span class="badge" style="background:var(--amber-soft);color:var(--amber)">to order — not yet owned</span>':""}
-    ${m.starter?'<span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other material.">starter set</span>':""}</div>
+    ${m.starter?'<span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other material.">starter set</span>':""}
+    ${lookupLinks(m)}</div>
   <div class="fieldGrid">
     ${F("Name", `<input data-f="name" value="${esc(m.name)}">`)}
     ${F("CAS", `<input data-f="cas" value="${esc(m.cas)}">`)}
@@ -2679,6 +2693,7 @@ function renderMaterial(m){
     snapM(m); m[k] = v; markDirty(); if (k==="name") MATLIST = null; if (k==="name"||k==="category") renderSidebar();
   }));
   c.querySelectorAll("[data-pyr]").forEach(b => b.addEventListener("click", () => { snapM(m); m.pyramid = +b.dataset.pyr; markDirty(); render(); }));
+  c.querySelector("a[data-copy]")?.addEventListener("click", e => { try{ navigator.clipboard.writeText(e.currentTarget.dataset.copy); }catch(_){} });   // IFRA link: CAS on the clipboard, the link itself opens the library
   c.querySelectorAll("[data-loc]").forEach(cb => cb.addEventListener("change", () => {
     snapM(m); (m.locations ||= {})[cb.dataset.loc] = cb.checked; markDirty();
   }));

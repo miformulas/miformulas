@@ -61,6 +61,26 @@ async def main():
         await page.wait_for_timeout(300)
         badge = await page.evaluate("[...document.querySelectorAll('#content .badge')].map(b => b.textContent)")
         check("starter set" in badge, f"materiaalpagina toont badge 'starter set' ({badge})")
+        # opzoeklinks: TGSC en Olfactorian via DuckDuckGo op CAS (of naam), IFRA naar de library met de CAS op het klembord
+        links = await page.evaluate("[...document.querySelectorAll('#content .metaLine a.lookup')].map(a => [a.textContent.trim(), a.href, a.target, a.rel, a.dataset.copy || ''])")
+        cas = await page.evaluate("(document.querySelector('#content input[data-f=cas]').value || document.querySelector('#content input[data-f=name]').value).trim()")
+        from urllib.parse import quote
+        check(len(links) == 3 and [l[0] for l in links] == ["TGSC ↗", "Olfactorian ↗", "IFRA ↗"], f"drie opzoeklinks in de metaLine ({[l[0] for l in links]})")
+        check(links and links[0][1] == "https://duckduckgo.com/?q=" + quote(cas + " tgsc", safe=""), f"TGSC-link zoekt op '{cas} tgsc' via DuckDuckGo")
+        check(links and links[1][1] == "https://duckduckgo.com/?q=" + quote("site:olfactorian.com " + cas, safe=""), "Olfactorian-link zoekt met site:olfactorian.com")
+        check(links and links[2][1] == "https://ifrafragrance.org/safe-use/library" and links[2][4] == cas, "IFRA-link naar de library met de CAS als data-copy")
+        check(all(l[2] == "_blank" and "noopener" in l[3] for l in links), "alle opzoeklinks openen in een nieuw tabblad met noopener")
+        await ctx.grant_permissions(["clipboard-read", "clipboard-write"])
+        await page.evaluate("navigator.clipboard.writeText('leeg')")
+        await page.evaluate("document.querySelector('#content a[data-copy]').addEventListener('click', e => e.preventDefault(), {once:true})")
+        await page.click("#content a[data-copy]"); await page.wait_for_timeout(300)
+        clip = await page.evaluate("navigator.clipboard.readText()")
+        check(clip == cas, f"klik op IFRA zet de CAS op het klembord ('{clip}')")
+        # materiaal zonder CAS én zonder naam: geen links
+        nolinks = await page.evaluate("lookupLinks({cas:'', name:''}) === '' && lookupLinks({cas:'', name:'Rose Base'}).includes(encodeURIComponent('Rose Base tgsc'))")
+        check(nolinks, "zonder CAS zoekt de link op naam; zonder naam en CAS geen links")
+        withcas = await page.evaluate("(() => { const h = lookupLinks({cas:'78-70-6', name:'Linalool'}); return h.includes('q=78-70-6%20tgsc') && h.includes('site%3Aolfactorian.com%2078-70-6') && h.includes('data-copy=\"78-70-6\"') && h.includes('CAS number'); })()")
+        check(withcas, "met CAS zoeken de links op het CAS-nummer en gaat dat naar het klembord")
 
         # 6. formulepagina: badge en rekenkern
         await page.click("#tabF")
