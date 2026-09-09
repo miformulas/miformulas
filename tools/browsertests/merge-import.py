@@ -46,6 +46,8 @@ with sync_playwright() as p:
     check("Welcome page says where the data is", "kept in this browser" in pg.text_content("#whereData"))
     check("Welcome page offers Save to a data file… in Chrome", pg.locator("#homeToFile").is_visible())
     check("Save to a data file… stands out as an action (primary)", "primary" in (pg.locator("#homeToFile").get_attribute("class") or ""))
+    check("Import from Formulair… is the highlighted button of the box", "btn primary" in (pg.locator("#btnImpFormulair").get_attribute("class") or ""))
+    check("the export buttons say they export", pg.locator("#btnExpF").inner_text().startswith("Export") and pg.locator("#btnExpM").inner_text().startswith("Export"))
     pg.click("#btnSave"); pg.wait_for_timeout(500)
 
     # the importer's hand-over, then a restart

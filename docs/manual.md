@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260909f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260909g. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -107,7 +107,7 @@ There is nothing to download or install in the usual sense: the whole app is one
 1. Open https://miformulas.com in Chrome. No Chrome? On Windows, Edge is already there and works exactly the same (the screenshots in section 5 are from Edge); on a Mac, install Chrome first, or read the Safari alternative below.
 2. Click **Install as an app** on the start screen and confirm the browser's dialog. The app opens in its own window with its own icon; section 5 has the pictures and the menu route in case the link does not appear.
 3. Click **Start with the starter set**, or **Import from Formulair** if that is where your formulas are (section 19).
-4. At the top of the Welcome page, just under the four tiles, click **Save to a data file…** – it is also in Settings. The app explains that it will create your data file, then asks where to keep it: choose a folder of your own, for instance `Documents\miFormulas`, and keep the name `miformulas-data.json`. From now on the app saves to that file and opens straight into it; make a subfolder `backups` there for the copies Backup makes.
+4. At the top of the Welcome page, just under the four tiles, click **Save to a data file…** – it is also in Settings. The app explains that it will create your data file, then asks where to keep it: choose a folder of your own, for instance `Documents\miFormulas`, and keep the name `miformulas-data.json`. From now on the app saves to that file and opens straight into it; make a subfolder `backups` there for the copies Backup makes. On a Mac, macOS asks once whether Chrome may use your Documents folder: click **Allow**, because without it the browser cannot create the file.
     
     ![The app explains what it is about to create…](img/edge-save-dialog1.png)
     
@@ -373,7 +373,7 @@ The Welcome page has the import and export buttons. **Import from Formulair…**
 
 **Turning a photo, PDF or spreadsheet into an import file.** You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from `docs/ai-prompts.md` (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a `.json` file and import it. The prompt tells the AI assistant to transcribe verbatim, to convert nothing, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the **All materials (Excel)** export as well and the assistant uses the exact names of your library, so that every line lands on the right material. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.
 
-**All formulas (Excel)** and **All materials (Excel)** download the whole library as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. Decimals use a comma, as Excel in Belgium and most of Europe expects; elsewhere open them with Excel's text import and choose the separators.
+**Export all formulas (Excel)** and **Export all materials (Excel)** download the whole library as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. Decimals use a comma, as Excel in Belgium and most of Europe expects; elsewhere open them with Excel's text import and choose the separators.
 
 ## 19. Coming from Formulair
 
@@ -388,7 +388,7 @@ The importer at https://miformulas.com/formulair-import.html reads the Formulair
     
     ![The Formulair folder: DataModel.sqlite with its -wal and -shm files. After File, Close the database carries today's date and the -wal file is small.](img/finder-formulair-folder.png)
 
-3. Open the importer: click **Import from Formulair** on the start screen or in the Import & export box on the Welcome page, or go to https://miformulas.com/formulair-import.html. Drop `DataModel.sqlite` on it and wait a moment; the file can be large because Formulair keeps a long sync history inside it.
+3. Open the importer: click **Import from Formulair** on the start screen or in the Import & export box on the Welcome page, or go to https://miformulas.com/formulair-import.html. Drop `DataModel.sqlite` on it and wait a moment; the file can be large because Formulair keeps a long sync history inside it. If you point the browser straight at Formulair's own folder instead of at the copy on your Desktop, macOS asks whether the browser may access data from other apps: that other app is Formulair, so click **Allow**.
     
     ![The Formulair importer after reading the database.](img/formulair-import.png)
 
