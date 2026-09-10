@@ -23,6 +23,18 @@ import sqlite3, json, sys, re, os, datetime
 EPOCH = datetime.datetime(2001, 1, 1)
 
 
+CAS_RE = re.compile(r"\b\d{2,7}-\d{2}-\d\b")
+
+def split_cas(s):
+    """Formulair-gewoonte: synoniemen naast het CAS-nummer. Het nummer blijft, de rest wordt alternative names."""
+    s = (s or "").strip(); hit = CAS_RE.search(s)
+    if not hit or hit.group(0) == s:
+        return s, ""
+    rest = s.replace(hit.group(0), "", 1)
+    rest = re.sub(r"^[\s\\/,;:·–-]+|[\s\\/,;:·–-]+$", "", rest)
+    rest = re.sub(r"\s*[\\/]\s*", "; ", rest).strip()
+    return hit.group(0), rest
+
 def cd_date(ts):
     if ts is None:
         return ""
@@ -68,7 +80,7 @@ def convert(path):
         m = {
             "id": "m-f%d" % pk,
             "name": (name or "").strip(),
-            "cas": (cas or "").strip(),
+            "cas": split_cas(cas)[0], "aliases": split_cas(cas)[1],
             "category": rmcat.get(cat, "Uncategorised"),
             "supplier": supp.get(sup, ""),
             "costPerGram": cost if cost not in (None, 0) else None,

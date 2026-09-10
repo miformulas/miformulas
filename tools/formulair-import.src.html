@@ -91,6 +91,14 @@ function colourOf(blob){
 }
 function b64ToBytes(b64){ const s = atob(b64); const a = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
 const trim = s => (s == null ? "" : String(s)).trim();
+const CAS_RE = /\b\d{2,7}-\d{2}-\d\b/;
+// a Formulair habit: synonyms written next to the CAS number. The number stays, the rest becomes alternative names.
+function splitCas(s){
+  s = trim(s); const hit = s.match(CAS_RE);
+  if (!hit || hit[0] === s) return {cas: s, aliases: ""};
+  const rest = s.replace(hit[0], "").replace(/^[\s\\\/,;:·–-]+|[\s\\\/,;:·–-]+$/g, "").replace(/\s*[\\\/]\s*/g, "; ").trim();
+  return {cas: hit[0], aliases: rest};
+}
 const byLower = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
 
 function rows(db, sql){ const r = db.exec(sql); return r.length ? r[0].values : []; }
@@ -107,7 +115,7 @@ function convert(db){
   for (const [pk, name, cas, cat, sup, cost, ifra, inv, pyr, solv, desc, ts] of rows(db,
       "select Z_PK, ZNAME, ZCAS, ZCATEGORY, ZSUPPLIER, ZCOST, ZIFRA, ZINVENTORY, ZPYRAMID, ZISSOLVENT, ZODOURDESCRIPTION, ZTIMESTAMP from ZINGREDIENT order by Z_PK")){
     const m = {
-      id: "m-f" + pk, name: trim(name), cas: trim(cas),
+      id: "m-f" + pk, name: trim(name), ...splitCas(cas),
       category: rmcat.get(cat) ?? "Uncategorised", supplier: supp.get(sup) ?? "",
       costPerGram: (cost == null || cost === 0) ? null : cost,
       ifraLimit: ifra == null ? null : ifra,

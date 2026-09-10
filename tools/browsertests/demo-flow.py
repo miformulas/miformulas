@@ -83,8 +83,13 @@ async def main():
         check(withcas, "met CAS zoeken de links op het CAS-nummer en gaat dat naar het klembord")
         # alternative names: veld, migratie van een vervuild CAS-veld, zoeken, import-matching, zuiver CAS in de links
         check(await page.is_visible("#content input[data-f=aliases]"), "materiaalpagina heeft het veld Alternative names")
-        mig = await page.evaluate("(() => { const d = migrate({materials:[{name:'Iso E Super', cas:'54464-57-2 \\\\ patchouli ethanone'}, {name:'Indole', cas:'120-72-9'}, {name:'Ambroxide', cas:'6790-58-5', aliases:'Ambroxan'}]}); return d.materials.map(m => [m.cas, m.aliases]); })()")
-        check(mig == [["54464-57-2", "patchouli ethanone"], ["120-72-9", ""], ["6790-58-5", "Ambroxan"]], f"migratie: CAS met extra tekst → CAS + alternative name ({mig})")
+        mig = await page.evaluate("(() => { const d = migrate({materials:[{name:'Iso E Super', cas:'54464-57-2 \\\\ patchouli ethanone'}]}); return [d.materials[0].cas, d.materials[0].aliases]; })()")
+        check(mig == ["54464-57-2 \\ patchouli ethanone", None], f"migrate laat een CAS-veld met extra tekst met rust ({mig})")
+        # de Formulair-importer splitst wel: nummer blijft, de rest wordt alternative names
+        pg2 = await ctx.new_page(); await pg2.goto(URL + "formulair-import.html"); await pg2.wait_for_timeout(600)
+        sp = await pg2.evaluate("[splitCas('54464-57-2 \\\\ patchouli ethanone'), splitCas('88-41-5 \\\\ OTBCHA \\\\ green acetate'), splitCas('120-72-9'), splitCas('mix')]")
+        check(sp == [{"cas":"54464-57-2","aliases":"patchouli ethanone"},{"cas":"88-41-5","aliases":"OTBCHA; green acetate"},{"cas":"120-72-9","aliases":""},{"cas":"mix","aliases":""}], f"Formulair-importer: splitCas ({sp})")
+        await pg2.close()
         dirty = await page.evaluate("(() => { const h = lookupLinks({cas:'54464-57-2 \\\\ patchouli ethanone', name:'Iso E Super'}); return h.includes('q=54464-57-2%20tgsc') && h.includes('data-copy=\"54464-57-2\"'); })()")
         check(dirty, "opzoeklinks nemen alleen het CAS-nummer uit een vervuild veld")
         await page.evaluate("(() => { const m = DATA.materials.find(x => x.name === 'Iso E Super'); m.aliases = 'patchouli ethanone; Iso E'; })()")

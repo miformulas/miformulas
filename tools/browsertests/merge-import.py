@@ -17,10 +17,10 @@ PKG = {
   "materialCategories": ["Flowers - white", "Test category"], "formulaCategories": ["Uncategorised", "Tests"],
   "suppliers": ["Test Supplier"], "categoryColours": {"Test category": "#123456", "Flowers - white": "#000000"},
   "materials": [
-    {"id": "m-f1", "name": "hedione ", "cas": "24851-98-7", "category": "Test category", "supplier": "Test Supplier",
+    {"id": "m-f1", "name": "hedione ", "cas": "24851-98-7", "aliases": "methyl dihydrojasmonate", "category": "Test category", "supplier": "Test Supplier",
      "costPerGram": 0.5, "ifraLimit": None, "inventory": "12 g", "pyramid": 2, "isSolvent": False, "description": "from Formulair",
      "dilutions": [{"pct": 100, "isBase": True, "date": "", "notes": ""}, {"pct": 10, "isBase": False, "date": "", "notes": "test"}], "locations": {}, "density": None, "modified": "2026-09-09"},
-    {"id": "m-f2", "name": "Brand New Material", "cas": "", "category": "Test category", "supplier": "", "costPerGram": None,
+    {"id": "m-f2", "name": "Brand New Material", "cas": "", "aliases": "BNM; brand new", "category": "Test category", "supplier": "", "costPerGram": None,
      "ifraLimit": None, "inventory": None, "pyramid": 1, "isSolvent": False, "description": "", "dilutions": [{"pct": 100, "isBase": True, "date": "", "notes": ""}], "locations": {}, "density": None, "modified": "2026-09-09"},
   ],
   "formulas": [
@@ -59,6 +59,8 @@ with sync_playwright() as p:
     hed = pg.evaluate("(() => { const m = DATA.materials.find(x => x.name === 'Hedione'); return m && {dils: m.dilutions.map(d => d.pct), base: m.dilutions.filter(d => d.isBase).length, cas: m.cas, inv: m.inventory, cat: m.category, desc: m.description, cost: m.costPerGram}; })()")
     check(f"Hedione matched by name (case and spaces ignored): 10 % dilution added, one base: {hed and hed['dils']}", hed and 10 in hed["dils"] and hed["base"] == 1)
     check("Hedione: empty fields filled, existing kept", hed and hed["inv"] == "12 g" and hed["cost"] == 0.5 and hed["cat"] != "Test category" and hed["cas"] == "24851-98-7")
+    al = pg.evaluate("[DATA.materials.find(x => x.name === 'Hedione').aliases, DATA.materials.find(x => x.name === 'Brand New Material').aliases]")
+    check(f"alternative names: filled in on the matched material, kept on the new one ({al})", al == ["methyl dihydrojasmonate", "BNM; brand new"])
     f = pg.evaluate("(() => { const f = DATA.formulas.find(x => x.name === 'Test Import v01'); const ids = new Set(DATA.materials.map(m => m.id)); return f && {frozen: f.frozenImport, ok: f.versions[0].lines.every(l => ids.has(l.materialId)), hed: DATA.materials.find(x => x.name === 'Hedione').id === f.versions[0].lines[0].materialId, cat: f.category}; })()")
     check("imported formula: frozen, lines point to library materials, Hedione line remapped", f and f["frozen"] and f["ok"] and f["hed"] and f["cat"] == "Tests")
     cats = pg.evaluate("[DATA.materialCategories.includes('Test category'), DATA.formulaCategories.includes('Tests'), DATA.suppliers.includes('Test Supplier'), DATA.categoryColours['Test category'], DATA.categoryColours['Flowers - white']]")
