@@ -81,6 +81,22 @@ async def main():
         check(nolinks, "zonder CAS zoekt de link op naam; zonder naam en CAS geen links")
         withcas = await page.evaluate("(() => { const h = lookupLinks({cas:'78-70-6', name:'Linalool'}); return h.includes('q=78-70-6%20tgsc') && h.includes('site%3Aolfactorian.com%2078-70-6') && h.includes('data-copy=\"78-70-6\"') && h.includes('CAS number'); })()")
         check(withcas, "met CAS zoeken de links op het CAS-nummer en gaat dat naar het klembord")
+        # alternative names: veld, migratie van een vervuild CAS-veld, zoeken, import-matching, zuiver CAS in de links
+        check(await page.is_visible("#content input[data-f=aliases]"), "materiaalpagina heeft het veld Alternative names")
+        mig = await page.evaluate("(() => { const d = migrate({materials:[{name:'Iso E Super', cas:'54464-57-2 \\\\ patchouli ethanone'}, {name:'Indole', cas:'120-72-9'}, {name:'Ambroxide', cas:'6790-58-5', aliases:'Ambroxan'}]}); return d.materials.map(m => [m.cas, m.aliases]); })()")
+        check(mig == [["54464-57-2", "patchouli ethanone"], ["120-72-9", ""], ["6790-58-5", "Ambroxan"]], f"migratie: CAS met extra tekst → CAS + alternative name ({mig})")
+        dirty = await page.evaluate("(() => { const h = lookupLinks({cas:'54464-57-2 \\\\ patchouli ethanone', name:'Iso E Super'}); return h.includes('q=54464-57-2%20tgsc') && h.includes('data-copy=\"54464-57-2\"'); })()")
+        check(dirty, "opzoeklinks nemen alleen het CAS-nummer uit een vervuild veld")
+        await page.evaluate("(() => { const m = DATA.materials.find(x => x.name === 'Iso E Super'); m.aliases = 'patchouli ethanone; Iso E'; })()")
+        await page.fill("#searchBox", "patchouli ethanone"); await page.wait_for_timeout(300)
+        names = await page.evaluate("[...document.querySelectorAll('#list .item')].map(e => e.querySelector('span').textContent)")
+        check(names == ["Iso E Super"], f"zoeken op een alternative name vindt het materiaal ({names})")
+        await page.fill("#searchBox", ""); await page.wait_for_timeout(300)
+        res = await page.evaluate("(() => { const r = resolveImportLine({material:'Patchouli Ethanone', dilutionPct:100, weightG:1}); return r.m ? r.m.name : null; })()")
+        check(res == "Iso E Super", f"een importregel op een alternative name matcht het materiaal ({res})")
+        await page.evaluate("(() => { const m = DATA.materials.find(x => x.name === 'Iso E Super'); m.aliases = ''; })()")
+        csv = await page.evaluate("exportAllMaterials.toString().includes('\"Alternative names\"') && exportAllMaterials.toString().includes('m.aliases')")
+        check(csv, "de materialenexport heeft een kolom Alternative names")
 
         # 6. formulepagina: badge en rekenkern
         await page.click("#tabF")

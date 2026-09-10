@@ -301,7 +301,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260909i</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260910</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -355,7 +355,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260909i. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260910. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -475,13 +475,13 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <h2 id="s6-the-screen">6. The screen</h2>
 <p>The <strong>header</strong> holds, from left to right: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula</strong>, <strong>+ New material</strong>, the save state, <strong>Undo</strong> and <strong>Redo</strong>, <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, the reload button (⟳, use it after an update), the theme button (◐ Auto, ● Dark, ○ Light), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙).</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-the-screen">The header.</a></p>
-<p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula reads "3v · 1var" for three versions and one variation. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Typing "starter" lists the starter set.</p>
+<p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula reads "3v · 1var" for three versions and one variation. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Typing "starter" lists the starter set.</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-the-screen">The list panel on the left and a formula page on the right.</a></p>
 <p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything.</p>
 <h2 id="s7-materials">7. Materials</h2>
-<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram, IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.</p>
-<p><strong>Look it up.</strong> Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around: <strong>TGSC</strong> and <strong>Olfactorian</strong> search those sites for the CAS number (or the name, if there is no CAS) through DuckDuckGo, and <strong>IFRA</strong> opens the IFRA Standards library with the CAS number already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your library; what you enter is up to you.</p>
+<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram, IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.</p>
+<p><strong>Look it up.</strong> Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around: <strong>TGSC</strong> and <strong>Olfactorian</strong> search those sites for the CAS number (only the number itself, whatever else the field holds; or the name, if there is no CAS) through DuckDuckGo, and <strong>IFRA</strong> opens the IFRA Standards library with the CAS number already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your library; what you enter is up to you.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s7-materials">A material page: fields, dilutions and the stock ledger.</a></p>
 <p><strong>Dilutions.</strong> A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. One of them is the <strong>base</strong> dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, it only disappears from the pick list.</p>
 <p><strong>Solvent.</strong> Tick this for ethanol, DPG, IPM, TEC and the like. Solvent lines carry no aromatic content: they do not count in the relative percentages and they are what the dilution tools exchange against.</p>
@@ -561,7 +561,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s17-stock-orders-and-deliveries">The order list.</a></p>
 <h2 id="s18-import-and-export">18. Import and export</h2>
 <p>The Welcome page has the import and export buttons. <strong>Import from Formulair…</strong> opens the importer described in section <a href="#s19-coming-from-formulair">19</a>.</p>
-<p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your library, the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). Nothing is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
+<p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your library (by name, or by one of the alternative names of a material), the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). Nothing is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-import-and-export">The import page: every line with its match, the total weight, new materials and dilutions you do not stock.</a></p>
 <p><strong>Turning a photo, PDF or spreadsheet into an import file.</strong> You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a <code>.json</code> file and import it. The prompt tells the AI assistant to transcribe verbatim, to convert nothing, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the <strong>All materials (Excel)</strong> export as well and the assistant uses the exact names of your library, so that every line lands on the right material. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.</p>
 <p><strong>Export all formulas (Excel)</strong> and <strong>Export all materials (Excel)</strong> download the whole library as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. Decimals use a comma, as Excel in Belgium and most of Europe expects; elsewhere open them with Excel's text import and choose the separators.</p>
@@ -615,7 +615,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>The amber bar says my data may be cleared.</strong> The browser has not promised to keep the site's storage. Click <strong>Save to a data file…</strong> in that bar to move your work into a file of your own (Chrome and Edge), or make backups, or check the browser's setting for clearing site data on exit.</p>
 <p><strong>A line shows ⚠.</strong> Its dilution is not in the material's list. Add that dilution to the material if you do have it, or convert the line to a dilution you have in a next version.</p>
 <p><strong>The IFRA panel says "not yet verified".</strong> Those materials have no limit entered. Look them up on ifrafragrance.org and enter the limit, or 99 if there is none.</p>
-<p><strong>Can I use it on a phone?</strong> Yes. Open the site in Safari and use <strong>Add to Home Screen</strong> (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server of your own (section <a href="#s20-your-own-server">20</a>) is what puts one library on your phone and your computer. The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way.</p>
+<p><strong>Can I use it on a phone?</strong> Yes. Open the site in Safari and use <strong>Add to Home Screen</strong> (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server of your own (section <a href="#s20-your-own-server">20</a>) is what puts one library on your phone and your computer. The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way. On an iPhone the look-up links of a material open in a browser view on top of the app; the X at the top left brings you back.</p>
 <p><strong>Can the author of miFormulas see my formulas?</strong> No. Nothing leaves your computer unless you put it on a server of your own, and the app never contacts miformulas.com except to fetch the starter set when you ask for it. Section <a href="#s3-privacy-who-can-see-your-formulas">3</a> lists every network request the app makes and how to verify that yourself in the code.</p>
 <p><strong>Where is the data of an installed app?</strong> In the browser that installed it, in the same place as the site: the app and the tab share their storage and their remembered file. The app itself is loaded from miformulas.com so that it updates by itself, but nothing you make is sent there.</p>
 <p><strong>I want the site to forget my data file.</strong> Open Settings (⚙): the button "Forget the remembered data file…" makes the app stop offering Reopen. The file itself is not touched.</p>
@@ -683,6 +683,7 @@ async function tryRestore(){
 }
 const SCHEMA = 1;
 const SHOP_DEFAULTS = [];   // web shops for the order-list search; edit the list in the To order tab
+const CAS_RE = /\b\d{2,7}-\d{2}-\d\b/;   // a CAS registry number, as found inside a field
 function migrate(d){
   d.meta ||= {schema: SCHEMA};
   d.shopSites ||= [...SHOP_DEFAULTS];
@@ -694,6 +695,15 @@ function migrate(d){
       if (v.sourceName && v.imported === undefined) v.imported = true;
   }
   for (const m of d.materials || []) delete m._descHit;   // transient search flag that once leaked into the file
+  for (const m of d.materials || []){                     // alternative names (trade or common names, separated by ;)
+    if (m.aliases === undefined) m.aliases = "";
+    const c = (m.cas || "").trim(), hit = c.match(CAS_RE);
+    if (hit && hit[0] !== c){   // a Formulair habit: other names written next to the CAS number → they become alternative names
+      const rest = c.replace(hit[0], "").replace(/^[\s\\\/,;:·–-]+|[\s\\\/,;:·–-]+$/g, "").replace(/\s*[\\\/]\s*/g, "; ").trim();
+      m.cas = hit[0];
+      if (rest && !(m.aliases||"").toLowerCase().includes(rest.toLowerCase())) m.aliases = m.aliases ? m.aliases + "; " + rest : rest;
+    }
+  }
   for (const o of d.orderList){            // old free-text amounts → number + unit
     if (typeof o.amount === "string"){
       const am = o.amount.match(/([\d.,]+)\s*(g|gr|gram|ml)?/i);
@@ -1072,7 +1082,7 @@ function renderSidebar(){
     const descHits = new Set();   // kept outside the data — never written to the file
     for (const m of DATA.materials){
       if (q){
-        const hit = m.name.toLowerCase().includes(q) || (m.cas||"").toLowerCase().includes(q)
+        const hit = m.name.toLowerCase().includes(q) || (m.cas||"").toLowerCase().includes(q) || (m.aliases||"").toLowerCase().includes(q)
           || (m.supplier||"").toLowerCase().includes(q) || (m.starter && "starter set".includes(q));
         const descHit = !hit && q.length >= 3 && (m.description||"").toLowerCase().includes(q);
         if (!hit && !descHit) continue;
@@ -2024,11 +2034,11 @@ function exportAllFormulas(){
   dlCsv(rows, `${stamp()} miFormulas formulas.csv`);
 }
 function exportAllMaterials(){
-  const rows = [["Name","CAS","Category","Supplier","Amount purchased","Purchase date","Cost EUR/g","IFRA limit %","Pyramid","Solvent",
+  const rows = [["Name","CAS","Alternative names","Category","Supplier","Amount purchased","Purchase date","Cost EUR/g","IFRA limit %","Pyramid","Solvent",
     "Cupboard","Fridge","Freezer","Density g/ml","Stock g (tracked)","Dilutions %","Description"]];
   for (const m of DATA.materials){
     const st = stockCalc(m);
-    rows.push([m.name, m.cas||"", m.category||"", m.supplier||"", m.inventory||"", m.purchaseDate||"",
+    rows.push([m.name, m.cas||"", m.aliases||"", m.category||"", m.supplier||"", m.inventory||"", m.purchaseDate||"",
       m.costPerGram!=null?nBE(m.costPerGram):"", m.ifraLimit!=null?nBE(m.ifraLimit):"", PYR[m.pyramid]||"", m.isSolvent?"yes":"",
       m.locations?.kast?"yes":"", m.locations?.frigo?"yes":"", m.locations?.diepvries?"yes":"",
       m.density!=null?nBE(m.density):"", st.tracked?nBE(st.qty.toFixed(3)):"",
@@ -2409,7 +2419,10 @@ function renderCompare(f, sub){
 /* ---------- formula import (photo-to-formula, phase 4) ---------- */
 let IMPORTP = null;
 function resolveImportLine(L){
-  const m = (L.materialId && matById(L.materialId)) || DATA.materials.find(x => x.name === L.material) || null;
+  const nm = normName(L.material);
+  const m = (L.materialId && matById(L.materialId)) || DATA.materials.find(x => x.name === L.material)
+    || DATA.materials.find(x => normName(x.name) === nm)
+    || DATA.materials.find(x => (x.aliases||"").split(";").some(a => normName(a) === nm)) || null;   // "Ambroxan" on a sheet finds your "Ambroxide"
   const dil = L.dilutionPct ?? 100;
   const dilOwned = m ? (m.dilutions||[]).some(d => d.pct === dil) : true;
   return {m, dil, dilOwned};
@@ -2623,12 +2636,13 @@ function deliveredDialog(idx){
 // DuckDuckGo rather than Google, so the query is not tied to an account. IFRA's library has no link per material:
 // it opens with the CAS number (or the name) on the clipboard, ready to paste in its search box.
 function lookupLinks(m){
-  const key = (m.cas || m.name || "").trim(); if (!key) return "";
+  const cas = ((m.cas || "").match(CAS_RE) || [])[0] || "";
+  const key = cas || (m.name || "").trim(); if (!key) return "";
   const ddg = q => "https://duckduckgo.com/?q=" + encodeURIComponent(q);
   const a = (href, label, title, extra = "") => `<a class="small lookup" href="${href}" target="_blank" rel="noopener" title="${title}"${extra}>${label} \u2197</a>`;
   return a(ddg(key + " tgsc"), "TGSC", "Look this material up on The Good Scents Company (via DuckDuckGo)")
     + a(ddg("site:olfactorian.com " + key), "Olfactorian", "Look this material up on Olfactorian (via DuckDuckGo)")
-    + a("https://ifrafragrance.org/safe-use/library", "IFRA", `Opens the IFRA Standards library; the ${m.cas ? "CAS number" : "name"} is put on your clipboard, paste it in the search box there`, ` data-copy="${esc(key)}"`);
+    + a("https://ifrafragrance.org/safe-use/library", "IFRA", `Opens the IFRA Standards library; the ${cas ? "CAS number" : "name"} is put on your clipboard, paste it in the search box there`, ` data-copy="${esc(key)}"`);
 }
 function renderMaterial(m){
   const c = $("#content");
@@ -2636,13 +2650,14 @@ function renderMaterial(m){
   const seen = new Set(); const uniqueUse = use.filter(u => !seen.has(u.fid+u.where) && seen.add(u.fid+u.where));
   const F = (k, inputHtml) => `<label>${k}</label>${inputHtml}`;
   c.innerHTML = `<h2>${pyrIcon(m.pyramid, catColour(m), 20)}${esc(m.name)}</h2>
-  <div class="metaLine">${esc(m.cas||"no CAS")} · ${esc(m.category||"")}
+  <div class="metaLine">${esc(m.cas||"no CAS")} · ${esc(m.category||"")}${m.aliases?` · <span title="Alternative names">also ${esc(m.aliases)}</span>`:""}
     ${m.wishlist?'<span class="badge" style="background:var(--amber-soft);color:var(--amber)">to order — not yet owned</span>':""}
     ${m.starter?'<span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other material.">starter set</span>':""}
     ${lookupLinks(m)}</div>
   <div class="fieldGrid">
     ${F("Name", `<input data-f="name" value="${esc(m.name)}">`)}
     ${F("CAS", `<input data-f="cas" value="${esc(m.cas)}">`)}
+    ${F("Alternative names", `<input data-f="aliases" value="${esc(m.aliases||"")}" placeholder="trade or common names, e.g. Ambroxan; Ambrofix">`)}
     ${F("Category", `<select data-f="category">${DATA.materialCategories.map(x=>`<option${x===m.category?" selected":""}>${esc(x)}</option>`).join("")}${m.category && !DATA.materialCategories.includes(m.category) ? `<option selected>${esc(m.category)}</option>` : ""}</select>`)}
     ${F("Supplier", `<input data-f="supplier" value="${esc(m.supplier)}" list="supList">`)}
     <datalist id="supList">${DATA.suppliers.map(s=>`<option value="${esc(s)}">`).join("")}</datalist>

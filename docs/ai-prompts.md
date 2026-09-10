@@ -44,18 +44,19 @@ Optional fields: `targetFormula` (the exact name of an existing formula; the imp
 
 ## 2. Checking and completing your materials
 
-The export **All materials (Excel)** on the Welcome page is a CSV with one row per material: Name, CAS, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, storage, Density, Stock, Dilutions and Description. An assistant can propose the missing CAS numbers, IFRA limits, pyramid levels, categories and one-line odour descriptions, and point out likely duplicates. The app has no materials import, so you enter what you accept by hand on the material pages; do it for the materials you added recently rather than for the whole library at once.
+The export **All materials (Excel)** on the Welcome page is a CSV with one row per material: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, storage, Density, Stock, Dilutions and Description. An assistant can propose the missing CAS numbers, IFRA limits, pyramid levels, categories and one-line odour descriptions, and point out likely duplicates. The app has no materials import, so you enter what you accept by hand on the material pages; do it for the materials you added recently rather than for the whole library at once.
 
 The IFRA figures deserve the most scepticism. The source that counts is the standards library on ifrafragrance.org; the prompt asks the assistant to name the amendment it took a limit from and to say "unknown" rather than guess, and you look up every value you enter. In the app, 99 means "checked, no restriction" and an empty field means "not yet checked".
 
 ---
 
-Attached is a CSV export of my perfume materials library from the miFormulas app (columns: Name, CAS, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g, Dilutions %, Description). Help me check and complete it. Do not rename anything; I enter your proposals by hand.
+Attached is a CSV export of my perfume materials library from the miFormulas app (columns: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g, Dilutions %, Description). Help me check and complete it. Do not rename anything; I enter your proposals by hand.
 
 Give me a table with one row per material that has something missing or doubtful, with these columns:
 
 - Name, exactly as in the file.
 - CAS: the existing value, or a proposal when it is empty, or a correction when the existing value does not belong to that material. Mark proposals and corrections as such.
+- Alternative names: well-established trade names or common synonyms that are missing (for instance Ambroxan for Ambroxide, or patchouli ethanone for Iso E Super), separated by semicolons. Only names a perfumer would actually use; no systematic chemical names.
 - IFRA limit: the IFRA Standards limit for Category 4 (fine fragrance) in percent of the finished product, with the amendment number you took it from. Write "no restriction" when the material is not restricted under the current standards, "specification" when the standard is a purity specification rather than a limit, and "unknown" when you are not certain. Never guess a number.
 - Pyramid: Top, Top-heart, Heart, Heart-base or Base.
 - Category: a proposal from the categories already used in the file, or a new one if none fits.

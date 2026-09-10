@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260909i. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260910. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -215,7 +215,7 @@ The **header** holds, from left to right: the list toggle (☰, also Ctrl+B), **
 
 ![The header.](img/app-header.png)
 
-The **list panel** on the left has three tabs. **Formulas** and **Materials** group their items by category with a coloured dot; the counter after each formula reads "3v · 1var" for three versions and one variation. **To order** is the shopping list. The search box filters the list: formulas by name; materials by name, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Typing "starter" lists the starter set.
+The **list panel** on the left has three tabs. **Formulas** and **Materials** group their items by category with a coloured dot; the counter after each formula reads "3v · 1var" for three versions and one variation. **To order** is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Typing "starter" lists the starter set.
 
 The **page** on the right shows the selected formula or material, the order list, or the Welcome page.
 
@@ -225,9 +225,9 @@ On a phone the list and the page take turns; the app is read-only there unless i
 
 ## 7. Materials
 
-A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram, IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.
+A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram, IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.
 
-**Look it up.** Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around: **TGSC** and **Olfactorian** search those sites for the CAS number (or the name, if there is no CAS) through DuckDuckGo, and **IFRA** opens the IFRA Standards library with the CAS number already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your library; what you enter is up to you.
+**Look it up.** Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around: **TGSC** and **Olfactorian** search those sites for the CAS number (only the number itself, whatever else the field holds; or the name, if there is no CAS) through DuckDuckGo, and **IFRA** opens the IFRA Standards library with the CAS number already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your library; what you enter is up to you.
 
 ![A material page: fields, dilutions and the stock ledger.](img/app-material.png)
 
@@ -370,7 +370,7 @@ The **Categories** panel shows how the non-solvent content is spread over materi
 
 The Welcome page has the import and export buttons. **Import from Formulair…** opens the importer described in section 19.
 
-**Import formula…** reads a miformulas-import JSON file: a formula transcribed from a photo or a document, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your library, the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). Nothing is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens. The file format is the small JSON shown in prompt 1 of `docs/ai-prompts.md`; anything that writes such a file can feed the app.
+**Import formula…** reads a miformulas-import JSON file: a formula transcribed from a photo or a document, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your library (by name, or by one of the alternative names of a material), the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). Nothing is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens. The file format is the small JSON shown in prompt 1 of `docs/ai-prompts.md`; anything that writes such a file can feed the app.
 
 ![The import page: every line with its match, the total weight, new materials and dilutions you do not stock.](img/app-import-preview.png)
 
@@ -454,7 +454,7 @@ In server mode the server keeps daily snapshots for fourteen days (section 20).
 
 **The IFRA panel says "not yet verified".** Those materials have no limit entered. Look them up on ifrafragrance.org and enter the limit, or 99 if there is none.
 
-**Can I use it on a phone?** Yes. Open the site in Safari and use **Add to Home Screen** (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server of your own (section 20) is what puts one library on your phone and your computer. The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way.
+**Can I use it on a phone?** Yes. Open the site in Safari and use **Add to Home Screen** (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server of your own (section 20) is what puts one library on your phone and your computer. The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way. On an iPhone the look-up links of a material open in a browser view on top of the app; the X at the top left brings you back.
 
 **Can the author of miFormulas see my formulas?** No. Nothing leaves your computer unless you put it on a server of your own, and the app never contacts miformulas.com except to fetch the starter set when you ask for it. Section 3 lists every network request the app makes and how to verify that yourself in the code.
 
