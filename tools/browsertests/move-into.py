@@ -86,6 +86,42 @@ with sync_playwright() as p:
     check("the formula itself is not in the target list", page.locator("#mvTarget option", has_text="Aura v05").count() == 0)
     page.click("#dlgCancel"); page.wait_for_timeout(300)
     check("cancel changes nothing", page.evaluate("DATA.formulas.length") == nBefore)
+
+    # Move together: companions with the same name stem come pre-ticked, the target is disabled, another one can be added
+    page.evaluate("""() => {
+      const pick = ["Jasmin 231", "Brut", "Angel"], names = ["Aura v06", "Aura v05 20%", "Vetiver Test"];
+      pick.forEach((n, i) => { const f = DATA.formulas.find(x => x.name === n); f.name = names[i]; f.frozenImport = true;
+        const v = f.versions[0]; v.sourceName = names[i]; v.imported = true; v.frozen = true; v.date = "2026-0" + (i+1) + "-01"; });
+      buildUsage(); render();
+    }""")
+    page.wait_for_timeout(300)
+    n0 = page.evaluate("DATA.formulas.length")
+    page.locator("#list").get_by_text("Aura v05", exact=True).click(); page.wait_for_timeout(400)
+    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked, cb.disabled])")
+    check(f"Move together lists the other Aura formulas ({rows})", sorted(r[0] for r in rows) == ["Aura v04", "Aura v05 20%", "Aura v06"])
+    check("the suggested target Aura v04 is listed but disabled and unticked", any(r[0] == "Aura v04" and not r[1] and r[2] for r in rows))
+    check("the others are ticked", all(r[1] for r in rows if r[0] != "Aura v04"))
+    check("Vetiver Test is not a companion but can be added", page.locator("#mvAddList option[value='Vetiver Test']").count() == 1)
+    page.fill("#mvAdd", "Vetiver Test"); page.dispatch_event("#mvAdd", "change"); page.wait_for_timeout(200)
+    check("added formula appears ticked", page.evaluate("(() => { const cb = [...document.querySelectorAll('#mvTogether input.mvTog')].find(c => c.parentElement.textContent.includes('Vetiver Test')); return cb && cb.checked; })()"))
+    page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].find(c => c.parentElement.textContent.includes('Vetiver Test')).checked = false")
+    page.click("#dlgOk"); page.wait_for_timeout(700)
+    f4 = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Aura v04"); return {n: f.versions.length,
+      order: f.versions.map(v => v.sourceName || ""), vs: f.versions.map(v => v.v)}; }""")
+    check(f"three formulas moved in as versions, numbered by the number in the name ({f4['order']})", f4["n"] == 4 and f4["order"][1:] == ["Aura v05", "Aura v05 20%", "Aura v06"] and f4["vs"] == [1, 2, 3, 4])
+    check("the three sources are gone, the unticked one stays", page.evaluate("DATA.formulas.length") == n0 - 3 and page.evaluate("DATA.formulas.some(f => f.name === 'Vetiver Test') && !DATA.formulas.some(f => f.name === 'Aura v06')"))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    check("one Undo brings all three back", page.evaluate("DATA.formulas.length") == n0 and page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').versions.length") == 1)
+    # as variations: labels are the names without the shared part
+    page.locator("#list").get_by_text("Aura v05", exact=True).click(); page.wait_for_timeout(400)
+    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.check('input[name="mvMode"][value="var"]')
+    page.click("#dlgOk"); page.wait_for_timeout(700)
+    labels = page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').variations.map(v => v.label)")
+    check(f"as variations: labels without the shared part ({labels})", labels == ["v05", "v05 20%", "v06"])
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    check("Undo again restores everything", page.evaluate("DATA.formulas.length") == n0)
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

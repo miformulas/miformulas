@@ -301,7 +301,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260910b</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260910c</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -355,7 +355,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260910b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260910c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -501,7 +501,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <li>A <strong>frozen</strong> variation is a snapshot with its own lines that never changes. Click <strong>Freeze</strong> on a live variation to make it one; the badge shows which version it was frozen from.</li>
 </ul>
 <p>Formulas imported from Formulair are frozen too (section <a href="#s19-coming-from-formulair">19</a>): you read them, compare them and copy them, but to work on one you make a new version.</p>
-<p><strong>Move into…</strong> appears on an imported formula that has one version and no variations, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula, or a frozen variation of one of its versions, and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version or variation as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s19-coming-from-formulair">19</a>). Mind the order: choose the formula that should remain (usually the lowest number, or the base) as the target and move the others into it one by one; a formula that has already received versions cannot be moved itself any more.</p>
+<p><strong>Move into…</strong> appears on an imported formula that has one version and no variations, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula, or a frozen variation of one of its versions, and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version or variation as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s19-coming-from-formulair">19</a>). When other imported formulas share the name, the dialog lists them under <strong>Move together</strong>, ticked: "Aura v04" and "Aura v05 20%" go into the target in the same go, as versions numbered by the version number in their names (then by name), or as variations labelled with what is left of the name once the shared part is removed. Untick what should stay, and add any other imported formula with the search field below the list. Choose the formula that should remain (usually the base, or the one with the lowest number) as the target; a formula that has already received versions cannot be moved itself any more.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-formulas-versions-and-variations">A live variation &quot;20%&quot; made up as 50 g, following the latest version.</a></p>
 <p><strong>Copy to new formula</strong> takes the version you are looking at as v1 of a new formula, optionally with the variations. <strong>Rename</strong> and <strong>Change category</strong> do what they say; categories are shared between formulas and get a colour dot.</p>
 <h2 id="s9-editing-a-formula">9. Editing a formula</h2>
@@ -584,7 +584,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 </li>
 </ol>
 <p>Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category and colour marks per line, and every material comes with its dilutions, CAS (if you wrote other names next to the CAS number in Formulair, the number stays and those names become alternative names), supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted or renamed, and amounts are in grams.</p>
-<p>Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4 and v5, and turning "Aura v05 20%" into a variation, is a decision for you, made afterwards in the app with <strong>Move into…</strong> (section <a href="#s8-formulas-versions-and-variations">8</a>): open "Aura v05", click Move into…, pick "Aura v04" (the app suggests it when the names differ only in the number at the end) and choose version or variation; then rename "Aura v04" to "Aura". Start from the formula that should remain and move the others into it, because a formula that already holds several versions can no longer be moved itself. The app never groups by itself, because every perfumer names things differently. For a large library, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.</p>
+<p>Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4 and v5, and turning "Aura v05 20%" into a variation, is a decision for you, made afterwards in the app with <strong>Move into…</strong> (section <a href="#s8-formulas-versions-and-variations">8</a>): open "Aura v05", click Move into…, pick "Aura v04" (the app suggests it when the names differ only in the number at the end) and choose version or variation; "Aura v06" and "Aura v05 20%" are listed under Move together and come along in the same go. Then rename "Aura v04" to "Aura". Start from the formula that should remain, because a formula that already holds several versions can no longer be moved itself. The app never groups by itself, because every perfumer names things differently. For a large library, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.</p>
 <p>The same conversion exists as a command-line script, <code>tools/formulair-naar-json.py</code>, for those who prefer a terminal.</p>
 <h2 id="s20-your-own-server">20. Your own server</h2>
 <p>With a server, every device you own works on the same data, and nobody has to remember to copy files. You need a web server with PHP (8.x) that you can put files on: a Synology or QNAP NAS with its web station, a Raspberry Pi, a small hosting account.</p>
@@ -1774,7 +1774,7 @@ async function checkPendingImport(){   // left by formulair-import.html ("Add to
   const where = REMOTE ? "on the server" : HANDLE ? `in ${HANDLE.name}` : DEMO ? "in this browser" : "in memory only (use Backup to keep it)";
   const starter = DATA.formulas.some(f => f.starter) || DATA.materials.some(m => m.starter);
   await new Promise(r => setTimeout(r, 80));   // let the new list paint before the message blocks
-  alert(`Formulair import added ${where}.\n\nFormulas: ${n.fAdded} added${n.fSkipped ? `, ${n.fSkipped} already present (skipped)` : ""}.\nMaterials: ${n.matAdded} added, ${n.matMatched} matched by name${n.dilAdded ? ` (${n.dilAdded} dilutions added to them)` : ""}.${starter ? "\n\nThe starter set is still there; delete it when you no longer need it." : ""}\n\nUndo (Ctrl+Z) takes the whole import back.`);
+  alert(`Formulair import added ${where}.\n\nFormulas: ${n.fAdded} added${n.fSkipped ? `, ${n.fSkipped} already present (skipped)` : ""}.\nMaterials: ${n.matAdded} added, ${n.matMatched} matched by name${n.dilAdded ? ` (${n.dilAdded} dilutions added to them)` : ""}.${starter ? "\n\nThe starter set is still there; delete it when you no longer need it." : ""}\n\nFormulas that belong together (Aura v04, Aura v05…) can be grouped afterwards: open one of them and use Move into….\n\nUndo (Ctrl+Z) takes the whole import back.`);
 }
 function moveInto(f){
   const src = f.versions[0];
@@ -1783,7 +1783,12 @@ function moveInto(f){
   const [stem, num] = nameStem(f.name);
   const cands = num != null ? others.filter(x => nameStem(x.name)[0] === stem).sort((a,b) => (nameStem(a.name)[1] ?? -1) - (nameStem(b.name)[1] ?? -1)) : [];
   const suggested = cands[0] || null;
-  const labelGuess = suggested ? f.name.trim().slice(stem.length).replace(/^[\s._-]+/, "") : "";   // "Aura v05" → "v05"
+  const labelOf = x => { const l = normName(x.name).startsWith(stem) ? x.name.trim().slice(stem.length).replace(/^[\s._-]+/, "") : ""; return l || x.name.trim(); };   // "Aura v05" → "v05", "Aura v05 20%" → "v05 20%"
+  const labelGuess = suggested ? labelOf(f) : "";
+  // move together: other imported formulas with the same name stem come pre-ticked; any other imported formula can be added
+  const movables = others.filter(canMoveInto);
+  const companions = movables.filter(x => nameStem(x.name)[0] === stem || normName(x.name).startsWith(stem + " "));   // "Aura v04", and also "Aura v05 20%"
+  const togRow = x => `<label style="display:block"><input type="checkbox" class="mvTog" data-id="${x.id}" checked> ${esc(x.name)}</label>`;
   const opts = others.map(x => `<option value="${x.id}"${suggested && x.id === suggested.id ? " selected" : ""}>${esc(x.name)} (${x.versions.length}v · ${(x.variations||[]).length}var)</option>`).join("");
   openDialog(`<h3 style="margin:0 0 .3rem">Move into another formula</h3>
     <div class="hint" style="margin-bottom:.7rem">“${esc(f.name)}” becomes part of another formula and disappears from the list. Its lines, notes, date, colour marks and trial log come along, and the import name stays on it as a reference. Undo (Ctrl+Z) reverses all of it.</div>
@@ -1793,35 +1798,53 @@ function moveInto(f){
         <label style="display:block"><input type="radio" name="mvMode" value="v" checked> a new <b>version</b> <span id="mvVno" class="hint"></span></label>
         <label style="display:block;margin-top:.3rem"><input type="radio" name="mvMode" value="var"> a frozen <b>variation</b> with label <input id="mvLabel" value="${esc(labelGuess)}" placeholder="e.g. 20%, soap, 44gr" style="width:8rem"> of version <select id="mvBase"></select></label></span>
     </div>
-    ${suggested ? `<div class="hint" style="margin-top:.6rem">Suggested: the names differ only in the number at the end.</div>` : ""}`, "Move", () => {
+    ${suggested ? `<div class="hint" style="margin-top:.6rem">Suggested: the names differ only in the number at the end.</div>` : ""}
+    ${movables.length ? `<div class="panelBox" style="margin-top:.8rem"><h3>Move together</h3>
+      <div class="hint" style="margin-bottom:.4rem">Other imported formulas that go into the same target in one go. Versions are numbered by the version number in the name, then by name; variation labels are the names without the shared part.</div>
+      <div id="mvTogether">${companions.map(togRow).join("")}</div>
+      <div class="toolRow" style="margin-top:.4rem"><input id="mvAdd" list="mvAddList" placeholder="add another imported formula…" style="min-width:16rem">
+        <datalist id="mvAddList">${movables.filter(x => !companions.includes(x)).map(x => `<option value="${esc(x.name)}">`).join("")}</datalist></div>
+    </div>` : ""}`, "Move", () => {
     const t = DATA.formulas.find(x => x.id === $("#mvTarget").value);
     if (!t){ alert("Choose the formula to move into."); return false; }
     const mode = document.querySelector('input[name="mvMode"]:checked').value;
-    const ref = src.sourceName || f.name;
-    const tclone = structuredClone(t), idx = DATA.formulas.findIndex(x => x.id === f.id);
-    let sub;
-    if (mode === "v"){
-      const nv = {v: t.versions.length ? Math.max(...t.versions.map(x => x.v)) + 1 : 1, date: src.date || f.created || today(),
-        name: src.name || "", notes: src.notes || "", lines: src.lines.map(l => ({...l})), sourceName: ref, imported: true, frozen: true};
-      if (src.trials?.length) nv.trials = structuredClone(src.trials);
-      if (src.bench) nv.bench = structuredClone(src.bench);
-      t.versions.push(nv); sub = {type:"v", idx: t.versions.length - 1};
-    } else {
-      const label = $("#mvLabel").value.trim();
-      if (!label){ alert("Give the variation a label."); return false; }
-      const bv = t.versions.find(x => x.v === +$("#mvBase").value) || currentVersion(t);
-      const va = {id: uid(t.id + "-var"), label, frozen: true, date: src.date || f.created || today(), notes: src.notes || "",
-        lines: src.lines.map(l => ({...l})), sourceName: ref, frozenFrom: bv ? bv.v : null, frozenFromName: bv ? vName(bv) : ""};
-      if (src.trials?.length) va.trials = structuredClone(src.trials);
-      (t.variations ||= []).push(va); sub = {type:"var", idx: t.variations.length - 1};
+    const extra = [...document.querySelectorAll("#mvTogether input.mvTog:checked")].map(cb => DATA.formulas.find(x => x.id === cb.dataset.id)).filter(x => x && x.id !== t.id && x.id !== f.id);
+    // the order in which they arrive: the version number in the name ("Aura v05 20%" counts as 5), then the name; the formula opened is one of them
+    const numOf = x => { const t = nameStem(x.name)[1]; if (t != null) return t; const m = /\d+/.exec(x.name.slice(stem.length)); return m ? +m[0] : Infinity; };
+    const sources = [f, ...extra].sort((a,b) => numOf(a) - numOf(b) || a.name.localeCompare(b.name, undefined, {numeric: true}));
+    if (mode === "var"){
+      if (!$("#mvLabel").value.trim()){ alert("Give the variation a label."); return false; }
+      const labels = sources.map(x => x === f ? $("#mvLabel").value.trim() : labelOf(x));
+      const dup = labels.find((l, i) => labels.indexOf(l) !== i || (t.variations||[]).some(v => v.label === l));
+      if (dup){ alert(`The label “${dup}” would be used twice in “${t.name}”. Rename one of the formulas first, or move them one by one.`); return false; }
+    }
+    const tclone = structuredClone(t);
+    const removed = sources.map(x => ({f: x, idx: DATA.formulas.findIndex(y => y.id === x.id)})).sort((a,b) => a.idx - b.idx);
+    const bv = mode === "var" ? (t.versions.find(x => x.v === +$("#mvBase").value) || currentVersion(t)) : null;
+    let sub = null, vNext = t.versions.length ? Math.max(...t.versions.map(x => x.v)) + 1 : 1;
+    for (const x of sources){
+      const s = x.versions[0], ref = s.sourceName || x.name;
+      if (mode === "v"){
+        const nv = {v: vNext++, date: s.date || x.created || today(),
+          name: s.name || "", notes: s.notes || "", lines: s.lines.map(l => ({...l})), sourceName: ref, imported: true, frozen: true};
+        if (s.trials?.length) nv.trials = structuredClone(s.trials);
+        if (s.bench) nv.bench = structuredClone(s.bench);
+        t.versions.push(nv); if (x === f) sub = {type:"v", idx: t.versions.length - 1};
+      } else {
+        const label = x === f ? $("#mvLabel").value.trim() : labelOf(x);
+        const va = {id: uid(t.id + "-var"), label, frozen: true, date: s.date || x.created || today(), notes: s.notes || "",
+          lines: s.lines.map(l => ({...l})), sourceName: ref, frozenFrom: bv ? bv.v : null, frozenFromName: bv ? vName(bv) : ""};
+        if (s.trials?.length) va.trials = structuredClone(s.trials);
+        (t.variations ||= []).push(va); if (x === f) sub = {type:"var", idx: t.variations.length - 1};
+      }
     }
     t.modified = now();
-    pushUndo(() => {   // one step: the target as it was, and the moved formula back in its place
+    pushUndo(() => {   // one step: the target as it was, and every moved formula back in its place
       const ti = DATA.formulas.findIndex(x => x.id === tclone.id); if (ti >= 0) DATA.formulas[ti] = tclone;
-      if (!DATA.formulas.some(x => x.id === f.id)) DATA.formulas.splice(Math.min(idx, DATA.formulas.length), 0, f);
+      for (const r of removed) if (!DATA.formulas.some(x => x.id === r.f.id)) DATA.formulas.splice(Math.min(r.idx, DATA.formulas.length), 0, r.f);
       if (VIEW.id === t.id) VIEW.sub = null;
     });
-    DATA.formulas.splice(idx, 1);
+    for (const r of [...removed].reverse()) DATA.formulas.splice(DATA.formulas.findIndex(x => x.id === r.f.id), 1);
     buildUsage(); markDirty();
     switchTab("F", t.id, sub);
   }, "30rem");
@@ -1830,9 +1853,16 @@ function moveInto(f){
     $("#mvVno").textContent = t ? `(v${t.versions.length ? Math.max(...t.versions.map(x => x.v)) + 1 : 1})` : "";
     $("#mvBase").innerHTML = t ? t.versions.map(v => `<option value="${v.v}">${esc(vName(v))}</option>`).join("") : "";
     if (t && t.versions.length) $("#mvBase").value = String(currentVersion(t).v);
+    document.querySelectorAll("#mvTogether input.mvTog").forEach(cb => { const isT = t && cb.dataset.id === t.id; cb.disabled = isT; if (isT) cb.checked = false; });   // the target cannot move into itself
   };
   $("#mvTarget").addEventListener("change", fillBase); fillBase();
   $("#mvLabel").addEventListener("focus", () => { document.querySelector('input[name="mvMode"][value="var"]').checked = true; });
+  $("#mvAdd")?.addEventListener("change", e => {
+    const x = movables.find(y => y.name === e.target.value.trim());
+    if (!x || document.querySelector(`#mvTogether input.mvTog[data-id="${x.id}"]`)) return;
+    $("#mvTogether").insertAdjacentHTML("beforeend", togRow(x)); e.target.value = "";
+    document.querySelector(`#mvAddList option[value="${CSS.escape(x.name)}"]`)?.remove(); fillBase();
+  });
 }
 function createPredilution(f, sub, item, dispLines){
   const c = $("#content");
