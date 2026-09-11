@@ -16,7 +16,8 @@ with sync_playwright() as p:
     page = ctx.new_page()
     errs = []
     page.on("pageerror", lambda e: errs.append(str(e)))
-    page.on("dialog", lambda d: d.accept())
+    msgs = []
+    page.on("dialog", lambda d: (msgs.append(d.message), d.accept()))
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnStarter"); page.wait_for_timeout(1200)
 
@@ -83,7 +84,8 @@ with sync_playwright() as p:
     # cancel does nothing; the moved-in formula is not offered as its own target
     page.locator("#list").get_by_text("Aura v05", exact=True).click(); page.wait_for_timeout(400)
     page.click("#btnMoveF"); page.wait_for_timeout(300)
-    check("the formula itself is not in the target list", page.locator("#mvTarget option", has_text="Aura v05").count() == 0)
+    own = page.evaluate("[...document.querySelectorAll('#mvTarget option')].map(o => o.textContent).filter(t => t.includes('Aura v05'))")
+    check(f"the formula itself is in the target list only as 'this formula' ({own})", own == ["this formula (Aura v05)"])
     page.click("#dlgCancel"); page.wait_for_timeout(300)
     check("cancel changes nothing", page.evaluate("DATA.formulas.length") == nBefore)
 
@@ -122,6 +124,42 @@ with sync_playwright() as p:
     check(f"as variations: labels without the shared part ({labels})", labels == ["v05", "v05 20%", "v06"])
     page.keyboard.press("Control+z"); page.wait_for_timeout(500)
     check("Undo again restores everything", page.evaluate("DATA.formulas.length") == n0)
+
+    # opened on the lowest number: the formula itself is the target, and the others move into it
+    page.locator("#list").get_by_text("Aura v04", exact=True).click(); page.wait_for_timeout(400)
+    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    sel_name = page.locator("#mvTarget").evaluate("s => s.options[s.selectedIndex].textContent")
+    check(f"opened on Aura v04: 'this formula' is suggested ({sel_name})", sel_name == "this formula (Aura v04)")
+    check("hint says the others move into it", "this formula has the lowest number" in dlg.inner_text())
+    check("intro speaks of the ticked formulas", "ticked under Move together become part of" in page.locator("#mvIntro").inner_text())
+    check("label field of the opened formula is disabled", page.locator("#mvLabel").is_disabled())
+    rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked, cb.disabled])")
+    check(f"companions v05, v05 20%, v06 ticked and enabled ({rows})", sorted(r[0] for r in rows) == ["Aura v05", "Aura v05 20%", "Aura v06"] and all(r[1] and not r[2] for r in rows))
+    check("next version number announced", page.locator("#mvVno").inner_text().strip() == "(v2)")
+    page.click("#dlgOk"); page.wait_for_timeout(700)
+    f4 = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Aura v04"); return {n: f.versions.length,
+      order: f.versions.map(v => v.sourceName || ""), vs: f.versions.map(v => v.v)}; }""")
+    check(f"v05, v05 20% and v06 became versions 2 to 4 of Aura v04 ({f4['order']})", f4["n"] == 4 and f4["order"] == ["Aura v04", "Aura v05", "Aura v05 20%", "Aura v06"] and f4["vs"] == [1, 2, 3, 4])
+    check("the three sources are gone, Aura v04 stays", page.evaluate("DATA.formulas.length") == n0 - 3 and page.evaluate("DATA.formulas.some(f => f.name === 'Aura v04') && !DATA.formulas.some(f => ['Aura v05', 'Aura v05 20%', 'Aura v06'].includes(f.name))"))
+    check("app shows Aura v04", page.locator("#content h2").first.inner_text().startswith("Aura v04"))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    check("one Undo brings all three back and Aura v04 has one version again", page.evaluate("DATA.formulas.length") == n0 and page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').versions.length") == 1)
+    # nothing ticked: a message, and nothing moves
+    page.locator("#list").get_by_text("Aura v04", exact=True).click(); page.wait_for_timeout(400)
+    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.evaluate("document.querySelectorAll('#mvTogether input.mvTog').forEach(c => c.checked = false)")
+    msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(400)
+    check(f"nothing ticked: asks to tick formulas ({msgs})", any("Tick the formulas" in m for m in msgs) and page.evaluate("DATA.formulas.length") == n0)
+    check("dialog stays open", dlg.evaluate("d => d.open"))
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    # as variations from the lowest one: labels without the shared part, no label needed for the opened formula
+    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.check('input[name="mvMode"][value="var"]')
+    msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(700)
+    f4 = page.evaluate("(() => { const f = DATA.formulas.find(x => x.name === 'Aura v04'); return {labels: f.variations.map(v => v.label), nv: f.versions.length}; })()")
+    check(f"as variations of Aura v04 ({f4['labels']})", f4["labels"] == ["v05", "v05 20%", "v06"] and f4["nv"] == 1 and not msgs)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    check("Undo restores everything once more", page.evaluate("DATA.formulas.length") == n0 and page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').variations.length") == 0)
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")
