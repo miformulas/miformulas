@@ -95,6 +95,13 @@ with sync_playwright() as p:
     with pg.expect_download() as dl:
         pg.click("#btnDownload")
     check("Chrome: download without dialog", dl.value.suggested_filename == "miFormulas.html" and not pg.evaluate("document.getElementById('dlg').open"))
+    # after installing: a message saying where the app went and that this tab can be closed
+    pg.evaluate("window.dispatchEvent(new Event('appinstalled'))"); pg.wait_for_timeout(300)
+    dlg = pg.text_content("#dlg")
+    check("Chrome: a message after installing", pg.evaluate("document.getElementById('dlg').open") and "sits with your other apps" in dlg)
+    check("Chrome: the message names the Home screen route and the shared data", "press and hold its icon" in dlg and "same data" in dlg)
+    pg.click("#dlgOk"); pg.wait_for_timeout(200)
+    check("Chrome: the same text stays on the start screen", "sits with your other apps" in pg.text_content("#landingHint"))
     ctx.close()
 
     # 4. file:// without file access (Safari, Firefox): read-only message with a link to the site

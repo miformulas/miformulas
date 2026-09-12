@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260911. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260912. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -41,7 +41,7 @@ This manual describes build 260911. The build number of the copy you are using i
 
 Open https://miformulas.com in a modern browser.
 
-**Which browser.** Chrome or Edge, on Windows or Mac, give you everything: your data in a file of your own and the app installed with its own icon. Safari on a Mac works as a Dock app with the data in the app's storage (section 5). Firefox runs the app, but keeps the data in the browser only, cannot install it and may clear the storage when it closes, even if you allowed persistent storage; use it to have a look, not for daily work. On an iPhone or iPad you add the site to the Home Screen and the data lives in that app; a data file is not possible there, because no browser on iOS can write one, so a server of your own (section 20) is what gives you one library on your phone and your computer.
+**Which browser.** Chrome or Edge, on Windows or Mac, give you everything: your data in a file of your own and the app installed with its own icon. Safari on a Mac works as a Dock app with the data in the app's storage (section 5). Firefox runs the app, but keeps the data in the browser only, cannot install it and may clear the storage when it closes, even if you allowed persistent storage; use it to have a look, not for daily work. On an iPhone or iPad you add the site to the Home Screen and the data lives in that app; a data file is not possible there, because no browser on iOS can write one, so a server of your own (section 20) is what gives you one library on your phone and your computer. On an Android phone or tablet, Chrome gives you everything a computer gives, a data file of your own included; the one difference is that Chrome asks permission for that file again at every start (sections 4 and 5).
 
 ![The start screen of miformulas.com.](img/app-start-browser.png)
 
@@ -121,6 +121,7 @@ That is all: your data is a file you can see, copy, put in a synced folder or re
 
 - **Safari on a Mac, without Chrome.** Choose **File › Add to Dock** (the start screen's **Add to Dock…** link explains it) and you get the same app in the Dock. Safari cannot write to a data file, so the data lives in the app's storage and Backup is your safety net; section 5 has the details.
 - **On an iPhone or iPad.** Open https://miformulas.com in Safari and use **Add to Home Screen** (the start screen offers the link and explains where it is). You get the app with its own icon and its own storage, separate from the Safari tab. It cannot keep your data in a file, because no browser on iOS can write one: download a Backup now and then, and if you want the same library on your phone and on your computer, that is what a server of your own is for (section 20). A phone is a fine second screen for the bench; the wide views, Bench view above all, come into their own on a bigger screen.
+- **On an Android phone or tablet.** Open https://miformulas.com in Chrome and tap **Install as an app**; Chrome shows its own Install app window, and the app is then installed with your other apps (press and hold its icon in the app list to put it on the Home screen). It shares its storage with Chrome, so what you did in the tab is still there. The four steps above work as on a computer, **Save to a data file…** included: the Android file window opens in Downloads, you can browse to another folder and make one on the spot, and the name miformulas-data.json is filled in for you. The difference: Chrome on Android lets a site keep access to your file only until you close the site's tabs, so at every start the app shows **Reopen** and Chrome asks whether it may edit the file; tap Reopen, then Allow. A server of your own (section 20) avoids that question. A tablet is the better screen for the wide views, Bench view above all. Section 5 has the pictures.
 - **Just in the browser.** Open the site and start; your work stays in the browser's storage, and an amber bar reminds you. Fine for a look; download a Backup before you leave, or click **Save to a data file…** when you decide to stay.
 - **The app file on your own computer.** For those who want the file itself, offline or on a server of their own: On the start screen of miformulas.com click **Download the app**. The file `miFormulas.html` lands in your Downloads folder. Give it a folder of its own, for instance `Documents\miFormulas` (Windows) or `Documents/miFormulas` (Mac), and open it there in Chrome or Edge. The download is meant for Chrome and Edge; in Safari or Firefox the link says so first. The start screen now offers **Start with the starter set**; choose it and the app explains that it will create your data file, then asks where to keep it. Put `miformulas-data.json` in the same folder as the app and keep that name. From then on the app saves to that file automatically, and the next time you open the app it offers **Reopen "miformulas-data.json"**. Make a subfolder `backups` in the same folder for the copies that Backup makes.
     
@@ -208,6 +209,20 @@ Save it as miFormulas in your Applications folder and drag it to the Dock. To gi
 ![Automator: a new document of the type Application.](img/automator-new-application.png)
 
 ![The launcher: the action Run Shell Script with the open line.](img/automator-launcher.png)
+
+### Android
+
+**Chrome** (version 132 or later, January 2025, which is when Chrome on Android learned to write to files). Open https://miformulas.com and tap **Install as an app** on the start screen; confirm Chrome's **Install app** window. The app is installed with your other apps, so look for it in the app list and press and hold its icon there to add it to the Home screen. It opens without an address bar and works on the same data as the Chrome tab, which is why anything you tried in the tab is still there.
+
+**Save to a data file…** works here as well. The Android file window opens in Downloads; browse to another folder if you prefer, for instance Documents, where the folder icon with a + makes a new folder. Keep the name miformulas-data.json and tap Save.
+
+![Choosing where to keep miformulas-data.json on Android.](img/android-save-picker.png)
+
+At every start the app shows **Reopen** and Chrome asks whether the site may edit the file. Tap **Allow** and you are in your data. Chrome on Android grants that permission only until you close the site's tabs, so unlike on a computer the question comes back every time. A server of your own (section 20) avoids it, and gives you the same library on your phone and your computer.
+
+![Chrome on Android asks for permission at every start.](img/android-permission.png)
+
+Firefox and Samsung Internet on Android have not been tried.
 
 ## 6. The screen
 
@@ -454,7 +469,7 @@ In server mode the server keeps daily snapshots for fourteen days (section 20).
 
 **The IFRA panel says "not yet verified".** Those materials have no limit entered. Look them up on ifrafragrance.org and enter the limit, or 99 if there is none.
 
-**Can I use it on a phone?** Yes. Open the site in Safari and use **Add to Home Screen** (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server of your own (section 20) is what puts one library on your phone and your computer. The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way. On an iPhone the look-up links of a material open in a browser view on top of the app; the X at the top left brings you back.
+**Can I use it on a phone?** Yes. Open the site in Safari and use **Add to Home Screen** (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server of your own (section 20) is what puts one library on your phone and your computer. On Android, Chrome is the way in: **Install as an app**, and a data file of your own works as on a computer, except that Chrome asks permission for it at every start (section 5). The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way. On an iPhone the look-up links of a material open in a browser view on top of the app; the X at the top left brings you back.
 
 **Can the author of miFormulas see my formulas?** No. Nothing leaves your computer unless you put it on a server of your own, and the app never contacts miformulas.com except to fetch the starter set when you ask for it. Section 3 lists every network request the app makes and how to verify that yourself in the code.
 
