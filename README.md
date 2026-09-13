@@ -118,8 +118,14 @@ https://miformulas.com/docs/miFormulas-manual.pdf), and ready-made prompts for a
 AI assistant at https://miformulas.com/docs/ai-prompts.html; the Markdown sources
 are in `docs/`.
 
-Not there (yet): a built-in materials database; section 7 of the manual says what
-covers that today.
+A materials library takes the place of the built-in materials database that some
+apps ship: a reference file of facts that you import (**Import materials library…**
+on the Welcome page). With one loaded, a material you add arrives with its CAS
+number, category, pyramid level, IFRA limit, alternative names and a few lines of
+odour facts already filled in, all of it editable, and the materials you own are
+never touched. The library that comes with miFormulas holds several hundred
+materials under CC BY 4.0; **Get the latest library** in Settings fetches the
+current one.
 
 ## Feedback
 

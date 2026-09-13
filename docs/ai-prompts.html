@@ -67,14 +67,14 @@ hr{border:0;border-top:1px solid var(--line);margin:1.6rem 0}
 <p>Attachments: ChatGPT, Claude and Gemini accept photos, PDFs and CSV files as attachments. Some free Copilot versions do not; paste the text of the file into the chat instead (for the materials export, the Name column is usually enough).</p>
 <h2 id="s1-photo-pdf-or-spreadsheet-to-import-file">1. Photo, PDF or spreadsheet to import file</h2>
 <p>miFormulas imports formulas from a small JSON file (type <code>miformulas-import</code>). An assistant produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet. Save the answer as a <code>.json</code> file, then in miFormulas go to the Welcome page, click <strong>Import formula…</strong>, choose the file, check the preview and confirm.</p>
-<p>Tip: attach the file <strong>All materials (Excel)</strong> from the Welcome page as well. The assistant then uses the exact names of your own library, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your library are created as "to order" for you to merge or rename.</p>
-<div class="prompt"><button type="button" title="Copy this prompt to the clipboard">Copy</button><pre>You are converting a perfume formula into an import file for the miFormulas app. Attached is the formula as a photo, scan, PDF or spreadsheet, and possibly a CSV export of my materials library.
+<p>Tip: attach the file <strong>All materials (Excel)</strong> from the Welcome page as well. The assistant then uses the exact names of your own inventory, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your inventory are created as "to order" for you to merge or rename.</p>
+<div class="prompt"><button type="button" title="Copy this prompt to the clipboard">Copy</button><pre>You are converting a perfume formula into an import file for the miFormulas app. Attached is the formula as a photo, scan, PDF or spreadsheet, and possibly a CSV export of my materials inventory.
 
 Do this:
 
 1. Transcribe the formula exactly, line by line: material name, dilution in percent, weight in grams. Copy names verbatim, including brand or supplier tags such as (Giv), (IFF), (Firm). If a line shows no dilution, use 100. If the source gives only percentages or parts, convert them to grams on a 100 g batch and say so in &quot;notes&quot;. Transcribe numbers exactly; decimal commas become decimal points in the JSON.
-2. If a materials library (CSV) is attached, use its exact spelling of the material name in &quot;material&quot; whenever a line clearly matches a library entry. When you are not sure, keep the transcribed name in &quot;material&quot; and add your best guess in &quot;comment&quot; (&quot;possibly: …&quot;). Never silently substitute one material for another.
-3. Do not convert dilutions or weights to what the library stocks. Keep them exactly as printed; the app flags unknown dilutions and I convert them myself.
+2. If a materials inventory (CSV) is attached, use its exact spelling of the material name in &quot;material&quot; whenever a line clearly matches an entry. When you are not sure, keep the transcribed name in &quot;material&quot; and add your best guess in &quot;comment&quot; (&quot;possibly: …&quot;). Never silently substitute one material for another.
+3. Do not convert dilutions or weights to what the inventory stocks. Keep them exactly as printed; the app flags unknown dilutions and I convert them myself.
 4. Use the formula name written on the sheet. If there is none, ask me instead of inventing one. Never invent version labels.
 5. Answer with the JSON only, in this shape:
 
@@ -90,7 +90,7 @@ Do this:
  ]
 }
 
-6. After the JSON, tell me in a few lines: the total weight (and whether it is a round number such as 100 or 1000, which suggests a complete transcription), how many lines matched the library and how many are new, and every line you could not read or were unsure about, as questions.
+6. After the JSON, tell me in a few lines: the total weight (and whether it is a round number such as 100 or 1000, which suggests a complete transcription), how many lines matched the inventory and how many are new, and every line you could not read or were unsure about, as questions.
 
 One formula per file. If the source shows several formulas, ask which one you should convert first.</pre></div>
 <p>Optional fields: <code>targetFormula</code> (the exact name of an existing formula; the import then becomes a new version of it instead of a new formula), <code>versionName</code> (the label of that new version), <code>cas</code> on a line (kept when the material has to be created) and <code>materialId</code> (the id of a material in your library; not needed, the app matches by name). Save the answer as UTF-8 text with the extension <code>.json</code>, for instance <code>260908 import Roos akkoord.json</code>; if the assistant wrapped it in a code block, remove the backticks.</p>

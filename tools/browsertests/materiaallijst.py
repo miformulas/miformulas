@@ -1,4 +1,4 @@
-"""The material list: import one list, see it in Settings, look it up in + New material, remove it.
+"""The materials library: import one, see it in Settings, look it up in + New material, remove it.
 Needs the local web server on port 8765 (see README)."""
 import json, os, tempfile
 from playwright.sync_api import sync_playwright
@@ -40,15 +40,15 @@ with sync_playwright() as p:
     f = os.path.join(tempfile.mkdtemp(), "miformulas-materials.json")
     open(f, "w", encoding="utf-8").write(json.dumps(LIST))
     page.click("#btnHome"); page.wait_for_timeout(400)
-    check("Welcome offers Import material list…", page.locator("#btnImpL").is_visible())
+    check("Welcome offers Import materials library…", page.locator("#btnImpL").is_visible())
     msgs.clear()
     page.set_input_files("#impList", f); page.wait_for_timeout(600)
-    check(f"import reports name, version and count ({msgs})", any("Test material list 2026-09-13, 5 materials" in m for m in msgs))
-    check("the message says nothing was added to your own materials", any("Nothing was added to your own Materials" in m for m in msgs))
+    check(f"import reports name, version and count ({msgs})", any("Materials library loaded: Test material list 2026-09-13, 5 materials" in m for m in msgs))
+    check("the message says nothing was added to your inventory", any("Nothing was added to your own inventory" in m for m in msgs))
     check("your own materials are untouched", page.evaluate("DATA.materials.length") == 199)
     check("the list sits in the data", page.evaluate("DATA.materialList && DATA.materialList.materials.length") == 5)
     check("Welcome names the loaded list", "Test material list" in page.text_content("#content"))
-    check("Welcome says your own materials stay untouched", "your own Materials are untouched" in page.text_content("#content"))
+    check("Welcome says the materials you own stay untouched", "the materials you own are untouched" in page.text_content("#content"))
 
     # Settings shows it with Remove
     page.click("#btnSettings"); page.wait_for_timeout(400)
@@ -56,7 +56,7 @@ with sync_playwright() as p:
     check("Settings names the list, its size and licence", "Test material list" in dlg and "5 materials" in dlg and "CC BY 4.0" in dlg)
     check("Settings offers Import and Remove", page.locator("#setListImp").is_visible() and page.locator("#setListDel").is_visible())
     check("Settings offers Get the latest list", page.locator("#setListGet").is_visible())
-    check("Settings says the list is a reference", "the materials you have are not part of it" in dlg)
+    check("Settings says the library is a reference", "the materials you own are not part of it" in dlg)
     page.click("#dlgCancel"); page.wait_for_timeout(200)
 
     # Get the latest list: the published address, answered here by a stand-in
@@ -119,10 +119,10 @@ with sync_playwright() as p:
 
     # the search in Materials knows the list
     page.fill("#searchBox", "Hedione"); page.wait_for_timeout(400)
-    check("no list block while your own materials match", "Not in your materials" not in page.text_content("#list"))
+    check("no list block while your own materials match", "Not in your inventory" not in page.text_content("#list"))
     page.fill("#searchBox", "Testolide"); page.wait_for_timeout(400)
     lst = page.text_content("#list")
-    check(f"the search offers the entry of the list", "Not in your materials" in lst and "Testolide" in lst)
+    check(f"the search offers the entry of the list", "Not in your inventory" in lst and "Testolide" in lst)
     page.click("#list button[data-add]"); page.wait_for_timeout(600)
     added = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Testolide");
       return m && {cas: m.cas, d: m.description, pct: m.dilutions[0].pct, al: m.aliases}; }""")
@@ -130,7 +130,7 @@ with sync_playwright() as p:
           added and added["cas"] == "106-02-5" and added["pct"] == 100 and "Impact: high" in added["d"]
           and added["al"] == "omega-testolactone; Proefmusk")
     check("the material page opened", page.locator("#content h2").first.inner_text().startswith("Testolide"))
-    check("the list block is gone now that you have it", "Not in your materials" not in page.text_content("#list"))
+    check("the list block is gone now that you have it", "Not in your inventory" not in page.text_content("#list"))
     page.fill("#searchBox", ""); page.wait_for_timeout(300)
 
     # Browse the list…: several at once, one Undo step
@@ -138,7 +138,7 @@ with sync_playwright() as p:
     page.click("#nmBrowse"); page.wait_for_timeout(400)
     check("the browse window lists the whole list", page.locator("#brRows .brRow").count() == 5)
     check("a material you already have cannot be ticked",
-          page.locator('#brRows input[data-n="Testolide"]').is_disabled() and "in your materials" in page.text_content("#brRows"))
+          page.locator('#brRows input[data-n="Testolide"]').is_disabled() and "in your inventory" in page.text_content("#brRows"))
     page.click('#brRows input[data-n="Proefstof A"]'); page.wait_for_timeout(150)
     page.click('#brRows input[data-n="Proefstof C"]', modifiers=["Shift"]); page.wait_for_timeout(300)
     check(f"shift-click ticks the range ({page.text_content('#brCount')!r})",
@@ -161,7 +161,7 @@ with sync_playwright() as p:
     dpg = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Dipropylene glycol");
       return m && {sol: m.isSolvent, cat: m.category, pct: m.dilutions[0].pct}; }""")
     check(f"the ticked material was added ({dpg})", dpg and dpg["sol"] and dpg["cat"] == "Solvents" and dpg["pct"] == 100)
-    check(f"the message says how many ({msgs})", any("4 materials added" in m for m in msgs))
+    check(f"the message says how many ({msgs})", any("4 materials added to your inventory" in m for m in msgs))
     check("all four arrived", page.evaluate("['Dipropylene glycol','Proefstof A','Proefstof B','Proefstof C'].every(n => DATA.materials.some(x => x.name === n))"))
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
     check("one undo takes all four back", page.evaluate("!['Dipropylene glycol','Proefstof A','Proefstof B','Proefstof C'].some(n => DATA.materials.some(x => x.name === n))"))

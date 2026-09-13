@@ -8,17 +8,17 @@ Attachments: ChatGPT, Claude and Gemini accept photos, PDFs and CSV files as att
 
 miFormulas imports formulas from a small JSON file (type `miformulas-import`). An assistant produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet. Save the answer as a `.json` file, then in miFormulas go to the Welcome page, click **Import formula…**, choose the file, check the preview and confirm.
 
-Tip: attach the file **All materials (Excel)** from the Welcome page as well. The assistant then uses the exact names of your own library, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your library are created as "to order" for you to merge or rename.
+Tip: attach the file **All materials (Excel)** from the Welcome page as well. The assistant then uses the exact names of your own inventory, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your inventory are created as "to order" for you to merge or rename.
 
 ---
 
-You are converting a perfume formula into an import file for the miFormulas app. Attached is the formula as a photo, scan, PDF or spreadsheet, and possibly a CSV export of my materials library.
+You are converting a perfume formula into an import file for the miFormulas app. Attached is the formula as a photo, scan, PDF or spreadsheet, and possibly a CSV export of my materials inventory.
 
 Do this:
 
 1. Transcribe the formula exactly, line by line: material name, dilution in percent, weight in grams. Copy names verbatim, including brand or supplier tags such as (Giv), (IFF), (Firm). If a line shows no dilution, use 100. If the source gives only percentages or parts, convert them to grams on a 100 g batch and say so in "notes". Transcribe numbers exactly; decimal commas become decimal points in the JSON.
-2. If a materials library (CSV) is attached, use its exact spelling of the material name in "material" whenever a line clearly matches a library entry. When you are not sure, keep the transcribed name in "material" and add your best guess in "comment" ("possibly: …"). Never silently substitute one material for another.
-3. Do not convert dilutions or weights to what the library stocks. Keep them exactly as printed; the app flags unknown dilutions and I convert them myself.
+2. If a materials inventory (CSV) is attached, use its exact spelling of the material name in "material" whenever a line clearly matches an entry. When you are not sure, keep the transcribed name in "material" and add your best guess in "comment" ("possibly: …"). Never silently substitute one material for another.
+3. Do not convert dilutions or weights to what the inventory stocks. Keep them exactly as printed; the app flags unknown dilutions and I convert them myself.
 4. Use the formula name written on the sheet. If there is none, ask me instead of inventing one. Never invent version labels.
 5. Answer with the JSON only, in this shape:
 
@@ -34,7 +34,7 @@ Do this:
  ]
 }
 
-6. After the JSON, tell me in a few lines: the total weight (and whether it is a round number such as 100 or 1000, which suggests a complete transcription), how many lines matched the library and how many are new, and every line you could not read or were unsure about, as questions.
+6. After the JSON, tell me in a few lines: the total weight (and whether it is a round number such as 100 or 1000, which suggests a complete transcription), how many lines matched the inventory and how many are new, and every line you could not read or were unsure about, as questions.
 
 One formula per file. If the source shows several formulas, ask which one you should convert first.
 
