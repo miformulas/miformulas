@@ -114,6 +114,43 @@ with sync_playwright() as p:
     check(f"an existing name is refused ({msgs})", any("already exists" in m for m in msgs))
     page.click("#dlgCancel"); page.wait_for_timeout(300)
 
+    # the search in Materials knows the list
+    page.fill("#searchBox", "Hedione"); page.wait_for_timeout(400)
+    check("no list block while your own materials match", "Not in your materials" not in page.text_content("#list"))
+    page.fill("#searchBox", "Testolide"); page.wait_for_timeout(400)
+    lst = page.text_content("#list")
+    check(f"the search offers the entry of the list", "Not in your materials" in lst and "Testolide" in lst)
+    page.click("#list button[data-add]"); page.wait_for_timeout(600)
+    added = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Testolide");
+      return m && {cas: m.cas, d: m.description, pct: m.dilutions[0].pct, al: m.aliases}; }""")
+    check(f"+ Add creates the material with its facts ({added})",
+          added and added["cas"] == "106-02-5" and added["pct"] == 100 and "Impact: high" in added["d"]
+          and added["al"] == "omega-testolactone; Proefmusk")
+    check("the material page opened", page.locator("#content h2").first.inner_text().startswith("Testolide"))
+    check("the list block is gone now that you have it", "Not in your materials" not in page.text_content("#list"))
+    page.fill("#searchBox", ""); page.wait_for_timeout(300)
+
+    # Browse the list…: several at once, one Undo step
+    page.click("#btnNewMat"); page.wait_for_timeout(300)
+    page.click("#nmBrowse"); page.wait_for_timeout(400)
+    check("the browse window lists the whole list", page.locator("#brRows .brRow").count() == 2)
+    check("a material you already have cannot be ticked",
+          page.locator('#brRows input[data-n="Testolide"]').is_disabled() and "in your materials" in page.text_content("#brRows"))
+    page.fill("#brQ", "dipro"); page.wait_for_timeout(300)
+    check("the filter narrows the window", page.locator("#brRows .brRow").count() == 1)
+    page.check('#brRows input[data-n="Dipropylene glycol"]'); page.wait_for_timeout(200)
+    check(f"the counter follows the ticks ({page.text_content('#brCount')!r})", "1 material ticked" in page.text_content("#brCount"))
+    check("the button says how many", page.text_content("#dlgOk").strip() == "Add 1")
+    msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(700)
+    dpg = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Dipropylene glycol");
+      return m && {sol: m.isSolvent, cat: m.category, pct: m.dilutions[0].pct}; }""")
+    check(f"the ticked material was added ({dpg})", dpg and dpg["sol"] and dpg["cat"] == "Solvents" and dpg["pct"] == 100)
+    check(f"the message says how many ({msgs})", any("1 material added" in m for m in msgs))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    check("undo takes the browse addition back", page.evaluate("!DATA.materials.some(x => x.name === 'Dipropylene glycol')"))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    check("undo also takes the + Add material back", page.evaluate("!DATA.materials.some(x => x.name === 'Testolide')"))
+
     # remove the list again
     page.click("#btnSettings"); page.wait_for_timeout(400)
     page.click("#setListDel"); page.wait_for_timeout(500)
