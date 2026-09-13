@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260913b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260913c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -471,7 +471,7 @@ In server mode the server keeps daily snapshots for fourteen days (section 20).
 
 **The IFRA panel says "not yet verified".** Those materials have no limit entered. Look them up on ifrafragrance.org and enter the limit, or 99 if there is none.
 
-**Where do the facts of a material come from?** From you, or from a material list you imported (section 18). A list holds names, alternative names, CAS numbers, categories, pyramid levels, IFRA limits and short odour facts; when you add a material whose name is in the list, those come along and you can change every one of them afterwards. Without a list nothing changes: you type what you know.
+**Where do the facts of a material come from?** From you, or from a material list you imported (section 18). Importing a list adds nothing to your Materials: your list of materials stays exactly as long as it was, because a material list is a reference you look things up in, not stock you own. A list holds names, alternative names, CAS numbers, categories, pyramid levels, IFRA limits and short odour facts; when you add a material whose name is in the list, those come along and you can change every one of them afterwards. Without a list nothing changes: you type what you know.
 
 **Can I use it on a phone?** Yes. Open the site in Safari and use **Add to Home Screen** (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server of your own (section 20) is what puts one library on your phone and your computer. On Android, Chrome is the way in: **Install as an app**, and a data file of your own works as on a computer, except that Chrome asks permission for it at every start (section 5). The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way. On an iPhone the look-up links of a material open in a browser view on top of the app; the X at the top left brings you back.
 
