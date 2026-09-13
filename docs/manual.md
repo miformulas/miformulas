@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260912. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260913. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -256,7 +256,7 @@ A material is anything you weigh: a raw material, a natural, a base, a solvent, 
 
 **To order.** A material you do not have yet, whether you added it from the order list or it came out of an import, carries the label "to order" and a 🛒 in the list until it is delivered.
 
-Materials come from **+ New material** in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from the predilution tool. A material can only be deleted when no formula uses it; the page tells you which formulas do.
+Materials come from **+ New material** in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from the predilution tool. With a material list loaded (section 18) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a line at the top of the description with the odour words, the strength, how long it lasts and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. A material can only be deleted when no formula uses it; the page tells you which formulas do.
 
 Filling in CAS numbers, IFRA limits, pyramid levels and descriptions for many materials is tedious; `docs/ai-prompts.md` has a prompt that lets an AI assistant propose them from the **All materials (Excel)** export, for you to check and enter.
 
@@ -385,6 +385,8 @@ The **Categories** panel shows how the non-solvent content is spread over materi
 
 The Welcome page has the import and export buttons. **Import from Formulair…** opens the importer described in section 19.
 
+**Import material list…** reads a miformulas-materials JSON file: a list of materials with their facts, which the app uses when you add a material. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. One list is loaded at a time, so importing a newer or fuller list replaces the previous one; your own materials are never touched. Settings (⚙) names the list that is loaded, with its size and its licence, and removes it again. The list travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step.
+
 **Import formula…** reads a miformulas-import JSON file: a formula transcribed from a photo or a document, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your library (by name, or by one of the alternative names of a material), the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). Nothing is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens. The file format is the small JSON shown in prompt 1 of `docs/ai-prompts.md`; anything that writes such a file can feed the app.
 
 ![The import page: every line with its match, the total weight, new materials and dilutions you do not stock.](img/app-import-preview.png)
@@ -468,6 +470,8 @@ In server mode the server keeps daily snapshots for fourteen days (section 20).
 **A line shows ⚠.** Its dilution is not in the material's list. Add that dilution to the material if you do have it, or convert the line to a dilution you have in a next version.
 
 **The IFRA panel says "not yet verified".** Those materials have no limit entered. Look them up on ifrafragrance.org and enter the limit, or 99 if there is none.
+
+**Where do the facts of a material come from?** From you, or from a material list you imported (section 18). A list holds names, alternative names, CAS numbers, categories, pyramid levels, IFRA limits and short odour facts; when you add a material whose name is in the list, those come along and you can change every one of them afterwards. Without a list nothing changes: you type what you know.
 
 **Can I use it on a phone?** Yes. Open the site in Safari and use **Add to Home Screen** (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server of your own (section 20) is what puts one library on your phone and your computer. On Android, Chrome is the way in: **Install as an app**, and a data file of your own works as on a computer, except that Chrome asks permission for it at every start (section 5). The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way. On an iPhone the look-up links of a material open in a browser view on top of the app; the X at the top left brings you back.
 
