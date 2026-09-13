@@ -77,15 +77,20 @@ with sync_playwright() as p:
     page.fill("#nmName", "Proefmusk"); page.wait_for_timeout(200)      # an alternative name finds it too
     found = page.text_content("#nmFound")
     check(f"an alias finds the material ({found!r})", "Testolide" in found and "106-02-5" in found and "Base" in found)
-    check("the facts line is shown", "musky, animalic, powdery" in found and "more than 2 weeks" in found and "typical 1.5 %" in found)
+    check("the facts are shown", "musky, animalic, powdery" in found and "Impact: high" in found
+          and "Substantivity: more than 2 weeks" in found and "Typical use: 1.5 %" in found)
+    check("the facts stand on their own lines in the preview",
+          "musky, animalic, powdery<br>Impact: high<br>Substantivity: more than 2 weeks<br>Typical use:" in page.inner_html("#nmFound"))
     check("the category of the list is preselected", page.locator("#nmCat").input_value() == "Test musks")
     page.click("#dlgOk"); page.wait_for_timeout(600)
     m = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Proefmusk");
       return m && {cas: m.cas, pyr: m.pyramid, ifra: m.ifraLimit, cat: m.category, al: m.aliases, d: m.description, sol: m.isSolvent}; }""")
     check(f"the material carries the facts ({m})", m and m["cas"] == "106-02-5" and m["pyr"] == 4 and m["ifra"] == 99 and m["cat"] == "Test musks")
     check("alternative names came along", m and m["al"] == "omega-testolactone; Proefmusk")
-    check("odour, strength, tenacity and use are in the description",
-          m and "musky, animalic, powdery" in m["d"] and "high" in m["d"] and "83 formulas" in m["d"])
+    check("odour, impact, substantivity and use are each on their own line",
+          m and m["d"].split("\n") == ["musky, animalic, powdery", "Impact: high",
+                                       "Substantivity: more than 2 weeks",
+                                       "Typical use: 1.5 % (usual range: 0.76 % to 3.2 %), 83 formulas"])
     check("the new category was added", page.evaluate("DATA.materialCategories.includes('Test musks')"))
     check("the material page opened", page.locator("#content h2").first.inner_text().startswith("Proefmusk"))
     page.click("#content h2"); page.wait_for_timeout(100)      # Ctrl+Z in a text field is the browser's own undo
