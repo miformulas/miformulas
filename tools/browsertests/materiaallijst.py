@@ -49,8 +49,23 @@ with sync_playwright() as p:
     dlg = page.text_content("#dlg")
     check("Settings names the list, its size and licence", "Test material list" in dlg and "2 materials" in dlg and "CC BY 4.0" in dlg)
     check("Settings offers Import and Remove", page.locator("#setListImp").is_visible() and page.locator("#setListDel").is_visible())
-    check("no Get the latest list while LIST_URL is empty", page.locator("#setListGet").count() == 0)
+    check("Settings offers Get the latest list", page.locator("#setListGet").is_visible())
     page.click("#dlgCancel"); page.wait_for_timeout(200)
+
+    # Get the latest list: the published address, answered here by a stand-in
+    page.route("https://data.miformulas.com/**", lambda route: route.fulfill(
+        status=200, content_type="application/json",
+        body=json.dumps({**LIST, "name": "Fetched list", "version": "2026-09-13b",
+                         "materials": LIST["materials"][:1]})))
+    page.click("#btnSettings"); page.wait_for_timeout(400)
+    msgs.clear(); page.click("#setListGet"); page.wait_for_timeout(800)
+    check(f"the fetched list replaces the imported one ({msgs})",
+          page.evaluate("DATA.materialList && DATA.materialList.name") == "Fetched list"
+          and page.evaluate("DATA.materialList.materials.length") == 1)
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(400)
+    check("undo brings the imported list back", page.evaluate("DATA.materialList.name") == "Test material list")
+    page.unroute("https://data.miformulas.com/**")
 
     # + New material: the lookup
     page.click("#btnNewMat"); page.wait_for_timeout(300)

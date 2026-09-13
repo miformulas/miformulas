@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260913. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260913b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -385,7 +385,7 @@ The **Categories** panel shows how the non-solvent content is spread over materi
 
 The Welcome page has the import and export buttons. **Import from Formulair…** opens the importer described in section 19.
 
-**Import material list…** reads a miformulas-materials JSON file: a list of materials with their facts, which the app uses when you add a material. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. One list is loaded at a time, so importing a newer or fuller list replaces the previous one; your own materials are never touched. Settings (⚙) names the list that is loaded, with its size and its licence, and removes it again. The list travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step.
+**Import material list…** reads a miformulas-materials JSON file: a list of materials with their facts, which the app uses when you add a material. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. One list is loaded at a time, so importing a newer or fuller list replaces the previous one; your own materials are never touched. Settings (⚙) names the list that is loaded, with its size and its licence, removes it again, and fetches the latest miFormulas list straight from the site with **Get the latest list**, so you do not have to download a file first. The list travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step.
 
 **Import formula…** reads a miformulas-import JSON file: a formula transcribed from a photo or a document, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your library (by name, or by one of the alternative names of a material), the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). Nothing is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens. The file format is the small JSON shown in prompt 1 of `docs/ai-prompts.md`; anything that writes such a file can feed the app.
 

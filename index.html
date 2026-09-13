@@ -301,7 +301,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260913</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260913b</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -356,7 +356,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260913. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260913b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -570,7 +570,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s17-stock-orders-and-deliveries">The order list.</a></p>
 <h2 id="s18-import-and-export">18. Import and export</h2>
 <p>The Welcome page has the import and export buttons. <strong>Import from Formulair…</strong> opens the importer described in section <a href="#s19-coming-from-formulair">19</a>.</p>
-<p><strong>Import material list…</strong> reads a miformulas-materials JSON file: a list of materials with their facts, which the app uses when you add a material. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. One list is loaded at a time, so importing a newer or fuller list replaces the previous one; your own materials are never touched. Settings (⚙) names the list that is loaded, with its size and its licence, and removes it again. The list travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step.</p>
+<p><strong>Import material list…</strong> reads a miformulas-materials JSON file: a list of materials with their facts, which the app uses when you add a material. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. One list is loaded at a time, so importing a newer or fuller list replaces the previous one; your own materials are never touched. Settings (⚙) names the list that is loaded, with its size and its licence, removes it again, and fetches the latest miFormulas list straight from the site with <strong>Get the latest list</strong>, so you do not have to download a file first. The list travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step.</p>
 <p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your library (by name, or by one of the alternative names of a material), the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). Nothing is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-import-and-export">The import page: every line with its match, the total weight, new materials and dilutions you do not stock.</a></p>
 <p><strong>Turning a photo, PDF or spreadsheet into an import file.</strong> You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a <code>.json</code> file and import it. The prompt tells the AI assistant to transcribe verbatim, to convert nothing, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the <strong>All materials (Excel)</strong> export as well and the assistant uses the exact names of your library, so that every line lands on the right material. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.</p>
@@ -1733,7 +1733,8 @@ function nameStem(name){   // "Aura v05" → ["aura", 5]; "Aura" → ["aura", nu
 /* ---------- Formulair import: added to the current library, whatever the storage mode ---------- */
 const normName = x => (x || "").trim().toLowerCase().replace(/\s+/g, " ");
 /* ---------- the material list: one imported list of facts, used when you add a material ---------- */
-const LIST_URL = "";   // a public address for the list; while it is empty, Settings only offers Import
+const LIST_URL = "https://data.miformulas.com/miformulas-materials.json";   // the published list; while it is empty, Settings only offers Import
+const nMats = n => n + " material" + (n === 1 ? "" : "s");
 const listMaterials = () => (DATA && DATA.materialList && DATA.materialList.materials) || [];
 function listFind(name){
   const n = normName(name);
@@ -1768,9 +1769,9 @@ async function importListFile(file){
   if (p?.type !== "miformulas-materials" || !Array.isArray(p.materials) || !p.materials.length){
     alert("This is not a miFormulas material list (expected type “miformulas-materials” with materials)."); return;
   }
-  if (DATA.materialList && !confirm(`Replace the material list “${DATA.materialList.name}” with “${p.name || "this list"}” (${p.materials.length} materials)?\n\nYour own materials are not touched.`)) return;
+  if (DATA.materialList && !confirm(`Replace the material list “${DATA.materialList.name}” with “${p.name || "this list"}” (${nMats(p.materials.length)})?\n\nYour own materials are not touched.`)) return;
   setMaterialList(p); render();
-  alert(`Material list loaded: ${p.name || "list"}${p.version ? " " + p.version : ""}, ${p.materials.length} materials.\n\nIt is used when you add a material with + New material. Undo (Ctrl+Z) takes it back.`);
+  alert(`Material list loaded: ${p.name || "list"}${p.version ? " " + p.version : ""}, ${nMats(p.materials.length)}.\n\nIt is used when you add a material with + New material. Undo (Ctrl+Z) takes it back.`);
 }
 $("#impList").addEventListener("change", async e => {
   const f = e.target.files[0]; e.target.value = "";
@@ -3054,7 +3055,7 @@ async function openSettings(){
     ${DEMO && !HANDLE ? `<div style="margin-top:.8rem"><button class="small" id="setReset">Delete the data kept in this browser…</button></div>` : ""}
     ${remembered ? `<div style="margin-top:.5rem"><button class="small" id="setForget">Forget the remembered data file \u201c${esc(remembered.name)}\u201d…</button></div>` : ""}
     ${DATA ? `<div class="hint" style="margin-top:.9rem">${DATA.materialList
-      ? `Material list: <b>${esc(DATA.materialList.name)}</b>${DATA.materialList.version ? " " + esc(DATA.materialList.version) : ""}, ${DATA.materialList.materials.length} materials${DATA.materialList.licence ? " · " + esc(DATA.materialList.licence) : ""}`
+      ? `Material list: <b>${esc(DATA.materialList.name)}</b>${DATA.materialList.version ? " " + esc(DATA.materialList.version) : ""}, ${nMats(DATA.materialList.materials.length)}${DATA.materialList.licence ? " · " + esc(DATA.materialList.licence) : ""}`
       : "No material list loaded; a list fills in the facts when you add a material."}</div>
     <div style="margin-top:.3rem"><button class="small" id="setListImp">Import material list…</button>${
       DATA.materialList ? ` <button class="small" id="setListDel">Remove the list…</button>` : ""}${
@@ -3088,7 +3089,7 @@ async function openSettings(){
       const p = await r.json();
       if (p?.type !== "miformulas-materials" || !Array.isArray(p.materials)) throw new Error("format");
       setMaterialList(p); render();
-      alert(`Material list loaded: ${p.name || "list"}${p.version ? " " + p.version : ""}, ${p.materials.length} materials.`);
+      alert(`Material list loaded: ${p.name || "list"}${p.version ? " " + p.version : ""}, ${nMats(p.materials.length)}.`);
     }catch(e){ alert("The list could not be fetched. Check your connection, or import the file by hand."); }
   });
   $("#setForget")?.addEventListener("click", async () => {
@@ -3230,7 +3231,7 @@ function render(){
         <input type="file" id="impFile" accept=".json" style="display:none">
         <span class="hint">reads a miformulas-import .json (for instance a formula transcribed from a photo with the AI prompts in the manual)</span></div>
       <div class="toolRow"><button class="small" id="btnImpL">Import material list…</button>
-        <span class="hint">${DATA.materialList ? `loaded: ${esc(DATA.materialList.name)}${DATA.materialList.version ? " " + esc(DATA.materialList.version) : ""}, ${DATA.materialList.materials.length} materials` : "a miformulas-materials .json with names, CAS, pyramid, IFRA and odour facts, used when you add a material"}</span></div>
+        <span class="hint">${DATA.materialList ? `loaded: ${esc(DATA.materialList.name)}${DATA.materialList.version ? " " + esc(DATA.materialList.version) : ""}, ${nMats(DATA.materialList.materials.length)}` : "a miformulas-materials .json with names, CAS, pyramid, IFRA and odour facts, used when you add a material"}</span></div>
       <div class="toolRow"><button class="small" id="btnExpF">Export all formulas (Excel)</button>
         <button class="small" id="btnExpM">Export all materials (Excel)</button>
         <span class="hint">downloads a CSV that opens directly in Excel (Belgian decimals)</span></div>
