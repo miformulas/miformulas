@@ -11,12 +11,15 @@ def check(name, cond):
     print(("OK   " if cond else "FAIL ") + name)
 
 LIST = {"type": "miformulas-materials", "name": "Test material list", "version": "2026-09-13",
-        "licence": "CC BY 4.0", "count": 2, "materials": [
+        "licence": "CC BY 4.0", "count": 5, "materials": [
     {"name": "Testolide", "aliases": ["omega-testolactone", "Proefmusk"], "cas": "106-02-5",
      "category": "Test musks", "pyramid": 4, "ifraLimit": 99, "odour": ["musky", "animalic", "powdery"],
      "strength": "high", "tenacity": "more than 2 weeks",
      "use": {"mean": "1.5", "low": "0.76", "high": "3.2", "n": "83"}},
-    {"name": "Dipropylene glycol", "cas": "25265-71-8", "category": "Solvents", "isSolvent": True}]}
+    {"name": "Dipropylene glycol", "cas": "25265-71-8", "category": "Solvents", "isSolvent": True},
+    {"name": "Proefstof A", "category": "Test musks", "pyramid": 2},
+    {"name": "Proefstof B", "category": "Test musks", "pyramid": 2},
+    {"name": "Proefstof C", "category": "Test musks", "pyramid": 2}]}
 
 with sync_playwright() as p:
     b = p.chromium.launch()
@@ -40,17 +43,17 @@ with sync_playwright() as p:
     check("Welcome offers Import material list…", page.locator("#btnImpL").is_visible())
     msgs.clear()
     page.set_input_files("#impList", f); page.wait_for_timeout(600)
-    check(f"import reports name, version and count ({msgs})", any("Test material list 2026-09-13, 2 materials" in m for m in msgs))
+    check(f"import reports name, version and count ({msgs})", any("Test material list 2026-09-13, 5 materials" in m for m in msgs))
     check("the message says nothing was added to your own materials", any("Nothing was added to your own Materials" in m for m in msgs))
     check("your own materials are untouched", page.evaluate("DATA.materials.length") == 199)
-    check("the list sits in the data", page.evaluate("DATA.materialList && DATA.materialList.materials.length") == 2)
+    check("the list sits in the data", page.evaluate("DATA.materialList && DATA.materialList.materials.length") == 5)
     check("Welcome names the loaded list", "Test material list" in page.text_content("#content"))
     check("Welcome says your own materials stay untouched", "your own Materials are untouched" in page.text_content("#content"))
 
     # Settings shows it with Remove
     page.click("#btnSettings"); page.wait_for_timeout(400)
     dlg = page.text_content("#dlg")
-    check("Settings names the list, its size and licence", "Test material list" in dlg and "2 materials" in dlg and "CC BY 4.0" in dlg)
+    check("Settings names the list, its size and licence", "Test material list" in dlg and "5 materials" in dlg and "CC BY 4.0" in dlg)
     check("Settings offers Import and Remove", page.locator("#setListImp").is_visible() and page.locator("#setListDel").is_visible())
     check("Settings offers Get the latest list", page.locator("#setListGet").is_visible())
     check("Settings says the list is a reference", "the materials you have are not part of it" in dlg)
@@ -73,7 +76,7 @@ with sync_playwright() as p:
 
     # + New material: the lookup
     page.click("#btnNewMat"); page.wait_for_timeout(300)
-    check("datalist holds the list", page.locator("#nmList option").count() == 2)
+    check("datalist holds the list", page.locator("#nmList option").count() == 5)
     page.fill("#nmName", "Proefmusk"); page.wait_for_timeout(200)      # an alternative name finds it too
     found = page.text_content("#nmFound")
     check(f"an alias finds the material ({found!r})", "Testolide" in found and "106-02-5" in found and "Base" in found)
@@ -133,21 +136,35 @@ with sync_playwright() as p:
     # Browse the list…: several at once, one Undo step
     page.click("#btnNewMat"); page.wait_for_timeout(300)
     page.click("#nmBrowse"); page.wait_for_timeout(400)
-    check("the browse window lists the whole list", page.locator("#brRows .brRow").count() == 2)
+    check("the browse window lists the whole list", page.locator("#brRows .brRow").count() == 5)
     check("a material you already have cannot be ticked",
           page.locator('#brRows input[data-n="Testolide"]').is_disabled() and "in your materials" in page.text_content("#brRows"))
+    page.click('#brRows input[data-n="Proefstof A"]'); page.wait_for_timeout(150)
+    page.click('#brRows input[data-n="Proefstof C"]', modifiers=["Shift"]); page.wait_for_timeout(300)
+    check(f"shift-click ticks the range ({page.text_content('#brCount')!r})",
+          "3 materials ticked" in page.text_content("#brCount")
+          and page.locator('#brRows input[data-n="Proefstof B"]').is_checked()
+          and not page.locator('#brRows input[data-n="Dipropylene glycol"]').is_checked())
+    check("the button counts along", page.text_content("#dlgOk").strip() == "Add 3")
+    page.click('#brRows input[data-n="Proefstof B"]', modifiers=["Shift"]); page.wait_for_timeout(300)
+    check(f"shift-click unticks a range just as well ({page.text_content('#brCount')!r})",
+          "1 material ticked" in page.text_content("#brCount")
+          and page.locator('#brRows input[data-n="Proefstof A"]').is_checked()
+          and not page.locator('#brRows input[data-n="Proefstof C"]').is_checked())
+    page.click('#brRows input[data-n="Proefstof C"]', modifiers=["Shift"]); page.wait_for_timeout(300)
     page.fill("#brQ", "dipro"); page.wait_for_timeout(300)
     check("the filter narrows the window", page.locator("#brRows .brRow").count() == 1)
     page.check('#brRows input[data-n="Dipropylene glycol"]'); page.wait_for_timeout(200)
-    check(f"the counter follows the ticks ({page.text_content('#brCount')!r})", "1 material ticked" in page.text_content("#brCount"))
-    check("the button says how many", page.text_content("#dlgOk").strip() == "Add 1")
-    msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(700)
+    check(f"ticks survive the filter ({page.text_content('#brCount')!r})", "4 materials ticked" in page.text_content("#brCount"))
+    check("the button says how many", page.text_content("#dlgOk").strip() == "Add 4")
+    msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(800)
     dpg = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Dipropylene glycol");
       return m && {sol: m.isSolvent, cat: m.category, pct: m.dilutions[0].pct}; }""")
     check(f"the ticked material was added ({dpg})", dpg and dpg["sol"] and dpg["cat"] == "Solvents" and dpg["pct"] == 100)
-    check(f"the message says how many ({msgs})", any("1 material added" in m for m in msgs))
-    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
-    check("undo takes the browse addition back", page.evaluate("!DATA.materials.some(x => x.name === 'Dipropylene glycol')"))
+    check(f"the message says how many ({msgs})", any("4 materials added" in m for m in msgs))
+    check("all four arrived", page.evaluate("['Dipropylene glycol','Proefstof A','Proefstof B','Proefstof C'].every(n => DATA.materials.some(x => x.name === n))"))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check("one undo takes all four back", page.evaluate("!['Dipropylene glycol','Proefstof A','Proefstof B','Proefstof C'].some(n => DATA.materials.some(x => x.name === n))"))
     page.keyboard.press("Control+z"); page.wait_for_timeout(500)
     check("undo also takes the + Add material back", page.evaluate("!DATA.materials.some(x => x.name === 'Testolide')"))
 
@@ -156,13 +173,13 @@ with sync_playwright() as p:
     page.click("#setListDel"); page.wait_for_timeout(500)
     check("the list is gone", page.evaluate("DATA.materialList") is None)
     page.keyboard.press("Control+z"); page.wait_for_timeout(400)
-    check("undo brings the list back", page.evaluate("DATA.materialList && DATA.materialList.materials.length") == 2)
+    check("undo brings the list back", page.evaluate("DATA.materialList && DATA.materialList.materials.length") == 5)
 
     # it survives a save and a fresh visit (browser storage)
     page.click("#btnSave"); page.wait_for_timeout(600)
     pg2 = ctx.new_page(); pg2.on("dialog", lambda d: d.accept())
     pg2.goto(URL); pg2.wait_for_timeout(1200)
-    check("the list is still there in a new visit", pg2.evaluate("DATA.materialList && DATA.materialList.materials.length") == 2)
+    check("the list is still there in a new visit", pg2.evaluate("DATA.materialList && DATA.materialList.materials.length") == 5)
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

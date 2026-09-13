@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260913e. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260913f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -256,7 +256,7 @@ A material is anything you weigh: a raw material, a natural, a base, a solvent, 
 
 **To order.** A material you do not have yet, whether you added it from the order list or it came out of an import, carries the label "to order" and a 🛒 in the list until it is delivered.
 
-Materials come from **+ New material** in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from the predilution tool. With a material list loaded (section 18) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. **Browse the list…**, in that same window, opens the whole list with a search field and a tick box per material: useful when you start from nothing and want ten materials at once. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. A material can only be deleted when no formula uses it; the page tells you which formulas do.
+Materials come from **+ New material** in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from the predilution tool. With a material list loaded (section 18) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. **Browse the list…**, in that same window, opens the whole list with a search field and a tick box per material: useful when you start from nothing and want ten materials at once. Shift-click ticks a range, as in the formula table. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. A material can only be deleted when no formula uses it; the page tells you which formulas do.
 
 Filling in CAS numbers, IFRA limits, pyramid levels and descriptions for many materials is tedious; `docs/ai-prompts.md` has a prompt that lets an AI assistant propose them from the **All materials (Excel)** export, for you to check and enter.
 
