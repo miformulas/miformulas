@@ -121,7 +121,8 @@ with sync_playwright() as p:
 
     # the search in Materials knows the list
     page.fill("#searchBox", "Hedione"); page.wait_for_timeout(400)
-    check("no list block while your own materials match", "Not in your inventory" not in page.text_content("#list"))
+    check("no library block when the library knows nothing extra about it",
+          "materials library:" not in page.text_content("#list"))
     page.fill("#searchBox", "Testolide"); page.wait_for_timeout(400)
     lst = page.text_content("#list")
     check(f"the search offers the entry of the list", "Not in your inventory" in lst and "Testolide" in lst)
@@ -134,6 +135,20 @@ with sync_playwright() as p:
     check("the material page opened", page.locator("#content h2").first.inner_text().startswith("Testolide"))
     check("the list block is gone now that you have it", "Not in your inventory" not in page.text_content("#list"))
     page.fill("#searchBox", ""); page.wait_for_timeout(300)
+
+    # from 260914l the library also shows what it knows beside your own hits
+    page.click("#btnNewMat"); page.wait_for_timeout(300)
+    page.fill("#nmName", "Proefstof Z"); page.click("#dlgOk"); page.wait_for_timeout(600)
+    page.click("#tabM"); page.wait_for_timeout(300)
+    page.fill("#searchBox", "Proefstof"); page.wait_for_timeout(400)
+    lst = page.text_content("#list")
+    check("your own hit is listed", "Proefstof Z" in lst)
+    check(f"and the library offers the ones you do not have",
+          "Also in the materials library:" in lst and "Not in your inventory" not in lst)
+    check("with a + Add for one of them", page.locator('#list button[data-add="Proefstof B"]').count() == 1)
+    page.fill("#searchBox", ""); page.wait_for_timeout(300)
+    page.evaluate("() => { undo(); }"); page.wait_for_timeout(500)   # Proefstof Z weer weg
+    check("Proefstof Z is weer weg", not page.evaluate("DATA.materials.some(m => m.name === 'Proefstof Z')"))
 
     # Browse the list…: several at once, one Undo step
     page.click("#btnNewMat"); page.wait_for_timeout(300)

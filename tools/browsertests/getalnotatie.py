@@ -119,6 +119,35 @@ with sync_playwright() as p:
     check(f"the line just added counts as usage, so {unused} cannot be deleted ({msgs})",
           not gone and any("Cannot delete" in m for m in msgs))
 
+    # ---------- 7. the number fields on a material page, and its grid ----------
+    page.evaluate("""() => {
+        const m = DATA.materials[0];
+        m.ifraLimit = 0.005; m.costPerGram = 1234.5; m.density = 0.998;
+        window.__mid = m.id; switchTab("M", m.id, null);
+    }""")
+    page.wait_for_timeout(500)
+    vals = page.evaluate("""() => ({ifra: document.getElementById("mf_ifraLimit").value,
+        cost: document.getElementById("mf_costPerGram").value,
+        dens: document.querySelector('[data-f="density"]').value})""")
+    check(f"an IFRA limit of 0.005 is not rounded to 0.01 ({vals})", vals["ifra"] == "0.005")
+    check("a cost is filled without a thousands separator", vals["cost"] in ("1234.5", "1234,5"))
+    check("and a density keeps its three decimals", vals["dens"] in ("0.998", "0,998"))
+    page.fill('[data-f="supplier"]', "Somebody"); page.dispatch_event('[data-f="supplier"]', "change")
+    page.wait_for_timeout(500)
+    kept = page.evaluate("() => { const m = DATA.materials.find(x => x.id === window.__mid); return [m.ifraLimit, m.costPerGram, m.density]; }")
+    check(f"editing another field does not round them away ({kept})", kept == [0.005, 1234.5, 0.998])
+    grid = page.evaluate("""() => {
+        const lab = document.querySelector('label[for="mf_ifraLimit"]').getBoundingClientRect();
+        const inp = document.getElementById("mf_ifraLimit").getBoundingClientRect();
+        const cl = document.querySelector('label[for="mf_costPerGram"]').getBoundingClientRect();
+        const ci = document.getElementById("mf_costPerGram").getBoundingClientRect();
+        const overlap = (a, b) => a.bottom > b.top + 1 && b.bottom > a.top + 1;
+        return {sameRow: overlap(lab, inp), labelLeft: lab.left < inp.left,
+                costSameRow: overlap(cl, ci), costLabelLeft: cl.left < ci.left};
+    }""")
+    check(f"the IFRA label sits beside its own field ({grid})", grid["sameRow"] and grid["labelLeft"])
+    check("and so does the cost label, hint and all", grid["costSameRow"] and grid["costLabelLeft"])
+
     check("no page errors", not errs)
     b.close()
 

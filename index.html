@@ -317,7 +317,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914k</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914l</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula…</button>
@@ -372,7 +372,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260914k. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260914l. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -1225,10 +1225,11 @@ function renderSidebar(){
       for (const m of groups[cat])
         html += `<div class="item${m.id===VIEW.id?" sel":""}" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${m.wishlist?'<b style="color:var(--amber)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':""))}</span></div>`;
     }
-    if (q && !Object.keys(groups).length){   // nothing in your inventory: does the materials library know it?
+    if (q){                                 // whatever your own materials gave, the library may know more
       const sug = listSuggest(q);
       if (sug.length){
-        html += `<div class="hint" style="padding:.8rem .8rem .3rem">Not in your inventory. In the materials library:</div>`;
+        const none = !Object.keys(groups).length;
+        html += `<div class="hint" style="padding:.8rem .8rem .3rem">${none ? "Not in your inventory. In the materials library:" : "Also in the materials library:"}</div>`;
         for (const e of sug.slice(0, 8))
           html += `<div class="sugRow"><span>${esc(e.name)}${e.category ? ` <span class="sub">${esc(e.category)}</span>` : ""}</span><button type="button" class="small" data-add="${esc(e.name)}">+ Add</button></div>`;
         if (sug.length > 8) html += `<div class="hint" style="padding:.2rem .8rem .6rem">and ${sug.length - 8} more; narrow the search</div>`;
@@ -3129,10 +3130,11 @@ function renderMaterial(m){
   const c = $("#content");
   const use = USAGE[m.id] || [];
   const seen = new Set(); const uniqueUse = use.filter(u => !seen.has(u.fid+u.where) && seen.add(u.fid+u.where));
-  const F = (k, inputHtml) => {                       // the label points at the field it names
+  const F = (k, inputHtml, hint) => {                 // the label points at the field it names; a hint shares its cell
     const hit = /data-f="([^"]+)"/.exec(inputHtml), id = hit ? "mf_" + hit[1] : "";
-    return `<label${id ? ` for="${id}"` : ""}>${k}</label>`
-      + (id ? inputHtml.replace(/^(\s*<(?:input|select|textarea))/, `$1 id="${id}"`) : inputHtml);
+    const field = id ? inputHtml.replace(/^(\s*<(?:input|select|textarea))/, `$1 id="${id}"`) : inputHtml;
+    return `<label${id ? ` for="${id}"` : ""}${hint ? ' style="align-self:start;margin-top:.45rem"' : ""}>${k}</label>`
+      + (hint ? `<span style="display:grid;gap:.15rem">${field}<span class="hint">${hint}</span></span>` : field);
   };
   c.innerHTML = `<h2>${pyrIcon(m.pyramid, catColour(m), 20)}${esc(m.name)}</h2>
   <div class="metaLine">${esc(m.cas||"no CAS")} · ${esc(m.category||"")}${m.aliases?` · <span title="Alternative names">also ${esc(m.aliases)}</span>`:""}
@@ -3147,8 +3149,8 @@ function renderMaterial(m){
     ${F("Supplier", `<input data-f="supplier" value="${esc(m.supplier)}" list="supList">`)}
     <datalist id="supList">${DATA.suppliers.map(s=>`<option value="${esc(s)}">`).join("")}</datalist>
     ${F("Amount purchased", `<input data-f="inventory" value="${esc(m.inventory)}">`)}
-    ${F("Cost € / g", `<input data-f="costPerGram" data-num="1" inputmode="decimal" value="${m.costPerGram!=null?fmt(m.costPerGram,3):""}" title="The price of one gram of the pure material (at 100 %)"> <span class="hint">of the pure material; for a dilution you bought, divide by its percentage</span>`)}
-    ${F("IFRA limit %", `<input data-f="ifraLimit" data-num="1" inputmode="decimal" value="${m.ifraLimit!=null?fmt(m.ifraLimit,2):""}" placeholder="99 = checked, no limit; 0 = prohibited">`)}
+    ${F("Cost € / g", `<input data-f="costPerGram" data-num="1" inputmode="decimal" value="${m.costPerGram!=null?fmtSIn(m.costPerGram,4):""}" title="The price of one gram of the pure material (at 100 %)">`, "of the pure material; for a dilution you bought, divide by its percentage")}
+    ${F("IFRA limit %", `<input data-f="ifraLimit" data-num="1" inputmode="decimal" value="${m.ifraLimit!=null?fmtSIn(m.ifraLimit,6):""}" placeholder="99 = checked, no limit; 0 = prohibited">`)}
     ${F("Solvent", `<input type="checkbox" data-f="isSolvent" ${m.isSolvent?"checked":""} style="justify-self:start">`)}
     ${F("Storage", `<span style="display:flex;gap:.9rem;flex-wrap:wrap;align-items:center">
       <label><input type="checkbox" data-loc="kast" ${m.locations?.kast?"checked":""}> Cupboard</label>
@@ -3169,7 +3171,7 @@ function renderMaterial(m){
     <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink);font-weight:600">Stock (base concentration)${st.tracked?` – ${fmt(st.qty)} g`:" – not tracked"}</summary>
     <div class="fieldGrid" style="margin:.6rem 0 .4rem">
       <label>Purchase date</label><input type="date" data-f="purchaseDate" value="${esc(m.purchaseDate||"")}" style="justify-self:start">
-      <label>Density g/ml</label><input data-f="density" data-num="1" value="${m.density!=null?fmt(m.density,3):""}" placeholder="for ml purchases" style="width:8rem">
+      <label>Density g/ml</label><input data-f="density" data-num="1" value="${m.density!=null?fmtSIn(m.density,4):""}" placeholder="for ml purchases" style="width:8rem">
     </div>
     <div style="font-size:1.1rem;font-weight:600;margin-bottom:.4rem">${st.tracked ? fmt(st.qty)+" g <span class='hint' style='font-weight:400'>estimated</span>" : '<span class="hint">Not tracked – set a stocktake to start.</span>'}</div>
     <div class="toolRow">Stocktake <input id="stTake" style="width:5.5rem;text-align:right" placeholder="g"> g <button class="small" id="btnTake">Set</button></div>
