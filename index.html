@@ -307,7 +307,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914e</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914f</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -362,7 +362,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260914e. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260914f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -622,7 +622,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (up to fifty steps), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.</p>
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header downloads the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>). Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
-<p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state before the first save of the day. In file mode, if the data file is lost, the start screen offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file.</p>
+<p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser storage was cleared, the server holds nothing yet), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file.</p>
 <p>In server mode the server keeps daily snapshots for fourteen days (section <a href="#s20-your-own-server">20</a>).</p>
 <p><strong>Open data file…</strong> opens any of these files. <strong>Undo</strong> covers everything you did since the app was opened, deletions included; it does not survive a reload.</p>
 <h2 id="s23-questions-and-answers">23. Questions and answers</h2>
@@ -743,6 +743,21 @@ function migrate(d){
 }
 const looksLikeData = p => !!p && typeof p === "object" && Array.isArray(p.formulas) && Array.isArray(p.materials);
 const NOT_DATA_MSG = "This is not a miFormulas data file: it holds no formulas and materials.\n\nTo bring in a single formula or a materials library, use Import formula… or Import materials library… on the Welcome page.";
+async function offerSnapshot(){   // the landing offers the snapshot of today (or of the last day you worked)
+  const bak = await idb.get("dailyBak");
+  if (!bak || !bak.json) return;
+  const bs = $("#btnSnap");
+  if (!bs || bs.dataset.bound) return;
+  bs.dataset.bound = "1";
+  bs.style.display = ""; bs.textContent = `Restore daily snapshot (${bak.date})`;
+  bs.addEventListener("click", () => {
+    try{ DATA = migrate(JSON.parse(bak.json)); }
+    catch(e){ alert("The snapshot could not be read."); return; }
+    boot(); markDirty();
+    $("#saveState").textContent = "Snapshot loaded: use Backup to write it to a file";
+    $("#saveState").className = "dirty";
+  });
+}
 const CORRUPT_MSG = "The data file could not be read (invalid JSON). Nothing was changed.\n\nRestore a timestamped backup, the version history of your cloud storage, or the daily snapshot on the start screen.";
 async function loadFromHandle(h){
   const f = await h.getFile();
@@ -755,9 +770,16 @@ async function loadFromHandle(h){
   await idb.set("demoData", null);   // the file is the data now; a browser copy would only go stale
   return true;
 }
+function askDilution(){   // a dilution is a percentage: between 0 and 100, and nothing else
+  const v = parseNum(prompt("Dilution %:"));
+  if (v == null) return null;
+  if (!(v > 0 && v <= 100)){ alert("A dilution is a percentage between 0 and 100."); return null; }
+  return v;
+}
 function serialize(){
-  // keys starting with "_" are transient UI state and never reach the file
-  return JSON.stringify(DATA, (k,v) => k.startsWith("_") ? undefined : (typeof v === "number" && !Number.isInteger(v) ? +v.toFixed(6) : v), 1);
+  // only our own transient UI flags are dropped; anything else a user types is kept, underscore or not
+  const TRANSIENT = new Set(["_descHit", "_solventShort"]);
+  return JSON.stringify(DATA, (k,v) => TRANSIENT.has(k) ? undefined : (typeof v === "number" && !Number.isInteger(v) ? +v.toFixed(6) : v), 1);
 }
 async function openFile(){
   if (FALLBACK){ $("#fileFallback").click(); return; }
@@ -862,8 +884,6 @@ async function saveNow(){
       const gen = SAVEGEN, s = serialize();
       const w = await HANDLE.createWritable();
       await w.write(s); await w.close();
-      const day = today();
-      if (LASTBAK !== day){ LASTBAK = day; idb.set("dailyBak", {date: day, json: s}); }
       finishSave(gen, HANDLE.name);
     }catch(e){ $("#saveState").textContent = "Save failed — use Backup"; $("#saveState").className = "dirty"; }
   } else if (DEMO){
@@ -871,8 +891,6 @@ async function saveNow(){
     const stored = await idb.set("demoData", s);
     if (!stored){ $("#saveState").textContent = "Browser storage is not available; use Backup to keep your work."; $("#saveState").className = "dirty"; return; }
     if (!saveNow._persistAsked){ saveNow._persistAsked = true; requestPersistence(); }
-    const day = today();
-    if (LASTBAK !== day){ LASTBAK = day; idb.set("dailyBak", {date: day, json: s}); }
     finishSave(gen, "this browser");
   } else {
     $("#saveState").textContent = "No file access — use Backup to download"; $("#saveState").className = "dirty";
@@ -982,7 +1000,7 @@ function calc(lines){
   let tw = 0, tc = 0, content = 0;
   const rows = (lines||[]).map(l => {
     const m = matById(l.materialId) || {};
-    const w = l.weightG || 0, dil = l.dilutionPct ?? 100;
+    const w = +l.weightG || 0, dil = +(l.dilutionPct ?? 100) || 0;
     const cost = w * (m.costPerGram||0) * dil/100;
     const cont = m.isSolvent ? 0 : w * dil/100;
     tw += w; tc += cost; content += cont;
@@ -1235,7 +1253,7 @@ function renderFormula(f){
   const lines = isVar ? variationLines(f, item) : item.lines;
   const K = calc(lines);
   let h = `<h2>${esc(f.name)}${item ? `<button id="btnBenchToggle" class="benchBtn">${sub.bench?"Table view":"Bench view"}</button>` : ""}</h2>
-  <div class="metaLine"><span>${esc(f.category||"")}${f.created?" · since "+f.created:""}${item.sourceName?` · imported as “${esc(item.sourceName)}”`:""}${f.starter?' · <span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other formula.">starter set</span>':""}</span>
+  <div class="metaLine"><span>${esc(f.category||"")}${f.created?" · since "+f.created:""}${item.sourceName && !item.hideSource?` · imported as “${esc(item.sourceName)}”`:""}${f.starter?' · <span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other formula.">starter set</span>':""}</span>
     ${frozen?`<span class="badge" title="Read-only snapshot">frozen${isVar && item.frozenFromName ? ` · from ${esc(item.frozenFromName)}` : ""}</span>`:""}
     <span class="actions">
       <button id="btnRenameF" title="Rename this formula">Rename</button>
@@ -1247,11 +1265,11 @@ function renderFormula(f){
   ${pyrBar(K)}
   <div class="chipRow"><label class="hint">Version</label>
     <select id="verSel">${isVar?'<option value="" selected hidden>— viewing a variation —</option>':""}${f.versions.map((v,i) =>
-      `<option value="${i}"${!isVar&&i===sub.idx?" selected":""}>${esc(vName(v))} (${v.date||"?"})${v.sourceName?` — ${esc(v.sourceName)}`:""}${v.imported?" 🔒":""}</option>`).join("")}</select>
+      `<option value="${i}"${!isVar&&i===sub.idx?" selected":""}>${esc(vName(v))} (${v.date||"?"})${v.sourceName && !v.hideSource?`: ${esc(v.sourceName)}`:""}${v.imported?" 🔒":""}</option>`).join("")}</select>
     ${!isVar ? '<button class="small" id="btnNameV" title="Name this version">✎</button>' : ""}
     <button class="small" id="btnNewV">+ New version</button>
     ${f.versions.length + f.variations.length >= 2 ? '<button class="small" id="btnCmp">Compare…</button>' : ""}
-    ${!isVar && item && !item.imported ? '<span class="actions"><button id="btnDelV" class="danger">Delete version</button></span>' : ""}</div>
+    ${!isVar && item ? '<span class="actions"><button id="btnDelV" class="danger">Delete version</button></span>' : ""}</div>
   <div class="chipRow"><label class="hint">Variations</label>${f.variations.map((va,i) =>
     `<span class="chip var${isVar&&i===sub.idx?" sel":""}${va.frozen?" frozen":""}" data-va="${i}" title="${esc(va.sourceName||"")}${va.frozenFromName?`frozen from ${esc(va.frozenFromName)}`:""}${va.date?" · "+va.date:""}">${esc(va.label)}${va.frozen?" ⛄":""}</span>`).join("")}
     <button class="small" id="btnNewVar">+ New variation</button>
@@ -1363,8 +1381,8 @@ function renderFormula(f){
       <h3 style="margin:0 0 .3rem">Name version v${item.v}</h3>
       <div class="hint" style="margin-bottom:.7rem">Shown after the version number, e.g. “v${item.v} with predil (${item.date||today()})”.</div>
       <input id="vnName" value="${esc(item.name||"")}" placeholder="short label (empty = none)" style="width:100%">
-      ${item.sourceName ? `<label style="display:block;margin-top:.8rem"><input type="checkbox" id="vnSrc" checked>
-        keep the import reference “${esc(item.sourceName)}” in the list</label>` : ""}
+      ${item.sourceName ? `<label style="display:block;margin-top:.8rem"><input type="checkbox" id="vnSrc"${item.hideSource ? "" : " checked"}>
+        show the import reference “${esc(item.sourceName)}” in the list</label>` : ""}
       <div class="toolRow" style="justify-content:flex-end;margin-top:.9rem"><button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Apply</button></div></div>`;
     dlg.showModal();
     $("#dlgCancel").addEventListener("click", () => dlg.close());
@@ -1372,10 +1390,10 @@ function renderFormula(f){
       const n = $("#vnName").value.trim(), keep = $("#vnSrc") ? $("#vnSrc").checked : true;
       dlg.close(); snapF(f);
       item.name = n;
-      if (item.sourceName && !keep){
+      if (item.sourceName && !keep){   // only hidden: a second Formulair import still recognises it by sourceName
         item.notes = (item.notes ? item.notes + "\n\n" : "") + `Imported as “${item.sourceName}”.`;
-        delete item.sourceName;
-      }
+        item.hideSource = true;
+      } else if (keep) delete item.hideSource;
       markDirty(); render();
     });
   });
@@ -1569,11 +1587,14 @@ function dilSelect(m, cur, i, isVar){
 function bindLineEditors(f, item){
   const c = $("#content");
   c.querySelectorAll("input.w").forEach(inp => inp.addEventListener("change", e => {
-    const v = parseNum(e.target.value); if (v!=null){ snapF(f); item.lines[+e.target.dataset.i].weightG = v; markDirty(); render(); }
+    const v = parseNum(e.target.value);
+    if (v == null){ render(); return; }                      // unreadable: put the old figure back
+    if (v < 0){ alert("A weight cannot be negative."); render(); return; }
+    snapF(f); item.lines[+e.target.dataset.i].weightG = v; markDirty(); render();
   }));
   c.querySelectorAll("[data-dil]").forEach(sel => sel.addEventListener("change", e => {
     const i = +e.target.dataset.dil;
-    let v = e.target.value === "custom" ? parseNum(prompt("Dilution %:")) : parseFloat(e.target.value);
+    let v = e.target.value === "custom" ? askDilution() : parseFloat(e.target.value);
     if (v) changeDilution(f, item, i, v); else render();
   }));
   c.querySelectorAll("[data-repl]").forEach(b => b.addEventListener("click", () => replaceMaterial(f, item, +b.dataset.repl)));
@@ -1625,7 +1646,7 @@ function setOverride(va, bl, materialId, pct){
 function bindVarEditors(f, va){
   $("#content").querySelectorAll("[data-vardil]").forEach(sel => sel.addEventListener("change", e => {
     const i = +e.target.dataset.vardil;
-    let v = e.target.value === "custom" ? parseNum(prompt("Dilution %:")) : parseFloat(e.target.value);
+    let v = e.target.value === "custom" ? askDilution() : parseFloat(e.target.value);
     if (v) changeDilutionVar(f, va, i, v); else render();
   }));
 }
@@ -3076,10 +3097,16 @@ function renderMaterial(m){
       ? `Delete dilution ${fmtS(d.pct)}% of “${m.name}”?\n\nIt is used in ${used} formula line(s) (${[...inF].slice(0,5).join(", ")}${inF.size>5?", …":""}). Those lines keep their ${fmtS(d.pct)}% value — it only disappears from the pick list for future edits.`
       : `Delete dilution ${fmtS(d.pct)}% of “${m.name}”? It is not used in any formula.`;
     if (!confirm(msg)) return;
-    snapM(m); m.dilutions.splice(+b.dataset.deldil,1); markDirty(); render();
+    snapM(m); m.dilutions.splice(+b.dataset.deldil,1);
+    if (m.dilutions.length && !m.dilutions.some(d => d.isBase)){   // there is always a base dilution
+      m.dilutions.reduce((a,x) => !a || x.pct > a.pct ? x : a, null).isBase = true;
+    }
+    markDirty(); render();
   }));
   $("#btnAddDil")?.addEventListener("click", () => {
-    const p = parseNum($("#newDil").value); if (!p) return;
+    const p = parseNum($("#newDil").value);
+    if (p == null || !(p > 0 && p <= 100)){ alert("A dilution is a percentage between 0 and 100."); return; }
+    if ((m.dilutions || []).some(d => d.pct === p)){ alert(`“${m.name}” already has a ${fmtS(p)} % dilution.`); return; }
     snapM(m);
     (m.dilutions ||= []).push({pct:p, isBase:false, date:today(), notes:$("#newDilNote").value.trim()});
     m.dilutions.sort((a,b)=>b.pct-a.pct); markDirty(); render();
@@ -3514,14 +3541,22 @@ function render(){
 $("#btnBack").addEventListener("click", () => { VIEW.id = null; VIEW.sub = null; HOMEVIEW = false; HELPVIEW = false; render(); });
 $("#btnHelp").addEventListener("click", () => { if (!DATA) return; HELPVIEW = !HELPVIEW; render(); });
 window.matchMedia("(max-width:700px)").addEventListener("change", () => { if (DATA) render(); });
+async function dailySnapshot(){   // once a day: the state as it was when you opened the app, before the first change
+  const day = today();
+  if (LASTBAK === day) return;
+  const prev = await idb.get("dailyBak");
+  LASTBAK = day;
+  if (!prev || prev.date !== day) idb.set("dailyBak", {date: day, json: serialize()});
+}
 function boot(){
   $("#landing").style.display = "none";
   if (isMobile()) HOMEVIEW = true;      // phones start on the welcome screen, not on an empty list
   buildUsage();
   $("#saveState").textContent = REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback — use Backup to save)";
   setTabs(); render();
-  if (STANDALONE && DEMO && !HANDLE){ saveData._persistAsked = true; requestPersistence(); }   // installed app: granted silently, so the bar never flashes
+  if (STANDALONE && DEMO && !HANDLE){ saveNow._persistAsked = true; requestPersistence(); }   // installed app: granted silently, so the bar never flashes
   else updateStorageHint();
+  dailySnapshot();
   checkPendingImport();
 }
 (async () => {
@@ -3543,7 +3578,8 @@ function boot(){
       bo.replaceWith(bo.cloneNode(true));   // drop the file-picker handler
       $("#btnOpen").addEventListener("click", async () => { if (await remoteLoad()) boot(); });
       if (await remoteLoad()) boot();
-      else if (SERVER_EMPTY){          // the server answers, but holds no data file yet
+      else await offerSnapshot();
+      if (SERVER_EMPTY){               // the server answers, but holds no data file yet
         $("#landingHint").textContent = "The server at " + url + " has no data file yet. Start with the starter set and the app writes it there, or use Connect to server once the file exists.";
         const bs = $("#btnStarter"); bs.style.display = "";
         bs.addEventListener("click", async () => { const d = await loadStarter(); if (!d) return; DATA = d; boot(); markDirty(); });
@@ -3568,6 +3604,7 @@ function boot(){
     }
     const bs = $("#btnStarter"); bs.style.display = "";
     $("#btnDownload").style.display = ""; $("#btnFormulair").style.display = "";
+    offerSnapshot();
     bs.addEventListener("click", async () => {
       const d = await loadStarter(); if (!d) return;
       DATA = d; boot(); markDirty();
@@ -3592,19 +3629,6 @@ function boot(){
     else await demoStart(BROWSER_MSG);
     return;
   }
-  const bak = await idb.get("dailyBak");
-  if (bak && bak.json){
-    LASTBAK = bak.date;
-    const bs = $("#btnSnap");
-    bs.style.display = ""; bs.textContent = `Restore daily snapshot (${bak.date})`;
-    bs.addEventListener("click", () => {
-      try{ DATA = migrate(JSON.parse(bak.json)); }
-      catch(e){ alert("The snapshot could not be read."); return; }
-      boot(); markDirty();
-      $("#saveState").textContent = "Snapshot loaded — use Backup to write it to a file";
-      $("#saveState").className = "dirty";
-    });
-  }
   if (FALLBACK){
     $("#landingHint").innerHTML = "This browser cannot write to files, so miFormulas.html is read-only here: it can show a data file but not save changes. Open this file in <b>Chrome or Edge</b> to keep your data in a file, or use <a href=\"https://miformulas.com\" target=\"_blank\" rel=\"noopener\">miformulas.com</a> in this browser (Safari on a Mac: File \u203a Add to Dock). Have a data file? Open data file\u2026 shows it and remembers it for next time.";
     const cached = await idb.get("cachedData");
@@ -3620,6 +3644,7 @@ function boot(){
     return;
   }
   if (await tryRestore()){ boot(); return; }
+  await offerSnapshot();
   const FRESH_MSG = "You are running the app from your own computer. Keep miFormulas.html in a folder of its own, for instance Documents\\miFormulas, with your data file next to it and a subfolder \u201cbackups\u201d for Backup copies. Made a data file earlier? Use Open data file\u2026; the starter set would create a new one.";
   const GONE_MSG = "The remembered data file could not be opened; it was probably moved, renamed or deleted. Start with the starter set to create a new one, or open another data file.";
   function offerStarter(hint){   // no usable remembered file: the starter set creates one
