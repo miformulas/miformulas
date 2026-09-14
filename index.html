@@ -307,7 +307,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914d</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914e</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -362,7 +362,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260914d. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260914e. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -504,7 +504,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>IFRA limit.</strong> Enter the limit in percent of the finished product for Category 4 (fine fragrance), taken from the standards library on ifrafragrance.org. Three special values: <strong>99</strong> means checked, no restriction; <strong>0</strong> means prohibited in this category; empty means not yet checked, and so is any figure below zero. The IFRA panel of a formula uses these figures (section <a href="#s16-ifra-check-and-category-panel">16</a>).</p>
 <p><strong>Storage.</strong> A material stored in the fridge shows a ❄ next to formula lines that use it at its base concentration, also on the printed weighing sheet, so you know which bottles to fetch first.</p>
 <p><strong>To order.</strong> A material you do not have yet, whether you added it from the order list or it came out of an import, carries the label "to order" and a 🛒 in the list until it is delivered.</p>
-<p>Materials come from <strong>+ New material</strong> in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from the predilution tool. With a materials library loaded (section <a href="#s18-import-and-export">18</a>) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. <strong>Browse the library…</strong>, in that same window, opens the whole library with a search field and a tick box per material: useful when you start from nothing and want ten materials at once. Shift-click ticks a range, as in the formula table. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. A material can only be deleted when no formula uses it; the page tells you which formulas do.</p>
+<p>Materials come from <strong>+ New material</strong> in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from the predilution tool. With a materials library loaded (section <a href="#s18-import-and-export">18</a>) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. <strong>Browse the library…</strong>, in that same window, opens the whole library with a search field and a tick box per material: useful when you start from nothing and want ten materials at once. Shift-click ticks a range, as in the formula table. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. A material can only be deleted when no formula uses it; the page tells you which formulas do. Two materials cannot carry the same name, and if you type a name that one of your materials already carries as an alternative name, the app says so before making a second one.</p>
 <p>Filling in CAS numbers, IFRA limits, pyramid levels and descriptions for many materials is tedious; <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose them from the <strong>All materials (Excel)</strong> export, for you to check and enter.</p>
 <p>What some apps ship as a built-in materials database, miFormulas keeps as a file you import: a <strong>materials library</strong> (section <a href="#s18-import-and-export">18</a>). With one loaded, a new material arrives with its CAS number, category, pyramid level, IFRA limit, alternative names and a few lines of odour facts already in place, all of it editable. Those are facts, and facts can be shared freely; the odour descriptions on supplier sites are somebody's writing and are not in it. The library that comes with miFormulas holds several hundred materials under CC BY 4.0, and <strong>Get the latest library</strong> in Settings fetches the current one.</p>
 <h2 id="s8-formulas-versions-and-variations">8. Formulas, versions and variations</h2>
@@ -523,7 +523,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <h2 id="s9-editing-a-formula">9. Editing a formula</h2>
 <p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s11-changing-dilutions">11</a>). Remove a line with ✕.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s9-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
-<p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered.</p>
+<p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s18-import-and-export">18</a>) it arrives with the facts the library holds, exactly as <strong>+ New material</strong> does; the same goes for a formula import and for <strong>Delivered</strong> on the order list.</p>
 <p>The table can be ordered by original entry, by category or by pyramid level (top to base), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
 <p>Below the table sit <strong>Batch scaling</strong> (section <a href="#s12-batch-scaling-and-predilutions">12</a>), <strong>Notes</strong>, the <strong>Trial log</strong> (section <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>), the <strong>Categories</strong> panel and the <strong>IFRA check</strong> (section <a href="#s16-ifra-check-and-category-panel">16</a>), and <strong>Mark as prepared</strong> for the stock ledger (section <a href="#s17-stock-orders-and-deliveries">17</a>).</p>
 <h2 id="s10-percentages-and-the-perfumery-arithmetic">10. Percentages and the perfumery arithmetic</h2>
@@ -1158,6 +1158,7 @@ function renderSidebar(){
       }
       (groups[m.category||"Uncategorised"] ||= []).push(m);
     }
+    for (const g of Object.values(groups)) g.sort((a,b) => a.name.localeCompare(b.name));
     if (descHits.size) html += `<div class="hint" style="padding:.5rem .8rem 0">${descHits.size} match(es) in descriptions ✎</div>`;
     for (const cat of Object.keys(groups).sort((a,b)=>a.localeCompare(b))){
       html += `<div class="cat"><span class="catdot" style="background:${catColourByName(cat)}"></span>${esc(cat)} <span class="hint" style="font-weight:400">${groups[cat].length}</span></div>`;
@@ -1333,6 +1334,7 @@ function renderFormula(f){
   if (item && sub.bench) bindBench(f, item, lines, K);
   $("#btnRenameF")?.addEventListener("click", () => {
     const n = prompt("Formula name:", f.name); if (!n || n.trim() === f.name) return;
+    if (DATA.formulas.some(x => x !== f && normName(x.name) === normName(n))){ alert(`Another formula is already called “${n.trim()}”.`); return; }
     snapF(f); f.name = n.trim(); buildUsage(); markDirty(); render();
   });
   $("#btnCopyF")?.addEventListener("click", () => copyFormula(f, sub));
@@ -1583,21 +1585,29 @@ function bindLineEditors(f, item){
   }));
   $("#btnAddLine")?.addEventListener("click", () => {
     const name = $("#addMat").value.trim(); if (!name) return;
-    let m = DATA.materials.find(x => x.name === name);
+    let m = DATA.materials.find(x => x.name === name), created = null, newCat = null, oc = null;
     if (!m){
-      if (!confirm(`“${name}” is not in your inventory.\n\nCreate it as a to-be-ordered material? It will be added to the To order list and marked in the formula until delivered.`)) return;
-      const oc = structuredClone(DATA.orderList);
-      m = {id: uid("m-"), name, cas:"", category:"Uncategorised", supplier:"", costPerGram:null, modified: now(),
-        ifraLimit:null, inventory:"", pyramid:5, isSolvent:false, description:"", wishlist:true,
-        dilutions:[{pct:100, isBase:true, date:today(), notes:""}]};
-      DATA.materials.push(m); DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats();
+      const known = listFind(name);
+      if (!confirm(`“${name}” is not in your inventory.\n\nCreate it as a to-be-ordered material? It will be added to the To order list and marked in the formula until delivered.${known ? `\n\nThe materials library knows this name: its CAS number, category, pyramid level and IFRA limit come along.` : ""}`)) return;
+      oc = structuredClone(DATA.orderList);
+      const r = newMaterialFrom(name, 100, {wishlist: true});
+      m = r.m; created = m.id; newCat = r.newCat;
+      DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats();
       DATA.orderList.push({id: uid("o-"), materialId: m.id, name, note: `needed for ${f.name}`, price:"", added: today()});
-      const mid = m.id;
-      pushUndo(() => { DATA.orderList = oc; DATA.materials = DATA.materials.filter(x => x.id !== mid); invalidateMats(); });
     }
     const dils = m.dilutions||[];
     const base = dils.find(d=>d.isBase) || dils.reduce((a,b)=>!a||b.pct>a.pct?b:a, null);
-    snapF(f); item.lines.push({materialId:m.id, dilutionPct: base?base.pct:100, weightG:0, remark:1});
+    const fClone = structuredClone(f);
+    item.lines.push({materialId:m.id, dilutionPct: base?base.pct:100, weightG:0, remark:1});
+    f.modified = now();
+    pushUndo(() => {          // line, material, order line and category go back in one step
+      const i = DATA.formulas.findIndex(x => x.id === f.id); if (i >= 0) DATA.formulas[i] = fClone;
+      if (created){
+        DATA.orderList = oc; DATA.materials = DATA.materials.filter(x => x.id !== created); invalidateMats();
+        if (newCat) DATA.materialCategories = DATA.materialCategories.filter(x => x !== newCat);
+      }
+      buildUsage();
+    });
     markDirty(); render();
   });
 }
@@ -1867,17 +1877,27 @@ function listSuggest(q){   // entries of the library you do not have yet, by nam
   const have = ownNames();
   return listMaterials().filter(e => listHit(e, t) && !have.has(normName(e.name)) && !(e.aliases || []).some(a => have.has(normName(a))));
 }
-function addFromList(hit, name, pct, cat){   // one material from a list entry (or from a name alone); the caller sorts and does the Undo
-  const c = cat || (hit && hit.category) || "Uncategorised";
-  const newCat = !DATA.materialCategories.includes(c);
-  if (newCat){ DATA.materialCategories.push(c); DATA.materialCategories.sort((a,b)=>a.localeCompare(b)); }
-  const m = {id: uid("m-"), name: name || hit.name, cas: (hit && hit.cas) || "", category: c, supplier:"", costPerGram:null, modified: now(),
+function addFromList(hit, name, pct, cat){   // one material from a library entry (or from a name alone); the caller sorts and does the Undo
+  const want = cat || (hit && hit.category) || "Uncategorised";
+  const same = DATA.materialCategories.find(x => x.localeCompare(want, undefined, {sensitivity:"base"}) === 0);
+  const c = same || want;                       // "musks" next to your own "Musks" would be a second category for one thing
+  if (!same){ DATA.materialCategories.push(c); DATA.materialCategories.sort((a,b)=>a.localeCompare(b)); }
+  const nm = name || hit.name;
+  const m = {id: uid("m-"), name: nm, cas: (hit && hit.cas) || "", category: c, supplier:"", costPerGram:null, modified: now(),
     ifraLimit: hit && hit.ifraLimit != null ? hit.ifraLimit : null, inventory:"",
     pyramid: hit && hit.pyramid != null ? hit.pyramid : 5, isSolvent: !!(hit && hit.isSolvent),
     description: hit ? listFacts(hit) : "", dilutions:[{pct: pct || 100, isBase:true, date:today(), notes:""}]};
-  if (hit && hit.aliases && hit.aliases.length) m.aliases = hit.aliases.join("; ");
+  if (hit){   // the name of the library entry is kept as an alternative name, so an import that uses it still matches
+    const al = [hit.name, ...(hit.aliases || [])].filter(a => a && normName(a) !== normName(nm));
+    if (al.length) m.aliases = [...new Set(al)].join("; ");
+  }
   DATA.materials.push(m);
-  return {m, newCat: newCat ? c : null};
+  return {m, newCat: same ? null : c};
+}
+function newMaterialFrom(name, pct, extra){   // a material you do not own yet: the library fills in what it knows
+  const r = addFromList(listFind(name), name, pct, null);
+  Object.assign(r.m, extra || {});
+  return r;
 }
 function addListMaterials(names){   // several materials from the library at once, one Undo step; returns the new ids
   const added = [], cats = [];
@@ -2758,14 +2778,16 @@ function applyImport(){
   const targetId = $("#impTarget")?.value || "";
   const target = targetId ? DATA.formulas.find(x => x.id === targetId) : null;
   const oc = structuredClone(DATA.orderList);
-  const createdIds = [], lines = [];
+  const createdIds = [], createdCats = [], lines = [];
   for (const L of p.lines){
     let {m, dil} = resolveImportLine(L);
     if (!m){
-      m = {id: uid("m-"), name: L.material, cas: L.cas || "", category: "Uncategorised", supplier: "", costPerGram: null,
-        modified: now(), ifraLimit: null, inventory: "", pyramid: 5, isSolvent: false, description: "", wishlist: true,
-        dilutions: [{pct: dil, isBase: true, date: today(), notes: "from import"}]};
-      DATA.materials.push(m); createdIds.push(m.id);
+      const r = newMaterialFrom(L.material, dil, {wishlist: true,
+        dilutions: [{pct: dil, isBase: true, date: today(), notes: "from import"}]});
+      m = r.m;
+      if (L.cas) m.cas = L.cas;                  // what you transcribed wins over the library
+      if (r.newCat) createdCats.push(r.newCat);
+      createdIds.push(m.id);
       DATA.orderList.push({id: uid("o-"), materialId: m.id, name: m.name, note: `needed for ${p.name}`, price: "", added: today()});
     }
     lines.push({materialId: m.id, dilutionPct: dil, weightG: L.weightG || 0, remark: 1});
@@ -2782,6 +2804,7 @@ function applyImport(){
       DATA.orderList = oc;
       const i = DATA.formulas.findIndex(x => x.id === clone.id); if (i >= 0) DATA.formulas[i] = clone;
       DATA.materials = DATA.materials.filter(x => !createdIds.includes(x.id)); invalidateMats();
+      if (createdCats.length) DATA.materialCategories = DATA.materialCategories.filter(x => !createdCats.includes(x));
     });
     buildUsage(); markDirty(); IMPORTP = null;
     switchTab("F", target.id, {type:"v", idx: target.versions.length - 1});
@@ -2916,11 +2939,13 @@ function deliveredDialog(idx){
       markDirty(); switchTab("M", m.id, null);
     } else {
       const cg = costPerGram(null, 100);   // a new material starts at 100 %
-      const nm = {id: uid("m-"), name: o.name, cas:"", category:"Uncategorised", supplier:"", costPerGram: cg ? +cg.toFixed(4) : null, modified: now(),
-        ifraLimit:null, inventory: amt, purchaseDate: date, pyramid:5, isSolvent:false, description:"",
-        dilutions:[{pct:100, isBase:true, date, notes:""}]};
-      pushUndo(() => { DATA.orderList = oc; DATA.materials = DATA.materials.filter(x => x.id !== nm.id); invalidateMats(); if (VIEW.id === nm.id) VIEW.id = null; });
-      DATA.materials.push(nm); DATA.materials.sort((a,b) => a.name.localeCompare(b.name)); invalidateMats();
+      const r = newMaterialFrom(o.name, 100, {costPerGram: cg ? +cg.toFixed(4) : null, inventory: amt, purchaseDate: date,
+        dilutions:[{pct:100, isBase:true, date, notes:""}]});
+      const nm = r.m, newCat = r.newCat;
+      pushUndo(() => { DATA.orderList = oc; DATA.materials = DATA.materials.filter(x => x.id !== nm.id); invalidateMats();
+        if (newCat) DATA.materialCategories = DATA.materialCategories.filter(x => x !== newCat);
+        if (VIEW.id === nm.id) VIEW.id = null; });
+      DATA.materials.sort((a,b) => a.name.localeCompare(b.name)); invalidateMats();
       DATA.orderList.splice(idx, 1);
       markDirty(); switchTab("M", nm.id, null);
     }
@@ -3001,7 +3026,15 @@ function renderMaterial(m){
     const k = e.target.dataset.f;
     let v = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     if (e.target.dataset.num) v = parseNum(v);
-    snapM(m); m[k] = v; markDirty(); if (k==="name") MATLIST = null; if (k==="name"||k==="category") renderSidebar();
+    if (k === "name"){
+      const n = String(v).trim();
+      if (!n){ alert("A material needs a name."); render(); return; }
+      if (DATA.materials.some(x => x !== m && normName(x.name) === normName(n))){ alert(`Another material is already called “${n}”.`); render(); return; }
+      v = n;
+    }
+    snapM(m); m[k] = v; markDirty();
+    if (k === "name"){ MATLIST = null; DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats(); render(); }
+    else if (k === "category") renderSidebar();
   }));
   c.querySelectorAll("[data-pyr]").forEach(b => b.addEventListener("click", () => { snapM(m); m.pyramid = +b.dataset.pyr; markDirty(); render(); }));
   c.querySelector("a[data-copy]")?.addEventListener("click", e => { try{ navigator.clipboard.writeText(e.currentTarget.dataset.copy); }catch(_){} });   // IFRA link: CAS on the clipboard, the link itself opens the library
@@ -3112,7 +3145,9 @@ $("#btnNewMat").addEventListener("click", () => {
     ${list.length ? `<div style="margin-top:.6rem"><button type="button" class="small" id="nmBrowse">Browse the library…</button> <span class="hint">to tick several at once</span></div>` : ""}`, "Create", () => {
     const name = $("#nmName").value.trim();
     if (!name){ alert("Give the material a name."); return false; }
-    if (DATA.materials.some(x => x.name.toLowerCase() === name.toLowerCase())){ alert("A material with that name already exists."); return false; }
+    if (DATA.materials.some(x => normName(x.name) === normName(name))){ alert("A material with that name already exists."); return false; }
+    const owner = DATA.materials.find(x => (x.aliases || "").split(";").some(a => normName(a) === normName(name)));
+    if (owner && !confirm(`You already have “${owner.name}”, which carries “${name}” as an alternative name.\n\nCreate a second material anyway?`)) return false;
     const pct = parseNum($("#nmDil").value) || 100;
     const hit = listFind(name);
     const cat = $("#nmCat").value || "Uncategorised";

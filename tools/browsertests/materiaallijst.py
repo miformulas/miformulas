@@ -89,7 +89,8 @@ with sync_playwright() as p:
     m = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Proefmusk");
       return m && {cas: m.cas, pyr: m.pyramid, ifra: m.ifraLimit, cat: m.category, al: m.aliases, d: m.description, sol: m.isSolvent}; }""")
     check(f"the material carries the facts ({m})", m and m["cas"] == "106-02-5" and m["pyr"] == 4 and m["ifra"] == 99 and m["cat"] == "Test musks")
-    check("alternative names came along", m and m["al"] == "omega-testolactone; Proefmusk")
+    check(f"the library name is kept as an alternative name, its own name is not ({m and m['al']})",
+          m and m["al"] == "Testolide; omega-testolactone")
     check("odour, impact, substantivity and use are each on their own line",
           m and m["d"].split("\n") == ["musky, animalic, powdery", "Impact: high",
                                        "Substantivity: more than 2 weeks",
