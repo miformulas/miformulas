@@ -87,9 +87,10 @@ the concentration.
 the weight, keeps the percentage, or swaps the solvent, and warns when the ethanol
 runs short.
 
-**Materials.** Name, CAS, supplier, category with its own colour, stock, cost per
-gram, IFRA limit, pyramid level, solvent flag, description, density and storage
-location; every formula a material appears in; an optional stock ledger.
+**Materials.** Name, CAS, alternative names, supplier, category with its own
+colour, stock, cost per gram, IFRA limit, pyramid level, solvent flag,
+description, density and storage location; every formula a material appears in;
+an optional stock ledger.
 
 **Also there.** Batch scaling on a factor, a target weight or a target
 concentration; an IFRA check with adjustable dosage; a comparison view between
@@ -102,7 +103,7 @@ your own server with a conflict check and daily snapshots. See below.
 ## Getting started
 
 1. Open the app and choose **Start with the starter set**: sixteen formulas and
-   two hundred materials to explore, marked "starter" so you can tell them from
+   nearly two hundred materials to explore, marked "starter" so you can tell them from
    your own.
 2. Or choose **Open data file…** for a file of your own, or **Import from
    Formulair** if that is where you come from.
@@ -123,9 +124,10 @@ apps ship: a reference file of facts that you import (**Import materials library
 on the Welcome page). With one loaded, a material you add arrives with its CAS
 number, category, pyramid level, IFRA limit, alternative names and a few lines of
 odour facts already filled in, all of it editable, and the materials you own are
-never touched. The library that comes with miFormulas holds several hundred
+never touched. The library published by miFormulas holds several hundred
 materials under CC BY 4.0; **Get the latest library** in Settings fetches the
-current one.
+current one. It is not in the repository or in the ZIP: it changes more often
+than the app does, so the app asks for it when you do.
 
 ## Feedback
 

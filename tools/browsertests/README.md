@@ -14,6 +14,8 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python help.py                 # Help-knop: ingebedde handleiding, inhoudstafel, terug naar de vorige weergave (17 controles)
     python move-into.py            # Move into…: geïmporteerde formule als versie of bevroren variatie van een andere, Move together, "this formula", Undo (48 controles)
     python materiaallijst.py       # materials library: import, Settings, Get the latest library, + New material met feiten, Browse the library… met shift-klik, "+ Add" in de zoeklijst, Undo (50 controles)
+    python export-bibliotheek.py   # Export my inventory as a library…: alles vooraf aangevinkt, shift-klik, wat er wel en niet in het bestand komt, en de rondgang terug via import (40 controles)
+    python opruiming.py            # staart van de review: zoeken op "starter", bevestiging bij ✕, ellipsis op de openers, aliassen in de keuzelijst, attributie in Settings, bevroren variatie, alleen-lezen op een telefoon (37 controles)
     python undo-navigatie.py       # één undo-stap per handeling (nieuwe categorie, predilutie, Replace + dilutiewissel), Redo keert terug naar de plek van de wijziging, Copy vanuit een variatie, bench mee naar een nieuwe versie (14 controles)
     python validatie.py            # wat de app weigert: negatief gewicht, dilutie buiten 0-100, dubbele dilutie, basisdilutie die verdwijnt, tekst als getal, eigen velden met underscore; dagsnapshot, Delete version op een import, verborgen importverwijzing (21 controles)
     python namen.py                # Add line, formule-import en Delivered nemen de feiten uit de bibliotheek mee, categorie niet dubbel door hoofdletters, alias die je al bezit, hernoemen zonder dubbele namen (14 controles)

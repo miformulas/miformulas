@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260914j. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260914k. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -59,7 +59,9 @@ Every change is saved automatically a few seconds after you make it; **Ctrl+Z** 
 
 ## 2. Where your data lives: browser, file or server
 
-miFormulas stores everything in one JSON file, `miformulas-data.json`. The app can keep that file in three places, and the top-right of the header always tells you which one is in use ("Saved 14:02 · this browser", "Saved 14:02", "Connected to server").
+miFormulas stores everything in one JSON file, `miformulas-data.json`. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server").
+
+Two buttons on the start screen belong to particular situations. With a server configured, **Open data file…** reads **Connect to server** instead, and asks for the token if the server wants one. After a save that could not reach the server, the start screen offers **Continue with data from …** with the date and time of the copy the app kept in the browser, so an interrupted session is not lost.
 
 **In the browser.** On miformulas.com the app keeps the data in the browser's own storage on that computer. This is the quickest way to try things out, and it is fine for everyday use if you download a Backup regularly. Two things to know: every browser has its own storage (Edge and Chrome on the same computer do not see each other's data), and a browser that is set to clear site data when it closes will take your formulas with it. The app asks the browser to keep the storage persistent; as long as the browser has not confirmed that, an amber bar under the header reminds you to make backups.
 
@@ -82,6 +84,7 @@ This is everything the app does on the network:
 - On miformulas.com it loads the starter set from the same site when you click **Start with the starter set**, and on the first visit it checks once whether a `data.php` server sits next to it. The browser also fetches the small app manifest and the icons from the same site, which is what makes "Install as an app" possible.
 - The downloaded app makes one kind of request, and only when you click **Start with the starter set**: it fetches the starter set from miformulas.com. That request carries nothing of yours; as with any web page, the server sees that an address asked for a file. Once you have a data file, the app makes no request at all, and you can use it with the network switched off.
 - In server mode the app talks only to the server address you entered in Settings.
+- **Get the latest library** in Settings fetches the published materials library from `data.miformulas.com`, and only when you click it. That request carries nothing of yours either: the library is a plain file that the server hands to anyone who asks.
 - **Search** in the order list, the product links, the **TGSC**, **Olfactorian** and **IFRA** links on a material page and the links in the Help pages open Google, DuckDuckGo, the shop or the site in a new tab, only when you click them. The IFRA link also puts the CAS number on your clipboard, nothing else.
 
 No analytics, no fonts or scripts loaded from elsewhere, nothing sent in the background. The Formulair importer reads your database in the browser and sends nothing; its database engine (sql.js) is embedded in the file.
@@ -129,7 +132,7 @@ That is all: your data is a file you can see, copy, put in a synced folder or re
     
     ![Start with the starter set creates the data file next to the app.](img/app-data-file-dialog.png)
 
-- **Coming from Formulair?** Open https://miformulas.com/formulair-import.html, or click **Import from Formulair** in the app. It converts your Formulair database in the browser and adds it to miFormulas; nothing is uploaded. Section 19 has the steps.
+- **Coming from Formulair?** Open https://miformulas.com/formulair-import.html, or click **Import from Formulair…** in the app when you are using it on the site; the downloaded app does not show that link, because the importer is a page on the site. It converts your Formulair database in the browser and adds it to miFormulas; nothing is uploaded. Section 19 has the steps.
 - **Everything at once.** On the GitHub page https://github.com/miformulas/miformulas click the green **Code** button, then **Download ZIP**. The ZIP holds the app, the Formulair importer, the starter data, the server endpoint and the tools.
 - **Your own server**, so that all your devices share the same data: section 20.
 
@@ -236,7 +239,7 @@ The **page** on the right shows the selected formula or material, the order list
 
 ![The list panel on the left and a formula page on the right.](img/app-formula-full.png)
 
-On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything.
+On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. The header leaves out **+ New formula…**, **+ New material…**, **Redo** and **Save** on a phone: creating is desktop work, and saving happens by itself.
 
 ## 7. Materials
 
@@ -248,7 +251,7 @@ A material is anything you weigh: a raw material, a natural, a base, a solvent, 
 
 ![A material page: fields, dilutions and the stock ledger.](img/app-material.png)
 
-**Dilutions.** A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. One of them is the **base** dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, it only disappears from the pick list.
+**Dilutions.** A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. Add one with **Add dilution** (a percentage and an optional note) and make it the base with **Set base**; **✕** removes one, and the highest remaining dilution becomes the base if you remove that one. A category you do not have yet is made with **+ New category** in the category list. One of them is the **base** dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, it only disappears from the pick list.
 
 **Solvent.** Tick this for ethanol, DPG, IPM, TEC and the like. Solvent lines carry no aromatic content: they do not count in the relative percentages and they are what the dilution tools exchange against.
 
@@ -262,7 +265,7 @@ Materials come from **+ New material** in the header (name, category and base di
 
 Filling in CAS numbers, IFRA limits, pyramid levels and descriptions for many materials is tedious; `docs/ai-prompts.md` has a prompt that lets an AI assistant propose them from the **All materials (Excel)** export, for you to check and enter.
 
-What some apps ship as a built-in materials database, miFormulas keeps as a file you import: a **materials library** (section 18). With one loaded, a new material arrives with its CAS number, category, pyramid level, IFRA limit, alternative names and a few lines of odour facts already in place, all of it editable. Those are facts, and facts can be shared freely; the odour descriptions on supplier sites are somebody's writing and are not in it. The library that comes with miFormulas holds several hundred materials under CC BY 4.0, and **Get the latest library** in Settings fetches the current one.
+What some apps ship as a built-in materials database, miFormulas keeps as a file you import: a **materials library** (section 18). With one loaded, a new material arrives with its CAS number, category, pyramid level, IFRA limit, alternative names and a few lines of odour facts already in place, all of it editable. Those are facts, and facts can be shared freely; the odour descriptions on supplier sites are somebody's writing and are not in it. The library published by miFormulas holds several hundred materials under CC BY 4.0, and **Get the latest library** in Settings fetches the current one. It is not inside the app, the repository or the ZIP: it changes more often than the app does, so the app asks for it when you do.
 
 ## 8. Formulas, versions and variations
 
@@ -279,6 +282,8 @@ A **variation** is the same recipe in another presentation: the same formula at 
 
 Formulas imported from Formulair are frozen too (section 19): you read them, compare them and copy them, but to work on one you make a new version.
 
+Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with **✎**, write notes, add trial-log entries, set colour marks, arrange the bench view and use **Mark as prepared** on a frozen version or variation: those are your annotations about it, not the recipe itself. In the version list a **🔒** marks a version that came in from an import and a **⛄** marks a frozen variation.
+
 **Move into…** appears on an imported formula that has one version and no variations, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula, or a frozen variation of one of its versions, and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version or variation as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section 19). When other imported formulas share the name, the dialog lists them under **Move together**, ticked: "Aura v04" and "Aura v05 20%" go into the target in the same go, as versions numbered by the version number in their names (then by name), or as variations labelled with what is left of the name once the shared part is removed. Untick what should stay, and add any other imported formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers **this formula** and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.
 
 ![A live variation "20%" made up as 50 g, following the latest version.](img/app-variation.png)
@@ -287,7 +292,7 @@ Formulas imported from Formulair are frozen too (section 19): you read them, com
 
 ## 9. Editing a formula
 
-A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the **Add material…** box under the table (the list suggests as you type) and click **Add line**; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick **custom…** for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section 11). Remove a line with ✕.
+A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the **Add material…** box under the table (the list suggests as you type) and click **Add line**; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick **custom…** for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section 11). Remove a line with ✕, and swap the material on a line for another with **⇄**: the dilution and the weight are carried over, so a line you weighed stays weighed.
 
 ![A formula page: the lines table with dilution, weight, rel % and abs %.](img/app-formula.png)
 
@@ -327,7 +332,7 @@ The same question comes up when you replace a material by another one whose dilu
 
 ![Ticked lines and the tick bar: marks, Lower and Higher, Create predilution…](img/app-tick-bar.png)
 
-In a live variation the dilution list works the same way but stores an override instead of touching the version, so the variation keeps following the formula.
+In a live variation the dilution list stores a difference instead of touching the version, so the variation keeps following the formula. The window offers two of the three choices there, not three: **Preserve rel % and exchange solvent** and **Preserve rel % only**. Preserve weight has no meaning in a live variation, where the weights are computed from the version it follows.
 
 Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent".
 
@@ -347,7 +352,7 @@ Tick lines with the checkboxes on the left (Shift-click ticks a range) and use t
 
 ## 14. Bench view and printing
 
-**Bench view** (the button next to the formula name) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the **Unsorted** column on the left; drag them into named groups on the right, or tick several lines and choose **Move ticked to…**. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; **+ Add group** makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version or variation. **Print bench sheet** prints the groups with a checkbox per line, in the order you will weigh them.
+**Bench view** (the button next to the formula name, which reads **Table view** while the bench is open, with **Close bench** underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the **Unsorted** column on the left; drag them into named groups on the right, or tick several lines and choose **Move ticked to…**. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; **+ Add group** makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version or variation. **Print bench sheet** prints the groups with a checkbox per line, in the order you will weigh them.
 
 ![Bench view: the Unsorted column with its own sort order on the left, the groups you build the batch with on the right.](img/app-bench-view.png)
 
@@ -443,7 +448,7 @@ If you would like step-by-step instructions for your own device, `docs/ai-prompt
 
 ## 21. Settings, theme and keyboard shortcuts
 
-**Settings** (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case), the server endpoint and its token, and a few buttons that depend on the situation: **Install as an app** when the browser offers it, **Save to a data file…** and **Delete the data kept in this browser…** in browser-storage mode, and **Forget the remembered data file…** when a file is remembered.
+**Settings** (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case), the server endpoint and its token, and a few buttons that depend on the situation: **Install as an app** when the browser offers it, **Save to a data file…** and **Delete the data kept in this browser…** in browser-storage mode, and **Forget the remembered data file…** when a file is remembered. At the bottom sits the materials library (section 18): the name, size and licence of the one that is loaded, its attribution and source when it carries them, and the buttons **Import materials library…**, **Remove the library…** and **Get the latest library**.
 
 ![Settings in browser-storage mode.](img/app-settings.png)
 
@@ -485,7 +490,7 @@ In server mode the server keeps daily snapshots for fourteen days (section 20).
 
 **I want the site to forget my data file.** Open Settings (⚙): the button "Forget the remembered data file…" makes the app stop offering Reopen. The file itself is not touched.
 
-**Where do I report a problem or suggest something?** On GitHub, at https://github.com/miformulas/miformulas/issues (the **Feedback** link on the start screen goes there; writing there needs a free GitHub account). Say which browser you use and the build number shown next to the name in the header, and what you did; a Backup of a data file that shows the problem helps most, if you are willing to share it.
+**Where do I report a problem or suggest something?** On GitHub, at https://github.com/miformulas/miformulas/issues (the **Feedback** link on the start screen goes there; writing there needs a free GitHub account). If you would rather not use GitHub, write to info@miformulas.com; the **Or write an e-mail** link in the Help bar opens a message to that address. Say which browser you use and the build number shown next to the name in the header, and what you did; a Backup of a data file that shows the problem helps most, if you are willing to share it.
 
 ![Settings with a remembered data file: Forget the remembered data file…](img/edge-settings.png)
 

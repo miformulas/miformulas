@@ -78,6 +78,20 @@ with sync_playwright() as p:
       const tops = new Set(b.map(x => Math.round(x.getBoundingClientRect().top)));
       return {rows: tops.size, wrap: getComputedStyle(b[0]).whiteSpace}; })()""")
     check(f"all header buttons sit on one line ({h})", h["rows"] == 1 and h["wrap"] == "nowrap")
+    page.set_viewport_size({"width": 850, "height": 800})       # wider than a phone, too narrow for one row
+    page.wait_for_timeout(300)
+    h2 = page.evaluate("""(() => { const b = [...document.querySelectorAll("header button")].filter(x => x.offsetParent);
+      const st = document.getElementById("saveState"), w = document.documentElement.clientWidth;
+      const over = b.filter(x => x.getBoundingClientRect().right > w + 1).map(x => x.id || x.textContent.trim());
+      const rows = [...new Set(b.map(x => Math.round(x.getBoundingClientRect().top)))].sort((p,q)=>p-q);
+      return {over, rows: rows.length, stateTop: Math.round(st.getBoundingClientRect().top),
+              lastRow: rows[rows.length-1],
+              stateLines: Math.round(st.getBoundingClientRect().height / parseFloat(getComputedStyle(st).fontSize) / 1.2),
+              wrap: getComputedStyle(st).whiteSpace}; })()""")
+    check(f"at 850 px no header button runs off the screen ({h2['over']})", not h2["over"])
+    check(f"the state gets a line of its own below the buttons ({h2})",
+          h2["stateTop"] > h2["lastRow"] and h2["stateLines"] <= 1 and h2["wrap"] == "nowrap")
+    page.set_viewport_size({"width": 1280, "height": 800}); page.wait_for_timeout(300)
 
     # ---------- 6. without a mouse ----------
     page.click("#tabM"); page.wait_for_timeout(400)

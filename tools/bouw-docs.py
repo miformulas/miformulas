@@ -148,7 +148,11 @@ def manual_html():
     h = re.sub(r'(<h2 id="contents">Contents</h2>)\s*<ol>.*?</ol>', r'\1<ol class="toc">' + toc + "</ol>", h, count=1, flags=re.S)
     # "section 19" in the text links to that section
     ids = {re.match(r"(\d+)\.", t).group(1): i for i, t in heads if re.match(r"\d+\.", t)}
-    h = re.sub(r"\b([Ss]ections?) (\d+)\b(?! of the G)", lambda m: f'{m.group(1)} <a href="#{ids[m.group(2)]}">{m.group(2)}</a>' if m.group(2) in ids else m.group(0), h)
+    link = lambda n: f'<a href="#{ids[n]}">{n}</a>' if n in ids else n
+    def linksec(m):                                  # "sections 11 to 13" and "sections 4 and 5" link both numbers
+        out = f"{m.group(1)} {link(m.group(2))}"
+        return out + (f" {m.group(3)} {link(m.group(4))}" if m.group(3) else "")
+    h = re.sub(r"\b([Ss]ections?) (\d+)(?:\s+(to|and)\s+(\d+))?\b(?! of the G)", linksec, h)
     return h, heads, src
 
 def build_manual():
