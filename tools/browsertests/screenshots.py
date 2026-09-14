@@ -15,6 +15,9 @@ OUT = os.path.join(PUB, "docs", "img")
 URL = "http://localhost:8765/"
 APP_FILE = "file://" + os.path.join(PUB, "index.html").replace("\\", "/")
 STARTER = open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8").read()
+# the published materials library lives outside the repository (miformulas.com serves it from R2).
+# Put a copy next to public/ to get the real thing in the shots; without it a small stand-in is used.
+LIBRARY = os.path.abspath(os.path.join(PUB, "..", "miformulas-materials.json"))
 os.makedirs(OUT, exist_ok=True)
 
 # fake File System Access API (as in file-mode.py), so that Save to a data file and Reopen can be shown
@@ -187,10 +190,55 @@ with sync_playwright() as p:
     page.fill("#ordName", "Orris Absolute"); page.fill("#ordNote", "for the iris trial"); page.click("#btnOrdAdd"); settle(page)
     shot(page, "app-order-list.png")
 
-    # ---- 11. settings ----
+    # ---- 10b. the materials library: import it, then Browse ----
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    lib = LIBRARY
+    if not os.path.exists(lib):                      # a stand-in, so the script also runs from a bare clone
+        lib = os.path.join(OUT, "_library.json")
+        open(lib, "w", encoding="utf-8").write(json.dumps({
+            "type": "miformulas-materials", "name": "miFormulas materials library",
+            "version": "0000-00-00", "licence": "CC BY 4.0", "materials": [
+                {"name": n, "category": "Musks", "pyramid": 4} for n in
+                ("Ambrettolide", "Exaltolide", "Habanolide", "Muscenone", "Nirvanolide", "Velvione")]}))
+        print("no", LIBRARY, "- using a stand-in library")
+    page.set_input_files("#impList", lib); page.wait_for_timeout(900)
+    page.click("#btnNewMat"); page.wait_for_timeout(400)
+    page.click("#nmBrowse"); page.wait_for_timeout(500)
+    page.fill("#brQ", "musk"); page.wait_for_timeout(400)
+    boxes = page.locator("#brRows input[data-n]:not([disabled])")
+    for i in range(min(3, boxes.count())):
+        boxes.nth(i).click(); page.wait_for_timeout(120)
+    shot(page, "app-browse-library.png", "#dlg")
+    page.click("#dlgCancel"); page.wait_for_timeout(300)   # Browse reuses the same dialog, so one Cancel closes both
+
+    # ---- 10c. Move into… with Move together, on three imported formulas ----
+    page.evaluate("""() => {
+        const src = DATA.formulas.find(f => f.versions.length && f.versions[0].lines.length > 4) || DATA.formulas[0];
+        const base = src.versions[0];
+        const mk = (name, k) => ({id: uid("f-"), name, category: "Uncategorised", modified: now(), frozenImport: true,
+            versions: [{v: 1, date: "2026-08-" + (10 + k), name: "", notes: "", sourceName: name, imported: true, frozen: true,
+                        lines: base.lines.map(l => ({...l, weightG: +(((l.weightG || 0) * (1 + k / 20)).toFixed(3))}))}],
+            variations: []});
+        for (const [i, n] of ["Aura v04", "Aura v05", "Aura v05 20%"].entries()) DATA.formulas.push(mk(n, i));
+        const f = DATA.formulas.find(x => x.name === "Aura v04");
+        switchTab("F", f.id, {type: "v", idx: 0});
+    }""")
+    page.wait_for_timeout(600)
+    page.click("#btnMoveF"); page.wait_for_timeout(600)
+    shot(page, "app-move-into.png", "#dlg")
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    page.evaluate("""() => {                                   // leave the starter set as it was
+        DATA.formulas = DATA.formulas.filter(f => !/^Aura v0/.test(f.name));
+        HOMEVIEW = true; VIEW = {tab:"F", id:null, sub:null}; render();
+    }""")
+    settle(page)
+
+    # ---- 11. settings, with the library block (taller viewport: the dialog scrolls otherwise) ----
+    page.set_viewport_size({"width": 1280, "height": 1150}); page.wait_for_timeout(300)
     page.click("#btnSettings"); page.wait_for_timeout(400)
     shot(page, "app-settings.png", "#dlg")
     page.click("#dlgCancel"); page.wait_for_timeout(300)
+    page.set_viewport_size({"width": 1280, "height": 800}); page.wait_for_timeout(300)
 
     # ---- 12. import preview ----
     page.click("#btnHome"); page.wait_for_timeout(300)
