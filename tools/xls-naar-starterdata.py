@@ -286,7 +286,7 @@ def main():
         "meta": {"schema": 1, "generated": "2026-09-07",
                  "source": "miFormulas starter data", "uiLanguage": "en"},
         "materialCategories": lib_cats,
-        "formulaCategories": ["Bases & Accords", "Prediluties", "Uncategorised"],
+        "formulaCategories": ["Bases & Accords", "Predilutions", "Uncategorised"],
         "suppliers": [], "materials": materials, "formulas": formulas,
         "categoryColours": colours, "shopSites": [], "orderList": [],
     }

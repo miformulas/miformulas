@@ -307,7 +307,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260913g</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -362,7 +362,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260913g. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260914. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -655,11 +655,19 @@ const uid = p => p + Math.random().toString(36).slice(2,8);
 let LOCALE = undefined;   // number format for display; undefined = browser default, set in Settings
 const fmt = (x,d=3) => x==null||isNaN(x) ? "–" : x.toLocaleString(LOCALE,{minimumFractionDigits:d,maximumFractionDigits:d});
 const fmtS = (x,d=2) => x==null||isNaN(x) ? "–" : x.toLocaleString(LOCALE,{minimumFractionDigits:0,maximumFractionDigits:d});
+/* input fields are filled without a thousands separator: "1500.000" reads back as 1500 in every locale */
+const fmtIn  = (x,d=3) => x==null||isNaN(x) ? "" : x.toLocaleString(LOCALE,{minimumFractionDigits:d,maximumFractionDigits:d,useGrouping:false});
+const fmtSIn = (x,d=2) => x==null||isNaN(x) ? "" : x.toLocaleString(LOCALE,{minimumFractionDigits:0,maximumFractionDigits:d,useGrouping:false});
 const parseNum = s => {
   if (typeof s === "number") return s;
-  s = (s||"").toString().trim();
-  if (s.includes(",")) s = s.replace(/\./g,"").replace(",",".");          // Belgian: 1.234,56
-  else if ((s.match(/\./g)||[]).length > 1) s = s.replace(/\./g,"");      // 1.234.567 → thousands
+  s = (s||"").toString().trim().replace(/[\s\u00A0\u202F]/g,"");          // thousands spaces (fr-FR, NBSP)
+  const c = s.lastIndexOf(","), d = s.lastIndexOf(".");
+  if (c >= 0 && d >= 0){                                                  // both: the last one is the decimal sign
+    s = c > d ? s.replace(/\./g,"").replace(",",".")                       // 1.234,56
+              : s.replace(/,/g,"");                                       // 1,234.56
+  }
+  else if (c >= 0) s = s.replace(/\./g,"").replace(",",".");               // Belgian: 1.234,56 / 2,5
+  else if ((s.match(/\./g)||[]).length > 1) s = s.replace(/\./g,"");       // 1.234.567 → thousands
   /* a single dot without comma is a decimal point (phone keyboards, English habit): 2.5 stays 2.5 */
   const v = parseFloat(s); return isNaN(v) ? null : v;
 };
@@ -861,6 +869,7 @@ async function backup(){
   }
 }
 window.addEventListener("keydown", e => {
+  if ($("#dlg").open) return;                    // a dialog holds its own copy of the data: no undo/redo underneath it
   if ((e.ctrlKey||e.metaKey) && e.key === "s"){ e.preventDefault(); saveData(); }
   else if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase() === "b"){ e.preventDefault(); document.body.classList.toggle("hidebar"); }
   else if ((e.ctrlKey||e.metaKey) && (e.key.toLowerCase() === "z" || e.key.toLowerCase() === "y")){
@@ -874,6 +883,7 @@ window.addEventListener("keydown", e => {
 /* ---------- undo / redo ---------- */
 const UNDO = [], REDO = [];
 let REDOING = false;
+const popUndo = () => { UNDO.pop(); if (!UNDO.length) $("#btnUndo").disabled = true; };
 function pushUndo(fn){
   if (!REDOING && REDO.length){ REDO.length = 0; $("#btnRedo").disabled = true; }
   UNDO.push(fn); if (UNDO.length > 50) UNDO.shift();
@@ -1158,7 +1168,7 @@ function renderFormula(f){
   const c = $("#content");
   let sub = VIEW.sub || {type:"v", idx: f.versions.length-1};
   const stamp = f.id + "|" + sub.type + "|" + sub.idx;
-  if (stamp !== renderFormula._last){ renderFormula._last = stamp; NOTESOPEN = null; }   // new formula/version: follow content again
+  if (stamp !== renderFormula._last){ renderFormula._last = stamp; NOTESOPEN = null; IDOSE = null; }   // new formula/version: follow content again
   if (sub.type === "cmp"){ renderCompare(f, sub); return; }
   if (sub.type==="v" && !f.versions[sub.idx]) sub = {type:"v", idx:f.versions.length-1};
   VIEW.sub = sub;
@@ -1238,9 +1248,9 @@ function renderFormula(f){
       <div class="scaleGrid" style="margin-top:.6rem">
       ${editable||liveVar?`<span>Apply factor</span><span><input type="text" id="scaleF" inputmode="decimal" placeholder="2,500"> ×</span>
         <button class="small" id="btnApplyFactor">Apply</button><span></span>`:""}
-      <span>Target total</span><span><input type="text" id="scaleW" inputmode="decimal" value="${fmt(K.totalW)}"> g</span>
+      <span>Target total</span><span><input type="text" id="scaleW" inputmode="decimal" value="${fmtIn(K.totalW)}"> g</span>
       ${editable||liveVar?'<button class="small" id="btnApplyScale">Apply</button>':"<span></span>"}<span></span>
-      ${editable?`<span>Set EtOH for target abs %</span><span><input type="text" id="targetAbs" inputmode="decimal" value="${fmt(K.totalAbsPct,2)}"> %</span>
+      ${editable?`<span>Set EtOH for target abs %</span><span><input type="text" id="targetAbs" inputmode="decimal" value="${fmtIn(K.totalAbsPct,2)}"> %</span>
         <button class="small" id="btnSetAbs">Apply</button><span class="hint">max ${fmt(maxAbs,2)} % (EtOH at 0 g)</span>`:""}
     </div>
     ${!(editable||liveVar) ? `<div class="hint" style="margin-top:.4rem">Read-only entry — the target is used for the printed weighing sheet.</div>` : ""}
@@ -1300,7 +1310,7 @@ function renderFormula(f){
     const dlg = $("#dlg");
     dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:24rem">
       <h3 style="margin:0 0 .3rem">Name version v${item.v}</h3>
-      <div class="hint" style="margin-bottom:.7rem">Shown after the version number, e.g. “v${item.v} met predil (${item.date||today()})”.</div>
+      <div class="hint" style="margin-bottom:.7rem">Shown after the version number, e.g. “v${item.v} with predil (${item.date||today()})”.</div>
       <input id="vnName" value="${esc(item.name||"")}" placeholder="short label (empty = none)" style="width:100%">
       ${item.sourceName ? `<label style="display:block;margin-top:.8rem"><input type="checkbox" id="vnSrc" checked>
         keep the import reference “${esc(item.sourceName)}” in the list</label>` : ""}
@@ -1437,7 +1447,7 @@ function renderFormula(f){
     if (eIdx >= 0) item.lines[eIdx].weightG = wEth;
     else {
       const em = DATA.materials.find(isEthanol);
-      if (!em){ alert("No ethanol material (solvent) found in the materials library."); UNDO.pop(); return; }
+      if (!em){ alert("No ethanol material (solvent) found in your inventory."); popUndo(); return; }
       item.lines.push({materialId:em.id, dilutionPct:100, weightG:wEth, remark:1});
     }
     markDirty(); render();
@@ -1464,10 +1474,10 @@ function renderLines(f, item, lines, K, editable, isVar){
     const solv = r.m.isSolvent ? " solvent" : "";
     h += `<tr class="${hl}${solv}">${canMark?`<td><input type="checkbox" class="selCb" data-i="${i}"></td>`:""}<td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}<a class="matlink" data-mat="${r.m.id||""}" title="Open material">${esc(r.m.name||"?")}</a>${fridgeMark(r.m, r.dil)}${r.m.wishlist?' <span class="badge" style="background:var(--amber-soft);color:var(--amber)">to order</span>':""}${r.m.isSolvent?" (solvent)":""}${editable?` <button class="ghost small replBtn" data-repl="${i}" title="Replace this material (dilution & weight carried over)">⇄</button>`:""}</td>`;
     const dilWarn = !r.m.isSolvent && (r.m.dilutions||[]).length && !(r.m.dilutions||[]).some(d => d.pct === r.dil)
-      ? ` <span title="This dilution is not in the material's list — convert to an available dilution (dilution dialog: preserve rel% + exchange solvent) in a next version" style="color:var(--amber);cursor:help">⚠</span>` : "";
+      ? ` <span title="This dilution is not among the material's dilutions: convert to an available dilution (dilution dialog: preserve rel% + exchange solvent) in a next version" style="color:var(--amber);cursor:help">⚠</span>` : "";
     if (editable){
       h += `<td>${dilSelect(r.m, r.dil, i)}${dilWarn}</td>
-        <td class="num"><input class="w" data-i="${i}" type="text" inputmode="decimal" value="${fmt(r.w)}"></td>`;
+        <td class="num"><input class="w" data-i="${i}" type="text" inputmode="decimal" value="${fmtIn(r.w)}"></td>`;
     } else if (isVar && !item.frozen){
       h += `<td>${dilSelect(r.m, r.dil, i, true)}${dilWarn}</td><td class="num">${fmt(r.w)}</td>`;
     } else {
@@ -1521,7 +1531,7 @@ function bindLineEditors(f, item){
     const name = $("#addMat").value.trim(); if (!name) return;
     let m = DATA.materials.find(x => x.name === name);
     if (!m){
-      if (!confirm(`“${name}” is not in the materials library.\n\nCreate it as a to-be-ordered material? It will be added to the To order list and marked in the formula until delivered.`)) return;
+      if (!confirm(`“${name}” is not in your inventory.\n\nCreate it as a to-be-ordered material? It will be added to the To order list and marked in the formula until delivered.`)) return;
       const oc = structuredClone(DATA.orderList);
       m = {id: uid("m-"), name, cas:"", category:"Uncategorised", supplier:"", costPerGram:null, modified: now(),
         ifraLimit:null, inventory:"", pyramid:5, isSolvent:false, description:"", wishlist:true,
@@ -1646,17 +1656,19 @@ function replaceMaterial(f, item, i){
   $("#dlgOk").addEventListener("click", () => {
     const name = $("#rmNew").value.trim();
     const nm = DATA.materials.find(x => x.name === name);
-    if (!nm){ alert("Unknown material — pick one from the list (add new materials via the Materials tab or the order list first)."); return; }
+    if (!nm){ alert("Unknown material: pick one from your inventory (add it first with + New material, or through the order list)."); return; }
     dlg.close();
     if (nm.id === l.materialId) return;
+    const oldId = l.materialId;
     snapF(f);
     l.materialId = nm.id;                      // dilution & weight carried over
-    markDirty(); buildUsage();
+    markDirty();
     const cur = l.dilutionPct ?? 100;
     const dils = (nm.dilutions||[]).map(d => d.pct);
     if (dils.length && !dils.includes(cur)){
       const nearest = dils.reduce((a,b) => Math.abs(b-cur) < Math.abs(a-cur) ? b : a);
-      changeDilution(f, item, i, nearest);     // opens the method dialog (exchange solvent / rel% only / keep weight)
+      // opens the method dialog (exchange solvent / rel% only / keep weight); cancelling puts the old material back
+      changeDilution(f, item, i, nearest, () => { l.materialId = oldId; popUndo(); markDirty(); render(); });
     } else {
       render();
     }
@@ -1676,7 +1688,7 @@ function applyDilutionChange(f, item, i, d2, method, solvJ){
   }
   markDirty(); render();
 }
-function changeDilution(f, item, i, d2){
+function changeDilution(f, item, i, d2, onCancel){
   const l = item.lines[i], m = matById(l.materialId) || {};
   const d1 = l.dilutionPct ?? 100, w1 = l.weightG || 0;
   if (!d2 || d2 === d1){ render(); return; }
@@ -1702,11 +1714,11 @@ function changeDilution(f, item, i, d2){
     <div class="toolRow" style="justify-content:flex-end;margin-top:1rem;position:sticky;bottom:0;background:var(--surface);padding-top:.6rem">
       <button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Apply</button></div></div>`;
   dlg.showModal();
-  $("#dlgCancel").addEventListener("click", () => { dlg.close(); render(); });
+  $("#dlgCancel").addEventListener("click", () => { dlg.close(); if (onCancel) onCancel(); else render(); });
   $("#dlgOk").addEventListener("click", () => {
     const method = dlg.querySelector('input[name="dm"]:checked')?.value;
     dlg.close();
-    if (method) applyDilutionChange(f, item, i, d2, method, solv ? solv.j : null); else render();
+    if (method) applyDilutionChange(f, item, i, d2, method, solv ? solv.j : null); else if (onCancel) onCancel(); else render();
   });
 }
 function copyFormula(f, sub){
@@ -2094,7 +2106,7 @@ function createPredilution(f, sub, item, dispLines){
       description: `Predilution of ${f.name} ${isVarView?`variation «${item.label}» (base v${cur.v})`:`v${cur.v}`} (factor ×${k}).\n\n` +
         picks.map(l => { const m = matById(l.materialId); return `${(m||{}).name||"?"} (${fmtS(l.dilutionPct??100)}%) — ${(+(l.weightG*k).toFixed(4))} g`; }).join("\n"),
       dilutions: [{pct: conc, isBase: true, date: today(), notes: "aromatic concentration of the mix"}]};
-    const pf = {id: uid("f-"), name, category: "Prediluties", created: today(), modified: now(), frozenImport: false,
+    const pf = {id: uid("f-"), name, category: "Predilutions", created: today(), modified: now(), frozenImport: false,
       versions: [{v: 1, frozen: true, date: today(),
         notes: `Predilution for ${f.name} ${isVarView?`variation «${item.label}» (base v${cur.v})`:`v${cur.v}`} · factor ×${k} · total ${(+Wp.toFixed(3))} g · ${conc.toFixed(2)}% aromatic`,
         lines: picks.map(l => ({materialId: l.materialId, dilutionPct: l.dilutionPct??100, weightG: l.weightG*k, remark: 1}))}],
@@ -2105,7 +2117,7 @@ function createPredilution(f, sub, item, dispLines){
     const nv = {v: Math.max(...f.versions.map(x => x.v)) + 1, date: today(),
       notes: `Predilution «${name}» replaces ${pickIdx.length} lines of v${cur.v}${isVarView?` (composition per variation «${item.label}»)`:""}.`, lines: newLines};
     DATA.materials.push(pm); DATA.materials.sort((a,b) => a.name.localeCompare(b.name)); invalidateMats();
-    if (!DATA.formulaCategories.includes("Prediluties")) DATA.formulaCategories.push("Prediluties");
+    if (!DATA.formulaCategories.includes("Predilutions")) DATA.formulaCategories.push("Predilutions");
     DATA.formulas.push(pf);
     f.versions.push(nv); f.frozenImport = false; f.modified = now();
     pushUndo(() => {
@@ -2315,7 +2327,7 @@ function ifraPanel(f, item, K){
     : over.length ? `⚠ ${over.length} over limit` : "✓ within limits";
   let h = `<details class="panelBox" id="ifraBox"${IFRAOPEN?" open":""}>
     <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:${over.length?"var(--danger)":"var(--accent-ink)"}">IFRA check — ${verdict}</summary>
-    <div class="toolRow" style="margin-top:.5rem">At concentrate dosage <input type="text" id="ifraDose" style="width:5rem;text-align:right" value="${fmt(dose,2)}"> % of finished product
+    <div class="toolRow" style="margin-top:.5rem">At concentrate dosage <input type="text" id="ifraDose" style="width:5rem;text-align:right" inputmode="decimal" value="${fmtIn(dose,2)}"> % of finished product
       <span class="hint">(default = this formula as-is)</span></div>`;
   if (!restricted.length){
     h += `<div class="hint">No restricted materials present.</div>`;
@@ -2730,7 +2742,7 @@ function renderOrders(){
     ${items.map((o,i) => `<tr>
       <td>${o.materialId ? `<a class="matlink" data-mat="${o.materialId}">${esc(o.name)}</a>` : `${esc(o.name)} <span class="badge">new</span>`}</td>
       <td><input data-onote="${i}" value="${esc(o.note||"")}" style="width:10rem"></td>
-      <td style="white-space:nowrap"><input data-oamt="${i}" value="${o.amount!=null?fmtS(o.amount):""}" placeholder="10" style="width:3.6rem;text-align:right">
+      <td style="white-space:nowrap"><input data-oamt="${i}" value="${o.amount!=null?fmtSIn(o.amount):""}" placeholder="10" style="width:3.6rem;text-align:right">
         <select data-ounit="${i}"><option${(o.unit||"g")==="g"?" selected":""}>g</option><option${o.unit==="ml"?" selected":""}>ml</option></select></td>
       <td><input data-oprice="${i}" value="${esc(o.price||"")}" placeholder="12,50" style="width:5rem;text-align:right"></td>
       <td style="white-space:nowrap"><input data-ourl="${i}" value="${esc(o.url||"")}" placeholder="paste product link…" style="width:11rem">
@@ -2787,7 +2799,7 @@ function deliveredDialog(idx){
     <h3 style="margin:0 0 .3rem">Delivered — ${esc(o.name)}</h3>
     <div class="hint" style="margin-bottom:.7rem">${m ? "Updates the existing material." : "Creates a new material."}</div>
     <div class="fieldGrid">
-      <label>Amount purchased</label><input id="dvAmt" value="${o.amount!=null?`${fmtS(o.amount)} ${o.unit||"g"}`:""}" placeholder="e.g. 10 g / 5 ml" style="width:9rem">
+      <label>Amount purchased</label><input id="dvAmt" value="${o.amount!=null?`${fmtSIn(o.amount)} ${o.unit||"g"}`:""}" placeholder="e.g. 10 g / 5 ml" style="width:9rem">
       <label>Price paid €</label><input id="dvPrice" value="${esc(o.price||"")}" placeholder="12,50" style="width:6rem;text-align:right">
       <label>Order date</label><input type="date" id="dvDate" value="${today()}" style="justify-self:start">
       ${tracked ? `<label>Add to stock ledger</label><span><input id="dvG" style="width:5rem;text-align:right" placeholder="amount"> <select id="dvU"><option>g</option><option>ml</option></select></span>` : ""}
@@ -3122,7 +3134,7 @@ async function updateStorageHint(){
     : onceOnly
       ? "Your data is kept in this app's storage and stays there between sessions, but the system can clear it (clearing website data, long inactivity). This app cannot write to a data file: download a Backup now and then."
       : "Your data is kept in this browser's storage and stays there between sessions, but the browser can clear it (clearing website data, a private window, long inactivity, or a setting that clears data on close). Download a Backup now and then"
-        + (IOS ? "; no browser on an iPhone or iPad can write to a data file, and a server of your own is the way to share one library with your computer."
+        + (IOS ? "; no browser on an iPhone or iPad can write to a data file, and a server of your own is the way to share the same data with your computer."
           : FIREFOX ? "; in Firefox this happens even after you allow persistent storage."
           : "; to keep your data in a file of your own, use Chrome or Edge.");
   if (onceOnly){ sessionStorage.setItem("storageHintShown", "1"); idb.set("storageHintSeen", true); }
@@ -3257,7 +3269,7 @@ if (IOS && !STANDALONE && /^https?:$/.test(location.protocol)){
     openDialog(`<h3 style="margin-top:0">Add to Home Screen</h3>
       <p>Safari has no install button, but it can put this site on your Home Screen as an app: tap the <b>Share</b> button (on newer iOS first <b>\u22ef</b> at the bottom right), then <b>Add to Home Screen</b>, and keep the name miFormulas.</p>
       <p>That app has storage of its own, separate from this tab: load the starter set or your data again after the first start.</p>
-      <p>A phone cannot keep your data in a file: no browser on iOS can write one. Backup is your safety net, and to work on your phone and your computer with one library you need a server of your own (see the manual, section 20).</p>`, "OK", () => {
+      <p>A phone cannot keep your data in a file: no browser on iOS can write one. Backup is your safety net, and to work on your phone and your computer with the same data you need a server of your own (see the manual, section 20).</p>`, "OK", () => {
         $("#landingHint").textContent = "Use Share \u203a Add to Home Screen, then open miFormulas from the Home Screen and continue there.";
       }, "26rem");
   });
@@ -3311,6 +3323,7 @@ function renderHelp(){
 }
 function render(){
   if (!DATA) return;
+  buildUsage();                                  // keep the usage index in step with every edit
   document.body.classList.toggle("detail", !!VIEW.id || VIEW.tab === "T" || HOMEVIEW || HELPVIEW);
   document.body.classList.toggle("ro", readOnly());
   renderSidebar();

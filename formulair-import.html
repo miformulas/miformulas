@@ -407,7 +407,7 @@ async function handle(file){
       <button class="primary" id="btnOpen">Add to miFormulas</button>
       <button id="btnDl">Download miformulas-data.json</button>
     </div>
-    <p class="hint" style="margin-top:.6rem">Add to miFormulas: your formulas and materials are added to the library of the app in this browser or installed app, wherever it keeps its data (browser storage, a data file or a server). Materials with the same name are matched, nothing is replaced, and one Undo takes it all back. Download: the same data as a file, for a server or your own tools.</p>
+    <p class="hint" style="margin-top:.6rem">Add to miFormulas: your formulas and materials are added to your data in the app in this browser or installed app, wherever it keeps its data (browser storage, a data file or a server). Materials with the same name are matched, nothing is replaced, and one Undo takes it all back. Download: the same data as a file, for a server or your own tools.</p>
   </div>`;
   if (walMode) html += `<div class="box warn"><b>Did you choose File › Close in Formulair before copying?</b> This database keeps its latest changes in a separate <code>-wal</code> file until Formulair folds them in, which File › Close does (quitting alone does not always). If in doubt, choose File › Close in Formulair, copy the file again and read it once more.</div>`;
   $("#out").innerHTML = html;
