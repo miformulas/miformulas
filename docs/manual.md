@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260914f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260914g. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -335,7 +335,7 @@ Lines with a dilution you do not stock are marked ⚠, typically after an import
 
 **Batch scaling** sits under the table. **Apply factor** multiplies every weight (2.5 turns a 40 g trial into 100 g). **Target total** rescales the whole formula to a given weight. **Set EtOH for target abs %** changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none; the hint shows the maximum reachable with no ethanol at all. On a live variation, factor and target set the variation's target weight instead. On a read-only entry the target field is still there, because the printed weighing sheet uses it: type 10 g and print a 10 g weighing sheet without touching the formula.
 
-**Create predilution…** bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line), then creates three things at once: a frozen predilution formula in the category "Prediluties", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.
+**Create predilution…** bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line), then creates three things at once: a frozen predilution formula in the category "Predilutions", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.
 
 ![Create predilution: name, batch factor and a preview of the mix.](img/app-predilution.png)
 
@@ -447,7 +447,7 @@ If you would like step-by-step instructions for your own device, `docs/ai-prompt
 
 The **theme** button cycles between Auto (follows Windows or macOS), Dark and Light.
 
-Shortcuts: **Ctrl+Z** undo, **Ctrl+Y** or **Ctrl+Shift+Z** redo (up to fifty steps), **Ctrl+S** save now, **Ctrl+B** hide or show the list panel, **Shift-click** on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.
+Shortcuts: **Ctrl+Z** undo, **Ctrl+Y** or **Ctrl+Shift+Z** redo (the last ten of them), **Ctrl+S** save now, **Ctrl+B** hide or show the list panel, **Shift-click** on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.
 
 ## 22. Backups and recovery
 
@@ -457,7 +457,7 @@ The app also keeps one **daily snapshot** in the browser: the state as it was th
 
 In server mode the server keeps daily snapshots for fourteen days (section 20).
 
-**Open data file…** opens any of these files. **Undo** covers everything you did since the app was opened, deletions included; it does not survive a reload.
+**Open data file…** opens any of these files. **Undo** covers the last fifty things you did since the app was opened, deletions included (Redo the last ten of them); it does not survive a reload.
 
 ## 23. Questions and answers
 

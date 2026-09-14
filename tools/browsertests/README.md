@@ -14,6 +14,7 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python help.py                 # Help-knop: ingebedde handleiding, inhoudstafel, terug naar de vorige weergave (17 controles)
     python move-into.py            # Move into…: geïmporteerde formule als versie of bevroren variatie van een andere, Move together, "this formula", Undo (48 controles)
     python materiaallijst.py       # materials library: import, Settings, Get the latest library, + New material met feiten, Browse the library… met shift-klik, "+ Add" in de zoeklijst, Undo (50 controles)
+    python undo-navigatie.py       # één undo-stap per handeling (nieuwe categorie, predilutie, Replace + dilutiewissel), Redo keert terug naar de plek van de wijziging, Copy vanuit een variatie, bench mee naar een nieuwe versie (14 controles)
     python validatie.py            # wat de app weigert: negatief gewicht, dilutie buiten 0-100, dubbele dilutie, basisdilutie die verdwijnt, tekst als getal, eigen velden met underscore; dagsnapshot, Delete version op een import, verborgen importverwijzing (21 controles)
     python namen.py                # Add line, formule-import en Delivered nemen de feiten uit de bibliotheek mee, categorie niet dubbel door hoofdletters, alias die je al bezit, hernoemen zonder dubbele namen (14 controles)
     python kost-en-ifra.py         # kost per gram zuiver (Delivered met basisdilutie, predilutie), IFRA 0 = prohibited en negatief = niet nagekeken, geen databestand openen, bibliotheek met rommel, server zonder databestand (21 controles)

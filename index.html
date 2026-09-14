@@ -307,7 +307,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914f</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914g</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -362,7 +362,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260914f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260914g. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -548,7 +548,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent".</p>
 <h2 id="s12-batch-scaling-and-predilutions">12. Batch scaling and predilutions</h2>
 <p><strong>Batch scaling</strong> sits under the table. <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). <strong>Target total</strong> rescales the whole formula to a given weight. <strong>Set EtOH for target abs %</strong> changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none; the hint shows the maximum reachable with no ethanol at all. On a live variation, factor and target set the variation's target weight instead. On a read-only entry the target field is still there, because the printed weighing sheet uses it: type 10 g and print a 10 g weighing sheet without touching the formula.</p>
-<p><strong>Create predilution…</strong> bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line), then creates three things at once: a frozen predilution formula in the category "Prediluties", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.</p>
+<p><strong>Create predilution…</strong> bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line), then creates three things at once: a frozen predilution formula in the category "Predilutions", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s12-batch-scaling-and-predilutions">Create predilution: name, batch factor and a preview of the mix.</a></p>
 <h2 id="s13-colour-marks-notes-and-the-trial-log">13. Colour marks, notes and the trial log</h2>
 <p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the <strong>tick bar</strong>: mark them red, green, blue or yellow, unmark them, or clear every mark. Marks are per version, or per variation for a live variation, and they carry over into new versions and copies. Use them as you like: what changed, what to smell for, what to check.</p>
@@ -619,12 +619,12 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case), the server endpoint and its token, and a few buttons that depend on the situation: <strong>Install as an app</strong> when the browser offers it, <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser…</strong> in browser-storage mode, and <strong>Forget the remembered data file…</strong> when a file is remembered.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s21-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
 <p>The <strong>theme</strong> button cycles between Auto (follows Windows or macOS), Dark and Light.</p>
-<p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (up to fifty steps), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.</p>
+<p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.</p>
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header downloads the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>). Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
 <p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser storage was cleared, the server holds nothing yet), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file.</p>
 <p>In server mode the server keeps daily snapshots for fourteen days (section <a href="#s20-your-own-server">20</a>).</p>
-<p><strong>Open data file…</strong> opens any of these files. <strong>Undo</strong> covers everything you did since the app was opened, deletions included; it does not survive a reload.</p>
+<p><strong>Open data file…</strong> opens any of these files. <strong>Undo</strong> covers the last fifty things you did since the app was opened, deletions included (Redo the last ten of them); it does not survive a reload.</p>
 <h2 id="s23-questions-and-answers">23. Questions and answers</h2>
 <p><strong>The start screen only offers Reopen, and I want the starter set.</strong> The browser still remembers your data file. Click Reopen; if the file exists you continue with it, and if it is gone the starter set comes back. To start a second set of data next to the first, make a Backup, then delete the browser data for the site (Settings in browser-storage mode) or open another data file.</p>
 <p><strong>I opened the app in another browser and my data is not there.</strong> Browser storage and the remembered file belong to one browser. Use Backup in the first browser and Open data file… in the second, or switch to a file or a server, which every browser on the computer can open.</p>
@@ -843,6 +843,10 @@ async function remoteLoad(){
     if (r.status === 404){ SERVER_EMPTY = true; return false; }   // no data file there yet: the landing offers the starter set
     if (!r.ok){ alert(`Could not load data from the server (HTTP ${r.status}).`); return false; }
     ETAG = r.headers.get("ETag");
+    if (!ETAG && !remoteLoad._etagWarned){   // without it the server cannot see that two devices wrote at once
+      remoteLoad._etagWarned = true;
+      alert("This server does not pass an ETag back to the app, so miFormulas cannot warn you when another device saved in the meantime. Everything else works; a proxy or a missing Access-Control-Expose-Headers is the usual cause.");
+    }
     let parsed; try{ parsed = await r.json(); }catch(e){ alert(CORRUPT_MSG); return false; }
     if (!looksLikeData(parsed)){ alert(NOT_DATA_MSG); return false; }
     DATA = migrate(parsed); CONFLICT = false;
@@ -859,12 +863,19 @@ async function remoteSave(){
       if (!remoteSave._warned){ remoteSave._warned = true; alert("The data was changed on another device since you loaded it.\n\nUse Backup to keep your current work, then reload (F5) and redo the change."); }
       return;
     }
-    if (r.status === 401){ TOKEN = null; await idb.set("token", null); $("#saveState").textContent = "Token rejected — reload to re-enter"; $("#saveState").className = "dirty"; return; }
+    if (r.status === 401){ TOKEN = null; await idb.set("token", null);
+      $("#saveState").textContent = "Token rejected: use Backup, then reload to enter it again"; $("#saveState").className = "dirty"; return; }
     if (!r.ok){ $("#saveState").textContent = `Save failed (server ${r.status}) — use Backup`; $("#saveState").className = "dirty"; return; }
     ETAG = r.headers.get("ETag") || ETAG;
     remoteSave._warned = false;
     finishSave(gen, "server");
-  }catch(e){ $("#saveState").textContent = "Server not reachable — changes kept in memory, use Backup"; $("#saveState").className = "dirty"; }
+  }catch(e){
+    $("#saveState").textContent = "Server not reachable: changes kept in memory, use Backup"; $("#saveState").className = "dirty";
+    if (!remoteSave._retry){        // try again by itself as soon as the connection is back
+      remoteSave._retry = true;
+      window.addEventListener("online", () => { remoteSave._retry = false; if (DIRTY) saveData(); }, {once: true});
+    }
+  }
 }
 let LASTBAK = null;
 async function saveData(){          // the gate: one write at a time, and a manual save replaces the scheduled one
@@ -910,7 +921,7 @@ async function backup(){
       const w = await h.createWritable(); await w.write(serialize()); await w.close();
       await idb.set("backupHandle", h);
       $("#saveState").textContent = "Backup saved: " + h.name; $("#saveState").className = "";
-    }catch(e){ /* picker cancelled */ }
+    }catch(e){ if (e && e.name !== "AbortError"){ $("#saveState").textContent = "Backup failed: " + (e.message || e.name); $("#saveState").className = "dirty"; } }
   } else {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([serialize()],{type:"application/json"}));
@@ -951,22 +962,24 @@ function clampView(){
 }
 function undo(){
   const fn = UNDO.pop(); if (!fn) return;
-  try{ REDO.push(serialize()); if (REDO.length > 10) REDO.shift(); $("#btnRedo").disabled = false; }catch(e){}
+  // Redo keeps ten steps: one copy of the whole data each, which is 7 MB for a large library
+  try{ REDO.push({json: serialize(), view: structuredClone(VIEW)}); if (REDO.length > 10) REDO.shift(); $("#btnRedo").disabled = false; }catch(e){}
   fn(); invalidateMats();
   if (!UNDO.length) $("#btnUndo").disabled = true;
   clampView();
   buildUsage(); markDirty(); render();
 }
 function redo(){
-  const s = REDO.pop(); if (!s) return;
-  const cur = serialize();
+  const step = REDO.pop(); if (!step) return;
+  const cur = serialize(), view = structuredClone(VIEW);
   REDOING = true;
-  pushUndo(() => { DATA = migrate(JSON.parse(cur)); });
+  pushUndo(() => { DATA = migrate(JSON.parse(cur)); VIEW = view; });
   REDOING = false;
-  DATA = migrate(JSON.parse(s));
+  DATA = migrate(JSON.parse(step.json));
+  if (step.view) VIEW = step.view;               // back to where the change was made
   if (!REDO.length) $("#btnRedo").disabled = true;
   invalidateMats(); clampView();
-  buildUsage(); markDirty(); render();
+  buildUsage(); markDirty(); setTabs(); render();
 }
 window.addEventListener("beforeunload", e => { if (DIRTY){ e.preventDefault(); e.returnValue = ""; }});
 
@@ -1036,7 +1049,17 @@ function bindNewCat(){
     sel.value = nm;
   });
 }
-const rememberCat = cat => { if (cat && !DATA.formulaCategories.includes(cat)) DATA.formulaCategories.push(cat); };
+const rememberCat = cat => {   // returns the category when it is new, so the caller folds it into its own Undo step
+  if (!cat || DATA.formulaCategories.includes(cat)) return null;
+  DATA.formulaCategories.push(cat);
+  return cat;
+};
+function alsoUndo(extra){   // add something to the Undo step that was just pushed, instead of making a second one
+  const fn = UNDO.pop();
+  if (!fn){ pushUndo(extra); return; }
+  UNDO.push(() => { extra(); fn(); });
+}
+const undoCat = cat => { if (cat) alsoUndo(() => { DATA.formulaCategories = DATA.formulaCategories.filter(x => x !== cat); }); };
 // standard dialog frame: content + Cancel / primary button (same order everywhere)
 function openDialog(bodyHtml, okLabel = "Apply", onOk, minW = "24rem"){
   const dlg = $("#dlg");
@@ -1207,7 +1230,7 @@ $("#list").addEventListener("click", e => {
   const add = e.target.closest("[data-add]");
   if (add){ addOneFromList(add.dataset.add); return; }
   const it = e.target.closest(".item"); if (!it) return;
-  HOMEVIEW = false; HELPVIEW = false;
+  HOMEVIEW = false; HELPVIEW = false; IMPORTP = null;
   if (VIEW.tab === "T"){
     const o = (DATA.orderList||[]).find(x => x.id === it.dataset.id);
     if (o && o.materialId) switchTab("M", o.materialId, null);
@@ -1238,6 +1261,7 @@ function renderFormula(f){
   if (stamp !== renderFormula._last){ renderFormula._last = stamp; NOTESOPEN = null; IDOSE = null; }   // new formula/version: follow content again
   if (sub.type === "cmp"){ renderCompare(f, sub); return; }
   if (sub.type==="v" && !f.versions[sub.idx]) sub = {type:"v", idx:f.versions.length-1};
+  if (sub.type==="var" && !f.variations[sub.idx]) sub = {type:"v", idx:f.versions.length-1};   // the variation is gone: fall back to the last version
   VIEW.sub = sub;
   const isVar = sub.type === "var";
   const item = isVar ? f.variations[sub.idx] : f.versions[sub.idx];
@@ -1362,7 +1386,7 @@ function renderFormula(f){
       <div class="toolRow" style="margin:.7rem 0">${catPickerHtml(f.category, "14rem")}</div>`, "Apply", () => {
       const cat = $("#catSel").value;
       if (!cat || cat === f.category) return;
-      snapF(f); f.category = cat; rememberCat(cat);
+      snapF(f); f.category = cat; undoCat(rememberCat(cat));
       markDirty(); render();
     }, "22rem");
     bindNewCat();
@@ -1521,7 +1545,7 @@ function renderFormula(f){
     if (eIdx >= 0) item.lines[eIdx].weightG = wEth;
     else {
       const em = DATA.materials.find(isEthanol);
-      if (!em){ alert("No ethanol material (solvent) found in your inventory."); popUndo(); return; }
+      if (!em){ alert("No ethanol material (solvent) found in your inventory."); return; }
       item.lines.push({materialId:em.id, dilutionPct:100, weightG:wEth, remark:1});
     }
     markDirty(); render();
@@ -1764,8 +1788,10 @@ function replaceMaterial(f, item, i){
     const dils = (nm.dilutions||[]).map(d => d.pct);
     if (dils.length && !dils.includes(cur)){
       const nearest = dils.reduce((a,b) => Math.abs(b-cur) < Math.abs(a-cur) ? b : a);
-      // opens the method dialog (exchange solvent / rel% only / keep weight); cancelling puts the old material back
-      changeDilution(f, item, i, nearest, () => { l.materialId = oldId; popUndo(); markDirty(); render(); });
+      // opens the method dialog (exchange solvent / rel% only / keep weight); cancelling puts the old material back.
+      // The dialog makes its own snapshot, so this one steps aside: replacing and changing the dilution is one action.
+      popUndo();
+      changeDilution(f, item, i, nearest, () => { l.materialId = oldId; markDirty(); render(); });
     } else {
       render();
     }
@@ -1819,7 +1845,8 @@ function changeDilution(f, item, i, d2, onCancel){
   });
 }
 function copyFormula(f, sub){
-  const srcV = sub.type === "var" ? currentVersion(f) : f.versions[sub.idx] || currentVersion(f);
+  const srcV = sub.type === "var" ? (baseVersionOf(f, f.variations[sub.idx]) || currentVersion(f))
+                                  : (f.versions[sub.idx] || currentVersion(f));
   if (!srcV){ alert("Nothing to copy."); return; }
   openDialog(`<h3 style="margin:0 0 .3rem">Copy to new formula</h3>
     <div class="hint" style="margin-bottom:.7rem">${esc(vName(srcV))} of “${esc(f.name)}” (${srcV.lines.length} lines) becomes v1 of the new formula.</div>
@@ -1832,7 +1859,7 @@ function copyFormula(f, sub){
     if (!name){ alert("Give the copy a name."); return false; }
     if (DATA.formulas.some(x => x.name.toLowerCase() === name.toLowerCase())){ alert("A formula with that name already exists."); return false; }
     const cat = $("#catSel").value || "", withVars = $("#cpVars").checked;
-    rememberCat(cat);
+    const newCat = rememberCat(cat);
     const nf = {id: uid("f-"), name, category: cat, created: today(), modified: now(), frozenImport: false,
       versions: [{v: 1, date: today(), notes: `Copied from ${f.name} ${vName(srcV)}.`,
         lines: srcV.lines.map(l => ({...l})),
@@ -1843,7 +1870,9 @@ function copyFormula(f, sub){
         return c;
       }) : []};
     DATA.formulas.push(nf);
-    pushUndo(() => { DATA.formulas = DATA.formulas.filter(x => x.id !== nf.id); if (VIEW.id === nf.id){ VIEW.id = null; VIEW.sub = null; } });
+    pushUndo(() => { DATA.formulas = DATA.formulas.filter(x => x.id !== nf.id);
+      if (newCat) DATA.formulaCategories = DATA.formulaCategories.filter(x => x !== newCat);
+      if (VIEW.id === nf.id){ VIEW.id = null; VIEW.sub = null; } });
     buildUsage(); markDirty();
     switchTab("F", nf.id, {type:"v", idx:0});
   });
@@ -2220,7 +2249,8 @@ function createPredilution(f, sub, item, dispLines){
     const Cp = picks.reduce((s,l) => s + l.weightG*k*(l.dilutionPct??100)/100, 0);
     const costT = picks.reduce((s,l) => { const m = matById(l.materialId); return s + l.weightG*k*((m||{}).costPerGram||0)*(l.dilutionPct??100)/100; }, 0);
     const fClone = structuredClone(f);
-    if (!DATA.materialCategories.includes("Predils")){ DATA.materialCategories.push("Predils"); DATA.materialCategories.sort((a,b)=>a.localeCompare(b)); }
+    const newMatCat = !DATA.materialCategories.includes("Predils"), newFCat = !DATA.formulaCategories.includes("Predilutions");
+    if (newMatCat){ DATA.materialCategories.push("Predils"); DATA.materialCategories.sort((a,b)=>a.localeCompare(b)); }
     (DATA.categoryColours ||= {})["Predils"] ||= "#7A5EA8";
     const pm = {id: uid("m-"), name, cas: "", category: "Predils", supplier: "", modified: now(),
       costPerGram: Cp > 0 ? +(costT/Cp).toFixed(4) : null,   // per gram of pure material, as everywhere else ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`,
@@ -2243,6 +2273,8 @@ function createPredilution(f, sub, item, dispLines){
     DATA.formulas.push(pf);
     f.versions.push(nv); f.frozenImport = false; f.modified = now();
     pushUndo(() => {
+      if (newMatCat) DATA.materialCategories = DATA.materialCategories.filter(x => x !== "Predils");
+      if (newFCat) DATA.formulaCategories = DATA.formulaCategories.filter(x => x !== "Predilutions");
       const i = DATA.formulas.findIndex(x => x.id === f.id); if (i >= 0) DATA.formulas[i] = fClone;
       DATA.formulas = DATA.formulas.filter(x => x.id !== pf.id);
       DATA.materials = DATA.materials.filter(x => x.id !== pm.id); invalidateMats();
@@ -2258,6 +2290,7 @@ function newVersion(f, fromIdx){
   const src = f.versions[fromIdx ?? f.versions.length-1];
   const v = {v: f.versions.length ? Math.max(...f.versions.map(x=>x.v))+1 : 1, date: today(), notes:"",
     lines: src ? src.lines.map(l => ({...l})) : []};
+  if (src && src.bench) v.bench = structuredClone(src.bench);   // the way you weigh it stays the same
   f.versions.push(v); f.frozenImport = false;
   VIEW.sub = {type:"v", idx: f.versions.length-1};
   markDirty(); render();
@@ -2465,6 +2498,7 @@ function ifraPanel(f, item, K){
 }
 
 /* ---------- bench view (free ordering & grouping) ---------- */
+const benchOf = item => item.bench || {groups: []};   // reading never creates it: the first bench open does, explicitly
 let BDRAG = null, BSORT = "orig";
 function benchPoolSort(pool, K){
   if (BSORT === "orig") return pool;
@@ -2486,10 +2520,9 @@ function benchData(item, lines){
     const n = seen.get(base) || 0; seen.set(base, n + 1);
     return {key: base + "|" + n, l, i};
   });
-  item.bench ||= {groups: []};
   const valid = new Set(keyed.map(k => k.key));
   // lines that disappeared from the formula are simply not shown; the stored keys are left untouched (no silent edits while rendering)
-  const grouped = new Set(item.bench.groups.flatMap(g => g.keys.filter(k => valid.has(k))));
+  const grouped = new Set(benchOf(item).groups.flatMap(g => g.keys.filter(k => valid.has(k))));
   return {keyed, byKey: new Map(keyed.map(k => [k.key, k])), pool: keyed.filter(k => !grouped.has(k.key))};
 }
 function renderBench(f, item, lines, K){
@@ -2502,7 +2535,7 @@ function renderBench(f, item, lines, K){
     keys.forEach(key => { const k = BD.byKey.get(key); if (k){ const r = K.rows[k.i]; w += r.w; rel += r.rel || 0; cont += r.cont || 0; } });
     return `${keys.length} · ${fmt(w)} g · ${fmt(rel,2)}%` +
       (w > 0 ? ` · <span title="aromatic content of this group (dilution-corrected) as % of the group weight">${fmt(cont/w*100,2)}% arom.</span>` : ""); };
-  const groups = item.bench.groups;
+  const groups = benchOf(item).groups;
   let h = `<div class="benchArea"><div class="toolRow"><span class="hint">Drag rows into groups, or tick and use:</span>
     <select id="bMoveSel"><option value="">Move ticked to…</option><option value="pool">Unsorted</option>
       ${groups.map((g,gi)=>`<option value="${gi}">${esc(g.title||("Group "+(gi+1)))}</option>`).join("")}</select>
@@ -2653,7 +2686,7 @@ function benchPrint(f, item, lines, K){
   };
   $("#printArea").innerHTML = `<h2>${esc(f.name)} — ${esc(label)} — bench</h2>
   <div>Printed ${today()} · total ${fmt(K.totalW)} g · concentrate ${fmt(K.totalAbsPct,2)}%</div>
-  ${item.bench.groups.map(g => sec(g.title || "Untitled group", g.keys)).join("")}
+  ${benchOf(item).groups.map(g => sec(g.title || "Untitled group", g.keys)).join("")}
   ${sec("Unsorted", BD.pool.map(k => k.key))}`;
   window.print();
 }
@@ -3148,11 +3181,13 @@ $("#btnNew").addEventListener("click", () => {
     const name = $("#nfName").value.trim();
     if (!name){ alert("Give the formula a name."); return false; }
     if (DATA.formulas.some(x => x.name.toLowerCase() === name.toLowerCase())){ alert("A formula with that name already exists."); return false; }
-    const cat = $("#catSel").value || ""; rememberCat(cat);
+    const cat = $("#catSel").value || "", newCat = rememberCat(cat);
     const f = {id: uid("f-"), name, category:cat, created: today(), modified: now(), frozenImport:false,
       versions:[{v:1, date:today(), notes:"", lines:[]}], variations:[]};
     DATA.formulas.push(f);
-    pushUndo(() => { DATA.formulas = DATA.formulas.filter(x => x.id !== f.id); if (VIEW.id === f.id){ VIEW.id = null; VIEW.sub = null; } });
+    pushUndo(() => { DATA.formulas = DATA.formulas.filter(x => x.id !== f.id);
+      if (newCat) DATA.formulaCategories = DATA.formulaCategories.filter(x => x !== newCat);
+      if (VIEW.id === f.id){ VIEW.id = null; VIEW.sub = null; } });
     VIEW = {tab:"F", id:f.id, sub:{type:"v",idx:0}}; HOMEVIEW = false; setTabs(); markDirty(); render();
   });
   bindNewCat(); $("#nfName").focus();
@@ -3212,6 +3247,7 @@ $("#btnHome").addEventListener("click", () => {
 });
 $("#btnRefresh").addEventListener("click", async () => {
   if (DIRTY && !confirm("There are unsaved changes. Reload anyway and lose them?")) return;
+  DIRTY = false;                     // the question was asked here; no second one from the browser
   if (REMOTE || DEMO){
     // reload the app itself too (beats the iOS cache), keeping the token
     const u = new URL(location.href);
