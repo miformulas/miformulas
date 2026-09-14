@@ -14,6 +14,7 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python help.py                 # Help-knop: ingebedde handleiding, inhoudstafel, terug naar de vorige weergave (17 controles)
     python move-into.py            # Move into…: geïmporteerde formule als versie of bevroren variatie van een andere, Move together, "this formula", Undo (48 controles)
     python materiaallijst.py       # materials library: import, Settings, Get the latest library, + New material met feiten, Browse the library… met shift-klik, "+ Add" in de zoeklijst, Undo (50 controles)
+    python deel-formule.py        # Share this version…: wat er in het bestand komt en wat er niet in komt, en de rondgang bij een ontvanger die het materiaal en de formule niet heeft (26 controles)
     python export-bibliotheek.py   # Export my inventory as a library…: alles vooraf aangevinkt, shift-klik, wat er wel en niet in het bestand komt, en de rondgang terug via import (40 controles)
     python opruiming.py            # staart van de review: zoeken op "starter", bevestiging bij ✕, ellipsis op de openers, aliassen in de keuzelijst, attributie in Settings, bevroren variatie, alleen-lezen op een telefoon (37 controles)
     python undo-navigatie.py       # één undo-stap per handeling (nieuwe categorie, predilutie, Replace + dilutiewissel), Redo keert terug naar de plek van de wijziging, Copy vanuit een variatie, bench mee naar een nieuwe versie (14 controles)
