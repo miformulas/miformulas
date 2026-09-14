@@ -76,7 +76,8 @@ with sync_playwright() as p:
 
     # + New material: the lookup
     page.click("#btnNewMat"); page.wait_for_timeout(300)
-    check("datalist holds the list", page.locator("#nmList option").count() == 5)
+    check("datalist holds the names and the alternative names",   # 5 names + 2 aliases of Testolide
+          page.locator("#nmList option").count() == 7)
     page.fill("#nmName", "Proefmusk"); page.wait_for_timeout(200)      # an alternative name finds it too
     found = page.text_content("#nmFound")
     check(f"an alias finds the material ({found!r})", "Testolide" in found and "106-02-5" in found and "Base" in found)
