@@ -307,7 +307,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914b</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914c</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -362,7 +362,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260914b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260914c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -718,6 +718,13 @@ function migrate(d){
   for (const f of d.formulas || []){
     for (const va of f.variations || [])   // a non-frozen variation with own lines (old detach experiments) becomes frozen
       if (va.lines && !va.frozen) va.frozen = true;
+    for (const va of f.variations || [])   // a solvent correction in grams gets the scale it was made at, so it can follow a rescaled base
+      if (va.solventDeltaG && !(va.solventBaseC > 0) && !va.frozen && !va.lines){
+        const src = (va.baseV != null ? (f.versions||[]).find(v => v.v === va.baseV) : null) || (f.versions||[])[(f.versions||[]).length-1];
+        if (src) va.solventBaseC = (src.lines||[]).reduce((s,l) => {
+          const m = (d.materials||[]).find(x => x.id === l.materialId) || {};
+          return s + (m.isSolvent ? 0 : (l.weightG||0)*(l.dilutionPct??100)/100); }, 0) || 1;
+      }
     for (const v of f.versions || [])      // Formulair imports are read-only
       if (v.sourceName && v.imported === undefined) v.imported = true;
   }
@@ -979,7 +986,7 @@ function calc(lines){
     r.rel = r.m.isSolvent ? null : (content ? r.cont/content*100 : 0);
     r.absPct = tw ? (r.m.isSolvent ? r.w/tw*100 : r.cont/tw*100) : 0;
   }
-  return {rows, totalW:tw, totalCost:tc, totalAbsPct: tw ? content/tw*100 : 0};
+  return {rows, totalW:tw, totalCost:tc, content, totalAbsPct: tw ? content/tw*100 : 0};
 }
 function currentVersion(f){ return f.versions[f.versions.length-1]; }
 const vName = v => `v${v.v}${v.name ? ` ${v.name}` : ""}`;
@@ -1072,21 +1079,34 @@ function sortRows(rows){
 function baseVersionOf(f, va){
   return (va && va.baseV != null ? f.versions.find(v => v.v === va.baseV) : null) || currentVersion(f);
 }
+// A live variation keeps its differences per line of the base version: material + the dilution that line
+// has there. Two lines of the same material at different dilutions stay apart, and when the base version
+// changes that line the difference simply lapses, so the variation follows the base again.
+const lineKey = l => l ? (l.materialId || "") + "|" + (l.dilutionPct ?? 100) : "";
+const baseLines = (f, va) => (baseVersionOf(f, va) || {}).lines || [];
 function varLinesRaw(f, va){   // overrides + solvent delta, before target-weight scaling
   const src = baseVersionOf(f, va); if (!src) return [];
-  const lines = src.lines.map(l => {
-    const o = (va.dilutionOverrides||{})[l.materialId];
-    if (o != null && o !== l.dilutionPct){
-      return {...l, dilutionPct:o, weightG: (l.weightG||0) * (l.dilutionPct??100) / o};
-    }
-    return {...l};
+  const ov = va.dilutionOverrides || {}, rm = va.remarks || {};
+  const lines = src.lines.map((l, i) => {
+    const k = lineKey(l);
+    const o = ov[k] ?? ov[l.materialId];                                  // new key; older data was keyed by material alone
+    const out = (o != null && o !== l.dilutionPct)
+      ? {...l, dilutionPct:o, weightG: (l.weightG||0) * (l.dilutionPct??100) / o}
+      : {...l};
+    const code = rm[k] ?? rm[i];                                          // colour marks of this variation (older data by line number)
+    if (code != null) out.remark = code;
+    return out;
   });
-  if (va.remarks) for (const [i, code] of Object.entries(va.remarks)){   // colour marks of this variation
-    if (lines[i]) lines[i] = {...lines[i], remark: code};
-  }
   if (va.solventDeltaG){
     const j = solventIdx(lines);
-    if (j >= 0) lines[j] = {...lines[j], weightG: (lines[j].weightG||0) + va.solventDeltaG};
+    if (j >= 0){
+      let d = va.solventDeltaG;
+      const c = calc(src.lines).content || 0;
+      if (va.solventBaseC > 0) d *= c / va.solventBaseC;                  // the base version may have been rescaled since
+      const w = (lines[j].weightG||0) + d;
+      lines[j] = {...lines[j], weightG: Math.max(0, w)};
+      if (w < -1e-9) lines._solventShort = true;                          // does not fit the base version any more
+    }
   }
   return lines;
 }
@@ -1095,7 +1115,11 @@ function variationLines(f, va){
   let lines = varLinesRaw(f, va);
   if (va.targetWeightG){
     const c = calc(lines);
-    if (c.totalW > 0){ const k = va.targetWeightG / c.totalW; lines = lines.map(l => ({...l, weightG:(l.weightG||0)*k})); }
+    if (c.totalW > 0){
+      const k = va.targetWeightG / c.totalW, short = lines._solventShort;
+      lines = lines.map(l => ({...l, weightG:(l.weightG||0)*k}));
+      if (short) lines._solventShort = true;
+    }
   }
   return lines;
 }
@@ -1235,6 +1259,7 @@ function renderFormula(f){
           ${f.versions.map(v => `<option value="${v.v}"${item.baseV === v.v ? " selected" : ""}>${esc(vName(v))} (${v.date||"?"})</option>`).join("")}
         </select>
         <span class="hint">now computed from ${esc(vName(bv))} · dilution changes preserve rel%</span></div>`;
+      if (lines._solventShort) h += `<div class="hint" style="color:var(--danger)">⚠ The base version changed too much for the solvent correction of this variation: the solvent line is held at 0 g. Check its weights, or set the dilutions again.</div>`;
     }
     if (sub.bench){ h += renderBench(f, item, lines, K); } else {
     const seenD = new Set(), dupNames = new Set();
@@ -1379,7 +1404,12 @@ function renderFormula(f){
       if (!sel.length){ alert("Tick one or more lines first (checkboxes on the left)."); return; }
       snapF(f);
       const code = +b.dataset.mark;
-      if (liveMarks){ item.remarks ||= {}; sel.forEach(i => { if (code === 1) delete item.remarks[i]; else item.remarks[i] = code; }); }
+      if (liveMarks){
+        item.remarks ||= {};
+        const bl = baseLines(f, item);
+        sel.forEach(i => { const k = lineKey(bl[i]);
+          if (code === 1){ delete item.remarks[k]; delete item.remarks[i]; } else item.remarks[k] = code; });
+      }
       else sel.forEach(i => item.lines[i].remark = code);
       markDirty(); render();
     }));
@@ -1565,6 +1595,17 @@ function bindLineEditors(f, item){
     markDirty(); render();
   });
 }
+function addSolventDelta(f, va, delta){   // delta is in the scale of the base version as it is now
+  const c = calc(baseLines(f, va)).content || 0;
+  if (!(va.solventBaseC > 0)) va.solventBaseC = c || 1;                  // anchor: the correction scales with the base
+  const k = va.solventBaseC > 0 && c > 0 ? c / va.solventBaseC : 1;
+  va.solventDeltaG = (va.solventDeltaG || 0) - delta / k;
+}
+function setOverride(va, bl, materialId, pct){
+  const k = lineKey(bl);
+  (va.dilutionOverrides ||= {})[k] = pct;
+  if (k !== materialId) delete va.dilutionOverrides[materialId];          // the old key applied to every line of that material
+}
 function bindVarEditors(f, va){
   $("#content").querySelectorAll("[data-vardil]").forEach(sel => sel.addEventListener("change", e => {
     const i = +e.target.dataset.vardil;
@@ -1610,8 +1651,8 @@ function changeDilutionVar(f, va, i, d2){
     dlg.close();
     if (!method){ render(); return; }
     snapF(f);
-    (va.dilutionOverrides ||= {})[l.materialId] = d2;
-    if (method === "exchange") va.solventDeltaG = (va.solventDeltaG || 0) - delta;
+    setOverride(va, baseLines(f, va)[i], l.materialId, d2);
+    if (method === "exchange") addSolventDelta(f, va, delta);
     markDirty(); render();
   });
 }
@@ -1650,8 +1691,9 @@ function bulkDilShift(f, item, dir){   // dir -1 = next lower % (more diluted), 
   }
   snapF(f);
   if (live){
-    for (const p of plan) (item.dilutionOverrides ||= {})[p.materialId] = p.next;
-    item.solventDeltaG = (item.solventDeltaG || 0) - delta;
+    const bl = baseLines(f, item);
+    for (const p of plan) setOverride(item, bl[p.i], p.materialId, p.next);
+    addSolventDelta(f, item, delta);
   } else {
     for (const p of plan){ const l = item.lines[p.i]; l.dilutionPct = p.next; l.weightG = p.w2; }
     item.lines[solv.j].weightG = (item.lines[solv.j].weightG || 0) - delta;
@@ -2086,7 +2128,11 @@ function createPredilution(f, sub, item, dispLines){
   if (!pickIdx.length){ alert("No usable lines ticked (solvent lines and zero weights are excluded)."); return; }
   const picks = pickIdx.map(i => dispLines[i]);
   const sumW = picks.reduce((s,l) => s + l.weightG, 0);
-  const baseSumW = pickIdx.reduce((s,i) => s + ((cur.lines[i]||{}).weightG || 0), 0);   // replacement weight at version scale
+  const sumC = picks.reduce((s,l) => s + (l.weightG||0)*(l.dilutionPct??100)/100, 0);
+  const conc = +(sumW > 0 ? sumC/sumW*100 : 100).toFixed(4);                           // aromatic strength of the mix; the batch factor does not change it
+  // the new version keeps the content of the replaced lines, so rel% stays put even if the variation showed other dilutions
+  const baseC = pickIdx.reduce((s,i) => { const l = cur.lines[i] || {}; return s + (l.weightG||0)*(l.dilutionPct??100)/100; }, 0);
+  const replW = conc > 0 ? baseC*100/conc : sumW;
   let defName = `${f.name} - v${cur.v} - PREDIL`;
   let nn = 2;
   while (DATA.materials.some(m => m.name === defName) || DATA.formulas.some(x => x.name === defName)) defName = `${f.name} - v${cur.v} - PREDIL (${nn++})`;
@@ -2097,7 +2143,7 @@ function createPredilution(f, sub, item, dispLines){
   dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:26rem">
     <h3 style="margin:0 0 .3rem">Create predilution</h3>
     <div class="hint" style="margin-bottom:.7rem">${pickIdx.length} line(s) as shown in ${isVarView?`variation «${esc(item.label)}»`:`version v${cur.v}`} (together ${fmt(sumW)} g).
-      In the new version v${Math.max(...f.versions.map(x=>x.v))+1} they are replaced by one predil line of ${fmt(baseSumW)} g.</div>
+      In the new version v${Math.max(...f.versions.map(x=>x.v))+1} they are replaced by one predil line of ${fmt(replW)} g at ${fmtS(conc)}%.</div>
     <div class="fieldGrid">
       <label>Name</label><input id="pdName" value="${esc(defName)}" style="min-width:18rem">
       <label>Batch factor</label><span><input id="pdK" value="1" style="width:4rem;text-align:right"> × <span class="hint" id="pdPrev">${preview(1)}</span></span>
@@ -2113,7 +2159,6 @@ function createPredilution(f, sub, item, dispLines){
     dlg.close();
     const Wp = sumW * k;
     const Cp = picks.reduce((s,l) => s + l.weightG*k*(l.dilutionPct??100)/100, 0);
-    const conc = +(Wp > 0 ? Cp/Wp*100 : 100).toFixed(4);
     const costT = picks.reduce((s,l) => { const m = matById(l.materialId); return s + l.weightG*k*((m||{}).costPerGram||0)*(l.dilutionPct??100)/100; }, 0);
     const fClone = structuredClone(f);
     if (!DATA.materialCategories.includes("Predils")){ DATA.materialCategories.push("Predils"); DATA.materialCategories.sort((a,b)=>a.localeCompare(b)); }
@@ -2131,7 +2176,7 @@ function createPredilution(f, sub, item, dispLines){
       variations: []};
     const idxSet = new Set(pickIdx);
     const newLines = cur.lines.filter((l,i) => !idxSet.has(i)).map(l => ({...l}));
-    newLines.push({materialId: pm.id, dilutionPct: conc, weightG: baseSumW, remark: 1});
+    newLines.push({materialId: pm.id, dilutionPct: conc, weightG: replW, remark: 1});
     const nv = {v: Math.max(...f.versions.map(x => x.v)) + 1, date: today(),
       notes: `Predilution «${name}» replaces ${pickIdx.length} lines of v${cur.v}${isVarView?` (composition per variation «${item.label}»)`:""}.`, lines: newLines};
     DATA.materials.push(pm); DATA.materials.sort((a,b) => a.name.localeCompare(b.name)); invalidateMats();
