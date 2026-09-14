@@ -12,6 +12,13 @@ spellingvarianten, Franse namen en dubbels vallen daardoor samen. Categorie en
 piramideniveau komen uit materials_map.INFO. Prijs, voorraad, leverancier en
 aankoopgegevens gaan nooit mee.
 
+LET OP: dit script kan niet meer draaien. De twaalf xls-reconstructies die het
+leest, staan sinds september 2026 niet meer in de werkmap en zijn nergens
+bewaard. Het staat hier als verslag van hoe `data/miformulas-starter.json` tot
+stand kwam, niet als gereedschap dat opnieuw te gebruiken is. Een wijziging aan
+de starterdata gebeurt daarom rechtstreeks in dat bestand, met de wijziging
+uitgeschreven in de commit.
+
   python3 xls-naar-starterdata.py [map-met-xls] [uitvoermap]
 """
 import xlrd, glob, os, re, json, sys, unicodedata
