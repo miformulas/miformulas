@@ -307,7 +307,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914c</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914d</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -362,7 +362,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260914c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260914d. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -496,12 +496,12 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything.</p>
 <h2 id="s7-materials">7. Materials</h2>
 <p>The <strong>Materials</strong> tab is your inventory: the materials you own or have on order. A <strong>materials library</strong> is something else, a reference file of facts that you import (section <a href="#s18-import-and-export">18</a>); it never changes what you own.</p>
-<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram, IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.</p>
+<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.</p>
 <p><strong>Look it up.</strong> Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around: <strong>TGSC</strong> and <strong>Olfactorian</strong> search those sites for the CAS number (only the number itself, whatever else the field holds; or the name, if there is no CAS) through DuckDuckGo, and <strong>IFRA</strong> opens the IFRA Standards library with the CAS number already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your inventory; what you enter is up to you.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s7-materials">A material page: fields, dilutions and the stock ledger.</a></p>
 <p><strong>Dilutions.</strong> A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. One of them is the <strong>base</strong> dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, it only disappears from the pick list.</p>
 <p><strong>Solvent.</strong> Tick this for ethanol, DPG, IPM, TEC and the like. Solvent lines carry no aromatic content: they do not count in the relative percentages and they are what the dilution tools exchange against.</p>
-<p><strong>IFRA limit.</strong> Enter the limit in percent of the finished product for Category 4 (fine fragrance), taken from the standards library on ifrafragrance.org. Two special values: <strong>99</strong> means checked, no restriction; empty means not yet checked. The IFRA panel of a formula uses these figures (section <a href="#s16-ifra-check-and-category-panel">16</a>).</p>
+<p><strong>IFRA limit.</strong> Enter the limit in percent of the finished product for Category 4 (fine fragrance), taken from the standards library on ifrafragrance.org. Three special values: <strong>99</strong> means checked, no restriction; <strong>0</strong> means prohibited in this category; empty means not yet checked, and so is any figure below zero. The IFRA panel of a formula uses these figures (section <a href="#s16-ifra-check-and-category-panel">16</a>).</p>
 <p><strong>Storage.</strong> A material stored in the fridge shows a ❄ next to formula lines that use it at its base concentration, also on the printed weighing sheet, so you know which bottles to fetch first.</p>
 <p><strong>To order.</strong> A material you do not have yet, whether you added it from the order list or it came out of an import, carries the label "to order" and a 🛒 in the list until it is delivered.</p>
 <p>Materials come from <strong>+ New material</strong> in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from the predilution tool. With a materials library loaded (section <a href="#s18-import-and-export">18</a>) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. <strong>Browse the library…</strong>, in that same window, opens the whole library with a search field and a tick box per material: useful when you start from nothing and want ten materials at once. Shift-click ticks a range, as in the formula table. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. A material can only be deleted when no formula uses it; the page tells you which formulas do.</p>
@@ -567,7 +567,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>Compare…</strong> (shown as soon as a formula has two entries) puts two versions or variations side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. Change A and B with the two lists and close with <strong>Close compare</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s15-comparing-versions">Compare: two versions side by side, aggregated per material, largest change first.</a></p>
 <h2 id="s16-ifra-check-and-category-panel">16. IFRA check and category panel</h2>
-<p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
+<p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit. A limit of 0 reads as prohibited. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s16-ifra-check-and-category-panel">The IFRA check panel: materials over their limit come first.</a></p>
 <p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table does the same per pyramid level.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s16-ifra-check-and-category-panel">The Categories panel.</a></p>
@@ -716,6 +716,7 @@ function migrate(d){
   d.orderList ||= [];
   d.materialList ||= null;   // one imported library of material facts, looked up when you add a material
   for (const f of d.formulas || []){
+    f.versions ||= []; f.variations ||= [];
     for (const va of f.variations || [])   // a non-frozen variation with own lines (old detach experiments) becomes frozen
       if (va.lines && !va.frozen) va.frozen = true;
     for (const va of f.variations || [])   // a solvent correction in grams gets the scale it was made at, so it can follow a rescaled base
@@ -740,12 +741,15 @@ function migrate(d){
   if (d.meta.schema > SCHEMA) alert(`This data file was written by a newer miFormulas version (schema ${d.meta.schema}). Update the app before editing.`);
   return d;
 }
+const looksLikeData = p => !!p && typeof p === "object" && Array.isArray(p.formulas) && Array.isArray(p.materials);
+const NOT_DATA_MSG = "This is not a miFormulas data file: it holds no formulas and materials.\n\nTo bring in a single formula or a materials library, use Import formula… or Import materials library… on the Welcome page.";
 const CORRUPT_MSG = "The data file could not be read (invalid JSON). Nothing was changed.\n\nRestore a timestamped backup, the version history of your cloud storage, or the daily snapshot on the start screen.";
 async function loadFromHandle(h){
   const f = await h.getFile();
   let parsed;
   try{ parsed = JSON.parse(await f.text()); }
   catch(e){ alert(CORRUPT_MSG); return false; }
+  if (!looksLikeData(parsed)){ alert(NOT_DATA_MSG); return false; }
   DATA = migrate(parsed);
   HANDLE = h; await idb.set("fileHandle", h);
   await idb.set("demoData", null);   // the file is the data now; a browser copy would only go stale
@@ -770,6 +774,7 @@ $("#fileFallback").addEventListener("change", async e => {
   let parsed;
   try{ parsed = JSON.parse(text); }
   catch(err){ alert(CORRUPT_MSG); return; }
+  if (!looksLikeData(parsed)){ alert(NOT_DATA_MSG); return; }
   DATA = migrate(parsed);
   if (DEMO) idb.set("demoData", text); else idb.set("cachedData", {json: text, when: Date.now(), name: f.name});   // fast path for next visit (iOS)
   boot();
@@ -800,7 +805,7 @@ async function loadStarter(){
     return migrate(await r.json());
   }catch(e){ alert("The starter set could not be loaded (" + e.message + ")." + (location.protocol === "file:" ? "\n\nIt is fetched from miformulas.com, so this needs an internet connection." : "")); return null; }
 }
-let ETAG = null, TOKEN = null, CONFLICT = false;
+let ETAG = null, TOKEN = null, CONFLICT = false, SERVER_EMPTY = false;
 async function probeServer(){
   // earlier builds always talked to data.php next to the app; keep that working without configuration
   try{ const r = await fetch("data.php", {cache: "no-store"}); return (r.status === 401 || r.ok) ? "data.php" : null; }
@@ -813,10 +818,11 @@ async function remoteLoad(){
       const t = prompt("Access token for this miFormulas server:"); if (!t) return false;
       TOKEN = t.trim(); await idb.set("token", TOKEN); return remoteLoad();
     }
-    if (r.status === 404){ alert("The server at " + API + " has no data file yet (HTTP 404)."); return false; }
+    if (r.status === 404){ SERVER_EMPTY = true; return false; }   // no data file there yet: the landing offers the starter set
     if (!r.ok){ alert(`Could not load data from the server (HTTP ${r.status}).`); return false; }
     ETAG = r.headers.get("ETag");
     let parsed; try{ parsed = await r.json(); }catch(e){ alert(CORRUPT_MSG); return false; }
+    if (!looksLikeData(parsed)){ alert(NOT_DATA_MSG); return false; }
     DATA = migrate(parsed); CONFLICT = false;
     return true;
   }catch(e){ alert("Server not reachable: " + e.message); return false; }
@@ -1841,7 +1847,7 @@ function listFacts(m){   // odour, impact, substantivity and typical use have no
     let u = "Typical use: " + m.use.mean + " %";
     if (m.use.low && m.use.high) u += ` (usual range: ${m.use.low} % to ${m.use.high} %)`;
     else if (m.use.low) u += ` (from ${m.use.low} %)`;
-    if (m.use.n) u += `, ${m.use.n} formula${m.use.n === "1" ? "" : "s"}`;
+    if (m.use.n) u += `, ${m.use.n} formula${String(m.use.n) === "1" ? "" : "s"}`;
     b.push(u);
   }
   return b.join("\n");
@@ -1943,6 +1949,16 @@ function browseList(){   // pick several materials from the library in one go
   });
   draw(); $("#brQ").focus();
 }
+function normLibrary(p){   // a library can come from anywhere: keep the usable entries and put every field in the shape the app expects
+  const num = v => { if (v == null || v === "") return null; const n = typeof v === "number" ? v : parseNum(v); return n == null || isNaN(n) ? null : n; };
+  const list = v => Array.isArray(v) ? v.map(x => String(x).trim()).filter(Boolean)
+                  : (typeof v === "string" && v.trim() ? v.split(";").map(x => x.trim()).filter(Boolean) : []);
+  const txt = v => v == null ? "" : String(v).trim();
+  const materials = (p.materials || []).filter(m => m && typeof m.name === "string" && m.name.trim()).map(m => ({
+    ...m, name: m.name.trim(), aliases: list(m.aliases), odour: list(m.odour), cas: txt(m.cas), category: txt(m.category),
+    strength: txt(m.strength), tenacity: txt(m.tenacity), pyramid: num(m.pyramid), ifraLimit: num(m.ifraLimit), isSolvent: !!m.isSolvent}));
+  return {...p, materials};
+}
 function setMaterialList(pkg){   // import or remove, always one Undo step
   const before = DATA.materialList;
   DATA.materialList = pkg && {name: pkg.name || "Materials library", version: pkg.version || "", licence: pkg.licence || "",
@@ -1956,6 +1972,8 @@ async function importListFile(file){
   if (p?.type !== "miformulas-materials" || !Array.isArray(p.materials) || !p.materials.length){
     alert("This is not a miFormulas materials library (expected type “miformulas-materials” with materials)."); return;
   }
+  p = normLibrary(p);
+  if (!p.materials.length){ alert("This library holds no usable materials (every entry needs a name)."); return; }
   if (DATA.materialList && !confirm(`Replace the materials library “${DATA.materialList.name}” with “${p.name || "this library"}” (${nMats(p.materials.length)})?\n\nThe materials you own are not touched.`)) return;
   setMaterialList(p); render();
   alert(`Materials library loaded: ${p.name || "library"}${p.version ? " " + p.version : ""}, ${nMats(p.materials.length)}.\n\nNothing was added to your own inventory: the library is a reference, not stock. When you add a material with + New material, a name from the library fills in its CAS, category, pyramid level, IFRA limit and a few lines of odour facts. Undo (Ctrl+Z) takes the library back.`);
@@ -2164,7 +2182,7 @@ function createPredilution(f, sub, item, dispLines){
     if (!DATA.materialCategories.includes("Predils")){ DATA.materialCategories.push("Predils"); DATA.materialCategories.sort((a,b)=>a.localeCompare(b)); }
     (DATA.categoryColours ||= {})["Predils"] ||= "#7A5EA8";
     const pm = {id: uid("m-"), name, cas: "", category: "Predils", supplier: "", modified: now(),
-      costPerGram: Wp > 0 ? +(costT/Wp).toFixed(4) : null, ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`,
+      costPerGram: Cp > 0 ? +(costT/Cp).toFixed(4) : null,   // per gram of pure material, as everywhere else ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`,
       purchaseDate: today(), pyramid: 5, isSolvent: false,
       description: `Predilution of ${f.name} ${isVarView?`variation «${item.label}» (base v${cur.v})`:`v${cur.v}`} (factor ×${k}).\n\n` +
         picks.map(l => { const m = matById(l.materialId); return `${(m||{}).name||"?"} (${fmtS(l.dilutionPct??100)}%) — ${(+(l.weightG*k).toFixed(4))} g`; }).join("\n"),
@@ -2379,7 +2397,7 @@ function ifraPanel(f, item, K){
   const restricted = [], unknown = [];
   for (const e of agg.values()){
     const lim = e.m.ifraLimit;
-    if (lim == null){ unknown.push(e.m.name); continue; }
+    if (lim == null || lim < 0){ unknown.push(e.m.name); continue; }   // below zero is not a limit: treat it as not yet checked
     if (lim >= 99) continue;                       // verified: no restriction
     const finalPct = e.rel * dose / 100;
     restricted.push({m: e.m, finalPct, lim, ratio: lim > 0 ? finalPct/lim : Infinity});
@@ -2397,8 +2415,8 @@ function ifraPanel(f, item, K){
   } else {
     h += `<table class="lines"><thead><tr><th>Material</th><th class="num">In product %</th><th class="num">IFRA limit %</th><th class="num">Used</th></tr></thead><tbody>
     ${restricted.slice(0, over.length > 8 ? over.length : 8).map(r => `<tr${r.ratio>1?' style="color:var(--danger);font-weight:600"':''}>
-      <td>${esc(r.m.name)}</td><td class="num">${fmt(r.finalPct,3)}</td><td class="num">${fmt(r.lim,3)}</td>
-      <td class="num">${r.lim>0?fmt(r.ratio*100,0)+"%":"—"}</td></tr>`).join("")}
+      <td>${esc(r.m.name)}</td><td class="num">${fmt(r.finalPct,3)}</td><td class="num">${r.lim === 0 ? "prohibited" : fmt(r.lim,3)}</td>
+      <td class="num">${r.lim>0?fmt(r.ratio*100,0)+"%":"not allowed"}</td></tr>`).join("")}
     </tbody></table>`;
   }
   if (unknown.length) h += `<div class="hint">Not yet verified against IFRA (${unknown.length}): ${unknown.slice(0,12).map(esc).join(", ")}${unknown.length>12?", …":""}</div>`;
@@ -2867,19 +2885,20 @@ function deliveredDialog(idx){
       <label>Order date</label><input type="date" id="dvDate" value="${today()}" style="justify-self:start">
       ${tracked ? `<label>Add to stock ledger</label><span><input id="dvG" style="width:5rem;text-align:right" placeholder="amount"> <select id="dvU"><option>g</option><option>ml</option></select></span>` : ""}
     </div>
-    <div class="hint" style="margin-top:.4rem">If the amount is in g (or ml with a known density) and a price is given, cost €/g is updated too.</div>
+    <div class="hint" style="margin-top:.4rem">If the amount is in g (or ml with a known density) and a price is given, cost €/g is updated too.${m && basePct(m) !== 100 ? ` ${esc(m.name)} has a base dilution of ${fmtS(basePct(m))} %, so ${fmtS(100/basePct(m),2)} g of it holds one gram of material and the price per gram is computed on that.` : ""}</div>
     <div class="toolRow" style="justify-content:flex-end;margin-top:.9rem"><button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Confirm</button></div></div>`;
   dlg.showModal();
   $("#dlgCancel").addEventListener("click", () => dlg.close());
   $("#dlgOk").addEventListener("click", () => {
     const amt = $("#dvAmt").value.trim(), date = $("#dvDate").value || today();
     const price = parseNum($("#dvPrice").value);
-    const costPerGram = (dens) => {
+    const costPerGram = (dens, pct) => {          // the field holds the price of a gram of pure material
       const am = amt.match(/([\d.,]+)\s*(g|gr|gram|ml)/i);
       if (!price || !am) return null;
       const val = parseNum(am[1]); if (!val) return null;
       const grams = /ml/i.test(am[2]) ? (dens ? val * dens : null) : val;
-      return grams ? price / grams : null;
+      const pure = grams ? grams * ((pct ?? 100) / 100) : null;
+      return pure ? price / pure : null;
     };
     dlg.close();
     const oc = structuredClone(DATA.orderList);
@@ -2887,7 +2906,7 @@ function deliveredDialog(idx){
       const mc = structuredClone(m);
       pushUndo(() => { DATA.orderList = oc; const j = DATA.materials.findIndex(x => x.id === mc.id); if (j >= 0) DATA.materials[j] = mc; });
       if (amt) m.inventory = amt;
-      const cg = costPerGram(m.density);
+      const cg = costPerGram(m.density, basePct(m));
       if (cg) m.costPerGram = +cg.toFixed(4);
       m.purchaseDate = date; m.modified = now(); delete m.wishlist;
       const g = parseNum($("#dvG")?.value);
@@ -2896,7 +2915,7 @@ function deliveredDialog(idx){
       DATA.orderList.splice(idx, 1);
       markDirty(); switchTab("M", m.id, null);
     } else {
-      const cg = costPerGram(null);
+      const cg = costPerGram(null, 100);   // a new material starts at 100 %
       const nm = {id: uid("m-"), name: o.name, cas:"", category:"Uncategorised", supplier:"", costPerGram: cg ? +cg.toFixed(4) : null, modified: now(),
         ifraLimit:null, inventory: amt, purchaseDate: date, pyramid:5, isSolvent:false, description:"",
         dilutions:[{pct:100, isBase:true, date, notes:""}]};
@@ -2939,8 +2958,8 @@ function renderMaterial(m){
     ${F("Supplier", `<input data-f="supplier" value="${esc(m.supplier)}" list="supList">`)}
     <datalist id="supList">${DATA.suppliers.map(s=>`<option value="${esc(s)}">`).join("")}</datalist>
     ${F("Amount purchased", `<input data-f="inventory" value="${esc(m.inventory)}">`)}
-    ${F("Cost € / g", `<input data-f="costPerGram" data-num="1" inputmode="decimal" value="${m.costPerGram!=null?fmt(m.costPerGram,3):""}">`)}
-    ${F("IFRA limit %", `<input data-f="ifraLimit" data-num="1" inputmode="decimal" value="${m.ifraLimit!=null?fmt(m.ifraLimit,2):""}" placeholder="99 = checked, no limit">`)}
+    ${F("Cost € / g", `<input data-f="costPerGram" data-num="1" inputmode="decimal" value="${m.costPerGram!=null?fmt(m.costPerGram,3):""}" title="The price of one gram of the pure material (at 100 %)"> <span class="hint">of the pure material; for a dilution you bought, divide by its percentage</span>`)}
+    ${F("IFRA limit %", `<input data-f="ifraLimit" data-num="1" inputmode="decimal" value="${m.ifraLimit!=null?fmt(m.ifraLimit,2):""}" placeholder="99 = checked, no limit; 0 = prohibited">`)}
     ${F("Solvent", `<input type="checkbox" data-f="isSolvent" ${m.isSolvent?"checked":""} style="justify-self:start">`)}
     ${F("Storage", `<span style="display:flex;gap:.9rem;flex-wrap:wrap;align-items:center">
       <label><input type="checkbox" data-loc="kast" ${m.locations?.kast?"checked":""}> Cupboard</label>
@@ -3275,8 +3294,11 @@ async function openSettings(){
     try{
       const r = await fetch(LIST_URL, {cache: "no-store"});
       if (!r.ok) throw new Error(r.status);
-      const p = await r.json();
+      let p = await r.json();
       if (p?.type !== "miformulas-materials" || !Array.isArray(p.materials)) throw new Error("format");
+      p = normLibrary(p);
+      if (!p.materials.length) throw new Error("empty");
+      if (DATA.materialList && !confirm(`Replace the materials library “${DATA.materialList.name}” with “${p.name || "this library"}” (${nMats(p.materials.length)})?\n\nThe materials you own are not touched.`)) return;
       setMaterialList(p); render();
       alert(`Materials library loaded: ${p.name || "library"}${p.version ? " " + p.version : ""}, ${nMats(p.materials.length)}.\n\nNothing was added to your own inventory: the library is a reference, not stock. When you add a material with + New material, a name from the library fills in its CAS, category, pyramid level, IFRA limit and a few lines of odour facts. Undo (Ctrl+Z) takes the library back.`);
     }catch(e){ alert("The library could not be fetched. Check your connection, or import the file by hand."); }
@@ -3486,6 +3508,11 @@ function boot(){
       bo.replaceWith(bo.cloneNode(true));   // drop the file-picker handler
       $("#btnOpen").addEventListener("click", async () => { if (await remoteLoad()) boot(); });
       if (await remoteLoad()) boot();
+      else if (SERVER_EMPTY){          // the server answers, but holds no data file yet
+        $("#landingHint").textContent = "The server at " + url + " has no data file yet. Start with the starter set and the app writes it there, or use Connect to server once the file exists.";
+        const bs = $("#btnStarter"); bs.style.display = "";
+        bs.addEventListener("click", async () => { const d = await loadStarter(); if (!d) return; DATA = d; boot(); markDirty(); });
+      }
       return;
     }
     // no server: the browser keeps the data, unless a data file was opened here before (then that file is used)

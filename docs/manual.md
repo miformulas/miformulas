@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260914c. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260914d. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -242,7 +242,7 @@ On a phone the list and the page take turns; the app is read-only there unless i
 
 The **Materials** tab is your inventory: the materials you own or have on order. A **materials library** is something else, a reference file of facts that you import (section 18); it never changes what you own.
 
-A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram, IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.
+A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.
 
 **Look it up.** Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around: **TGSC** and **Olfactorian** search those sites for the CAS number (only the number itself, whatever else the field holds; or the name, if there is no CAS) through DuckDuckGo, and **IFRA** opens the IFRA Standards library with the CAS number already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your inventory; what you enter is up to you.
 
@@ -252,7 +252,7 @@ A material is anything you weigh: a raw material, a natural, a base, a solvent, 
 
 **Solvent.** Tick this for ethanol, DPG, IPM, TEC and the like. Solvent lines carry no aromatic content: they do not count in the relative percentages and they are what the dilution tools exchange against.
 
-**IFRA limit.** Enter the limit in percent of the finished product for Category 4 (fine fragrance), taken from the standards library on ifrafragrance.org. Two special values: **99** means checked, no restriction; empty means not yet checked. The IFRA panel of a formula uses these figures (section 16).
+**IFRA limit.** Enter the limit in percent of the finished product for Category 4 (fine fragrance), taken from the standards library on ifrafragrance.org. Three special values: **99** means checked, no restriction; **0** means prohibited in this category; empty means not yet checked, and so is any figure below zero. The IFRA panel of a formula uses these figures (section 16).
 
 **Storage.** A material stored in the fridge shows a ❄ next to formula lines that use it at its base concentration, also on the printed weighing sheet, so you know which bottles to fetch first.
 
@@ -367,7 +367,7 @@ Printing uses the browser's print dialog; choose "Save as PDF" there for a PDF.
 
 ## 16. IFRA check and category panel
 
-The **IFRA check** panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.
+The **IFRA check** panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit. A limit of 0 reads as prohibited. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.
 
 ![The IFRA check panel: materials over their limit come first.](img/app-ifra.png)
 

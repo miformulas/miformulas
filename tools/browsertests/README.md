@@ -14,6 +14,7 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python help.py                 # Help-knop: ingebedde handleiding, inhoudstafel, terug naar de vorige weergave (17 controles)
     python move-into.py            # Move into…: geïmporteerde formule als versie of bevroren variatie van een andere, Move together, "this formula", Undo (48 controles)
     python materiaallijst.py       # materials library: import, Settings, Get the latest library, + New material met feiten, Browse the library… met shift-klik, "+ Add" in de zoeklijst, Undo (50 controles)
+    python kost-en-ifra.py         # kost per gram zuiver (Delivered met basisdilutie, predilutie), IFRA 0 = prohibited en negatief = niet nagekeken, geen databestand openen, bibliotheek met rommel, server zonder databestand (21 controles)
     python variaties.py            # live variaties: verschillen per regel van de basisversie (materiaal + dilutie daar), marks die niet verschuiven, solventcorrectie die meeschaalt, predilutie vanuit een variatie (20 controles)
     python opslagvolgorde.py       # één schrijfactie tegelijk: wijziging tijdens een trage PUT (nagebootste server in de pagina), geen tweede PUT met dezelfde ETag, browseropslag die weigert, databestand vervangt de browserkopie (15 controles)
     python getalnotatie.py         # en-GB: duizendtalscheiding in invoervelden, parseNum, Delivered per 1000 g, IFRA-dosering per formule, Ctrl+Z onder een dialoog, Replace + Cancel, gebruiksindex na Add line (15 controles)
