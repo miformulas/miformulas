@@ -32,7 +32,7 @@
 :root{
   --ground:#FBFCFD; --surface:#FFFFFF; --panel:#EDF1F5; --ink:#212A33; --muted:#6C7A88;
   --line:#DCE3EA; --accent:#A2277E; --accent-ink:#7E1B62; --accent-soft:#F9E3F1; --amber:#DD8500; --amber-soft:#FFEFD2;
-  --danger:#C42F1F; --frozen:#3E7CB8; --frozen-soft:#E1EEF9;
+  --danger:#C42F1F; --danger-soft:#FBE9E5; --frozen:#3E7CB8; --frozen-soft:#E1EEF9;
   --hl0:#3B6FA0; --hl2:#C04A32; --hl3:#C9A227; --hl4:#4C8A46;
   --accent-deep:#3E1146; --header-ink:#FBEFDD; --header-mute:#E3B9D6; --zebra:rgba(62,124,184,.05);
   --bench:#E2F0F4; --bench2:#DCE7F5; --bench-line:#B9D5DE;
@@ -41,9 +41,10 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
+    color-scheme: dark;   /* checkboxes, date pickers, scrollbars and select lists follow the theme */
     --ground:#1C1122; --surface:#2A1833; --panel:#241430; --ink:#F2E6F2; --muted:#B292BC;
     --line:#453050; --accent:#E667B0; --accent-ink:#F08CC5; --accent-soft:#3A1F38; --amber:#FFB454; --amber-soft:#3B2A12;
-    --danger:#F08A75; --frozen:#7FA9D9; --frozen-soft:#1E2B3B;
+    --danger:#F08A75; --danger-soft:#3A1E1A; --frozen:#7FA9D9; --frozen-soft:#1E2B3B;
     --accent-deep:#220A2B; --header-ink:#F7E9F5; --header-mute:#C79ABB; --zebra:rgba(230,103,176,.07);
     --bench:#122630; --bench2:#141F33; --bench-line:#2C4654;
     --header-grad:linear-gradient(100deg,#2A0C33,#701B5C 48%,#B34A0C);
@@ -51,9 +52,10 @@
   }
 }
 :root[data-theme="dark"]{
+  color-scheme: dark;
   --ground:#1C1122; --surface:#2A1833; --panel:#241430; --ink:#F2E6F2; --muted:#B292BC;
   --line:#453050; --accent:#E667B0; --accent-ink:#F08CC5; --accent-soft:#3A1F38; --amber:#FFB454; --amber-soft:#3B2A12;
-  --danger:#F08A75; --frozen:#7FA9D9; --frozen-soft:#1E2B3B;
+  --danger:#F08A75; --danger-soft:#3A1E1A; --frozen:#7FA9D9; --frozen-soft:#1E2B3B;
   --accent-deep:#220A2B; --header-ink:#F7E9F5; --header-mute:#C79ABB; --zebra:rgba(230,103,176,.07);
   --bench:#122630; --bench2:#141F33; --bench-line:#2C4654;
   --header-grad:linear-gradient(100deg,#2A0C33,#701B5C 48%,#B34A0C);
@@ -78,6 +80,7 @@ input,select,textarea{font:inherit;color:inherit;background:var(--surface);borde
 input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
 input[type=number]{text-align:right}
 header{display:flex;align-items:center;gap:1rem;padding:.55rem 1rem;background:var(--header-grad);color:var(--header-ink)}
+header button,header .hsep{white-space:nowrap}
 header h1{font-size:1.15rem;margin:0;font-weight:600;letter-spacing:.03em}
 header h1 span{color:#FFC46B}
 header button{background:transparent;color:var(--header-ink);border-color:rgba(255,255,255,.25)}
@@ -109,6 +112,7 @@ body.hidebar #btnBar{background:var(--accent-soft);color:var(--accent-ink);borde
   border-left:3px solid transparent;transition:background .12s,border-color .12s}
 .item:nth-of-type(even){background:var(--zebra)}
 .item:hover{background:var(--accent-soft);border-left-color:var(--accent)}
+.item:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .item.sel{background:var(--accent-soft);font-weight:600;border-left-color:var(--accent);box-shadow:none}
 .item .sub{font-variant-numeric:tabular-nums}
 .item .sub{font-size:.75rem;color:var(--muted);white-space:nowrap}
@@ -161,7 +165,7 @@ table.lines select.d{max-width:7rem}
 .actions button{border:none;background:none;color:var(--muted);padding:.15rem .5rem;font-size:.83rem;border-radius:5px}
 .actions button:hover{color:var(--accent-ink);background:var(--accent-soft)}
 .actions button.danger{color:var(--danger)}
-.actions button.danger:hover{background:#FBE9E5;color:var(--danger)}
+.actions button.danger:hover{background:var(--danger-soft);color:var(--danger)}
 .actions i{width:1px;height:1rem;background:var(--line);margin:0 .3rem}
 .notes{width:100%;min-height:9.5rem;margin-top:.3rem;line-height:1.5}
 .noteRead{white-space:pre-wrap;background:var(--amber-soft);border-radius:6px;padding:.6rem .8rem;font-size:.9rem}
@@ -299,7 +303,9 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   #printArea table.bench{width:15.6cm}
   #printArea .cb{width:1.2rem;border:1px solid #333;height:1rem;display:inline-block}
   #printArea .pyricon{vertical-align:-2px;margin:0}
-  #printArea td:nth-child(2){width:1.1rem;padding-right:0}
+  #printArea table.bench td:nth-child(2){width:1.1rem;padding-right:0}
+  #printArea table.sheet{width:16.2cm}
+  body{background:#fff}
 }
 </style>
 </head>
@@ -307,7 +313,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914g</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914h</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -315,13 +321,13 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <span id="saveState"></span>
   <button id="btnUndo" class="small" disabled title="Undo last change (Ctrl+Z)">Undo</button>
   <button id="btnRedo" class="small" disabled title="Redo undone change (Ctrl+Y)">Redo</button>
-  <button id="btnSave" class="small" title="Save now (Ctrl+S) — saving is also automatic">Save</button>
+  <button id="btnSave" class="small" title="Save now (Ctrl+S) – saving is also automatic">Save</button>
   <button id="btnBackup" class="small" title="Download a backup copy of the data file">Backup</button>
   <span class="hsep"></span>
   <button id="btnRefresh" class="small" title="Reload the app and its data (e.g. after an update)">⟳</button>
   <button id="btnTheme" class="small" title="Theme: auto follows Windows/macOS; click to cycle">◐ Auto</button>
   <button id="btnHelp" class="small" title="Help: the manual, inside the app">?</button>
-  <button id="btnSettings" class="small" title="Settings: number format, server">⚙</button>
+  <button id="btnSettings" class="small" title="Settings: number format, server, materials library, install as an app">⚙</button>
 </header>
 <div id="storageHint" hidden><span id="storageHintText"></span><button class="small primary" id="storageHintSave" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file…</button><button class="small" id="storageHintClose" title="Hide for this session">×</button></div>
 <main>
@@ -331,7 +337,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
       <button id="tabM">Materials</button>
       <button id="tabT">To order</button>
     </div>
-    <input id="searchBox" type="search" placeholder="Search…" title="Materials: name, CAS, supplier — and descriptions from 3 characters">
+    <input id="searchBox" type="search" placeholder="Search…" title="Formulas: by name. Materials: name, CAS, supplier – and descriptions from 3 characters">
     <div id="list"></div>
   </div>
   <div id="content"></div>
@@ -362,7 +368,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260914g. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260914h. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -703,7 +709,7 @@ async function tryRestore(){
     const h = await idb.get("fileHandle");
     if (!h) return false;
     if (await h.queryPermission({mode:"readwrite"}) === "granted") return await loadFromHandle(h);
-    RESTORE = h;   // needs a user gesture — landing shows a reopen button
+    RESTORE = h;   // needs a user gesture – landing shows a reopen button
     return false;
   }catch(e){ return false; }
 }
@@ -816,7 +822,7 @@ function finishSave(gen, where){
 /* ---------- storage modes ----------
    REMOTE: a server endpoint (set in Settings, or detected once as data.php next to the app)
    HANDLE: a local file through the File System Access API
-   DEMO:   served over http(s) without a server — the browser keeps the data in IndexedDB
+   DEMO:   served over http(s) without a server – the browser keeps the data in IndexedDB
    otherwise the read-mostly fallback with a file picker (iOS, Firefox) */
 let REMOTE = false, DEMO = false, API = "";
 const STARTER_URL = location.protocol === "file:" ? "https://miformulas.com/data/miformulas-starter.json" : "data/miformulas-starter.json";   // next to the app on a server; the downloaded app fetches it from the site
@@ -859,13 +865,13 @@ async function remoteSave(){
     const r = await fetch(API, {method: "PUT", headers: {"Content-Type": "application/json", "X-Token": TOKEN || "", "If-Match": ETAG || ""}, body: s});
     if (r.status === 409){
       CONFLICT = true;
-      $("#saveState").textContent = "⚠ Conflict: changed on another device — reload (F5) before editing"; $("#saveState").className = "dirty";
+      $("#saveState").textContent = "⚠ Conflict: changed on another device – reload (F5) before editing"; $("#saveState").className = "dirty";
       if (!remoteSave._warned){ remoteSave._warned = true; alert("The data was changed on another device since you loaded it.\n\nUse Backup to keep your current work, then reload (F5) and redo the change."); }
       return;
     }
     if (r.status === 401){ TOKEN = null; await idb.set("token", null);
       $("#saveState").textContent = "Token rejected: use Backup, then reload to enter it again"; $("#saveState").className = "dirty"; return; }
-    if (!r.ok){ $("#saveState").textContent = `Save failed (server ${r.status}) — use Backup`; $("#saveState").className = "dirty"; return; }
+    if (!r.ok){ $("#saveState").textContent = `Save failed (server ${r.status}) – use Backup`; $("#saveState").className = "dirty"; return; }
     ETAG = r.headers.get("ETag") || ETAG;
     remoteSave._warned = false;
     finishSave(gen, "server");
@@ -896,7 +902,7 @@ async function saveNow(){
       const w = await HANDLE.createWritable();
       await w.write(s); await w.close();
       finishSave(gen, HANDLE.name);
-    }catch(e){ $("#saveState").textContent = "Save failed — use Backup"; $("#saveState").className = "dirty"; }
+    }catch(e){ $("#saveState").textContent = "Save failed – use Backup"; $("#saveState").className = "dirty"; }
   } else if (DEMO){
     const gen = SAVEGEN, s = serialize();
     const stored = await idb.set("demoData", s);
@@ -904,7 +910,7 @@ async function saveNow(){
     if (!saveNow._persistAsked){ saveNow._persistAsked = true; requestPersistence(); }
     finishSave(gen, "this browser");
   } else {
-    $("#saveState").textContent = "No file access — use Backup to download"; $("#saveState").className = "dirty";
+    $("#saveState").textContent = "No file access – use Backup to download"; $("#saveState").className = "dirty";
   }
 }
 async function backup(){
@@ -1095,7 +1101,7 @@ function pyrPyramid(K){
     if (frac <= 0) continue;
     const w = Math.max(3, (frac/maxFrac) * W);
     parts += `<rect x="${(cx-w/2).toFixed(1)}" y="${(y+gap/2).toFixed(1)}" width="${w.toFixed(1)}" height="${(rowH-gap).toFixed(1)}" rx="1.5"
-      fill="${PYRCOLS[i]}"><title>${PYRLABS[i]} — ${fmt(frac*100,1)}%</title></rect>`;
+      fill="${PYRCOLS[i]}"><title>${PYRLABS[i]} – ${fmt(frac*100,1)}%</title></rect>`;
     parts += `<text x="${W+7}" y="${(y+rowH/2+3).toFixed(1)}">${fmt(frac*100,1)}%</text>`;
   }
   return `<svg class="fpyr" width="185" height="${H+8}" viewBox="0 0 185 ${H+8}" role="img"
@@ -1184,11 +1190,11 @@ function renderSidebar(){
     for (const cat of Object.keys(groups).sort((a,b)=>a.localeCompare(b))){
       html += `<div class="cat"><span class="catdot" style="background:${catColourByName(cat)}"></span>${esc(cat)} <span class="hint" style="font-weight:400">${groups[cat].length}</span></div>`;
       for (const f of groups[cat].sort((a,b)=>a.name.localeCompare(b.name)))
-        html += `<div class="item${f.id===VIEW.id?" sel":""}" data-id="${f.id}"><span>${esc(f.name)}</span><span class="sub">${f.versions.length}v · ${f.variations.length}var</span></div>`;
+        html += `<div class="item${f.id===VIEW.id?" sel":""}" data-id="${f.id}" tabindex="0" role="button"><span>${esc(f.name)}</span><span class="sub">${f.versions.length}v · ${f.variations.length}var</span></div>`;
     }
   } else if (VIEW.tab === "M"){
     const groups = {};
-    const descHits = new Set();   // kept outside the data — never written to the file
+    const descHits = new Set();   // kept outside the data – never written to the file
     for (const m of DATA.materials){
       if (q){
         const hit = m.name.toLowerCase().includes(q) || (m.cas||"").toLowerCase().includes(q) || (m.aliases||"").toLowerCase().includes(q)
@@ -1204,7 +1210,7 @@ function renderSidebar(){
     for (const cat of Object.keys(groups).sort((a,b)=>a.localeCompare(b))){
       html += `<div class="cat"><span class="catdot" style="background:${catColourByName(cat)}"></span>${esc(cat)} <span class="hint" style="font-weight:400">${groups[cat].length}</span></div>`;
       for (const m of groups[cat])
-        html += `<div class="item${m.id===VIEW.id?" sel":""}" data-id="${m.id}"><span${m.wishlist?' style="color:var(--amber);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${m.wishlist?'<b style="color:var(--amber)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':""))}</span></div>`;
+        html += `<div class="item${m.id===VIEW.id?" sel":""}" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${m.wishlist?'<b style="color:var(--amber)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':""))}</span></div>`;
     }
     if (q && !Object.keys(groups).length){   // nothing in your inventory: does the materials library know it?
       const sug = listSuggest(q);
@@ -1220,12 +1226,17 @@ function renderSidebar(){
     html = "";
     for (const o of DATA.orderList || []){
       if (q && !o.name.toLowerCase().includes(q)) continue;
-      html += `<div class="item" data-id="${o.id}"><span>${esc(o.name)}</span><span class="sub">${esc(o.added||"")}</span></div>`;
+      html += `<div class="item" data-id="${o.id}" tabindex="0" role="button"><span>${esc(o.name)}</span><span class="sub">${esc(o.added||"")}</span></div>`;
     }
     if (!html) html = `<div class="hint" style="padding:.8rem">Nothing to order.</div>`;
   }
   $("#list").innerHTML = html;
 }
+$("#list").addEventListener("keydown", e => {          // Enter or space opens the row under the cursor
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const it = e.target.closest(".item"); if (!it) return;
+  e.preventDefault(); it.click();
+});
 $("#list").addEventListener("click", e => {
   const add = e.target.closest("[data-add]");
   if (add){ addOneFromList(add.dataset.add); return; }
@@ -1266,7 +1277,7 @@ function renderFormula(f){
   const isVar = sub.type === "var";
   const item = isVar ? f.variations[sub.idx] : f.versions[sub.idx];
   if (!item){
-    c.innerHTML = `<h2>${esc(f.name)}</h2><p class="hint">Empty formula — add a version.</p>
+    c.innerHTML = `<h2>${esc(f.name)}</h2><p class="hint">Empty formula – add a version.</p>
       <div class="toolRow"><button class="small" id="btnNewV">+ New version</button></div>`;
     $("#btnNewV").addEventListener("click", () => newVersion(f, null));
     return;
@@ -1288,7 +1299,7 @@ function renderFormula(f){
   <div class="fhead">${pyrPyramid(K)}
   ${pyrBar(K)}
   <div class="chipRow"><label class="hint">Version</label>
-    <select id="verSel">${isVar?'<option value="" selected hidden>— viewing a variation —</option>':""}${f.versions.map((v,i) =>
+    <select id="verSel">${isVar?'<option value="" selected hidden>– viewing a variation –</option>':""}${f.versions.map((v,i) =>
       `<option value="${i}"${!isVar&&i===sub.idx?" selected":""}>${esc(vName(v))} (${v.date||"?"})${v.sourceName && !v.hideSource?`: ${esc(v.sourceName)}`:""}${v.imported?" 🔒":""}</option>`).join("")}</select>
     ${!isVar ? '<button class="small" id="btnNameV" title="Name this version">✎</button>' : ""}
     <button class="small" id="btnNewV">+ New version</button>
@@ -1302,7 +1313,7 @@ function renderFormula(f){
   if (item){
     if (isVar && !item.frozen){
       const bv = baseVersionOf(f, item);
-      h += `<div class="toolRow"><span class="hint">Live variation — follows</span>
+      h += `<div class="toolRow"><span class="hint">Live variation – follows</span>
         <select id="varBase">
           <option value=""${item.baseV == null ? " selected" : ""}>latest version (now ${esc(vName(currentVersion(f)))})</option>
           ${f.versions.map(v => `<option value="${v.v}"${item.baseV === v.v ? " selected" : ""}>${esc(vName(v))} (${v.date||"?"})</option>`).join("")}
@@ -1324,10 +1335,10 @@ function renderFormula(f){
           <span class="swatch" data-mark="0" style="background:var(--hl0)" title="Blue"></span>
           <span class="swatch" data-mark="3" style="background:var(--hl3)" title="Yellow"></span>
           <button class="small" data-mark="1">Unmark</button>
-          <button class="small ghost" id="btnClearMarks" title="Remove every mark in this ${isVar?"variation":"version"}">clear all</button></span>
+          <button class="small ghost" id="btnClearMarks" title="Remove every mark in this ${isVar?"variation":"version"}">Clear all</button></span>
         ${editable||liveVar ? `<span class="tickGrp"><span class="hint">dilution</span>
-          <button class="small" id="btnDilDown" title="Next lower % — rel% preserved, ethanol exchanged">Lower</button>
-          <button class="small" id="btnDilUp" title="Next higher % — rel% preserved, ethanol exchanged">Higher</button></span>
+          <button class="small" id="btnDilDown" title="Next lower % – rel% preserved, ethanol exchanged">Lower</button>
+          <button class="small" id="btnDilUp" title="Next higher % – rel% preserved, ethanol exchanged">Higher</button></span>
         <span class="tickGrp"><button class="small" id="btnPredil" title="Bundle the ticked lines into a separate, weighable mix (creates a new version)">Create predilution…</button></span>` : ""}
       </div>`;
     }
@@ -1345,11 +1356,11 @@ function renderFormula(f){
       ${editable?`<span>Set EtOH for target abs %</span><span><input type="text" id="targetAbs" inputmode="decimal" value="${fmtIn(K.totalAbsPct,2)}"> %</span>
         <button class="small" id="btnSetAbs">Apply</button><span class="hint">max ${fmt(maxAbs,2)} % (EtOH at 0 g)</span>`:""}
     </div>
-    ${!(editable||liveVar) ? `<div class="hint" style="margin-top:.4rem">Read-only entry — the target is used for the printed weighing sheet.</div>` : ""}
+    ${!(editable||liveVar) ? `<div class="hint" style="margin-top:.4rem">Read-only entry – the target is used for the printed weighing sheet.</div>` : ""}
     </details>`;
     const hasNotes = !!(item.notes || "").trim();
     h += `<details class="panelBox" id="notesBox"${(NOTESOPEN ?? hasNotes) ? " open" : ""}>
-      <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Notes${hasNotes ? "" : ' <span class="hint" style="font-weight:400;text-transform:none;letter-spacing:0">— empty</span>'}</summary>
+      <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Notes${hasNotes ? "" : ' <span class="hint" style="font-weight:400;text-transform:none;letter-spacing:0">– empty</span>'}</summary>
       <textarea class="notes" id="notesEd">${esc(item.notes || "")}</textarea></details>`;
     const trials = item.trials || [];
     h += `<div class="panelBox"><h3>Trial log</h3>
@@ -1361,7 +1372,7 @@ function renderFormula(f){
     h += ifraPanel(f, item, K);
     h += `<div class="toolRow" style="margin-top:.6rem">${item.prepared
       ? `<span class="badge" style="background:var(--accent-soft);color:var(--accent-ink)">prepared ${item.prepared.date} · ${item.prepared.materials} tracked material(s) · −${fmt(item.prepared.deductedG)} g</span>`
-      : `<button class="small" id="btnPrep">Mark as prepared</button> <span class="hint">deducts base-dilution lines from tracked stock — once per version/variation</span>`}</div>`;
+      : `<button class="small" id="btnPrep">Mark as prepared</button> <span class="hint">deducts base-dilution lines from tracked stock – once per version/variation</span>`}</div>`;
     }
   }
   c.innerHTML = h;
@@ -1382,7 +1393,7 @@ function renderFormula(f){
   $("#btnCopyF")?.addEventListener("click", () => copyFormula(f, sub));
   $("#btnMoveF")?.addEventListener("click", () => moveInto(f));
   $("#btnCatF")?.addEventListener("click", () => {
-    openDialog(`<h3 style="margin:0 0 .3rem">Category — ${esc(f.name)}</h3>
+    openDialog(`<h3 style="margin:0 0 .3rem">Category – ${esc(f.name)}</h3>
       <div class="toolRow" style="margin:.7rem 0">${catPickerHtml(f.category, "14rem")}</div>`, "Apply", () => {
       const cat = $("#catSel").value;
       if (!cat || cat === f.category) return;
@@ -1602,7 +1613,7 @@ function renderLines(f, item, lines, K, editable, isVar){
   return h;
 }
 function dilSelect(m, cur, i, isVar){
-  // only the material's own dilutions are offered — 100% is NOT implied (some RMs exist only diluted)
+  // only the material's own dilutions are offered – 100% is NOT implied (some RMs exist only diluted)
   const dils = [...new Set([...(m.dilutions||[]).map(d=>d.pct), cur])].sort((a,b)=>b-a);
   return `<select class="d" data-${isVar?"vardil":"dil"}="${i}">` +
     dils.map(d=>`<option value="${d}"${d===cur?" selected":""}>${fmtS(d)}%</option>`).join("") +
@@ -1681,7 +1692,7 @@ function changeDilutionVar(f, va, i, d2){
   const d1 = l.dilutionPct ?? 100;
   if (!d2 || d2 === d1 || m.isSolvent){ render(); return; }
   const w1 = l.weightG || 0, w2 = w1 * d1 / d2, delta = w2 - w1;
-  // the variation may be scaled to a target weight — show everything at the scale the user sees
+  // the variation may be scaled to a target weight – show everything at the scale the user sees
   const rawTot = raw.reduce((s,x) => s + (x.weightG||0), 0);
   const k  = va.targetWeightG && rawTot > 0 ? va.targetWeightG / rawTot : 1;                     // exchange keeps the total
   const k2 = va.targetWeightG && rawTot + delta > 0 ? va.targetWeightG / (rawTot + delta) : 1;   // rel%-only rescales to target
@@ -1690,14 +1701,14 @@ function changeDilutionVar(f, va, i, d2){
   const short = solv ? delta - solv.w : null;
   const canEx = solv && short <= 1e-9;
   const exLabel = !solv ? `<span class="hint">no solvent line in the base version</span>`
-    : canEx ? `${esc(solv.mm.name)}: ${fmt(solv.w*k)} → ${fmt((solv.w - delta)*k)} g — total weight unchanged`
+    : canEx ? `${esc(solv.mm.name)}: ${fmt(solv.w*k)} → ${fmt((solv.w - delta)*k)} g – total weight unchanged`
     : `<span style="color:var(--danger)">not possible: ${esc(solv.mm.name)} holds only ${fmt(solv.w*k)} g, ${fmt(delta*k)} g must be taken out (short ${fmt(short*k)} g)</span>`;
   const relOnlyLabel = va.targetWeightG
     ? `total stays ${fmt(va.targetWeightG)} g (target), all other weights rescale, abs% shifts`
     : `total weight ${delta>=0?"+":""}${fmt(delta)} g, abs% shifts`;
   const dlg = $("#dlg");
   dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;max-width:32rem">
-    <h3 style="margin:0 0 .3rem">Change dilution — ${esc(m.name)} <span class="hint">(variation «${esc(va.label)}»)</span></h3>
+    <h3 style="margin:0 0 .3rem">Change dilution – ${esc(m.name)} <span class="hint">(variation «${esc(va.label)}»)</span></h3>
     <div class="hint" style="margin-bottom:.8rem">${fmtS(d1)}% → ${fmtS(d2)}%</div>
     <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="exchange" ${canEx?"checked":"disabled"}>
       <b>Preserve rel% and exchange solvent</b><br><span style="margin-left:1.4rem">weight ${fmt(w1*k)} → ${fmt(w2*k)} g · ${exLabel}</span></label>
@@ -1737,12 +1748,12 @@ function bulkDilShift(f, item, dir){   // dir -1 = next lower % (more diluted), 
     plan.push({i, next, w2, materialId: l.materialId}); delta += w2 - w1;
   }
   if (!plan.length){
-    alert(`Nothing to shift — the ticked lines are already at their ${dir<0?"lowest":"highest"} available dilution.`);
+    alert(`Nothing to shift – the ticked lines are already at their ${dir<0?"lowest":"highest"} available dilution.`);
     return;
   }
   const sj = solventIdx(src);
   const solv = sj >= 0 ? {j: sj, mm: matById(src[sj].materialId)||{}, w: src[sj].weightG||0} : null;
-  if (!solv){ alert("No solvent line in this formula — add ethanol first (e.g. via “Set EtOH for target abs %”) so the total weight can stay constant."); return; }
+  if (!solv){ alert("No solvent line in this formula – add ethanol first (e.g. via “Set EtOH for target abs %”) so the total weight can stay constant."); return; }
   // display at the scale shown on screen (a live variation may be scaled to a target weight)
   const rawTot = src.reduce((s,x) => s + (x.weightG||0), 0);
   const k = (live && item.targetWeightG && rawTot > 0) ? item.targetWeightG / rawTot : 1;
@@ -1822,11 +1833,11 @@ function changeDilution(f, item, i, d2, onCancel){
   const short = solv ? delta - solv.w : null;   // > 0 → not enough solvent to give back
   const canEx = solv && short <= 0;
   const exLabel = !solv ? `<span class="hint">no solvent line in this formula</span>`
-    : canEx ? `${esc(solv.mm.name)}: ${fmt(solv.w)} → ${fmt(solv.w - delta)} g — total weight unchanged`
+    : canEx ? `${esc(solv.mm.name)}: ${fmt(solv.w)} → ${fmt(solv.w - delta)} g – total weight unchanged`
     : `<span style="color:var(--danger)">not possible: ${esc(solv.mm.name)} holds only ${fmt(solv.w)} g, ${fmt(delta)} g must be taken out (short ${fmt(short)} g)</span>`;
   const dlg = $("#dlg");
   dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;max-width:32rem">
-    <h3 style="margin:0 0 .3rem">Change dilution — ${esc(m.name)}</h3>
+    <h3 style="margin:0 0 .3rem">Change dilution – ${esc(m.name)}</h3>
     <div class="hint" style="margin-bottom:.8rem">${fmtS(d1)}% → ${fmtS(d2)}%</div>
     <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="exchange" ${canEx?"checked":"disabled"}>
       <b>Preserve rel% and exchange solvent</b><br><span style="margin-left:1.4rem">weight ${fmt(w1)} → ${fmt(w2)} g · ${exLabel}</span></label>
@@ -2128,7 +2139,7 @@ function moveInto(f){
   openDialog(`<h3 style="margin:0 0 .3rem">Move into…</h3>
     <div class="hint" id="mvIntro" style="margin-bottom:.7rem"></div>
     <div class="fieldGrid">
-      <label>Into</label><select id="mvTarget" style="min-width:18rem"><option value="">— choose a formula —</option>${selfOpt}${opts}</select>
+      <label>Into</label><select id="mvTarget" style="min-width:18rem"><option value="">– choose a formula –</option>${selfOpt}${opts}</select>
       <label>As</label><span>
         <label style="display:block"><input type="radio" name="mvMode" value="v" checked> a new <b>version</b> <span id="mvVno" class="hint"></span></label>
         <label style="display:block;margin-top:.3rem"><input type="radio" name="mvMode" value="var"> a frozen <b>variation</b> with label <input id="mvLabel" value="${esc(labelGuess)}" placeholder="e.g. 20%, soap, 44gr" style="width:8rem"> of version <select id="mvBase"></select></label></span>
@@ -2256,7 +2267,7 @@ function createPredilution(f, sub, item, dispLines){
       costPerGram: Cp > 0 ? +(costT/Cp).toFixed(4) : null,   // per gram of pure material, as everywhere else ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`,
       purchaseDate: today(), pyramid: 5, isSolvent: false,
       description: `Predilution of ${f.name} ${isVarView?`variation «${item.label}» (base v${cur.v})`:`v${cur.v}`} (factor ×${k}).\n\n` +
-        picks.map(l => { const m = matById(l.materialId); return `${(m||{}).name||"?"} (${fmtS(l.dilutionPct??100)}%) — ${(+(l.weightG*k).toFixed(4))} g`; }).join("\n"),
+        picks.map(l => { const m = matById(l.materialId); return `${(m||{}).name||"?"} (${fmtS(l.dilutionPct??100)}%) – ${(+(l.weightG*k).toFixed(4))} g`; }).join("\n"),
       dilutions: [{pct: conc, isBase: true, date: today(), notes: "aromatic concentration of the mix"}]};
     const pf = {id: uid("f-"), name, category: "Predilutions", created: today(), modified: now(), frozenImport: false,
       versions: [{v: 1, frozen: true, date: today(),
@@ -2299,7 +2310,7 @@ function newVariation(f, sub){
   const viewed = sub && sub.type === "v" ? f.versions[sub.idx] : null;
   const latest = currentVersion(f);
   const onOlder = viewed && latest && viewed.v !== latest.v;
-  openDialog(`<h3 style="margin:0 0 .3rem">New variation — ${esc(f.name)}</h3>
+  openDialog(`<h3 style="margin:0 0 .3rem">New variation – ${esc(f.name)}</h3>
     <div class="hint" style="margin-bottom:.7rem">Same recipe in another presentation: other dilutions, another batch size. It follows the formula live until you freeze it.</div>
     <div class="fieldGrid">
       <label>Label</label><input id="nvLabel" placeholder="e.g. 20%, soap, 44gr" style="min-width:14rem">
@@ -2342,7 +2353,7 @@ function evLabel(e){
   const map = {take:"stocktake", buy:"purchase", dil:"dilution made", prep:"prepared"};
   let s = `${e.date} · ${map[e.t]||e.t}`;
   if (e.t==="take") s += ` → ${fmt(e.g)} g`;
-  if (e.t==="buy") s += `: +${e.amount!=null?fmtS(e.amount):""} ${e.unit||"g"}${e.g!=null&&e.unit==="ml"?` (≈${fmt(e.g)} g)`:""}${e.g==null?" (no density — not counted)":""}${e.note?` · ${e.note}`:""}`;
+  if (e.t==="buy") s += `: +${e.amount!=null?fmtS(e.amount):""} ${e.unit||"g"}${e.g!=null&&e.unit==="ml"?` (≈${fmt(e.g)} g)`:""}${e.g==null?" (no density – not counted)":""}${e.note?` · ${e.note}`:""}`;
   if (e.t==="dil") s += `: ${fmtS(e.pct)}% × ${fmt(e.totalG)} g → −${fmt(e.g)} g base`;
   if (e.t==="prep") s += `: ${e.formula} → −${fmt(e.g)} g`;
   return s;
@@ -2359,7 +2370,7 @@ function markPrepared(f, item, lines){
   }
   const label = itemLabel(item);
   const msg = `Mark ${f.name} ${label} as prepared on ${today()}?\n\n` +
-    (ded.length ? `Stock will decrease for ${ded.length} tracked material(s):\n${ded.slice(0,12).map(d=>`  − ${fmt(d.g)} g ${d.m.name}`).join("\n")}${ded.length>12?"\n  …":""}\n\n` : "No tracked base-dilution lines — nothing will be deducted.\n\n") +
+    (ded.length ? `Stock will decrease for ${ded.length} tracked material(s):\n${ded.slice(0,12).map(d=>`  − ${fmt(d.g)} g ${d.m.name}`).join("\n")}${ded.length>12?"\n  …":""}\n\n` : "No tracked base-dilution lines – nothing will be deducted.\n\n") +
     (other.length ? `${other.length} line(s) at other dilutions are untouched (their base was deducted when the dilution was made).\n` : "") +
     (untracked.length ? `${untracked.length} material(s) not tracked.\n` : "") +
     `\nThis can be done once per version/variation.`;
@@ -2380,14 +2391,22 @@ function markPrepared(f, item, lines){
 }
 
 /* ---------- exports & IFRA ---------- */
+const csvSep = () => (LOCALE || navigator.language || "").toLowerCase().startsWith("en") ? "," : ";";   // Excel follows the list separator of its own language
 function dlCsv(rows, filename){
-  const csv = "﻿" + rows.map(r => r.map(x => `"${String(x ?? "").replace(/"/g,'""')}"`).join(";")).join("\r\n");
+  const sep = csvSep();
+  const cell = x => {
+    let v = String(x ?? "");
+    if (/^[=+\-@]/.test(v)) v = "'" + v;            // Excel would read this as a formula
+    return `"${v.replace(/"/g,'""')}"`;
+  };
+  const csv = "﻿" + rows.map(r => r.map(cell).join(sep)).join("\r\n");
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([csv], {type:"text/csv;charset=utf-8"}));
   a.download = filename; a.click(); URL.revokeObjectURL(a.href);
 }
 const stamp = () => { const d = new Date(), p = x => String(x).padStart(2,"0"); return `${String(d.getFullYear()).slice(2)}${p(d.getMonth()+1)}${p(d.getDate())}`; };
-const nBE = x => x == null || x === "" ? "" : String(x).replace(".", ",");
+// numbers in the export follow the number format of the app: a comma for Belgian, a point for English
+const nBE = x => x == null || x === "" ? "" : (csvSep() === "," ? String(x) : String(x).replace(".", ","));
 function exportAllFormulas(){
   const rows = [["Formula","Category","Entry","Date","Material","Dilution %","Weight g","Rel %","Abs %","Cost EUR"]];
   for (const f of DATA.formulas){
@@ -2417,25 +2436,26 @@ function exportAllMaterials(){
 }
 function csvDownload(f, item, lines, K){
   const label = itemLabel(item);
-  const rows = [[`${f.name} — ${label}`,"","","","",""],
+  const rows = [[`${f.name} – ${label}`,"","","","",""],
     ["Material","Dilution %","Weight g","Rel %","Abs %","Cost EUR"]];
   sortRows(K.rows).forEach(r => rows.push([r.m.name + (r.m.isSolvent ? " (solvent)" : ""), nBE(r.dil),
     nBE(r.w.toFixed(3)), r.rel == null ? "" : nBE(r.rel.toFixed(2)), nBE(r.absPct.toFixed(2)), nBE(r.cost.toFixed(2))]));
   rows.push(["Total","", nBE(K.totalW.toFixed(3)), "", nBE(K.totalAbsPct.toFixed(2)), nBE(K.totalCost.toFixed(2))]);
-  dlCsv(rows, `${stamp()} ${f.name} ${label.replace(/[«»]/g,"")}.csv`);
+  dlCsv(rows, `${stamp()} ${f.name} ${label.replace(/[«»]/g,"")}.csv`.replace(/[\\/:*?"<>|]/g, "-"));
 }
 function formulaSheetPrint(f, item, lines, K){
   const label = itemLabel(item);
-  $("#printArea").innerHTML = `<h2>${esc(f.name)} — ${esc(label)}</h2>
+  $("#printArea").innerHTML = `<h2>${esc(f.name)} – ${esc(label)}</h2>
   <div>Printed ${today()}${item.date ? " · created " + item.date : ""} · miFormulas</div>
-  <table><thead><tr><th>Formula entry</th><th class="num">Weight (g)</th><th class="num">% Rel</th><th class="num">% Abs</th><th class="num">Cost €</th></tr></thead><tbody>
+  <table class="sheet"><colgroup><col class="matc"><col class="wc"><col class="rc"><col class="rc"><col class="rc"></colgroup>
+  <thead><tr><th>Formula entry</th><th class="num">Rel %</th><th class="num">Abs %</th><th class="num">Weight (g)</th><th class="num">Cost €</th></tr></thead><tbody>
   ${sortRows(K.rows).map(r => `<tr><td>${esc(r.m.name)}${r.m.isSolvent ? " (solvent)" : ` (${fmtS(r.dil)}%)`}</td>
-    <td class="num">${fmt(r.w)}</td><td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td>
-    <td class="num">${fmt(r.absPct,2)}</td><td class="num">${fmt(r.cost,2)}</td></tr>`).join("")}
-  </tbody><tfoot><tr><td><b>Total</b></td><td class="num"><b>${fmt(K.totalW)}</b></td><td class="num"><b>100,00</b></td>
-    <td class="num"><b>${fmt(K.totalAbsPct,2)}</b></td><td class="num"><b>${fmt(K.totalCost,2)}</b></td></tr></tfoot></table>
+    <td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td><td class="num">${fmt(r.absPct,2)}</td>
+    <td class="num">${fmt(r.w)}</td><td class="num">${fmt(r.cost,2)}</td></tr>`).join("")}
+  </tbody><tfoot><tr><td><b>Total</b></td><td class="num"><b>${fmt(100,2)}</b></td><td class="num"><b>${fmt(K.totalAbsPct,2)}</b></td>
+    <td class="num"><b>${fmt(K.totalW)}</b></td><td class="num"><b>${fmt(K.totalCost,2)}</b></td></tr></tfoot></table>
   ${item.notes ? `<h3>Notes</h3><div style="white-space:pre-wrap">${esc(item.notes)}</div>` : ""}
-  ${(item.trials||[]).length ? `<h3>Trial log</h3>${item.trials.map(t=>`<div>${esc(t.date||"")} — ${esc(t.text)}</div>`).join("")}` : ""}`;
+  ${(item.trials||[]).length ? `<h3>Trial log</h3>${item.trials.map(t=>`<div>${esc(t.date||"")} · ${esc(t.text)}</div>`).join("")}` : ""}`;
   window.print();
 }
 let IDOSE = null, IFRAOPEN = false, SCALEOPEN = false, NOTESOPEN = null, CATSOPEN = false;   // NOTESOPEN null = follow content
@@ -2452,7 +2472,7 @@ function catPanel(K){
   if (!rows.length) return "";
   const max = rows[0][1].rel;
   return `<details class="panelBox" id="catsBox"${CATSOPEN?" open":""}>
-    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Categories — ${rows.length} used</summary>
+    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Categories – ${rows.length} used</summary>
     <table class="lines" style="margin-top:.5rem"><thead><tr><th>Category</th><th class="num">Lines</th><th class="num">Rel %</th><th style="width:40%"></th></tr></thead><tbody>
     ${rows.map(([c,e]) => `<tr><td><span class="catdot" style="background:${catColourByName(c)};margin-right:.55rem"></span>${esc(c)}</td>
       <td class="num">${e.n}</td><td class="num">${fmt(e.rel,2)}</td>
@@ -2481,7 +2501,7 @@ function ifraPanel(f, item, K){
   const verdict = !restricted.length ? "no restricted materials"
     : over.length ? `⚠ ${over.length} over limit` : "✓ within limits";
   let h = `<details class="panelBox" id="ifraBox"${IFRAOPEN?" open":""}>
-    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:${over.length?"var(--danger)":"var(--accent-ink)"}">IFRA check — ${verdict}</summary>
+    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:${over.length?"var(--danger)":"var(--accent-ink)"}">IFRA check – ${verdict}</summary>
     <div class="toolRow" style="margin-top:.5rem">At concentrate dosage <input type="text" id="ifraDose" style="width:5rem;text-align:right" inputmode="decimal" value="${fmtIn(dose,2)}"> % of finished product
       <span class="hint">(default = this formula as-is)</span></div>`;
   if (!restricted.length){
@@ -2676,7 +2696,7 @@ function benchPrint(f, item, lines, K){
     if (!ks.length) return "";
     let w = 0, rel = 0, cont = 0;
     ks.forEach(k => { const r = K.rows[k.i]; w += r.w; rel += r.rel || 0; cont += r.cont || 0; });
-    return `<h3>${esc(title)} — ${fmt(w)} g · ${fmt(rel,2)}%${w>0?` · ${fmt(cont/w*100,2)}% arom.`:""}</h3>
+    return `<h3>${esc(title)} – ${fmt(w)} g · ${fmt(rel,2)}%${w>0?` · ${fmt(cont/w*100,2)}% arom.`:""}</h3>
     <table class="bench"><colgroup><col class="cbc"><col class="pyc"><col class="matc"><col class="dilc"><col class="wc"><col class="rc"></colgroup>
     <thead><tr><th></th><th></th><th>Material</th><th>Dilution</th><th class="num">Weigh (g)</th><th class="num">Rel %</th></tr></thead><tbody>
     ${ks.map(k => { const r = K.rows[k.i];
@@ -2684,7 +2704,7 @@ function benchPrint(f, item, lines, K){
         <td class="num">${fmt(r.w)}</td><td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td></tr>`; }).join("")}
     </tbody></table>`;
   };
-  $("#printArea").innerHTML = `<h2>${esc(f.name)} — ${esc(label)} — bench</h2>
+  $("#printArea").innerHTML = `<h2>${esc(f.name)} – ${esc(label)} – bench</h2>
   <div>Printed ${today()} · total ${fmt(K.totalW)} g · concentrate ${fmt(K.totalAbsPct,2)}%</div>
   ${benchOf(item).groups.map(g => sec(g.title || "Untitled group", g.keys)).join("")}
   ${sec("Unsorted", BD.pool.map(k => k.key))}`;
@@ -2706,8 +2726,8 @@ function aggLines(lines){
   return {map, tw, content, abs: tw ? content/tw*100 : 0};
 }
 function cmpOptions(f){
-  return [...f.versions.map((v,i)=>({key:"v"+i, label:`${vName(v)} (${v.date||"?"})${v.sourceName?` — ${v.sourceName}`:""}`})),
-          ...f.variations.map((va,i)=>({key:"x"+i, label:`«${va.label}»${va.frozenFromName?` ⛄ ${va.frozenFromName}`:""}${va.date?` — ${va.date}`:""}`}))];
+  return [...f.versions.map((v,i)=>({key:"v"+i, label:`${vName(v)} (${v.date||"?"})${v.sourceName?` – ${v.sourceName}`:""}`})),
+          ...f.variations.map((va,i)=>({key:"x"+i, label:`«${va.label}»${va.frozenFromName?` ⛄ ${va.frozenFromName}`:""}${va.date?` – ${va.date}`:""}`}))];
 }
 function cmpLines(f, key){
   return key[0]==="v" ? (f.versions[+key.slice(1)]?.lines||[]) : variationLines(f, f.variations[+key.slice(1)]||{lines:[]});
@@ -2750,12 +2770,12 @@ function renderCompare(f, sub){
     pyr:(x,y) => (((x.m.pyramid??9)===5?9:x.m.pyramid??9)-((y.m.pyramid??9)===5?9:y.m.pyramid??9))||((x.m.name||"").localeCompare(y.m.name||""))
   }[CSORT.key] || ((x,y)=>y.mag-x.mag);
   rows.sort((x,y) => CSORT.dir * by(x,y));
-  const cell = e => e ? `${fmt(e.w)} g <span class="hint">(${[...e.dils].sort((a,b)=>b-a).map(fmtS).join("/")}%)</span>` : "—";
-  const relCell = e => e ? (e.rel==null ? "–" : fmt(e.rel,2)) : "—";
+  const cell = e => e ? `${fmt(e.w)} g <span class="hint">(${[...e.dils].sort((a,b)=>b-a).map(fmtS).join("/")}%)</span>` : "–";
+  const relCell = e => e ? (e.rel==null ? "–" : fmt(e.rel,2)) : "–";
   const sel = (id, cur) => `<select id="${id}">${opts.map(o=>`<option value="${o.key}"${o.key===cur?" selected":""}>${esc(o.label)}</option>`).join("")}</select>`;
   const arrow = k => CSORT.key===k ? (CSORT.dir>0?" ▲":" ▼") : "";
   const hdr = (k, label, num) => `<th${num?' class="num"':''}><span class="sortable" data-csort="${k}">${label}${arrow(k)}</span></th>`;
-  c.innerHTML = `<h2>${esc(f.name)} — compare</h2>
+  c.innerHTML = `<h2>${esc(f.name)} – compare</h2>
   <div class="toolRow"><span class="hint">A</span>${sel("cmpA", sub.a)}<span class="hint">B</span>${sel("cmpB", sub.b)}
     <button class="small" id="btnCmpClose" style="margin-left:auto">Close compare</button></div>
   <div class="toolRow"><span class="hint">Order:</span>
@@ -2773,7 +2793,7 @@ function renderCompare(f, sub){
     <td class="num">${r.d==null?"":(r.d>0?"+":"")+fmt(r.d,2)}</td></tr>`).join("")}
   </tbody><tfoot><tr><td>Total</td><td class="num">${fmt(A.tw)} g</td><td class="num">abs ${fmt(A.abs,2)}%</td>
     <td class="num">${fmt(B.tw)} g</td><td class="num">abs ${fmt(B.abs,2)}%</td><td></td></tr></tfoot></table>
-  <div class="legend">Differences: <i style="background:var(--hl4)"></i>only in B <i style="background:var(--hl2)"></i>only in A <i style="background:var(--hl3)"></i>changed — sorted by size of change; rel % compares per material (dilutions aggregated)</div>`;
+  <div class="legend">Differences: <i style="background:var(--hl4)"></i>only in B <i style="background:var(--hl2)"></i>only in A <i style="background:var(--hl3)"></i>changed – sorted by size of change; rel % compares per material (dilutions aggregated)</div>`;
   $("#cmpA").addEventListener("change", e => { sub.a = e.target.value; render(); });
   $("#cmpB").addEventListener("change", e => { sub.b = e.target.value; render(); });
   $("#btnCmpClose").addEventListener("click", () => { CSORT = null; VIEW.sub = sub.from || {type:"v", idx:f.versions.length-1}; render(); });
@@ -2802,24 +2822,24 @@ function renderImport(){
   let tw = 0;
   const rows = p.lines.map(L => { const r = resolveImportLine(L); tw += L.weightG || 0; return {L, ...r}; });
   const newCount = rows.filter(r => !r.m).length, warnCount = rows.filter(r => r.m && !r.dilOwned).length;
-  c.innerHTML = `<h2>Import formula — ${esc(p.name||"?")}</h2>
+  c.innerHTML = `<h2>Import formula – ${esc(p.name||"?")}</h2>
   <div class="metaLine">${esc(p.category||"Uncategorised")}${p.source?` · ${esc(p.source)}`:""}</div>
   <div class="panelBox"><h3>Check before confirming</h3>
     <div class="toolRow">Import as
       <select id="impTarget" style="min-width:18rem">
-        <option value="">— a new formula —</option>
+        <option value="">– a new formula –</option>
         ${[...DATA.formulas].sort((a,b)=>a.name.localeCompare(b.name)).map(x =>
           `<option value="${x.id}"${(p.targetFormula && x.name.toLowerCase() === String(p.targetFormula).toLowerCase()) ? " selected" : ""}>new version of: ${esc(x.name)} (now v${currentVersion(x)?currentVersion(x).v:0})</option>`).join("")}
       </select>
       <span class="hint">a new version keeps the existing variations, notes and history</span></div>
-    <div><b>Total weight: ${fmt(tw)} g</b> <span class="hint">— a round number (100 / 1000) suggests a complete transcription</span></div>
+    <div><b>Total weight: ${fmt(tw)} g</b> <span class="hint">– a round number (100 / 1000) suggests a complete transcription</span></div>
     <div class="hint">${rows.length} lines · ${rows.length-newCount} matched · ${newCount} new (will be created as “to order”) · ${warnCount} with a dilution you don’t stock (⚠ convert in a next version)</div></div>
   <table class="lines"><thead><tr><th>Material</th><th class="num">Dilution</th><th class="num">Weight (g)</th><th>Status</th></tr></thead><tbody>
   ${rows.map(r => `<tr>
     <td>${r.m ? `${pyrIcon(r.m.pyramid, catColour(r.m), 13)}${esc(r.m.name)}` : esc(r.L.material)}</td>
     <td class="num">${fmtS(r.dil)}%${r.m && !r.dilOwned ? ' <span style="color:var(--amber)">⚠</span>' : ""}</td>
     <td class="num">${fmt(r.L.weightG||0)}</td>
-    <td>${r.m ? (r.dilOwned ? '<span class="hint">matched</span>' : '<span style="color:var(--amber)">matched — dilution not owned</span>')
+    <td>${r.m ? (r.dilOwned ? '<span class="hint">matched</span>' : '<span style="color:var(--amber)">matched – dilution not owned</span>')
               : '<span class="badge" style="background:var(--amber-soft);color:var(--amber)">new · to order</span>'}${r.L.comment?` <span class="hint">${esc(r.L.comment)}</span>`:""}</td></tr>`).join("")}
   </tbody><tfoot><tr><td>Total</td><td></td><td class="num">${fmt(tw)}</td><td></td></tr></tfoot></table>
   ${p.notes ? `<div class="noteRead" style="margin:.6rem 0">${esc(p.notes)}</div>` : ""}
@@ -2934,7 +2954,7 @@ function renderOrders(){
   $("#btnShops").addEventListener("click", () => {
     const dlg = $("#dlg");
     dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:24rem">
-      <h3 style="margin:0 0 .5rem">Web shops for “Search shops”</h3>
+      <h3 style="margin:0 0 .5rem">Web shops for the “Search” button</h3>
       <div class="hint">One domain per line (as used in Google site: search).</div>
       <textarea id="shopsEd" class="notes" style="min-height:14rem">${esc((DATA.shopSites||[]).join("\n"))}</textarea>
       <div class="toolRow" style="justify-content:flex-end"><button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Save</button></div></div>`;
@@ -2954,7 +2974,7 @@ function deliveredDialog(idx){
   const tracked = m ? stockCalc(m).tracked : false;
   const dlg = $("#dlg");
   dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:24rem">
-    <h3 style="margin:0 0 .3rem">Delivered — ${esc(o.name)}</h3>
+    <h3 style="margin:0 0 .3rem">Delivered – ${esc(o.name)}</h3>
     <div class="hint" style="margin-bottom:.7rem">${m ? "Updates the existing material." : "Creates a new material."}</div>
     <div class="fieldGrid">
       <label>Amount purchased</label><input id="dvAmt" value="${o.amount!=null?`${fmtSIn(o.amount)} ${o.unit||"g"}`:""}" placeholder="e.g. 10 g / 5 ml" style="width:9rem">
@@ -3023,10 +3043,14 @@ function renderMaterial(m){
   const c = $("#content");
   const use = USAGE[m.id] || [];
   const seen = new Set(); const uniqueUse = use.filter(u => !seen.has(u.fid+u.where) && seen.add(u.fid+u.where));
-  const F = (k, inputHtml) => `<label>${k}</label>${inputHtml}`;
+  const F = (k, inputHtml) => {                       // the label points at the field it names
+    const hit = /data-f="([^"]+)"/.exec(inputHtml), id = hit ? "mf_" + hit[1] : "";
+    return `<label${id ? ` for="${id}"` : ""}>${k}</label>`
+      + (id ? inputHtml.replace(/^(\s*<(?:input|select|textarea))/, `$1 id="${id}"`) : inputHtml);
+  };
   c.innerHTML = `<h2>${pyrIcon(m.pyramid, catColour(m), 20)}${esc(m.name)}</h2>
   <div class="metaLine">${esc(m.cas||"no CAS")} · ${esc(m.category||"")}${m.aliases?` · <span title="Alternative names">also ${esc(m.aliases)}</span>`:""}
-    ${m.wishlist?'<span class="badge" style="background:var(--amber-soft);color:var(--amber)">to order — not yet owned</span>':""}
+    ${m.wishlist?'<span class="badge" style="background:var(--amber-soft);color:var(--amber)">to order – not yet owned</span>':""}
     ${m.starter?'<span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other material.">starter set</span>':""}
     ${lookupLinks(m)}</div>
   <div class="fieldGrid">
@@ -3049,19 +3073,19 @@ function renderMaterial(m){
   <div class="panelBox"><h3>Dilutions</h3>
     <table class="lines"><thead><tr><th>%</th><th>Date</th><th>Notes</th><th></th></tr></thead><tbody>
     ${(m.dilutions||[]).map((d,i)=>`<tr><td>${fmtS(d.pct)}%${d.isBase?' <span class="badge">base</span>':` <button class="small" data-setbase="${i}" title="Make this the default concentration for new formula lines">Set base</button>`}</td><td>${esc(d.date||"")}</td><td>${esc(d.notes||"")}</td>
-      <td><button class="ghost small" data-deldil="${i}">✕</button></td></tr>`).join("")}
+      <td><button class="ghost small" data-deldil="${i}" title="Delete this dilution" aria-label="Delete this dilution">✕</button></td></tr>`).join("")}
     </tbody></table>
     <div class="toolRow"><input id="newDil" type="text" inputmode="decimal" placeholder="%" style="width:5rem">
       <input id="newDilNote" placeholder="notes" style="min-width:14rem"><button class="small" id="btnAddDil">Add dilution</button></div>
   </div>
   ${(() => { const st = stockCalc(m);
     return `<details class="panelBox"${st.tracked?" open":""}>
-    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink);font-weight:600">Stock (base concentration)${st.tracked?` — ${fmt(st.qty)} g`:" — not tracked"}</summary>
+    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink);font-weight:600">Stock (base concentration)${st.tracked?` – ${fmt(st.qty)} g`:" – not tracked"}</summary>
     <div class="fieldGrid" style="margin:.6rem 0 .4rem">
       <label>Purchase date</label><input type="date" data-f="purchaseDate" value="${esc(m.purchaseDate||"")}" style="justify-self:start">
       <label>Density g/ml</label><input data-f="density" data-num="1" value="${m.density!=null?fmt(m.density,3):""}" placeholder="for ml purchases" style="width:8rem">
     </div>
-    <div style="font-size:1.1rem;font-weight:600;margin-bottom:.4rem">${st.tracked ? fmt(st.qty)+" g <span class='hint' style='font-weight:400'>estimated</span>" : '<span class="hint">Not tracked — set a stocktake to start.</span>'}</div>
+    <div style="font-size:1.1rem;font-weight:600;margin-bottom:.4rem">${st.tracked ? fmt(st.qty)+" g <span class='hint' style='font-weight:400'>estimated</span>" : '<span class="hint">Not tracked – set a stocktake to start.</span>'}</div>
     <div class="toolRow">Stocktake <input id="stTake" style="width:5.5rem;text-align:right" placeholder="g"> g <button class="small" id="btnTake">Set</button></div>
     <div class="toolRow">Purchase <input id="stBuyAmt" style="width:5rem;text-align:right"> <select id="stBuyUnit"><option>g</option><option>ml</option></select>
       <input id="stBuyNote" placeholder="supplier / note" style="min-width:11rem"> <button class="small" id="btnBuy">Add</button></div>
@@ -3127,7 +3151,7 @@ function renderMaterial(m){
         for (const l of it.lines || [])
           if (l.materialId === m.id && l.dilutionPct === d.pct){ used++; inF.add(f.name); }
     const msg = used
-      ? `Delete dilution ${fmtS(d.pct)}% of “${m.name}”?\n\nIt is used in ${used} formula line(s) (${[...inF].slice(0,5).join(", ")}${inF.size>5?", …":""}). Those lines keep their ${fmtS(d.pct)}% value — it only disappears from the pick list for future edits.`
+      ? `Delete dilution ${fmtS(d.pct)}% of “${m.name}”?\n\nIt is used in ${used} formula line(s) (${[...inF].slice(0,5).join(", ")}${inF.size>5?", …":""}). Those lines keep their ${fmtS(d.pct)}% value – it only disappears from the pick list for future edits.`
       : `Delete dilution ${fmtS(d.pct)}% of “${m.name}”? It is not used in any formula.`;
     if (!confirm(msg)) return;
     snapM(m); m.dilutions.splice(+b.dataset.deldil,1);
@@ -3279,7 +3303,7 @@ function printSheet(f, item, lines, targetW){
   const K = calc(lines);
   const k = targetW && K.totalW ? targetW/K.totalW : 1;
   const label = itemLabel(item);
-  $("#printArea").innerHTML = `<h2>${esc(f.name)} — ${esc(label)}</h2>
+  $("#printArea").innerHTML = `<h2>${esc(f.name)} – ${esc(label)}</h2>
   <div>Printed ${today()} · target ${fmt((K.totalW||0)*k)} g · concentrate ${fmt(K.totalAbsPct,2)}% · est. cost € ${fmt(K.totalCost*k,2)}</div>
   <table class="bench"><colgroup><col class="cbc"><col class="pyc"><col class="matc"><col class="dilc"><col class="wc"><col class="rc"></colgroup>
   <thead><tr><th></th><th></th><th>Material</th><th>Dilution</th><th class="num">Weigh (g)</th><th class="num">Rel %</th></tr></thead><tbody>
@@ -3521,7 +3545,7 @@ function render(){
   if (!VIEW.id){
     const recent = (arr, go) => arr.filter(x => x.modified).sort((a,b) => b.modified.localeCompare(a.modified)).slice(0,8)
       .map(x => `<div class="usage">· <a class="matlink" data-${go}="${x.id}">${esc(x.name)}</a> <span class="hint">${esc(x.modified)}${x.category?` · ${esc(x.category)}`:""}</span></div>`).join("")
-      || '<div class="hint">Nothing edited yet — history builds up as you work.</div>';
+      || '<div class="hint">Nothing edited yet – history builds up as you work.</div>';
     const nvv = DATA.formulas.reduce((s,x) => s + x.versions.length + x.variations.length, 0);
     c.innerHTML = `<h2>Welcome</h2>
     <div class="tiles">
@@ -3544,7 +3568,7 @@ function render(){
         <span class="hint">${DATA.materialList ? `loaded: ${esc(DATA.materialList.name)}${DATA.materialList.version ? " " + esc(DATA.materialList.version) : ""}, ${nMats(DATA.materialList.materials.length)} · a reference for + New material; the materials you own are untouched` : "a reference for + New material: it fills in the facts of a material you add, and never changes the materials you own"}</span></div>
       <div class="toolRow"><button class="small" id="btnExpF">Export all formulas (Excel)</button>
         <button class="small" id="btnExpM">Export all materials (Excel)</button>
-        <span class="hint">downloads a CSV that opens directly in Excel (Belgian decimals)</span></div>
+        <span class="hint">downloads a CSV that opens directly in Excel, with the separators of the number format in Settings</span></div>
     </div>`;
     c.querySelectorAll("[data-gom]").forEach(a => a.addEventListener("click", () => switchTab("M", a.dataset.gom, null)));
     c.querySelectorAll("[data-gof]").forEach(a => a.addEventListener("click", () => switchTab("F", a.dataset.gof, null)));
@@ -3588,7 +3612,7 @@ function boot(){
   $("#landing").style.display = "none";
   if (isMobile()) HOMEVIEW = true;      // phones start on the welcome screen, not on an empty list
   buildUsage();
-  $("#saveState").textContent = REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback — use Backup to save)";
+  $("#saveState").textContent = REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback – use Backup to save)";
   setTabs(); render();
   if (STANDALONE && DEMO && !HANDLE){ saveNow._persistAsked = true; requestPersistence(); }   // installed app: granted silently, so the bar never flashes
   else updateStorageHint();
@@ -3675,7 +3699,7 @@ function boot(){
       b.addEventListener("click", () => {
         try{ DATA = migrate(JSON.parse(cached.json)); }catch(e){ alert(CORRUPT_MSG); return; }
         boot();
-        $("#saveState").textContent = "Cached copy — reload the file for the latest data"; });
+        $("#saveState").textContent = "Cached copy – reload the file for the latest data"; });
     }
     return;
   }

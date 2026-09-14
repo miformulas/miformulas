@@ -21,6 +21,7 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python variaties.py            # live variaties: verschillen per regel van de basisversie (materiaal + dilutie daar), marks die niet verschuiven, solventcorrectie die meeschaalt, predilutie vanuit een variatie (20 controles)
     python opslagvolgorde.py       # één schrijfactie tegelijk: wijziging tijdens een trage PUT (nagebootste server in de pagina), geen tweede PUT met dezelfde ETag, browseropslag die weigert, databestand vervangt de browserkopie (15 controles)
     python getalnotatie.py         # en-GB: duizendtalscheiding in invoervelden, parseNum, Delivered per 1000 g, IFRA-dosering per formule, Ctrl+Z onder een dialoog, Replace + Cancel, gebruiksindex na Add line (15 controles)
+    python uiterlijk.py           # uitvoer en uiterlijk: CSV met het scheidingsteken en de decimaal van de taal, cellen die met = beginnen, bestandsnaam met een schuine streep, witte achtergrond bij afdrukken, zachte rode kleur in beide thema's, koptekst op één regel bij 1280 px, labels aan hun veld, lijstregels met het toetsenbord (21 controles)
     python safari-hints.py         # Safari op de Mac: Add to Dock-link en dialoog, waarschuwing bij Download the app, alleen-lezen startscherm via file://, opslagbalk in tabblad en Dock-app, Import from Formulair op de Welcome-pagina, importer in de Dock-app (37 controles)
     python screenshots.py          # geen test: maakt de app-schermen voor docs/img (zie docstring)
 
