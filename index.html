@@ -307,7 +307,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914b</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula</button>
@@ -362,7 +362,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260914. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260914b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -692,9 +692,9 @@ const idb = {
   get(k){ return new Promise(res => { if (!idb.db) return res(null);
     try{ const t = idb.db.transaction("kv").objectStore("kv").get(k); t.onsuccess = () => res(t.result); t.onerror = () => res(null); }
     catch(e){ res(null); } }); },
-  set(k,v){ return new Promise(res => { if (!idb.db) return res();
-    try{ const t = idb.db.transaction("kv","readwrite").objectStore("kv").put(v,k); t.onsuccess = res; t.onerror = res; }
-    catch(e){ res(); } }); }
+  set(k,v){ return new Promise(res => { if (!idb.db) return res(false);   // false = nothing was stored
+    try{ const t = idb.db.transaction("kv","readwrite").objectStore("kv").put(v,k); t.onsuccess = () => res(true); t.onerror = () => res(false); }
+    catch(e){ res(false); } }); }
 };
 let RESTORE = null;
 async function tryRestore(){
@@ -741,6 +741,7 @@ async function loadFromHandle(h){
   catch(e){ alert(CORRUPT_MSG); return false; }
   DATA = migrate(parsed);
   HANDLE = h; await idb.set("fileHandle", h);
+  await idb.set("demoData", null);   // the file is the data now; a browser copy would only go stale
   return true;
 }
 function serialize(){
@@ -766,10 +767,17 @@ $("#fileFallback").addEventListener("change", async e => {
   if (DEMO) idb.set("demoData", text); else idb.set("cachedData", {json: text, when: Date.now(), name: f.name});   // fast path for next visit (iOS)
   boot();
 });
-let saveTimer = null;
+let saveTimer = null, SAVEGEN = 0, SAVING = null, SAVEAGAIN = false;
 function markDirty(){
-  DIRTY = true; $("#saveState").textContent = "Unsaved changes"; $("#saveState").className = "dirty";
+  DIRTY = true; SAVEGEN++;   // every change gets a number, so a write can tell whether it is still current
+  $("#saveState").textContent = "Unsaved changes"; $("#saveState").className = "dirty";
   clearTimeout(saveTimer); saveTimer = setTimeout(saveData, 2500);
+}
+function finishSave(gen, where){
+  if (gen !== SAVEGEN){ SAVEAGAIN = true; return; }   // changed while we were writing: stay dirty and write again
+  DIRTY = false;
+  $("#saveState").textContent = "Saved " + new Date().toLocaleTimeString(LOCALE,{hour:"2-digit",minute:"2-digit"}) + (where ? " \u00b7 " + where : "");
+  $("#saveState").className = "";
 }
 /* ---------- storage modes ----------
    REMOTE: a server endpoint (set in Settings, or detected once as data.php next to the app)
@@ -807,7 +815,7 @@ async function remoteLoad(){
   }catch(e){ alert("Server not reachable: " + e.message); return false; }
 }
 async function remoteSave(){
-  const s = serialize();
+  const gen = SAVEGEN, s = serialize();
   try{
     const r = await fetch(API, {method: "PUT", headers: {"Content-Type": "application/json", "X-Token": TOKEN || "", "If-Match": ETAG || ""}, body: s});
     if (r.status === 409){
@@ -819,30 +827,40 @@ async function remoteSave(){
     if (r.status === 401){ TOKEN = null; await idb.set("token", null); $("#saveState").textContent = "Token rejected — reload to re-enter"; $("#saveState").className = "dirty"; return; }
     if (!r.ok){ $("#saveState").textContent = `Save failed (server ${r.status}) — use Backup`; $("#saveState").className = "dirty"; return; }
     ETAG = r.headers.get("ETag") || ETAG;
-    DIRTY = false; remoteSave._warned = false;
-    $("#saveState").textContent = "Saved " + new Date().toLocaleTimeString(LOCALE,{hour:"2-digit",minute:"2-digit"}) + " · server"; $("#saveState").className = "";
+    remoteSave._warned = false;
+    finishSave(gen, "server");
   }catch(e){ $("#saveState").textContent = "Server not reachable — changes kept in memory, use Backup"; $("#saveState").className = "dirty"; }
 }
 let LASTBAK = null;
-async function saveData(){
+async function saveData(){          // the gate: one write at a time, and a manual save replaces the scheduled one
   if (!DATA) return;
+  clearTimeout(saveTimer); saveTimer = null;
+  if (SAVING){ SAVEAGAIN = true; return SAVING; }
+  SAVING = (async () => {
+    try{ await saveNow(); }
+    finally{ SAVING = null; if (SAVEAGAIN){ SAVEAGAIN = false; if (DIRTY) saveData(); } }
+  })();
+  return SAVING;
+}
+async function saveNow(){
   if (REMOTE) return remoteSave();
   if (HANDLE){
     try{
-      const s = serialize();
+      const gen = SAVEGEN, s = serialize();
       const w = await HANDLE.createWritable();
       await w.write(s); await w.close();
       const day = today();
       if (LASTBAK !== day){ LASTBAK = day; idb.set("dailyBak", {date: day, json: s}); }
-      DIRTY = false; $("#saveState").textContent = "Saved " + new Date().toLocaleTimeString(LOCALE,{hour:"2-digit",minute:"2-digit"}) + " \u00b7 " + HANDLE.name; $("#saveState").className = "";
+      finishSave(gen, HANDLE.name);
     }catch(e){ $("#saveState").textContent = "Save failed — use Backup"; $("#saveState").className = "dirty"; }
   } else if (DEMO){
-    const s = serialize();
-    await idb.set("demoData", s);
-    if (!saveData._persistAsked){ saveData._persistAsked = true; requestPersistence(); }
+    const gen = SAVEGEN, s = serialize();
+    const stored = await idb.set("demoData", s);
+    if (!stored){ $("#saveState").textContent = "Browser storage is not available; use Backup to keep your work."; $("#saveState").className = "dirty"; return; }
+    if (!saveNow._persistAsked){ saveNow._persistAsked = true; requestPersistence(); }
     const day = today();
     if (LASTBAK !== day){ LASTBAK = day; idb.set("dailyBak", {date: day, json: s}); }
-    DIRTY = false; $("#saveState").textContent = "Saved " + new Date().toLocaleTimeString(LOCALE,{hour:"2-digit",minute:"2-digit"}) + " · this browser"; $("#saveState").className = "";
+    finishSave(gen, "this browser");
   } else {
     $("#saveState").textContent = "No file access — use Backup to download"; $("#saveState").className = "dirty";
   }
@@ -3156,7 +3174,8 @@ function saveToDataFile(){
         catch(e){ /* cancelled */ }
         if (!h) return;
         HANDLE = h; await idb.set("fileHandle", h);
-        await saveData(); updateStorageHint(); render();
+        await saveData(); await idb.set("demoData", null);   // from here the file is the data
+        updateStorageHint(); render();
       })();
     }, "28rem");
 }
@@ -3218,7 +3237,7 @@ async function openSettings(){
     }catch(e){ alert("The library could not be fetched. Check your connection, or import the file by hand."); }
   });
   $("#setForget")?.addEventListener("click", async () => {
-    if (!confirm("Forget the remembered data file? The file itself is not touched; the app just stops offering Reopen for it.")) return;
+    if (!confirm("Forget the remembered data file?\n\nThe file itself is not touched and your data stays in it. The app stops offering Reopen, so the next start begins fresh in this browser; use “Open data file…” to pick your file again.")) return;
     if (DIRTY) await saveData();
     await idb.set("fileHandle", null);
     $("#dlg").close(); location.reload();

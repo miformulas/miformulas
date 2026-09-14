@@ -22,7 +22,7 @@ async def main():
         txt=await page.text_content("#storageHintText")
         check("kept in this browser" in txt and "Save it to a data file" in txt, f"tekst voor niet-fallback: {txt[:90]}…")
         await page.wait_for_timeout(3200)
-        check(await page.evaluate("saveData._persistAsked === true"), "persist() eenmalig aangevraagd bij de eerste opslag")
+        check(await page.evaluate("saveNow._persistAsked === true"), "persist() eenmalig aangevraagd bij de eerste opslag")
         await page.click("#storageHintClose"); await page.wait_for_timeout(200)
         check(await page.evaluate("document.getElementById('storageHint').hidden"), "sluitknop verbergt de balk")
         check(await page.evaluate("getComputedStyle(document.getElementById('storageHint')).display === 'none'"), "na sluiten: balk echt weg (display none)")
