@@ -120,6 +120,25 @@ with sync_playwright() as p:
           "Web shops for the “Search” button" in page.text_content("#dlg"))
     page.click("#dlgCancel"); page.wait_for_timeout(300)
 
+    # ---------- 8. the head of a formula (build 260915c): version row, Delete version, pyramid chart ----------
+    page.click("#tabF"); page.wait_for_timeout(300)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "1881 for men");   // five pyramid levels: the tallest chart
+      f.versions.push({v: 2, date: today(), notes: "", lines: f.versions[0].lines.map(l => ({...l}))});
+      switchTab("F", f.id, {type: "v", idx: 1}); }""")
+    page.wait_for_timeout(500)
+    head = page.evaluate("""() => { const r = s => { const e = document.querySelector(s); return e ? e.getBoundingClientRect() : null; };
+      const del = document.querySelector("#btnDelV"), cs = getComputedStyle(del);
+      return {cmp: r("#btnCmp"), del: r("#btnDelV"), sel: r("#verSel"), order: r("#sortSel"), chart: r(".fpyr"),
+              border: parseFloat(cs.borderTopWidth), colour: cs.color, bg: cs.backgroundColor}; }""")
+    check("Delete version is a bordered button in red next to Compare…",
+          head["border"] > 0 and head["colour"] == "rgb(196, 47, 31)" and head["bg"] != "rgba(0, 0, 0, 0)"
+          and abs(head["del"]["y"] - head["cmp"]["y"]) < 4 and head["del"]["x"] > head["cmp"]["x"])
+    check(f"the Order row follows the version row directly ({head['order']['y'] - head['sel']['y'] - head['sel']['height']:.0f} px)",
+          head["order"]["y"] - (head["sel"]["y"] + head["sel"]["height"]) < 32)
+    check("the pyramid chart stays inside the head, above the Order row",
+          head["chart"] and head["chart"]["y"] + head["chart"]["height"] <= head["order"]["y"] + 1)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(400)
+
     check("no page errors", not errs)
     b.close()
 
