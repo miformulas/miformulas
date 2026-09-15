@@ -336,7 +336,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915i</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915j</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnHome" class="small">Home</button>
@@ -396,7 +396,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260915i. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260915j. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-and-versions">Formulas and versions</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -645,14 +645,14 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <li>Put <code>index.html</code> and <code>server/data.php</code> in a folder on the server, and create a folder <code>data</code> next to them that the web server is allowed to write to. On a NAS this means giving the web server's user (often <code>http</code>) read and write rights on that folder; the endpoint tells you in plain words when it cannot write.</li>
 <li>Open <code>data.php</code> in a text editor and replace <code>change-me-to-a-long-random-token</code> by a long random string of your own. This token is the password to your data.</li>
 <li>Put your <code>miformulas-data.json</code> in the <code>data</code> folder (a Backup from the app, or the file from the Formulair importer), or let the app create it.</li>
-<li>Open the server's address in a browser. The app detects <code>data.php</code> next to itself, asks for the token once, and from then on says "Connected to server". On other devices, open the same address and give the same token; or open Settings and fill in the server endpoint and token by hand, which also works for a <code>data.php</code> at another address than the app.</li>
+<li>Open the server's address in a browser. The app detects <code>data.php</code> next to itself, asks for the token once, and from then on says "Connected to server". On other devices, open the same address and give the same token; or open Settings and fill in the server endpoint and token by hand, which also works for a <code>data.php</code> at another address than the app. Those two fields are there when you open the app from a web address, which is what a server is; the copy you downloaded to your own disk does not show them.</li>
 </ol>
 <p>What the endpoint does: it returns the data with an ETag, accepts a save only when the ETag still matches, so that two devices can never overwrite each other (the app then shows a conflict warning: make a Backup, reload and redo the change), and it keeps a snapshot of the previous state in <code>data/snapshots</code> on the first save of each day, fourteen days long. A server that hides the ETag from the browser (a proxy that strips the header, or CORS without <code>Access-Control-Expose-Headers</code>) makes the app say so once: saving still works, but that protection is off until it is fixed. Restoring one is copying that file over <code>miformulas-data.json</code>.</p>
 <p>Reaching the server from outside your home is a matter of your network. A VPN such as Tailscale is the simple and safe way, and it can also give the server an https address, which the "Install as an app" options need. Do not put <code>data.php</code> on the open internet without https: the token travels in a header.</p>
 <p>To update the app on the server, copy the new <code>index.html</code> over the old one; the data stays.</p>
 <p>If you would like step-by-step instructions for your own device, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that turns this section and <code>data.php</code> into a guided setup with an AI assistant.</p>
 <h2 id="s21-settings-theme-and-keyboard-shortcuts">21. Settings, theme and keyboard shortcuts</h2>
-<p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case), the server endpoint and its token, and a few buttons that depend on the situation: <strong>Install as an app</strong> when the browser offers it, <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser…</strong> in browser-storage mode, and <strong>Forget the remembered data file…</strong> when a file is remembered. At the bottom sits the materials library (section <a href="#s18-import-and-export">18</a>): the name, size and licence of the one that is loaded, its attribution and source when it carries them, and the buttons <strong>Import materials library…</strong>, <strong>Remove the library…</strong> and <strong>Get the latest library</strong>.</p>
+<p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case) and <strong>Open where you left off</strong>. That last one is off by default; with it on, the app starts on the formula or material you had open, and on the version you were looking at, as long as it is still there, instead of on the list. It is a setting of the device you set it on and not part of your data, so each computer and phone has its own, and switching it off forgets the place again. On the site there is also the <strong>server endpoint</strong> and its token; the app you downloaded has neither, because it always works on the data file next to it, and a server is set up in the Settings on the site. Then a few buttons that depend on the situation: <strong>Install as an app</strong> when the browser offers it, <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser…</strong> in browser-storage mode, and <strong>Forget the remembered data file…</strong> when a file is remembered. At the bottom sits the materials library (section <a href="#s18-import-and-export">18</a>): the name, size and licence of the one that is loaded, its attribution and source when it carries them, and the buttons <strong>Import materials library…</strong>, <strong>Remove the library…</strong> and <strong>Get the latest library</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s21-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
 <p>The <strong>theme</strong> button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.</p>
 <p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. While the cursor is in a text field, Ctrl+Z is the browser's own undo for that field, not the app's; click outside it first to take back the change itself. In the list panel a row takes focus with Tab and opens with Enter, and the same goes for material names, sort headers and colour swatches. In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add) and <strong>Escape</strong> closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.</p>
@@ -687,6 +687,7 @@ try{ const t0 = localStorage.getItem("miformulas-theme"); if (t0 === "dark" || t
 /* ---------- state ---------- */
 let DATA = null, HANDLE = null, DIRTY = false, FALLBACK = !window.showOpenFilePicker;
 let VIEW = {tab:"F", id:null, sub:null};   // sub = {type:'v'|'var', idx}
+let OPENLAST = false, LASTVIEW = null;   // Settings "Open where you left off": kept per device, never in the data file
 let USAGE = {};   // materialId -> [{fid, name, where}]
 const $ = s => document.querySelector(s);
 function makeClickable(root){   // a span or a link without href is invisible to the keyboard: give it a role and Enter
@@ -3459,14 +3460,18 @@ $("#storageHintSave").addEventListener("click", saveToDataFile);
 async function openSettings(){
   const loc = (await idb.get("locale")) || "", url = (await idb.get("serverUrl")) || "", tok = (await idb.get("token")) || "";
   let remembered = null; try{ remembered = FALLBACK ? null : await idb.get("fileHandle"); }catch(e){}
+  const web = /^https?:$/.test(location.protocol);   // the downloaded app never reads a server endpoint: see the start-up below
   const locales = [["","Browser default"],["nl-BE","1.234,56  (nl-BE)"],["de-DE","1.234,56  (de-DE)"],["fr-FR","1 234,56  (fr-FR)"],["en-GB","1,234.56  (en-GB)"],["en-US","1,234.56  (en-US)"]];
   openDialog(`<h3 style="margin-top:0">Settings</h3>
     <div class="fieldGrid">
-      <label>Number format</label><select id="setLocale">${locales.map(([v,l]) => `<option value="${v}"${v===loc?" selected":""}>${l}</option>`).join("")}</select>
-      <label>Server endpoint</label><input id="setServer" value="${esc(url)}" placeholder="empty = no server">
-      <label>Access token</label><input id="setToken" type="password" value="${esc(tok)}" autocomplete="off">
+      <label for="setLocale">Number format</label><select id="setLocale">${locales.map(([v,l]) => `<option value="${v}"${v===loc?" selected":""}>${l}</option>`).join("")}</select>
+      <label for="setOpenLast">Open where you left off</label><div><input type="checkbox" id="setOpenLast"${OPENLAST?" checked":""}> <span class="hint">start on the formula or material you had open, and its version</span></div>
+      ${web ? `<label for="setServer">Server endpoint</label><input id="setServer" value="${esc(url)}" placeholder="empty = no server">
+      <label for="setToken">Access token</label><input id="setToken" type="password" value="${esc(tok)}" autocomplete="off">` : ""}
     </div>
-    <div class="hint" style="margin-top:.6rem">A server is optional: without one the data lives in a local file or in this browser. Give <code>data.php</code> for the endpoint next to the app, or a full URL. Changing the server reloads the app.</div>
+    <div class="hint" style="margin-top:.6rem">${web
+      ? `A server is optional: without one the data lives in a local file or in this browser. Give <code>data.php</code> for the endpoint next to the app, or a full URL. Changing the server reloads the app.${HANDLE ? " Filling one in makes the app use that server from the next start on, instead of your data file; empty it to come back to the file." : ""}`
+      : "This copy of miFormulas keeps its data in the data file next to it, so it has no server settings. A server is set up on the site, in the Settings there."}</div>
     ${INSTALL_EVT && !window.matchMedia("(display-mode: standalone)").matches ? `<div style="margin-top:.8rem"><button class="small primary" id="setInstall">Install as an app</button> <span class="hint">own window and icon in the taskbar or Start menu; the browser does the installing</span></div>` : ""}
     ${DEMO && !HANDLE && DATA && window.showSaveFilePicker ? `<div style="margin-top:.8rem"><button class="small primary" id="setToFile">Save to a data file…</button> <span class="hint">keep your data in a file of your own instead of in this browser</span></div>` : ""}
     ${DEMO && !HANDLE ? `<div style="margin-top:.8rem"><button class="small" id="setReset">Delete the data kept in this browser…</button></div>` : ""}
@@ -3480,10 +3485,14 @@ async function openSettings(){
       DATA.materialList ? ` <button class="small" id="setListDel">Remove the library…</button>` : ""}${
       LIST_URL ? ` <button class="small" id="setListGet">Get the latest library</button>` : ""}</div>` : ""}`,
   "Apply", () => {
-    const nl = $("#setLocale").value || null, ns = $("#setServer").value.trim() || null, nt = $("#setToken").value.trim() || null;
-    const serverChanged = (ns||"") !== (url||"") || (nt||"") !== (tok||"");
+    const nl = $("#setLocale").value || null;
+    const ns = web ? ($("#setServer").value.trim() || null) : null, nt = web ? ($("#setToken").value.trim() || null) : null;
+    const nlast = !!$("#setOpenLast").checked;
+    const serverChanged = web && ((ns||"") !== (url||"") || (nt||"") !== (tok||""));
     (async () => {
-      await idb.set("locale", nl); await idb.set("serverUrl", ns); await idb.set("token", nt);
+      await idb.set("locale", nl);
+      if (web){ await idb.set("serverUrl", ns); await idb.set("token", nt); }   // no server fields in the downloaded app: leave what is stored alone
+      if (nlast !== OPENLAST){ OPENLAST = nlast; await idb.set("openLast", nlast); if (!nlast) await idb.set("lastView", null); }
       LOCALE = nl || undefined;
       if (serverChanged){ if (DIRTY) await saveData(); location.reload(); }
       else if (DATA) render();
@@ -3623,6 +3632,7 @@ function renderHelp(){
 }
 function render(){
   if (!DATA) return;
+  rememberView();
   buildUsage();                                  // keep the usage index in step with every edit
   document.body.classList.toggle("detail", !!VIEW.id || VIEW.tab === "T" || HOMEVIEW || HELPVIEW);
   document.body.classList.toggle("ro", readOnly());
@@ -3715,6 +3725,25 @@ $("#btnBack").addEventListener("click", () => {
 });
 $("#btnHelp").addEventListener("click", () => { if (!DATA) return; HELPVIEW = !HELPVIEW; render(); });
 window.matchMedia("(max-width:700px)").addEventListener("change", () => { if (DATA) render(); });
+let VIEWSAVE = null;
+function rememberView(){          // where you are, per device; a debounce keeps render() from hammering IndexedDB
+  if (!OPENLAST || !DATA) return;
+  clearTimeout(VIEWSAVE);
+  VIEWSAVE = setTimeout(() => idb.set("lastView", {tab: VIEW.tab, id: VIEW.id,
+    sub: VIEW.sub ? {type: VIEW.sub.type, idx: VIEW.sub.idx} : null, home: HOMEVIEW}), 1000);
+}
+function applyLastView(){         // only if what you were looking at is still there
+  const v = LASTVIEW; LASTVIEW = null;
+  if (!v || !DATA) return;
+  const there = !v.id ? true
+    : v.tab === "M" ? DATA.materials.some(x => x.id === v.id)
+    : v.tab === "F" ? DATA.formulas.some(x => x.id === v.id) : true;
+  if (!there) return;
+  VIEW = {tab: ["F","M","T"].includes(v.tab) ? v.tab : "F", id: v.id || null, sub: v.sub || null};
+  LAST[VIEW.tab] = {id: VIEW.id, sub: VIEW.sub};
+  HOMEVIEW = !!v.home || (isMobile() && !VIEW.id && VIEW.tab !== "T");   // a phone needs a pane, not an empty list
+  clampView();
+}
 async function dailySnapshot(){   // once a day: the state as it was when you opened the app, before the first change
   const day = today();
   if (LASTBAK === day) return;
@@ -3726,6 +3755,7 @@ function boot(){
   $("#landing").style.display = "none";
   $("header").inert = false; $("#main").inert = false;   // released only now: before this there is no DATA to work on
   if (isMobile()) HOMEVIEW = true;      // phones start on the welcome screen, not on an empty list
+  applyLastView();                      // Settings: open where you left off, if that place still exists
   buildUsage();
   setState(REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback – use Backup to save)", "", false);
   setTabs(); render();
@@ -3739,6 +3769,8 @@ function boot(){
   await idb.open();
   THEME = (await idb.get("theme")) || "auto"; applyTheme();
   LOCALE = (await idb.get("locale")) || undefined;
+  OPENLAST = !!(await idb.get("openLast"));
+  if (OPENLAST) LASTVIEW = (await idb.get("lastView")) || null;   // applied by boot(), once there is data to look in
   if (/^https?:$/.test(location.protocol)){
     TOKEN = (await idb.get("token")) || null;
     let url = await idb.get("serverUrl");
