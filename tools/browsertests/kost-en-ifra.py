@@ -67,10 +67,13 @@ with sync_playwright() as p:
     page.click("#dlgOk"); page.wait_for_timeout(900)
     after = page.evaluate("""(() => { const f = DATA.formulas.find(x => x.id === "f-k"), v = f.versions[f.versions.length-1];
       const pm = DATA.materials.find(m => m.category === "Predils");
-      return {n: f.versions.length, cost: +calc(v.lines).totalCost.toFixed(4), pmCost: pm && pm.costPerGram, dil: pm && pm.dilutions[0].pct}; })()""")
+      return {n: f.versions.length, cost: +calc(v.lines).totalCost.toFixed(4), pmCost: pm && pm.costPerGram, dil: pm && pm.dilutions[0].pct,
+              inv: pm && pm.inventory, ifra: pm && ("ifraLimit" in pm)}; })()""")
     check(f"the new version costs the same as the old one ({c1} → {after['cost']})", abs(after["cost"] - c1) < 0.0005)
     check(f"the predilution material is priced per gram of pure material ({after['pmCost']} €/g at {after['dil']} %)",
           after["pmCost"] is not None and abs(after["pmCost"] - 10.0) < 0.5)
+    check(f"and records the amount made and an empty IFRA limit (build 260915; inventory {after['inv']!r})",
+          isinstance(after["inv"], str) and after["inv"].endswith(" g") and after["ifra"])
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
 
     # ---------- 3. IFRA: 0 is prohibited, below zero is not a limit ----------

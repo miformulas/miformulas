@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260914m. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260915. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -465,7 +465,7 @@ Shortcuts: **Ctrl+Z** undo, **Ctrl+Y** or **Ctrl+Shift+Z** redo (the last ten of
 
 **Backup** in the header downloads the complete data file, named with date and time (`260907_1402_miformulas-data.json`). Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a `backups` folder.
 
-The app also keeps one **daily snapshot** in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser storage was cleared, the server holds nothing yet), it offers **Restore daily snapshot** with its date; load it and use Backup to write it to a file.
+The app also keeps one **daily snapshot** in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached), it offers **Restore daily snapshot** with its date; load it and use Backup to write it to a file. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.
 
 In server mode the server keeps daily snapshots for fourteen days (section 20).
 

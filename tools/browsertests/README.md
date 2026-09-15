@@ -1,6 +1,6 @@
 # Browsertests (Playwright, Chromium)
 
-Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
+Draaien tegen een lokale webserver met de inhoud van de repo (`public\` in de OneDrive-map) op poort 8765:
 
     cd public && python -m http.server 8765
     python demo-flow.py            # startscherm, starterset, autosave, labels, Settings, herbezoek, server, reset, opzoeklinks (42 controles)
@@ -13,18 +13,18 @@ Draaien tegen een lokale webserver met de inhoud van `public\` op poort 8765:
     python file-mode.py            # gedownloade app via file://: hint, starterset van miformulas.com (nagebootst), databestand aanmaken (44 controles, incl. herstart met Reopen en verdwenen bestand; geen webserver nodig; leest de bouwstempel uit index.html)
     python help.py                 # Help-knop: ingebedde handleiding, inhoudstafel, terug naar de vorige weergave (17 controles)
     python move-into.py            # Move into…: geïmporteerde formule als versie of bevroren variatie van een andere, Move together, "this formula", Undo (48 controles)
-    python materiaallijst.py       # materials library: import, Settings, Get the latest library, + New material met feiten, Browse the library… met shift-klik, "+ Add" in de zoeklijst, Undo (50 controles)
+    python materiaallijst.py       # materials library: import, Settings, Get the latest library, + New material met feiten, Browse the library… met shift-klik, "+ Add" in de zoeklijst naast en zonder eigen treffers, Undo (54 controles)
     python deel-formule.py        # Share this version…: wat er in het bestand komt en wat er niet in komt, en de rondgang bij een ontvanger die het materiaal en de formule niet heeft (26 controles)
     python export-bibliotheek.py   # Export my inventory as a library…: alles vooraf aangevinkt, shift-klik, wat er wel en niet in het bestand komt, en de rondgang terug via import (40 controles)
     python opruiming.py            # staart van de review: zoeken op "starter", bevestiging bij ✕, ellipsis op de openers, aliassen in de keuzelijst, attributie in Settings, bevroren variatie, alleen-lezen op een telefoon (37 controles)
-    python undo-navigatie.py       # één undo-stap per handeling (nieuwe categorie, predilutie, Replace + dilutiewissel), Redo keert terug naar de plek van de wijziging, Copy vanuit een variatie, bench mee naar een nieuwe versie (14 controles)
-    python validatie.py            # wat de app weigert: negatief gewicht, dilutie buiten 0-100, dubbele dilutie, basisdilutie die verdwijnt, tekst als getal, eigen velden met underscore; dagsnapshot, Delete version op een import, verborgen importverwijzing (21 controles)
+    python undo-navigatie.py       # één undo-stap per handeling (nieuwe categorie, predilutie, Replace + dilutiewissel, ook door de dilutiedialoog), Redo keert terug naar de plek van de wijziging, Copy vanuit een variatie, bench mee naar een nieuwe versie (18 controles)
+    python validatie.py            # wat de app weigert: negatief gewicht, dilutie buiten 0-100, dubbele dilutie, basisdilutie die verdwijnt, tekst als getal, eigen velden met underscore, negatief doelgewicht, basisdilutie boven 100 in + New material, Set EtOH zonder ethanol; dagsnapshot, Delete version op een import, verborgen importverwijzing (26 controles)
     python namen.py                # Add line, formule-import en Delivered nemen de feiten uit de bibliotheek mee, categorie niet dubbel door hoofdletters, alias die je al bezit, hernoemen zonder dubbele namen (14 controles)
-    python kost-en-ifra.py         # kost per gram zuiver (Delivered met basisdilutie, predilutie), IFRA 0 = prohibited en negatief = niet nagekeken, geen databestand openen, bibliotheek met rommel, server zonder databestand (21 controles)
+    python kost-en-ifra.py         # kost per gram zuiver (Delivered met basisdilutie, predilutie met hoeveelheid en IFRA-veld), IFRA 0 = prohibited en negatief = niet nagekeken, geen databestand openen, bibliotheek met rommel, server zonder databestand (22 controles)
     python variaties.py            # live variaties: verschillen per regel van de basisversie (materiaal + dilutie daar), marks die niet verschuiven, solventcorrectie die meeschaalt, predilutie vanuit een variatie (20 controles)
-    python opslagvolgorde.py       # één schrijfactie tegelijk: wijziging tijdens een trage PUT (nagebootste server in de pagina), geen tweede PUT met dezelfde ETag, browseropslag die weigert, databestand vervangt de browserkopie (15 controles)
-    python getalnotatie.py         # en-GB: duizendtalscheiding in invoervelden, parseNum, Delivered per 1000 g, IFRA-dosering per formule, Ctrl+Z onder een dialoog, Replace + Cancel, gebruiksindex na Add line (15 controles)
-    python uiterlijk.py           # uitvoer en uiterlijk: CSV met het scheidingsteken en de decimaal van de taal, cellen die met = beginnen, bestandsnaam met een schuine streep, witte achtergrond bij afdrukken, zachte rode kleur in beide thema's, koptekst op één regel bij 1280 px, labels aan hun veld, lijstregels met het toetsenbord (21 controles)
+    python opslagvolgorde.py       # één schrijfactie tegelijk: wijziging tijdens een trage PUT (nagebootste server in de pagina), geen tweede PUT met dezelfde ETag, browseropslag die weigert, databestand vervangt de browserkopie; dagsnapshot bij onbereikbare server wordt niet over de serverdata geschreven, mislukte eerste schrijfactie naar een bestand (28 controles)
+    python getalnotatie.py         # en-GB: duizendtalscheiding in invoervelden, parseNum, Delivered per 1000 g, IFRA-dosering per formule, Ctrl+Z onder een dialoog, Replace + Cancel, gebruiksindex na Add line; de getalvelden van de materiaalpagina en het veldrooster (21 controles)
+    python uiterlijk.py           # uitvoer en uiterlijk: CSV met het scheidingsteken en de decimaal van de taal, cellen die met = beginnen, bestandsnaam met een schuine streep, witte achtergrond bij afdrukken, zachte rode kleur in beide thema's, koptekst op één regel bij 1280 px, labels aan hun veld, lijstregels met het toetsenbord, koptekst op 850 px (23 controles)
     python safari-hints.py         # Safari op de Mac: Add to Dock-link en dialoog, waarschuwing bij Download the app, alleen-lezen startscherm via file://, opslagbalk in tabblad en Dock-app, Import from Formulair op de Welcome-pagina, importer in de Dock-app (37 controles)
     python screenshots.py          # geen test: maakt de app-schermen voor docs/img (zie docstring)
 

@@ -317,7 +317,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260914m</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula…</button>
@@ -372,7 +372,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260914m. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260915. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -639,7 +639,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.</p>
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header downloads the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>). Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
-<p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser storage was cleared, the server holds nothing yet), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file.</p>
+<p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.</p>
 <p>In server mode the server keeps daily snapshots for fourteen days (section <a href="#s20-your-own-server">20</a>).</p>
 <p><strong>Open data file…</strong> opens any of these files. <strong>Undo</strong> covers the last fifty things you did since the app was opened, deletions included (Redo the last ten of them); it does not survive a reload.</p>
 <h2 id="s23-questions-and-answers">23. Questions and answers</h2>
@@ -774,8 +774,13 @@ async function offerSnapshot(){   // the landing offers the snapshot of today (o
   bs.addEventListener("click", () => {
     try{ DATA = migrate(JSON.parse(bak.json)); }
     catch(e){ alert("The snapshot could not be read."); return; }
-    boot(); markDirty();
-    $("#saveState").textContent = "Snapshot loaded: use Backup to write it to a file";
+    boot();
+    if (REMOTE && !SERVER_EMPTY){   // the server was unreachable: nothing is written there until it has been read (see remoteSave)
+      $("#saveState").textContent = "Snapshot loaded, not on the server: use Backup, or reload (F5) once the server is back";
+    } else {
+      markDirty();
+      $("#saveState").textContent = "Snapshot loaded: use Backup to write it to a file";
+    }
     $("#saveState").className = "dirty";
   });
 }
@@ -849,6 +854,7 @@ async function loadStarter(){
   }catch(e){ alert("The starter set could not be loaded (" + e.message + ")." + (location.protocol === "file:" ? "\n\nIt is fetched from miformulas.com, so this needs an internet connection." : "")); return null; }
 }
 let ETAG = null, TOKEN = null, SERVER_EMPTY = false;
+let LOADED = false;   // the data in memory came from this server (or was written to it); false after a restored snapshot
 async function probeServer(){
   // earlier builds always talked to data.php next to the app; keep that working without configuration
   try{ const r = await fetch("data.php", {cache: "no-store"}); return (r.status === 401 || r.ok) ? "data.php" : null; }
@@ -870,13 +876,22 @@ async function remoteLoad(){
     }
     let parsed; try{ parsed = await r.json(); }catch(e){ alert(CORRUPT_MSG); return false; }
     if (!looksLikeData(parsed)){ alert(NOT_DATA_MSG); return false; }
-    DATA = migrate(parsed);
+    DATA = migrate(parsed); LOADED = true;
     return true;
   }catch(e){ alert("Server not reachable: " + e.message); return false; }
 }
 async function remoteSave(){
   const gen = SAVEGEN, s = serialize();
   try{
+    if (!LOADED && !SERVER_EMPTY){   // a restored snapshot while the server was unreachable: look before writing, an empty If-Match would overwrite
+      const g = await fetch(API, {headers: {"X-Token": TOKEN || ""}, cache: "no-store"});
+      if (g.status === 404) SERVER_EMPTY = true;
+      else if (g.ok){
+        $("#saveState").textContent = "⚠ The server holds data that was not loaded here – use Backup, then reload (F5)"; $("#saveState").className = "dirty";
+        if (!remoteSave._warned){ remoteSave._warned = true; alert("The server holds data that was not loaded in this session: you restored a snapshot while it was unreachable.\n\nUse Backup to keep what you see, then reload (F5) to continue with the data on the server."); }
+        return;
+      } else if (g.status !== 401){ $("#saveState").textContent = `Save failed (server ${g.status}) – use Backup`; $("#saveState").className = "dirty"; return; }
+    }
     const r = await fetch(API, {method: "PUT", headers: {"Content-Type": "application/json", "X-Token": TOKEN || "", "If-Match": ETAG || ""}, body: s});
     if (r.status === 409){
       $("#saveState").textContent = "⚠ Conflict: changed on another device – reload (F5) before editing"; $("#saveState").className = "dirty";
@@ -886,9 +901,10 @@ async function remoteSave(){
     if (r.status === 401){ TOKEN = null; await idb.set("token", null);
       $("#saveState").textContent = "Token rejected: use Backup, then reload to enter it again"; $("#saveState").className = "dirty"; return; }
     if (!r.ok){ $("#saveState").textContent = `Save failed (server ${r.status}) – use Backup`; $("#saveState").className = "dirty"; return; }
-    ETAG = r.headers.get("ETag") || ETAG;
+    ETAG = r.headers.get("ETag") || ETAG; LOADED = true;
     remoteSave._warned = false;
     finishSave(gen, "server");
+    return true;
   }catch(e){
     $("#saveState").textContent = "Server not reachable: changes kept in memory, use Backup"; $("#saveState").className = "dirty";
     if (!remoteSave._retry){        // try again by itself as soon as the connection is back
@@ -903,12 +919,14 @@ async function saveData(){          // the gate: one write at a time, and a manu
   clearTimeout(saveTimer); saveTimer = null;
   if (SAVING){ SAVEAGAIN = true; return SAVING; }
   SAVING = (async () => {
-    try{ await saveNow(); }
+    let ok = false;
+    try{ ok = await saveNow(); }
     finally{ SAVING = null; if (SAVEAGAIN){ SAVEAGAIN = false; if (DIRTY) saveData(); } }
+    return ok;   // true when the data reached its place (file, browser or server)
   })();
   return SAVING;
 }
-async function saveNow(){
+async function saveNow(){   // true when written
   if (REMOTE) return remoteSave();
   if (HANDLE){
     try{
@@ -916,15 +934,18 @@ async function saveNow(){
       const w = await HANDLE.createWritable();
       await w.write(s); await w.close();
       finishSave(gen, HANDLE.name);
-    }catch(e){ $("#saveState").textContent = "Save failed – use Backup"; $("#saveState").className = "dirty"; }
+      return true;
+    }catch(e){ DIRTY = true; $("#saveState").textContent = "Save failed – use Backup"; $("#saveState").className = "dirty"; return false; }   // stays unsaved: the next change or Ctrl+S tries again
   } else if (DEMO){
     const gen = SAVEGEN, s = serialize();
     const stored = await idb.set("demoData", s);
-    if (!stored){ $("#saveState").textContent = "Browser storage is not available; use Backup to keep your work."; $("#saveState").className = "dirty"; return; }
+    if (!stored){ $("#saveState").textContent = "Browser storage is not available; use Backup to keep your work."; $("#saveState").className = "dirty"; return false; }
     if (!saveNow._persistAsked){ saveNow._persistAsked = true; requestPersistence(); }
     finishSave(gen, "this browser");
+    return true;
   } else {
     $("#saveState").textContent = "No file access – use Backup to download"; $("#saveState").className = "dirty";
+    return false;
   }
 }
 async function backup(){
@@ -1528,7 +1549,8 @@ function renderFormula(f){
   $("#catsBox")?.addEventListener("toggle", e => { CATSOPEN = e.target.open; });
   $("#notesBox")?.addEventListener("toggle", e => { NOTESOPEN = e.target.open; });
   $("#btnApplyScale")?.addEventListener("click", ()=>{
-    const t = parseNum($("#scaleW").value); if(!t || !K.totalW) return;
+    const t = parseNum($("#scaleW").value); if (!K.totalW) return;
+    if (!(t > 0)){ alert("Enter a target total above 0 g."); return; }
     snapF(f);
     if (isVar && !item.frozen){ item.targetWeightG = t; }
     else { const k = t / K.totalW; item.lines.forEach(l => l.weightG = (l.weightG||0)*k); }
@@ -1571,12 +1593,12 @@ function renderFormula(f){
     const maxAbs = wOther > 0 ? content/wOther*100 : 0;
     if (p > maxAbs + 1e-9){ alert(`Not possible: maximum abs % is ${fmt(maxAbs,2)} % (EtOH at 0 g). Target ${fmt(p,2)} % would require negative ethanol.`); return; }
     const wEth = content*100/p - wOther;
+    const em = eIdx >= 0 ? null : DATA.materials.find(isEthanol);
+    if (eIdx < 0 && !em){ alert("No ethanol material (solvent) found in your inventory."); return; }
     snapF(f);
     if (eIdx >= 0) item.lines[eIdx].weightG = wEth;
     else {
-      const em = DATA.materials.find(isEthanol);
-      if (!em){ alert("No ethanol material (solvent) found in your inventory."); return; }
-      item.lines.push({materialId:em.id, dilutionPct:100, weightG:wEth, remark:1});
+      item.lines.push({materialId:em.id, dilutionPct:basePct(em), weightG:wEth, remark:1});
     }
     markDirty(); render();
   });
@@ -1822,17 +1844,16 @@ function replaceMaterial(f, item, i){
     const dils = (nm.dilutions||[]).map(d => d.pct);
     if (dils.length && !dils.includes(cur)){
       const nearest = dils.reduce((a,b) => Math.abs(b-cur) < Math.abs(a-cur) ? b : a);
-      // opens the method dialog (exchange solvent / rel% only / keep weight); cancelling puts the old material back.
-      // The dialog makes its own snapshot, so this one steps aside: replacing and changing the dilution is one action.
-      popUndo();
-      changeDilution(f, item, i, nearest, () => { l.materialId = oldId; markDirty(); render(); });
+      // opens the method dialog (exchange solvent / rel% only / keep weight) without a snapshot of its own, so that
+      // replacing and changing the dilution is one undo step; cancelling puts the old material back and drops the step.
+      changeDilution(f, item, i, nearest, () => { l.materialId = oldId; popUndo(); markDirty(); render(); }, true);
     } else {
       render();
     }
   });
 }
-function applyDilutionChange(f, item, i, d2, method, solvJ){
-  snapF(f);
+function applyDilutionChange(f, item, i, d2, method, solvJ, noSnap){
+  if (!noSnap) snapF(f);   // Replace material took the snapshot before swapping the material
   const l = item.lines[i], d1 = l.dilutionPct ?? 100, w1 = l.weightG || 0;
   if (method === "keepw"){ l.dilutionPct = d2; }
   else {
@@ -1845,11 +1866,11 @@ function applyDilutionChange(f, item, i, d2, method, solvJ){
   }
   markDirty(); render();
 }
-function changeDilution(f, item, i, d2, onCancel){
+function changeDilution(f, item, i, d2, onCancel, noSnap){
   const l = item.lines[i], m = matById(l.materialId) || {};
   const d1 = l.dilutionPct ?? 100, w1 = l.weightG || 0;
   if (!d2 || d2 === d1){ render(); return; }
-  if (m.isSolvent || !w1){ applyDilutionChange(f, item, i, d2, "keepw", null); return; }
+  if (m.isSolvent || !w1){ applyDilutionChange(f, item, i, d2, "keepw", null, noSnap); return; }
   const w2 = w1 * d1 / d2, delta = w2 - w1;
   const sj = solventIdx(item.lines, i);
   const solv = sj >= 0 ? {j: sj, mm: matById(item.lines[sj].materialId)||{}, w: item.lines[sj].weightG||0} : null;
@@ -1875,7 +1896,7 @@ function changeDilution(f, item, i, d2, onCancel){
   $("#dlgOk").addEventListener("click", () => {
     const method = dlg.querySelector('input[name="dm"]:checked')?.value;
     dlg.close();
-    if (method) applyDilutionChange(f, item, i, d2, method, solv ? solv.j : null); else if (onCancel) onCancel(); else render();
+    if (method) applyDilutionChange(f, item, i, d2, method, solv ? solv.j : null, noSnap); else if (onCancel) onCancel(); else render();
   });
 }
 function copyFormula(f, sub){
@@ -2356,7 +2377,8 @@ function createPredilution(f, sub, item, dispLines){
     if (newMatCat){ DATA.materialCategories.push("Predils"); DATA.materialCategories.sort((a,b)=>a.localeCompare(b)); }
     (DATA.categoryColours ||= {})["Predils"] ||= "#7A5EA8";
     const pm = {id: uid("m-"), name, cas: "", category: "Predils", supplier: "", modified: now(),
-      costPerGram: Cp > 0 ? +(costT/Cp).toFixed(4) : null,   // per gram of pure material, as everywhere else ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`,
+      costPerGram: Cp > 0 ? +(costT/Cp).toFixed(4) : null,   // per gram of pure material, as everywhere else
+      ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`,
       purchaseDate: today(), pyramid: 5, isSolvent: false,
       description: `Predilution of ${f.name} ${isVarView?`variation «${item.label}» (base v${cur.v})`:`v${cur.v}`} (factor ×${k}).\n\n` +
         picks.map(l => { const m = matById(l.materialId); return `${(m||{}).name||"?"} (${fmtS(l.dilutionPct??100)}%) – ${(+(l.weightG*k).toFixed(4))} g`; }).join("\n"),
@@ -2415,6 +2437,7 @@ function newVariation(f, sub){
     const label = $("#nvLabel").value.trim();
     if (!label){ alert("Give the variation a label."); return false; }
     const t = parseNum($("#nvTarget").value), bv = $("#nvBase").value;
+    if (t != null && !(t > 0)){ alert("Enter a target total above 0 g, or leave it empty."); return false; }
     snapF(f);
     const va = {id: uid(f.id+"-var"), label, frozen:false, date: today(), notes:"", dilutionOverrides:{}, targetWeightG: t || null};
     if (bv) va.baseV = +bv;
@@ -3346,7 +3369,9 @@ $("#btnNewMat").addEventListener("click", () => {
     if (DATA.materials.some(x => normName(x.name) === normName(name))){ alert("A material with that name already exists."); return false; }
     const owner = DATA.materials.find(x => (x.aliases || "").split(";").some(a => normName(a) === normName(name)));
     if (owner && !confirm(`You already have “${owner.name}”, which carries “${name}” as an alternative name.\n\nCreate a second material anyway?`)) return false;
-    const pct = parseNum($("#nmDil").value) || 100;
+    const pctIn = parseNum($("#nmDil").value);
+    if (pctIn != null && !(pctIn > 0 && pctIn <= 100)){ alert("A dilution is a percentage between 0 and 100."); return false; }
+    const pct = pctIn || 100;
     const hit = listFind(name);
     const cat = $("#nmCat").value || "Uncategorised";
     const newCat = !DATA.materialCategories.includes(cat);
@@ -3414,7 +3439,7 @@ $("#btnOpen").addEventListener("click", openFile);
 /* ---------- print ---------- */
 function printSheet(f, item, lines, targetW){
   const K = calc(lines);
-  const k = targetW && K.totalW ? targetW/K.totalW : 1;
+  const k = targetW > 0 && K.totalW ? targetW/K.totalW : 1;
   const label = itemLabel(item);
   $("#printArea").innerHTML = `<h2>${esc(f.name)} – ${esc(label)}</h2>
   <div>Printed ${today()} · target ${fmt((K.totalW||0)*k)} g · concentrate ${fmt(K.totalAbsPct,2)}% · est. cost € ${fmt(K.totalCost*k,2)}</div>
@@ -3472,8 +3497,14 @@ function saveToDataFile(){
         try{ h = await window.showSaveFilePicker({id:"miformulas-data", startIn:"documents", suggestedName:"miformulas-data.json", types:[{description:"miFormulas data", accept:{"application/json":[".json"]}}]}); }
         catch(e){ /* cancelled */ }
         if (!h) return;
-        HANDLE = h; await idb.set("fileHandle", h);
-        await saveData(); await idb.set("demoData", null);   // from here the file is the data
+        HANDLE = h;
+        if (await saveData()){                  // from here the file is the data
+          await idb.set("fileHandle", h); await idb.set("demoData", null);
+        } else {                                // the file could not be written: the browser keeps the data as before
+          HANDLE = null;
+          alert("The file could not be written (it may be locked or the disk full). Your data stays in this browser; try again or choose another location.");
+          markDirty();
+        }
         updateStorageHint(); render();
       })();
     }, "28rem");

@@ -72,6 +72,26 @@ with sync_playwright() as p:
     check("which puts the old material back at once",
           page.evaluate("""(() => (matById(DATA.formulas.find(x => x.id === "f-u").versions[0].lines[0].materialId)||{}).name)()""") == "Undo stof")
 
+    # ---------- 3b. the same through the dilution dialog (build 260915): still one step, and Undo brings the old material back ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u");
+      f.versions[0].lines[0].dilutionPct = 10; markDirty(); render(); }""")      # a dilution Hedione does not have, so Replace opens the dialog
+    page.wait_for_timeout(400)
+    steps = page.evaluate("UNDO.length")
+    page.click("[data-repl='0']"); page.wait_for_timeout(400)
+    page.fill("#rmNew", "Hedione"); page.click("#dlgOk"); page.wait_for_timeout(500)
+    check("the dilution dialog opened", page.locator("#dlg").is_visible() and "Change dilution" in page.locator("#dlg").inner_text())
+    page.click("#dlgOk"); page.wait_for_timeout(600)
+    line = page.evaluate("""(() => { const l = DATA.formulas.find(x => x.id === "f-u").versions[0].lines[0];
+      return {m: (matById(l.materialId)||{}).name, dil: l.dilutionPct}; })()""")
+    check(f"replaced and moved to a dilution Hedione has ({line})", line["m"] == "Hedione" and line["dil"] == 100)
+    check(f"in a single undo step ({steps} → {page.evaluate('UNDO.length')})", page.evaluate("UNDO.length") == steps + 1)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    line = page.evaluate("""(() => { const l = DATA.formulas.find(x => x.id === "f-u").versions[0].lines[0];
+      return {m: (matById(l.materialId)||{}).name, dil: l.dilutionPct}; })()""")
+    check(f"and Undo brings the old material back on its old dilution ({line})", line["m"] == "Undo stof" and line["dil"] == 10)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u"); f.versions[0].lines[0].dilutionPct = 100; markDirty(); render(); }""")
+    page.wait_for_timeout(300)
+
     # ---------- 4. Redo returns to the page the change was on ----------
     w0 = page.locator("input.w").first
     w0.fill("5"); w0.press("Tab"); page.wait_for_timeout(600)

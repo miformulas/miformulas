@@ -1,6 +1,8 @@
 """One write at a time (build 260914b): a change made while a save is in flight must not be
 reported as saved, must not send a second write with the old ETag, and must be written afterwards.
 Also: browser storage that refuses to store, and the browser copy that is dropped for a data file.
+Build 260915: a daily snapshot restored while the server is unreachable is not written over the
+server's data, and a data file whose first write fails leaves the browser copy in place.
 Uses a fake server inside the page (fetch is replaced before the app boots), so no webserver of its
 own is needed beyond the one serving the app on port 8765 (see README)."""
 from playwright.sync_api import sync_playwright
@@ -113,6 +115,91 @@ with sync_playwright() as p:
     check("the data is now in the file", bool(pg.evaluate("!!HANDLE")) and "formulas" in pg.evaluate("window.__file"))
     check("and the browser copy is dropped, so Forget cannot bring an old one back",
           pg.evaluate("idb.get('demoData')") is None)
+    ctx.close()
+
+    # ---------- 4. build 260915: a snapshot restored while the server is unreachable is not written over the server ----------
+    SWITCHABLE = """
+      window.__srv = {etag: "E0", data: {schema: 1, formulas: [{id:"f-s", name:"Server formula", versions: [], variations: []}], materials: [],
+                      materialCategories: [], formulaCategories: []}, puts: [], gets: 0};
+      const realFetch = window.fetch.bind(window);
+      window.fetch = (url, opt) => {
+        const u = String(url && url.url ? url.url : url), o = opt || {};
+        if (u.indexOf("data.php") >= 0){
+          const mode = localStorage.getItem("__srvmode") || "up";      // up | down | empty
+          if (mode === "down") return Promise.reject(new TypeError("Failed to fetch"));
+          if ((o.method || "GET") === "GET"){
+            __srv.gets++;
+            if (mode === "empty") return Promise.resolve(new Response("no", {status: 404}));
+            return Promise.resolve(new Response(JSON.stringify(__srv.data), {status: 200, headers: {ETag: __srv.etag}}));
+          }
+          __srv.puts.push({ifm: (o.headers || {})["If-Match"] || "", body: o.body});
+          __srv.data = JSON.parse(o.body); __srv.etag = "E" + __srv.puts.length;
+          return Promise.resolve(new Response("{}", {status: 200, headers: {ETag: __srv.etag}}));
+        }
+        return realFetch(url, opt);
+      };
+    """
+    ctx = b.new_context(viewport={"width": 1200, "height": 900})
+    errs = []; msgs = []
+    pg = ctx.new_page()
+    pg.on("pageerror", lambda e: errs.append(str(e)))
+    pg.on("dialog", lambda d: (msgs.append(d.message), d.accept()))
+    pg.add_init_script(SWITCHABLE)
+    pg.goto(URL); pg.wait_for_timeout(1500)
+    check("morning: loaded from the server, snapshot kept",
+          pg.evaluate("DATA.formulas.length") == 1 and bool(pg.evaluate("idb.get('dailyBak').then(b => !!(b && b.json))")))
+    pg.evaluate("""() => { localStorage.setItem("__srvmode", "down"); }""")
+    pg.reload(); pg.wait_for_timeout(1500)
+    check("evening, server unreachable: the start screen offers the snapshot",
+          pg.locator("#btnSnap").is_visible() and pg.locator("#btnOpen").inner_text() == "Connect to server")
+    pg.click("#btnSnap"); pg.wait_for_timeout(3500)          # long enough for an autosave, if one were scheduled
+    state = pg.locator("#saveState").inner_text()
+    check(f"the snapshot is shown but not marked for saving ({state!r})", "not on the server" in state and pg.evaluate("DIRTY") is False)
+    # the server comes back with the day's work on it (someone saved meanwhile), and the user makes a change
+    pg.evaluate("""() => { localStorage.setItem("__srvmode", "up"); __srv.data.formulas.push({id:"f-day", name:"Day's work", versions: [], variations: []}); __srv.etag = "E9"; }""")
+    pg.evaluate("""() => { DATA.formulas.push({id:"f-x", name:"Evening change", versions: [], variations: []}); markDirty(); }""")
+    pg.wait_for_timeout(3500)
+    state = pg.locator("#saveState").inner_text()
+    check(f"before writing, the app reads the server and refuses to overwrite what is there ({state!r})",
+          "was not loaded" in state and pg.evaluate("__srv.puts.length") == 0 and pg.evaluate("__srv.gets") >= 1)
+    check("and says so once", sum("not loaded in this session" in m for m in msgs) == 1)
+    check("the day's work is still on the server", pg.evaluate("__srv.data.formulas.some(f => f.id === 'f-day')"))
+    # the same snapshot, but the server holds nothing (the case the snapshot is for): it is written
+    pg.evaluate("""() => { localStorage.setItem("__srvmode", "empty"); }""")
+    pg.reload(); pg.wait_for_timeout(1500)
+    check("server empty: the start screen offers the snapshot next to the starter set",
+          pg.locator("#btnSnap").is_visible() and pg.locator("#btnStarter").is_visible())
+    pg.click("#btnSnap"); pg.wait_for_timeout(3500)
+    check("and then the snapshot is written to the server",
+          pg.evaluate("__srv.puts.length") == 1 and pg.locator("#saveState").inner_text().startswith("Saved"))
+    check("no page errors", not errs)
+    ctx.close()
+
+    # ---------- 5. build 260915: Save to a data file whose first write fails keeps the browser copy ----------
+    ctx = b.new_context(viewport={"width": 1200, "height": 900})
+    msgs = []
+    pg = ctx.new_page()
+    pg.on("dialog", lambda d: (msgs.append(d.message), d.accept()))
+    pg.route("**/data.php*", lambda r: r.fulfill(status=404, body="no"))
+    pg.add_init_script("""
+      function LockedHandle(name){ this.name = name; this.kind = "file"; }
+      LockedHandle.prototype.queryPermission = async () => "granted";
+      LockedHandle.prototype.requestPermission = async () => "granted";
+      LockedHandle.prototype.getFile = async function(){ return new File(["{}"], this.name); };
+      LockedHandle.prototype.createWritable = async () => { throw new DOMException("The file is locked", "NoModificationAllowedError"); };
+      window.showSaveFilePicker = async opts => new LockedHandle(opts.suggestedName);
+    """)
+    pg.goto(URL); pg.wait_for_timeout(900)
+    pg.click("#btnStarter"); pg.wait_for_timeout(3400)
+    check("the browser copy exists first", bool(pg.evaluate("idb.get('demoData')")))
+    msgs.clear()
+    pg.click("#storageHintSave"); pg.wait_for_timeout(500)
+    pg.click("#dlgOk"); pg.wait_for_timeout(1500)
+    check(f"the failed write is reported ({msgs})", any("could not be written" in m for m in msgs))
+    check("the app stays in browser storage, with its copy intact",
+          pg.evaluate("!!HANDLE") is False and bool(pg.evaluate("idb.get('demoData')")) and pg.evaluate("idb.get('fileHandle')") is None)
+    pg.wait_for_timeout(3200)
+    check("and saving to the browser continues", pg.locator("#saveState").inner_text().startswith("Saved"))
     ctx.close()
     b.close()
 

@@ -1,7 +1,8 @@
 """What the app refuses to swallow (build 260914f): negative weights, dilutions outside 0 to 100,
 duplicate dilutions, a material left without a base dilution, text where a number belongs, and fields
 of your own that start with an underscore. Plus the daily snapshot of the state you opened with, a
-version that came in through Move into… and the hidden import reference.
+version that came in through Move into… and the hidden import reference. Build 260915: a negative target
+total, a base dilution outside 0-100 in + New material, and Set EtOH without an ethanol material.
 Needs the local web server on port 8765 (see README)."""
 from playwright.sync_api import sync_playwright
 
@@ -109,6 +110,49 @@ with sync_playwright() as p:
     check(f"deleting it asks first and then does it ({msgs})",
           any("Delete" in m for m in msgs)
           and page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-v").versions.length)()""") == 1)
+
+    # ---------- 5b. build 260915: a target below zero, a base dilution outside 0-100, Set EtOH ----------
+    page.evaluate("""() => { VIEW = {tab:"F", id:"f-v", sub:{type:"v", idx:0}}; SCALEOPEN = true; render(); }""")
+    page.wait_for_timeout(500)
+    w_before = page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-v").versions[0].lines[0].weightG)()""")
+    steps = page.evaluate("UNDO.length")
+    msgs.clear()
+    page.fill("#scaleW", "-100"); page.click("#btnApplyScale"); page.wait_for_timeout(500)
+    w_after = page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-v").versions[0].lines[0].weightG)()""")
+    check(f"a negative target total is refused ({msgs}, {w_before} → {w_after})",
+          any("above 0" in m for m in msgs) and w_after == w_before and page.evaluate("UNDO.length") == steps)
+    msgs.clear()
+    page.click("#btnNewVar"); page.wait_for_timeout(400)
+    page.fill("#nvLabel", "neg"); page.fill("#nvTarget", "-50"); page.click("#dlgOk"); page.wait_for_timeout(500)
+    check(f"and so is a negative target for a new variation ({msgs})",
+          any("above 0" in m for m in msgs)
+          and page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-v").variations.length)()""") == 0)
+    if page.locator("#dlg").is_visible(): page.keyboard.press("Escape"); page.wait_for_timeout(300)
+    msgs.clear()
+    n_mat = page.evaluate("DATA.materials.length")
+    page.click("#btnNewMat"); page.wait_for_timeout(400)
+    page.fill("#nmName", "Honderdvijftig"); page.fill("#nmDil", "150"); page.click("#dlgOk"); page.wait_for_timeout(500)
+    check(f"+ New material refuses a base dilution above 100 % ({msgs})",
+          any("between 0 and 100" in m for m in msgs) and page.evaluate("DATA.materials.length") == n_mat)
+    if page.locator("#dlg").is_visible(): page.keyboard.press("Escape"); page.wait_for_timeout(300)
+    # Set EtOH: without an ethanol material it leaves no empty undo step; with one, the line takes its base dilution
+    page.evaluate("""() => { window.__eth = DATA.materials.filter(isEthanol).map(m => m.id);
+      __eth.forEach(id => { matById(id).isSolvent = false; }); invalidateMats();
+      VIEW = {tab:"F", id:"f-v", sub:{type:"v", idx:0}}; SCALEOPEN = true; render(); }""")
+    page.wait_for_timeout(400)
+    steps = page.evaluate("UNDO.length"); msgs.clear()
+    page.fill("#targetAbs", "5"); page.click("#btnSetAbs"); page.wait_for_timeout(500)
+    check(f"Set EtOH without an ethanol material says so and leaves no undo step ({msgs}, {steps} → {page.evaluate('UNDO.length')})",
+          any("No ethanol" in m for m in msgs) and page.evaluate("UNDO.length") == steps)
+    page.evaluate("""() => { __eth.forEach(id => { matById(id).isSolvent = true; });
+      const e = DATA.materials.find(isEthanol); e.dilutions = [{pct:96, isBase:true}]; invalidateMats(); render(); }""")
+    page.wait_for_timeout(400)
+    page.fill("#targetAbs", "5"); page.click("#btnSetAbs"); page.wait_for_timeout(600)
+    eth = page.evaluate("""(() => { const f = DATA.formulas.find(x => x.id === "f-v");
+      const l = f.versions[0].lines.find(l => isEthanol(matById(l.materialId))); return l && l.dilutionPct; })()""")
+    check(f"and the ethanol line it adds takes the material's base dilution ({eth} %)", eth == 96)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    page.evaluate("""() => { const e = DATA.materials.find(isEthanol); e.dilutions = [{pct:100, isBase:true}]; invalidateMats(); }""")
 
     # ---------- 6. the snapshot is offered when the data is gone ----------
     page.evaluate("""() => { DATA.formulas.find(x => x.id === "f-v").name = "Gewijzigd"; markDirty(); }""")
