@@ -31,7 +31,8 @@ The other ways in:
   cannot write to a data file, so the data lives in the app's storage and
   *Backup* is your safety net.
 - **Just try it.** Open https://miformulas.com and start; your work stays in the
-  browser's storage on that computer. *Backup* downloads a copy.
+  browser's storage on that computer. *Backup* writes a copy (Chrome and Edge ask
+  where; the others put it in your downloads folder).
 - **The app file on your own computer.** Click *Download the app* on the start
   screen and save `miFormulas.html` in a folder of its own; open it in Chrome or
   Edge, choose *Start with the starter set* and keep `miformulas-data.json` next
@@ -87,10 +88,18 @@ the concentration.
 the weight, keeps the percentage, or swaps the solvent, and warns when the ethanol
 runs short.
 
-**Materials.** Name, CAS, alternative names, supplier, category with its own
-colour, stock, cost per gram, IFRA limit, pyramid level, solvent flag,
-description, density and storage location; every formula a material appears in;
-an optional stock ledger.
+**Materials.** Name, CAS, alternative names, supplier, category, stock, cost per
+gram, IFRA limit, pyramid level, solvent flag, description, density and storage
+location; every formula a material appears in; an optional stock ledger. A
+materials library of facts can be loaded as a reference: adding a material then
+fills in its CAS, category, pyramid level, IFRA limit and a few lines of odour
+facts, and **Browse the library…** ticks a dozen at once.
+
+**Sharing a formula.** **Share this version…** writes the version you are looking
+at as a small JSON file another miFormulas user imports in one action, with the
+material names, dilutions, weights, CAS numbers and notes, and nothing of your own
+lab. **Export my inventory as a library…** does the same for the materials you
+tick: your facts and your own descriptions, without stock, price or supplier.
 
 **Also there.** Batch scaling on a factor, a target weight or a target
 concentration; an IFRA check with adjustable dosage; a comparison view between
@@ -134,7 +143,8 @@ than the app does, so the app asks for it when you do.
 Questions, problems and ideas: open an issue at
 https://github.com/miformulas/miformulas/issues, or write to info@miformulas.com
 if you would rather not use GitHub. Mention your browser, the build number shown
-next to the name in the app's header, and what you did.
+next to the name in the app's header (or in the Help bar, which is where a phone
+shows it), and what you did.
 
 ## Three ways to keep your data
 
@@ -155,9 +165,9 @@ next to the name in the app's header, and what you did.
 Nobody but you sees your formulas. The app runs entirely in your browser and your
 data lives where you put it: the browser's storage, a file on your disk, or a server
 you own. It never uploads anything, sends no telemetry and loads no scripts from
-elsewhere; the downloaded app contacts miformulas.com only to fetch the starter set
-when you ask for it, and once you have a data file it makes no network request at
-all. You can check this in the code: the whole app is this one readable file, and the
+elsewhere; it contacts miformulas.com only for two files you ask for yourself, the
+starter set and the published materials library, and apart from those clicks it
+makes no network request at all. You can check this in the code: the whole app is this one readable file, and the
 manual (section 3) lists every network call it contains and how to verify them.
 
 ## Coming from Formulair

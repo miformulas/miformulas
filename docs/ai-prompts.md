@@ -8,7 +8,7 @@ Attachments: ChatGPT, Claude and Gemini accept photos, PDFs and CSV files as att
 
 miFormulas imports formulas from a small JSON file (type `miformulas-import`). An assistant produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet. Save the answer as a `.json` file, then in miFormulas go to the Welcome page, click **Import formula…**, choose the file, check the preview and confirm.
 
-Tip: attach the file **All materials (Excel)** from the Welcome page as well. The assistant then uses the exact names of your own inventory, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your inventory are created as "to order" for you to merge or rename.
+Tip: attach the file **Export all materials (Excel)** from the Welcome page as well. The assistant then uses the exact names of your own inventory, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your inventory are created as "to order" for you to merge or rename.
 
 ---
 
@@ -20,7 +20,7 @@ Do this:
 2. If a materials inventory (CSV) is attached, use its exact spelling of the material name in "material" whenever a line clearly matches an entry. When you are not sure, keep the transcribed name in "material" and add your best guess in "comment" ("possibly: …"). Never silently substitute one material for another.
 3. Do not convert dilutions or weights to what the inventory stocks. Keep them exactly as printed; the app flags unknown dilutions and I convert them myself.
 4. Use the formula name written on the sheet. If there is none, ask me instead of inventing one. Never invent version labels.
-5. Answer with the JSON only, in this shape:
+5. Give the JSON in a fenced code block (three backticks), and nothing else inside that block, in this shape:
 
 {
  "type": "miformulas-import",
@@ -34,23 +34,23 @@ Do this:
  ]
 }
 
-6. After the JSON, tell me in a few lines: the total weight (and whether it is a round number such as 100 or 1000, which suggests a complete transcription), how many lines matched the inventory and how many are new, and every line you could not read or were unsure about, as questions.
+6. Below the code block, outside it, tell me in a few lines: the total weight (and whether it is a round number such as 100 or 1000, which suggests a complete transcription), how many lines matched the inventory and how many are new, and every line you could not read or were unsure about, as questions.
 
 One formula per file. If the source shows several formulas, ask which one you should convert first.
 
 ---
 
-Optional fields: `targetFormula` (the exact name of an existing formula; the import then becomes a new version of it instead of a new formula), `versionName` (the label of that new version), `cas` on a line (kept when the material has to be created), `solvent: true` on a line (the material is a solvent, so that the percentages read correctly when it has to be created; this is what **Share this version…** writes) and `materialId` (the id of a material in your inventory; not needed, the app matches by name). Every line needs a material name, a weight that is a number and zero or more, and a dilution above 0 and at most 100 (leave it out for 100); the import page shows in red whatever falls outside that and refuses to import until it is corrected. Save the answer as UTF-8 text with the extension `.json`, for instance `260908 import Roos akkoord.json`; if the assistant wrapped it in a code block, remove the backticks.
+Optional fields: `targetFormula` (the exact name of an existing formula; the import then becomes a new version of it instead of a new formula), `versionName` (the label of that new version), `cas` on a line (kept when the material has to be created), `solvent: true` on a line (the material is a solvent, so that the percentages read correctly when it has to be created; this is what **Share this version…** writes) and `materialId` (the id of a material in your inventory; not needed, the app matches by name). Every line needs a material name, a weight that is a number and zero or more, and a dilution above 0 and at most 100 (leave it out for 100); the import page shows in red whatever falls outside that and refuses to import until it is corrected. Copy the contents of the code block, without the backtick lines, into a UTF-8 text file with the extension `.json`, for instance `260908 import Roos akkoord.json`. Only what is inside the block goes into the file: the remarks below it are for you, and the app reads the file as JSON.
 
 ## 2. Checking and completing your materials
 
-The export **All materials (Excel)** on the Welcome page is a CSV with one row per material: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g (tracked), Dilutions % and Description. An assistant can propose the missing CAS numbers, IFRA limits, pyramid levels, categories and one-line odour descriptions, and point out likely duplicates. The app has no bulk import for the materials you own, so you enter what you accept by hand on the material pages; do it for the materials you added recently rather than for your whole inventory at once. A larger batch can go the other way round: have the assistant write a `miformulas-materials` library file (the same format the app exports with **Export my inventory as a library…**), import it as a materials library, and tick what you want in **Browse the library…**.
+The export **Export all materials (Excel)** on the Welcome page is a CSV with one row per material: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g (tracked), Dilutions % and Description. An assistant can propose the missing CAS numbers, IFRA limits, pyramid levels, categories and one-line odour descriptions, and point out likely duplicates. The app has no bulk import for the materials you own, so you enter what you accept by hand on the material pages; do it for the materials you added recently rather than for your whole inventory at once. A larger batch can go the other way round: have the assistant write a `miformulas-materials` library file (the same format the app exports with **Export my inventory as a library…**), import it as a materials library, and tick what you want in **Browse the library…**.
 
 The IFRA figures deserve the most scepticism. The source that counts is the standards library on ifrafragrance.org; the prompt asks the assistant to name the amendment it took a limit from and to say "unknown" rather than guess, and you look up every value you enter. In the app, 99 means "checked, no restriction" and an empty field means "not yet checked".
 
 ---
 
-Attached is a CSV export of my perfume materials library from the miFormulas app (columns: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g, Dilutions %, Description). Help me check and complete it. Do not rename anything; I enter your proposals by hand.
+Attached is a CSV export of my own materials inventory from the miFormulas app (columns: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g, Dilutions %, Description). Help me check and complete it. Do not rename anything; I enter your proposals by hand.
 
 Give me a table with one row per material that has something missing or doubtful, with these columns:
 
@@ -96,7 +96,7 @@ Here are the names:
 
 ## 4. Setting up your own server
 
-Section 19 of the manual describes the server mode: the app and `server/data.php` on a web server with PHP, a writable `data` folder next to them, a token, and the app connecting to it. An assistant can turn that into step-by-step instructions for your own device, if you give it the two files it needs and tell it what you have. Never give it your token; you choose that yourself and type it into `data.php` and into the app.
+Section 20 of the manual describes the server mode: the app and `server/data.php` on a web server with PHP, a writable `data` folder next to them, a token, and the app connecting to it. An assistant can turn that into step-by-step instructions for your own device, if you give it the two files it needs and tell it what you have. Never give it your token; you choose that yourself and type it into `data.php` and into the app.
 
 ---
 

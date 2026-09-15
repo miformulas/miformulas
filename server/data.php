@@ -67,7 +67,7 @@ if ($method === 'PUT' || $method === 'POST') {
   $ifMatch = hdr('If-Match');
   if ($cur !== '' && $ifMatch !== '' && $ifMatch !== $curTag) {
     flock($fh, LOCK_UN); fclose($fh);
-    fail(409, 'conflict: the data changed on another device — reload before saving', ['etag' => $curTag]);
+    fail(409, 'conflict: the data changed on another device – reload before saving', ['etag' => $curTag]);
   }
 
   // daily snapshot of the previous content (first write of the day)
