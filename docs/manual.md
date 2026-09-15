@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260915n. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
+This manual describes build 260915o. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
 
 ## Contents
 
@@ -31,7 +31,7 @@ This manual describes build 260915n. The build number of the copy you are using 
 17. [Stock, orders and deliveries](#17-stock-orders-and-deliveries)
 18. [Import and export](#18-import-and-export)
 19. [Coming from Formulair](#19-coming-from-formulair)
-20. [Your own server](#20-your-own-server)
+20. [The same data on every device](#20-the-same-data-on-every-device)
 21. [Settings, theme and keyboard shortcuts](#21-settings-theme-and-keyboard-shortcuts)
 22. [Backups and recovery](#22-backups-and-recovery)
 23. [Questions and answers](#23-questions-and-answers)
@@ -137,7 +137,7 @@ That is all: your data is a file you can see, copy, put in a synced folder or re
 
 - **Coming from Formulair?** Open https://miformulas.com/formulair-import.html, or click **Import from Formulair…** in the app when you are using it on the site; the downloaded app does not show that link, because the importer is a page on the site. It converts your Formulair database in the browser and adds it to miFormulas; nothing is uploaded. Section 19 has the steps.
 - **Everything at once.** On the GitHub page https://github.com/miformulas/miformulas click the green **Code** button, then **Download ZIP**. The ZIP holds the app, the Formulair importer, the starter data, the server endpoint and the tools.
-- **Your own server**, so that all your devices share the same data: section 20.
+- **The same data on your computer, your laptop and your phone**: section 20. The free way there needs no server and no domain of your own.
 
 Two things about the downloaded app that surprise people:
 
@@ -432,22 +432,56 @@ Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, an
 
 The same conversion exists as a command-line script, `tools/formulair-naar-json.py`, for those who prefer a terminal.
 
-## 20. Your own server
+## 20. The same data on every device
 
-With a server, every device you own works on the same data, and nobody has to remember to copy files. You need a web server with PHP (8.x) that you can put files on: a Synology or QNAP NAS with its web station, a Raspberry Pi, a small hosting account.
+A data file keeps your work on one computer. The moment you want the same formulas on a second computer and on your phone, something has to hold them in one place that all three can reach. That place is what the app calls a **server**: it loads from it at the start, saves to it after every change, and checks before each save that no other device wrote in the meantime.
+
+It matters most for a phone. No browser on an iPhone or iPad can write to a data file, and Chrome on Android asks permission for the file at every start (section 5). With a server, both simply open the app and are in the same data.
+
+There are two ways there. **A** costs nothing and needs no server, no domain and nothing installed; it is the way for most people. **B** is for those who already have a NAS or a hosting account with PHP.
+
+### A. A free Cloudflare Worker
+
+Cloudflare runs small pieces of code, called Workers, and offers storage for files, called R2. The miFormulas endpoint is one file of about 150 lines that you paste into their editor; the storage holds your data file and the daily snapshots. Both have a free tier without a time limit, and miFormulas stays far inside it: R2 gives 10 GB of storage with a million writes and ten million reads a month, and a Worker 100,000 requests a day, while a data file of a few megabytes and a few hundred saves a day is what heavy use looks like. Enabling R2 may ask for a payment method; within the free tier nothing is charged.
+
+What you end up with is an address like `https://miformulas-data.yourname.workers.dev`, a token you choose yourself, and your data in a bucket only you can read. It is https from the start, so **Install as an app** (section 5) works on every device.
+
+The screens below are how the Cloudflare dashboard looked in September 2026. Cloudflare moves its buttons from time to time; when a name does not match, their own documentation at https://developers.cloudflare.com/workers/ is the place to look.
+
+**Before you start.** Have your data ready: click **Backup** in the app and keep that `.json` file at hand. And choose a token now, a long random string of some twenty characters. You will paste it into two places and nowhere else.
+
+1. **Make an account** at https://dash.cloudflare.com. The free account is enough, and you do not need a domain.
+2. **Create the Worker.** In the sidebar choose **Workers & Pages**, then **Create**, and start from the Hello World example. Give it a name you will recognise, `miformulas-data` for instance; that name becomes part of the address. Deploy it once as it is.
+3. **Paste the code.** Open the Worker's editor, select everything that is in it, and paste `server/worker.js` from the miFormulas repository over it (https://github.com/miformulas/miformulas/blob/main/server/worker.js, the **Copy raw file** button). Deploy again.
+4. **Create the storage.** In the sidebar choose **R2**, then **Create bucket**, and name it, `miformulas-data` for instance. This is where your data file will live.
+5. **Connect the two.** Back in the Worker, under **Settings**, **Bindings**, add an **R2 bucket** binding: the variable name must be exactly `DATA`, and the bucket is the one you just made. That name is what the code looks for.
+6. **Set the token.** In the same Settings, under **Variables and Secrets**, add a **Secret** named exactly `TOKEN`, with your own token as its value. A secret, not a plain variable: a secret is not shown again afterwards.
+7. **Note the address.** The Worker's page shows its address, ending in `.workers.dev`. That is the endpoint the app needs.
+8. **Check it before you go to the app.** Open that address in a browser. It should answer `{"error":"invalid token","worker":3}`. That is good news: the Worker is alive, it found its bucket and its token, and it refused you because a browser sends no token. Any other answer names the step that went wrong. `TOKEN secret is not set on the Worker` is step 6, `R2 bucket binding DATA is missing on the Worker` is step 5, and a Cloudflare error page instead of JSON means the code of step 3 did not deploy.
+9. **Connect the app.** Open https://miformulas.com, click **Settings** (⚙), fill in the address as **Server endpoint** and your token as **Access token**, and click Apply. The app reloads and says "Connected to server". The bucket is still empty, so the start screen offers the starter set and writes it there; to start from your own work, use **Open data file…** with your Backup instead, and the app saves it to the server.
+
+On your other computer and on your phone, only step 9: the same address, the same token. Install the app there (section 5) and it opens straight into your data.
+
+**Keeping it.** There is nothing to maintain. The app itself comes from miformulas.com and updates itself, and the Worker only holds your data; a newer `worker.js` is worth pasting in only when the release notes say so, and your data stays where it is because the code and the storage are separate things.
+
+### B. Your own web server with PHP
+
+You need a web server with PHP (8.x) that you can put files on: a Synology or QNAP NAS with its web station, a Raspberry Pi, a small hosting account.
 
 1. Put `index.html` and `server/data.php` in a folder on the server, and create a folder `data` next to them that the web server is allowed to write to. On a NAS this means giving the web server's user (often `http`) read and write rights on that folder; the endpoint tells you in plain words when it cannot write.
 2. Open `data.php` in a text editor and replace `change-me-to-a-long-random-token` by a long random string of your own. This token is the password to your data.
 3. Put your `miformulas-data.json` in the `data` folder (a Backup from the app, or the file from the Formulair importer), or let the app create it.
 4. Open the server's address in a browser. The app detects `data.php` next to itself, asks for the token once, and from then on says "Connected to server". On other devices, open the same address and give the same token; or open Settings and fill in the server endpoint and token by hand, which also works for a `data.php` at another address than the app. Those two fields are there when you open the app from a web address, which is what a server is; the copy you downloaded to your own disk does not show them.
 
-What the endpoint does: it returns the data with an ETag, accepts a save only when the ETag still matches, so that two devices can never overwrite each other (the app then shows a conflict warning: make a Backup, reload and redo the change), and it keeps a snapshot of the previous state in `data/snapshots` on the first save of each day, fourteen days long. A server that hides the ETag from the browser (a proxy that strips the header, or CORS without `Access-Control-Expose-Headers`) makes the app say so once: saving still works, but that protection is off until it is fixed. Restoring one is copying that file over `miformulas-data.json`.
+Reaching the server from outside your home is a matter of your network. A VPN such as Tailscale is the simple and safe way, and it can also give the server an https address, which the "Install as an app" options need. Do not put `data.php` on the open internet without https: the token travels in a header. None of this applies to way A, which is on the internet with https from the start.
 
-Reaching the server from outside your home is a matter of your network. A VPN such as Tailscale is the simple and safe way, and it can also give the server an https address, which the "Install as an app" options need. Do not put `data.php` on the open internet without https: the token travels in a header.
+To update the app on your own server, copy the new `index.html` over the old one; the data stays.
 
-To update the app on the server, copy the new `index.html` over the old one; the data stays.
+### What the endpoint does, on either way
 
-If you would like step-by-step instructions for your own device, `docs/ai-prompts.md` has a prompt that turns this section and `data.php` into a guided setup with an AI assistant.
+It returns the data with an ETag, accepts a save only when the ETag still matches, so that two devices can never overwrite each other (the app then shows a conflict warning: make a Backup, reload and redo the change), and it keeps a snapshot of the previous state on the first save of each day, fourteen days long: in `data/snapshots` on a PHP server, under `snapshots/` in the bucket on Cloudflare. A server that hides the ETag from the browser (a proxy that strips the header, or CORS without `Access-Control-Expose-Headers`) makes the app say so once: saving still works, but that protection is off until it is fixed. Restoring a snapshot is copying that file over `miformulas-data.json`.
+
+If you would like step-by-step instructions for your own situation, `docs/ai-prompts.md` has a prompt for each way. Keep in mind that an assistant knows the miFormulas side of it well and the Cloudflare dashboard badly: for way A the screens in this section are the authority, not what an assistant remembers.
 
 ## 21. Settings, theme and keyboard shortcuts
 
@@ -487,7 +521,7 @@ In server mode the server keeps daily snapshots for fourteen days (section 20).
 
 **Where do the facts of a material come from?** From you, or from a materials library you imported (section 18). Importing a library adds nothing to your inventory: the list of materials you own stays exactly as long as it was, because a library is a reference you look things up in, not stock you own. A library holds names, alternative names, CAS numbers, categories, pyramid levels, IFRA limits and short odour facts (odour words, impact, substantivity, typical use); when you add a material whose name is in the library, those come along and you can change every one of them afterwards. Without a library nothing changes: you type what you know.
 
-**Can I use it on a phone?** Yes. Open the site in Safari and use **Add to Home Screen** (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server of your own (section 20) is what puts the same data on your phone and your computer. On Android, Chrome is the way in: **Install as an app**, and a data file of your own works as on a computer, except that Chrome asks permission for it at every start (section 5). The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way. On an iPhone the look-up links of a material open in a browser view on top of the app; the X at the top left brings you back.
+**Can I use it on a phone?** Yes. Open the site in Safari and use **Add to Home Screen** (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server (section 20) is what puts the same data on your phone and your computer; the free way there, a Cloudflare Worker, needs no server and no domain of your own. On Android, Chrome is the way in: **Install as an app**, and a data file of your own works as on a computer, except that Chrome asks permission for it at every start (section 5). The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way. On an iPhone the look-up links of a material open in a browser view on top of the app; the X at the top left brings you back.
 
 **Can the author of miFormulas see my formulas?** No. Nothing leaves your computer unless you put it on a server of your own. The app contacts miformulas.com only for two files you ask for yourself: the starter set and, in Settings, the published materials library. Neither request carries anything of yours. Section 3 lists every network request the app makes and how to verify that yourself in the code.
 

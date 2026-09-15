@@ -107,7 +107,8 @@ versions; an olfactive pyramid; printable weighing sheets; Excel/CSV export; Und
 to 50 steps.
 
 **Storage.** In the browser, in a JSON file of your own (Chrome and Edge), or on
-your own server with a conflict check and daily snapshots. See below.
+a server with a conflict check and daily snapshots: your own if you have one, or a
+free Cloudflare Worker if you do not. See below.
 
 ## Getting started
 
@@ -154,11 +155,16 @@ shows it), and what you did.
   in Chrome or Edge. "Open data file…" then reads and writes a JSON file of your own.
   The same works on miformulas.com itself: open your data file there once and the
   site remembers it (Reopen), so an installed copy of the site keeps your own file.
-- **On a server.** Put `index.html` and `server/data.php` on any web server with
-  PHP, create a writable `data` folder beside them, set a token in `data.php`, and
-  give the same token in Settings on each device. The endpoint returns the JSON
-  with an ETag on GET and refuses a PUT whose `If-Match` is stale, so two devices
-  never overwrite each other; it also keeps daily snapshots.
+- **On a server**, which is what puts the same data on your computer and your
+  phone, since no browser on iOS can write to a file. Two endpoints do the same
+  job. `server/worker.js` is a Cloudflare Worker with an R2 bucket: paste, bind a
+  bucket as `DATA`, set a secret `TOKEN`, and you have an https endpoint on their
+  free tier without a server or a domain of your own. `server/data.php` is for a
+  web server with PHP: put it next to `index.html`, create a writable `data`
+  folder beside them and set a token in it. Either way you give that token in
+  Settings on each device. Both return the JSON with an ETag on GET and refuse a
+  PUT whose `If-Match` is stale, so two devices never overwrite each other, and
+  both keep daily snapshots. Section 20 of the manual walks through both.
 
 ## Privacy
 

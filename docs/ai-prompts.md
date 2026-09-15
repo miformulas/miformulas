@@ -96,7 +96,7 @@ Here are the names:
 
 ## 4. Setting up your own server
 
-Section 20 of the manual describes the server mode: the app and `server/data.php` on a web server with PHP, a writable `data` folder next to them, a token, and the app connecting to it. An assistant can turn that into step-by-step instructions for your own device, if you give it the two files it needs and tell it what you have. Never give it your token; you choose that yourself and type it into `data.php` and into the app.
+Way B of section 20: the app and `server/data.php` on a web server with PHP, a writable `data` folder next to them, a token, and the app connecting to it. An assistant can turn that into step-by-step instructions for your own device, if you give it the two files it needs and tell it what you have. Never give it your token; you choose that yourself and type it into `data.php` and into the app. Have no server of your own? Then way A is yours, and prompt 5 below goes with it.
 
 ---
 
@@ -105,5 +105,24 @@ I want to run the miFormulas app on my own web server so that all my devices sha
 My situation: (describe your device and what you know, for example: a Synology DS220+ with DSM 7.2, Web Station is installed but I have never used it; or: a Raspberry Pi 4 with Raspberry Pi OS; or: shared hosting at provider X with PHP 8.2 and FTP access. Say whether you can already reach the device by name or address in a browser, and whether you want to reach it from outside your home.)
 
 Guide me step by step. Ask me what you need to know before each step rather than assuming. For every step, tell me exactly where to click or what to type, and how I can check that it worked. Cover: installing PHP and the web service if needed, placing `index.html`, `data.php` and the `data` folder, giving the web server's user write access to `data`, setting a token in `data.php` (I will choose the token myself and will not tell you what it is), putting my `miformulas-data.json` in the `data` folder, opening the app in the browser and entering the token, and, if I want access from outside, the safe way to do that (a VPN such as Tailscale, with https). When something can go wrong in a way that costs data, warn me before that step.
+
+---
+
+## 5. Setting up a free Cloudflare Worker
+
+Way A of section 20 puts your data on a Cloudflare Worker with an R2 bucket: no server of your own, no domain, nothing installed, and free. Section 20 walks through the dashboard with screenshots, and those screenshots are the authority: an assistant knows the miFormulas side of this well and the Cloudflare dashboard badly, because that dashboard changes and no assistant has seen the current one. Use this prompt for the parts that are about you, and the manual for the buttons. Never give an assistant your token; you choose it yourself and type it into Cloudflare and into the app.
+
+---
+
+I am setting up the perfume app miFormulas so that my computer, my laptop and my phone work on the same data. I am following way A of section 20 of its manual: a Cloudflare Worker with an R2 bucket. Attached are `server/worker.js` from the miFormulas repository and section 20 of the manual. Read both first, and follow the manual where it and you disagree about the Cloudflare dashboard: it was written from the dashboard as it is, and you have not seen it.
+
+Help me with these, one at a time, and ask what you need to know before each:
+
+1. A token. Give me one long random string of about twenty characters, letters and digits only, and tell me where it goes and where it must never go. Do not ask me what I chose afterwards.
+2. What the Worker does, in plain words, so that I understand what I am pasting: what it stores, what the token protects, what the ETag check prevents and what the daily snapshots are for. Answer from `worker.js`, not from memory.
+3. Reading the check of step 8 in the manual. I will tell you what the browser answered at the Worker's address; tell me what it means and which step to go back to.
+4. Anything that goes wrong afterwards: I will paste the exact message the app or the browser shows, and you tell me where it comes from, using `worker.js` and section 20.
+
+What I would like you not to do: describe Cloudflare screens from memory, invent button names, or suggest the paid plan. If I ask something the manual answers, point me to the step in it.
 
 ---
