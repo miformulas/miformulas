@@ -92,6 +92,10 @@ with sync_playwright() as p:
         check(f"{w} px: the state is one line ({h['stH']} px)", h["stH"] <= 24)
         check(f"{w} px: the storage mode is {'shown' if where else 'in the tooltip'} ({h['where']})", h["where"] == where)
         check(f"{w} px: every header button is a real tap target ({h['small']})", not h["small"])
+        icoon = page.evaluate("""(() => { const q = [...document.querySelectorAll("header button.small.ico svg, header .ico2 svg")]
+            .filter(e => e.getBoundingClientRect().width > 0);
+          return {n: q.length, klein: q.filter(e => e.getBoundingClientRect().width < 16).length}; })()""")
+        check(f"{w} px: the drawn icons are big enough to read ({icoon})", icoon["n"] >= 1 and not icoon["klein"])
     page.set_viewport_size({"width": 1280, "height": 800}); page.wait_for_timeout(300)
     lang = page.evaluate("""() => { setState("Server not reachable: changes kept in memory, use Backup", "", true);
         const st = document.getElementById("saveState");
