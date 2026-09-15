@@ -102,7 +102,7 @@ header #btnSave{border-color:rgba(255,255,255,.55)}
 #saveState.wide{white-space:normal;max-width:26rem}          /* a warning is worth two lines */
 #saveState.dirty{color:var(--amber);filter:brightness(1.4);font-weight:600}
 main{flex:1;display:flex;min-height:0}
-#storageHint{display:flex;gap:.8rem;align-items:center;padding:.4rem 1rem;background:var(--amber-soft);color:var(--ink);font-size:.83rem;border-bottom:1px solid var(--line)}
+#storageHint{display:flex;gap:.8rem;align-items:center;padding:.35rem 1rem;background:var(--panel);color:var(--ink);font-size:.83rem;border-bottom:1px solid var(--line);border-left:4px solid var(--amber)}   /* a reminder, not an alarm */
 #storageHint #storageHintSave{margin-left:auto}
 #storageHint #storageHintClose{margin-left:.4rem}
 #storageHint.nosave #storageHintClose{margin-left:auto}
@@ -279,7 +279,10 @@ td.dim{color:var(--muted)}
   #sidebar{width:100%;min-width:0}
   #content{padding:.8rem .7rem 3rem;overflow-x:auto}
   header{gap:.5rem;flex-wrap:wrap}
-  #saveState{font-size:.7rem}
+  #stMain{display:none}                        /* the short form instead, and never cut off */
+  .hright{flex-wrap:wrap}
+  #saveState{font-size:.72rem;white-space:normal;overflow:visible;flex-basis:100%;order:9;text-align:right;max-width:none;margin:0}
+  #saveState::before{content:attr(data-short)}
   table.lines{font-size:.8rem}
   table.lines td,table.lines th{padding:.16rem .3rem}
   .fieldGrid{grid-template-columns:1fr;gap:.15rem .8rem}
@@ -331,7 +334,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915e</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915f</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnHome" class="small">Home</button>
@@ -351,7 +354,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
     <button id="btnSettings" class="small ico" title="Settings: number format, server, materials library, install as an app">⚙</button>
   </div>
 </header>
-<div id="storageHint" hidden><span id="storageHintText"></span><button class="small primary" id="storageHintSave" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file…</button><button class="small" id="storageHintClose" title="Hide for this session">×</button></div>
+<div id="storageHint" hidden><span id="storageHintText"></span><button class="small" id="storageHintSave" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file…</button><button class="small ico" id="storageHintClose" title="Hide this reminder (Settings tells you where your data lives)">×</button></div>
 <main>
   <div id="sidebar">
     <div id="tabs">
@@ -370,7 +373,8 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
     <p>A perfume formulation app. Open your data file, or start with the starter set.</p>
     <p><button class="primary" id="btnReopen" style="display:none"></button></p>
     <p><button class="primary" id="btnStarter" style="display:none">Start with the starter set</button></p>
-    <p><button id="btnOpen">Open data file…</button></p>
+    <p><button id="btnOpen">Open data file…</button>
+       <button id="btnEmpty" class="small" style="display:none;margin-left:.6rem" title="No example formulas or materials: an empty inventory you fill yourself">Start empty</button></p>
     <p><button id="btnSnap" class="small" style="display:none"></button></p>
     <p class="hint" id="landingHint"></p>
     <p><button id="btnSettingsLanding" class="small">Settings…</button>
@@ -390,25 +394,26 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260915e. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260915f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-and-versions">Formulas and versions</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
 <p><strong>Which browser.</strong> Chrome or Edge, on Windows or Mac, give you everything: your data in a file of your own and the app installed with its own icon. Safari on a Mac works as a Dock app with the data in the app's storage (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>). Firefox runs the app, but keeps the data in the browser only, cannot install it and may clear the storage when it closes, even if you allowed persistent storage; use it to have a look, not for daily work. On an iPhone or iPad you add the site to the Home Screen and the data lives in that app; a data file is not possible there, because no browser on iOS can write one, so a server of your own (section <a href="#s20-your-own-server">20</a>) is what gives you the same data on your phone and your computer. On an Android phone or tablet, Chrome gives you everything a computer gives, a data file of your own included; the one difference is that Chrome asks permission for that file again at every start (sections <a href="#s4-recommended-setup-and-the-other-ways-in">4</a> and <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The start screen of miformulas.com.</a></p>
-<p>The start screen offers three ways in:</p>
+<p>The start screen offers four ways in:</p>
 <ul>
 <li><strong>Start with the starter set</strong> loads sixteen formulas and nearly two hundred materials to explore. They are marked "starter" so you can tell them from your own; edit or delete them as you like. Whatever you change or add from here on is your work, so make a habit of <strong>Backup</strong> (in the header) before you close the browser: it downloads a copy of the complete data file, named with date and time. Keep those copies together, for instance in <code>Documents\miFormulas\backups</code> (Windows) or <code>Documents/miFormulas/backups</code> (Mac).</li>
 <li><strong>Open data file…</strong> opens a miFormulas data file you already have: the Backup you made last time, a file made by the Formulair importer, or a file a colleague sent you. This is how you get your own work back on another computer or in another browser: choose the most recent Backup from your backups folder and carry on where you left off. In Chrome and Edge the app then keeps saving to that file and offers to reopen it next time (section <a href="#s2-where-your-data-lives-browser-file-or-server">2</a>).</li>
+<li><strong>Start empty</strong> gives you nothing at all: no formulas, no materials, an inventory you fill yourself. Use it when the starter set would only be in the way; Settings can clear that data again later, which brings the start screen back.</li>
 <li><strong>Import from Formulair</strong> takes you to the importer for Formulair users (section <a href="#s19-coming-from-formulair">19</a>).</li>
 </ul>
-<p>Whichever way in you take, you land on the Welcome page with four tiles (formulas, versions, materials, to order), the recently edited items, and the import and export buttons. Pick a formula or material in the list on the left, or create a new one with <strong>+ New formula</strong> and <strong>+ New material</strong> in the header.</p>
+<p>Whichever way in you take, you land on the Welcome page: a block <strong>Start here</strong> with the three things you usually come for (open a formula, + New formula…, + New material…), four tiles (formulas, versions, materials, to order), where your data lives, the recently edited items once you have edited something of your own, and the import and export buttons. Pick a formula or material in the list on the left, or create a new one with <strong>+ New formula</strong> and <strong>+ New material</strong> in the header.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The Welcome page after loading the starter set, with the amber storage bar.</a></p>
 <p>Every change is saved automatically a few seconds after you make it; <strong>Ctrl+Z</strong> undoes it. Deleting a line, a version, a formula or a material always asks for confirmation.</p>
 <h2 id="s2-where-your-data-lives-browser-file-or-server">2. Where your data lives: browser, file or server</h2>
 <p>miFormulas stores everything in one JSON file, <code>miformulas-data.json</code>. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server"). On a window narrower than about 1300 pixels only the time is shown, to keep the header on one line; the place is then in the tooltip. A warning ("Server not reachable", "⚠ Conflict") is always given in full.</p>
 <p>Two buttons on the start screen belong to particular situations. With a server configured, <strong>Open data file…</strong> reads <strong>Connect to server</strong> instead, and asks for the token if the server wants one. After a save that could not reach the server, the start screen offers <strong>Continue with data from …</strong> with the date and time of the copy the app kept in the browser, so an interrupted session is not lost.</p>
-<p><strong>In the browser.</strong> On miformulas.com the app keeps the data in the browser's own storage on that computer. This is the quickest way to try things out, and it is fine for everyday use if you download a Backup regularly. Two things to know: every browser has its own storage (Edge and Chrome on the same computer do not see each other's data), and a browser that is set to clear site data when it closes will take your formulas with it. The app asks the browser to keep the storage persistent; as long as the browser has not confirmed that, an amber bar under the header reminds you to make backups.</p>
+<p><strong>In the browser.</strong> On miformulas.com the app keeps the data in the browser's own storage on that computer. This is the quickest way to try things out, and it is fine for everyday use if you download a Backup regularly. Two things to know: every browser has its own storage (Edge and Chrome on the same computer do not see each other's data), and a browser that is set to clear site data when it closes will take your formulas with it. The app asks the browser to keep the storage persistent; as long as the browser has not confirmed that, a bar with an amber edge under the header reminds you to make backups. It is one line, shorter still on a phone, and the × closes it for good, because it says the same thing every time; Settings keeps telling you where your data lives.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s2-where-your-data-lives-browser-file-or-server">Browser storage: the amber bar reminds you, and Save to a data file… moves your work into a file (Chrome and Edge).</a></p>
 <p><strong>In a file.</strong> In Chrome or Edge the app can read and write a data file on your disk directly. You see the file, you can copy it, put it in a synced folder, and open it on another computer. The app remembers which file you used; the next time you open it you click <strong>Reopen</strong> and, if the browser asks, allow it to write to the file again. This works with the downloaded app (section <a href="#s4-recommended-setup-and-the-other-ways-in">4</a>) and just as well on miformulas.com itself: <strong>Save to a data file…</strong> (in the amber bar or in Settings) moves your work from the browser's storage into a file, <strong>Open data file…</strong> on the start screen switches to an existing file, and the site remembers the file for next time. For a site the browser can also remember the permission itself, in particular once the site is installed as an app: the app then opens straight into your data, and Reopen only appears when the browser wants a fresh click. Combined with "Install as an app" (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>) that gives you an app with its own icon, your own data file, and updates that arrive by themselves. Firefox cannot write to files: on the site you work in the browser's storage and use Backup to save, and a downloaded copy opened in Firefox is read-mostly (pick the data file once, the app keeps a cached copy, and Backup is the way to save). Safari has no direct file access either, so expect the same there: browser storage and Backup; it has only been tried on the start screen.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s2-where-your-data-lives-browser-file-or-server">Next time, the start screen offers Reopen for the remembered data file.</a></p>
@@ -558,7 +563,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>The <strong>content</strong> of a line is its weight corrected for the dilution: 2 g of a 10 % dilution is 0.2 g of material.</p>
 <p><strong>Rel %</strong> is the content of a line divided by the total content of all non-solvent lines. The column adds up to 100; solvent lines show a dash, because they carry no material. This is the composition of the concentrate, independent of how much ethanol is around it.</p>
 <p><strong>Abs %</strong> is the content of a line divided by the total weight of the formula, solvents included. The total of this column is the concentration of the mix: a formula with 15 % abs in total is a 15 % concentrate. Solvent lines show their share of the weight here.</p>
-<p>The <strong>cost</strong> of a line is weight × cost per gram × dilution, and the total cost is what the batch cost you in materials.</p>
+<p>The <strong>cost</strong> of a line is weight × cost per gram × dilution, and the total cost is what the batch cost you in materials. The column appears as soon as one material in your inventory carries a price, and stays away while none of them does, because a column of zeros says nothing.</p>
 <p>These rules are what makes the dilution tools work: changing a dilution while preserving rel % keeps the smell the same; the abs % and the total weight then tell you what happened to the strength and the batch size.</p>
 <h2 id="s11-changing-dilutions">11. Changing dilutions</h2>
 <p>Change the dilution of a line by choosing another value in its dilution list. Because a different dilution means a different weight for the same amount of material, the app asks how to proceed:</p>
@@ -747,6 +752,11 @@ function migrate(d){
   d.shopSites ||= [...SHOP_DEFAULTS];
   d.orderList ||= [];
   d.materialList ||= null;   // one imported library of material facts, looked up when you add a material
+  d.formulas ||= []; d.materials ||= [];       // a hand-written or empty file must not crash + New formula
+  d.materialCategories ||= ["Uncategorised"];
+  d.formulaCategories ||= ["Uncategorised"];
+  d.suppliers ||= [];
+  d.categoryColours ||= {};
   let oldVars = 0;
   for (const f of d.formulas || []){
     f.versions ||= [];
@@ -837,10 +847,13 @@ $("#fileFallback").addEventListener("change", async e => {
 });
 /* One place that writes the header state. A short line stays on the row and carries the whole story in its
    tooltip; the storage mode is a span the CSS hides on a narrow window; a warning is long, so it may wrap. */
+const STATE_SHORT = {"Connected to server":"Server", "Data kept in this browser":"Browser",
+  "Unsaved changes":"Unsaved", "Loaded (read-only fallback \u2013 use Backup to save)":"Read-only"};
 function setState(main, where, dirty){
   const el = $("#saveState");
   el.innerHTML = `<span id="stMain">${esc(main)}</span>` + (where ? `<span id="stWhere"> \u00b7 ${esc(where)}</span>` : "");
   el.className = (dirty ? "dirty" : "") + (main.length > 26 ? " wide" : "");
+  el.dataset.short = STATE_SHORT[main] || main;   // a phone shows this instead: no room to cut a word in half
   el.title = main + (where ? " \u00b7 " + where : "");
 }
 let saveTimer = null, SAVEGEN = 0, SAVING = null, SAVEAGAIN = false;
@@ -868,6 +881,13 @@ async function loadStarter(){
     return migrate(await r.json());
   }catch(e){ alert("The starter set could not be loaded (" + e.message + ")." + (location.protocol === "file:" ? "\n\nIt is fetched from miformulas.com, so this needs an internet connection." : "")); return null; }
 }
+function emptyData(){   // the third way in: nothing at all, rather than deleting 199 starter materials one by one
+  return migrate({meta: {schema: SCHEMA}, formulas: [], materials: []});
+}
+$("#btnEmpty").addEventListener("click", () => {
+  if (!confirm("Start with nothing: no formulas and no materials.\n\nSettings can clear this data again later, which brings this start screen back.")) return;
+  DATA = emptyData(); boot(); markDirty();
+});
 let ETAG = null, TOKEN = null, SERVER_EMPTY = false;
 let LOADED = false;   // the data in memory came from this server (or was written to it); false after a restored snapshot
 async function probeServer(){
@@ -1521,6 +1541,7 @@ function renderFormula(f){
 }
 function renderLines(f, item, lines, K, editable){
   const canMark = true;   // tick column always available (marks, bulk dilution shift)
+  const anyCost = DATA.materials.some(m => m.costPerGram);   // a column of "0.00" says nothing: it appears with the first price
   const arrow = k => SORT.key===k ? (SORT.dir>0?" ▲":" ▼") : "";
   const hdr = (k, label, num) => `<th${num?' class="num"':''}><span class="sortable" data-sort="${k}">${label}${arrow(k)}</span></th>`;
   let h = `<div class="toolRow"><span class="hint">Order:</span>
@@ -1531,7 +1552,7 @@ function renderLines(f, item, lines, K, editable){
       ${["name","dil","weight","rel","abs"].includes(SORT.key)?'<option value="" selected hidden>Column ▲▼</option>':""}
     </select></div>`;
   h += `<div class="tblwrap"><table class="lines"><thead><tr>${canMark?"<th></th>":""}${hdr("name","Material")}${hdr("dil","Dilution")}${hdr("weight","Weight (g)",1)}
-    ${hdr("rel","Rel %",1)}<th class="num abscol"><span class="sortable" data-sort="abs">Abs %${arrow("abs")}</span></th><th class="num costcol">Cost €</th>${editable?"<th></th>":""}</tr></thead><tbody>`;
+    ${hdr("rel","Rel %",1)}<th class="num abscol"><span class="sortable" data-sort="abs">Abs %${arrow("abs")}</span></th>${anyCost?'<th class="num costcol">Cost €</th>':""}${editable?"<th></th>":""}</tr></thead><tbody>`;
   sortRows(K.rows).forEach(r => {
     const i = r.idx;
     const hl = r.l.remark != null && r.l.remark !== 1 ? " hl"+r.l.remark : "";
@@ -1545,12 +1566,12 @@ function renderLines(f, item, lines, K, editable){
     } else {
       h += `<td>${fmtS(r.dil)}%${dilWarn}</td><td class="num">${fmt(r.w)}</td>`;
     }
-    h += `<td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td><td class="num abscol">${fmt(r.absPct,2)}</td><td class="num costcol">${fmt(r.cost,2)}</td>`;
+    h += `<td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td><td class="num abscol">${fmt(r.absPct,2)}</td>${anyCost?`<td class="num costcol">${fmt(r.cost,2)}</td>`:""}`;
     if (editable) h += `<td><button class="ghost small" data-del="${i}" title="Remove line">✕</button></td>`;
     h += `</tr>`;
   });
   h += `</tbody><tfoot><tr>${canMark?"<td></td>":""}<td>Total</td><td></td><td class="num">${fmt(K.totalW)}</td><td class="num">100</td>
-    <td class="num abscol">${fmt(K.totalAbsPct,2)}</td><td class="num costcol">${fmt(K.totalCost,2)}</td>${editable?"<td></td>":""}</tr></tfoot></table></div>`;
+    <td class="num abscol">${fmt(K.totalAbsPct,2)}</td>${anyCost?`<td class="num costcol">${fmt(K.totalCost,2)}</td>`:""}${editable?"<td></td>":""}</tr></tfoot></table></div>`;
   if (editable){
     h += `<div class="toolRow"><input id="addMat" list="matList" placeholder="Add material…" style="min-width:16rem">
       <datalist id="matList">${matListHtml()}</datalist>
@@ -3311,14 +3332,23 @@ async function requestPersistence(){
   updateStorageHint();
 }
 async function updateStorageHint(){
-  if (!DEMO || HANDLE){ $("#storageHint").hidden = true; return; }
+  if (!DEMO || HANDLE){ $("#storageHint").hidden = true; syncHomeToFile(); return; }
   let persisted = false;
   try{ persisted = !!(navigator.storage && navigator.storage.persisted && await navigator.storage.persisted()); }catch(e){}
-  if ((persisted && !FIREFOX) || sessionStorage.getItem("storageHintClosed")){ $("#storageHint").hidden = true; return; }
+  if ((persisted && !FIREFOX) || sessionStorage.getItem("storageHintClosed") || await idb.get("storageHintOff")){ $("#storageHint").hidden = true; syncHomeToFile(); return; }
   const canFile = !FALLBACK && !!window.showSaveFilePicker;
   // an installed app whose browser cannot write files (Safari's Dock app): an explanation, shown once
   const onceOnly = STANDALONE && !canFile;
   if (onceOnly && !sessionStorage.getItem("storageHintShown") && await idb.get("storageHintSeen")){ $("#storageHint").hidden = true; return; }
+  if (isMobile()){   // a phone has no room for a paragraph, and the file picker is often not there either
+    $("#storageHintText").textContent = "Your data lives in this browser \u2013 keep a Backup.";
+    $("#storageHintSave").style.display = canFile ? "" : "none";
+    $("#storageHint").classList.toggle("nosave", !canFile);
+    $("#storageHint").hidden = false;
+    syncHomeToFile();
+    if (onceOnly){ sessionStorage.setItem("storageHintShown", "1"); idb.set("storageHintSeen", true); }
+    return;
+  }
   $("#storageHintText").textContent = canFile
     ? "Your data is kept in this browser only and may be cleared when it closes. Save it to a data file of your own, or download a Backup regularly."
     : onceOnly
@@ -3331,8 +3361,14 @@ async function updateStorageHint(){
   $("#storageHintSave").style.display = canFile ? "" : "none";
   $("#storageHint").classList.toggle("nosave", !canFile);
   $("#storageHint").hidden = false;
+  syncHomeToFile();
 }
-$("#storageHintClose").addEventListener("click", () => { sessionStorage.setItem("storageHintClosed", "1"); $("#storageHint").hidden = true; });
+function syncHomeToFile(){   // the same button twice on one screen: the bar wins while it is there
+  const b = $("#homeToFile"); if (b) b.style.display = $("#storageHint").hidden ? "" : "none";
+}
+$("#storageHintClose").addEventListener("click", () => {   // closed once is closed for good: it says the same thing every session
+  sessionStorage.setItem("storageHintClosed", "1"); idb.set("storageHintOff", true); $("#storageHint").hidden = true; syncHomeToFile();
+});
 // browser storage -> a data file of the user's own (Chrome/Edge): explain, pick the location, write, remember
 function saveToDataFile(){
   if (!DATA || !window.showSaveFilePicker) return;
@@ -3542,6 +3578,8 @@ function render(){
       .map(x => `<div class="usage">· <a class="matlink" data-${go}="${x.id}">${esc(x.name)}</a> <span class="hint">${esc(x.modified)}${x.category?` · ${esc(x.category)}`:""}</span></div>`).join("")
       || '<div class="hint">Nothing edited yet – history builds up as you work.</div>';
     const nvv = DATA.formulas.reduce((s,x) => s + x.versions.length, 0);
+    // eight starter items with the date they were made is not history: show the panels once something of yours is in them
+    const showRecent = [...DATA.formulas, ...DATA.materials].some(x => x.modified && !x.starter);
     c.innerHTML = `<h2>Welcome</h2>
     <div class="tiles">
       <div class="tile" style="background:var(--accent-soft)"><b>${DATA.formulas.length}</b><span>formulas</span></div>
@@ -3549,12 +3587,16 @@ function render(){
       <div class="tile" style="background:var(--amber-soft)"><b>${DATA.materials.length}</b><span>materials</span></div>
       <div class="tile" style="background:var(--frozen-soft)"><b>${(DATA.orderList||[]).length}</b><span>to order</span></div>
     </div>
-    <p class="hint">Select a formula or material on the left, or create a new one.</p>
-    <p class="hint" id="whereData">Your data: ${REMOTE ? "on the server" : HANDLE ? `in <b>${esc(HANDLE.name)}</b>` : DEMO ? "kept in this browser" : "loaded read-only"}.${DEMO && !HANDLE && !FALLBACK && window.showSaveFilePicker ? ` <button class="small primary" id="homeToFile" title="Keep your data in a file of your own instead of in the browser">Save to a data file\u2026</button>` : ""}</p>
-    <div class="panelBox"><h3>Recently edited formulas</h3>${recent(DATA.formulas, "gof")}</div>
-    <div class="panelBox"><h3>Recently edited materials</h3>${recent(DATA.materials, "gom")}</div>
+    <div class="panelBox" id="startHere"><h3>Start here</h3>
+      <div class="toolRow"><button class="primary" id="homeOpenF">${DATA.formulas.length ? "Open a formula" : "+ New formula\u2026"}</button>
+        ${DATA.formulas.length ? '<button class="small" id="homeNewF">+ New formula\u2026</button>' : ""}
+        <button class="small" id="homeNewM">+ New material\u2026</button>
+        <span class="hint">${DATA.formulas.length ? "or pick one from the list on the left" : "your list is empty: this is where a formula begins"}</span></div></div>
+    <p class="hint" id="whereData">Your data: ${REMOTE ? "on the server" : HANDLE ? `in <b>${esc(HANDLE.name)}</b>` : DEMO ? "kept in this browser" : "loaded read-only"}.${DEMO && !HANDLE && !FALLBACK && window.showSaveFilePicker ? ` <button class="small" id="homeToFile" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file\u2026</button>` : ""}</p>
+    ${showRecent ? `<div class="panelBox"><h3>Recently edited formulas</h3>${recent(DATA.formulas, "gof")}</div>
+    <div class="panelBox"><h3>Recently edited materials</h3>${recent(DATA.materials, "gom")}</div>` : ""}
     <div class="panelBox"><h3>Import & export</h3>
-      ${/^https?:$/.test(location.protocol) ? `<div class="toolRow"><a class="btn primary" id="btnImpFormulair" href="formulair-import.html" title="Coming from Formulair on the Mac? Read its database and continue here with all your formulas">Import from Formulair…</a>
+      ${/^https?:$/.test(location.protocol) ? `<div class="toolRow"><a class="btn" id="btnImpFormulair" href="formulair-import.html" title="Coming from Formulair on the Mac? Read its database and continue here with all your formulas">Import from Formulair…</a>
         <span class="hint">reads Formulair's database on the Mac and adds it to miFormulas (manual, section 19)</span></div>` : ""}
       <div class="toolRow"><button class="small" id="btnImpF">Import formula…</button>
         <input type="file" id="impFile" accept=".json" style="display:none">
@@ -3569,7 +3611,14 @@ function render(){
     </div>`;
     c.querySelectorAll("[data-gom]").forEach(a => a.addEventListener("click", () => switchTab("M", a.dataset.gom, null)));
     c.querySelectorAll("[data-gof]").forEach(a => a.addEventListener("click", () => switchTab("F", a.dataset.gof, null)));
-    $("#homeToFile")?.addEventListener("click", saveToDataFile);
+    $("#homeToFile")?.addEventListener("click", saveToDataFile); syncHomeToFile();
+    $("#homeOpenF")?.addEventListener("click", () => {   // the first formula of the list, or a new one when there is none
+      if (!DATA.formulas.length){ $("#btnNew").click(); return; }
+      const f = [...DATA.formulas].sort((a,b) => (b.modified||"").localeCompare(a.modified||"") || a.name.localeCompare(b.name))[0];
+      switchTab("F", f.id, {type:"v", idx: Math.max(0, f.versions.length - 1)});
+    });
+    $("#homeNewF")?.addEventListener("click", () => $("#btnNew").click());
+    $("#homeNewM")?.addEventListener("click", () => $("#btnNewMat").click());
     $("#btnExpF")?.addEventListener("click", exportAllFormulas);
     $("#btnExpM")?.addEventListener("click", exportAllMaterials);
     $("#btnExpL")?.addEventListener("click", exportInventoryLibrary);
@@ -3644,6 +3693,7 @@ function boot(){
       if (SERVER_EMPTY){               // the server answers, but holds no data file yet
         $("#landingHint").textContent = "The server at " + url + " has no data file yet. Start with the starter set and the app writes it there, or use Connect to server once the file exists.";
         const bs = $("#btnStarter"); bs.style.display = "";
+        $("#btnEmpty").style.display = "";
         bs.addEventListener("click", async () => { const d = await loadStarter(); if (!d) return; DATA = d; boot(); markDirty(); });
       }
       return;
@@ -3665,6 +3715,7 @@ function boot(){
       catch(e){ console.warn("miFormulas: data kept in this browser could not be loaded", e); }
     }
     const bs = $("#btnStarter"); bs.style.display = "";
+    $("#btnEmpty").style.display = "";
     $("#btnDownload").style.display = ""; $("#btnFormulair").style.display = "";
     offerSnapshot();
     bs.addEventListener("click", async () => {

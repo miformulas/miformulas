@@ -43,9 +43,14 @@ with sync_playwright() as p:
     base = pg.evaluate("[DATA.formulas.length, DATA.materials.length]")
     check(f"starter set loaded: {base}", base == [16, 199])
     check("Welcome page says where the data is", "kept in this browser" in pg.text_content("#whereData"))
-    check("Welcome page offers Save to a data file… in Chrome", pg.locator("#homeToFile").is_visible())
-    check("Save to a data file… stands out as an action (primary)", "primary" in (pg.locator("#homeToFile").get_attribute("class") or ""))
-    check("Import from Formulair… is the highlighted button of the box", "btn primary" in (pg.locator("#btnImpFormulair").get_attribute("class") or ""))
+    # since 260915f the bar and the Welcome page do not both carry the same button
+    check("Save to a data file… is offered once, in the bar or on the page",
+          pg.locator("#homeToFile").is_visible() != pg.locator("#storageHint").is_visible())
+    # since build 260915f one primary button per screen, and that is the main action of the screen
+    check("Save to a data file… is an ordinary button now", "primary" not in (pg.locator("#homeToFile").get_attribute("class") or ""))
+    check("Import from Formulair… is an ordinary button now", "primary" not in (pg.locator("#btnImpFormulair").get_attribute("class") or ""))
+    prim = pg.evaluate("""() => [...document.querySelectorAll("#content button.primary, #content a.btn.primary")].map(x => x.textContent.trim())""")
+    check(f"the only primary button sits in Start here ({prim})", prim == ["Open a formula"])
     check("the export buttons say they export", pg.locator("#btnExpF").inner_text().startswith("Export") and pg.locator("#btnExpM").inner_text().startswith("Export"))
     pg.click("#btnSave"); pg.wait_for_timeout(500)
 

@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260915e. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260915f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -45,13 +45,14 @@ Open https://miformulas.com in a modern browser.
 
 ![The start screen of miformulas.com.](img/app-start-browser.png)
 
-The start screen offers three ways in:
+The start screen offers four ways in:
 
 - **Start with the starter set** loads sixteen formulas and nearly two hundred materials to explore. They are marked "starter" so you can tell them from your own; edit or delete them as you like. Whatever you change or add from here on is your work, so make a habit of **Backup** (in the header) before you close the browser: it downloads a copy of the complete data file, named with date and time. Keep those copies together, for instance in `Documents\miFormulas\backups` (Windows) or `Documents/miFormulas/backups` (Mac).
 - **Open data file…** opens a miFormulas data file you already have: the Backup you made last time, a file made by the Formulair importer, or a file a colleague sent you. This is how you get your own work back on another computer or in another browser: choose the most recent Backup from your backups folder and carry on where you left off. In Chrome and Edge the app then keeps saving to that file and offers to reopen it next time (section 2).
+- **Start empty** gives you nothing at all: no formulas, no materials, an inventory you fill yourself. Use it when the starter set would only be in the way; Settings can clear that data again later, which brings the start screen back.
 - **Import from Formulair** takes you to the importer for Formulair users (section 19).
 
-Whichever way in you take, you land on the Welcome page with four tiles (formulas, versions, materials, to order), the recently edited items, and the import and export buttons. Pick a formula or material in the list on the left, or create a new one with **+ New formula** and **+ New material** in the header.
+Whichever way in you take, you land on the Welcome page: a block **Start here** with the three things you usually come for (open a formula, + New formula…, + New material…), four tiles (formulas, versions, materials, to order), where your data lives, the recently edited items once you have edited something of your own, and the import and export buttons. Pick a formula or material in the list on the left, or create a new one with **+ New formula** and **+ New material** in the header.
 
 ![The Welcome page after loading the starter set, with the amber storage bar.](img/app-welcome.png)
 
@@ -63,7 +64,7 @@ miFormulas stores everything in one JSON file, `miformulas-data.json`. The app c
 
 Two buttons on the start screen belong to particular situations. With a server configured, **Open data file…** reads **Connect to server** instead, and asks for the token if the server wants one. After a save that could not reach the server, the start screen offers **Continue with data from …** with the date and time of the copy the app kept in the browser, so an interrupted session is not lost.
 
-**In the browser.** On miformulas.com the app keeps the data in the browser's own storage on that computer. This is the quickest way to try things out, and it is fine for everyday use if you download a Backup regularly. Two things to know: every browser has its own storage (Edge and Chrome on the same computer do not see each other's data), and a browser that is set to clear site data when it closes will take your formulas with it. The app asks the browser to keep the storage persistent; as long as the browser has not confirmed that, an amber bar under the header reminds you to make backups.
+**In the browser.** On miformulas.com the app keeps the data in the browser's own storage on that computer. This is the quickest way to try things out, and it is fine for everyday use if you download a Backup regularly. Two things to know: every browser has its own storage (Edge and Chrome on the same computer do not see each other's data), and a browser that is set to clear site data when it closes will take your formulas with it. The app asks the browser to keep the storage persistent; as long as the browser has not confirmed that, a bar with an amber edge under the header reminds you to make backups. It is one line, shorter still on a phone, and the × closes it for good, because it says the same thing every time; Settings keeps telling you where your data lives.
 
 ![Browser storage: the amber bar reminds you, and Save to a data file… moves your work into a file (Chrome and Edge).](img/edge-save-to-file.png)
 
@@ -309,7 +310,7 @@ The **content** of a line is its weight corrected for the dilution: 2 g of a 10 
 
 **Abs %** is the content of a line divided by the total weight of the formula, solvents included. The total of this column is the concentration of the mix: a formula with 15 % abs in total is a 15 % concentrate. Solvent lines show their share of the weight here.
 
-The **cost** of a line is weight × cost per gram × dilution, and the total cost is what the batch cost you in materials.
+The **cost** of a line is weight × cost per gram × dilution, and the total cost is what the batch cost you in materials. The column appears as soon as one material in your inventory carries a price, and stays away while none of them does, because a column of zeros says nothing.
 
 These rules are what makes the dilution tools work: changing a dilution while preserving rel % keeps the smell the same; the abs % and the total weight then tell you what happened to the strength and the batch size.
 
