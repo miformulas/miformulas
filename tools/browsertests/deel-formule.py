@@ -52,8 +52,13 @@ with sync_playwright() as p:
     check("de uitvoerrij heeft vier knoppen",
           all(page.locator(s).count() == 1 for s in ("#btnSheet", "#btnCsv", "#btnShare", "#btnPrint")))
     check("Share this version…", page.text_content("#btnShare").strip() == "Share this version…")
+    check("de twee afdrukken dragen elk een eigen naam",
+          page.text_content("#btnSheet").strip() == "Print full formula"
+          and page.text_content("#btnPrint").strip() == "Print weighing sheet")
+    check("de uitvoer naar Excel heet Excel export", page.text_content("#btnCsv").strip() == "Excel export")
     check("de hint zegt welke voor wie is",
-          "Excel for someone without miFormulas" in page.text_content("#content"))
+          "Excel export for someone without miFormulas" in page.text_content("#content")
+          and "the weighing sheet for the bench" in page.text_content("#content"))
 
     # ---------- uitvoeren ----------
     with page.expect_download() as dl:

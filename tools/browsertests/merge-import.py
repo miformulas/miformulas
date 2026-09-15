@@ -48,7 +48,9 @@ with sync_playwright() as p:
           pg.locator("#homeToFile").is_visible() != pg.locator("#storageHint").is_visible())
     # since build 260915f one primary button per screen, and that is the main action of the screen
     check("Save to a data file… is an ordinary button now", "primary" not in (pg.locator("#homeToFile").get_attribute("class") or ""))
-    check("Import from Formulair… is an ordinary button now", "primary" not in (pg.locator("#btnImpFormulair").get_attribute("class") or ""))
+    cls = pg.locator("#btnImpFormulair").get_attribute("class") or ""
+    check(f"Import from Formulair… carries the accent, but is not a primary button ({cls})",
+          "accent" in cls and "primary" not in cls)
     prim = pg.evaluate("""() => [...document.querySelectorAll("#content button.primary, #content a.btn.primary")].map(x => x.textContent.trim())""")
     check(f"the only primary button sits in Start here ({prim})", prim == ["Open a formula"])
     check("the export buttons say they export", pg.locator("#btnExpF").inner_text().startswith("Export") and pg.locator("#btnExpM").inner_text().startswith("Export"))
