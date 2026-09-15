@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260915f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260915g. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -290,7 +290,7 @@ Frozen means the amounts are fixed, not that the entry is untouchable. You can s
 
 ## 9. Editing a formula
 
-A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the **Add material…** box under the table (the list suggests as you type) and click **Add line**; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick **custom…** for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section 11). Remove a line with ✕, and swap the material on a line for another with **⇄**: the dilution and the weight are carried over, so a line you weighed stays weighed. Weights can be typed one after another without the mouse: **Tab** confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.
+A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the **Add material…** box under the table (the list suggests as you type) and click **Add line**; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick **custom…** for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section 11). Remove a line with ✕, and swap the material on a line for another with **⇄**: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice. Weights can be typed one after another without the mouse: **Tab** confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.
 
 ![A formula page: the lines table with dilution, weight, rel % and abs %.](img/app-formula.png)
 
@@ -326,7 +326,7 @@ Change the dilution of a line by choosing another value in its dilution list. Be
 
 The same question comes up when you replace a material by another one whose dilutions differ.
 
-**Lower** and **Higher** in the tick bar shift all ticked lines to the next lower or higher dilution that the material offers, preserving rel % and exchanging the solvent in one go (so the formula needs a solvent line); lines already at their lowest or highest are skipped and reported.
+**Lower** and **Higher** in the tick bar shift all ticked lines to the next lower or higher dilution that the material offers, preserving rel % and exchanging the solvent in one go (so the formula needs a solvent line); lines already at their lowest or highest are skipped and reported, and so is a ticked solvent line, because the solvent is what takes up the difference.
 
 ![Ticked lines and the tick bar: marks, Lower and Higher, Create predilution…](img/app-tick-bar.png)
 
@@ -354,7 +354,7 @@ Tick lines with the checkboxes on the left (Shift-click ticks a range) and use t
 
 From the table view, four buttons under the lines. The line under them says which is for whom: the first two produce something to read, the third a file for someone who uses miFormulas too.
 
-- **Print weighing sheet** prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, at the target weight from Batch scaling if you set one. Fridge materials carry the ❄.
+- **Print weighing sheet** prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, at the target weight from Batch scaling if you set one. Fridge materials carry the ❄, and a material you do not own yet reads "(to order)", so you notice at the bench and not at the cupboard.
 - **Formula sheet** prints the complete entry with weights, both percentages, cost, notes and trial log.
 - **Excel** downloads the entry as a CSV file, which a spreadsheet opens directly. Use this for a colleague who does not use miFormulas: they can read it, sort it and work in it.
 - **Share this version…** downloads the entry as a miformulas-import file, the same format described in section 18. Send it to someone who does use miFormulas and they import it in one action, instead of typing your formula line by line. It holds the material names with their dilution and weight, the CAS numbers, a mark on the lines that are solvent in your inventory, the category, the label of this version and its notes, and nothing of your own lab: no price, no supplier, no stock, no trial log. The lines keep the order of the version, not the sort order on your screen. Weights and dilutions are never converted, here or on the way in, so a dilution the other does not stock arrives with a ⚠ and they convert it themselves in a new version. A material they do not own yet is created for them as "to order", with its CAS and, where the file says so, as a solvent, so that their rel % and abs % read the same as yours. Where the two of you disagree about what is a solvent, their own material decides and the import page says so.
@@ -451,13 +451,13 @@ If you would like step-by-step instructions for your own device, `docs/ai-prompt
 
 The **theme** button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.
 
-Shortcuts: **Ctrl+Z** undo, **Ctrl+Y** or **Ctrl+Shift+Z** redo (the last ten of them), **Ctrl+S** save now, **Ctrl+B** hide or show the list panel, **Shift-click** on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.
+Shortcuts: **Ctrl+Z** undo, **Ctrl+Y** or **Ctrl+Shift+Z** redo (the last ten of them), **Ctrl+S** save now, **Ctrl+B** hide or show the list panel, **Shift-click** on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. In a dialog **Enter** is the button on the right (Create, Apply, Add) and **Escape** closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.
 
 ## 22. Backups and recovery
 
 **Backup** in the header downloads the complete data file, named with date and time (`260907_1402_miformulas-data.json`). Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a `backups` folder.
 
-The app also keeps one **daily snapshot** in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached), it offers **Restore daily snapshot** with its date; load it and use Backup to write it to a file. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.
+The app also keeps one **daily snapshot** in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached), it offers **Restore daily snapshot** with its date; load it and use Backup to write it to a file. When the browser copy is the thing that could not be read, the start screen says so and points at your last Backup, because starting again there would write over what is left of it. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.
 
 In server mode the server keeps daily snapshots for fourteen days (section 20).
 

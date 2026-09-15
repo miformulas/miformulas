@@ -1,0 +1,144 @@
+"""Wat de app moet overleven en wat het toetsenbord moet kunnen (deel C van de review van bouw 260914m):
+een databestand met ontbrekende velden en dubbele id's, een server die elke url met een html-pagina
+beantwoordt, een onleesbare browserkopie, onleesbare tekst in een getalveld, Enter in een dialoog,
+Tab vanaf het startscherm, klikbare elementen zonder knop, en Undo dat teruggaat naar de wijziging.
+Vereist de lokale webserver op poort 8765 (zie README)."""
+import json, os, tempfile
+from playwright.sync_api import sync_playwright
+
+URL = "http://localhost:8765/"
+ok = fail = 0
+def check(name, cond):
+    global ok, fail
+    ok += bool(cond); fail += (not cond)
+    print(("OK   " if cond else "FAIL ") + name)
+
+with sync_playwright() as p:
+    b = p.chromium.launch()
+    ctx = b.new_context(viewport={"width": 1280, "height": 950}, accept_downloads=True)
+    page = ctx.new_page()
+    errs = []; msgs = []
+    page.on("pageerror", lambda e: errs.append(str(e)))
+    page.on("dialog", lambda d: (msgs.append(d.message), d.accept()))
+    page.goto(URL); page.wait_for_timeout(900)
+
+    # ---------- 1. Tab vanaf het startscherm blijft op het startscherm ----------
+    focus = []
+    for _ in range(8):
+        page.keyboard.press("Tab"); page.wait_for_timeout(60)
+        focus.append(page.evaluate("() => document.activeElement.id || document.activeElement.tagName"))
+    check(f"Tab loopt niet door de verborgen app ({focus[:4]})",
+          all(f in ("btnStarter", "btnOpen", "btnEmpty", "btnSettingsLanding", "btnManual", "btnFeedback",
+                    "btnDownload", "btnInstall", "btnFormulair", "btnReopen", "btnSnap", "BODY", "HTML") for f in focus))
+    check("de koptekst en de pagina zijn inert tot de app opstart",
+          page.evaluate("() => !!document.querySelector('header').inert && !!(document.querySelector('#main') || {}).inert"))
+    page.click("#btnStarter"); page.wait_for_timeout(1400)
+    check("en daarna niet meer",
+          page.evaluate("() => !document.querySelector('header').inert && !(document.querySelector('#main') || {}).inert"))
+
+    # ---------- 2. Enter bevestigt een dialoog ----------
+    page.click("#btnNew"); page.wait_for_timeout(400)
+    page.fill("#nfName", "Entertest"); page.keyboard.press("Enter"); page.wait_for_timeout(700)
+    check("Enter in New formula maakt de formule", page.evaluate("() => DATA.formulas.some(f => f.name === 'Entertest')"))
+    page.click("#btnNewMat"); page.wait_for_timeout(400)
+    page.fill("#nmName", "Enterstof"); page.keyboard.press("Enter"); page.wait_for_timeout(700)
+    check("Enter in + New material maakt het materiaal", page.evaluate("() => DATA.materials.some(m => m.name === 'Enterstof')"))
+
+    # ---------- 3. klikbare elementen zijn met het toetsenbord te bedienen ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 3);
+        switchTab("F", f.id, {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    zonder = page.evaluate("""() => [...document.querySelectorAll(".matlink,.sortable,.swatch,[data-go],[data-gof],[data-gom]")]
+        .filter(e => !e.hasAttribute("href") && !e.hasAttribute("tabindex")).length""")
+    check(f"elk klikbaar element is met Tab bereikbaar ({zonder} zonder)", zonder == 0)
+    gesorteerd = page.evaluate("""() => { const s = document.querySelector(".sortable"); s.focus();
+        const gefocust = document.activeElement === s; return {gefocust, rol: s.getAttribute("role")}; }""")
+    page.keyboard.press("Enter"); page.wait_for_timeout(400)
+    check(f"Enter op een sorteerkop sorteert ({gesorteerd})", gesorteerd["gefocust"] and page.evaluate("() => SORT.key") != "orig")
+    page.evaluate("() => { SORT = {key:'orig', dir:1}; render(); }"); page.wait_for_timeout(300)
+    page.evaluate("""() => document.querySelector("#content .matlink").focus()""")
+    page.keyboard.press("Enter"); page.wait_for_timeout(600)
+    check("Enter op een materiaalnaam opent het materiaal", page.evaluate("() => VIEW.tab") == "M")
+
+    # ---------- 4. een getalveld met tekst erin houdt zijn waarde ----------
+    page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Enterstof"); m.costPerGram = 2.5;
+        switchTab("M", m.id, null); }""")
+    page.wait_for_timeout(500)
+    msgs.clear()
+    page.evaluate("""() => { const i = document.querySelector('[data-f="costPerGram"]'); i.value = "twee euro";
+        i.dispatchEvent(new Event("change", {bubbles:true})); }""")
+    page.wait_for_timeout(500)
+    kost = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Enterstof"); return m.costPerGram; }""")
+    check(f"onleesbare tekst wist de prijs niet ({kost}, {[m[:30] for m in msgs]})", kost == 2.5 and any("not a number" in m for m in msgs))
+    msgs.clear()
+    page.evaluate("""() => { const i = document.querySelector('[data-f="costPerGram"]'); i.value = "";
+        i.dispatchEvent(new Event("change", {bubbles:true})); }""")
+    page.wait_for_timeout(500)
+    check("maar leegmaken mag wel", page.evaluate("""() => DATA.materials.find(x => x.name === "Enterstof").costPerGram""") is None)
+
+    # ---------- 5. Undo keert terug naar de plek van de wijziging ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 3);
+        switchTab("F", f.id, {type:"v", idx:0});
+        window.__fid = f.id; }""")
+    page.wait_for_timeout(500)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__fid);
+        snapF(f); f.versions[0].lines[0].weightG = 42; markDirty(); render();
+        switchTab("M", DATA.materials[0].id, null); }""")
+    page.wait_for_timeout(500)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    na = page.evaluate("() => ({tab: VIEW.tab, id: VIEW.id, fid: window.__fid})")
+    check(f"Undo brengt je terug naar de formule waar de wijziging op zat ({na})",
+          na["tab"] == "F" and na["id"] == na["fid"])
+
+    # ---------- 6. een databestand met gaten en dubbele id's ----------
+    stuk = {"formulas": [{"id": "dup", "name": "Eerste", "versions": [{"v": 1}]},
+                         {"id": "dup", "versions": [{"v": 1, "lines": []}]},
+                         {"id": "f-x", "name": "Derde"}],
+            "materials": [{"id": "m-x"}, {"id": "m-x", "name": "Tweede stof"}]}
+    errs.clear()
+    page.evaluate("(t) => { DATA = migrate(JSON.parse(t)); boot(); }", json.dumps(stuk))
+    page.wait_for_timeout(900)
+    d = page.evaluate("""() => ({fid: DATA.formulas.map(f => f.id), mid: DATA.materials.map(m => m.id),
+        namen: DATA.formulas.map(f => f.name), mnamen: DATA.materials.map(m => m.name),
+        lines: DATA.formulas.flatMap(f => f.versions.map(v => Array.isArray(v.lines))),
+        versies: DATA.formulas.map(f => Array.isArray(f.versions)),
+        dils: DATA.materials.map(m => (m.dilutions || []).length)})""")
+    check(f"dubbele id's zijn hernummerd ({d['fid']}, {d['mid']})",
+          len(set(d["fid"])) == 3 and len(set(d["mid"])) == 2)
+    check(f"een formule en een materiaal zonder naam krijgen er een ({d['namen']}, {d['mnamen']})",
+          all(d["namen"]) and all(d["mnamen"]))
+    check(f"elke versie heeft regels en elk materiaal een dilutie ({d['lines']}, {d['dils']})",
+          all(d["lines"]) and all(d["versies"]) and all(d["dils"]))
+    page.evaluate("""() => { switchTab("F", DATA.formulas[1].id, {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    check(f"de tweede formule met hetzelfde id is bereikbaar ({errs[:1]})",
+          page.locator("#content h2").count() == 1 and not errs)
+    page.click("#btnNew"); page.wait_for_timeout(400)
+    check("+ New formula werkt in zo'n bestand", page.locator("#nfName").count() == 1)
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    check(f"geen paginafouten ({errs[:2]})", not errs)
+    ctx.close()
+
+    # ---------- 7. een host die elke url met zijn indexpagina beantwoordt ----------
+    ctx2 = b.new_context(viewport={"width": 1280, "height": 900})
+    pg = ctx2.new_page(); pg.on("dialog", lambda d: d.accept())
+    pg.route("**/data.php*", lambda r: r.fulfill(status=200, content_type="text/html", body="<!doctype html><html><body>index</body></html>"))
+    pg.goto(URL); pg.wait_for_timeout(1500)
+    mode = pg.evaluate("() => ({remote: REMOTE, demo: DEMO, landing: !!document.querySelector('#landing').offsetParent})")
+    check(f"een html-antwoord op data.php is geen server ({mode})", not mode["remote"] and mode["demo"])
+    check("dus het startscherm biedt gewoon de starterset aan", pg.locator("#btnStarter").is_visible())
+    ctx2.close()
+
+    # ---------- 8. een onleesbare browserkopie zegt wat er aan de hand is ----------
+    ctx3 = b.new_context(viewport={"width": 1280, "height": 900})
+    pg3 = ctx3.new_page(); pg3.on("dialog", lambda d: d.accept())
+    pg3.goto(URL); pg3.wait_for_timeout(900)
+    pg3.evaluate("""() => idb.set("demoData", "{dit is geen json")""")
+    pg3.reload(); pg3.wait_for_timeout(1400)
+    hint = pg3.text_content("#landingHint")
+    check(f"het startscherm legt uit dat de browserkopie stuk is ({hint[:60]!r})", "could not be read" in hint and "Backup" in hint)
+    ctx3.close()
+    b.close()
+
+print(f"\n{ok} OK, {fail} FAIL")
+raise SystemExit(1 if fail else 0)

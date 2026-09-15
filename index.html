@@ -203,6 +203,7 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 .legend{font-size:.78rem;color:var(--muted);margin:.3rem 0}
 .legend i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;vertical-align:-1px;margin:0 .2rem 0 .6rem}
 .swatch{width:1.15rem;height:1.15rem;border-radius:3px;border:1px solid var(--line);cursor:pointer;display:inline-block;vertical-align:middle}
+.swatch:focus-visible,.sortable:focus-visible,.matlink:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
 .swatch:hover{outline:2px solid var(--accent)}
 .catdot{display:inline-block;width:.55rem;height:.55rem;border-radius:50%;flex:none;box-shadow:0 0 0 2px var(--panel),0 0 0 3px currentColor;color:var(--line)}
 .pyricon{vertical-align:-2px;margin-right:.35rem;flex:none}
@@ -283,6 +284,7 @@ td.dim{color:var(--muted)}
   .hright{flex-wrap:wrap}
   #saveState{font-size:.72rem;white-space:normal;overflow:visible;flex-basis:100%;order:9;text-align:right;max-width:none;margin:0}
   #saveState::before{content:attr(data-short)}
+  .help code,.help pre{overflow-wrap:anywhere}   /* a path or a URL must not push the page sideways */
   table.lines{font-size:.8rem}
   table.lines td,table.lines th{padding:.16rem .3rem}
   .fieldGrid{grid-template-columns:1fr;gap:.15rem .8rem}
@@ -330,11 +332,11 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 </style>
 </head>
 <body>
-<header>
+<header inert>
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915f</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915g</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnHome" class="small">Home</button>
@@ -355,7 +357,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   </div>
 </header>
 <div id="storageHint" hidden><span id="storageHintText"></span><button class="small" id="storageHintSave" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file…</button><button class="small ico" id="storageHintClose" title="Hide this reminder (Settings tells you where your data lives)">×</button></div>
-<main>
+<main id="main" inert>
   <div id="sidebar">
     <div id="tabs">
       <button id="tabF" class="active">Formulas</button>
@@ -394,7 +396,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260915f. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260915g. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-and-versions">Formulas and versions</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -553,7 +555,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-formulas-and-versions">Move into…: three imported formulas about to become one formula with its own history.</a></p>
 <p><strong>Copy to new formula</strong> takes the version you are looking at as v1 of a new formula. <strong>Rename</strong> and <strong>Change category</strong> do what they say; categories are shared between formulas and get a colour dot.</p>
 <h2 id="s9-editing-a-formula">9. Editing a formula</h2>
-<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s11-changing-dilutions">11</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.</p>
+<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s11-changing-dilutions">11</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s9-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
 <p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s18-import-and-export">18</a>) it arrives with the facts the library holds, exactly as <strong>+ New material</strong> does; the same goes for a formula import and for <strong>Delivered</strong> on the order list.</p>
 <p>The table can be ordered by original entry, by category or by pyramid level (top to base), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
@@ -574,7 +576,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 </ul>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s11-changing-dilutions">Changing a dilution: the three ways to proceed, with the effect on weight and solvent.</a></p>
 <p>The same question comes up when you replace a material by another one whose dilutions differ.</p>
-<p><strong>Lower</strong> and <strong>Higher</strong> in the tick bar shift all ticked lines to the next lower or higher dilution that the material offers, preserving rel % and exchanging the solvent in one go (so the formula needs a solvent line); lines already at their lowest or highest are skipped and reported.</p>
+<p><strong>Lower</strong> and <strong>Higher</strong> in the tick bar shift all ticked lines to the next lower or higher dilution that the material offers, preserving rel % and exchanging the solvent in one go (so the formula needs a solvent line); lines already at their lowest or highest are skipped and reported, and so is a ticked solvent line, because the solvent is what takes up the difference.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s11-changing-dilutions">Ticked lines and the tick bar: marks, Lower and Higher, Create predilution…</a></p>
 <p>Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent".</p>
 <h2 id="s12-batch-scaling-and-predilutions">12. Batch scaling and predilutions</h2>
@@ -589,7 +591,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s14-bench-view-and-printing">Bench view: the Unsorted column with its own sort order on the left, the groups you build the batch with on the right.</a></p>
 <p>From the table view, four buttons under the lines. The line under them says which is for whom: the first two produce something to read, the third a file for someone who uses miFormulas too.</p>
 <ul>
-<li><strong>Print weighing sheet</strong> prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, at the target weight from Batch scaling if you set one. Fridge materials carry the ❄.</li>
+<li><strong>Print weighing sheet</strong> prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, at the target weight from Batch scaling if you set one. Fridge materials carry the ❄, and a material you do not own yet reads "(to order)", so you notice at the bench and not at the cupboard.</li>
 <li><strong>Formula sheet</strong> prints the complete entry with weights, both percentages, cost, notes and trial log.</li>
 <li><strong>Excel</strong> downloads the entry as a CSV file, which a spreadsheet opens directly. Use this for a colleague who does not use miFormulas: they can read it, sort it and work in it.</li>
 <li><strong>Share this version…</strong> downloads the entry as a miformulas-import file, the same format described in section <a href="#s18-import-and-export">18</a>. Send it to someone who does use miFormulas and they import it in one action, instead of typing your formula line by line. It holds the material names with their dilution and weight, the CAS numbers, a mark on the lines that are solvent in your inventory, the category, the label of this version and its notes, and nothing of your own lab: no price, no supplier, no stock, no trial log. The lines keep the order of the version, not the sort order on your screen. Weights and dilutions are never converted, here or on the way in, so a dilution the other does not stock arrives with a ⚠ and they convert it themselves in a new version. A material they do not own yet is created for them as "to order", with its CAS and, where the file says so, as a solvent, so that their rel % and abs % read the same as yours. Where the two of you disagree about what is a solvent, their own material decides and the import page says so.</li>
@@ -652,10 +654,10 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case), the server endpoint and its token, and a few buttons that depend on the situation: <strong>Install as an app</strong> when the browser offers it, <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser…</strong> in browser-storage mode, and <strong>Forget the remembered data file…</strong> when a file is remembered. At the bottom sits the materials library (section <a href="#s18-import-and-export">18</a>): the name, size and licence of the one that is loaded, its attribution and source when it carries them, and the buttons <strong>Import materials library…</strong>, <strong>Remove the library…</strong> and <strong>Get the latest library</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s21-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
 <p>The <strong>theme</strong> button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.</p>
-<p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.</p>
+<p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add) and <strong>Escape</strong> closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.</p>
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header downloads the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>). Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
-<p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.</p>
+<p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file. When the browser copy is the thing that could not be read, the start screen says so and points at your last Backup, because starting again there would write over what is left of it. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.</p>
 <p>In server mode the server keeps daily snapshots for fourteen days (section <a href="#s20-your-own-server">20</a>).</p>
 <p><strong>Open data file…</strong> opens any of these files. <strong>Undo</strong> covers the last fifty things you did since the app was opened, deletions included (Redo the last ten of them); it does not survive a reload.</p>
 <h2 id="s23-questions-and-answers">23. Questions and answers</h2>
@@ -686,6 +688,16 @@ let DATA = null, HANDLE = null, DIRTY = false, FALLBACK = !window.showOpenFilePi
 let VIEW = {tab:"F", id:null, sub:null};   // sub = {type:'v'|'var', idx}
 let USAGE = {};   // materialId -> [{fid, name, where}]
 const $ = s => document.querySelector(s);
+function makeClickable(root){   // a span or a link without href is invisible to the keyboard: give it a role and Enter
+  for (const el of (root || document).querySelectorAll(".matlink,.sortable,.swatch,[data-go],[data-gof],[data-gom]")){
+    if (el.hasAttribute("tabindex") || el.hasAttribute("href")) continue;   // an <a> without href reports tabIndex 0 but is not focusable
+    el.tabIndex = 0;
+    if (!el.getAttribute("role")) el.setAttribute("role", "button");
+    el.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " "){ e.preventDefault(); el.click(); }
+    });
+  }
+}
 const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const uid = p => p + Math.random().toString(36).slice(2,8);
 let LOCALE = undefined;   // number format for display; undefined = browser default, set in Settings
@@ -758,8 +770,13 @@ function migrate(d){
   d.suppliers ||= [];
   d.categoryColours ||= {};
   let oldVars = 0;
+  const seenId = new Set();
+  const freshId = (x, p) => { if (!x.id || seenId.has(x.id)) x.id = uid(p); seenId.add(x.id); };   // a duplicate id hides the second one
   for (const f of d.formulas || []){
+    freshId(f, "f-");
+    f.name ||= "Unnamed formula";          // the list and the header read this, and would stop on undefined
     f.versions ||= [];
+    for (const v of f.versions) v.lines ||= [];
     oldVars += (f.variations || []).length;   // variations were dropped in build 260915b; the field is left as it is, but not shown
     for (const v of f.versions || [])      // Formulair imports are read-only
       if (v.sourceName && v.imported === undefined) v.imported = true;
@@ -768,7 +785,12 @@ function migrate(d){
     migrate._varWarned = true;
     alert(`This file holds ${oldVars} variation(s) from an earlier miFormulas. This build no longer has variations: they stay in the file untouched, but are not shown. Build 260914m (release v1.2 on GitHub) still shows them.`);
   }
-  for (const m of d.materials || []) delete m._descHit;   // transient search flag that once leaked into the file
+  for (const m of d.materials || []){
+    freshId(m, "m-");
+    m.name ||= "Unnamed material";
+    if (!Array.isArray(m.dilutions) || !m.dilutions.length) m.dilutions = [{pct: 100, isBase: true, date: today(), notes: ""}];
+    delete m._descHit;   // transient search flag that once leaked into the file
+  }
   for (const o of d.orderList){            // old free-text amounts → number + unit
     if (typeof o.amount === "string"){
       const am = o.amount.match(/([\d.,]+)\s*(g|gr|gram|ml)?/i);
@@ -891,9 +913,16 @@ $("#btnEmpty").addEventListener("click", () => {
 let ETAG = null, TOKEN = null, SERVER_EMPTY = false;
 let LOADED = false;   // the data in memory came from this server (or was written to it); false after a restored snapshot
 async function probeServer(){
-  // earlier builds always talked to data.php next to the app; keep that working without configuration
-  try{ const r = await fetch("data.php", {cache: "no-store"}); return (r.status === 401 || r.ok) ? "data.php" : null; }
-  catch(e){ return null; }
+  // earlier builds always talked to data.php next to the app; keep that working without configuration.
+  // A host that answers every path with its index page would otherwise lock the app into server mode,
+  // so a 200 counts only when it really carries the data file.
+  try{
+    const r = await fetch("data.php", {cache: "no-store"});
+    if (r.status === 401) return "data.php";                 // it is there and wants a token
+    if (!r.ok) return null;
+    const txt = await r.text();
+    try{ return looksLikeData(JSON.parse(txt)) ? "data.php" : null; }catch(e){ return null; }
+  }catch(e){ return null; }
 }
 async function remoteLoad(){
   try{
@@ -1022,7 +1051,8 @@ let REDOING = false;
 const popUndo = () => { UNDO.pop(); if (!UNDO.length) $("#btnUndo").disabled = true; };
 function pushUndo(fn){
   if (!REDOING && REDO.length){ REDO.length = 0; $("#btnRedo").disabled = true; }
-  UNDO.push(fn); if (UNDO.length > 50) UNDO.shift();
+  UNDO.push({fn, view: structuredClone(VIEW)});   // where the change was made, so Undo goes back there like Redo
+  if (UNDO.length > 50) UNDO.shift();
   $("#btnUndo").disabled = false;
 }
 const now = () => { const d = new Date(); return `${today()} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`; };   // local time
@@ -1036,13 +1066,15 @@ function clampView(){
   }
 }
 function undo(){
-  const fn = UNDO.pop(); if (!fn) return;
+  const step = UNDO.pop(); if (!step) return;
   // Redo keeps ten steps: one copy of the whole data each, which is 7 MB for a large library
   try{ REDO.push({json: serialize(), view: structuredClone(VIEW)}); if (REDO.length > 10) REDO.shift(); $("#btnRedo").disabled = false; }catch(e){}
-  fn(); invalidateMats();
+  step.fn(); invalidateMats();
   if (!UNDO.length) $("#btnUndo").disabled = true;
+  const v = step.view;   // back to the formula or material the change was on, unless it no longer exists
+  if (v && (!v.id || (v.tab === "F" ? DATA.formulas.some(x => x.id === v.id) : v.tab === "M" ? DATA.materials.some(x => x.id === v.id) : true))) VIEW = v;
   clampView();
-  buildUsage(); markDirty(); render();
+  buildUsage(); markDirty(); setTabs(); render();
 }
 function redo(){
   const step = REDO.pop(); if (!step) return;
@@ -1140,6 +1172,13 @@ function openDialog(bodyHtml, okLabel = "Apply", onOk, minW = "24rem"){
   dlg.showModal();
   $("#dlgCancel").addEventListener("click", () => { dlg.close(); dlg.dispatchEvent(new Event("cancelled")); });
   $("#dlgOk").addEventListener("click", () => { if (onOk() !== false) dlg.close(); });
+  dlg.addEventListener("keydown", e => {   // Enter in a field is the Apply button, as in any dialog; a textarea keeps its newline
+    if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
+    const t = e.target;
+    if (t.tagName === "TEXTAREA" || t.tagName === "BUTTON" || t.tagName === "A") return;
+    if (t.tagName === "INPUT" && t.type === "checkbox") return;
+    e.preventDefault(); $("#dlgOk").click();
+  });
   return dlg;
 }
 function pyrLevels(K){
@@ -1570,7 +1609,7 @@ function renderLines(f, item, lines, K, editable){
     if (editable) h += `<td><button class="ghost small" data-del="${i}" title="Remove line">✕</button></td>`;
     h += `</tr>`;
   });
-  h += `</tbody><tfoot><tr>${canMark?"<td></td>":""}<td>Total</td><td></td><td class="num">${fmt(K.totalW)}</td><td class="num">100</td>
+  h += `</tbody><tfoot><tr>${canMark?"<td></td>":""}<td>Total</td><td></td><td class="num">${fmt(K.totalW)}</td><td class="num">${K.content > 0 ? "100" : "–"}</td>
     <td class="num abscol">${fmt(K.totalAbsPct,2)}</td>${anyCost?`<td class="num costcol">${fmt(K.totalCost,2)}</td>`:""}${editable?"<td></td>":""}</tr></tfoot></table></div>`;
   if (editable){
     h += `<div class="toolRow"><input id="addMat" list="matList" placeholder="Add material…" style="min-width:16rem">
@@ -1632,7 +1671,7 @@ function bindLineEditors(f, item){
   }));
   $("#btnAddLine")?.addEventListener("click", () => {
     const name = $("#addMat").value.trim(); if (!name) return;
-    let m = DATA.materials.find(x => x.name === name), created = null, newCat = null, oc = null;
+    let m = ownFind(name), created = null, newCat = null, oc = null;   // an alternative name is the same material
     if (!m){
       const known = listFind(name);
       if (!confirm(`“${name}” is not in your inventory.\n\nCreate it as a to-be-ordered material? It will be added to the To order list and marked in the formula until delivered.${known ? `\n\nThe materials library knows this name: its CAS number, category, pyramid level and IFRA limit come along.` : ""}`)) return;
@@ -1663,10 +1702,11 @@ function bulkDilShift(f, item, dir){   // dir -1 = next lower % (more diluted), 
   const src = item.lines;
   const sel = [...c.querySelectorAll("input.selCb:checked")].map(x => +x.dataset.i);
   if (!sel.length){ alert("Tick one or more lines first (checkboxes on the left)."); return; }
-  const plan = [], skipped = []; let delta = 0;
+  const plan = [], skipped = [], solvSkipped = []; let delta = 0;
   for (const i of sel){
     const l = src[i]; const m = l && matById(l.materialId);
-    if (!l || !m || m.isSolvent) continue;
+    if (l && m && m.isSolvent){ solvSkipped.push(m.name); continue; }   // the solvent is what takes up the difference
+    if (!l || !m) continue;
     const dils = [...new Set((m.dilutions||[]).map(d => d.pct))];
     const d1 = l.dilutionPct ?? 100;
     const next = dir < 0
@@ -1677,7 +1717,9 @@ function bulkDilShift(f, item, dir){   // dir -1 = next lower % (more diluted), 
     plan.push({i, next, w2, materialId: l.materialId}); delta += w2 - w1;
   }
   if (!plan.length){
-    alert(`Nothing to shift – the ticked lines are already at their ${dir<0?"lowest":"highest"} available dilution.`);
+    alert(solvSkipped.length && !skipped.length
+      ? `Nothing to shift – ${solvSkipped.join(", ")} ${solvSkipped.length === 1 ? "is a solvent" : "are solvents"}, and a solvent line is what takes up the difference. Tick the material lines you want to move instead.`
+      : `Nothing to shift – the ticked lines are already at their ${dir<0?"lowest":"highest"} available dilution.`);
     return;
   }
   const sj = solventIdx(src);
@@ -1691,7 +1733,10 @@ function bulkDilShift(f, item, dir){   // dir -1 = next lower % (more diluted), 
   for (const p of plan){ const l = item.lines[p.i]; l.dilutionPct = p.next; l.weightG = p.w2; }
   item.lines[solv.j].weightG = (item.lines[solv.j].weightG || 0) - delta;
   markDirty(); render();
-  if (skipped.length) alert(`Shifted ${plan.length} line(s); ${solv.mm.name || "solvent"} ${delta>=0?"−":"+"}${fmt(Math.abs(delta))} g.\nSkipped (already at extreme): ${skipped.join(", ")}`);
+  if (skipped.length || solvSkipped.length)
+    alert(`Shifted ${plan.length} line(s); ${solv.mm.name || "solvent"} ${delta>=0?"−":"+"}${fmt(Math.abs(delta))} g.`
+      + (skipped.length ? `\nSkipped (already at extreme): ${skipped.join(", ")}` : "")
+      + (solvSkipped.length ? `\nSkipped (solvent): ${solvSkipped.join(", ")}` : ""));
 }
 function replaceMaterial(f, item, i){
   const l = item.lines[i]; if (!l) return;
@@ -1707,7 +1752,7 @@ function replaceMaterial(f, item, i){
   $("#dlgCancel").addEventListener("click", () => dlg.close());
   $("#dlgOk").addEventListener("click", () => {
     const name = $("#rmNew").value.trim();
-    const nm = DATA.materials.find(x => x.name === name);
+    const nm = ownFind(name);
     if (!nm){ alert("Unknown material: pick one from your inventory (add it first with + New material, or through the order list)."); return; }
     dlg.close();
     if (nm.id === l.materialId) return;
@@ -1841,6 +1886,12 @@ function listFacts(m){   // odour, impact, substantivity and typical use have no
     b.push(u);
   }
   return b.join("\n");
+}
+function ownFind(name){   // your own material by name or by one of its alternative names, as the import matches
+  const n = normName(name);
+  if (!n) return null;
+  return DATA.materials.find(x => normName(x.name) === n)
+      || DATA.materials.find(x => (x.aliases || "").split(";").some(a => a.trim() && normName(a) === n)) || null;
 }
 function ownNames(){   // the names and alternative names you already have, normalised
   const s = new Set();
@@ -2426,7 +2477,7 @@ function formulaSheetPrint(f, item, lines, K){
   ${sortRows(K.rows).map(r => `<tr><td>${esc(r.m.name)}${r.m.isSolvent ? " (solvent)" : ` (${fmtS(r.dil)}%)`}</td>
     <td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td><td class="num">${fmt(r.absPct,2)}</td>
     <td class="num">${fmt(r.w)}</td><td class="num">${fmt(r.cost,2)}</td></tr>`).join("")}
-  </tbody><tfoot><tr><td><b>Total</b></td><td class="num"><b>${fmt(100,2)}</b></td><td class="num"><b>${fmt(K.totalAbsPct,2)}</b></td>
+  </tbody><tfoot><tr><td><b>Total</b></td><td class="num"><b>${K.content > 0 ? fmt(100,2) : "–"}</b></td><td class="num"><b>${fmt(K.totalAbsPct,2)}</b></td>
     <td class="num"><b>${fmt(K.totalW)}</b></td><td class="num"><b>${fmt(K.totalCost,2)}</b></td></tr></tfoot></table>
   ${item.notes ? `<h3>Notes</h3><div style="white-space:pre-wrap">${esc(item.notes)}</div>` : ""}
   ${(item.trials||[]).length ? `<h3>Trial log</h3>${item.trials.map(t=>`<div>${esc(t.date||"")} · ${esc(t.text)}</div>`).join("")}` : ""}`;
@@ -3103,7 +3154,15 @@ function renderMaterial(m){
   c.querySelectorAll("[data-f]").forEach(el => el.addEventListener("change", e => {
     const k = e.target.dataset.f;
     let v = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    if (e.target.dataset.num) v = parseNum(v);
+    if (e.target.dataset.num){
+      const raw = String(v).trim();
+      v = raw === "" ? null : parseNum(raw);
+      if (v == null && raw !== ""){       // unreadable text would silently wipe a price or an IFRA limit
+        alert("That is not a number. The previous value is kept.");
+        render(); return;
+      }
+      if (v != null && v < 0){ alert("This value cannot be negative."); render(); return; }
+    }
     if (k === "name"){
       const n = String(v).trim();
       if (!n){ alert("A material needs a name."); render(); return; }
@@ -3315,7 +3374,7 @@ function printSheet(f, item, lines, targetW){
   <table class="bench"><colgroup><col class="cbc"><col class="pyc"><col class="matc"><col class="dilc"><col class="wc"><col class="rc"></colgroup>
   <thead><tr><th></th><th></th><th>Material</th><th>Dilution</th><th class="num">Weigh (g)</th><th class="num">Rel %</th></tr></thead><tbody>
   ${sortRows(K.rows).map(r =>
-    `<tr><td><span class="cb"></span></td><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}</td><td>${esc(r.m.name)}${fridgeMark(r.m, r.dil)}</td><td>${fmtS(r.dil)}%</td>
+    `<tr><td><span class="cb"></span></td><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}</td><td>${esc(r.m.name)}${fridgeMark(r.m, r.dil)}${r.m.wishlist ? " (to order)" : ""}</td><td>${fmtS(r.dil)}%</td>
       <td class="num">${fmt(r.w*k)}</td><td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td></tr>`).join("")}
   </tbody></table>`;
   window.print();
@@ -3571,8 +3630,8 @@ function render(){
   $("#tabT").textContent = "To order" + (n ? ` (${n})` : "");
   const c = $("#content");
   if (HELPVIEW){ renderHelp(); return; }
-  if (IMPORTP){ renderImport(); if (readOnly()) lockInputs(); return; }
-  if (VIEW.tab === "T"){ renderOrders(); if (readOnly()) lockInputs(); return; }
+  if (IMPORTP){ renderImport(); makeClickable(); if (readOnly()) lockInputs(); return; }
+  if (VIEW.tab === "T"){ renderOrders(); makeClickable(); if (readOnly()) lockInputs(); return; }
   if (!VIEW.id){
     const recent = (arr, go) => arr.filter(x => x.modified).sort((a,b) => b.modified.localeCompare(a.modified)).slice(0,8)
       .map(x => `<div class="usage">· <a class="matlink" data-${go}="${x.id}">${esc(x.name)}</a> <span class="hint">${esc(x.modified)}${x.category?` · ${esc(x.category)}`:""}</span></div>`).join("")
@@ -3634,6 +3693,7 @@ function render(){
       }
       IMPORTP = p; render();
     });
+    makeClickable();
     if (readOnly()) lockInputs();
     return;
   }
@@ -3644,6 +3704,7 @@ function render(){
     const m = matById(VIEW.id);
     if (m) renderMaterial(m); else { VIEW.id = null; render(); }
   }
+  makeClickable();
   if (readOnly()) lockInputs();
 }
 $("#btnBack").addEventListener("click", () => {
@@ -3661,6 +3722,7 @@ async function dailySnapshot(){   // once a day: the state as it was when you op
 }
 function boot(){
   $("#landing").style.display = "none";
+  $("header").inert = false; $("#main").inert = false;   // released only now: before this there is no DATA to work on
   if (isMobile()) HOMEVIEW = true;      // phones start on the welcome screen, not on an empty list
   buildUsage();
   setState(REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback – use Backup to save)", "", false);
@@ -3710,13 +3772,18 @@ function boot(){
       const pend = await idb.get("pendingImport");
       if (pend){ await idb.set("pendingImport", null); try{ DATA = migrate(JSON.parse(pend)); boot(); markDirty(); return; }catch(e){ alert("The Formulair import could not be read; run the importer again."); } }
     }
+    let demoBroken = false;
     if (demo){
       try{ DATA = migrate(JSON.parse(demo)); boot(); return; }
-      catch(e){ console.warn("miFormulas: data kept in this browser could not be loaded", e); }
+      catch(e){ demoBroken = true; console.warn("miFormulas: data kept in this browser could not be loaded", e); }
     }
     const bs = $("#btnStarter"); bs.style.display = "";
     $("#btnEmpty").style.display = "";
     $("#btnDownload").style.display = ""; $("#btnFormulair").style.display = "";
+    if (demoBroken)   // a blank start screen after months of work needs a word of explanation
+      $("#landingHint").textContent = "The data kept in this browser could not be read (it is damaged or was written by another program). "
+        + "Your last Backup is the way back: use Open data file… below. Starting again here would overwrite what is left of it.";
+    if (IOS){ $("#btnDownload").style.display = "none"; $("#btnFormulair").style.display = "none"; }   // neither is possible on an iPhone or iPad
     offerSnapshot();
     bs.addEventListener("click", async () => {
       const d = await loadStarter(); if (!d) return;

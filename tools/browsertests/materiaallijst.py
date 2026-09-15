@@ -120,6 +120,7 @@ with sync_playwright() as p:
     page.click("#dlgCancel"); page.wait_for_timeout(300)
 
     # the search in Materials knows the list
+    page.click("#tabM"); page.wait_for_timeout(300)   # since 260915g Undo returns to where the change started
     page.fill("#searchBox", "Hedione"); page.wait_for_timeout(400)
     check("no library block when the library knows nothing extra about it",
           "materials library:" not in page.text_content("#list"))
