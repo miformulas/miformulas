@@ -185,6 +185,57 @@ with sync_playwright() as p:
     page.keyboard.press("Control+z"); page.wait_for_timeout(500)
     check("undo also takes the + Add material back", page.evaluate("!DATA.materials.some(x => x.name === 'Testolide')"))
 
+    # ---- a library that is not tidy: doubles, an alias two entries share, values out of range (260915d) ----
+    ROMMEL = {"type": "miformulas-materials", "name": "Rommelige lijst", "version": "x", "materials": [
+        {"name": "Dubbel", "cas": "1-1-1", "category": "Test musks"},
+        {"name": "dubbel", "cas": "9-9-9", "category": "Test musks"},          # dezelfde naam, andere feiten
+        {"name": "Alpha", "aliases": ["gedeelde plantnaam"], "category": "Test musks"},
+        {"name": "Beta", "aliases": ["gedeelde plantnaam"], "category": "Test musks"},
+        {"name": "Scheef", "category": "Test musks", "pyramid": 7, "ifraLimit": -3,
+         "isSolvent": "no", "description": {"x": 1}},
+        {"name": "Halve", "category": "Test musks", "pyramid": 2.5},
+        {"name": "Rosa damascena", "aliases": ["rosa damascena"], "category": "Test musks"},
+        {"name": "", "category": "Test musks"}]}
+    r = os.path.join(tempfile.mkdtemp(), "rommel.json")
+    open(r, "w", encoding="utf-8").write(json.dumps(ROMMEL))
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    msgs.clear(); page.set_input_files("#impList", r); page.wait_for_timeout(700)
+    namen = page.evaluate("() => DATA.materialList.materials.map(m => m.name)")
+    check(f"a doubled name is kept once ({namen})", namen.count("Dubbel") == 1 and "dubbel" not in namen)
+    check("an entry without a name is dropped", "" not in namen and len(namen) == 6)
+    scheef = page.evaluate("() => DATA.materialList.materials.find(m => m.name === 'Scheef')")
+    halve = page.evaluate("() => DATA.materialList.materials.find(m => m.name === 'Halve')")
+    check(f"a pyramid level outside 0 to 4 is no level ({scheef.get('pyramid')}, {halve.get('pyramid')})",
+          "pyramid" not in scheef and "pyramid" not in halve)
+    check("a negative IFRA value is not a limit", "ifraLimit" not in scheef)
+    check('"no" is not a solvent', not scheef.get("isSolvent"))
+    check("a description that is not text is left out", "description" not in scheef)
+    check("and no empty field is stored on an entry",
+          all(k in ("name", "cas", "category") for k in page.evaluate("() => Object.keys(DATA.materialList.materials[0])")))
+    page.click("#btnNewMat"); page.wait_for_timeout(300)
+    opties = page.evaluate("() => [...document.querySelectorAll('#nmList option')].map(o => o.value)")
+    check(f"the datalist holds one of two names that differ only in case ({opties})",
+          len([o for o in opties if o.lower() == "rosa damascena"]) == 1)
+    page.click("#dlgCancel"); page.wait_for_timeout(200)
+    page.click("#tabM"); page.wait_for_timeout(200)
+    page.fill("#searchBox", "lpha"); page.wait_for_timeout(400)
+    check("the library offers Alpha", page.locator('#list button[data-add="Alpha"]').count() == 1)
+    page.click('#list button[data-add="Alpha"]'); page.wait_for_timeout(600)
+    page.fill("#searchBox", "eta"); page.wait_for_timeout(400)
+    check("an entry that merely shares an alternative name with Alpha stays on offer",
+          page.locator('#list button[data-add="Beta"]').count() == 1)
+    page.fill("#searchBox", ""); page.wait_for_timeout(200)
+    page.click("#btnNewMat"); page.wait_for_timeout(300)
+    page.click("#nmBrowse"); page.wait_for_timeout(400)
+    check("Alpha is greyed out in Browse, Beta is not",
+          page.locator('#brRows input[data-n="Alpha"]').is_disabled()
+          and not page.locator('#brRows input[data-n="Beta"]').is_disabled())
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)   # Alpha weer weg
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    msgs.clear(); page.set_input_files("#impList", f); page.wait_for_timeout(700)   # de nette lijst terug
+    check("the tidy list is back", page.evaluate("DATA.materialList && DATA.materialList.materials.length") == 5)
+
     # remove the list again
     page.click("#btnSettings"); page.wait_for_timeout(400)
     page.click("#setListDel"); page.wait_for_timeout(500)

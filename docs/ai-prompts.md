@@ -40,7 +40,7 @@ One formula per file. If the source shows several formulas, ask which one you sh
 
 ---
 
-Optional fields: `targetFormula` (the exact name of an existing formula; the import then becomes a new version of it instead of a new formula), `versionName` (the label of that new version), `cas` on a line (kept when the material has to be created) and `materialId` (the id of a material in your library; not needed, the app matches by name). Save the answer as UTF-8 text with the extension `.json`, for instance `260908 import Roos akkoord.json`; if the assistant wrapped it in a code block, remove the backticks.
+Optional fields: `targetFormula` (the exact name of an existing formula; the import then becomes a new version of it instead of a new formula), `versionName` (the label of that new version), `cas` on a line (kept when the material has to be created), `solvent: true` on a line (the material is a solvent, so that the percentages read correctly when it has to be created; this is what **Share this version…** writes) and `materialId` (the id of a material in your inventory; not needed, the app matches by name). Every line needs a material name, a weight that is a number and zero or more, and a dilution above 0 and at most 100 (leave it out for 100); the import page shows in red whatever falls outside that and refuses to import until it is corrected. Save the answer as UTF-8 text with the extension `.json`, for instance `260908 import Roos akkoord.json`; if the assistant wrapped it in a code block, remove the backticks.
 
 ## 2. Checking and completing your materials
 

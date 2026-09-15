@@ -21,9 +21,15 @@ with sync_playwright() as p:
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnStarter"); page.wait_for_timeout(1200)
 
-    # a normal starter formula has no Move into… button
+    # since 260915d every formula that is still one version can move, not only an import
     page.locator("#list").get_by_text("Rose de Mai 68", exact=True).click(); page.wait_for_timeout(400)
-    check("no Move into… on an ordinary formula", page.locator("#btnMoveF").count() == 0)
+    check("Move into… on an ordinary formula with one version", page.locator("#btnMoveF").count() == 1)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68");
+        f.versions.push({v: 2, date: today(), lines: f.versions[0].lines.map(l => ({...l}))}); render(); }""")
+    page.wait_for_timeout(300)
+    check("but not on a formula that already has two versions", page.locator("#btnMoveF").count() == 0)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68"); f.versions.length = 1; render(); }""")
+    page.wait_for_timeout(200)
 
     # make "Oeillet 35" and "Althenol" look like Formulair imports: "Aura v04" and "Aura v05"
     page.evaluate("""() => {
@@ -126,6 +132,37 @@ with sync_playwright() as p:
     check(f"nothing ticked: asks to tick formulas ({msgs})", any("Tick the formulas" in m for m in msgs) and page.evaluate("DATA.formulas.length") == n0)
     check("dialog stays open", dlg.evaluate("d => d.open"))
     page.click("#dlgCancel"); page.wait_for_timeout(300)
+
+    # ---- a formula of your own, never imported: it moves too, and arrives editable (260915d) ----
+    page.evaluate("""() => {
+        const src = DATA.formulas.find(x => x.name === "Aura v04");
+        DATA.formulas.push({id: "f-eigen", name: "Eigen proef", category: "Uncategorised", created: today(),
+          versions: [{v: 1, date: "2026-08-08", notes: "mijn nota", lines: src.versions[0].lines.map(l => ({...l}))}]});
+        buildUsage(); switchTab("F", "f-eigen", {type: "v", idx: 0});
+    }""")
+    page.wait_for_timeout(400)
+    check("Move into… is offered on it", page.locator("#btnMoveF").count() == 1)
+    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    check("the intro says its name stays as the version label",
+          "its name stays on the version as its label" in page.locator("#mvIntro").inner_text())
+    check("nothing is pre-ticked under Move together, because no name matches",
+          page.evaluate("document.querySelectorAll('#mvTogether input.mvTog').length") == 0)
+    page.select_option("#mvTarget", label="Rose de Mai 68 (1 version)"); page.wait_for_timeout(200)
+    page.click("#dlgOk"); page.wait_for_timeout(700)
+    got = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68");
+        const v = f.versions[f.versions.length - 1];
+        return {n: f.versions.length, naam: v.name, src: v.sourceName || null, imp: !!v.imported, fr: !!v.frozen,
+                notes: v.notes, weg: !DATA.formulas.some(x => x.id === "f-eigen")}; }""")
+    check(f"it became the second version ({got})", got["n"] == 2 and got["weg"])
+    check("with its own name as the version label", got["naam"] == "Eigen proef")
+    check("not frozen and not marked as an import", not got["fr"] and not got["imp"] and got["src"] is None)
+    check("its notes came along", got["notes"] == "mijn nota")
+    check("and the version can still be edited",
+          page.locator("#content input.w").count() > 0)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    check("Undo puts it back in the list",
+          page.evaluate("DATA.formulas.some(x => x.id === 'f-eigen')")
+          and page.evaluate("DATA.formulas.find(x => x.name === 'Rose de Mai 68').versions.length") == 1)
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")
