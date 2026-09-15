@@ -51,11 +51,11 @@ with sync_playwright() as p:
     page.goto(URL); page.wait_for_timeout(1500)
     check("the app is in server mode", page.evaluate("[REMOTE, API]") == [True, "data.php"])
 
-    page.evaluate("""() => { DATA.formulas.push({id: "f-a", name: "A", versions: [], variations: []}); markDirty(); }""")
+    page.evaluate("""() => { DATA.formulas.push({id: "f-a", name: "A", versions: []}); markDirty(); }""")
     page.wait_for_timeout(3000)                       # the autosave fires and hangs in the PUT
     check("one write is on its way", page.evaluate("__srv.puts.length") == 1)
 
-    page.evaluate("""() => { DATA.formulas.push({id: "f-b", name: "B", versions: [], variations: []}); markDirty(); }""")
+    page.evaluate("""() => { DATA.formulas.push({id: "f-b", name: "B", versions: []}); markDirty(); }""")
     page.evaluate("() => { saveData(); }")             # Ctrl+S while the first write is in flight (do not await it)
     page.wait_for_timeout(1200)
     check("no second write with the same ETag", page.evaluate("__srv.puts.length") == 1)
@@ -119,7 +119,7 @@ with sync_playwright() as p:
 
     # ---------- 4. build 260915: a snapshot restored while the server is unreachable is not written over the server ----------
     SWITCHABLE = """
-      window.__srv = {etag: "E0", data: {schema: 1, formulas: [{id:"f-s", name:"Server formula", versions: [], variations: []}], materials: [],
+      window.__srv = {etag: "E0", data: {schema: 1, formulas: [{id:"f-s", name:"Server formula", versions: []}], materials: [],
                       materialCategories: [], formulaCategories: []}, puts: [], gets: 0};
       const realFetch = window.fetch.bind(window);
       window.fetch = (url, opt) => {
@@ -156,8 +156,8 @@ with sync_playwright() as p:
     state = pg.locator("#saveState").inner_text()
     check(f"the snapshot is shown but not marked for saving ({state!r})", "not on the server" in state and pg.evaluate("DIRTY") is False)
     # the server comes back with the day's work on it (someone saved meanwhile), and the user makes a change
-    pg.evaluate("""() => { localStorage.setItem("__srvmode", "up"); __srv.data.formulas.push({id:"f-day", name:"Day's work", versions: [], variations: []}); __srv.etag = "E9"; }""")
-    pg.evaluate("""() => { DATA.formulas.push({id:"f-x", name:"Evening change", versions: [], variations: []}); markDirty(); }""")
+    pg.evaluate("""() => { localStorage.setItem("__srvmode", "up"); __srv.data.formulas.push({id:"f-day", name:"Day's work", versions: []}); __srv.etag = "E9"; }""")
+    pg.evaluate("""() => { DATA.formulas.push({id:"f-x", name:"Evening change", versions: []}); markDirty(); }""")
     pg.wait_for_timeout(3500)
     state = pg.locator("#saveState").inner_text()
     check(f"before writing, the app reads the server and refuses to overwrite what is there ({state!r})",

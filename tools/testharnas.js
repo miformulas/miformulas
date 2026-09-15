@@ -59,7 +59,7 @@ globalThis.confirm = () => false;
 globalThis.structuredClone = globalThis.structuredClone || (x => JSON.parse(JSON.stringify(x)));
 
 /* ---------- 4. uitvoeren ---------- */
-const sandbox = { calc: null, migrate: null, matById: null, buildUsage: null, varLinesRaw: null };
+const sandbox = { calc: null, migrate: null, matById: null, buildUsage: null };
 try {
   // eslint-disable-next-line no-new-func
   new Function("__out", src + `
@@ -67,7 +67,6 @@ try {
     ;try{__out.migrate=migrate}catch(e){}
     ;try{__out.matById=matById}catch(e){}
     ;try{__out.invalidateMats=invalidateMats}catch(e){}
-    ;try{__out.varLinesRaw=varLinesRaw}catch(e){}
     ;try{__out.setDATA=function(d){DATA=d}}catch(e){}
   `)(sandbox);
 } catch (e) {
@@ -84,24 +83,21 @@ if (sandbox.invalidateMats) sandbox.invalidateMats();
 
 const fmt = (x, d) => (x == null || isNaN(x) ? "–" : x.toFixed(d).replace(".", ","));
 
-function linesOf(f, item) {
-  if (item.label === undefined) return item.lines || [];      // versie
-  if (item.lines) return item.lines;                          // bevroren variatie
-  return sandbox.varLinesRaw ? sandbox.varLinesRaw(f, item) : [];
-}
+const linesOf = (f, item) => item.lines || [];   // sinds 260915b bestaan alleen versies; een oud bestand kan nog variaties dragen, die telt het harnas alleen
+const oudeVariaties = data.formulas.reduce((s, f) => s + (f.variations || []).length, 0);
+if (oudeVariaties) console.log(`LET OP     ${oudeVariaties} variatie(s) in het bestand: sinds bouw 260915b niet meer berekend of getoond (zet ze om naar versies)`);
 
 let fouten = 0;
 
 if (mode === "referentie") {
   const cases = [
-    { formule: "Bewonder", item: "45gr", g: 46.256, pct: 85.12 },
+    { formule: "Bewonder", item: "45gr", src: "Bewonder v09 45gr", g: 46.256, pct: 85.12 },   // tot 260915b een variatie; nu de versie met die naam of die Formulair-bron
     { formule: "CC Blonde Amber", item: "v3", g: 89.503, pct: 20.10 },
   ];
   for (const c of cases) {
     const f = data.formulas.find(x => x.name === c.formule);
     if (!f) { console.log(`ONTBREEKT  ${c.formule}`); fouten++; continue; }
-    const it = (f.variations || []).find(v => v.label === c.item)
-            || (f.versions || []).find(v => "v" + v.v === c.item);
+    const it = (f.versions || []).find(v => "v" + v.v === c.item || (v.name || "") === c.item || (c.src && (v.sourceName || "").trim() === c.src));
     if (!it) { console.log(`ONTBREEKT  ${c.formule} / ${c.item}`); fouten++; continue; }
     const K = sandbox.calc(linesOf(f, it));
     const okG = Math.abs(K.totalW - c.g) < 0.001;
@@ -115,11 +111,11 @@ if (mode === "referentie") {
   let nF = 0, nI = 0, leeg = 0;
   for (const f of data.formulas) {
     nF++;
-    for (const it of [...(f.versions || []), ...(f.variations || [])]) {
+    for (const it of f.versions || []) {
       const L = linesOf(f, it);
       let K;
       try { K = sandbox.calc(L); }
-      catch (e) { console.log("FOUT %s / %s: %s", f.name, it.label ?? ("v" + it.v), e.message); fouten++; continue; }
+      catch (e) { console.log("FOUT %s / v%s: %s", f.name, it.v, e.message); fouten++; continue; }
       nI++;
       if (!L.length) { leeg++; continue; }
       const relSom = K.rows.filter(r => r.rel != null).reduce((a, r) => a + r.rel, 0);
@@ -129,22 +125,22 @@ if (mode === "referentie") {
       const onbekend = L.filter(l => !sandbox.matById(l.materialId)).length;
       if (!okRel || !okW || !okA || onbekend) {
         fouten++;
-        console.log(`FOUT ${f.name.padEnd(22)} ${String(it.label ?? ("v" + it.v)).padEnd(8)} `
+        console.log(`FOUT ${f.name.padEnd(22)} ${("v" + it.v).padEnd(8)} `
           + `rel-som ${fmt(relSom, 2)}  gewicht ${fmt(K.totalW, 3)}  abs ${fmt(K.totalAbsPct, 2)}`
           + (onbekend ? `  ${onbekend} regels met onbekend materiaal` : ""));
       }
     }
   }
-  console.log(`${nF} formules, ${nI} versies en variaties doorgerekend, ${leeg} zonder regels`);
+  console.log(`${nF} formules, ${nI} versies doorgerekend, ${leeg} zonder regels`);
   // overzicht per formule
   console.log("");
   console.log(`${"formule".padEnd(24)} ${"item".padEnd(8)} ${"gewicht g".padStart(10)} ${"abs %".padStart(8)} ${"regels".padStart(7)}`);
   for (const f of data.formulas) {
-    for (const it of [...(f.versions || []), ...(f.variations || [])]) {
+    for (const it of f.versions || []) {
       const L = linesOf(f, it);
       if (!L.length) continue;
       const K = sandbox.calc(L);
-      console.log(`${f.name.padEnd(24)} ${String(it.label ?? ("v" + it.v)).padEnd(8)} `
+      console.log(`${f.name.padEnd(24)} ${("v" + it.v).padEnd(8)} `
         + `${fmt(K.totalW, 3).padStart(10)} ${fmt(K.totalAbsPct, 2).padStart(8)} ${String(L.length).padStart(7)}`);
     }
   }

@@ -80,13 +80,14 @@ with sync_playwright() as p:
 
     # ---------- 4. Ctrl+Z does not run under an open dialog ----------
     items.nth(0).click(); page.wait_for_timeout(500)
-    before = page.evaluate("(() => DATA.formulas.find(x => x.id === VIEW.id).variations.length)()")
-    page.click("#btnNewVar"); page.wait_for_timeout(400)
+    before = page.evaluate("DATA.formulas.length")
+    page.click("#btnCopyF"); page.wait_for_timeout(400)
     page.keyboard.press("Control+z"); page.wait_for_timeout(300)
-    page.fill("#dlg input", "test variation"); page.click("#dlgOk"); page.wait_for_timeout(600)
-    after = page.evaluate("(() => DATA.formulas.find(x => x.id === VIEW.id).variations.length)()")
-    check(f"the variation made under the dialog is kept ({before} → {after})", after == before + 1)
+    page.fill("#cpName", "Copy under a dialog"); page.click("#dlgOk"); page.wait_for_timeout(600)
+    after = page.evaluate("DATA.formulas.length")
+    check(f"the copy made under the dialog is kept ({before} → {after})", after == before + 1)
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    items = page.locator("#list .item")
 
     # ---------- 5. Replace + Cancel leaves the line as it was ----------
     page.click("#tabF"); page.wait_for_timeout(300)

@@ -163,7 +163,7 @@ with sync_playwright() as p:
     shot(page, "app-bench-view.png")
     page.click("#btnBenchClose"); page.wait_for_timeout(300)
 
-    # ---- 9. a second version, a variation, and Compare ----
+    # ---- 9. a second version and Compare ----
     page.click("#btnNewV"); page.wait_for_timeout(400)
     row = page.locator("table.lines tbody tr").filter(has_text="Geraniol").first
     w = row.locator("input[type=text], input:not([type])").first
@@ -178,11 +178,6 @@ with sync_playwright() as p:
     page.click("#btnCmp"); page.wait_for_timeout(500)
     shot(page, "app-compare.png")
     page.click("#btnCmpClose"); page.wait_for_timeout(300)
-    page.click("#btnNewVar"); page.wait_for_timeout(300)
-    page.fill("#nvLabel", "20%"); page.fill("#nvTarget", "50")
-    shot(page, "app-new-variation.png", "#dlg")
-    page.click("#dlgOk"); settle(page)
-    shot(page, "app-variation.png")
 
     # ---- 10. order list ----
     page.click("#tabT"); page.wait_for_timeout(300)
@@ -217,8 +212,7 @@ with sync_playwright() as p:
         const base = src.versions[0];
         const mk = (name, k) => ({id: uid("f-"), name, category: "Uncategorised", modified: now(), frozenImport: true,
             versions: [{v: 1, date: "2026-08-" + (10 + k), name: "", notes: "", sourceName: name, imported: true, frozen: true,
-                        lines: base.lines.map(l => ({...l, weightG: +(((l.weightG || 0) * (1 + k / 20)).toFixed(3))}))}],
-            variations: []});
+                        lines: base.lines.map(l => ({...l, weightG: +(((l.weightG || 0) * (1 + k / 20)).toFixed(3))}))}]});
         for (const [i, n] of ["Aura v04", "Aura v05", "Aura v05 20%"].entries()) DATA.formulas.push(mk(n, i));
         const f = DATA.formulas.find(x => x.name === "Aura v04");
         switchTab("F", f.id, {type: "v", idx: 0});

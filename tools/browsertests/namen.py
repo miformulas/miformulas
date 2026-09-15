@@ -35,7 +35,7 @@ with sync_playwright() as p:
 
     # ---------- 1. Add line takes the facts of the library along ----------
     page.evaluate("""() => { DATA.formulas.push({id:"f-n", name:"Naamtest", category:"Uncategorised", created:today(),
-      versions:[{v:1, date:today(), lines:[]}], variations:[]});
+      versions:[{v:1, date:today(), lines:[]}]});
       markDirty(); VIEW = {tab:"F", id:"f-n", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(500)
     page.fill("#addMat", "Testolide"); msgs.clear()

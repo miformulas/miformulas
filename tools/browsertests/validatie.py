@@ -31,7 +31,7 @@ with sync_playwright() as p:
     # ---------- 1. weights ----------
     page.evaluate("""() => {
       DATA.formulas.push({id:"f-v", name:"Validatietest", category:"Uncategorised", created:today(), versions:[
-        {v:1, date:today(), lines:[{materialId: DATA.materials[0].id, dilutionPct:100, weightG:10, remark:1}]}], variations:[]});
+        {v:1, date:today(), lines:[{materialId: DATA.materials[0].id, dilutionPct:100, weightG:10, remark:1}]}]});
       markDirty(); VIEW = {tab:"F", id:"f-v", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(500)
     msgs.clear()
@@ -121,13 +121,6 @@ with sync_playwright() as p:
     w_after = page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-v").versions[0].lines[0].weightG)()""")
     check(f"a negative target total is refused ({msgs}, {w_before} → {w_after})",
           any("above 0" in m for m in msgs) and w_after == w_before and page.evaluate("UNDO.length") == steps)
-    msgs.clear()
-    page.click("#btnNewVar"); page.wait_for_timeout(400)
-    page.fill("#nvLabel", "neg"); page.fill("#nvTarget", "-50"); page.click("#dlgOk"); page.wait_for_timeout(500)
-    check(f"and so is a negative target for a new variation ({msgs})",
-          any("above 0" in m for m in msgs)
-          and page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-v").variations.length)()""") == 0)
-    if page.locator("#dlg").is_visible(): page.keyboard.press("Escape"); page.wait_for_timeout(300)
     msgs.clear()
     n_mat = page.evaluate("DATA.materials.length")
     page.click("#btnNewMat"); page.wait_for_timeout(400)

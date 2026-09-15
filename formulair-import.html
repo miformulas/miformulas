@@ -344,7 +344,6 @@ function convert(db){
       created: day, modified: cdStamp(date), frozenImport: true,
       versions: [{v: 1, name: "", date: day, notes: trim(notes), lines: linesByF.get(pk) || [],
                   sourceName: title, imported: true, frozen: true}],
-      variations: [],
     });
   }
   const mcats = [...new Set([...materials.map(m => m.category), ...rmcat.values()])].sort(byLower);

@@ -56,7 +56,7 @@ with sync_playwright() as p:
         {v:1, date:today(), lines:[
           {materialId:"m-a", dilutionPct:100, weightG:10, remark:1},
           {materialId:"m-b", dilutionPct:10,  weightG:0.01, remark:1},
-          {materialId:"m-e", dilutionPct:100, weightG:89.99, remark:1}]}], variations:[]});
+          {materialId:"m-e", dilutionPct:100, weightG:89.99, remark:1}]}]});
       markDirty(); VIEW = {tab:"F", id:"f-k", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(600)
     c1 = page.evaluate("""(() => { const f = DATA.formulas.find(x => x.id === "f-k");

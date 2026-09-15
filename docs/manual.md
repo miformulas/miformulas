@@ -1,6 +1,6 @@
 # miFormulas manual
 
-miFormulas is a perfume formulation app that runs as a single HTML file in your browser. It keeps your materials, your formulas with their full version history, and the variations you make of them, and it does the perfumery arithmetic: dilution-corrected percentages, batch scaling, dilution changes, predilutions, an IFRA check, weighing sheets.
+miFormulas is a perfume formulation app that runs as a single HTML file in your browser. It keeps your materials and your formulas with their full version history, and it does the perfumery arithmetic: dilution-corrected percentages, batch scaling, dilution changes, predilutions, an IFRA check, weighing sheets.
 
 A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section 19). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections 11 to 13). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section 18). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section 14). And you can install it as an app with its own icon on Windows or macOS (section 5).
 
@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260915. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260915b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -19,7 +19,7 @@ This manual describes build 260915. The build number of the copy you are using i
 5. [Install as an app with its own icon](#5-install-as-an-app-with-its-own-icon)
 6. [The screen](#6-the-screen)
 7. [Materials](#7-materials)
-8. [Formulas, versions and variations](#8-formulas-versions-and-variations)
+8. [Formulas and versions](#8-formulas-and-versions)
 9. [Editing a formula](#9-editing-a-formula)
 10. [Percentages and the perfumery arithmetic](#10-percentages-and-the-perfumery-arithmetic)
 11. [Changing dilutions](#11-changing-dilutions)
@@ -51,11 +51,11 @@ The start screen offers three ways in:
 - **Open data file…** opens a miFormulas data file you already have: the Backup you made last time, a file made by the Formulair importer, or a file a colleague sent you. This is how you get your own work back on another computer or in another browser: choose the most recent Backup from your backups folder and carry on where you left off. In Chrome and Edge the app then keeps saving to that file and offers to reopen it next time (section 2).
 - **Import from Formulair** takes you to the importer for Formulair users (section 19).
 
-Whichever way in you take, you land on the Welcome page with four tiles (formulas, versions and variations, materials, to order), the recently edited items, and the import and export buttons. Pick a formula or material in the list on the left, or create a new one with **+ New formula** and **+ New material** in the header.
+Whichever way in you take, you land on the Welcome page with four tiles (formulas, versions, materials, to order), the recently edited items, and the import and export buttons. Pick a formula or material in the list on the left, or create a new one with **+ New formula** and **+ New material** in the header.
 
 ![The Welcome page after loading the starter set, with the amber storage bar.](img/app-welcome.png)
 
-Every change is saved automatically a few seconds after you make it; **Ctrl+Z** undoes it. Deleting a line, a version, a variation, a formula or a material always asks for confirmation.
+Every change is saved automatically a few seconds after you make it; **Ctrl+Z** undoes it. Deleting a line, a version, a formula or a material always asks for confirmation.
 
 ## 2. Where your data lives: browser, file or server
 
@@ -233,7 +233,7 @@ The **header** holds, from left to right: the list toggle (☰, also Ctrl+B), **
 
 ![The header.](img/app-header.png)
 
-The **list panel** on the left has three tabs. **Formulas** and **Materials** group their items by category with a coloured dot; the counter after each formula reads "3v · 1var" for three versions and one variation. **To order** is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section 18), the panel says "Not in your inventory" and shows what the library does know, with a **+ Add** button that puts the material in your inventory with its facts.
+The **list panel** on the left has three tabs. **Formulas** and **Materials** group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. **To order** is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section 18), the panel says "Not in your inventory" and shows what the library does know, with a **+ Add** button that puts the material in your inventory with its facts.
 
 The **page** on the right shows the selected formula or material, the order list, or the Welcome page.
 
@@ -269,30 +269,23 @@ Filling in CAS numbers, IFRA limits, pyramid levels and descriptions for many ma
 
 What some apps ship as a built-in materials database, miFormulas keeps as a file you import: a **materials library** (section 18). With one loaded, a new material arrives with its CAS number, category, pyramid level, IFRA limit, alternative names and a few lines of odour facts already in place, all of it editable. Those are facts, and facts can be shared freely; the odour descriptions on supplier sites are somebody's writing and are not in it. The library published by miFormulas holds several hundred materials under CC BY 4.0, and **Get the latest library** in Settings fetches the current one. It is not inside the app, the repository or the ZIP: it changes more often than the app does, so the app asks for it when you do.
 
-## 8. Formulas, versions and variations
+## 8. Formulas and versions
 
 A **formula** is a named recipe in a category. Its history is a row of **versions**: v1, v2, v3 and so on, each with a date, an optional label, notes and its own lines. Only the latest version can be edited; every earlier version is a frozen record of what you did, kept exactly as it was. When you want to change something, create a new version (**+ New version** copies the version you are looking at) and edit that. Deleting a version is possible, deleting the past is not: a new version never rewrites an old one.
 
 ![The version row: the version list, + New version and Compare…](img/app-versions.png)
 
-A **variation** is the same recipe in another presentation: the same formula at 20 % instead of 15 %, with the costly material taken from the 10 % dilution instead of the pure one, or made up as a 44 g batch instead of 100 g. A variation carries a label of your choice ("20%", "soap", "44gr") and comes in two kinds:
-
-![New variation: a label, an optional target total, and which version it follows.](img/app-new-variation.png)
-
-- A **live** variation stores only the deviations (dilution choices, a solvent correction, a target weight) and follows the formula. By default it follows the latest version; you can pin it to a specific version instead. Its lines are recomputed each time you look at it.
-- A **frozen** variation is a snapshot with its own lines that never changes. Click **Freeze** on a live variation to make it one; the badge shows which version it was frozen from.
+Another presentation of the same recipe is a version too: the formula at 20 % instead of 15 %, with the costly material taken from the 10 % dilution instead of the pure one (make a new version and change the dilutions with **Preserve rel % and exchange solvent**, section 11), or made up as a 44 g batch instead of 100 g (Batch scaling, section 12, or simply the target total on the weighing sheet, which rescales the print without touching the formula). Give such a version a label with **✎** ("20%", "soap", "44gr") so the list tells them apart. Earlier builds had a separate notion of "variations" for this; it went in build 260915b, because versions do the same with less to learn. A data file that still holds variations loads with a warning: they are left in the file untouched, but not shown.
 
 Formulas imported from Formulair are frozen too (section 19): you read them, compare them and copy them, but to work on one you make a new version.
 
-Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with **✎**, write notes, add trial-log entries, set colour marks, arrange the bench view and use **Mark as prepared** on a frozen version or variation: those are your annotations about it, not the recipe itself. In the version list a **🔒** marks a version that came in from an import and a **⛄** marks a frozen variation.
+Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with **✎**, write notes, add trial-log entries, set colour marks, arrange the bench view and use **Mark as prepared** on a frozen version: those are your annotations about it, not the recipe itself. In the version list a **🔒** marks a version that came in from an import.
 
-**Move into…** appears on an imported formula that has one version and no variations, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula, or a frozen variation of one of its versions, and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version or variation as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section 19). When other imported formulas share the name, the dialog lists them under **Move together**, ticked: "Aura v04" and "Aura v05 20%" go into the target in the same go, as versions numbered by the version number in their names (then by name), or as variations labelled with what is left of the name once the shared part is removed. Untick what should stay, and add any other imported formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers **this formula** and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.
+**Move into…** appears on an imported formula that has one version, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section 19). When other imported formulas share the name, the dialog lists them under **Move together**, ticked: "Aura v04" and "Aura v05 20%" go into the target in the same go, as versions numbered by the version number in their names (then by name). Untick what should stay, and add any other imported formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers **this formula** and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.
 
 ![Move into…: three imported formulas about to become one formula with its own history.](img/app-move-into.png)
 
-![A live variation "20%" made up as 50 g, following the latest version.](img/app-variation.png)
-
-**Copy to new formula** takes the version you are looking at as v1 of a new formula, optionally with the variations. **Rename** and **Change category** do what they say; categories are shared between formulas and get a colour dot.
+**Copy to new formula** takes the version you are looking at as v1 of a new formula. **Rename** and **Change category** do what they say; categories are shared between formulas and get a colour dot.
 
 ## 9. Editing a formula
 
@@ -336,13 +329,11 @@ The same question comes up when you replace a material by another one whose dilu
 
 ![Ticked lines and the tick bar: marks, Lower and Higher, Create predilution…](img/app-tick-bar.png)
 
-In a live variation the dilution list stores a difference instead of touching the version, so the variation keeps following the formula. The window offers two of the three choices there, not three: **Preserve rel % and exchange solvent** and **Preserve rel % only**. Preserve weight has no meaning in a live variation, where the weights are computed from the version it follows.
-
 Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent".
 
 ## 12. Batch scaling and predilutions
 
-**Batch scaling** sits under the table. **Apply factor** multiplies every weight (2.5 turns a 40 g trial into 100 g). **Target total** rescales the whole formula to a given weight. **Set EtOH for target abs %** changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none; the hint shows the maximum reachable with no ethanol at all. On a live variation, factor and target set the variation's target weight instead. On a read-only entry the target field is still there, because the printed weighing sheet uses it: type 10 g and print a 10 g weighing sheet without touching the formula.
+**Batch scaling** sits under the table. **Apply factor** multiplies every weight (2.5 turns a 40 g trial into 100 g). **Target total** rescales the whole formula to a given weight. **Set EtOH for target abs %** changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none; the hint shows the maximum reachable with no ethanol at all. On a read-only entry the target field is still there, because the printed weighing sheet uses it: type 10 g and print a 10 g weighing sheet without touching the formula.
 
 **Create predilution…** bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line), then creates three things at once: a frozen predilution formula in the category "Predilutions", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.
 
@@ -350,13 +341,13 @@ Lines with a dilution you do not stock are marked ⚠, typically after an import
 
 ## 13. Colour marks, notes and the trial log
 
-Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the **tick bar**: mark them red, green, blue or yellow, unmark them, or clear every mark. Marks are per version, or per variation for a live variation, and they carry over into new versions and copies. Use them as you like: what changed, what to smell for, what to check.
+Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the **tick bar**: mark them red, green, blue or yellow, unmark them, or clear every mark. Marks are per version, and they carry over into new versions and copies. Use them as you like: what changed, what to smell for, what to check.
 
-**Notes** is a free text per version or variation, shown on the formula sheet. The **Trial log** is a dated list of short entries ("day 3, macerated, top too sharp") that also prints on the formula sheet.
+**Notes** is a free text per version, shown on the formula sheet. The **Trial log** is a dated list of short entries ("day 3, macerated, top too sharp") that also prints on the formula sheet.
 
 ## 14. Bench view and printing
 
-**Bench view** (the button next to the formula name, which reads **Table view** while the bench is open, with **Close bench** underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the **Unsorted** column on the left; drag them into named groups on the right, or tick several lines and choose **Move ticked to…**. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; **+ Add group** makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version or variation. **Print bench sheet** prints the groups with a checkbox per line, in the order you will weigh them.
+**Bench view** (the button next to the formula name, which reads **Table view** while the bench is open, with **Close bench** underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the **Unsorted** column on the left; drag them into named groups on the right, or tick several lines and choose **Move ticked to…**. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; **+ Add group** makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version. **Print bench sheet** prints the groups with a checkbox per line, in the order you will weigh them.
 
 ![Bench view: the Unsorted column with its own sort order on the left, the groups you build the batch with on the right.](img/app-bench-view.png)
 
@@ -371,7 +362,7 @@ Printing uses the browser's print dialog; choose "Save as PDF" there for a PDF.
 
 ## 15. Comparing versions
 
-**Compare…** (shown as soon as a formula has two entries) puts two versions or variations side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. Change A and B with the two lists and close with **Close compare**.
+**Compare…** (shown as soon as a formula has two versions) puts two versions side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. Change A and B with the two lists and close with **Close compare**.
 
 ![Compare: two versions side by side, aggregated per material, largest change first.](img/app-compare.png)
 
@@ -387,7 +378,7 @@ The **Categories** panel shows how the non-solvent content is spread over materi
 
 ## 17. Stock, orders and deliveries
 
-**Stock** is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a **stocktake** (what is in the bottle now) to start tracking. From then on purchases add, and two things deduct: **Dilution made** (you made 50 g of a 10 % dilution, so 5 g of base left the bottle) and **Mark as prepared** on a formula, which deducts every base-dilution line of tracked materials, once per version or variation. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as **Dilution made**. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one.
+**Stock** is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a **stocktake** (what is in the bottle now) to start tracking. From then on purchases add, and two things deduct: **Dilution made** (you made 50 g of a 10 % dilution, so 5 g of base left the bottle) and **Mark as prepared** on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as **Dilution made**. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one.
 
 **To order** is the shopping list. Add a material from the list itself (existing or new), with **Add to order list** on a material page, or automatically when a formula or an import mentions a material you do not have. Each entry has a note, an amount and unit, a price and a product link; **Search** opens a Google search limited to the web shops you listed under **Edit shop list** (the list starts empty; add the shops you buy from, one domain per line). **Delivered** closes an entry: it records the amount purchased, the price and the date on the material, computes the cost per gram from price and amount (millilitres via density), adds to the stock ledger if the material is tracked, creates the material if it was new, and removes the "to order" label.
 
@@ -430,7 +421,7 @@ The importer at https://miformulas.com/formulair-import.html reads the Formulair
 
 Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category and colour marks per line, and every material comes with its dilutions, CAS (if you wrote other names next to the CAS number in Formulair, the number stays and those names become alternative names), supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted or renamed, and amounts are in grams.
 
-Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4 and v5, and turning "Aura v05 20%" into a variation, is a decision for you, made afterwards in the app with **Move into…** (section 8): open "Aura v04", the one with the lowest number, and click Move into…: the app suggests **this formula** as the target and lists "Aura v05", "Aura v05 20%" and "Aura v06" under Move together, ticked. Untick "Aura v05 20%", keep **version** and click Move: v05 and v06 become the next versions of "Aura v04" in one go. Then open "Aura v05 20%", move it into "Aura v04" as a variation, and rename "Aura v04" to "Aura". Opening another one first works too: the app then suggests the lowest-numbered formula as the target. A formula that already holds several versions can no longer be moved itself, so stragglers are moved from their own page. The app never groups by itself, because every perfumer names things differently. For a large collection, `docs/ai-prompts.md` has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.
+Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4, v5 and v6 is a decision for you, made afterwards in the app with **Move into…** (section 8): open "Aura v04", the one with the lowest number, and click Move into…: the app suggests **this formula** as the target and lists "Aura v05", "Aura v05 20%" and "Aura v06" under Move together, ticked. Click Move: they become the next versions of "Aura v04" in one go, in the order of the numbers in their names; then rename "Aura v04" to "Aura" and give the 20 % one its label with **✎**. Opening another one first works too: the app then suggests the lowest-numbered formula as the target. A formula that already holds several versions can no longer be moved itself, so stragglers are moved from their own page. The app never groups by itself, because every perfumer names things differently. For a large collection, `docs/ai-prompts.md` has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.
 
 The same conversion exists as a command-line script, `tools/formulair-naar-json.py`, for those who prefer a terminal.
 

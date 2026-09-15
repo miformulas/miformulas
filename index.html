@@ -126,11 +126,6 @@ h2{margin:.2rem 0 .3rem;font-size:1.35rem}
 .metaLine{color:var(--muted);font-size:.85rem;margin-bottom:.6rem;display:flex;flex-wrap:wrap;gap:.3rem .5rem;align-items:center}
 .metaLine a.lookup{margin-left:.4rem}
 .chipRow{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0}
-.chip{border:1px solid var(--line);border-radius:999px;padding:.15rem .7rem;font-size:.85rem;cursor:pointer;background:var(--surface)}
-.chip.sel{background:var(--accent);border-color:var(--accent);color:#fff}
-.chip.frozen{border-style:dashed}
-.chip.var{border-color:var(--amber)}
-.chip.var.sel{background:var(--amber);border-color:var(--amber);color:#fff}
 .badge{font-size:.72rem;border-radius:4px;padding:.05rem .4rem;background:var(--frozen-soft);color:var(--frozen);vertical-align:middle}
 .tblwrap{max-width:100%;overflow-x:auto}
 #content{min-width:0}
@@ -204,10 +199,10 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 .sortable:hover{color:var(--accent)}
 table.lines tbody tr:hover{background:var(--accent-soft)}
 .pyrbar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:.1rem 0 .7rem;max-width:34rem;box-shadow:0 1px 3px rgba(0,0,0,.15)}
-.fhead{position:relative;padding-right:12.5rem;margin-bottom:1rem}
+.fhead{position:relative;padding-right:12.5rem;margin-bottom:1rem;min-height:118px}   /* room for the pyramid chart: without the variation row the head is shorter than the chart */
 .fpyr{position:absolute;right:0;top:.75rem}
 .fpyr text{fill:var(--muted);font:500 9px "Segoe UI",system-ui,sans-serif;font-variant-numeric:tabular-nums}
-@media (max-width:900px){.fhead{padding-right:0}.fpyr{display:none}}
+@media (max-width:900px){.fhead{padding-right:0;min-height:0}.fpyr{display:none}}
 .pyrbar span{min-width:2px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.7rem;margin:.9rem 0;max-width:46rem}
 .tile{border-radius:10px;padding:.75rem 1rem;display:flex;flex-direction:column}
@@ -279,10 +274,10 @@ td.dim{color:var(--muted)}
   .benchBtn{margin-left:.4rem}
 }
 /* read-only mode (a phone without a way to save): editing controls disappear entirely */
-body.ro #btnNewV,body.ro #btnDelV,body.ro #btnNewVar,body.ro #btnFreeze,body.ro #btnDelVar,body.ro #btnRenameF,body.ro #btnCopyF,body.ro #btnCatF,body.ro #btnDelF,
+body.ro #btnNewV,body.ro #btnDelV,body.ro #btnRenameF,body.ro #btnCopyF,body.ro #btnCatF,body.ro #btnDelF,
 body.ro #btnApplyFactor,body.ro #scaleF,body.ro #btnApplyScale,body.ro #btnSetAbs,body.ro #targetAbs,body.ro #btnAddTrial,body.ro #trialDate,body.ro #trialText,
 body.ro #btnDelMat,body.ro #btnAddDil,body.ro #newDil,body.ro #newDilNote,body.ro #btnAddLine,body.ro #addMat,body.ro #btnPredil,body.ro #btnDilDown,body.ro #btnDilUp,
-body.ro .swatch,body.ro [data-mark],body.ro #btnClearMarks,body.ro .selCb,body.ro .bsel,body.ro #bMoveSel,body.ro #btnAddGroup,body.ro #varBase,body.ro #btnNameV,
+body.ro .swatch,body.ro [data-mark],body.ro #btnClearMarks,body.ro .selCb,body.ro .bsel,body.ro #bMoveSel,body.ro #btnAddGroup,body.ro #btnNameV,
 body.ro [data-add],body.ro [data-deltrial],body.ro [data-deldil],body.ro [data-setbase],body.ro [data-del],body.ro [data-pyr],body.ro [data-repl],
 body.ro .bghandle,body.ro [data-bup],body.ro [data-bdown],body.ro [data-bempty],body.ro [data-bdel],
 body.ro #btnPrep,body.ro #btnTake,body.ro #btnBuy,body.ro #btnDil,body.ro #stTake,body.ro #stBuyAmt,body.ro #stBuyUnit,body.ro #stBuyNote,body.ro #stDilPct,body.ro #stDilG,body.ro [data-delev],
@@ -317,7 +312,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <header>
   <button id="btnBack" class="small">‹ List</button>
   <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915</span>
+  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915b</span>
   <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
   <button id="btnHome" class="small">Home</button>
   <button id="btnNew" class="small">+ New formula…</button>
@@ -368,12 +363,12 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <dialog id="dlg"></dialog>
 <!-- MANUAL:BEGIN (generated from docs/manual.md by tools/bouw-docs.py; do not edit by hand) -->
 <template id="manualTpl"><h1 id="miformulas-manual">miFormulas manual</h1>
-<p>miFormulas is a perfume formulation app that runs as a single HTML file in your browser. It keeps your materials, your formulas with their full version history, and the variations you make of them, and it does the perfumery arithmetic: dilution-corrected percentages, batch scaling, dilution changes, predilutions, an IFRA check, weighing sheets.</p>
+<p>miFormulas is a perfume formulation app that runs as a single HTML file in your browser. It keeps your materials and your formulas with their full version history, and it does the perfumery arithmetic: dilution-corrected percentages, batch scaling, dilution changes, predilutions, an IFRA check, weighing sheets.</p>
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260915. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
-<h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-versions-and-variations">Formulas, versions and variations</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
+<p>This manual describes build 260915b. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-and-versions">Formulas and versions</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
 <p><strong>Which browser.</strong> Chrome or Edge, on Windows or Mac, give you everything: your data in a file of your own and the app installed with its own icon. Safari on a Mac works as a Dock app with the data in the app's storage (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>). Firefox runs the app, but keeps the data in the browser only, cannot install it and may clear the storage when it closes, even if you allowed persistent storage; use it to have a look, not for daily work. On an iPhone or iPad you add the site to the Home Screen and the data lives in that app; a data file is not possible there, because no browser on iOS can write one, so a server of your own (section <a href="#s20-your-own-server">20</a>) is what gives you the same data on your phone and your computer. On an Android phone or tablet, Chrome gives you everything a computer gives, a data file of your own included; the one difference is that Chrome asks permission for that file again at every start (sections <a href="#s4-recommended-setup-and-the-other-ways-in">4</a> and <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
@@ -384,9 +379,9 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <li><strong>Open data file…</strong> opens a miFormulas data file you already have: the Backup you made last time, a file made by the Formulair importer, or a file a colleague sent you. This is how you get your own work back on another computer or in another browser: choose the most recent Backup from your backups folder and carry on where you left off. In Chrome and Edge the app then keeps saving to that file and offers to reopen it next time (section <a href="#s2-where-your-data-lives-browser-file-or-server">2</a>).</li>
 <li><strong>Import from Formulair</strong> takes you to the importer for Formulair users (section <a href="#s19-coming-from-formulair">19</a>).</li>
 </ul>
-<p>Whichever way in you take, you land on the Welcome page with four tiles (formulas, versions and variations, materials, to order), the recently edited items, and the import and export buttons. Pick a formula or material in the list on the left, or create a new one with <strong>+ New formula</strong> and <strong>+ New material</strong> in the header.</p>
+<p>Whichever way in you take, you land on the Welcome page with four tiles (formulas, versions, materials, to order), the recently edited items, and the import and export buttons. Pick a formula or material in the list on the left, or create a new one with <strong>+ New formula</strong> and <strong>+ New material</strong> in the header.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The Welcome page after loading the starter set, with the amber storage bar.</a></p>
-<p>Every change is saved automatically a few seconds after you make it; <strong>Ctrl+Z</strong> undoes it. Deleting a line, a version, a variation, a formula or a material always asks for confirmation.</p>
+<p>Every change is saved automatically a few seconds after you make it; <strong>Ctrl+Z</strong> undoes it. Deleting a line, a version, a formula or a material always asks for confirmation.</p>
 <h2 id="s2-where-your-data-lives-browser-file-or-server">2. Where your data lives: browser, file or server</h2>
 <p>miFormulas stores everything in one JSON file, <code>miformulas-data.json</code>. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server").</p>
 <p>Two buttons on the start screen belong to particular situations. With a server configured, <strong>Open data file…</strong> reads <strong>Connect to server</strong> instead, and asks for the token if the server wants one. After a save that could not reach the server, the start screen offers <strong>Continue with data from …</strong> with the date and time of the copy the app kept in the browser, so an interrupted session is not lost.</p>
@@ -502,7 +497,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <h2 id="s6-the-screen">6. The screen</h2>
 <p>The <strong>header</strong> holds, from left to right: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula</strong>, <strong>+ New material</strong>, the save state, <strong>Undo</strong> and <strong>Redo</strong>, <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, the reload button (⟳, use it after an update), the theme button (◐ Auto, ● Dark, ○ Light), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙).</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-the-screen">The header.</a></p>
-<p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula reads "3v · 1var" for three versions and one variation. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section <a href="#s18-import-and-export">18</a>), the panel says "Not in your inventory" and shows what the library does know, with a <strong>+ Add</strong> button that puts the material in your inventory with its facts.</p>
+<p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section <a href="#s18-import-and-export">18</a>), the panel says "Not in your inventory" and shows what the library does know, with a <strong>+ Add</strong> button that puts the material in your inventory with its facts.</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-the-screen">The list panel on the left and a formula page on the right.</a></p>
 <p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. The header leaves out <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: creating is desktop work, and saving happens by itself.</p>
@@ -520,21 +515,15 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s7-materials">Browse the library: tick what belongs in your own inventory. What you already have is greyed out.</a></p>
 <p>Filling in CAS numbers, IFRA limits, pyramid levels and descriptions for many materials is tedious; <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose them from the <strong>All materials (Excel)</strong> export, for you to check and enter.</p>
 <p>What some apps ship as a built-in materials database, miFormulas keeps as a file you import: a <strong>materials library</strong> (section <a href="#s18-import-and-export">18</a>). With one loaded, a new material arrives with its CAS number, category, pyramid level, IFRA limit, alternative names and a few lines of odour facts already in place, all of it editable. Those are facts, and facts can be shared freely; the odour descriptions on supplier sites are somebody's writing and are not in it. The library published by miFormulas holds several hundred materials under CC BY 4.0, and <strong>Get the latest library</strong> in Settings fetches the current one. It is not inside the app, the repository or the ZIP: it changes more often than the app does, so the app asks for it when you do.</p>
-<h2 id="s8-formulas-versions-and-variations">8. Formulas, versions and variations</h2>
+<h2 id="s8-formulas-and-versions">8. Formulas and versions</h2>
 <p>A <strong>formula</strong> is a named recipe in a category. Its history is a row of <strong>versions</strong>: v1, v2, v3 and so on, each with a date, an optional label, notes and its own lines. Only the latest version can be edited; every earlier version is a frozen record of what you did, kept exactly as it was. When you want to change something, create a new version (<strong>+ New version</strong> copies the version you are looking at) and edit that. Deleting a version is possible, deleting the past is not: a new version never rewrites an old one.</p>
-<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-formulas-versions-and-variations">The version row: the version list, + New version and Compare…</a></p>
-<p>A <strong>variation</strong> is the same recipe in another presentation: the same formula at 20 % instead of 15 %, with the costly material taken from the 10 % dilution instead of the pure one, or made up as a 44 g batch instead of 100 g. A variation carries a label of your choice ("20%", "soap", "44gr") and comes in two kinds:</p>
-<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-formulas-versions-and-variations">New variation: a label, an optional target total, and which version it follows.</a></p>
-<ul>
-<li>A <strong>live</strong> variation stores only the deviations (dilution choices, a solvent correction, a target weight) and follows the formula. By default it follows the latest version; you can pin it to a specific version instead. Its lines are recomputed each time you look at it.</li>
-<li>A <strong>frozen</strong> variation is a snapshot with its own lines that never changes. Click <strong>Freeze</strong> on a live variation to make it one; the badge shows which version it was frozen from.</li>
-</ul>
+<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-formulas-and-versions">The version row: the version list, + New version and Compare…</a></p>
+<p>Another presentation of the same recipe is a version too: the formula at 20 % instead of 15 %, with the costly material taken from the 10 % dilution instead of the pure one (make a new version and change the dilutions with <strong>Preserve rel % and exchange solvent</strong>, section <a href="#s11-changing-dilutions">11</a>), or made up as a 44 g batch instead of 100 g (Batch scaling, section <a href="#s12-batch-scaling-and-predilutions">12</a>, or simply the target total on the weighing sheet, which rescales the print without touching the formula). Give such a version a label with <strong>✎</strong> ("20%", "soap", "44gr") so the list tells them apart. Earlier builds had a separate notion of "variations" for this; it went in build 260915b, because versions do the same with less to learn. A data file that still holds variations loads with a warning: they are left in the file untouched, but not shown.</p>
 <p>Formulas imported from Formulair are frozen too (section <a href="#s19-coming-from-formulair">19</a>): you read them, compare them and copy them, but to work on one you make a new version.</p>
-<p>Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with <strong>✎</strong>, write notes, add trial-log entries, set colour marks, arrange the bench view and use <strong>Mark as prepared</strong> on a frozen version or variation: those are your annotations about it, not the recipe itself. In the version list a <strong>🔒</strong> marks a version that came in from an import and a <strong>⛄</strong> marks a frozen variation.</p>
-<p><strong>Move into…</strong> appears on an imported formula that has one version and no variations, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula, or a frozen variation of one of its versions, and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version or variation as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s19-coming-from-formulair">19</a>). When other imported formulas share the name, the dialog lists them under <strong>Move together</strong>, ticked: "Aura v04" and "Aura v05 20%" go into the target in the same go, as versions numbered by the version number in their names (then by name), or as variations labelled with what is left of the name once the shared part is removed. Untick what should stay, and add any other imported formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
-<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-formulas-versions-and-variations">Move into…: three imported formulas about to become one formula with its own history.</a></p>
-<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-formulas-versions-and-variations">A live variation &quot;20%&quot; made up as 50 g, following the latest version.</a></p>
-<p><strong>Copy to new formula</strong> takes the version you are looking at as v1 of a new formula, optionally with the variations. <strong>Rename</strong> and <strong>Change category</strong> do what they say; categories are shared between formulas and get a colour dot.</p>
+<p>Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with <strong>✎</strong>, write notes, add trial-log entries, set colour marks, arrange the bench view and use <strong>Mark as prepared</strong> on a frozen version: those are your annotations about it, not the recipe itself. In the version list a <strong>🔒</strong> marks a version that came in from an import.</p>
+<p><strong>Move into…</strong> appears on an imported formula that has one version, which is what every formula from the Formulair import looks like. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along, and the import name stays on the version as a reference. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s19-coming-from-formulair">19</a>). When other imported formulas share the name, the dialog lists them under <strong>Move together</strong>, ticked: "Aura v04" and "Aura v05 20%" go into the target in the same go, as versions numbered by the version number in their names (then by name). Untick what should stay, and add any other imported formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
+<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-formulas-and-versions">Move into…: three imported formulas about to become one formula with its own history.</a></p>
+<p><strong>Copy to new formula</strong> takes the version you are looking at as v1 of a new formula. <strong>Rename</strong> and <strong>Change category</strong> do what they say; categories are shared between formulas and get a colour dot.</p>
 <h2 id="s9-editing-a-formula">9. Editing a formula</h2>
 <p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s11-changing-dilutions">11</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s9-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
@@ -559,17 +548,16 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>The same question comes up when you replace a material by another one whose dilutions differ.</p>
 <p><strong>Lower</strong> and <strong>Higher</strong> in the tick bar shift all ticked lines to the next lower or higher dilution that the material offers, preserving rel % and exchanging the solvent in one go (so the formula needs a solvent line); lines already at their lowest or highest are skipped and reported.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s11-changing-dilutions">Ticked lines and the tick bar: marks, Lower and Higher, Create predilution…</a></p>
-<p>In a live variation the dilution list stores a difference instead of touching the version, so the variation keeps following the formula. The window offers two of the three choices there, not three: <strong>Preserve rel % and exchange solvent</strong> and <strong>Preserve rel % only</strong>. Preserve weight has no meaning in a live variation, where the weights are computed from the version it follows.</p>
 <p>Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent".</p>
 <h2 id="s12-batch-scaling-and-predilutions">12. Batch scaling and predilutions</h2>
-<p><strong>Batch scaling</strong> sits under the table. <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). <strong>Target total</strong> rescales the whole formula to a given weight. <strong>Set EtOH for target abs %</strong> changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none; the hint shows the maximum reachable with no ethanol at all. On a live variation, factor and target set the variation's target weight instead. On a read-only entry the target field is still there, because the printed weighing sheet uses it: type 10 g and print a 10 g weighing sheet without touching the formula.</p>
+<p><strong>Batch scaling</strong> sits under the table. <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). <strong>Target total</strong> rescales the whole formula to a given weight. <strong>Set EtOH for target abs %</strong> changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none; the hint shows the maximum reachable with no ethanol at all. On a read-only entry the target field is still there, because the printed weighing sheet uses it: type 10 g and print a 10 g weighing sheet without touching the formula.</p>
 <p><strong>Create predilution…</strong> bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line), then creates three things at once: a frozen predilution formula in the category "Predilutions", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s12-batch-scaling-and-predilutions">Create predilution: name, batch factor and a preview of the mix.</a></p>
 <h2 id="s13-colour-marks-notes-and-the-trial-log">13. Colour marks, notes and the trial log</h2>
-<p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the <strong>tick bar</strong>: mark them red, green, blue or yellow, unmark them, or clear every mark. Marks are per version, or per variation for a live variation, and they carry over into new versions and copies. Use them as you like: what changed, what to smell for, what to check.</p>
-<p><strong>Notes</strong> is a free text per version or variation, shown on the formula sheet. The <strong>Trial log</strong> is a dated list of short entries ("day 3, macerated, top too sharp") that also prints on the formula sheet.</p>
+<p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the <strong>tick bar</strong>: mark them red, green, blue or yellow, unmark them, or clear every mark. Marks are per version, and they carry over into new versions and copies. Use them as you like: what changed, what to smell for, what to check.</p>
+<p><strong>Notes</strong> is a free text per version, shown on the formula sheet. The <strong>Trial log</strong> is a dated list of short entries ("day 3, macerated, top too sharp") that also prints on the formula sheet.</p>
 <h2 id="s14-bench-view-and-printing">14. Bench view and printing</h2>
-<p><strong>Bench view</strong> (the button next to the formula name, which reads <strong>Table view</strong> while the bench is open, with <strong>Close bench</strong> underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column on the left; drag them into named groups on the right, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong> makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version or variation. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them.</p>
+<p><strong>Bench view</strong> (the button next to the formula name, which reads <strong>Table view</strong> while the bench is open, with <strong>Close bench</strong> underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column on the left; drag them into named groups on the right, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong> makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s14-bench-view-and-printing">Bench view: the Unsorted column with its own sort order on the left, the groups you build the batch with on the right.</a></p>
 <p>From the table view, four buttons under the lines. The line under them says which is for whom: the first two produce something to read, the third a file for someone who uses miFormulas too.</p>
 <ul>
@@ -580,7 +568,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 </ul>
 <p>Printing uses the browser's print dialog; choose "Save as PDF" there for a PDF.</p>
 <h2 id="s15-comparing-versions">15. Comparing versions</h2>
-<p><strong>Compare…</strong> (shown as soon as a formula has two entries) puts two versions or variations side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. Change A and B with the two lists and close with <strong>Close compare</strong>.</p>
+<p><strong>Compare…</strong> (shown as soon as a formula has two versions) puts two versions side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. Change A and B with the two lists and close with <strong>Close compare</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s15-comparing-versions">Compare: two versions side by side, aggregated per material, largest change first.</a></p>
 <h2 id="s16-ifra-check-and-category-panel">16. IFRA check and category panel</h2>
 <p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit. A limit of 0 reads as prohibited. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
@@ -588,7 +576,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table does the same per pyramid level.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s16-ifra-check-and-category-panel">The Categories panel.</a></p>
 <h2 id="s17-stock-orders-and-deliveries">17. Stock, orders and deliveries</h2>
-<p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking. From then on purchases add, and two things deduct: <strong>Dilution made</strong> (you made 50 g of a 10 % dilution, so 5 g of base left the bottle) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version or variation. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one.</p>
+<p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking. From then on purchases add, and two things deduct: <strong>Dilution made</strong> (you made 50 g of a 10 % dilution, so 5 g of base left the bottle) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one.</p>
 <p><strong>To order</strong> is the shopping list. Add a material from the list itself (existing or new), with <strong>Add to order list</strong> on a material page, or automatically when a formula or an import mentions a material you do not have. Each entry has a note, an amount and unit, a price and a product link; <strong>Search</strong> opens a Google search limited to the web shops you listed under <strong>Edit shop list</strong> (the list starts empty; add the shops you buy from, one domain per line). <strong>Delivered</strong> closes an entry: it records the amount purchased, the price and the date on the material, computes the cost per gram from price and amount (millilitres via density), adds to the stock ledger if the material is tracked, creates the material if it was new, and removes the "to order" label.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s17-stock-orders-and-deliveries">The order list.</a></p>
 <h2 id="s18-import-and-export">18. Import and export</h2>
@@ -618,7 +606,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 </li>
 </ol>
 <p>Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category and colour marks per line, and every material comes with its dilutions, CAS (if you wrote other names next to the CAS number in Formulair, the number stays and those names become alternative names), supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted or renamed, and amounts are in grams.</p>
-<p>Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4 and v5, and turning "Aura v05 20%" into a variation, is a decision for you, made afterwards in the app with <strong>Move into…</strong> (section <a href="#s8-formulas-versions-and-variations">8</a>): open "Aura v04", the one with the lowest number, and click Move into…: the app suggests <strong>this formula</strong> as the target and lists "Aura v05", "Aura v05 20%" and "Aura v06" under Move together, ticked. Untick "Aura v05 20%", keep <strong>version</strong> and click Move: v05 and v06 become the next versions of "Aura v04" in one go. Then open "Aura v05 20%", move it into "Aura v04" as a variation, and rename "Aura v04" to "Aura". Opening another one first works too: the app then suggests the lowest-numbered formula as the target. A formula that already holds several versions can no longer be moved itself, so stragglers are moved from their own page. The app never groups by itself, because every perfumer names things differently. For a large collection, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.</p>
+<p>Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4, v5 and v6 is a decision for you, made afterwards in the app with <strong>Move into…</strong> (section <a href="#s8-formulas-and-versions">8</a>): open "Aura v04", the one with the lowest number, and click Move into…: the app suggests <strong>this formula</strong> as the target and lists "Aura v05", "Aura v05 20%" and "Aura v06" under Move together, ticked. Click Move: they become the next versions of "Aura v04" in one go, in the order of the numbers in their names; then rename "Aura v04" to "Aura" and give the 20 % one its label with <strong>✎</strong>. Opening another one first works too: the app then suggests the lowest-numbered formula as the target. A formula that already holds several versions can no longer be moved itself, so stragglers are moved from their own page. The app never groups by itself, because every perfumer names things differently. For a large collection, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.</p>
 <p>The same conversion exists as a command-line script, <code>tools/formulair-naar-json.py</code>, for those who prefer a terminal.</p>
 <h2 id="s20-your-own-server">20. Your own server</h2>
 <p>With a server, every device you own works on the same data, and nobody has to remember to copy files. You need a web server with PHP (8.x) that you can put files on: a Synology or QNAP NAS with its web station, a Raspberry Pi, a small hosting account.</p>
@@ -736,19 +724,16 @@ function migrate(d){
   d.shopSites ||= [...SHOP_DEFAULTS];
   d.orderList ||= [];
   d.materialList ||= null;   // one imported library of material facts, looked up when you add a material
+  let oldVars = 0;
   for (const f of d.formulas || []){
-    f.versions ||= []; f.variations ||= [];
-    for (const va of f.variations || [])   // a non-frozen variation with own lines (old detach experiments) becomes frozen
-      if (va.lines && !va.frozen) va.frozen = true;
-    for (const va of f.variations || [])   // a solvent correction in grams gets the scale it was made at, so it can follow a rescaled base
-      if (va.solventDeltaG && !(va.solventBaseC > 0) && !va.frozen && !va.lines){
-        const src = (va.baseV != null ? (f.versions||[]).find(v => v.v === va.baseV) : null) || (f.versions||[])[(f.versions||[]).length-1];
-        if (src) va.solventBaseC = (src.lines||[]).reduce((s,l) => {
-          const m = (d.materials||[]).find(x => x.id === l.materialId) || {};
-          return s + (m.isSolvent ? 0 : (l.weightG||0)*(l.dilutionPct??100)/100); }, 0) || 1;
-      }
+    f.versions ||= [];
+    oldVars += (f.variations || []).length;   // variations were dropped in build 260915b; the field is left as it is, but not shown
     for (const v of f.versions || [])      // Formulair imports are read-only
       if (v.sourceName && v.imported === undefined) v.imported = true;
+  }
+  if (oldVars && !migrate._varWarned){
+    migrate._varWarned = true;
+    alert(`This file holds ${oldVars} variation(s) from an earlier miFormulas. This build no longer has variations: they stay in the file untouched, but are not shown. Build 260914m (release v1.2 on GitHub) still shows them.`);
   }
   for (const m of d.materials || []) delete m._descHit;   // transient search flag that once leaked into the file
   for (const o of d.orderList){            // old free-text amounts → number + unit
@@ -804,7 +789,7 @@ function askDilution(){   // a dilution is a percentage: between 0 and 100, and 
 }
 function serialize(){
   // only our own transient UI flags are dropped; anything else a user types is kept, underscore or not
-  const TRANSIENT = new Set(["_descHit", "_solventShort"]);
+  const TRANSIENT = new Set(["_descHit"]);
   return JSON.stringify(DATA, (k,v) => TRANSIENT.has(k) ? undefined : (typeof v === "number" && !Number.isInteger(v) ? +v.toFixed(6) : v), 1);
 }
 async function openFile(){
@@ -997,8 +982,7 @@ function clampView(){
   if (VIEW.tab === "F" && VIEW.sub){
     const f = DATA.formulas.find(x => x.id === VIEW.id);
     if (!f) VIEW.sub = null;
-    else if (VIEW.sub.type === "v" && !f.versions[VIEW.sub.idx]) VIEW.sub = null;
-    else if (VIEW.sub.type === "var" && !f.variations[VIEW.sub.idx]) VIEW.sub = null;
+    else if (!f.versions[VIEW.sub.idx]) VIEW.sub = null;
   }
 }
 function undo(){
@@ -1044,7 +1028,6 @@ function buildUsage(){
   for (const f of DATA.formulas){
     const add = (lines, where) => { for (const l of lines||[]){ (USAGE[l.materialId] ||= []).push({fid:f.id, name:f.name, where}); } };
     for (const v of f.versions) add(v.lines, "v"+v.v);
-    for (const va of f.variations) add(va.lines, va.label);
   }
 }
 function calc(lines){
@@ -1067,10 +1050,7 @@ function calc(lines){
   return {rows, totalW:tw, totalCost:tc, content, totalAbsPct: tw ? content/tw*100 : 0};
 }
 function currentVersion(f){ return f.versions[f.versions.length-1]; }
-const vName = v => `v${v.v}${v.name ? ` ${v.name}` : ""}`;
-const isVariation = it => it.label !== undefined;
-// one label for versions and variations everywhere (prints, exports, confirmations)
-const itemLabel = it => isVariation(it) ? `variation «${it.label}»${it.frozenFromName ? ` (frozen from ${it.frozenFromName})` : ""}` : vName(it);
+const vName = v => `v${v.v}${v.name ? ` ${v.name}` : ""}`;   // the one label of a version everywhere (prints, exports, confirmations)
 const isEthanol = m => !!m && m.isSolvent && /ethanol|etoh/i.test(m.name||"");
 // index of the solvent line to exchange with: ethanol first, otherwise the first solvent; -1 if none
 function solventIdx(lines, skip = -1){
@@ -1163,54 +1143,6 @@ function sortRows(rows){
   }[SORT.key] || ((a,b)=>a.idx-b.idx);
   return [...rows].sort((a,b) => SORT.dir * by(a,b));
 }
-// a live variation follows the latest version, or the version it is pinned to (va.baseV)
-function baseVersionOf(f, va){
-  return (va && va.baseV != null ? f.versions.find(v => v.v === va.baseV) : null) || currentVersion(f);
-}
-// A live variation keeps its differences per line of the base version: material + the dilution that line
-// has there. Two lines of the same material at different dilutions stay apart, and when the base version
-// changes that line the difference simply lapses, so the variation follows the base again.
-const lineKey = l => l ? (l.materialId || "") + "|" + (l.dilutionPct ?? 100) : "";
-const baseLines = (f, va) => (baseVersionOf(f, va) || {}).lines || [];
-function varLinesRaw(f, va){   // overrides + solvent delta, before target-weight scaling
-  const src = baseVersionOf(f, va); if (!src) return [];
-  const ov = va.dilutionOverrides || {}, rm = va.remarks || {};
-  const lines = src.lines.map((l, i) => {
-    const k = lineKey(l);
-    const o = ov[k] ?? ov[l.materialId];                                  // new key; older data was keyed by material alone
-    const out = (o != null && o !== l.dilutionPct)
-      ? {...l, dilutionPct:o, weightG: (l.weightG||0) * (l.dilutionPct??100) / o}
-      : {...l};
-    const code = rm[k] ?? rm[i];                                          // colour marks of this variation (older data by line number)
-    if (code != null) out.remark = code;
-    return out;
-  });
-  if (va.solventDeltaG){
-    const j = solventIdx(lines);
-    if (j >= 0){
-      let d = va.solventDeltaG;
-      const c = calc(src.lines).content || 0;
-      if (va.solventBaseC > 0) d *= c / va.solventBaseC;                  // the base version may have been rescaled since
-      const w = (lines[j].weightG||0) + d;
-      lines[j] = {...lines[j], weightG: Math.max(0, w)};
-      if (w < -1e-9) lines._solventShort = true;                          // does not fit the base version any more
-    }
-  }
-  return lines;
-}
-function variationLines(f, va){
-  if (va.frozen || va.lines) return va.lines;
-  let lines = varLinesRaw(f, va);
-  if (va.targetWeightG){
-    const c = calc(lines);
-    if (c.totalW > 0){
-      const k = va.targetWeightG / c.totalW, short = lines._solventShort;
-      lines = lines.map(l => ({...l, weightG:(l.weightG||0)*k}));
-      if (short) lines._solventShort = true;
-    }
-  }
-  return lines;
-}
 
 /* ---------- sidebar ---------- */
 function renderSidebar(){
@@ -1225,7 +1157,7 @@ function renderSidebar(){
     for (const cat of Object.keys(groups).sort((a,b)=>a.localeCompare(b))){
       html += `<div class="cat"><span class="catdot" style="background:${catColourByName(cat)}"></span>${esc(cat)} <span class="hint" style="font-weight:400">${groups[cat].length}</span></div>`;
       for (const f of groups[cat].sort((a,b)=>a.name.localeCompare(b.name)))
-        html += `<div class="item${f.id===VIEW.id?" sel":""}" data-id="${f.id}" tabindex="0" role="button"><span>${esc(f.name)}</span><span class="sub">${f.versions.length}v · ${f.variations.length}var</span></div>`;
+        html += `<div class="item${f.id===VIEW.id?" sel":""}" data-id="${f.id}" tabindex="0" role="button"><span>${esc(f.name)}</span><span class="sub">${f.versions.length} version${f.versions.length === 1 ? "" : "s"}</span></div>`;
     }
   } else if (VIEW.tab === "M"){
     const groups = {};
@@ -1307,62 +1239,44 @@ function renderFormula(f){
   const stamp = f.id + "|" + sub.type + "|" + sub.idx;
   if (stamp !== renderFormula._last){ renderFormula._last = stamp; NOTESOPEN = null; IDOSE = null; }   // new formula/version: follow content again
   if (sub.type === "cmp"){ renderCompare(f, sub); return; }
-  if (sub.type==="v" && !f.versions[sub.idx]) sub = {type:"v", idx:f.versions.length-1};
-  if (sub.type==="var" && !f.variations[sub.idx]) sub = {type:"v", idx:f.versions.length-1};   // the variation is gone: fall back to the last version
+  if (!f.versions[sub.idx]) sub = {type:"v", idx:f.versions.length-1};
   VIEW.sub = sub;
-  const isVar = sub.type === "var";
-  const item = isVar ? f.variations[sub.idx] : f.versions[sub.idx];
+  const item = f.versions[sub.idx];
   if (!item){
     c.innerHTML = `<h2>${esc(f.name)}</h2><p class="hint">Empty formula – add a version.</p>
       <div class="toolRow"><button class="small" id="btnNewV">+ New version</button></div>`;
     $("#btnNewV").addEventListener("click", () => newVersion(f, null));
     return;
   }
-  const frozen = isVar ? !!item.frozen : (item.frozen ?? f.frozenImport) || (sub.idx < f.versions.length-1) || item.imported;
-  const editable = !frozen && !isVar && !readOnly();
-  const liveVar = isVar && !item.frozen && !readOnly();
-  const lines = isVar ? variationLines(f, item) : item.lines;
+  const frozen = (item.frozen ?? f.frozenImport) || (sub.idx < f.versions.length-1) || item.imported;   // only the latest version is edited
+  const editable = !frozen && !readOnly();
+  const lines = item.lines;
   const K = calc(lines);
   let h = `<h2>${esc(f.name)}${item ? `<button id="btnBenchToggle" class="benchBtn">${sub.bench?"Table view":"Bench view"}</button>` : ""}</h2>
   <div class="metaLine"><span>${esc(f.category||"")}${f.created?" · since "+f.created:""}${item.sourceName && !item.hideSource?` · imported as “${esc(item.sourceName)}”`:""}${f.starter?' · <span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other formula.">starter set</span>':""}</span>
-    ${frozen?`<span class="badge" title="Read-only snapshot">frozen${isVar && item.frozenFromName ? ` · from ${esc(item.frozenFromName)}` : ""}</span>`:""}
+    ${frozen?`<span class="badge" title="Read-only: an older version, or an import">frozen</span>`:""}
     <span class="actions">
       <button id="btnRenameF" title="Rename this formula">Rename…</button>
       <button id="btnCopyF" title="The selected version becomes v1 of a new formula">Copy to new formula…</button>
-      ${canMoveInto(f) ? '<button id="btnMoveF" title="This imported formula becomes a version or a variation of another formula">Move into…</button>' : ""}
+      ${canMoveInto(f) ? '<button id="btnMoveF" title="This imported formula becomes a version of another formula">Move into…</button>' : ""}
       <button id="btnCatF" title="Move to another category">Change category…</button><i></i>
       <button id="btnDelF" class="danger" title="Delete the whole formula (undo possible)">Delete formula</button></span></div>
   <div class="fhead">${pyrPyramid(K)}
   ${pyrBar(K)}
   <div class="chipRow"><label class="hint">Version</label>
-    <select id="verSel">${isVar?'<option value="" selected hidden>– viewing a variation –</option>':""}${f.versions.map((v,i) =>
-      `<option value="${i}"${!isVar&&i===sub.idx?" selected":""}>${esc(vName(v))} (${v.date||"?"})${v.sourceName && !v.hideSource?`: ${esc(v.sourceName)}`:""}${v.imported?" 🔒":""}</option>`).join("")}</select>
-    ${!isVar ? '<button class="small" id="btnNameV" title="Name this version…">✎</button>' : ""}
+    <select id="verSel">${f.versions.map((v,i) =>
+      `<option value="${i}"${i===sub.idx?" selected":""}>${esc(vName(v))} (${v.date||"?"})${v.sourceName && !v.hideSource?`: ${esc(v.sourceName)}`:""}${v.imported?" 🔒":""}</option>`).join("")}</select>
+    <button class="small" id="btnNameV" title="Name this version…">✎</button>
     <button class="small" id="btnNewV">+ New version</button>
-    ${f.versions.length + f.variations.length >= 2 ? '<button class="small" id="btnCmp">Compare…</button>' : ""}
-    ${!isVar && item ? '<span class="actions"><button id="btnDelV" class="danger">Delete version</button></span>' : ""}</div>
-  <div class="chipRow"><label class="hint">Variations</label>${f.variations.map((va,i) =>
-    `<span class="chip var${isVar&&i===sub.idx?" sel":""}${va.frozen?" frozen":""}" data-va="${i}" title="${esc(va.sourceName||"")}${va.frozenFromName?`frozen from ${esc(va.frozenFromName)}`:""}${va.date?" · "+va.date:""}">${esc(va.label)}${va.frozen?" ⛄":""}</span>`).join("")}
-    <button class="small" id="btnNewVar">+ New variation…</button>
-    ${isVar && !item.frozen ? '<button class="small" id="btnFreeze" title="Fix the amounts as they are now; stops following the formula">Freeze</button>':""}
-    ${isVar ? '<span class="actions"><button id="btnDelVar" class="danger">Delete variation</button></span>':""}</div></div>`;
+    ${f.versions.length >= 2 ? '<button class="small" id="btnCmp">Compare…</button>' : ""}
+    <span class="actions"><button id="btnDelV" class="danger">Delete version</button></span></div></div>`;
   if (item){
-    if (isVar && !item.frozen){
-      const bv = baseVersionOf(f, item);
-      h += `<div class="toolRow"><span class="hint">Live variation – follows</span>
-        <select id="varBase">
-          <option value=""${item.baseV == null ? " selected" : ""}>latest version (now ${esc(vName(currentVersion(f)))})</option>
-          ${f.versions.map(v => `<option value="${v.v}"${item.baseV === v.v ? " selected" : ""}>${esc(vName(v))} (${v.date||"?"})</option>`).join("")}
-        </select>
-        <span class="hint">now computed from ${esc(vName(bv))} · dilution changes preserve rel%</span></div>`;
-      if (lines._solventShort) h += `<div class="hint" style="color:var(--danger)">⚠ The base version changed too much for the solvent correction of this variation: the solvent line is held at 0 g. Check its weights, or set the dilutions again.</div>`;
-    }
     if (sub.bench){ h += renderBench(f, item, lines, K); } else {
     const seenD = new Set(), dupNames = new Set();
     for (const l of lines || []){ const k = l.materialId + "|" + (l.dilutionPct ?? 100);
       if (seenD.has(k)) dupNames.add((matById(l.materialId)||{}).name || "?"); seenD.add(k); }
     if (dupNames.size) h += `<div class="hint" style="color:var(--amber);font-weight:600">⚠ Duplicate lines (same material and dilution twice): ${[...dupNames].map(esc).join(", ")}</div>`;
-    h += renderLines(f, item, lines, K, editable, isVar);
+    h += renderLines(f, item, lines, K, editable);
     if (lines.length){   // everything that acts on the ticked lines lives here, in one place
       h += `<div class="tickBar"><span class="hint">Ticked lines:</span>
         <span class="tickGrp"><span class="hint">mark</span>
@@ -1371,8 +1285,8 @@ function renderFormula(f){
           <span class="swatch" data-mark="0" style="background:var(--hl0)" title="Blue"></span>
           <span class="swatch" data-mark="3" style="background:var(--hl3)" title="Yellow"></span>
           <button class="small" data-mark="1">Unmark</button>
-          <button class="small ghost" id="btnClearMarks" title="Remove every mark in this ${isVar?"variation":"version"}">Clear all</button></span>
-        ${editable||liveVar ? `<span class="tickGrp"><span class="hint">dilution</span>
+          <button class="small ghost" id="btnClearMarks" title="Remove every mark in this version">Clear all</button></span>
+        ${editable ? `<span class="tickGrp"><span class="hint">dilution</span>
           <button class="small" id="btnDilDown" title="Next lower % – rel% preserved, the solvent line takes up the difference">Lower</button>
           <button class="small" id="btnDilUp" title="Next higher % – rel% preserved, the solvent line takes up the difference">Higher</button></span>
         <span class="tickGrp"><button class="small" id="btnPredil" title="Bundle the ticked lines into a separate, weighable mix (creates a new version)">Create predilution…</button></span>` : ""}
@@ -1385,14 +1299,14 @@ function renderFormula(f){
     h += `<details class="panelBox" id="scaleBox"${SCALEOPEN?" open":""}>
       <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Batch scaling</summary>
       <div class="scaleGrid" style="margin-top:.6rem">
-      ${editable||liveVar?`<span>Apply factor</span><span><input type="text" id="scaleF" inputmode="decimal" placeholder="2,500"> ×</span>
+      ${editable?`<span>Apply factor</span><span><input type="text" id="scaleF" inputmode="decimal" placeholder="2,500"> ×</span>
         <button class="small" id="btnApplyFactor">Apply</button><span></span>`:""}
       <span>Target total</span><span><input type="text" id="scaleW" inputmode="decimal" value="${fmtIn(K.totalW)}"> g</span>
-      ${editable||liveVar?'<button class="small" id="btnApplyScale">Apply</button>':"<span></span>"}<span></span>
+      ${editable?'<button class="small" id="btnApplyScale">Apply</button>':"<span></span>"}<span></span>
       ${editable?`<span>Set EtOH for target abs %</span><span><input type="text" id="targetAbs" inputmode="decimal" value="${fmtIn(K.totalAbsPct,2)}"> %</span>
         <button class="small" id="btnSetAbs">Apply</button><span class="hint">max ${fmt(maxAbs,2)} % (EtOH at 0 g)</span>`:""}
     </div>
-    ${!(editable||liveVar) ? `<div class="hint" style="margin-top:.4rem">Read-only entry – the target is used for the printed weighing sheet.</div>` : ""}
+    ${!editable ? `<div class="hint" style="margin-top:.4rem">Read-only version – the target is used for the printed weighing sheet.</div>` : ""}
     </details>`;
     const hasNotes = !!(item.notes || "").trim();
     h += `<details class="panelBox" id="notesBox"${(NOTESOPEN ?? hasNotes) ? " open" : ""}>
@@ -1408,7 +1322,7 @@ function renderFormula(f){
     h += ifraPanel(f, item, K);
     h += `<div class="toolRow" style="margin-top:.6rem">${item.prepared
       ? `<span class="badge" style="background:var(--accent-soft);color:var(--accent-ink)">prepared ${item.prepared.date} · ${item.prepared.materials} tracked material(s) · −${fmt(item.prepared.deductedG)} g</span>`
-      : `<button class="small" id="btnPrep">Mark as prepared</button> <span class="hint">deducts base-dilution lines from tracked stock – once per version/variation</span>`}</div>`;
+      : `<button class="small" id="btnPrep">Mark as prepared</button> <span class="hint">deducts base-dilution lines from tracked stock – once per version</span>`}</div>`;
     }
   }
   c.innerHTML = h;
@@ -1439,7 +1353,7 @@ function renderFormula(f){
     bindNewCat();
   });
   $("#btnDelF")?.addEventListener("click", () => {
-    if (!confirm(`Delete formula “${f.name}” with ${f.versions.length} version(s) and ${f.variations.length} variation(s)?\n\nUndo (Ctrl+Z) can bring it back during this session.`)) return;
+    if (!confirm(`Delete formula “${f.name}” with ${f.versions.length} version(s)?\n\nUndo (Ctrl+Z) can bring it back during this session.`)) return;
     const idx = DATA.formulas.findIndex(x => x.id === f.id), copy = f;
     pushUndo(() => DATA.formulas.splice(idx, 0, copy));
     DATA.formulas.splice(idx, 1);
@@ -1479,10 +1393,8 @@ function renderFormula(f){
     switchTab("M", a.dataset.mat, null);
   }));
   $("#btnDelV")?.addEventListener("click", () => {
-    const pinned = f.variations.filter(va => !va.frozen && va.baseV === item.v).map(va => va.label);
-    if (!confirm(`Delete ${vName(item)}?${pinned.length ? `\n\nLive variation(s) «${pinned.join("», «")}» follow this version; they will follow the latest version instead.` : ""}`)) return;
+    if (!confirm(`Delete ${vName(item)}?`)) return;
     snapF(f); f.versions.splice(sub.idx,1);
-    for (const va of f.variations) if (va.baseV === item.v) delete va.baseV;
     VIEW.sub = {type:"v", idx: f.versions.length-1}; markDirty(); render();
   });
   if (item && !sub.bench){
@@ -1495,49 +1407,21 @@ function renderFormula(f){
       }
       lastCb = pos;
     }));
-    const liveMarks = isVar && !item.frozen && !item.lines;   // marks live on the variation, not on the base version
     c.querySelectorAll("[data-mark]").forEach(b => b.addEventListener("click", () => {
       const sel = [...c.querySelectorAll("input.selCb:checked")].map(x => +x.dataset.i);
       if (!sel.length){ alert("Tick one or more lines first (checkboxes on the left)."); return; }
       snapF(f);
       const code = +b.dataset.mark;
-      if (liveMarks){
-        item.remarks ||= {};
-        const bl = baseLines(f, item);
-        sel.forEach(i => { const k = lineKey(bl[i]);
-          if (code === 1){ delete item.remarks[k]; delete item.remarks[i]; } else item.remarks[k] = code; });
-      }
-      else sel.forEach(i => item.lines[i].remark = code);
+      sel.forEach(i => item.lines[i].remark = code);
       markDirty(); render();
     }));
     $("#btnClearMarks")?.addEventListener("click", () => {
       snapF(f);
-      if (liveMarks) delete item.remarks;
-      else item.lines.forEach(l => l.remark = 1);
+      item.lines.forEach(l => l.remark = 1);
       markDirty(); render();
     });
   }
-  c.querySelectorAll("[data-va]").forEach(el => el.addEventListener("click", ()=>{ VIEW.sub={type:"var",idx:+el.dataset.va}; render(); }));
-  $("#btnNewV")?.addEventListener("click", ()=> newVersion(f, sub.type==="v"?sub.idx:null));
-  $("#btnNewVar")?.addEventListener("click", ()=> newVariation(f, sub));
-  $("#varBase")?.addEventListener("change", e => {
-    snapF(f);
-    if (e.target.value === "") delete item.baseV; else item.baseV = +e.target.value;
-    markDirty(); render();
-  });
-  $("#btnFreeze")?.addEventListener("click", ()=>{
-    const bv = baseVersionOf(f, item);
-    if (!confirm(`Freeze variation «${item.label}» as it is now?\n\nIt keeps the amounts computed from ${vName(bv)} and no longer follows the formula.`)) return;
-    snapF(f);
-    item.lines = variationLines(f, item);
-    item.frozenFrom = bv ? bv.v : null;            // remember which version it was frozen from
-    item.frozenFromName = bv ? vName(bv) : "";
-    item.frozen = true; item.date = today();
-    // the lines are fixed now, so the recipe of differences no longer means anything
-    delete item.dilutionOverrides; delete item.solventDeltaG; delete item.solventBaseC; delete item.targetWeightG;
-    markDirty(); render();
-  });
-  $("#btnDelVar")?.addEventListener("click", ()=>{ if(confirm(`Delete variation «${item.label}»?`)){ snapF(f); f.variations.splice(sub.idx,1); VIEW.sub=null; markDirty(); render(); }});
+  $("#btnNewV")?.addEventListener("click", ()=> newVersion(f, sub.idx));
   $("#btnPrint")?.addEventListener("click", ()=> printSheet(f, item, lines, parseNum($("#scaleW")?.value)));
   $("#btnPrep")?.addEventListener("click", ()=> markPrepared(f, item, lines));
   $("#btnSheet")?.addEventListener("click", ()=> formulaSheetPrint(f, item, lines, K));
@@ -1552,8 +1436,7 @@ function renderFormula(f){
     const t = parseNum($("#scaleW").value); if (!K.totalW) return;
     if (!(t > 0)){ alert("Enter a target total above 0 g."); return; }
     snapF(f);
-    if (isVar && !item.frozen){ item.targetWeightG = t; }
-    else { const k = t / K.totalW; item.lines.forEach(l => l.weightG = (l.weightG||0)*k); }
+    const k = t / K.totalW; item.lines.forEach(l => l.weightG = (l.weightG||0)*k);
     markDirty(); render();
   });
   $("#notesEd")?.addEventListener("change", e => { snapF(f); item.notes = e.target.value; markDirty(); });
@@ -1568,8 +1451,8 @@ function renderFormula(f){
   }));
   $("#btnCmp")?.addEventListener("click", () => {
     const opts = cmpOptions(f);
-    const cur = isVar ? "x"+sub.idx : "v"+sub.idx;
-    let prev = !isVar && sub.idx > 0 ? "v"+(sub.idx-1) : opts.find(o => o.key !== cur)?.key;
+    const cur = "v"+sub.idx;
+    let prev = sub.idx > 0 ? "v"+(sub.idx-1) : opts.find(o => o.key !== cur)?.key;
     CSORT = mapSortToCmp();
     VIEW.sub = {type:"cmp", a: prev || cur, b: cur, from: {type: sub.type, idx: sub.idx}}; render();
   });
@@ -1580,8 +1463,7 @@ function renderFormula(f){
     const k = parseNum($("#scaleF").value);
     if (!k || k <= 0){ alert("Enter a factor above 0, e.g. 2,500."); return; }
     snapF(f);
-    if (isVar && !item.frozen){ item.targetWeightG = K.totalW * k; }
-    else { item.lines.forEach(l => l.weightG = (l.weightG||0) * k); }
+    item.lines.forEach(l => l.weightG = (l.weightG||0) * k);
     markDirty(); render();
   });
   $("#btnSetAbs")?.addEventListener("click", () => {
@@ -1603,9 +1485,8 @@ function renderFormula(f){
     markDirty(); render();
   });
   if (editable && !sub.bench) bindLineEditors(f, item);
-  if (isVar && !item.frozen && !sub.bench) bindVarEditors(f, item);
 }
-function renderLines(f, item, lines, K, editable, isVar){
+function renderLines(f, item, lines, K, editable){
   const canMark = true;   // tick column always available (marks, bulk dilution shift)
   const arrow = k => SORT.key===k ? (SORT.dir>0?" ▲":" ▼") : "";
   const hdr = (k, label, num) => `<th${num?' class="num"':''}><span class="sortable" data-sort="${k}">${label}${arrow(k)}</span></th>`;
@@ -1628,8 +1509,6 @@ function renderLines(f, item, lines, K, editable, isVar){
     if (editable){
       h += `<td>${dilSelect(r.m, r.dil, i)}${dilWarn}</td>
         <td class="num"><input class="w" data-i="${i}" type="text" inputmode="decimal" value="${fmtIn(r.w)}"></td>`;
-    } else if (isVar && !item.frozen){
-      h += `<td>${dilSelect(r.m, r.dil, i, true)}${dilWarn}</td><td class="num">${fmt(r.w)}</td>`;
     } else {
       h += `<td>${fmtS(r.dil)}%${dilWarn}</td><td class="num">${fmt(r.w)}</td>`;
     }
@@ -1657,10 +1536,10 @@ function renderLines(f, item, lines, K, editable, isVar){
   }
   return h;
 }
-function dilSelect(m, cur, i, isVar){
+function dilSelect(m, cur, i){
   // only the material's own dilutions are offered – 100% is NOT implied (some RMs exist only diluted)
   const dils = [...new Set([...(m.dilutions||[]).map(d=>d.pct), cur])].sort((a,b)=>b-a);
-  return `<select class="d" data-${isVar?"vardil":"dil"}="${i}">` +
+  return `<select class="d" data-dil="${i}">` +
     dils.map(d=>`<option value="${d}"${d===cur?" selected":""}>${fmtS(d)}%</option>`).join("") +
     `<option value="custom">custom…</option></select>`;
 }
@@ -1712,71 +1591,9 @@ function bindLineEditors(f, item){
     markDirty(); render();
   });
 }
-function addSolventDelta(f, va, delta){   // delta is in the scale of the base version as it is now
-  const c = calc(baseLines(f, va)).content || 0;
-  if (!(va.solventBaseC > 0)) va.solventBaseC = c || 1;                  // anchor: the correction scales with the base
-  const k = va.solventBaseC > 0 && c > 0 ? c / va.solventBaseC : 1;
-  va.solventDeltaG = (va.solventDeltaG || 0) - delta / k;
-}
-function setOverride(va, bl, materialId, pct){
-  const k = lineKey(bl);
-  (va.dilutionOverrides ||= {})[k] = pct;
-  if (k !== materialId) delete va.dilutionOverrides[materialId];          // the old key applied to every line of that material
-}
-function bindVarEditors(f, va){
-  $("#content").querySelectorAll("[data-vardil]").forEach(sel => sel.addEventListener("change", e => {
-    const i = +e.target.dataset.vardil;
-    let v = e.target.value === "custom" ? askDilution() : parseFloat(e.target.value);
-    if (v) changeDilutionVar(f, va, i, v); else render();
-  }));
-}
-function changeDilutionVar(f, va, i, d2){
-  const raw = varLinesRaw(f, va);
-  const l = raw[i]; if (!l){ render(); return; }
-  const m = matById(l.materialId) || {};
-  const d1 = l.dilutionPct ?? 100;
-  if (!d2 || d2 === d1 || m.isSolvent){ render(); return; }
-  const w1 = l.weightG || 0, w2 = w1 * d1 / d2, delta = w2 - w1;
-  // the variation may be scaled to a target weight – show everything at the scale the user sees
-  const rawTot = raw.reduce((s,x) => s + (x.weightG||0), 0);
-  const k  = va.targetWeightG && rawTot > 0 ? va.targetWeightG / rawTot : 1;                     // exchange keeps the total
-  const k2 = va.targetWeightG && rawTot + delta > 0 ? va.targetWeightG / (rawTot + delta) : 1;   // rel%-only rescales to target
-  const sj = solventIdx(raw, i);
-  const solv = sj >= 0 ? {j: sj, mm: matById(raw[sj].materialId)||{}, w: raw[sj].weightG||0} : null;
-  const short = solv ? delta - solv.w : null;
-  const canEx = solv && short <= 1e-9;
-  const exLabel = !solv ? `<span class="hint">no solvent line in the base version</span>`
-    : canEx ? `${esc(solv.mm.name)}: ${fmt(solv.w*k)} → ${fmt((solv.w - delta)*k)} g – total weight unchanged`
-    : `<span style="color:var(--danger)">not possible: ${esc(solv.mm.name)} holds only ${fmt(solv.w*k)} g, ${fmt(delta*k)} g must be taken out (short ${fmt(short*k)} g)</span>`;
-  const relOnlyLabel = va.targetWeightG
-    ? `total stays ${fmt(va.targetWeightG)} g (target), all other weights rescale, abs% shifts`
-    : `total weight ${delta>=0?"+":""}${fmt(delta)} g, abs% shifts`;
-  const dlg = $("#dlg");
-  dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;max-width:32rem">
-    <h3 style="margin:0 0 .3rem">Change dilution – ${esc(m.name)} <span class="hint">(variation «${esc(va.label)}»)</span></h3>
-    <div class="hint" style="margin-bottom:.8rem">${fmtS(d1)}% → ${fmtS(d2)}%</div>
-    <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="exchange" ${canEx?"checked":"disabled"}>
-      <b>Preserve rel % and exchange solvent</b><br><span style="margin-left:1.4rem">weight ${fmt(w1*k)} → ${fmt(w2*k)} g · ${exLabel}</span></label>
-    <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="keeprel" ${canEx?"":"checked"}>
-      <b>Preserve rel % only</b><br><span style="margin-left:1.4rem">weight ${fmt(w1*k)} → ${fmt(w2*k2)} g · ${relOnlyLabel}</span></label>
-    <div class="toolRow" style="justify-content:flex-end;margin-top:1rem;position:sticky;bottom:0;background:var(--surface);padding-top:.6rem">
-      <button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Apply</button></div></div>`;
-  dlg.showModal();
-  $("#dlgCancel").addEventListener("click", () => { dlg.close(); render(); });
-  $("#dlgOk").addEventListener("click", () => {
-    const method = dlg.querySelector('input[name="dm"]:checked')?.value;
-    dlg.close();
-    if (!method){ render(); return; }
-    snapF(f);
-    setOverride(va, baseLines(f, va)[i], l.materialId, d2);
-    if (method === "exchange") addSolventDelta(f, va, delta);
-    markDirty(); render();
-  });
-}
 function bulkDilShift(f, item, dir){   // dir -1 = next lower % (more diluted), +1 = next higher %
   const c = $("#content");
-  const live = item.label !== undefined && !item.frozen && !item.lines;   // live variation → work via overrides
-  const src = live ? varLinesRaw(f, item) : item.lines;
+  const src = item.lines;
   const sel = [...c.querySelectorAll("input.selCb:checked")].map(x => +x.dataset.i);
   if (!sel.length){ alert("Tick one or more lines first (checkboxes on the left)."); return; }
   const plan = [], skipped = []; let delta = 0;
@@ -1799,24 +1616,15 @@ function bulkDilShift(f, item, dir){   // dir -1 = next lower % (more diluted), 
   const sj = solventIdx(src);
   const solv = sj >= 0 ? {j: sj, mm: matById(src[sj].materialId)||{}, w: src[sj].weightG||0} : null;
   if (!solv){ alert("No solvent line in this formula – add ethanol first (e.g. via “Set EtOH for target abs %”) so the total weight can stay constant."); return; }
-  // display at the scale shown on screen (a live variation may be scaled to a target weight)
-  const rawTot = src.reduce((s,x) => s + (x.weightG||0), 0);
-  const k = (live && item.targetWeightG && rawTot > 0) ? item.targetWeightG / rawTot : 1;
   if (delta > solv.w + 1e-9){
-    alert(`Not possible: ${solv.mm.name} holds only ${fmt(solv.w*k)} g, but ${fmt(delta*k)} g must be taken out.\n\nAdd at least ${fmt((delta - solv.w)*k)} g of solvent to the formula first.`);
+    alert(`Not possible: ${solv.mm.name} holds only ${fmt(solv.w)} g, but ${fmt(delta)} g must be taken out.\n\nAdd at least ${fmt(delta - solv.w)} g of solvent to the formula first.`);
     return;
   }
   snapF(f);
-  if (live){
-    const bl = baseLines(f, item);
-    for (const p of plan) setOverride(item, bl[p.i], p.materialId, p.next);
-    addSolventDelta(f, item, delta);
-  } else {
-    for (const p of plan){ const l = item.lines[p.i]; l.dilutionPct = p.next; l.weightG = p.w2; }
-    item.lines[solv.j].weightG = (item.lines[solv.j].weightG || 0) - delta;
-  }
+  for (const p of plan){ const l = item.lines[p.i]; l.dilutionPct = p.next; l.weightG = p.w2; }
+  item.lines[solv.j].weightG = (item.lines[solv.j].weightG || 0) - delta;
   markDirty(); render();
-  if (skipped.length) alert(`Shifted ${plan.length} line(s); ${solv.mm.name || "solvent"} ${delta>=0?"−":"+"}${fmt(Math.abs(delta)*k)} g.\nSkipped (already at extreme): ${skipped.join(", ")}`);
+  if (skipped.length) alert(`Shifted ${plan.length} line(s); ${solv.mm.name || "solvent"} ${delta>=0?"−":"+"}${fmt(Math.abs(delta))} g.\nSkipped (already at extreme): ${skipped.join(", ")}`);
 }
 function replaceMaterial(f, item, i){
   const l = item.lines[i]; if (!l) return;
@@ -1900,30 +1708,23 @@ function changeDilution(f, item, i, d2, onCancel, noSnap){
   });
 }
 function copyFormula(f, sub){
-  const srcV = sub.type === "var" ? (baseVersionOf(f, f.variations[sub.idx]) || currentVersion(f))
-                                  : (f.versions[sub.idx] || currentVersion(f));
+  const srcV = f.versions[sub.idx] || currentVersion(f);
   if (!srcV){ alert("Nothing to copy."); return; }
   openDialog(`<h3 style="margin:0 0 .3rem">Copy to new formula</h3>
     <div class="hint" style="margin-bottom:.7rem">${esc(vName(srcV))} of “${esc(f.name)}” (${srcV.lines.length} lines) becomes v1 of the new formula.</div>
     <div class="fieldGrid">
       <label>New name</label><input id="cpName" value="${esc(f.name)} (copy)" style="min-width:16rem">
       <label>Category</label><span>${catPickerHtml(f.category, "12rem")}</span>
-      <label>Variations</label><label style="justify-self:start"><input type="checkbox" id="cpVars" ${f.variations.length?"checked":""} ${f.variations.length?"":"disabled"}> copy along (${f.variations.length})</label>
     </div>`, "Create copy", () => {
     const name = $("#cpName").value.trim();
     if (!name){ alert("Give the copy a name."); return false; }
     if (DATA.formulas.some(x => x.name.toLowerCase() === name.toLowerCase())){ alert("A formula with that name already exists."); return false; }
-    const cat = $("#catSel").value || "", withVars = $("#cpVars").checked;
+    const cat = $("#catSel").value || "";
     const newCat = rememberCat(cat);
     const nf = {id: uid("f-"), name, category: cat, created: today(), modified: now(), frozenImport: false,
       versions: [{v: 1, date: today(), notes: `Copied from ${f.name} ${vName(srcV)}.`,
         lines: srcV.lines.map(l => ({...l})),
-        bench: srcV.bench ? structuredClone(srcV.bench) : undefined}],
-      variations: withVars ? f.variations.map(va => {
-        const c = structuredClone(va);
-        c.id = uid("f-var"); c.date = today(); delete c.prepared; delete c.sourceName; delete c.baseV;   // the copy has only v1
-        return c;
-      }) : []};
+        bench: srcV.bench ? structuredClone(srcV.bench) : undefined}]};
     DATA.formulas.push(nf);
     pushUndo(() => { DATA.formulas = DATA.formulas.filter(x => x.id !== nf.id);
       if (newCat) DATA.formulaCategories = DATA.formulaCategories.filter(x => x !== newCat);
@@ -1933,9 +1734,9 @@ function copyFormula(f, sub){
   });
   bindNewCat();
 }
-/* ---------- Move into…: an imported (flat) formula becomes a version or a variation of another formula ---------- */
+/* ---------- Move into…: an imported (flat) formula becomes a version of another formula ---------- */
 function canMoveInto(f){
-  return f.versions.length === 1 && !(f.variations||[]).length && (f.frozenImport || f.versions[0].imported) && DATA.formulas.length > 1;
+  return f.versions.length === 1 && (f.frozenImport || f.versions[0].imported) && DATA.formulas.length > 1;
 }
 function nameStem(name){   // "Aura v05" → ["aura", 5]; "Aura" → ["aura", null]
   const m = /^(.*?)[\s._-]*v?(\d+)[a-z]?$/i.exec(name.trim());
@@ -2239,8 +2040,6 @@ function moveInto(f){
   const [stem, num] = nameStem(f.name);
   const cands = num != null ? others.filter(x => nameStem(x.name)[0] === stem).sort((a,b) => (nameStem(a.name)[1] ?? -1) - (nameStem(b.name)[1] ?? -1)) : [];
   const lowest = cands[0] || null;
-  const labelOf = x => { const l = normName(x.name).startsWith(stem) ? x.name.trim().slice(stem.length).replace(/^[\s._-]+/, "") : ""; return l || x.name.trim(); };   // "Aura v05" → "v05", "Aura v05 20%" → "v05 20%"
-  const labelGuess = lowest ? labelOf(f) : "";
   // move together: other imported formulas with the same name stem come pre-ticked; any other imported formula can be added
   const movables = others.filter(canMoveInto);
   const companions = movables.filter(x => nameStem(x.name)[0] === stem || normName(x.name).startsWith(stem + " "));   // "Aura v04", and also "Aura v05 20%"
@@ -2248,18 +2047,16 @@ function moveInto(f){
   const suggested = lowest && companions.length && num < (nameStem(lowest.name)[1] ?? -1) ? f : lowest;
   const togRow = x => `<label style="display:block"><input type="checkbox" class="mvTog" data-id="${x.id}" checked> ${esc(x.name)}</label>`;
   const selfOpt = movables.length ? `<option value="${f.id}"${suggested === f ? " selected" : ""}>this formula (${esc(f.name)})</option>` : "";
-  const opts = others.map(x => `<option value="${x.id}"${suggested && x.id === suggested.id ? " selected" : ""}>${esc(x.name)} (${x.versions.length}v · ${(x.variations||[]).length}var)</option>`).join("");
+  const opts = others.map(x => `<option value="${x.id}"${suggested && x.id === suggested.id ? " selected" : ""}>${esc(x.name)} (${x.versions.length} version${x.versions.length === 1 ? "" : "s"})</option>`).join("");
   openDialog(`<h3 style="margin:0 0 .3rem">Move into…</h3>
     <div class="hint" id="mvIntro" style="margin-bottom:.7rem"></div>
     <div class="fieldGrid">
       <label>Into</label><select id="mvTarget" style="min-width:18rem"><option value="">– choose a formula –</option>${selfOpt}${opts}</select>
-      <label>As</label><span>
-        <label style="display:block"><input type="radio" name="mvMode" value="v" checked> a new <b>version</b> <span id="mvVno" class="hint"></span></label>
-        <label style="display:block;margin-top:.3rem"><input type="radio" name="mvMode" value="var"> a frozen <b>variation</b> with label <input id="mvLabel" value="${esc(labelGuess)}" placeholder="e.g. 20%, soap, 44gr" style="width:8rem"> of version <select id="mvBase"></select></label></span>
+      <label>As</label><span>a new <b>version</b> <span id="mvVno" class="hint"></span></span>
     </div>
     ${suggested ? `<div class="hint" style="margin-top:.6rem">${suggested === f ? "Suggested: this formula has the lowest number, so the others move into it." : "Suggested: the names differ only in the number at the end."}</div>` : ""}
     ${movables.length ? `<div class="panelBox" style="margin-top:.8rem"><h3>Move together</h3>
-      <div class="hint" style="margin-bottom:.4rem">Other imported formulas that go into the same target in one go. Versions are numbered by the version number in the name, then by name; variation labels are the names without the shared part.</div>
+      <div class="hint" style="margin-bottom:.4rem">Other imported formulas that go into the same target in one go. Versions are numbered by the version number in the name, then by name.</div>
       <div id="mvTogether">${companions.map(togRow).join("")}</div>
       <div class="toolRow" style="margin-top:.4rem"><input id="mvAdd" list="mvAddList" placeholder="add another imported formula…" style="min-width:16rem">
         <datalist id="mvAddList">${movables.filter(x => !companions.includes(x)).map(x => `<option value="${esc(x.name)}">`).join("")}</datalist></div>
@@ -2267,37 +2064,21 @@ function moveInto(f){
     const t = DATA.formulas.find(x => x.id === $("#mvTarget").value);
     if (!t){ alert("Choose the formula to move into."); return false; }
     const self = t === f;   // the formula opened is the target: only the ticked ones move
-    const mode = document.querySelector('input[name="mvMode"]:checked').value;
     const extra = [...document.querySelectorAll("#mvTogether input.mvTog:checked")].map(cb => DATA.formulas.find(x => x.id === cb.dataset.id)).filter(x => x && x.id !== t.id && x.id !== f.id);
     if (self && !extra.length){ alert("Tick the formulas to move into this one."); return false; }
     // the order in which they arrive: the version number in the name ("Aura v05 20%" counts as 5), then the name; the formula opened is one of them
     const numOf = x => { const t = nameStem(x.name)[1]; if (t != null) return t; const m = /\d+/.exec(x.name.slice(stem.length)); return m ? +m[0] : Infinity; };
     const sources = (self ? extra : [f, ...extra]).sort((a,b) => numOf(a) - numOf(b) || a.name.localeCompare(b.name, undefined, {numeric: true}));
-    if (mode === "var"){
-      if (!self && !$("#mvLabel").value.trim()){ alert("Give the variation a label."); return false; }
-      const labels = sources.map(x => x === f ? $("#mvLabel").value.trim() : labelOf(x));
-      const dup = labels.find((l, i) => labels.indexOf(l) !== i || (t.variations||[]).some(v => v.label === l));
-      if (dup){ alert(`The label “${dup}” would be used twice in “${t.name}”. Rename one of the formulas first, or move them one by one.`); return false; }
-    }
     const tclone = structuredClone(t);
     const removed = sources.map(x => ({f: x, idx: DATA.formulas.findIndex(y => y.id === x.id)})).sort((a,b) => a.idx - b.idx);
-    const bv = mode === "var" ? (t.versions.find(x => x.v === +$("#mvBase").value) || currentVersion(t)) : null;
     let sub = null, vNext = t.versions.length ? Math.max(...t.versions.map(x => x.v)) + 1 : 1;
     for (const x of sources){
       const s = x.versions[0], ref = s.sourceName || x.name;
-      if (mode === "v"){
-        const nv = {v: vNext++, date: s.date || x.created || today(),
-          name: s.name || "", notes: s.notes || "", lines: s.lines.map(l => ({...l})), sourceName: ref, imported: true, frozen: true};
-        if (s.trials?.length) nv.trials = structuredClone(s.trials);
-        if (s.bench) nv.bench = structuredClone(s.bench);
-        t.versions.push(nv); if (x === f) sub = {type:"v", idx: t.versions.length - 1};
-      } else {
-        const label = x === f ? $("#mvLabel").value.trim() : labelOf(x);
-        const va = {id: uid(t.id + "-var"), label, frozen: true, date: s.date || x.created || today(), notes: s.notes || "",
-          lines: s.lines.map(l => ({...l})), sourceName: ref, frozenFrom: bv ? bv.v : null, frozenFromName: bv ? vName(bv) : ""};
-        if (s.trials?.length) va.trials = structuredClone(s.trials);
-        (t.variations ||= []).push(va); if (x === f) sub = {type:"var", idx: t.variations.length - 1};
-      }
+      const nv = {v: vNext++, date: s.date || x.created || today(),
+        name: s.name || "", notes: s.notes || "", lines: s.lines.map(l => ({...l})), sourceName: ref, imported: true, frozen: true};
+      if (s.trials?.length) nv.trials = structuredClone(s.trials);
+      if (s.bench) nv.bench = structuredClone(s.bench);
+      t.versions.push(nv); if (x === f) sub = {type:"v", idx: t.versions.length - 1};
     }
     t.modified = now();
     pushUndo(() => {   // one step: the target as it was, and every moved formula back in its place
@@ -2314,14 +2095,10 @@ function moveInto(f){
     $("#mvIntro").innerHTML = t === f
       ? `The formulas ticked under Move together become part of “${esc(f.name)}” and disappear from the list. Their lines, notes, date, colour marks and trial log come along, and the import names stay on them as a reference. Undo (Ctrl+Z) reverses all of it.`
       : `“${esc(f.name)}” becomes part of another formula and disappears from the list. Its lines, notes, date, colour marks and trial log come along, and the import name stays on it as a reference. Undo (Ctrl+Z) reverses all of it.`;
-    $("#mvLabel").disabled = t === f;   // the formula opened stays itself: no label for it
     $("#mvVno").textContent = t ? `(v${t.versions.length ? Math.max(...t.versions.map(x => x.v)) + 1 : 1})` : "";
-    $("#mvBase").innerHTML = t ? t.versions.map(v => `<option value="${v.v}">${esc(vName(v))}</option>`).join("") : "";
-    if (t && t.versions.length) $("#mvBase").value = String(currentVersion(t).v);
     document.querySelectorAll("#mvTogether input.mvTog").forEach(cb => { const isT = t && cb.dataset.id === t.id; cb.disabled = isT; if (isT) cb.checked = false; });   // the target cannot move into itself
   };
   $("#mvTarget").addEventListener("change", fillBase); fillBase();
-  $("#mvLabel").addEventListener("focus", () => { document.querySelector('input[name="mvMode"][value="var"]').checked = true; });
   $("#mvAdd")?.addEventListener("change", e => {
     const x = movables.find(y => y.name === e.target.value.trim());
     if (!x || document.querySelector(`#mvTogether input.mvTog[data-id="${x.id}"]`)) return;
@@ -2333,16 +2110,14 @@ function createPredilution(f, sub, item, dispLines){
   const c = $("#content");
   const sel = [...c.querySelectorAll("input.selCb:checked")].map(x => +x.dataset.i);
   if (!sel.length){ alert("Tick the lines that should go into the predilution first."); return; }
-  const isVarView = sub.type === "var";
-  const cur = isVarView ? baseVersionOf(f, item) : currentVersion(f);
-  // work on the lines AS DISPLAYED (variation weights & dilution choices included)
+  const cur = currentVersion(f);
   const pickIdx = sel.filter(i => { const l = dispLines[i]; return l && !(matById(l.materialId)||{}).isSolvent && l.weightG > 0; });
   if (!pickIdx.length){ alert("No usable lines ticked (solvent lines and zero weights are excluded)."); return; }
   const picks = pickIdx.map(i => dispLines[i]);
   const sumW = picks.reduce((s,l) => s + l.weightG, 0);
   const sumC = picks.reduce((s,l) => s + (l.weightG||0)*(l.dilutionPct??100)/100, 0);
   const conc = +(sumW > 0 ? sumC/sumW*100 : 100).toFixed(4);                           // aromatic strength of the mix; the batch factor does not change it
-  // the new version keeps the content of the replaced lines, so rel% stays put even if the variation showed other dilutions
+  // the new version keeps the content of the replaced lines, so rel% stays put
   const baseC = pickIdx.reduce((s,i) => { const l = cur.lines[i] || {}; return s + (l.weightG||0)*(l.dilutionPct??100)/100; }, 0);
   const replW = conc > 0 ? baseC*100/conc : sumW;
   let defName = `${f.name} - v${cur.v} - PREDIL`;
@@ -2354,7 +2129,7 @@ function createPredilution(f, sub, item, dispLines){
   const dlg = $("#dlg");
   dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:26rem">
     <h3 style="margin:0 0 .3rem">Create predilution</h3>
-    <div class="hint" style="margin-bottom:.7rem">${pickIdx.length} line(s) as shown in ${isVarView?`variation «${esc(item.label)}»`:`version v${cur.v}`} (together ${fmt(sumW)} g).
+    <div class="hint" style="margin-bottom:.7rem">${pickIdx.length} line(s) of version v${cur.v} (together ${fmt(sumW)} g).
       In the new version v${Math.max(...f.versions.map(x=>x.v))+1} they are replaced by one predil line of ${fmt(replW)} g at ${fmtS(conc)}%.</div>
     <div class="fieldGrid">
       <label>Name</label><input id="pdName" value="${esc(defName)}" style="min-width:18rem">
@@ -2380,19 +2155,18 @@ function createPredilution(f, sub, item, dispLines){
       costPerGram: Cp > 0 ? +(costT/Cp).toFixed(4) : null,   // per gram of pure material, as everywhere else
       ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`,
       purchaseDate: today(), pyramid: 5, isSolvent: false,
-      description: `Predilution of ${f.name} ${isVarView?`variation «${item.label}» (base v${cur.v})`:`v${cur.v}`} (factor ×${k}).\n\n` +
+      description: `Predilution of ${f.name} v${cur.v} (factor ×${k}).\n\n` +
         picks.map(l => { const m = matById(l.materialId); return `${(m||{}).name||"?"} (${fmtS(l.dilutionPct??100)}%) – ${(+(l.weightG*k).toFixed(4))} g`; }).join("\n"),
       dilutions: [{pct: conc, isBase: true, date: today(), notes: "aromatic concentration of the mix"}]};
     const pf = {id: uid("f-"), name, category: "Predilutions", created: today(), modified: now(), frozenImport: false,
       versions: [{v: 1, frozen: true, date: today(),
-        notes: `Predilution for ${f.name} ${isVarView?`variation «${item.label}» (base v${cur.v})`:`v${cur.v}`} · factor ×${k} · total ${(+Wp.toFixed(3))} g · ${conc.toFixed(2)}% aromatic`,
-        lines: picks.map(l => ({materialId: l.materialId, dilutionPct: l.dilutionPct??100, weightG: l.weightG*k, remark: 1}))}],
-      variations: []};
+        notes: `Predilution for ${f.name} v${cur.v} · factor ×${k} · total ${(+Wp.toFixed(3))} g · ${conc.toFixed(2)}% aromatic`,
+        lines: picks.map(l => ({materialId: l.materialId, dilutionPct: l.dilutionPct??100, weightG: l.weightG*k, remark: 1}))}]};
     const idxSet = new Set(pickIdx);
     const newLines = cur.lines.filter((l,i) => !idxSet.has(i)).map(l => ({...l}));
     newLines.push({materialId: pm.id, dilutionPct: conc, weightG: replW, remark: 1});
     const nv = {v: Math.max(...f.versions.map(x => x.v)) + 1, date: today(),
-      notes: `Predilution «${name}» replaces ${pickIdx.length} lines of v${cur.v}${isVarView?` (composition per variation «${item.label}»)`:""}.`, lines: newLines};
+      notes: `Predilution «${name}» replaces ${pickIdx.length} lines of v${cur.v}.`, lines: newLines};
     DATA.materials.push(pm); DATA.materials.sort((a,b) => a.name.localeCompare(b.name)); invalidateMats();
     if (!DATA.formulaCategories.includes("Predilutions")) DATA.formulaCategories.push("Predilutions");
     DATA.formulas.push(pf);
@@ -2406,7 +2180,7 @@ function createPredilution(f, sub, item, dispLines){
       if (VIEW.id === pf.id){ VIEW.id = null; VIEW.sub = null; }
     });
     buildUsage(); markDirty();
-    if (sub.type !== "var") VIEW.sub = {type: "v", idx: f.versions.length - 1};
+    VIEW.sub = {type: "v", idx: f.versions.length - 1};
     render();
   });
 }
@@ -2419,33 +2193,6 @@ function newVersion(f, fromIdx){
   f.versions.push(v); f.frozenImport = false;
   VIEW.sub = {type:"v", idx: f.versions.length-1};
   markDirty(); render();
-}
-function newVariation(f, sub){
-  const viewed = sub && sub.type === "v" ? f.versions[sub.idx] : null;
-  const latest = currentVersion(f);
-  const onOlder = viewed && latest && viewed.v !== latest.v;
-  openDialog(`<h3 style="margin:0 0 .3rem">New variation – ${esc(f.name)}</h3>
-    <div class="hint" style="margin-bottom:.7rem">Same recipe in another presentation: other dilutions, another batch size. It follows the formula live until you freeze it.</div>
-    <div class="fieldGrid">
-      <label>Label</label><input id="nvLabel" placeholder="e.g. 20%, soap, 44gr" style="min-width:14rem">
-      <label>Target total</label><span><input id="nvTarget" inputmode="decimal" placeholder="same as base" style="width:7rem;text-align:right"> g</span>
-      <label>Follows</label><select id="nvBase">
-        <option value="">latest version (now ${esc(vName(latest))})</option>
-        ${onOlder ? `<option value="${viewed.v}" selected>this version only (${esc(vName(viewed))})</option>` : ""}
-      </select>
-    </div>`, "Create", () => {
-    const label = $("#nvLabel").value.trim();
-    if (!label){ alert("Give the variation a label."); return false; }
-    const t = parseNum($("#nvTarget").value), bv = $("#nvBase").value;
-    if (t != null && !(t > 0)){ alert("Enter a target total above 0 g, or leave it empty."); return false; }
-    snapF(f);
-    const va = {id: uid(f.id+"-var"), label, frozen:false, date: today(), notes:"", dilutionOverrides:{}, targetWeightG: t || null};
-    if (bv) va.baseV = +bv;
-    f.variations.push(va);
-    VIEW.sub = {type:"var", idx: f.variations.length-1};
-    markDirty(); render();
-  });
-  $("#nvLabel").focus();
 }
 
 /* ---------- inventory (opt-in stock ledger) ---------- */
@@ -2483,12 +2230,12 @@ function markPrepared(f, item, lines){
     if (!stockCalc(m).tracked){ untracked.push(m.name); continue; }
     ded.push({m, g: l.weightG});
   }
-  const label = itemLabel(item);
+  const label = vName(item);
   const msg = `Mark ${f.name} ${label} as prepared on ${today()}?\n\n` +
     (ded.length ? `Stock will decrease for ${ded.length} tracked material(s):\n${ded.slice(0,12).map(d=>`  − ${fmt(d.g)} g ${d.m.name}`).join("\n")}${ded.length>12?"\n  …":""}\n\n` : "No tracked base-dilution lines – nothing will be deducted.\n\n") +
     (other.length ? `${other.length} line(s) at other dilutions are untouched (their base was deducted when the dilution was made).\n` : "") +
     (untracked.length ? `${untracked.length} material(s) not tracked.\n` : "") +
-    `\nThis can be done once per version/variation.`;
+    `\nThis can be done once per version.`;
   if (!confirm(msg)) return;
   const fClone = structuredClone(f);
   const mClones = ded.map(d => structuredClone(d.m));
@@ -2525,9 +2272,8 @@ const nBE = x => x == null || x === "" ? "" : (csvSep() === "," ? String(x) : St
 function exportAllFormulas(){
   const rows = [["Formula","Category","Entry","Date","Material","Dilution %","Weight g","Rel %","Abs %","Cost EUR"]];
   for (const f of DATA.formulas){
-    const items = [...f.versions.map(v => ({label: vName(v), it:v})), ...f.variations.map(va => ({label:"variation "+va.label, it:va}))];
-    for (const {label, it} of items){
-      const K = calc(it.lines || variationLines(f, it));
+    for (const it of f.versions){
+      const label = vName(it), K = calc(it.lines);
       for (const r of K.rows)
         rows.push([f.name, f.category||"", label, it.date||"", r.m.name + (r.m.isSolvent?" (solvent)":""),
           nBE(r.dil), nBE(r.w.toFixed(3)), r.rel==null?"":nBE(r.rel.toFixed(2)), nBE(r.absPct.toFixed(2)), nBE(r.cost.toFixed(2))]);
@@ -2550,7 +2296,7 @@ function exportAllMaterials(){
   dlCsv(rows, `${stamp()} miFormulas materials.csv`);
 }
 function csvDownload(f, item, lines, K){
-  const label = itemLabel(item);
+  const label = vName(item);
   const rows = [[`${f.name} – ${label}`,"","","","",""],
     ["Material","Dilution %","Weight g","Rel %","Abs %","Cost EUR"]];
   sortRows(K.rows).forEach(r => rows.push([r.m.name + (r.m.isSolvent ? " (solvent)" : ""), nBE(r.dil),
@@ -2559,7 +2305,7 @@ function csvDownload(f, item, lines, K){
   dlCsv(rows, `${stamp()} ${f.name} ${label.replace(/[«»]/g,"")}.csv`.replace(/[\\/:*?"<>|]/g, "-"));
 }
 function shareVersion(f, item, K){   // the version you are looking at, as a file another miFormulas user can import
-  const label = isVariation(item) ? item.label : vName(item);
+  const label = vName(item);
   const lines = sortRows(K.rows).map(r => {
     const L = {material: r.m.name, dilutionPct: r.dil, weightG: +r.w.toFixed(3)};   // no materialId: an id from
     if ((r.m.cas || "").trim()) L.cas = r.m.cas.trim();   // another data file could land on the wrong material
@@ -2576,7 +2322,7 @@ function shareVersion(f, item, K){   // the version you are looking at, as a fil
   a.click(); URL.revokeObjectURL(a.href);
 }
 function formulaSheetPrint(f, item, lines, K){
-  const label = itemLabel(item);
+  const label = vName(item);
   $("#printArea").innerHTML = `<h2>${esc(f.name)} – ${esc(label)}</h2>
   <div>Printed ${today()}${item.date ? " · created " + item.date : ""} · miFormulas</div>
   <table class="sheet"><colgroup><col class="matc"><col class="wc"><col class="rc"><col class="rc"><col class="rc"></colgroup>
@@ -2721,7 +2467,7 @@ function renderBench(f, item, lines, K){
       <div class="blist" data-bdrop="${gi}">${g.keys.map(key => BD.byKey.get(key)).filter(Boolean).map(row).join("") || '<div class="bempty">Drop raw materials here</div>'}</div></div>`;
   });
   h += `</div></div>
-  <div class="hint" style="padding-bottom:.4rem">The arrangement is saved with this ${item.label!==undefined?"variation":"version"}. Percentages are rel % (share of non-solvent content).</div></div>`;
+  <div class="hint" style="padding-bottom:.4rem">The arrangement is saved with this version. Percentages are rel % (share of non-solvent content).</div></div>`;
   return h;
 }
 function benchMove(f, item, keys, target, beforeKey){
@@ -2823,7 +2569,7 @@ function bindBench(f, item, lines, K){
 }
 function benchPrint(f, item, lines, K){
   const BD = benchData(item, lines);
-  const label = itemLabel(item);
+  const label = vName(item);
   const sec = (title, keys) => {
     const ks = keys.map(k => BD.byKey.get(k)).filter(Boolean);
     if (!ks.length) return "";
@@ -2859,11 +2605,10 @@ function aggLines(lines){
   return {map, tw, content, abs: tw ? content/tw*100 : 0};
 }
 function cmpOptions(f){
-  return [...f.versions.map((v,i)=>({key:"v"+i, label:`${vName(v)} (${v.date||"?"})${v.sourceName?` – ${v.sourceName}`:""}`})),
-          ...f.variations.map((va,i)=>({key:"x"+i, label:`«${va.label}»${va.frozenFromName?` ⛄ ${va.frozenFromName}`:""}${va.date?` – ${va.date}`:""}`}))];
+  return f.versions.map((v,i)=>({key:"v"+i, label:`${vName(v)} (${v.date||"?"})${v.sourceName?` – ${v.sourceName}`:""}`}));
 }
 function cmpLines(f, key){
-  return key[0]==="v" ? (f.versions[+key.slice(1)]?.lines||[]) : variationLines(f, f.variations[+key.slice(1)]||{lines:[]});
+  return f.versions[+key.slice(1)]?.lines || [];
 }
 let CSORT = null;
 function mapSortToCmp(){
@@ -2964,7 +2709,7 @@ function renderImport(){
         ${[...DATA.formulas].sort((a,b)=>a.name.localeCompare(b.name)).map(x =>
           `<option value="${x.id}"${(p.targetFormula && x.name.toLowerCase() === String(p.targetFormula).toLowerCase()) ? " selected" : ""}>new version of: ${esc(x.name)} (now v${currentVersion(x)?currentVersion(x).v:0})</option>`).join("")}
       </select>
-      <span class="hint">a new version keeps the existing variations, notes and history</span></div>
+      <span class="hint">a new version keeps the notes and the history</span></div>
     <div><b>Total weight: ${fmt(tw)} g</b> <span class="hint">– a round number (100 / 1000) suggests a complete transcription</span></div>
     <div class="hint">${rows.length} lines · ${rows.length-newCount} matched · ${newCount} new (will be created as “to order”) · ${warnCount} with a dilution you don’t stock (⚠ convert in a next version)</div></div>
   <table class="lines"><thead><tr><th>Material</th><th class="num">Dilution</th><th class="num">Weight (g)</th><th>Status</th></tr></thead><tbody>
@@ -3022,7 +2767,7 @@ function applyImport(){
   const cat = p.category || "Uncategorised";
   if (!DATA.formulaCategories.includes(cat)) DATA.formulaCategories.push(cat);
   const f = {id: uid("f-"), name, category: cat, created: today(), modified: now(), frozenImport: false,
-    versions: [{v: 1, date: today(), notes: p.notes || "", lines}], variations: []};
+    versions: [{v: 1, date: today(), notes: p.notes || "", lines}]};
   DATA.formulas.push(f);
   pushUndo(() => {
     DATA.orderList = oc;
@@ -3282,7 +3027,7 @@ function renderMaterial(m){
     const d = m.dilutions[+b.dataset.deldil];
     let used = 0, inF = new Set();
     for (const f of DATA.formulas)
-      for (const it of [...f.versions, ...f.variations])
+      for (const it of f.versions)
         for (const l of it.lines || [])
           if (l.materialId === m.id && l.dilutionPct === d.pct){ used++; inF.add(f.name); }
     const msg = used
@@ -3342,7 +3087,7 @@ $("#btnNew").addEventListener("click", () => {
     if (DATA.formulas.some(x => x.name.toLowerCase() === name.toLowerCase())){ alert("A formula with that name already exists."); return false; }
     const cat = $("#catSel").value || "", newCat = rememberCat(cat);
     const f = {id: uid("f-"), name, category:cat, created: today(), modified: now(), frozenImport:false,
-      versions:[{v:1, date:today(), notes:"", lines:[]}], variations:[]};
+      versions:[{v:1, date:today(), notes:"", lines:[]}]};
     DATA.formulas.push(f);
     pushUndo(() => { DATA.formulas = DATA.formulas.filter(x => x.id !== f.id);
       if (newCat) DATA.formulaCategories = DATA.formulaCategories.filter(x => x !== newCat);
@@ -3440,7 +3185,7 @@ $("#btnOpen").addEventListener("click", openFile);
 function printSheet(f, item, lines, targetW){
   const K = calc(lines);
   const k = targetW > 0 && K.totalW ? targetW/K.totalW : 1;
-  const label = itemLabel(item);
+  const label = vName(item);
   $("#printArea").innerHTML = `<h2>${esc(f.name)} – ${esc(label)}</h2>
   <div>Printed ${today()} · target ${fmt((K.totalW||0)*k)} g · concentrate ${fmt(K.totalAbsPct,2)}% · est. cost € ${fmt(K.totalCost*k,2)}</div>
   <table class="bench"><colgroup><col class="cbc"><col class="pyc"><col class="matc"><col class="dilc"><col class="wc"><col class="rc"></colgroup>
@@ -3693,11 +3438,11 @@ function render(){
     const recent = (arr, go) => arr.filter(x => x.modified).sort((a,b) => b.modified.localeCompare(a.modified)).slice(0,8)
       .map(x => `<div class="usage">· <a class="matlink" data-${go}="${x.id}">${esc(x.name)}</a> <span class="hint">${esc(x.modified)}${x.category?` · ${esc(x.category)}`:""}</span></div>`).join("")
       || '<div class="hint">Nothing edited yet – history builds up as you work.</div>';
-    const nvv = DATA.formulas.reduce((s,x) => s + x.versions.length + x.variations.length, 0);
+    const nvv = DATA.formulas.reduce((s,x) => s + x.versions.length, 0);
     c.innerHTML = `<h2>Welcome</h2>
     <div class="tiles">
       <div class="tile" style="background:var(--accent-soft)"><b>${DATA.formulas.length}</b><span>formulas</span></div>
-      <div class="tile" style="background:var(--bench)"><b>${nvv}</b><span>versions & variations</span></div>
+      <div class="tile" style="background:var(--bench)"><b>${nvv}</b><span>versions</span></div>
       <div class="tile" style="background:var(--amber-soft)"><b>${DATA.materials.length}</b><span>materials</span></div>
       <div class="tile" style="background:var(--frozen-soft)"><b>${(DATA.orderList||[]).length}</b><span>to order</span></div>
     </div>

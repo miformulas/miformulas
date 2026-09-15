@@ -1,4 +1,4 @@
-"""Move into…: an imported (flat) formula becomes a version or a frozen variation of another formula.
+"""Move into…: an imported (flat) formula becomes a version of another formula.
 Uses the starter set; two formulas are marked as imported the way the Formulair importer does.
 Needs the local web server on port 8765 (see README)."""
 from playwright.sync_api import sync_playwright
@@ -46,7 +46,7 @@ with sync_playwright() as p:
     check("suggests Aura v04 (names differ only in the number)", sel_name.startswith("Aura v04"))
     check("suggestion hint shown", "Suggested" in dlg.inner_text())
     check("next version number announced", page.locator("#mvVno").inner_text().strip() == "(v2)")
-    check("variation base list holds v1", page.locator("#mvBase option").count() == 1)
+    check("no variation mode any more (build 260915b)", page.locator("#mvLabel").count() == 0 and page.locator("input[name=mvMode]").count() == 0)
 
     # 1. as a version
     page.click("#dlgOk"); page.wait_for_timeout(600)
@@ -59,27 +59,12 @@ with sync_playwright() as p:
     check("notes, trial log, colour mark and lines came along", f4["notes"] == "notes of Aura v05" and f4["trials"] == 1 and f4["remark"] == 2 and f4["lines"] == 12)
     check("source formula is gone", page.evaluate("DATA.formulas.length") == nBefore - 1 and page.evaluate("!DATA.formulas.some(f => f.name === 'Aura v05')"))
     check("app shows Aura v04 at v2", page.locator("#content h2").first.inner_text().startswith("Aura v04") and page.locator("#verSel").input_value() == "1")
-    check("list counter reads 2v", "2v" in page.locator("#list .item", has_text="Aura v04").first.inner_text())
+    check("list counter reads 2 versions", "2 versions" in page.locator("#list .item", has_text="Aura v04").first.inner_text())
 
     # Undo brings everything back in one step
     page.keyboard.press("Control+z"); page.wait_for_timeout(500)
     check("undo: source formula is back", page.evaluate("DATA.formulas.length") == nBefore and page.evaluate("DATA.formulas.some(f => f.name === 'Aura v05')"))
     check("undo: target has one version again", page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').versions.length") == 1)
-
-    # 2. as a frozen variation
-    page.locator("#list").get_by_text("Aura v05", exact=True).click(); page.wait_for_timeout(400)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
-    page.fill("#mvLabel", "v05"); page.wait_for_timeout(100)
-    check("typing a label selects the variation mode", page.evaluate("document.querySelector('input[name=mvMode][value=var]').checked"))
-    page.click("#dlgOk"); page.wait_for_timeout(600)
-    va = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Aura v04"); const va = f.variations[0]; return va && {label: va.label, frozen: va.frozen,
-      from: va.frozenFrom, fromName: va.frozenFromName, src: va.sourceName, lines: va.lines.length, nv: f.versions.length}; }""")
-    check("target got a frozen variation with the label, frozen from v1", va and va["label"] == "v05" and va["frozen"] and va["from"] == 1 and va["fromName"] == "v1" and va["lines"] == 12 and va["nv"] == 1)
-    check("import reference kept on the variation", va and va["src"] == "Aura v05")
-    check("app shows the variation", "viewing a variation" in page.locator("#verSel option:checked").inner_text())
-    check("source formula is gone again", page.evaluate("!DATA.formulas.some(f => f.name === 'Aura v05')"))
-    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
-    check("undo restores both formulas", page.evaluate("DATA.formulas.some(f => f.name === 'Aura v05') && DATA.formulas.find(x => x.name === 'Aura v04').variations.length === 0"))
 
     # cancel does nothing; the moved-in formula is not offered as its own target
     page.locator("#list").get_by_text("Aura v05", exact=True).click(); page.wait_for_timeout(400)
@@ -115,16 +100,6 @@ with sync_playwright() as p:
     check("the three sources are gone, the unticked one stays", page.evaluate("DATA.formulas.length") == n0 - 3 and page.evaluate("DATA.formulas.some(f => f.name === 'Vetiver Test') && !DATA.formulas.some(f => f.name === 'Aura v06')"))
     page.keyboard.press("Control+z"); page.wait_for_timeout(500)
     check("one Undo brings all three back", page.evaluate("DATA.formulas.length") == n0 and page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').versions.length") == 1)
-    # as variations: labels are the names without the shared part
-    page.locator("#list").get_by_text("Aura v05", exact=True).click(); page.wait_for_timeout(400)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
-    page.check('input[name="mvMode"][value="var"]')
-    page.click("#dlgOk"); page.wait_for_timeout(700)
-    labels = page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').variations.map(v => v.label)")
-    check(f"as variations: labels without the shared part ({labels})", labels == ["v05", "v05 20%", "v06"])
-    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
-    check("Undo again restores everything", page.evaluate("DATA.formulas.length") == n0)
-
     # opened on the lowest number: the formula itself is the target, and the others move into it
     page.locator("#list").get_by_text("Aura v04", exact=True).click(); page.wait_for_timeout(400)
     page.click("#btnMoveF"); page.wait_for_timeout(400)
@@ -132,7 +107,6 @@ with sync_playwright() as p:
     check(f"opened on Aura v04: 'this formula' is suggested ({sel_name})", sel_name == "this formula (Aura v04)")
     check("hint says the others move into it", "this formula has the lowest number" in dlg.inner_text())
     check("intro speaks of the ticked formulas", "ticked under Move together become part of" in page.locator("#mvIntro").inner_text())
-    check("label field of the opened formula is disabled", page.locator("#mvLabel").is_disabled())
     rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked, cb.disabled])")
     check(f"companions v05, v05 20%, v06 ticked and enabled ({rows})", sorted(r[0] for r in rows) == ["Aura v05", "Aura v05 20%", "Aura v06"] and all(r[1] and not r[2] for r in rows))
     check("next version number announced", page.locator("#mvVno").inner_text().strip() == "(v2)")
@@ -152,14 +126,6 @@ with sync_playwright() as p:
     check(f"nothing ticked: asks to tick formulas ({msgs})", any("Tick the formulas" in m for m in msgs) and page.evaluate("DATA.formulas.length") == n0)
     check("dialog stays open", dlg.evaluate("d => d.open"))
     page.click("#dlgCancel"); page.wait_for_timeout(300)
-    # as variations from the lowest one: labels without the shared part, no label needed for the opened formula
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
-    page.check('input[name="mvMode"][value="var"]')
-    msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(700)
-    f4 = page.evaluate("(() => { const f = DATA.formulas.find(x => x.name === 'Aura v04'); return {labels: f.variations.map(v => v.label), nv: f.versions.length}; })()")
-    check(f"as variations of Aura v04 ({f4['labels']})", f4["labels"] == ["v05", "v05 20%", "v06"] and f4["nv"] == 1 and not msgs)
-    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
-    check("Undo restores everything once more", page.evaluate("DATA.formulas.length") == n0 and page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').variations.length") == 0)
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

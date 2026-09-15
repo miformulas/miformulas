@@ -39,7 +39,7 @@ with sync_playwright() as p:
         costPerGram:1, dilutions:[{pct:100, isBase:true}]});
       invalidateMats();
       DATA.formulas.push({id:"f-x", name:"A/B: proef", category:"Uncategorised", created:today(), versions:[
-        {v:1, date:today(), lines:[{materialId:"m-x", dilutionPct:100, weightG:1.5, remark:1}]}], variations:[]});
+        {v:1, date:today(), lines:[{materialId:"m-x", dilutionPct:100, weightG:1.5, remark:1}]}]});
       markDirty(); VIEW = {tab:"F", id:"f-x", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(700)
     with page.expect_download() as dl:

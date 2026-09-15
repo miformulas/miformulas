@@ -27,8 +27,7 @@ PKG = {
     {"id": "f-f1", "name": "Test Import v01", "category": "Tests", "created": "2026-09-09", "modified": "2026-09-09 10:00", "frozenImport": True,
      "versions": [{"v": 1, "name": "", "date": "2026-09-09", "notes": "hello", "lines": [
         {"materialId": "m-f1", "dilutionPct": 10, "weightG": 1.5, "remark": None},
-        {"materialId": "m-f2", "dilutionPct": 100, "weightG": 0.5, "remark": 2}], "sourceName": "Test Import v01", "imported": True, "frozen": True}],
-     "variations": []},
+        {"materialId": "m-f2", "dilutionPct": 100, "weightG": 0.5, "remark": 2}], "sourceName": "Test Import v01", "imported": True, "frozen": True}]},
   ],
   "shopSites": [], "orderList": [],
 }

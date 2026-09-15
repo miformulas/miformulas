@@ -71,22 +71,22 @@ Keep the table plain (no merged cells) so that I can copy it into a spreadsheet.
 
 ## 3. Grouping formulas that came from Formulair
 
-The Formulair importer keeps every Formulair formula as a separate frozen formula, because Formulair is flat: "Aura v04" and "Aura v05" are two formulas there. In miFormulas they belong together as versions of one formula, and "Aura v05 20%" is a variation of it. An assistant can propose that grouping from the names, for you to review; the app does the moving itself with **Move into…** and **Move together**. Give it the names: the export **All formulas (Excel)** on the Welcome page has them in the first column, or copy them from the list on the left.
+The Formulair importer keeps every Formulair formula as a separate frozen formula, because Formulair is flat: "Aura v04" and "Aura v05" are two formulas there. In miFormulas they belong together as versions of one formula, "Aura v05 20%" included, with the "20%" as its label. An assistant can propose that grouping from the names, for you to review; the app does the moving itself with **Move into…** and **Move together**. Give it the names: the export **All formulas (Excel)** on the Welcome page has them in the first column, or copy them from the list on the left.
 
-Applying the proposal goes through **Move into…**: open the formula that should carry the history (the lowest number of the series), and the window lists the other imported formulas with the same name stem, already ticked, under **Move together**. Each of them becomes a version or a frozen variation of the one you opened, in a single step that one Undo takes back. **Copy to new formula** and **+ New variation** remain for the cases the names do not cover. Frozen imports stay as they are, so nothing is lost while you regroup.
+Applying the proposal goes through **Move into…**: open the formula that should carry the history (the lowest number of the series), and the window lists the other imported formulas with the same name stem, already ticked, under **Move together**. Each of them becomes a version of the one you opened, in a single step that one Undo takes back. **Copy to new formula** remains for the cases the names do not cover. Frozen imports stay as they are, so nothing is lost while you regroup.
 
 ---
 
-Below is a list of perfume formula names that were imported from another program, where every trial was a separate formula. Propose how to group them into formulas with a version history and variations. Do not rename anything beyond splitting a name into its parts, and do not merge names that only look similar.
+Below is a list of perfume formula names that were imported from another program, where every trial was a separate formula. Propose how to group them into formulas with a version history. Do not rename anything beyond splitting a name into its parts, and do not merge names that only look similar.
 
 Rules:
 
 - A stem followed by a version number ("Aura v04", "Aura V4", "Aura v.4", "Aura versie 4", "Aura 4") is a version of the formula "Aura". The version number is the number in the name.
-- A name with a suffix that describes a presentation rather than a new trial ("20%", "EDT", "soap", "44gr", "10 ml", "candle") is a variation of the version it is based on, with that suffix as its label. If the base version is not named, note which version it most likely belongs to and mark it as a question.
+- A name with a suffix that describes a presentation rather than a new trial ("20%", "EDT", "soap", "44gr", "10 ml", "candle") is a version too, with that suffix as its label; place it after the version it is based on. If that base version is not named, note which one it most likely belongs to and mark it as a question.
 - Different stems stay separate formulas, even when they share words. A date in a name is not a version number; keep it as a remark.
 - When a name fits more than one reading, list it under "questions" with the readings, instead of choosing.
 
-Answer with a table with the columns: Original name | Formula | Version | Variation label | Confidence (high, medium, low) | Remark. Sort by formula, then version. After the table, list the questions, and the names you left as separate single-version formulas.
+Answer with a table with the columns: Original name | Formula | Version | Label | Confidence (high, medium, low) | Remark. Sort by formula, then version. After the table, list the questions, and the names you left as separate single-version formulas.
 
 Here are the names:
 

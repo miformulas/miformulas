@@ -145,7 +145,6 @@ def convert(path):
                 "lines": lines_by_f.get(pk, []),
                 "sourceName": title, "imported": True, "frozen": True,
             }],
-            "variations": [],
         })
 
     mcats = sorted({m["category"] for m in materials} | set(rmcat.values()), key=str.lower)

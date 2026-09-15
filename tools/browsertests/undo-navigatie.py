@@ -1,6 +1,6 @@
 """Undo, Redo and where you land (build 260914g): a new category goes back with the action that made
 it, a predilution takes its two categories back, Replace plus a dilution change is one step, Redo
-returns to the place the change was made, Copy from a variation takes its base version, and a new
+returns to the place the change was made, Copy from an older version takes that version, and a new
 version keeps the bench arrangement. Needs the local web server on port 8765 (see README)."""
 from playwright.sync_api import sync_playwright
 
@@ -44,7 +44,7 @@ with sync_playwright() as p:
       DATA.formulaCategories = DATA.formulaCategories.filter(c => c !== "Predilutions");
       DATA.formulas.push({id:"f-u", name:"Undotest", category:"Uncategorised", created:today(), versions:[
         {v:1, date:today(), lines:[{materialId:"m-u1", dilutionPct:100, weightG:2, remark:1},
-                                   {materialId:"m-u2", dilutionPct:100, weightG:98, remark:1}]}], variations:[]});
+                                   {materialId:"m-u2", dilutionPct:100, weightG:98, remark:1}]}]});
       markDirty(); VIEW = {tab:"F", id:"f-u", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(600)
     page.check('input.selCb[data-i="0"]'); page.wait_for_timeout(200)
@@ -107,18 +107,16 @@ with sync_playwright() as p:
           and page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-u").versions[0].lines[0].weightG)()""") == 5)
     page.fill("#searchBox", ""); page.wait_for_timeout(200)
 
-    # ---------- 5. Copy to new formula from a variation takes its base version ----------
+    # ---------- 5. Copy to new formula from an older version takes that version ----------
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u");
       f.versions.push({v:2, date:today(), lines:[{materialId:"m-u1", dilutionPct:100, weightG:9, remark:1}]});
-      f.variations.push({id:"va-u", label:"live", frozen:false, date:today(), baseV:1, dilutionOverrides:{}});
-      markDirty(); VIEW = {tab:"F", id:"f-u", sub:{type:"var", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
+      markDirty(); VIEW = {tab:"F", id:"f-u", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(600)
-    page.evaluate("""() => { window.__n = 0; }""")
     page.click("#btnCopyF"); page.wait_for_timeout(500)
-    page.fill("#cpName", "Kopie van de variatie"); page.click("#dlgOk"); page.wait_for_timeout(800)
-    cp = page.evaluate("""(() => { const f = DATA.formulas.find(x => x.name === "Kopie van de variatie");
+    page.fill("#cpName", "Kopie van v1"); page.click("#dlgOk"); page.wait_for_timeout(800)
+    cp = page.evaluate("""(() => { const f = DATA.formulas.find(x => x.name === "Kopie van v1");
       return f && {lines: f.versions[0].lines.length, w: f.versions[0].lines[0].weightG}; })()""")
-    check(f"the copy follows the version the variation is pinned to ({cp})", cp and cp["lines"] == 2)
+    check(f"the copy takes the version you were looking at, not the latest ({cp})", cp and cp["lines"] == 2)
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
 
     # ---------- 6. a new version keeps the bench arrangement ----------

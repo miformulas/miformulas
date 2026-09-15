@@ -65,17 +65,17 @@ database in your browser, nothing is uploaded, and adds every formula and
 material to miFormulas: notes, dilutions, colour marks, categories, suppliers,
 stock, IFRA limits. Materials are matched by name, formulas already imported are
 skipped, one Undo takes the whole import back. Afterwards **Move into…** folds
-"Aura v04", "Aura v05" and "Aura v05 20%" into one formula with versions and
-variations.
+"Aura v04", "Aura v05" and "Aura v05 20%" into one formula with three versions.
 
 **Bench view.** A formula laid out as a worksheet, the way a batch is built: core
 materials first, smell, then the next group. Drag lines into named groups, or
 tick them and move them together; each group shows its weight and strength;
 print it as a bench sheet in weighing order.
 
-**Two-level formulas.** A base formula keeps an immutable version history. On top
-of it sit variations: the same recipe in another presentation, either *living*
-(only the deviations, following the base) or *frozen* (a snapshot).
+**Version history.** A formula keeps an immutable row of versions: only the
+latest one is edited, every earlier one stays exactly as it was. Another
+presentation of the same recipe (20 % instead of 15 %, a 44 g batch) is simply
+a version with a label.
 
 **Perfumery percentages.** Relative % is the dilution-corrected content of a line
 divided by the total non-solvent content, so the column sums to 100 and solvent

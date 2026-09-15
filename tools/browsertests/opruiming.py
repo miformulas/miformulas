@@ -1,5 +1,5 @@
 """Build 260915: the tail of the review of 260913g. Search, confirmations, ellipsis,
-the library credit and the alias list, a frozen variation, and read-only on a phone.
+the library credit and the alias list, and read-only on a phone.
 Needs the local web server on port 8765 (see README)."""
 import json, os, tempfile
 from playwright.sync_api import sync_playwright
@@ -40,7 +40,6 @@ with sync_playwright() as p:
     check("Rename…", page.text_content("#btnRenameF").strip() == "Rename…")
     check("Copy to new formula…", page.text_content("#btnCopyF").strip() == "Copy to new formula…")
     check("Change category…", page.text_content("#btnCatF").strip() == "Change category…")
-    check("+ New variation…", page.text_content("#btnNewVar").strip() == "+ New variation…")
     check("the pencil says so in its tooltip", page.get_attribute("#btnNameV", "title") == "Name this version…")
     check("the replace arrows say so in their tooltip",
           (page.get_attribute("[data-repl]", "title") or "").endswith("…"))
@@ -101,22 +100,6 @@ with sync_playwright() as p:
     # ---------- a value that rounds to nothing keeps no minus sign ----------
     check("fmt(-0.0000001) is 0, not -0", page.evaluate("fmt(-0.0000001, 3)").replace(",", ".") == "0.000")
     check("fmtS(-0.0000001) too", "-" not in page.evaluate("fmtS(-0.0000001, 2)"))
-
-    # ---------- a frozen variation drops the recipe of differences ----------
-    page.evaluate("""() => {
-        const f = DATA.formulas.find(x => x.versions.length && x.versions[0].lines.length > 1);
-        f.variations.push({id: "va-t", label: "test", date: "2026-09-15", baseV: f.versions[0].v,
-                           dilutionOverrides: {"x|100": 10}, solventDeltaG: 1.5, solventBaseC: 2, targetWeightG: 50});
-        window.__fid = f.id; switchTab('F', f.id, {type:'var', idx: f.variations.length - 1});
-    }""")
-    page.wait_for_timeout(500)
-    mode["v"] = "accept"
-    page.click("#btnFreeze"); page.wait_for_timeout(600)
-    va = page.evaluate("() => DATA.formulas.find(x => x.id === window.__fid).variations.find(v => v.id === 'va-t')")
-    check("freezing fixes the lines", va.get("frozen") is True and isinstance(va.get("lines"), list))
-    check("and drops the differences it no longer needs",
-          not {"dilutionOverrides", "solventDeltaG", "solventBaseC", "targetWeightG"} & set(va))
-    check("while the base version it came from is kept", "frozenFrom" in va and va.get("frozenFromName"))
 
     # ---------- the library: alternative names in the list, the credit in Settings ----------
     f = os.path.join(tempfile.mkdtemp(), "lib.json")
