@@ -338,7 +338,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915m</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915n</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -400,7 +400,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260915m. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260915n. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-and-versions">Formulas and versions</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -618,10 +618,12 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>The Welcome page has the import and export buttons. <strong>Import from Formulair…</strong> opens the importer described in section <a href="#s19-coming-from-formulair">19</a>.</p>
 <p><strong>Import materials library…</strong> reads a miformulas-materials JSON file: a library of materials with their facts, which the app uses when you add a material, when you tick several in <strong>Browse the library…</strong>, and when a search in Materials finds nothing in your inventory. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. One library is loaded at a time, so importing a newer or fuller one replaces the previous one; the materials you own are never touched. Settings (⚙) names the library that is loaded, with its size and its licence, removes it again, and fetches the latest miFormulas library straight from the site with <strong>Get the latest library</strong>, so you do not have to download a file first. The library travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step.</p>
 <p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, or shared by another miFormulas user, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your inventory (by name, or by one of the alternative names of a material), the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). It also reads the file critically, because such a file is written elsewhere: a line without a material name, a weight that is not a number or is negative, and a dilution outside 0 to 100 are shown in red with the reason, and <strong>Confirm import</strong> stays out of reach until you correct them in the file. What can be read is repaired quietly: a decimal comma, a percent sign after a dilution, a missing dilution (which means 100). If you already have a formula with the same name, a new version of it is preselected. Nothing else is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens; Undo takes the whole import back, including the materials, order lines and categories it created. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
+<p>The same button reads a file that holds <strong>several formulas at once</strong>, the kind <strong>Export all my formulas…</strong> writes. Such a file can hold tens of thousands of lines, so the page shows a summary instead of a table of lines: how many formulas, versions and lines, how many lines matched a material you own and how many materials will be created, how many lines use a dilution you do not stock and how many you and the sender disagree about being a solvent. Under that, one row per formula with its versions, lines and new materials. Every line is checked exactly as in a single import, and one that cannot be read blocks <strong>Confirm import</strong> with the formula it sits in named. The formulas arrive as new formulas, each with all its versions; one whose name you already have arrives as "Name (import)" and nothing of yours is touched, so you can join them afterwards with <strong>Move into…</strong> (section <a href="#s8-formulas-and-versions">8</a>). The materials it creates are marked "to order" in Materials but are <strong>not</strong> put on the order list, because hundreds of rows there would drown the list you keep yourself; add the ones you want with <strong>Add to order list</strong> on the material page. The whole import is a single Undo step.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-import-and-export">The import page: every line with its match, the total weight, new materials and dilutions you do not stock.</a></p>
 <p><strong>Turning a photo, PDF or spreadsheet into an import file.</strong> You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a <code>.json</code> file and import it. The prompt tells the AI assistant to transcribe verbatim, to convert nothing, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the <strong>Export all materials (Excel)</strong> export as well and the assistant uses the exact names of your inventory, so that every line lands on the right material. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.</p>
 <p><strong>Export all formulas (Excel)</strong> and <strong>Export all materials (Excel)</strong> download everything as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. The separators follow the number format in Settings: a comma for the decimal and a semicolon between the columns in Belgian and most European settings, a point and a comma in English ones, which is what Excel expects in each.</p>
-<p><strong>Export my inventory as a library…</strong>, under those two buttons, does the reverse of importing a library: it writes the materials you tick as a miformulas-materials file of your own, named <code>miformulas-my-materials.json</code>. Everything is ticked to begin with, Shift-click ticks a range, and the counter says how many of the ticked ones carry a description you wrote yourself, because those descriptions go into the file exactly as they are. What stays behind is what is nobody's business but yours: stock, price, supplier, dilutions and dates. The file carries no name, version, licence or attribution either, because it is your data and not a publication. Use it to carry your own facts to another computer, or to give a colleague a head start; when a file like that is imported as a library, its descriptions take the place of the odour lines the miFormulas library would otherwise fill in.</p>
+<p><strong>Export all my formulas…</strong> writes every formula with all its versions as one miformulas-import file, the same format a single shared formula uses. It is the counterpart of Export my inventory as a library: the formulas and their lines, with the material names, their dilutions and weights, the CAS numbers and a mark on the lines that are solvent in your inventory, plus the label, date and notes of each version. Nothing of your own lab goes along: no price, supplier, stock or trial log. Use it to hand a colleague your whole collection, or to bring the formulas of one miFormulas into another without overwriting what is there, which is what a Backup would do. A line pointing to a material you have since deleted has no name to match on and is left out, and the app says how many.</p>
+<p><strong>Export my inventory as a library…</strong> does the reverse of importing a library: it writes the materials you tick as a miformulas-materials file of your own, named <code>miformulas-my-materials.json</code>. Everything is ticked to begin with, Shift-click ticks a range, and the counter says how many of the ticked ones carry a description you wrote yourself, because those descriptions go into the file exactly as they are. What stays behind is what is nobody's business but yours: stock, price, supplier, dilutions and dates. The file carries no name, version, licence or attribution either, because it is your data and not a publication. Use it to carry your own facts to another computer, or to give a colleague a head start; when a file like that is imported as a library, its descriptions take the place of the odour lines the miFormulas library would otherwise fill in.</p>
 <h2 id="s19-coming-from-formulair">19. Coming from Formulair</h2>
 <p>A word about Formulair first. I discovered perfumery together with Formulair, Sam Macer's formulation app for the Mac, and for an app built before the AI era it was remarkably complete: materials with their dilutions, formulas with notes and colour marks, costs, IFRA limits, stock. Only two things drove me to build miFormulas: the limits that come with a Mac-only app, and the possibilities that AI assistants now offer around a formulation notebook. The importer below is a bridge and a homage: everything you built in Formulair comes along.</p>
 <p>The importer at <a href="https://miformulas.com/formulair-import.html">https://miformulas.com/formulair-import.html</a> reads the Formulair database entirely in your browser and adds your formulas and materials to miFormulas, whatever it uses to save (browser storage, a data file or a server). Nothing leaves your computer.</p>
@@ -1099,9 +1101,19 @@ function redo(){
 window.addEventListener("beforeunload", e => { if (DIRTY){ e.preventDefault(); e.returnValue = ""; }});
 
 /* ---------- lookups & calculations ---------- */
-let MATIDX = null, MATLIST = null;
-const invalidateMats = () => { MATIDX = null; MATLIST = null; };
+let MATIDX = null, MATLIST = null, MATNAME = null;
+const invalidateMats = () => { MATIDX = null; MATLIST = null; MATNAME = null; };
 const matById = id => (MATIDX ||= new Map(DATA.materials.map(m => [m.id, m]))).get(id);
+function matByName(name){   // your material by name or by one of its alternative names; a name of your own wins over an alias
+  if (!MATNAME){
+    MATNAME = new Map();
+    for (const m of DATA.materials){ const k = normName(m.name); if (k && !MATNAME.has(k)) MATNAME.set(k, m); }
+    for (const m of DATA.materials)
+      for (const a of (m.aliases || "").split(";")){ const q = normName(a); if (q && !MATNAME.has(q)) MATNAME.set(q, m); }
+  }
+  const n = normName(name);
+  return n ? (MATNAME.get(n) || null) : null;
+}
 const matListHtml = () => (MATLIST ||= DATA.materials.map(m => `<option value="${esc(m.name)}">`).join(""));
 const catColourByName = n => { const c = (DATA.categoryColours||{})[n]; return !c || c.toUpperCase() === "#FFFFFF" ? "var(--muted)" : c; };
 const catColour = m => catColourByName(m.category);
@@ -1899,12 +1911,7 @@ function listFacts(m){   // odour, impact, substantivity and typical use have no
   }
   return b.join("\n");
 }
-function ownFind(name){   // your own material by name or by one of its alternative names, as the import matches
-  const n = normName(name);
-  if (!n) return null;
-  return DATA.materials.find(x => normName(x.name) === n)
-      || DATA.materials.find(x => (x.aliases || "").split(";").some(a => a.trim() && normName(a) === n)) || null;
-}
+const ownFind = name => matByName(name);   // your own material by name or by one of its alternative names, as the import matches
 function ownNames(){   // the names and alternative names you already have, normalised
   const s = new Set();
   for (const m of DATA.materials){
@@ -2480,6 +2487,41 @@ function shareVersion(f, item, K){   // the version you are looking at, as a fil
   a.download = `${stamp()} ${f.name} ${label}.json`.replace(/[\\/:*?"<>|«»]/g, "-");
   a.click(); URL.revokeObjectURL(a.href);
 }
+function exportFormulasFile(){   // every formula with all its versions, as a file another miFormulas can import
+  let orphans = 0;
+  const formulas = [];
+  for (const f of DATA.formulas){
+    const versions = [];
+    for (const v of f.versions || []){
+      const lines = [];
+      for (const l of v.lines || []){
+        const m = matById(l.materialId);
+        if (!m || !m.name){ orphans++; continue; }        // a line to a deleted material has no name to match on
+        const L = {material: m.name, dilutionPct: l.dilutionPct, weightG: +(+l.weightG || 0).toFixed(6)};
+        if ((m.cas || "").trim()) L.cas = m.cas.trim();   // the CAS lets the other create a material he lacks
+        if (m.isSolvent) L.solvent = true;                // without this the receiver reads the ethanol as a raw material
+        lines.push(L);
+      }
+      if (!lines.length) continue;
+      const V = {name: v.name || "", date: v.date || "", lines};
+      if ((v.notes || "").trim()) V.notes = v.notes.trim();   // no price, supplier, stock or trial log
+      versions.push(V);
+    }
+    if (versions.length) formulas.push({name: f.name, category: f.category || "Uncategorised", versions});
+  }
+  if (!formulas.length){ alert("There are no formulas with lines to export."); return; }
+  const nv = formulas.reduce((s, f) => s + f.versions.length, 0);
+  const nl = formulas.reduce((s, f) => s + f.versions.reduce((t, v) => t + v.lines.length, 0), 0);
+  const pkg = {type: "miformulas-import", source: `All formulas from miFormulas \u00b7 ${today()}`, formulas};
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(pkg)], {type: "application/json"}));
+  a.download = `${stamp()} miFormulas formulas.json`;
+  a.click(); URL.revokeObjectURL(a.href);
+  alert(`${formulas.length} formulas with ${nv} versions and ${nl} lines written.\n\n`
+    + "Nothing of your own lab goes along: no price, supplier, stock or trial log. Someone with miFormulas "
+    + "reads this file with Import formula\u2026"
+    + (orphans ? `\n\n${orphans} line(s) point to a material that no longer exists and were left out.` : ""));
+}
 function formulaSheetPrint(f, item, lines, K){
   const label = vName(item);
   $("#printArea").innerHTML = `<h2>${esc(f.name)} – ${esc(label)}</h2>
@@ -2848,9 +2890,7 @@ function resolveImportLine(L){
   // the import is the gate for files written elsewhere (an AI transcription, another perfumer): every line is checked
   const nm = normName(L.material);
   const m = !nm ? null                                   // a line without a name matches nothing: "" would land on the first material without aliases
-    : (L.materialId && matById(L.materialId)) || DATA.materials.find(x => x.name === L.material)
-    || DATA.materials.find(x => normName(x.name) === nm)
-    || DATA.materials.find(x => (x.aliases||"").split(";").some(a => a.trim() && normName(a) === nm)) || null;   // "Ambroxan" on a sheet finds your "Ambroxide"
+    : (L.materialId && matById(L.materialId)) || matByName(L.material) || null;   // "Ambroxan" on a sheet finds your "Ambroxide"
   const w = L.weightG == null || L.weightG === "" ? null : parseNum(L.weightG);        // a transcription can hold "2,5" or nothing at all
   const dil = L.dilutionPct == null || L.dilutionPct === "" ? 100 : parseNum(L.dilutionPct);
   const bad = !nm ? "no material name"
@@ -2862,9 +2902,107 @@ function resolveImportLine(L){
   const solvMismatch = !bad && !!m && !!L.solvent !== !!m.isSolvent;   // the sender calls the line a solvent and you do not, or the reverse
   return {m, dil, w, bad, dilOwned, solvMismatch};
 }
+function resolveBulk(p){   // once per file: every line checked, then only the totals are drawn
+  if (p._sum) return p._sum;
+  const perF = []; const fresh = new Map();   // a material to create is counted once for the whole file
+  let nv = 0, nl = 0, matched = 0, bad = 0, warn = 0, solv = 0;
+  for (const f of p.formulas || []){
+    let fl = 0, fbad = 0, fnew = 0;
+    for (const v of f.versions || []){
+      nv++;
+      for (const L of v.lines || []){
+        nl++; fl++;
+        const r = resolveImportLine(L);
+        if (r.bad){ bad++; fbad++; continue; }
+        if (r.m){ matched++; if (!r.dilOwned) warn++; if (r.solvMismatch) solv++; }
+        else { const k = normName(L.material); if (!fresh.has(k)){ fresh.set(k, 1); fnew++; } }
+      }
+    }
+    perF.push({name: f.name || "?", versions: (f.versions || []).length, lines: fl, bad: fbad, fresh: fnew,
+               twin: !!DATA.formulas.find(x => normName(x.name) === normName(f.name))});
+  }
+  p._sum = {perF, nv, nl, matched, bad, warn, solv, fresh: fresh.size,
+            twins: perF.filter(x => x.twin).length, badF: perF.filter(x => x.bad).length};
+  return p._sum;
+}
+function renderBulkImport(){   // several formulas at once: a summary, because a file like this holds tens of thousands of lines
+  const c = $("#content"), p = IMPORTP, s = resolveBulk(p);
+  c.innerHTML = `<h2>Import formulas – ${p.formulas.length} formulas</h2>
+  <div class="metaLine">${esc(p.source || "a miFormulas file")}</div>
+  <div class="panelBox"><h3>Check before confirming</h3>
+    <div><b>${p.formulas.length} formulas · ${s.nv} versions · ${s.nl} lines</b></div>
+    <div class="hint">${s.matched} line(s) matched a material you own · ${s.fresh} material(s) will be created
+      as “to order”; they are not put on the order list, so To order stays yours.</div>
+    ${s.warn ? `<div class="hint" id="impWarn" style="color:var(--amber-ink)">${s.warn} line(s) use a dilution you do not stock (⚠ convert them in a next version).</div>` : ""}
+    ${s.solv ? `<div class="hint" id="impSolv" style="color:var(--amber-ink)">${s.solv} line(s) the sender counts as a solvent and you do not, or the reverse. Your own material decides.</div>` : ""}
+    ${s.twins ? `<div class="hint" id="impTwins">${s.twins} formula(s) carry a name you already have; they arrive as “Name (import)” and nothing of yours is touched. Move into… joins them afterwards if you want.</div>` : ""}
+    ${s.bad ? `<div class="hint" id="impBad" style="color:var(--danger)"><b>${s.bad} line(s) in ${s.badF} formula(s) cannot be imported.</b> Correct them in the file and import again; nothing has been changed yet.</div>` : ""}</div>
+  <table class="lines"><thead><tr><th>Formula</th><th class="num">Versions</th><th class="num">Lines</th><th class="num">New materials</th><th>Status</th></tr></thead><tbody>
+  ${s.perF.map(f => `<tr${f.bad ? ' class="badLine"' : ""}><td>${esc(f.name)}</td>
+    <td class="num">${f.versions}</td><td class="num">${f.lines}</td><td class="num">${f.fresh || ""}</td>
+    <td>${f.bad ? `<span style="color:var(--danger)">${f.bad} line(s) cannot be imported</span>`
+              : f.twin ? '<span style="color:var(--amber-ink)">name taken – arrives as “(import)”</span>'
+              : '<span class="hint">new formula</span>'}</td></tr>`).join("")}
+  </tbody></table>
+  <div class="toolRow" style="justify-content:flex-end"><button id="btnImpCancel">Cancel</button><button class="primary" id="btnImpOk"${s.bad ? " disabled" : ""}>Confirm import</button></div>`;
+  if (!s.bad) $("#btnImpOk").addEventListener("click", applyBulkImport);
+  $("#btnImpCancel").addEventListener("click", () => { IMPORTP = null; render(); });
+}
+function applyBulkImport(){
+  const p = IMPORTP, s = resolveBulk(p);
+  if (s.bad){ alert("Some lines cannot be imported. Correct them in the file and import again."); return; }
+  const createdIds = [], createdMatCats = [], createdFCats = [], createdFIds = [];
+  const made = new Map();
+  for (const f of p.formulas){
+    const versions = [];
+    for (const v of f.versions || []){
+      const lines = [];
+      for (const L of v.lines || []){
+        const r = resolveImportLine(L);
+        if (r.bad) continue;
+        let m = r.m;
+        if (!m){
+          const k = normName(L.material);
+          m = made.get(k);
+          if (!m){
+            const res = newMaterialFrom(L.material, r.dil, {wishlist: true,
+              dilutions: [{pct: r.dil, isBase: true, date: today(), notes: "from import"}]});
+            m = res.m;
+            if (L.cas) m.cas = L.cas;              // what the sender transcribed wins over the library
+            if (L.solvent) m.isSolvent = true;
+            if (res.newCat) createdMatCats.push(res.newCat);
+            createdIds.push(m.id); made.set(k, m);
+          }
+        }
+        lines.push({materialId: m.id, dilutionPct: r.dil, weightG: r.w, remark: 1});
+      }
+      if (lines.length) versions.push({v: versions.length + 1, date: v.date || today(),
+        name: v.name || "", notes: v.notes || "", lines});
+    }
+    if (!versions.length) continue;
+    let name = f.name || "Imported formula";
+    while (DATA.formulas.some(x => normName(x.name) === normName(name))) name += " (import)";
+    const cat = f.category || "Uncategorised";
+    if (!DATA.formulaCategories.includes(cat)){ DATA.formulaCategories.push(cat); createdFCats.push(cat); }
+    const nf = {id: uid("f-"), name, category: cat, created: today(), modified: now(), frozenImport: false, versions};
+    DATA.formulas.push(nf); createdFIds.push(nf.id);
+  }
+  if (createdIds.length){ DATA.materials.sort((a,b) => a.name.localeCompare(b.name)); invalidateMats(); }
+  pushUndo(() => {   // one step: the formulas, the materials they created and both kinds of new category
+    DATA.formulas = DATA.formulas.filter(x => !createdFIds.includes(x.id));
+    DATA.materials = DATA.materials.filter(x => !createdIds.includes(x.id)); invalidateMats();
+    if (createdMatCats.length) DATA.materialCategories = DATA.materialCategories.filter(x => !createdMatCats.includes(x));
+    if (createdFCats.length) DATA.formulaCategories = DATA.formulaCategories.filter(x => !createdFCats.includes(x));
+    if (createdFIds.includes(VIEW.id)){ VIEW.id = null; VIEW.sub = null; }
+  });
+  buildUsage(); markDirty(); IMPORTP = null;
+  alert(`${createdFIds.length} formula(s) added${createdIds.length ? `, with ${createdIds.length} new material(s) marked “to order”` : ""}.`);
+  HOMEVIEW = true; switchTab("F", null, null);
+}
 function renderImport(){
   const c = $("#content");
   const p = IMPORTP;
+  if (Array.isArray(p.formulas) && p.formulas.length){ renderBulkImport(); return; }
   const rows = p.lines.map(L => ({L, ...resolveImportLine(L)}));
   const bad = rows.filter(r => r.bad).length;
   const tw = rows.reduce((s, r) => s + (r.bad ? 0 : r.w), 0);
@@ -3617,7 +3755,7 @@ const canSave = () => REMOTE || DEMO || !!HANDLE;   // server, browser storage o
 function lockInputs(){
   const keep = new Set(["searchBox","verSel","sortSel","cmpA","cmpB","cmpSortSel","bSortSel","scaleW",
     "btnPrint","btnBenchPrint","btnBenchToggle","btnBenchClose","btnCmp","btnCmpClose",
-    "btnImpCancel","btnExpF","btnExpM","btnExpL"]);   // getting out of an import and exporting are read-only actions
+    "btnImpCancel","btnExpF","btnExpM","btnExpL","btnExpJ"]);   // getting out of an import and exporting are read-only actions
   $("#content").querySelectorAll("input,select,textarea,button").forEach(el => { if (!keep.has(el.id)) el.disabled = true; });
 }
 const readOnly = () => isMobile() && !canSave();   // one rule for CSS (body.ro), disabled inputs and hidden buttons
@@ -3689,6 +3827,8 @@ function render(){
         <span class="hint">${DATA.materialList ? `loaded: ${esc(DATA.materialList.name)}${DATA.materialList.version ? " " + esc(DATA.materialList.version) : ""}, ${nMats(DATA.materialList.materials.length)} · a reference for + New material; the materials you own are untouched` : "a reference for + New material: it fills in the facts of a material you add, and never changes the materials you own"}</span></div>
       <div class="toolRow"><button class="small" id="btnExpL">Export my inventory as a library…</button>
         <span class="hint">writes a miformulas-materials .json of the materials you pick: to share, or to carry your own facts to another computer</span></div>
+      <div class="toolRow"><button class="small" id="btnExpJ">Export all my formulas…</button>
+        <span class="hint">writes a miformulas-import .json with every formula and all its versions: to share, or to add them to another miFormulas. Nothing of your lab goes along.</span></div>
       <div class="toolRow"><button class="small" id="btnExpF">Export all formulas (Excel)</button>
         <button class="small" id="btnExpM">Export all materials (Excel)</button>
         <span class="hint">downloads a CSV that opens directly in Excel, with the separators of the number format in Settings</span></div>
@@ -3703,6 +3843,7 @@ function render(){
     });
     $("#homeNewF")?.addEventListener("click", () => $("#btnNew").click());
     $("#homeNewM")?.addEventListener("click", () => $("#btnNewMat").click());
+    $("#btnExpJ")?.addEventListener("click", exportFormulasFile);
     $("#btnExpF")?.addEventListener("click", exportAllFormulas);
     $("#btnExpM")?.addEventListener("click", exportAllMaterials);
     $("#btnExpL")?.addEventListener("click", exportInventoryLibrary);
@@ -3713,8 +3854,9 @@ function render(){
       let p;
       try{ p = JSON.parse(await file.text()); }
       catch(err){ alert("This file is not valid JSON."); return; }
-      if (p?.type !== "miformulas-import" || !Array.isArray(p.lines) || !p.lines.length){
-        alert("This is not a miFormulas import file (expected type “miformulas-import” with lines)."); return;
+      const many = Array.isArray(p?.formulas) && p.formulas.length;
+      if (p?.type !== "miformulas-import" || !(many || (Array.isArray(p.lines) && p.lines.length))){
+        alert("This is not a miFormulas import file (expected type “miformulas-import” with lines, or with formulas)."); return;
       }
       IMPORTP = p; render();
     });
