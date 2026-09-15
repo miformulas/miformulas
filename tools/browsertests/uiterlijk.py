@@ -73,25 +73,32 @@ with sync_playwright() as p:
     check(f"and so does the dark one, which also tells the browser it is dark ({dark})",
           dark[0] == "#3A1E1A" and "dark" in dark[1])
 
-    # ---------- 5. the header stays on one line at 1280 px ----------
-    h = page.evaluate("""(() => { const b = [...document.querySelectorAll("header button")].filter(x => x.offsetParent);
-      const tops = new Set(b.map(x => Math.round(x.getBoundingClientRect().top)));
-      return {rows: tops.size, wrap: getComputedStyle(b[0]).whiteSpace}; })()""")
-    check(f"all header buttons sit on one line ({h})", h["rows"] == 1 and h["wrap"] == "nowrap")
-    page.set_viewport_size({"width": 850, "height": 800})       # wider than a phone, too narrow for one row
-    page.wait_for_timeout(300)
-    h2 = page.evaluate("""(() => { const b = [...document.querySelectorAll("header button")].filter(x => x.offsetParent);
+    # ---------- 5. the header: one row on a laptop, two tidy rows below that, nothing off screen ----------
+    page.evaluate("""() => setState("Saved 09:14 PM", "miformulas-data.json", false)""")
+    meet = """(() => { const b = [...document.querySelectorAll("header button")].filter(x => x.offsetParent);
       const st = document.getElementById("saveState"), w = document.documentElement.clientWidth;
-      const over = b.filter(x => x.getBoundingClientRect().right > w + 1).map(x => x.id || x.textContent.trim());
       const rows = [...new Set(b.map(x => Math.round(x.getBoundingClientRect().top)))].sort((p,q)=>p-q);
-      return {over, rows: rows.length, stateTop: Math.round(st.getBoundingClientRect().top),
-              lastRow: rows[rows.length-1],
-              stateLines: Math.round(st.getBoundingClientRect().height / parseFloat(getComputedStyle(st).fontSize) / 1.2),
-              wrap: getComputedStyle(st).whiteSpace}; })()""")
-    check(f"at 850 px no header button runs off the screen ({h2['over']})", not h2["over"])
-    check(f"the state gets a line of its own below the buttons ({h2})",
-          h2["stateTop"] > h2["lastRow"] and h2["stateLines"] <= 1 and h2["wrap"] == "nowrap")
+      return {rows: rows.length, over: b.filter(x => x.getBoundingClientRect().right > w + 1 || x.getBoundingClientRect().left < -1).map(x => x.id || x.textContent.trim()),
+              scroll: document.documentElement.scrollWidth, win: w,
+              h: Math.round(document.querySelector("header").getBoundingClientRect().height),
+              stH: Math.round(st.getBoundingClientRect().height),
+              small: b.filter(x => { const r = x.getBoundingClientRect(); return r.height < 32; }).map(x => x.id || x.textContent.trim()),
+              where: !!document.getElementById("stWhere") && !!document.getElementById("stWhere").offsetParent}; })()"""
+    for w, rijen, where in ((1440, 1, True), (1280, 1, False), (1024, 2, False), (850, 2, False)):
+        page.set_viewport_size({"width": w, "height": 850}); page.wait_for_timeout(300)
+        h = page.evaluate(meet)
+        check(f"{w} px: nothing runs off the header ({h['over']})", not h["over"] and h["scroll"] <= h["win"])
+        check(f"{w} px: the buttons sit on {rijen} row(s) ({h['rows']}, header {h['h']} px)", h["rows"] == rijen)
+        check(f"{w} px: the state is one line ({h['stH']} px)", h["stH"] <= 24)
+        check(f"{w} px: the storage mode is {'shown' if where else 'in the tooltip'} ({h['where']})", h["where"] == where)
+        check(f"{w} px: every header button is a real tap target ({h['small']})", not h["small"])
     page.set_viewport_size({"width": 1280, "height": 800}); page.wait_for_timeout(300)
+    lang = page.evaluate("""() => { setState("Server not reachable: changes kept in memory, use Backup", "", true);
+        const st = document.getElementById("saveState");
+        return {cls: st.className, h: Math.round(st.getBoundingClientRect().height), tip: st.title}; }""")
+    check(f"a warning may take two lines and keeps its whole text ({lang})",
+          "wide" in lang["cls"] and "dirty" in lang["cls"] and lang["h"] > 24 and "use Backup" in lang["tip"])
+    page.evaluate("""() => setState("Saved 09:14 PM", "miformulas-data.json", false)""")
 
     # ---------- 6. without a mouse ----------
     page.click("#tabM"); page.wait_for_timeout(400)

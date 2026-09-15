@@ -31,7 +31,7 @@
 <style>
 :root{
   --ground:#FBFCFD; --surface:#FFFFFF; --panel:#EDF1F5; --ink:#212A33; --muted:#6C7A88;
-  --line:#DCE3EA; --accent:#A2277E; --accent-ink:#7E1B62; --accent-soft:#F9E3F1; --amber:#DD8500; --amber-soft:#FFEFD2;
+  --line:#DCE3EA; --accent:#A2277E; --accent-ink:#7E1B62; --accent-soft:#F9E3F1; --amber:#DD8500; --amber-ink:#9C5D00; --amber-soft:#FFEFD2;
   --danger:#C42F1F; --danger-soft:#FBE9E5; --frozen:#3E7CB8; --frozen-soft:#E1EEF9;
   --hl0:#3B6FA0; --hl2:#C04A32; --hl3:#C9A227; --hl4:#4C8A46;
   --header-ink:#FBEFDD; --header-mute:#E3B9D6; --zebra:rgba(62,124,184,.05);
@@ -43,7 +43,7 @@
   :root:not([data-theme="light"]){
     color-scheme: dark;   /* checkboxes, date pickers, scrollbars and select lists follow the theme */
     --ground:#1C1122; --surface:#2A1833; --panel:#241430; --ink:#F2E6F2; --muted:#B292BC;
-    --line:#453050; --accent:#E667B0; --accent-ink:#F08CC5; --accent-soft:#3A1F38; --amber:#FFB454; --amber-soft:#3B2A12;
+    --line:#453050; --accent:#E667B0; --accent-ink:#F08CC5; --accent-soft:#3A1F38; --amber:#FFB454; --amber-ink:#FFC078; --amber-soft:#3B2A12;
     --danger:#F08A75; --danger-soft:#3A1E1A; --frozen:#7FA9D9; --frozen-soft:#1E2B3B;
     --header-ink:#F7E9F5; --header-mute:#C79ABB; --zebra:rgba(230,103,176,.07);
     --bench:#122630; --bench2:#141F33; --bench-line:#2C4654;
@@ -54,7 +54,7 @@
 :root[data-theme="dark"]{
   color-scheme: dark;
   --ground:#1C1122; --surface:#2A1833; --panel:#241430; --ink:#F2E6F2; --muted:#B292BC;
-  --line:#453050; --accent:#E667B0; --accent-ink:#F08CC5; --accent-soft:#3A1F38; --amber:#FFB454; --amber-soft:#3B2A12;
+  --line:#453050; --accent:#E667B0; --accent-ink:#F08CC5; --accent-soft:#3A1F38; --amber:#FFB454; --amber-ink:#FFC078; --amber-soft:#3B2A12;
   --danger:#F08A75; --danger-soft:#3A1E1A; --frozen:#7FA9D9; --frozen-soft:#1E2B3B;
   --header-ink:#F7E9F5; --header-mute:#C79ABB; --zebra:rgba(230,103,176,.07);
   --bench:#122630; --bench2:#141F33; --bench-line:#2C4654;
@@ -81,16 +81,25 @@ button.ghost:hover{color:var(--danger)}
 input,select,textarea{font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:.3rem .5rem}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
 input[type=number]{text-align:right}
-header{display:flex;align-items:center;gap:1rem;padding:.55rem 1rem;background:var(--header-grad);color:var(--header-ink)}
+::placeholder{color:var(--muted);opacity:1}   /* Chrome fades the placeholder, which is unreadable on the dark theme */
+/* two groups: what the content is on the left, what the file is on the right. The groups wrap as a whole,
+   so a narrow window gets two tidy rows instead of buttons dropping off the right edge. */
+header{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1rem;padding:.5rem 1rem;background:var(--header-grad);color:var(--header-ink)}
+.hleft,.hright{display:flex;align-items:center;gap:.4rem;min-width:0}
+.hright{margin-left:auto}
 header button,header .hsep{white-space:nowrap}
 header h1{font-size:1.15rem;margin:0;font-weight:600;letter-spacing:.03em}
 header h1 span{color:#FFC46B}
 header button{background:transparent;color:var(--header-ink);border-color:rgba(255,255,255,.25)}
 header button:hover{border-color:var(--amber);color:#fff}
 header button:disabled{opacity:.4}
-header .hsep{width:1px;height:1.3rem;background:rgba(255,255,255,.3);margin:0 .2rem}
+button.small.ico{min-width:2.25rem;min-height:2.25rem;padding:.2rem .35rem;font-size:.95rem}   /* a tap target you can hit */
+header button.small{min-height:2.25rem}
+header .ico2{display:none}                                   /* Undo/Redo as arrows only when the row is tight */
+header .hsep{width:1px;height:1.3rem;background:rgba(255,255,255,.3);margin:0 .1rem}
 header #btnSave{border-color:rgba(255,255,255,.55)}
-#saveState{font-size:.8rem;color:var(--header-mute);margin-left:auto}
+#saveState{font-size:.8rem;color:var(--header-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;margin-right:.3rem}
+#saveState.wide{white-space:normal;max-width:26rem}          /* a warning is worth two lines */
 #saveState.dirty{color:var(--amber);filter:brightness(1.4);font-weight:600}
 main{flex:1;display:flex;min-height:0}
 #storageHint{display:flex;gap:.8rem;align-items:center;padding:.4rem 1rem;background:var(--amber-soft);color:var(--ink);font-size:.83rem;border-bottom:1px solid var(--line)}
@@ -150,7 +159,7 @@ table.lines tfoot td{font-weight:600;border-top:2px solid var(--ink);border-bott
 table.lines input.w{width:6.5rem}
 table.lines select.d{max-width:7rem}
 .panelBox{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:8px;padding:.8rem 1rem;margin:.8rem 0}
-#content .panelBox:nth-of-type(3n+2){border-top-color:var(--amber)}
+#content .panelBox:nth-of-type(3n+2){border-top-color:var(--amber-ink)}
 #content .panelBox:nth-of-type(3n){border-top-color:var(--frozen)}
 #content details.panelBox{border-top-color:var(--frozen)}
 .panelBox h3{margin:0 0 .5rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink)}
@@ -224,7 +233,7 @@ table.lines tbody tr:hover{background:var(--accent-soft)}
 .bghandle:hover{color:var(--accent)}
 .bpanel.gdropbefore{box-shadow:0 -3px 0 var(--amber)}
 .benchWrap{display:grid;grid-template-columns:1fr 1.15fr;gap:1rem;align-items:start;margin:.6rem 0}
-@media (max-width:900px){.benchWrap{grid-template-columns:1fr}}
+@media (max-width:1450px){.benchWrap{grid-template-columns:1fr}}   /* below this the two columns are cut off by the sidebar */
 .bpanel{background:var(--surface);border:1px solid var(--line);border-radius:8px;margin-bottom:.8rem}
 .bhead{display:flex;gap:.5rem;align-items:center;padding:.45rem .7rem;border-bottom:2px solid var(--accent)}
 .bhead .hint{white-space:nowrap}
@@ -248,13 +257,18 @@ tr.cmpDel td:first-child{box-shadow:inset 3px 0 var(--hl2)}
 tr.cmpChg td:first-child{box-shadow:inset 3px 0 var(--hl3)}
 td.dim{color:var(--muted)}
 #printArea{display:none}
-@media (min-width:701px) and (max-width:1000px){   /* wider than a phone, too narrow for one row: the state takes its own line */
-  header{flex-wrap:wrap;gap:.5rem}
+@media (max-width:1300px){   /* tight: the storage mode moves into the tooltip, Undo and Redo become arrows */
+  #stWhere{display:none}
+  header .lbl{display:none}
+  header .ico2{display:inline}
+  header #btnUndo,header #btnRedo{min-width:2.25rem}
+}
+@media (min-width:701px) and (max-width:1100px){
   header h1{font-size:1.05rem}
-  #saveState{flex-basis:100%;order:9;margin-left:0;text-align:right;white-space:nowrap}
 }
 @media (max-width:700px){
-  #btnNew,#btnNewMat,#btnRedo,#btnSave,.hsep{display:none}   /* creation is desktop work; saving is automatic */
+  #btnNew,#btnNewMat,#btnRedo,#btnSave,.hsep,#btnBar{display:none}   /* creation is desktop work; saving is automatic */
+  body.hidebar #sidebar{display:flex}          /* ☰ is out of reach here, so a hidden sidebar would be a blank screen */
   .actions{margin-left:0;width:100%;flex-wrap:wrap}
   header{gap:.4rem;padding:.45rem .6rem}
   header h1{font-size:1rem}
@@ -287,6 +301,7 @@ body.ro #btnPrep,body.ro #btnTake,body.ro #btnBuy,body.ro #btnDil,body.ro #stTak
 body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 #btnBack{display:none}
 @media print{
+  :root{--muted:#6C7A88;--ink:#212A33}   /* printing from the dark theme must not put light grey on white paper */
   body>*{display:none !important}
   #printArea{display:block !important;font:14.5px/1.5 "Segoe UI",system-ui,sans-serif;color:#000}
   #printArea h2{margin:0 0 .2rem}
@@ -313,23 +328,28 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 </head>
 <body>
 <header>
-  <button id="btnBack" class="small">‹ List</button>
-  <h1>mi<span>Formulas</span></h1>
-  <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915d</span>
-  <button id="btnBar" class="small" title="Show/hide the list panel (Ctrl+B)">☰</button>
-  <button id="btnHome" class="small">Home</button>
-  <button id="btnNew" class="small">+ New formula…</button>
-  <button id="btnNewMat" class="small">+ New material…</button>
-  <span id="saveState"></span>
-  <button id="btnUndo" class="small" disabled title="Undo last change (Ctrl+Z)">Undo</button>
-  <button id="btnRedo" class="small" disabled title="Redo undone change (Ctrl+Y)">Redo</button>
-  <button id="btnSave" class="small" title="Save now (Ctrl+S) – saving is also automatic">Save</button>
-  <button id="btnBackup" class="small" title="Download a backup copy of the data file">Backup…</button>
-  <span class="hsep"></span>
-  <button id="btnRefresh" class="small" title="Reload the app and its data (e.g. after an update)">⟳</button>
-  <button id="btnTheme" class="small" title="Theme: auto follows Windows/macOS; click to cycle">◐ Auto</button>
-  <button id="btnHelp" class="small" title="Help: the manual, inside the app">?</button>
-  <button id="btnSettings" class="small" title="Settings: number format, server, materials library, install as an app">⚙</button>
+  <div class="hleft">
+    <button id="btnBack" class="small">‹ List</button>
+    <h1>mi<span>Formulas</span></h1>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915e</span>
+    <span class="hsep"></span>
+    <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
+    <button id="btnHome" class="small">Home</button>
+    <button id="btnNew" class="small">+ New formula…</button>
+    <button id="btnNewMat" class="small">+ New material…</button>
+  </div>
+  <div class="hright">
+    <span id="saveState"></span>
+    <button id="btnUndo" class="small" disabled title="Undo last change (Ctrl+Z)"><span class="lbl">Undo</span><span class="ico2">↶</span></button>
+    <button id="btnRedo" class="small" disabled title="Redo undone change (Ctrl+Y)"><span class="lbl">Redo</span><span class="ico2">↷</span></button>
+    <button id="btnSave" class="small" title="Save now (Ctrl+S) – saving is also automatic">Save</button>
+    <button id="btnBackup" class="small" title="Download a backup copy of the data file">Backup…</button>
+    <span class="hsep"></span>
+    <button id="btnRefresh" class="small ico" title="Reload the app and its data (e.g. after an update)">⟳</button>
+    <button id="btnTheme" class="small ico" title="Theme: auto follows Windows/macOS; click to cycle">◐</button>
+    <button id="btnHelp" class="small ico" title="Help: the manual, inside the app">?</button>
+    <button id="btnSettings" class="small ico" title="Settings: number format, server, materials library, install as an app">⚙</button>
+  </div>
 </header>
 <div id="storageHint" hidden><span id="storageHintText"></span><button class="small primary" id="storageHintSave" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file…</button><button class="small" id="storageHintClose" title="Hide for this session">×</button></div>
 <main>
@@ -370,7 +390,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260915d. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
+<p>This manual describes build 260915e. The build number of the copy you are using is shown next to the name in the top-left corner of the app.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-and-versions">Formulas and versions</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -386,7 +406,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The Welcome page after loading the starter set, with the amber storage bar.</a></p>
 <p>Every change is saved automatically a few seconds after you make it; <strong>Ctrl+Z</strong> undoes it. Deleting a line, a version, a formula or a material always asks for confirmation.</p>
 <h2 id="s2-where-your-data-lives-browser-file-or-server">2. Where your data lives: browser, file or server</h2>
-<p>miFormulas stores everything in one JSON file, <code>miformulas-data.json</code>. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server").</p>
+<p>miFormulas stores everything in one JSON file, <code>miformulas-data.json</code>. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server"). On a window narrower than about 1300 pixels only the time is shown, to keep the header on one line; the place is then in the tooltip. A warning ("Server not reachable", "⚠ Conflict") is always given in full.</p>
 <p>Two buttons on the start screen belong to particular situations. With a server configured, <strong>Open data file…</strong> reads <strong>Connect to server</strong> instead, and asks for the token if the server wants one. After a save that could not reach the server, the start screen offers <strong>Continue with data from …</strong> with the date and time of the copy the app kept in the browser, so an interrupted session is not lost.</p>
 <p><strong>In the browser.</strong> On miformulas.com the app keeps the data in the browser's own storage on that computer. This is the quickest way to try things out, and it is fine for everyday use if you download a Backup regularly. Two things to know: every browser has its own storage (Edge and Chrome on the same computer do not see each other's data), and a browser that is set to clear site data when it closes will take your formulas with it. The app asks the browser to keep the storage persistent; as long as the browser has not confirmed that, an amber bar under the header reminds you to make backups.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s2-where-your-data-lives-browser-file-or-server">Browser storage: the amber bar reminds you, and Save to a data file… moves your work into a file (Chrome and Edge).</a></p>
@@ -498,12 +518,12 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">Chrome on Android asks for permission at every start.</a></p>
 <p>Firefox and Samsung Internet on Android have not been tried.</p>
 <h2 id="s6-the-screen">6. The screen</h2>
-<p>The <strong>header</strong> holds, from left to right: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula</strong>, <strong>+ New material</strong>, the save state, <strong>Undo</strong> and <strong>Redo</strong>, <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, the reload button (⟳, use it after an update), the theme button (◐ Auto, ● Dark, ○ Light), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙).</p>
+<p>The <strong>header</strong> holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula</strong> and <strong>+ New material</strong>. On the right what the file is: the save state, <strong>Undo</strong> and <strong>Redo</strong> (arrows on a narrow window), <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, and then the four buttons you need rarely: reload (⟳, use it after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙). Below about 1160 pixels the right group moves to a second row as a whole, so nothing ever runs off the edge.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-the-screen">The header.</a></p>
 <p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section <a href="#s18-import-and-export">18</a>), the panel says "Not in your inventory" and shows what the library does know, with a <strong>+ Add</strong> button that puts the material in your inventory with its facts.</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-the-screen">The list panel on the left and a formula page on the right.</a></p>
-<p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. The header leaves out <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: creating is desktop work, and saving happens by itself.</p>
+<p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. The header leaves out ☰, <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself.</p>
 <h2 id="s7-materials">7. Materials</h2>
 <p>The <strong>Materials</strong> tab is your inventory: the materials you own or have on order. A <strong>materials library</strong> is something else, a reference file of facts that you import (section <a href="#s18-import-and-export">18</a>); it never changes what you own.</p>
 <p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (with its own colour, used for the dots and the pyramid), supplier, the amount purchased, cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it.</p>
@@ -528,7 +548,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-formulas-and-versions">Move into…: three imported formulas about to become one formula with its own history.</a></p>
 <p><strong>Copy to new formula</strong> takes the version you are looking at as v1 of a new formula. <strong>Rename</strong> and <strong>Change category</strong> do what they say; categories are shared between formulas and get a colour dot.</p>
 <h2 id="s9-editing-a-formula">9. Editing a formula</h2>
-<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s11-changing-dilutions">11</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed.</p>
+<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s11-changing-dilutions">11</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s9-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
 <p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s18-import-and-export">18</a>) it arrives with the facts the library holds, exactly as <strong>+ New material</strong> does; the same goes for a formula import and for <strong>Delivered</strong> on the order list.</p>
 <p>The table can be ordered by original entry, by category or by pyramid level (top to base), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
@@ -560,7 +580,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the <strong>tick bar</strong>: mark them red, green, blue or yellow, unmark them, or clear every mark. Marks are per version, and they carry over into new versions and copies. Use them as you like: what changed, what to smell for, what to check.</p>
 <p><strong>Notes</strong> is a free text per version, shown on the formula sheet. The <strong>Trial log</strong> is a dated list of short entries ("day 3, macerated, top too sharp") that also prints on the formula sheet.</p>
 <h2 id="s14-bench-view-and-printing">14. Bench view and printing</h2>
-<p><strong>Bench view</strong> (the button next to the formula name, which reads <strong>Table view</strong> while the bench is open, with <strong>Close bench</strong> underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column on the left; drag them into named groups on the right, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong> makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them.</p>
+<p><strong>Bench view</strong> (the button next to the formula name, which reads <strong>Table view</strong> while the bench is open, with <strong>Close bench</strong> underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column on the left; drag them into named groups on the right, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong> makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version. The groups stand beside the Unsorted column on a wide screen and below it on a narrower one, so the group buttons are always within reach. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s14-bench-view-and-printing">Bench view: the Unsorted column with its own sort order on the left, the groups you build the batch with on the right.</a></p>
 <p>From the table view, four buttons under the lines. The line under them says which is for whom: the first two produce something to read, the third a file for someone who uses miFormulas too.</p>
 <ul>
@@ -626,7 +646,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <h2 id="s21-settings-theme-and-keyboard-shortcuts">21. Settings, theme and keyboard shortcuts</h2>
 <p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case), the server endpoint and its token, and a few buttons that depend on the situation: <strong>Install as an app</strong> when the browser offers it, <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser…</strong> in browser-storage mode, and <strong>Forget the remembered data file…</strong> when a file is remembered. At the bottom sits the materials library (section <a href="#s18-import-and-export">18</a>): the name, size and licence of the one that is loaded, its attribution and source when it carries them, and the buttons <strong>Import materials library…</strong>, <strong>Remove the library…</strong> and <strong>Get the latest library</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s21-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
-<p>The <strong>theme</strong> button cycles between Auto (follows Windows or macOS), Dark and Light.</p>
+<p>The <strong>theme</strong> button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.</p>
 <p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.</p>
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header downloads the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>). Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
@@ -764,10 +784,10 @@ async function offerSnapshot(){   // the landing offers the snapshot of today (o
     catch(e){ alert("The snapshot could not be read."); return; }
     boot();
     if (REMOTE && !SERVER_EMPTY){   // the server was unreachable: nothing is written there until it has been read (see remoteSave)
-      $("#saveState").textContent = "Snapshot loaded, not on the server: use Backup, or reload (F5) once the server is back";
+      setState("Snapshot loaded, not on the server: use Backup, or reload (F5) once the server is back", "", true);
     } else {
       markDirty();
-      $("#saveState").textContent = "Snapshot loaded: use Backup to write it to a file";
+      setState("Snapshot loaded: use Backup to write it to a file", "", true);
     }
     $("#saveState").className = "dirty";
   });
@@ -815,17 +835,24 @@ $("#fileFallback").addEventListener("change", async e => {
   if (DEMO) idb.set("demoData", text); else idb.set("cachedData", {json: text, when: Date.now(), name: f.name});   // fast path for next visit (iOS)
   boot();
 });
+/* One place that writes the header state. A short line stays on the row and carries the whole story in its
+   tooltip; the storage mode is a span the CSS hides on a narrow window; a warning is long, so it may wrap. */
+function setState(main, where, dirty){
+  const el = $("#saveState");
+  el.innerHTML = `<span id="stMain">${esc(main)}</span>` + (where ? `<span id="stWhere"> \u00b7 ${esc(where)}</span>` : "");
+  el.className = (dirty ? "dirty" : "") + (main.length > 26 ? " wide" : "");
+  el.title = main + (where ? " \u00b7 " + where : "");
+}
 let saveTimer = null, SAVEGEN = 0, SAVING = null, SAVEAGAIN = false;
 function markDirty(){
   DIRTY = true; SAVEGEN++;   // every change gets a number, so a write can tell whether it is still current
-  $("#saveState").textContent = "Unsaved changes"; $("#saveState").className = "dirty";
+  setState("Unsaved changes", "", true);
   clearTimeout(saveTimer); saveTimer = setTimeout(saveData, 2500);
 }
 function finishSave(gen, where){
   if (gen !== SAVEGEN){ SAVEAGAIN = true; return; }   // changed while we were writing: stay dirty and write again
   DIRTY = false;
-  $("#saveState").textContent = "Saved " + new Date().toLocaleTimeString(LOCALE,{hour:"2-digit",minute:"2-digit"}) + (where ? " \u00b7 " + where : "");
-  $("#saveState").className = "";
+  setState("Saved " + new Date().toLocaleTimeString(LOCALE,{hour:"2-digit",minute:"2-digit"}), where || "", false);
 }
 /* ---------- storage modes ----------
    REMOTE: a server endpoint (set in Settings, or detected once as data.php next to the app)
@@ -875,26 +902,26 @@ async function remoteSave(){
       const g = await fetch(API, {headers: {"X-Token": TOKEN || ""}, cache: "no-store"});
       if (g.status === 404) SERVER_EMPTY = true;
       else if (g.ok){
-        $("#saveState").textContent = "⚠ The server holds data that was not loaded here – use Backup, then reload (F5)"; $("#saveState").className = "dirty";
+        setState("⚠ The server holds data that was not loaded here – use Backup, then reload (F5)", "", true);
         if (!remoteSave._warned){ remoteSave._warned = true; alert("The server holds data that was not loaded in this session: you restored a snapshot while it was unreachable.\n\nUse Backup to keep what you see, then reload (F5) to continue with the data on the server."); }
         return;
-      } else if (g.status !== 401){ $("#saveState").textContent = `Save failed (server ${g.status}) – use Backup`; $("#saveState").className = "dirty"; return; }
+      } else if (g.status !== 401){ setState(`Save failed (server ${g.status}) – use Backup`, "", true); return; }
     }
     const r = await fetch(API, {method: "PUT", headers: {"Content-Type": "application/json", "X-Token": TOKEN || "", "If-Match": ETAG || ""}, body: s});
     if (r.status === 409){
-      $("#saveState").textContent = "⚠ Conflict: changed on another device – reload (F5) before editing"; $("#saveState").className = "dirty";
+      setState("⚠ Conflict: changed on another device – reload (F5) before editing", "", true);
       if (!remoteSave._warned){ remoteSave._warned = true; alert("The data was changed on another device since you loaded it.\n\nUse Backup to keep your current work, then reload (F5) and redo the change."); }
       return;
     }
     if (r.status === 401){ TOKEN = null; await idb.set("token", null);
-      $("#saveState").textContent = "Token rejected: use Backup, then reload to enter it again"; $("#saveState").className = "dirty"; return; }
-    if (!r.ok){ $("#saveState").textContent = `Save failed (server ${r.status}) – use Backup`; $("#saveState").className = "dirty"; return; }
+      setState("Token rejected: use Backup, then reload to enter it again", "", true); return; }
+    if (!r.ok){ setState(`Save failed (server ${r.status}) – use Backup`, "", true); return; }
     ETAG = r.headers.get("ETag") || ETAG; LOADED = true;
     remoteSave._warned = false;
     finishSave(gen, "server");
     return true;
   }catch(e){
-    $("#saveState").textContent = "Server not reachable: changes kept in memory, use Backup"; $("#saveState").className = "dirty";
+    setState("Server not reachable: changes kept in memory, use Backup", "", true);
     if (!remoteSave._retry){        // try again by itself as soon as the connection is back
       remoteSave._retry = true;
       window.addEventListener("online", () => { remoteSave._retry = false; if (DIRTY) saveData(); }, {once: true});
@@ -923,16 +950,16 @@ async function saveNow(){   // true when written
       await w.write(s); await w.close();
       finishSave(gen, HANDLE.name);
       return true;
-    }catch(e){ DIRTY = true; $("#saveState").textContent = "Save failed – use Backup"; $("#saveState").className = "dirty"; return false; }   // stays unsaved: the next change or Ctrl+S tries again
+    }catch(e){ DIRTY = true; setState("Save failed – use Backup", "", true); return false; }   // stays unsaved: the next change or Ctrl+S tries again
   } else if (DEMO){
     const gen = SAVEGEN, s = serialize();
     const stored = await idb.set("demoData", s);
-    if (!stored){ $("#saveState").textContent = "Browser storage is not available; use Backup to keep your work."; $("#saveState").className = "dirty"; return false; }
+    if (!stored){ setState("Browser storage is not available; use Backup to keep your work.", "", true); return false; }
     if (!saveNow._persistAsked){ saveNow._persistAsked = true; requestPersistence(); }
     finishSave(gen, "this browser");
     return true;
   } else {
-    $("#saveState").textContent = "No file access – use Backup to download"; $("#saveState").className = "dirty";
+    setState("No file access – use Backup to download", "", true);
     return false;
   }
 }
@@ -949,8 +976,8 @@ async function backup(){
       const h = await window.showSaveFilePicker(opts);
       const w = await h.createWritable(); await w.write(serialize()); await w.close();
       await idb.set("backupHandle", h);
-      $("#saveState").textContent = "Backup saved: " + h.name; $("#saveState").className = "";
-    }catch(e){ if (e && e.name !== "AbortError"){ $("#saveState").textContent = "Backup failed: " + (e.message || e.name); $("#saveState").className = "dirty"; } }
+      setState("Backup saved", h.name, false);
+    }catch(e){ if (e && e.name !== "AbortError"){ setState("Backup failed: " + (e.message || e.name), "", true); } }
   } else {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([serialize()],{type:"application/json"}));
@@ -1132,6 +1159,7 @@ function pyrBar(K){
     b > 0 ? `<span style="flex:${(b/tot).toFixed(4)};background:${PYRCOLS[i]}" title="${PYRLABS[i]} ${fmt(b/tot*100,1)}%"></span>` : "").join("") + `</div>`;
 }
 let SORT = {key:"orig", dir:1};
+let TABSTEP = 0;   // -1, 0 or +1: a Tab or Shift+Tab that triggered the change event of a weight
 function sortRows(rows){
   rows.forEach((r,i) => r.idx = i);
   const by = {
@@ -1180,7 +1208,7 @@ function renderSidebar(){
     for (const cat of Object.keys(groups).sort((a,b)=>a.localeCompare(b))){
       html += `<div class="cat"><span class="catdot" style="background:${catColourByName(cat)}"></span>${esc(cat)} <span class="hint" style="font-weight:400">${groups[cat].length}</span></div>`;
       for (const m of groups[cat])
-        html += `<div class="item${m.id===VIEW.id?" sel":""}" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${m.wishlist?'<b style="color:var(--amber)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':""))}</span></div>`;
+        html += `<div class="item${m.id===VIEW.id?" sel":""}" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber-ink);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${m.wishlist?'<b style="color:var(--amber-ink)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':""))}</span></div>`;
     }
     if (q){                                 // whatever your own materials gave, the library may know more
       const sug = listSuggest(q);
@@ -1223,8 +1251,10 @@ $("#list").addEventListener("click", e => {
 let LAST = {F:{id:null,sub:null}, M:{id:null,sub:null}, T:{id:null,sub:null}};
 let HOMEVIEW = false;   // on narrow screens the welcome screen needs the detail pane
 let HELPVIEW = false;   // the manual (embedded below as <template id="manualTpl">) shown in the page pane
+let PREVTAB = "F";   // the tab to return to from To order, which has no list of its own on a phone
 function switchTab(t, id, sub){
   HOMEVIEW = false;
+  if (VIEW.tab !== "T") PREVTAB = VIEW.tab;
   LAST[VIEW.tab] = {id:VIEW.id, sub:VIEW.sub};
   VIEW = {tab:t, id: id !== undefined ? id : LAST[t].id, sub: sub !== undefined ? sub : LAST[t].sub};
   setTabs(); render();
@@ -1269,7 +1299,7 @@ function renderFormula(f){
   <div class="chipRow"><label class="hint">Version</label>
     <select id="verSel">${f.versions.map((v,i) =>
       `<option value="${i}"${i===sub.idx?" selected":""}>${esc(vName(v))} (${v.date||"?"})${v.sourceName && !v.hideSource?`: ${esc(v.sourceName)}`:""}${v.imported?" 🔒":""}</option>`).join("")}</select>
-    <button class="small" id="btnNameV" title="Name this version…">✎</button>
+    <button class="small ico" id="btnNameV" title="Name this version…">✎</button>
     <button class="small" id="btnNewV">+ New version</button>
     ${f.versions.length >= 2 ? '<button class="small" id="btnCmp">Compare…</button>' : ""}
     <button class="small danger" id="btnDelV" title="Delete this version (undo possible)">Delete version</button></div></div>`;
@@ -1278,7 +1308,7 @@ function renderFormula(f){
     const seenD = new Set(), dupNames = new Set();
     for (const l of lines || []){ const k = l.materialId + "|" + (l.dilutionPct ?? 100);
       if (seenD.has(k)) dupNames.add((matById(l.materialId)||{}).name || "?"); seenD.add(k); }
-    if (dupNames.size) h += `<div class="hint" style="color:var(--amber);font-weight:600">⚠ Duplicate lines (same material and dilution twice): ${[...dupNames].map(esc).join(", ")}</div>`;
+    if (dupNames.size) h += `<div class="hint" style="color:var(--amber-ink);font-weight:600">⚠ Duplicate lines (same material and dilution twice): ${[...dupNames].map(esc).join(", ")}</div>`;
     h += renderLines(f, item, lines, K, editable);
     if (lines.length){   // everything that acts on the ticked lines lives here, in one place
       h += `<div class="tickBar"><span class="hint">Ticked lines:</span>
@@ -1506,9 +1536,9 @@ function renderLines(f, item, lines, K, editable){
     const i = r.idx;
     const hl = r.l.remark != null && r.l.remark !== 1 ? " hl"+r.l.remark : "";
     const solv = r.m.isSolvent ? " solvent" : "";
-    h += `<tr class="${hl}${solv}">${canMark?`<td><input type="checkbox" class="selCb" data-i="${i}"></td>`:""}<td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}<a class="matlink" data-mat="${r.m.id||""}" title="Open material">${esc(r.m.name||"?")}</a>${fridgeMark(r.m, r.dil)}${r.m.wishlist?' <span class="badge" style="background:var(--amber-soft);color:var(--amber)">to order</span>':""}${r.m.isSolvent?" (solvent)":""}${editable?` <button class="ghost small replBtn" data-repl="${i}" title="Replace this material (dilution & weight carried over)…">⇄</button>`:""}</td>`;
+    h += `<tr class="${hl}${solv}">${canMark?`<td><input type="checkbox" class="selCb" data-i="${i}"></td>`:""}<td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}<a class="matlink" data-mat="${r.m.id||""}" title="Open material">${esc(r.m.name||"?")}</a>${fridgeMark(r.m, r.dil)}${r.m.wishlist?' <span class="badge" style="background:var(--amber-soft);color:var(--amber-ink)">to order</span>':""}${r.m.isSolvent?" (solvent)":""}${editable?` <button class="ghost small replBtn" data-repl="${i}" title="Replace this material (dilution & weight carried over)…">⇄</button>`:""}</td>`;
     const dilWarn = !r.m.isSolvent && (r.m.dilutions||[]).length && !(r.m.dilutions||[]).some(d => d.pct === r.dil)
-      ? ` <span title="This dilution is not among the material's dilutions: convert to an available dilution (dilution dialog: preserve rel% + exchange solvent) in a next version" style="color:var(--amber);cursor:help">⚠</span>` : "";
+      ? ` <span title="This dilution is not among the material's dilutions: convert to an available dilution (dilution dialog: preserve rel% + exchange solvent) in a next version" style="color:var(--amber-ink);cursor:help">⚠</span>` : "";
     if (editable){
       h += `<td>${dilSelect(r.m, r.dil, i)}${dilWarn}</td>
         <td class="num"><input class="w" data-i="${i}" type="text" inputmode="decimal" value="${fmtIn(r.w)}"></td>`;
@@ -1548,12 +1578,25 @@ function dilSelect(m, cur, i){
 }
 function bindLineEditors(f, item){
   const c = $("#content");
-  c.querySelectorAll("input.w").forEach(inp => inp.addEventListener("change", e => {
-    const v = parseNum(e.target.value);
-    if (v == null){ render(); return; }                      // unreadable: put the old figure back
-    if (v < 0){ alert("A weight cannot be negative."); render(); return; }
-    snapF(f); item.lines[+e.target.dataset.i].weightG = v; markDirty(); render();
-  }));
+  // render() rebuilds the table, so the focus would land on <body> after every weight: put it back, and
+  // let a Tab that caused the change carry on to the next weight, so a column can be typed without the mouse
+  const refocus = (i, step) => {
+    const all = [...document.querySelectorAll("input.w")];
+    const at = all.findIndex(x => +x.dataset.i === i);
+    const t = at < 0 ? null : (all[at + step] || all[at]);
+    if (t){ t.focus(); t.select(); }
+  };
+  c.querySelectorAll("input.w").forEach(inp => {
+    inp.addEventListener("focus", () => { TABSTEP = 0; });
+    inp.addEventListener("keydown", e => { if (e.key === "Tab") TABSTEP = e.shiftKey ? -1 : 1; });
+    inp.addEventListener("change", e => {
+      const i = +e.target.dataset.i, step = TABSTEP; TABSTEP = 0;
+      const v = parseNum(e.target.value);
+      if (v == null){ render(); refocus(i, 0); return; }        // unreadable: put the old figure back
+      if (v < 0){ alert("A weight cannot be negative."); render(); refocus(i, 0); return; }
+      snapF(f); item.lines[i].weightG = v; markDirty(); render(); refocus(i, step);
+    });
+  });
   c.querySelectorAll("[data-dil]").forEach(sel => sel.addEventListener("change", e => {
     const i = +e.target.dataset.dil;
     let v = e.target.value === "custom" ? askDilution() : parseFloat(e.target.value);
@@ -2759,17 +2802,17 @@ function renderImport(){
     ${twin ? `<div class="hint" id="impTwin">You already have a formula called “${esc(twin.name)}”, so a new version is preselected; as a new formula it would arrive as “${esc(twin.name)} (import)”.</div>` : ""}
     <div><b>Total weight: ${fmt(tw)} g</b>${shared ? "" : ' <span class="hint">– a round number (100 / 1000) suggests a complete transcription</span>'}</div>
     <div class="hint">${rows.length} lines · ${rows.length-newCount-bad} matched · ${newCount} new (will be created as “to order”) · ${warnCount} with a dilution you don’t stock (⚠ convert in a next version)</div>
-    ${solvCount ? `<div class="hint" id="impSolv" style="color:var(--amber)">${solvCount} line(s) the sender counts as a solvent and you do not, or the reverse. Your own material decides, so check Rel % and Abs % afterwards.</div>` : ""}
+    ${solvCount ? `<div class="hint" id="impSolv" style="color:var(--amber-ink)">${solvCount} line(s) the sender counts as a solvent and you do not, or the reverse. Your own material decides, so check Rel % and Abs % afterwards.</div>` : ""}
     ${bad ? `<div class="hint" id="impBad" style="color:var(--danger)"><b>${bad} line(s) cannot be imported.</b> Correct them in the file and import again; nothing has been changed yet.</div>` : ""}</div>
   <table class="lines"><thead><tr><th>Material</th><th class="num">Dilution</th><th class="num">Weight (g)</th><th>Status</th></tr></thead><tbody>
   ${rows.map(r => `<tr${r.bad ? ' class="badLine"' : ""}>
     <td>${r.m ? `${pyrIcon(r.m.pyramid, catColour(r.m), 13)}${esc(r.m.name)}` : esc(r.L.material || "–")}</td>
-    <td class="num">${r.bad ? esc(r.L.dilutionPct == null ? "" : String(r.L.dilutionPct)) : fmtS(r.dil) + "%"}${!r.bad && r.m && !r.dilOwned ? ' <span style="color:var(--amber)">⚠</span>' : ""}</td>
+    <td class="num">${r.bad ? esc(r.L.dilutionPct == null ? "" : String(r.L.dilutionPct)) : fmtS(r.dil) + "%"}${!r.bad && r.m && !r.dilOwned ? ' <span style="color:var(--amber-ink)">⚠</span>' : ""}</td>
     <td class="num">${r.bad ? esc(r.L.weightG == null ? "" : String(r.L.weightG)) : fmt(r.w)}</td>
     <td>${r.bad ? `<span style="color:var(--danger)">${esc(r.bad)}</span>`
-              : r.m ? (r.dilOwned ? '<span class="hint">matched</span>' : '<span style="color:var(--amber)">matched – dilution not owned</span>')
-              : '<span class="badge" style="background:var(--amber-soft);color:var(--amber)">new · to order</span>'}${
-      r.solvMismatch ? ` <span style="color:var(--amber)">${r.L.solvent ? "solvent for the sender, not here" : "a solvent in your inventory"}</span>` : ""}${r.L.comment?` <span class="hint">${esc(r.L.comment)}</span>`:""}</td></tr>`).join("")}
+              : r.m ? (r.dilOwned ? '<span class="hint">matched</span>' : '<span style="color:var(--amber-ink)">matched – dilution not owned</span>')
+              : '<span class="badge" style="background:var(--amber-soft);color:var(--amber-ink)">new · to order</span>'}${
+      r.solvMismatch ? ` <span style="color:var(--amber-ink)">${r.L.solvent ? "solvent for the sender, not here" : "a solvent in your inventory"}</span>` : ""}${r.L.comment?` <span class="hint">${esc(r.L.comment)}</span>`:""}</td></tr>`).join("")}
   </tbody><tfoot><tr><td>Total</td><td></td><td class="num">${fmt(tw)}</td><td></td></tr></tfoot></table>
   ${p.notes ? `<div class="noteRead" style="margin:.6rem 0">${esc(p.notes)}</div>` : ""}
   <div class="toolRow" style="justify-content:flex-end"><button id="btnImpCancel">Cancel</button><button class="primary" id="btnImpOk"${bad ? " disabled" : ""}>Confirm import</button></div>`;
@@ -2986,7 +3029,7 @@ function renderMaterial(m){
   };
   c.innerHTML = `<h2>${pyrIcon(m.pyramid, catColour(m), 20)}${esc(m.name)}</h2>
   <div class="metaLine">${esc(m.cas||"no CAS")} · ${esc(m.category||"")}${m.aliases?` · <span title="Alternative names">also ${esc(m.aliases)}</span>`:""}
-    ${m.wishlist?'<span class="badge" style="background:var(--amber-soft);color:var(--amber)">to order – not yet owned</span>':""}
+    ${m.wishlist?'<span class="badge" style="background:var(--amber-soft);color:var(--amber-ink)">to order – not yet owned</span>':""}
     ${m.starter?'<span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other material.">starter set</span>':""}
     ${lookupLinks(m)}</div>
   <div class="fieldGrid">
@@ -3232,7 +3275,8 @@ function applyTheme(){
   const r = document.documentElement;
   if (THEME === "auto") delete r.dataset.theme; else r.dataset.theme = THEME;
   try{ localStorage.setItem("miformulas-theme", THEME); }catch(e){}   // read at startup, before idb is open
-  $("#btnTheme").textContent = {auto:"◐ Auto", dark:"● Dark", light:"○ Light"}[THEME];
+  $("#btnTheme").textContent = {auto:"◐", dark:"●", light:"○"}[THEME];   // the icon is the state; the word is in the tooltip
+  $("#btnTheme").title = {auto:"Theme: auto (follows Windows/macOS)", dark:"Theme: dark", light:"Theme: light"}[THEME] + " – click to cycle";
 }
 $("#btnTheme").addEventListener("click", () => {
   THEME = THEME === "auto" ? "dark" : THEME === "dark" ? "light" : "auto";
@@ -3486,7 +3530,7 @@ function render(){
   document.body.classList.toggle("detail", !!VIEW.id || VIEW.tab === "T" || HOMEVIEW || HELPVIEW);
   document.body.classList.toggle("ro", readOnly());
   renderSidebar();
-  $("#btnBack").textContent = "\u2039 " + (VIEW.tab === "M" ? "Materials" : VIEW.tab === "T" ? "To order" : "Formulas");
+  $("#btnBack").textContent = "\u2039 " + (VIEW.tab === "T" ? (PREVTAB === "M" ? "Materials" : "Formulas") : VIEW.tab === "M" ? "Materials" : "Formulas");
   const n = (DATA.orderList||[]).length;
   $("#tabT").textContent = "To order" + (n ? ` (${n})` : "");
   const c = $("#content");
@@ -3553,7 +3597,10 @@ function render(){
   }
   if (readOnly()) lockInputs();
 }
-$("#btnBack").addEventListener("click", () => { VIEW.id = null; VIEW.sub = null; HOMEVIEW = false; HELPVIEW = false; render(); });
+$("#btnBack").addEventListener("click", () => {
+  if (VIEW.tab === "T" && !HOMEVIEW && !HELPVIEW){ switchTab(PREVTAB); return; }   // To order fills the pane itself: back means another tab
+  VIEW.id = null; VIEW.sub = null; HOMEVIEW = false; HELPVIEW = false; render();
+});
 $("#btnHelp").addEventListener("click", () => { if (!DATA) return; HELPVIEW = !HELPVIEW; render(); });
 window.matchMedia("(max-width:700px)").addEventListener("change", () => { if (DATA) render(); });
 async function dailySnapshot(){   // once a day: the state as it was when you opened the app, before the first change
@@ -3567,7 +3614,7 @@ function boot(){
   $("#landing").style.display = "none";
   if (isMobile()) HOMEVIEW = true;      // phones start on the welcome screen, not on an empty list
   buildUsage();
-  $("#saveState").textContent = REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback – use Backup to save)";
+  setState(REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback – use Backup to save)", "", false);
   setTabs(); render();
   if (STANDALONE && DEMO && !HANDLE){ saveNow._persistAsked = true; requestPersistence(); }   // installed app: granted silently, so the bar never flashes
   else updateStorageHint();
@@ -3654,7 +3701,7 @@ function boot(){
       b.addEventListener("click", () => {
         try{ DATA = migrate(JSON.parse(cached.json)); }catch(e){ alert(CORRUPT_MSG); return; }
         boot();
-        $("#saveState").textContent = "Cached copy – reload the file for the latest data"; });
+        setState("Cached copy – reload the file for the latest data", "", false); });
     }
     return;
   }

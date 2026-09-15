@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260915d. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
+This manual describes build 260915e. The build number of the copy you are using is shown next to the name in the top-left corner of the app.
 
 ## Contents
 
@@ -59,7 +59,7 @@ Every change is saved automatically a few seconds after you make it; **Ctrl+Z** 
 
 ## 2. Where your data lives: browser, file or server
 
-miFormulas stores everything in one JSON file, `miformulas-data.json`. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server").
+miFormulas stores everything in one JSON file, `miformulas-data.json`. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server"). On a window narrower than about 1300 pixels only the time is shown, to keep the header on one line; the place is then in the tooltip. A warning ("Server not reachable", "⚠ Conflict") is always given in full.
 
 Two buttons on the start screen belong to particular situations. With a server configured, **Open data file…** reads **Connect to server** instead, and asks for the token if the server wants one. After a save that could not reach the server, the start screen offers **Continue with data from …** with the date and time of the copy the app kept in the browser, so an interrupted session is not lost.
 
@@ -229,7 +229,7 @@ Firefox and Samsung Internet on Android have not been tried.
 
 ## 6. The screen
 
-The **header** holds, from left to right: the list toggle (☰, also Ctrl+B), **Home**, **+ New formula**, **+ New material**, the save state, **Undo** and **Redo**, **Save** (saving is automatic; this forces it now, also Ctrl+S), **Backup**, the reload button (⟳, use it after an update), the theme button (◐ Auto, ● Dark, ○ Light), **Help** (?, this manual inside the app, without the screenshots) and Settings (⚙).
+The **header** holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), **Home**, **+ New formula** and **+ New material**. On the right what the file is: the save state, **Undo** and **Redo** (arrows on a narrow window), **Save** (saving is automatic; this forces it now, also Ctrl+S), **Backup**, and then the four buttons you need rarely: reload (⟳, use it after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), **Help** (?, this manual inside the app, without the screenshots) and Settings (⚙). Below about 1160 pixels the right group moves to a second row as a whole, so nothing ever runs off the edge.
 
 ![The header.](img/app-header.png)
 
@@ -239,7 +239,7 @@ The **page** on the right shows the selected formula or material, the order list
 
 ![The list panel on the left and a formula page on the right.](img/app-formula-full.png)
 
-On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. The header leaves out **+ New formula…**, **+ New material…**, **Redo** and **Save** on a phone: creating is desktop work, and saving happens by itself.
+On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. The header leaves out ☰, **+ New formula…**, **+ New material…**, **Redo** and **Save** on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself.
 
 ## 7. Materials
 
@@ -289,7 +289,7 @@ Frozen means the amounts are fixed, not that the entry is untouchable. You can s
 
 ## 9. Editing a formula
 
-A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the **Add material…** box under the table (the list suggests as you type) and click **Add line**; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick **custom…** for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section 11). Remove a line with ✕, and swap the material on a line for another with **⇄**: the dilution and the weight are carried over, so a line you weighed stays weighed.
+A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the **Add material…** box under the table (the list suggests as you type) and click **Add line**; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick **custom…** for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section 11). Remove a line with ✕, and swap the material on a line for another with **⇄**: the dilution and the weight are carried over, so a line you weighed stays weighed. Weights can be typed one after another without the mouse: **Tab** confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.
 
 ![A formula page: the lines table with dilution, weight, rel % and abs %.](img/app-formula.png)
 
@@ -347,7 +347,7 @@ Tick lines with the checkboxes on the left (Shift-click ticks a range) and use t
 
 ## 14. Bench view and printing
 
-**Bench view** (the button next to the formula name, which reads **Table view** while the bench is open, with **Close bench** underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the **Unsorted** column on the left; drag them into named groups on the right, or tick several lines and choose **Move ticked to…**. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; **+ Add group** makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version. **Print bench sheet** prints the groups with a checkbox per line, in the order you will weigh them.
+**Bench view** (the button next to the formula name, which reads **Table view** while the bench is open, with **Close bench** underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the **Unsorted** column on the left; drag them into named groups on the right, or tick several lines and choose **Move ticked to…**. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; **+ Add group** makes as many more as your batch needs, and you can rename, reorder and delete groups as you like. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version. The groups stand beside the Unsorted column on a wide screen and below it on a narrower one, so the group buttons are always within reach. **Print bench sheet** prints the groups with a checkbox per line, in the order you will weigh them.
 
 ![Bench view: the Unsorted column with its own sort order on the left, the groups you build the batch with on the right.](img/app-bench-view.png)
 
@@ -448,7 +448,7 @@ If you would like step-by-step instructions for your own device, `docs/ai-prompt
 
 ![Settings in browser-storage mode.](img/app-settings.png)
 
-The **theme** button cycles between Auto (follows Windows or macOS), Dark and Light.
+The **theme** button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.
 
 Shortcuts: **Ctrl+Z** undo, **Ctrl+Y** or **Ctrl+Shift+Z** redo (the last ten of them), **Ctrl+S** save now, **Ctrl+B** hide or show the list panel, **Shift-click** on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl.
 
