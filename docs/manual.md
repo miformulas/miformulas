@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260915l. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
+This manual describes build 260915m. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
 
 ## Contents
 
@@ -232,7 +232,7 @@ Firefox and Samsung Internet on Android have not been tried.
 
 ## 6. The screen
 
-The **header** holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), **Home**, **+ New formula** and **+ New material**. On the right what the file is: the save state, **Undo** and **Redo** (arrows on a narrow window), **Save** (saving is automatic; this forces it now, also Ctrl+S), **Backup**, and then the four buttons you need rarely: reload (the circular arrow, for after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), **Help** (?, this manual inside the app, without the screenshots) and Settings (⚙). Below about 1160 pixels the right group moves to a second row as a whole, so nothing ever runs off the edge.
+The **header** holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), **Home**, **+ New formula** and **+ New material**; the installed app adds a back and a forward arrow there, because an app window has no toolbar of its own (section 21). On the right what the file is: the save state, **Undo** and **Redo** (arrows on a narrow window), **Save** (saving is automatic; this forces it now, also Ctrl+S), **Backup**, and then the four buttons you need rarely: reload (the circular arrow, for after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), **Help** (?, this manual inside the app, without the screenshots) and Settings (⚙). Below about 1160 pixels the right group moves to a second row as a whole, so nothing ever runs off the edge.
 
 ![The header.](img/app-header.png)
 
@@ -454,6 +454,8 @@ If you would like step-by-step instructions for your own device, `docs/ai-prompt
 The **theme** button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.
 
 Shortcuts: **Ctrl+Z** undo, **Ctrl+Y** or **Ctrl+Shift+Z** redo (the last ten of them), **Ctrl+S** save now, **Ctrl+B** hide or show the list panel, **Shift-click** on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. While the cursor is in a text field, Ctrl+Z is the browser's own undo for that field, not the app's; click outside it first to take back the change itself. In the list panel a row takes focus with Tab and opens with Enter, and the same goes for material names, sort headers and colour swatches. In a dialog **Enter** is the button on the right (Create, Apply, Add) and **Escape** closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.
+
+**Back and forward.** Every place you open is a step: a formula and the version you were looking at, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the **back and forward buttons of your mouse** work, and so do the browser's own two buttons, **Alt+Left** and **Alt+Right** (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. A step whose formula or material has been deleted since is skipped and lands you on the list. Reloading the page lands you back on the step you were on when **Open where you left off** is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.
 
 ## 22. Backups and recovery
 

@@ -338,9 +338,11 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915l</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260915m</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
+    <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button id="btnNavNext" class="small ico" hidden disabled title="Forward (also the forward button of your mouse, and Alt+Right)" aria-label="Forward"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     <button id="btnHome" class="small">Home</button>
     <button id="btnNew" class="small">+ New formula…</button>
     <button id="btnNewMat" class="small">+ New material…</button>
@@ -398,7 +400,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260915l. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260915m. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-and-versions">Formulas and versions</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-your-own-server">Your own server</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -528,7 +530,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">Chrome on Android asks for permission at every start.</a></p>
 <p>Firefox and Samsung Internet on Android have not been tried.</p>
 <h2 id="s6-the-screen">6. The screen</h2>
-<p>The <strong>header</strong> holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula</strong> and <strong>+ New material</strong>. On the right what the file is: the save state, <strong>Undo</strong> and <strong>Redo</strong> (arrows on a narrow window), <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, and then the four buttons you need rarely: reload (the circular arrow, for after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙). Below about 1160 pixels the right group moves to a second row as a whole, so nothing ever runs off the edge.</p>
+<p>The <strong>header</strong> holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula</strong> and <strong>+ New material</strong>; the installed app adds a back and a forward arrow there, because an app window has no toolbar of its own (section <a href="#s21-settings-theme-and-keyboard-shortcuts">21</a>). On the right what the file is: the save state, <strong>Undo</strong> and <strong>Redo</strong> (arrows on a narrow window), <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, and then the four buttons you need rarely: reload (the circular arrow, for after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙). Below about 1160 pixels the right group moves to a second row as a whole, so nothing ever runs off the edge.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-the-screen">The header.</a></p>
 <p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Each tab keeps its own term, so the name of a material does not stay behind in the formula list when you switch. Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section <a href="#s18-import-and-export">18</a>), the panel says "Not in your inventory" and shows what the library does know, with a <strong>+ Add</strong> button that puts the material in your inventory with its facts.</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
@@ -658,6 +660,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s21-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
 <p>The <strong>theme</strong> button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.</p>
 <p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. While the cursor is in a text field, Ctrl+Z is the browser's own undo for that field, not the app's; click outside it first to take back the change itself. In the list panel a row takes focus with Tab and opens with Enter, and the same goes for material names, sort headers and colour swatches. In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add) and <strong>Escape</strong> closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.</p>
+<p><strong>Back and forward.</strong> Every place you open is a step: a formula and the version you were looking at, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the <strong>back and forward buttons of your mouse</strong> work, and so do the browser's own two buttons, <strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. A step whose formula or material has been deleted since is skipped and lands you on the list. Reloading the page lands you back on the step you were on when <strong>Open where you left off</strong> is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.</p>
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header writes the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>); Chrome and Edge ask where it should go and remember that folder. Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
 <p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file. When the browser copy is the thing that could not be read, the start screen says so and points at your last Backup, because starting again there would write over what is left of it. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.</p>
@@ -690,6 +693,7 @@ try{ const t0 = localStorage.getItem("miformulas-theme"); if (t0 === "dark" || t
 let DATA = null, HANDLE = null, DIRTY = false, FALLBACK = !window.showOpenFilePicker;
 let VIEW = {tab:"F", id:null, sub:null};   // sub = {type:'v'|'var', idx}
 let OPENLAST = false, LASTVIEW = null;   // Settings "Open where you left off": kept per device, never in the data file
+let NAVI = 0, NAVMAX = 0, NAVBACK = false, NAVFIRST = true;   // our place in the browser's own history
 let USAGE = {};   // materialId -> [{fid, name, where}]
 const $ = s => document.querySelector(s);
 function makeClickable(root){   // a span or a link without href is invisible to the keyboard: give it a role and Enter
@@ -3649,7 +3653,7 @@ function render(){
   const c = $("#content");
   // another item is another page: it starts at the top, while a re-render of the same page keeps its place
   const place = VIEW.tab + "|" + (VIEW.id || "") + (HOMEVIEW ? "|home" : "") + (HELPVIEW ? "|help" : "") + (IMPORTP ? "|import" : "");
-  if (place !== SHOWING){ SHOWING = place; c.scrollTop = 0; }
+  if (place !== SHOWING){ SHOWING = place; c.scrollTop = 0; pushPlace(); }
   if (HELPVIEW){ renderHelp(); return; }
   if (IMPORTP){ renderImport(); makeClickable(); if (readOnly()) lockInputs(); return; }
   if (VIEW.tab === "T"){ renderOrders(); makeClickable(); if (readOnly()) lockInputs(); return; }
@@ -3732,6 +3736,8 @@ $("#btnBack").addEventListener("click", () => {
   if (VIEW.tab === "T" && !HOMEVIEW && !HELPVIEW){ switchTab(PREVTAB); return; }   // To order fills the pane itself: back means another tab
   VIEW.id = null; VIEW.sub = null; HOMEVIEW = false; HELPVIEW = false; render();
 });
+$("#btnNavPrev").addEventListener("click", () => history.back());
+$("#btnNavNext").addEventListener("click", () => history.forward());
 $("#btnHelp").addEventListener("click", () => { if (!DATA) return; HELPVIEW = !HELPVIEW; render(); });
 window.matchMedia("(max-width:700px)").addEventListener("change", () => { if (DATA) render(); });
 let VIEWSAVE = null;
@@ -3741,18 +3747,55 @@ function rememberView(){          // where you are, per device; a debounce keeps
   VIEWSAVE = setTimeout(() => idb.set("lastView", {tab: VIEW.tab, id: VIEW.id,
     sub: VIEW.sub ? {type: VIEW.sub.type, idx: VIEW.sub.idx} : null, home: HOMEVIEW}), 1000);
 }
-function applyLastView(){         // only if what you were looking at is still there
-  const v = LASTVIEW; LASTVIEW = null;
-  if (!v || !DATA) return;
-  const there = !v.id ? true
-    : v.tab === "M" ? DATA.materials.some(x => x.id === v.id)
-    : v.tab === "F" ? DATA.formulas.some(x => x.id === v.id) : true;
-  if (!there) return;
-  VIEW = {tab: ["F","M","T"].includes(v.tab) ? v.tab : "F", id: v.id || null, sub: v.sub || null};
+function goPlace(s){              // put the app on the place s describes, as far as it still exists; no render
+  const there = !s.id ? true
+    : s.tab === "M" ? DATA.materials.some(x => x.id === s.id)
+    : s.tab === "F" ? DATA.formulas.some(x => x.id === s.id) : true;
+  VIEW = {tab: ["F","M","T"].includes(s.tab) ? s.tab : "F",
+          id: there ? (s.id || null) : null, sub: there ? (s.sub || null) : null};
   LAST[VIEW.tab] = {id: VIEW.id, sub: VIEW.sub};
-  HOMEVIEW = !!v.home || (isMobile() && !VIEW.id && VIEW.tab !== "T");   // a phone needs a pane, not an empty list
+  HOMEVIEW = !!s.home || (isMobile() && !VIEW.id && VIEW.tab !== "T");   // a phone needs a pane, not an empty list
   clampView();
+  return there;
 }
+function applyLastView(){         // Settings "Open where you left off", at start-up
+  const v = LASTVIEW; LASTVIEW = null;
+  if (v && DATA) goPlace(v);
+}
+
+/* ---------- back and forward: one history entry per place, so the mouse, the browser,
+   Alt+Left and the Android back button all work without a line of their own ---------- */
+function navState(){
+  return {mf: 1, i: NAVI, tab: VIEW.tab, id: VIEW.id,
+          sub: VIEW.sub ? {type: VIEW.sub.type, idx: VIEW.sub.idx} : null, home: HOMEVIEW, help: HELPVIEW};
+}
+function pushPlace(){
+  if (NAVBACK) return;            // a popstate put us here, so its entry exists already
+  try{
+    if (NAVFIRST){ NAVFIRST = false; history.replaceState(navState(), ""); }
+    else { NAVI = NAVI + 1; NAVMAX = NAVI; history.pushState(navState(), ""); }   // a new step drops what lay ahead
+  }catch(e){}                     // a browser that refuses it simply has no back and forward
+  syncNav();
+}
+function syncNav(){               // the installed app has no toolbar of its own, so its buttons say where the ends are
+  const b = $("#btnNavPrev"), f = $("#btnNavNext");
+  if (b) b.disabled = NAVI <= 0;
+  if (f) f.disabled = NAVI >= NAVMAX;
+}
+window.addEventListener("popstate", e => {
+  const s = e.state;
+  if (!DATA || !s || !s.mf) return;          // an entry that is not ours: let the browser do its thing
+  NAVI = typeof s.i === "number" ? s.i : NAVI;
+  NAVBACK = true;
+  try{
+    IMPORTP = null;                          // an import preview is not a place you can come back to
+    goPlace(s);
+    setTabs();                               // setTabs closes the manual, so the flag goes after it
+    HELPVIEW = !!s.help;
+    render();
+  } finally { NAVBACK = false; }
+  syncNav();
+});
 async function dailySnapshot(){   // once a day: the state as it was when you opened the app, before the first change
   const day = today();
   if (LASTBAK === day) return;
@@ -3764,7 +3807,11 @@ function boot(){
   $("#landing").style.display = "none";
   $("header").inert = false; $("#main").inert = false;   // released only now: before this there is no DATA to work on
   if (isMobile()) HOMEVIEW = true;      // phones start on the welcome screen, not on an empty list
-  applyLastView();                      // Settings: open where you left off, if that place still exists
+  NAVFIRST = true; NAVI = 0; NAVMAX = 0;
+  let hs = null; try{ hs = OPENLAST ? history.state : null; }catch(e){}
+  if (hs && hs.mf) goPlace(hs);          // with "open where you left off" a reload lands back on the entry you were on
+  else applyLastView();                  // Settings: open where you left off, if that place still exists
+  if (STANDALONE){ $("#btnNavPrev").hidden = false; $("#btnNavNext").hidden = false; }
   buildUsage();
   setState(REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback – use Backup to save)", "", false);
   setTabs(); render();
