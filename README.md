@@ -129,6 +129,12 @@ https://miformulas.com/docs/miFormulas-manual.pdf), and ready-made prompts for a
 AI assistant at https://miformulas.com/docs/ai-prompts.html; the Markdown sources
 are in `docs/`.
 
+Your own materials come in from the spreadsheet you already keep them in: save it
+as a CSV and use **Import materials from a spreadsheet…** on the Welcome page,
+which shows your columns next to the fields of a material and lets you match them
+on screen. Only the name is required; **Download a template** shows the columns
+the app uses itself.
+
 A materials library takes the place of the built-in materials database that some
 apps ship: a reference file of facts that you import (**Import materials library…**
 on the Welcome page). With one loaded, a material you add arrives with its CAS
