@@ -133,7 +133,10 @@ Your own materials come in from the spreadsheet you already keep them in: save i
 as a CSV and use **Import materials inventory from CSV…** on the Welcome page,
 which shows your columns next to the fields of a material and lets you match them
 on screen. Only the name is required; **Download a template** shows the columns
-the app uses itself.
+the app uses itself. Formulas travel the same way in the other direction:
+**Export all formulas (Excel)** writes one CSV of everything, and **Import
+formula…** reads that CSV back, matching the columns the same way and grouping
+the rows by formula and version.
 
 A materials library takes the place of the built-in materials database that some
 apps ship: a reference file of facts that you import (**Import materials library…**
