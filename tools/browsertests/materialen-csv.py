@@ -158,8 +158,8 @@ with sync_playwright() as pw:
     page.on("dialog", lambda d: (msgs3.append(d.message), d.accept()))
     lib = os.path.join(tmp, "bibliotheek.json")
     open(lib, "w", encoding="utf-8").write(json.dumps({"type": "miformulas-materials", "name": "Testbibliotheek", "version": "2026-09-16",
-        "materials": [{"name": "Iso E Super", "cas": "54464-57-2", "category": "Woody", "pyramid": 4, "aliases": ["Timberol"]},
-                      {"name": "Hedione", "cas": "24851-98-7", "category": "Floral", "pyramid": 2}]}))
+        "materials": [{"name": "Iso E Super", "cas": "54464-57-2", "category": "Woody", "pyramid": 4},
+                      {"name": "Hedione", "cas": "24851-98-7", "category": "Floral", "pyramid": 2, "aliases": ["Methyl dihydrojasmonate"]}]}))
     page.route("https://data.miformulas.com/miformulas-materials.json", lambda r: r.fulfill(path=lib, content_type="application/json"))
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnEmpty"); page.wait_for_timeout(1400)
@@ -172,7 +172,7 @@ with sync_playwright() as pw:
     check("en die van Import formula… noemt ook de uitvoer van een andere miFormulas", "all the formulas exported from another miFormulas" in blok)
     check("die van de bibliotheek zegt dat de eigen materialen onaangeroerd blijven", "does not change the materials already in your Materials inventory" in blok)
     zonder = os.path.join(tmp, "namen.csv")
-    open(zonder, "w", encoding="utf-8", newline="").write("Name\r\nIso E Super\r\nTimberol\r\nHedione\r\nNieuwe stof\r\n")
+    open(zonder, "w", encoding="utf-8", newline="").write("Name\r\nIso E Super\r\nHedione\r\nMethyl dihydrojasmonate\r\nNieuwe stof\r\n")
     page.set_input_files("#impCsv", zonder); page.wait_for_timeout(900)
     check("het venster heet naar de knop", "Import materials inventory from CSV" in page.text_content("#dlg h3"))
     check("zonder bibliotheek zegt het venster dat", "No materials library loaded" in page.text_content("#csvLib"))
@@ -185,10 +185,10 @@ with sync_playwright() as pw:
     check(f"en de teller zegt hoeveel namen ze kent, alias inbegrepen ({page.text_content('#csvCount')})", "knows 3 of them" in page.text_content("#csvCount"))
     check("de Welcome-pagina achter het venster noemt de bibliotheek", "loaded: Testbibliotheek" in page.text_content("#content .panelBox:last-of-type"))
     msgs3.clear(); page.click("#dlgOk"); page.wait_for_timeout(1000)
-    iso = mat(page, "Iso E Super"); tim = mat(page, "Timberol")
+    iso = mat(page, "Iso E Super"); hed = mat(page, "Hedione"); mdj = mat(page, "Methyl dihydrojasmonate")
     check(f"de bibliotheek vult aan wat het blad niet had ({iso['cas']}, {iso['cat']}, {iso['pyr']})", iso["cas"] == "54464-57-2" and iso["cat"] == "Woody" and iso["pyr"] == 4)
-    check(f"de alias uit de bibliotheek komt bij de stof, en de rij met die alias is dezelfde stof en wordt overgeslagen ({iso['al']}, {msgs3})",
-          tim is None and "Timberol" in (iso["al"] or "") and any("1 row(s) skipped" in m for m in msgs3))
+    check(f"de alias uit de bibliotheek komt bij de stof, en de rij met die alias is dezelfde stof en wordt overgeslagen ({hed['al']}, {msgs3})",
+          mdj is None and "Methyl dihydrojasmonate" in (hed["al"] or "") and any("1 row(s) skipped" in m for m in msgs3))
     check("een naam die ze niet kent komt kaal binnen", mat(page, "Nieuwe stof")["cas"] in (None, ""))
     page.keyboard.press("Control+z"); page.wait_for_timeout(700)
     check("undo neemt de invoer terug", page.evaluate("DATA.materials.length") == 0)
