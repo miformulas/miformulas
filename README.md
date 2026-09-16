@@ -130,7 +130,7 @@ AI assistant at https://miformulas.com/docs/ai-prompts.html; the Markdown source
 are in `docs/`.
 
 Your own materials come in from the spreadsheet you already keep them in: save it
-as a CSV and use **Import materials from a spreadsheet…** on the Welcome page,
+as a CSV and use **Import materials inventory from CSV…** on the Welcome page,
 which shows your columns next to the fields of a material and lets you match them
 on screen. Only the name is required; **Download a template** shows the columns
 the app uses itself.

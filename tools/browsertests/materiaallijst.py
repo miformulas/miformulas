@@ -48,7 +48,7 @@ with sync_playwright() as p:
     check("your own materials are untouched", page.evaluate("DATA.materials.length") == 199)
     check("the list sits in the data", page.evaluate("DATA.materialList && DATA.materialList.materials.length") == 5)
     check("Welcome names the loaded list", "Test material list" in page.text_content("#content"))
-    check("Welcome says the materials you own stay untouched", "the materials you own are untouched" in page.text_content("#content"))
+    check("Welcome says the materials you already have stay untouched", "the materials already in your inventory are untouched" in page.text_content("#content"))
 
     # Settings shows it with Remove
     page.click("#btnSettings"); page.wait_for_timeout(400)

@@ -1,7 +1,7 @@
-"""Materialen invoeren uit een spreadsheet (bouw 260916): de rondgang met de eigen CSV-uitvoer, een vreemd
+"""Materialen invoeren uit een CSV (bouw 260916, bibliotheekknop in het venster 260916b): de rondgang met de eigen CSV-uitvoer, een vreemd
 blad met ; en decimale komma en andere kopnamen, een Windows-1252-bestand, dubbels, het sjabloon en undo.
 Vereist de lokale webserver op poort 8765, zie README."""
-import csv, io, os, tempfile
+import csv, io, json, os, tempfile
 from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/"
@@ -149,6 +149,60 @@ with sync_playwright() as pw:
     slecht = os.path.join(tmp, "leeg.csv"); open(slecht, "w").write("\n\n")
     msgs2.clear(); page.set_input_files("#impCsv", slecht); page.wait_for_timeout(600)
     check(f"een leeg bestand geeft een melding, geen venster ({msgs2})", any("header row" in m for m in msgs2) and not page.locator("#csvMap").is_visible())
+
+    # ---------------- 6. de bibliotheek vanuit het venster (bouw 260916b) ----------------
+    # de gepubliceerde bibliotheek komt van een lokale kopie: de test mag het net niet op
+    ctx3 = b.new_context(viewport={"width": 1400, "height": 900})
+    page = ctx3.new_page(); errs3 = []; msgs3 = []
+    page.on("pageerror", lambda e: errs3.append(str(e)))
+    page.on("dialog", lambda d: (msgs3.append(d.message), d.accept()))
+    lib = os.path.join(tmp, "bibliotheek.json")
+    open(lib, "w", encoding="utf-8").write(json.dumps({"type": "miformulas-materials", "name": "Testbibliotheek", "version": "2026-09-16",
+        "materials": [{"name": "Iso E Super", "cas": "54464-57-2", "category": "Woody", "pyramid": 4, "aliases": ["Timberol"]},
+                      {"name": "Hedione", "cas": "24851-98-7", "category": "Floral", "pyramid": 2}]}))
+    page.route("https://data.miformulas.com/miformulas-materials.json", lambda r: r.fulfill(path=lib, content_type="application/json"))
+    page.goto(URL); page.wait_for_timeout(800)
+    page.click("#btnEmpty"); page.wait_for_timeout(1400)
+    check("het Welcome-blok heeft de nieuwe knopnaam", page.text_content("#btnImpCsv").strip() == "Import materials inventory from CSV…")
+    volgorde = page.evaluate("() => [...document.querySelectorAll('#content .panelBox:last-of-type button, #content .panelBox:last-of-type a.btn')].map(b => b.id)")
+    check(f"en de knoppen in de afgesproken volgorde ({volgorde})",
+          volgorde == ["btnImpFormulair", "btnImpCsv", "btnImpL", "btnImpF", "btnExpL", "btnExpJ", "btnExpF", "btnExpM"])
+    blok = page.text_content("#content .panelBox:last-of-type")
+    check("de hint van Export all my formulas… somt op wat niet meegaat", "No price, supplier, stock or trial log goes along" in blok)
+    check("en die van Import formula… noemt ook de uitvoer van een andere miFormulas", "all the formulas exported from another miFormulas" in blok)
+    check("die van de bibliotheek zegt dat de eigen materialen onaangeroerd blijven", "does not change the materials already in your Materials inventory" in blok)
+    zonder = os.path.join(tmp, "namen.csv")
+    open(zonder, "w", encoding="utf-8", newline="").write("Name\r\nIso E Super\r\nTimberol\r\nHedione\r\nNieuwe stof\r\n")
+    page.set_input_files("#impCsv", zonder); page.wait_for_timeout(900)
+    check("het venster heet naar de knop", "Import materials inventory from CSV" in page.text_content("#dlg h3"))
+    check("zonder bibliotheek zegt het venster dat", "No materials library loaded" in page.text_content("#csvLib"))
+    check("en biedt Get the latest library aan", page.locator("#csvLibGet").is_visible())
+    check("de teller zwijgt dan over de bibliotheek", "knows" not in page.text_content("#csvCount") and "4 material(s)" in page.text_content("#csvCount"))
+    page.click("#csvLibGet"); page.wait_for_timeout(1500)
+    check("het venster blijft open", page.locator("#csvMap").is_visible())
+    check(f"de bibliotheek is geladen ({page.evaluate('DATA.materialList && DATA.materialList.name')})", page.evaluate("DATA.materialList && DATA.materialList.name") == "Testbibliotheek")
+    check("de regel noemt ze nu", "Testbibliotheek 2026-09-16" in page.text_content("#csvLib") and page.locator("#csvLibGet").count() == 0)
+    check(f"en de teller zegt hoeveel namen ze kent, alias inbegrepen ({page.text_content('#csvCount')})", "knows 3 of them" in page.text_content("#csvCount"))
+    check("de Welcome-pagina achter het venster noemt de bibliotheek", "loaded: Testbibliotheek" in page.text_content("#content .panelBox:last-of-type"))
+    msgs3.clear(); page.click("#dlgOk"); page.wait_for_timeout(1000)
+    iso = mat(page, "Iso E Super"); tim = mat(page, "Timberol")
+    check(f"de bibliotheek vult aan wat het blad niet had ({iso['cas']}, {iso['cat']}, {iso['pyr']})", iso["cas"] == "54464-57-2" and iso["cat"] == "Woody" and iso["pyr"] == 4)
+    check(f"de alias uit de bibliotheek komt bij de stof, en de rij met die alias is dezelfde stof en wordt overgeslagen ({iso['al']}, {msgs3})",
+          tim is None and "Timberol" in (iso["al"] or "") and any("1 row(s) skipped" in m for m in msgs3))
+    check("een naam die ze niet kent komt kaal binnen", mat(page, "Nieuwe stof")["cas"] in (None, ""))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+    check("undo neemt de invoer terug", page.evaluate("DATA.materials.length") == 0)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+    check("en een tweede undo de bibliotheek", page.evaluate("DATA.materialList") is None)
+    # als het ophalen mislukt, blijft het venster open en de knop bruikbaar
+    page.unroute("https://data.miformulas.com/miformulas-materials.json")
+    page.route("https://data.miformulas.com/miformulas-materials.json", lambda r: r.fulfill(status=503, body="down"))
+    msgs3.clear(); page.set_input_files("#impCsv", zonder); page.wait_for_timeout(900)
+    page.click("#csvLibGet"); page.wait_for_timeout(1200)
+    check(f"mislukt ophalen geeft een melding ({msgs3})", any("could not be fetched" in m for m in msgs3))
+    check("het venster staat nog open en de knop is weer bruikbaar", page.locator("#csvMap").is_visible() and not page.locator("#csvLibGet").is_disabled())
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    check(f"geen paginafouten in deel 6 ({errs3[:2]})", not errs3)
 
     check(f"geen paginafouten ({errs2[:2]})", not errs2)
     print("\n%d OK, %d FAIL" % (ok, fail))
