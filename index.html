@@ -338,7 +338,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260916c</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260916d</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -353,6 +353,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
     <button id="btnRedo" class="small" disabled title="Redo undone change (Ctrl+Y)" aria-label="Redo"><span class="lbl">Redo</span><span class="ico2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></span></button>
     <button id="btnSave" class="small" title="Save now (Ctrl+S) – saving is also automatic">Save</button>
     <button id="btnBackup" class="small" title="Download a backup copy of the data file">Backup…</button>
+    <button id="btnIO" class="small ico" title="Import/Export: Formulair, CSV, materials library, formulas, Excel" aria-label="Import and export"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 20V5"/><path d="M3.5 8.5L7 5l3.5 3.5"/><path d="M17 4v15"/><path d="M13.5 15.5L17 19l3.5-3.5"/></svg></button>
     <span class="hsep"></span>
     <button id="btnRefresh" class="small ico" title="Reload the app and its data (e.g. after an update)" aria-label="Reload"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg></button>
     <button id="btnTheme" class="small ico" title="Theme: auto follows Windows/macOS; click to cycle">◐</button>
@@ -391,6 +392,8 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
        <a id="btnFormulair" class="small" style="display:none;margin-left:.6rem" href="formulair-import.html" title="Coming from Formulair on the Mac? Read its database and continue here with all your formulas">Import from Formulair…</a></p>
     <input type="file" id="fileFallback" accept=".json" style="display:none">
     <input type="file" id="impList" accept=".json" style="display:none">
+    <input type="file" id="impFile" accept=".json" style="display:none">
+    <input type="file" id="impCsv" accept=".csv,.txt,text/csv" style="display:none">
   </div>
 </div>
 <dialog id="dlg"></dialog>
@@ -400,7 +403,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s19-coming-from-formulair">19</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s11-changing-dilutions">11</a> to <a href="#s13-colour-marks-notes-and-the-trial-log">13</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s18-import-and-export">18</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s14-bench-view-and-printing">14</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260916c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260916d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-the-screen">The screen</a></li><li><a href="#s7-materials">Materials</a></li><li><a href="#s8-formulas-and-versions">Formulas and versions</a></li><li><a href="#s9-editing-a-formula">Editing a formula</a></li><li><a href="#s10-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s11-changing-dilutions">Changing dilutions</a></li><li><a href="#s12-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s13-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s14-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s15-comparing-versions">Comparing versions</a></li><li><a href="#s16-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s17-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s18-import-and-export">Import and export</a></li><li><a href="#s19-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s20-the-same-data-on-every-device">The same data on every device</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -414,7 +417,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <li><strong>Import from Formulair</strong> takes you to the importer for Formulair users (section <a href="#s19-coming-from-formulair">19</a>).</li>
 </ul>
 <p>The bottom line of the start screen has <strong>Settings…</strong>, <strong>Manual</strong> (this text, with its screenshots, on the site), <strong>Feedback</strong>, and, where they apply, <strong>Download the app</strong>, <strong>Install as an app</strong> and <strong>Import from Formulair…</strong>.</p>
-<p>Whichever way in you take, you land on the Welcome page: a block <strong>Start here</strong> with the three things you usually come for (open a formula, + New formula…, + New material…), four tiles (formulas, versions, materials, to order), where your data lives, the recently edited items once you have edited something of your own, and the import and export buttons. Pick a formula or material in the list on the left, or create a new one with <strong>+ New formula</strong> and <strong>+ New material</strong> in the header.</p>
+<p>Whichever way in you take, you land on the Welcome page: a block <strong>Start here</strong> with the three things you usually come for (open a formula, + New formula…, + New material…), four tiles (formulas, versions, materials, to order), where your data lives, the recently edited items once you have edited something of your own, and the two ways in for materials and formulas that come from elsewhere (section <a href="#s18-import-and-export">18</a>). Pick a formula or material in the list on the left, or create a new one with <strong>+ New formula</strong> and <strong>+ New material</strong> in the header.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The Welcome page after loading the starter set, with the amber storage bar.</a></p>
 <p>Every change is saved automatically a few seconds after you make it; <strong>Ctrl+Z</strong> undoes it. Deleting a line, a version, a formula or a material always asks for confirmation.</p>
 <h2 id="s2-where-your-data-lives-browser-file-or-server">2. Where your data lives: browser, file or server</h2>
@@ -530,7 +533,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">Chrome on Android asks for permission at every start.</a></p>
 <p>Firefox and Samsung Internet on Android have not been tried.</p>
 <h2 id="s6-the-screen">6. The screen</h2>
-<p>The <strong>header</strong> holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula</strong> and <strong>+ New material</strong>; the installed app adds a back and a forward arrow there, because an app window has no toolbar of its own (section <a href="#s21-settings-theme-and-keyboard-shortcuts">21</a>). On the right what the file is: the save state, <strong>Undo</strong> and <strong>Redo</strong> (arrows on a narrow window), <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, and then the four buttons you need rarely: reload (the circular arrow, for after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙). Below about 1160 pixels the right group moves to a second row as a whole, so nothing ever runs off the edge.</p>
+<p>The <strong>header</strong> holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula</strong> and <strong>+ New material</strong>; the installed app adds a back and a forward arrow there, because an app window has no toolbar of its own (section <a href="#s21-settings-theme-and-keyboard-shortcuts">21</a>). On the right what the file is: the save state, <strong>Undo</strong> and <strong>Redo</strong> (arrows on a narrow window), <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, <strong>Import/Export</strong> (⇅, section <a href="#s18-import-and-export">18</a>), and then the four buttons you need rarely: reload (the circular arrow, for after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙). Below about 1160 pixels the right group moves to a second row as a whole, so nothing ever runs off the edge.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-the-screen">The header.</a></p>
 <p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Each tab keeps its own term, so the name of a material does not stay behind in the formula list when you switch. Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section <a href="#s18-import-and-export">18</a>), the panel says "Not in your inventory" and shows what the library does know, with a <strong>+ Add</strong> button that puts the material in your inventory with its facts.</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
@@ -615,13 +618,13 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>To order</strong> is the shopping list. Add a material from the list itself (existing or new), with <strong>Add to order list</strong> on a material page, or automatically when a formula or an import mentions a material you do not have. Each entry has a note, an amount and unit, a price and a product link; <strong>Search</strong> opens a Google search limited to the web shops you listed under <strong>Edit shop list</strong> (the list starts empty; add the shops you buy from, one domain per line). <strong>Delivered</strong> closes an entry: it records the amount purchased and the purchase date on the material, computes <strong>Cost € / g</strong> from the price and the amount (millilitres via density, and divided by the base dilution, because that field is the price of a gram of pure material), adds to the stock ledger if the material is tracked, creates the material if it was new, and removes the "to order" label. The price itself is not kept on the material: it is only there to work out the cost per gram.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s17-stock-orders-and-deliveries">The order list.</a></p>
 <h2 id="s18-import-and-export">18. Import and export</h2>
-<p>The Welcome page has the import and export buttons. <strong>Import from Formulair…</strong> opens the importer described in section <a href="#s19-coming-from-formulair">19</a>.</p>
-<p><strong>Import materials inventory from CSV…</strong> is the way in for the materials you already keep in Excel, Numbers or Google Sheets, which is where almost everyone keeps them. Save the sheet as a CSV first (in Excel: <strong>File › Save As › CSV</strong>; the app reads the comma, the semicolon and the tab, a decimal comma as well as a point, and the Windows encoding Excel uses when you do not choose "CSV UTF-8"). Then choose the file, and the app shows its columns next to the fields of a material and lets you match them on screen. It fills the matches in itself when it recognises the headers: its own, from <strong>Export all materials (Excel)</strong>, and the usual names (Material, Ingredient, CAS No., Vendor, Price, IFRA, Notes); anything it did not recognise you pick from the list, and only <strong>Name</strong> is required. Under the matching you see the first rows of your sheet as they were read, and a count of what will happen: how many materials will be created, how many rows are skipped because you already have a material with that name (nothing of yours is touched by an import) and how many rows have no name. What the sheet leaves empty, the materials library fills in when it knows the name (section <a href="#s7-materials">7</a>), so a sheet with nothing but names still arrives with CAS numbers, categories and pyramid levels. The window names the library that is loaded and says how many of the new names it knows; when none is loaded, it offers <strong>Get the latest library</strong> right there, so the first import does not have to pass through Settings. Pyramid takes the words Top, Top-heart, Heart, Heart-base, Base or the numbers 0 to 4; Solvent, Cupboard, Fridge and Freezer take yes or nothing; Dilutions takes the base first and the others after a slash ("100 / 10"), and a single figure like "10%" makes that the base. A stock column is ignored, because stock is a ledger and an import cannot invent its history. The whole import is one Undo step. <strong>Download a template</strong> (in the same window and on the Welcome page) writes a CSV with the columns the app uses itself and two example rows to overwrite, so nobody has to guess the format with an empty inventory.</p>
+<p>The ⇅ button in the header opens <strong>Import &amp; export</strong>, a window with everything that comes in and goes out. The Welcome page keeps the two ways in that a new inventory starts with, and points at that window for the rest. <strong>Import from Formulair…</strong> opens the importer described in section <a href="#s19-coming-from-formulair">19</a>.</p>
+<p><strong>Import materials inventory from CSV…</strong> is the way in for the materials you already keep in Excel, Numbers or Google Sheets, which is where almost everyone keeps them. Save the sheet as a CSV first (in Excel: <strong>File › Save As › CSV</strong>; the app reads the comma, the semicolon and the tab, a decimal comma as well as a point, and the Windows encoding Excel uses when you do not choose "CSV UTF-8"). Then choose the file, and the app shows its columns next to the fields of a material and lets you match them on screen. It fills the matches in itself when it recognises the headers: its own, from <strong>Export all materials (Excel)</strong>, and the usual names (Material, Ingredient, CAS No., Vendor, Price, IFRA, Notes); anything it did not recognise you pick from the list, and only <strong>Name</strong> is required. Under the matching you see the first rows of your sheet as they were read, and a count of what will happen: how many materials will be created, how many rows are skipped because you already have a material with that name (nothing of yours is touched by an import) and how many rows have no name. What the sheet leaves empty, the materials library fills in when it knows the name (section <a href="#s7-materials">7</a>), so a sheet with nothing but names still arrives with CAS numbers, categories and pyramid levels. The window names the library that is loaded and says how many of the new names it knows; when none is loaded, it offers <strong>Get the latest library</strong> right there, so the first import does not have to pass through Settings. Pyramid takes the words Top, Top-heart, Heart, Heart-base, Base or the numbers 0 to 4; Solvent, Cupboard, Fridge and Freezer take yes or nothing; Dilutions takes the base first and the others after a slash ("100 / 10"), and a single figure like "10%" makes that the base. A stock column is ignored, because stock is a ledger and an import cannot invent its history. The whole import is one Undo step. <strong>Download a template</strong> (in the same window, in Import &amp; export and on the Welcome page) writes a CSV with the columns the app uses itself and two example rows to overwrite, so nobody has to guess the format with an empty inventory.</p>
 <p><strong>Import materials library…</strong> reads a miformulas-materials JSON file: a library of materials with their facts, which the app uses when you add a material, when you tick several in <strong>Browse the library…</strong>, and when a search in Materials finds nothing in your inventory. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. One library is loaded at a time, so importing a newer or fuller one replaces the previous one; the materials you own are never touched. Settings (⚙) names the library that is loaded, with its size and its licence, removes it again, and fetches the latest miFormulas library straight from the site with <strong>Get the latest library</strong>, so you do not have to download a file first. The library travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step.</p>
 <p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, or shared by another miFormulas user, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your inventory (by name, or by one of the alternative names of a material), the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). It also reads the file critically, because such a file is written elsewhere: a line without a material name, a weight that is not a number or is negative, and a dilution outside 0 to 100 are shown in red with the reason, and <strong>Confirm import</strong> stays out of reach until you correct them in the file. What can be read is repaired quietly: a decimal comma, a percent sign after a dilution, a missing dilution (which means 100). If you already have a formula with the same name, a new version of it is preselected. Nothing else is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens; Undo takes the whole import back, including the materials, order lines and categories it created. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
 <p>The same button reads a file that holds <strong>several formulas at once</strong>, the kind <strong>Export all my formulas…</strong> writes. Such a file can hold tens of thousands of lines, so the page shows a summary instead of a table of lines: how many formulas, versions and lines, how many lines matched a material you own and how many materials will be created, how many lines use a dilution you do not stock and how many you and the sender disagree about being a solvent. Under that, one row per formula with its versions, lines and new materials. Every line is checked exactly as in a single import, and one that cannot be read blocks <strong>Confirm import</strong> with the formula it sits in named. The formulas arrive as new formulas, each with all its versions; one whose name you already have arrives as "Name (import)" and nothing of yours is touched, so you can join them afterwards with <strong>Move into…</strong> (section <a href="#s8-formulas-and-versions">8</a>). The materials it creates are marked "to order" in Materials but are <strong>not</strong> put on the order list, because hundreds of rows there would drown the list you keep yourself; add the ones you want with <strong>Add to order list</strong> on the material page. The whole import is a single Undo step.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-import-and-export">The import page: every line with its match, the total weight, new materials and dilutions you do not stock.</a></p>
-<p><strong>Turning a photo, PDF or spreadsheet into an import file.</strong> You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a <code>.json</code> file and import it. The prompt tells the AI assistant to transcribe verbatim, to convert nothing, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the <strong>Export all materials (Excel)</strong> export as well and the assistant uses the exact names of your inventory, so that every line lands on the right material. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.</p>
+<p><strong>Turning a photo, PDF or spreadsheet into an import file.</strong> You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a <code>.json</code> file and import it. The prompt tells the AI assistant to transcribe verbatim, to convert nothing, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the <strong>Export all materials (Excel)</strong> export as well and the assistant uses the exact names of your inventory, so that every line lands on the right material. The app offers the prompts where they help: next to Import formula… and next to the Excel exports in Import &amp; export, under the server fields in Settings, in <strong>Move into…</strong> for grouping a Formulair import, and on the Welcome page while your list of formulas is still empty. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.</p>
 <p><strong>Export my inventory as a library…</strong> does the reverse of importing a library: it writes the materials you tick as a miformulas-materials file of your own, named <code>miformulas-my-materials.json</code>. Everything is ticked to begin with, Shift-click ticks a range, and the counter says how many of the ticked ones carry a description you wrote yourself, because those descriptions go into the file exactly as they are. What stays behind is what is nobody's business but yours: stock, price, supplier, dilutions and dates. The file carries no name, version, licence or attribution either, because it is your data and not a publication. Use it to carry your own facts to another computer, or to give a colleague a head start; when a file like that is imported as a library, its descriptions take the place of the odour lines the miFormulas library would otherwise fill in.</p>
 <p><strong>Export all my formulas…</strong> writes every formula with all its versions as one miformulas-import file, the same format a single shared formula uses. It is the counterpart of Export my inventory as a library: the formulas and their lines, with the material names, their dilutions and weights, the CAS numbers and a mark on the lines that are solvent in your inventory, plus the label, date and notes of each version. Nothing of your own lab goes along: no price, supplier, stock or trial log. Use it to hand a colleague your whole collection, or to bring the formulas of one miFormulas into another without overwriting what is there, which is what a Backup would do. A line pointing to a material you have since deleted has no name to match on and is left out, and the app says how many.</p>
 <p><strong>Export all formulas (Excel)</strong> and <strong>Export all materials (Excel)</strong> download everything as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. The separators follow the number format in Settings: a comma for the decimal and a semicolon between the columns in Belgian and most European settings, a point and a comma in English ones, which is what Excel expects in each.</p>
@@ -701,7 +704,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>The IFRA panel says "not yet verified".</strong> Those materials have no limit entered. Look them up on ifrafragrance.org and enter the limit, or 99 if there is none.</p>
 <p><strong>Where do the facts of a material come from?</strong> From you, or from a materials library you imported (section <a href="#s18-import-and-export">18</a>). Importing a library adds nothing to your inventory: the list of materials you own stays exactly as long as it was, because a library is a reference you look things up in, not stock you own. A library holds names, alternative names, CAS numbers, categories, pyramid levels, IFRA limits and short odour facts (odour words, impact, substantivity, typical use); when you add a material whose name is in the library, those come along and you can change every one of them afterwards. Without a library nothing changes: you type what you know.</p>
 <p><strong>Can I use it on a phone?</strong> Yes. Open the site in Safari and use <strong>Add to Home Screen</strong> (the start screen explains it) for an app with its own icon; its storage is separate from the Safari tab, so load your data again there. A data file is not possible on iOS, so Backup is your safety net, and a server (section <a href="#s20-the-same-data-on-every-device">20</a>) is what puts the same data on your phone and your computer; the free way there, a Cloudflare Worker, needs no server and no domain of your own. On Android, Chrome is the way in: <strong>Install as an app</strong>, and a data file of your own works as on a computer, except that Chrome asks permission for it at every start (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>). The number keys on a phone show the decimal sign of your own language, which need not be the one you see in the app: type either, the app reads a comma and a point the same way. On an iPhone the look-up links of a material open in a browser view on top of the app; the X at the top left brings you back.</p>
-<p><strong>How do I get my materials in? They are in a spreadsheet.</strong> Save the sheet as a CSV and use <strong>Import materials inventory from CSV…</strong> on the Welcome page; the app shows your columns next to its fields and you match them on screen. Only the name is required. Section <a href="#s18-import-and-export">18</a> has the details, and <strong>Download a template</strong> shows the columns the app uses itself.</p>
+<p><strong>How do I get my materials in? They are in a spreadsheet.</strong> Save the sheet as a CSV and use <strong>Import materials inventory from CSV…</strong> on the Welcome page, or in Import &amp; export behind ⇅ in the header; the app shows your columns next to its fields and you match them on screen. Only the name is required. Section <a href="#s18-import-and-export">18</a> has the details, and <strong>Download a template</strong> shows the columns the app uses itself.</p>
 <p><strong>Can the author of miFormulas see my formulas?</strong> No. Nothing leaves your computer unless you put it on a server of your own. The app contacts miformulas.com only for two files you ask for yourself: the starter set and, in Settings, the published materials library. Neither request carries anything of yours. Section <a href="#s3-privacy-who-can-see-your-formulas">3</a> lists every network request the app makes and how to verify that yourself in the code.</p>
 <p><strong>Where is the data of an installed app?</strong> In the browser that installed it, in the same place as the site: the app and the tab share their storage and their remembered file. The app itself is loaded from miformulas.com so that it updates by itself, but nothing you make is sent there.</p>
 <p><strong>I want the site to forget my data file.</strong> Open Settings (⚙): the button "Forget the remembered data file…" makes the app stop offering Reopen. The file itself is not touched.</p>
@@ -1907,6 +1910,7 @@ function nameStem(name){   // "Aura v05" → ["aura", 5]; "Aura" → ["aura", nu
 /* ---------- Formulair import: added to the current library, whatever the storage mode ---------- */
 const normName = x => (x || "").trim().toLowerCase().replace(/\s+/g, " ");
 /* ---------- the materials library: one imported file of facts, used when you add a material ---------- */
+const PROMPTS = "https://miformulas.com/docs/ai-prompts.html";   // the ready-made prompts for your own assistant, linked where they help
 const LIST_URL = "https://data.miformulas.com/miformulas-materials.json";   // the published library; while it is empty, Settings only offers Import
 const nMats = n => n + " material" + (n === 1 ? "" : "s");
 function listCredit(){   // CC BY asks for the attribution to be visible, so Settings shows it
@@ -2169,6 +2173,24 @@ $("#impList").addEventListener("change", async e => {
   const f = e.target.files[0]; e.target.value = "";
   if (f && DATA) await importListFile(f);
 });
+$("#impCsv").addEventListener("change", async e => {
+  const file = e.target.files[0]; e.target.value = ""; if (!file || !DATA) return;
+  let parsed;
+  try{ parsed = await readCsvFile(file); }catch(err){ alert("This file could not be read as a CSV."); return; }
+  if (parsed.header.length < 1 || !parsed.rows.length){ alert("The file needs a header row and at least one row of data."); return; }
+  openCsvImport(parsed, file.name);
+});
+$("#impFile").addEventListener("change", async e => {
+  const file = e.target.files[0]; e.target.value = ""; if (!file || !DATA) return;   // emptied, so the same file can be picked again
+  let p;
+  try{ p = JSON.parse(await file.text()); }
+  catch(err){ alert("This file is not valid JSON."); return; }
+  const many = Array.isArray(p?.formulas) && p.formulas.length;
+  if (p?.type !== "miformulas-import" || !(many || (Array.isArray(p.lines) && p.lines.length))){
+    alert("This is not a miFormulas import file (expected type “miformulas-import” with lines, or with formulas)."); return;
+  }
+  IMPORTP = p; render();
+});
 function mergeImport(pkg){
   const before = structuredClone(DATA);
   const byName = new Map(DATA.materials.map(m => [normName(m.name), m]));
@@ -2252,7 +2274,8 @@ function moveInto(f){
       <div id="mvTogether">${companions.map(togRow).join("")}</div>
       <div class="toolRow" style="margin-top:.4rem"><input id="mvAdd" list="mvAddList" placeholder="add another formula…" style="min-width:16rem">
         <datalist id="mvAddList">${movables.filter(x => !companions.includes(x)).map(x => `<option value="${esc(x.name)}">`).join("")}</datalist></div>
-    </div>` : ""}`, "Move", () => {
+    </div>` : ""}
+    <p class="hint" style="margin:.8rem 0 0">A whole Formulair import to group: the <a href="${PROMPTS}#s3-grouping-formulas-that-came-from-formulair" target="_blank" rel="noopener">AI prompts</a> have one that proposes the grouping from your list of names, for you to go through.</p>`, "Move", () => {
     const t = DATA.formulas.find(x => x.id === $("#mvTarget").value);
     if (!t){ alert("Choose the formula to move into."); return false; }
     const self = t === f;   // the formula opened is the target: only the ticked ones move
@@ -2624,6 +2647,39 @@ function csvTemplate(){   // the columns the app writes itself, with two example
              "Two example rows: overwrite or delete them. Dilutions: the base first, the others after a slash. IFRA 99 means checked, no limit. Solvent, Cupboard, Fridge and Freezer take yes or nothing."]);
   rows.push(["Example: Ethanol 96%", "64-17-5", "", "Solvents", "", "1000 ml", "", nBE(0.01), "", "", "yes", "yes", "", "", nBE(0.81), "100", "A solvent: rel % leaves it out of the concentrate."]);
   dlCsv(rows, "miformulas-materials-template.csv");
+}
+/* ---------- import & export: one menu, from the header and from Welcome ---------- */
+function openImportExport(){
+  const web = /^https?:$/.test(location.protocol), ro = readOnly(), L = DATA && DATA.materialList;
+  openDialog(`<h3 style="margin-top:0">Import &amp; export</h3>
+    ${web ? `<div class="toolRow"><a class="btn accent" id="ioFormulair" href="formulair-import.html" title="Coming from Formulair? Read its database file here and continue with all your materials and formulas">Import from Formulair…</a>
+      <span class="hint">reads Formulair's macOS database and adds its materials and formulas to miFormulas (manual, section 19)</span></div>` : ""}
+    <div class="toolRow"><button class="small" id="ioCsv">Import materials inventory from CSV…</button>
+      <span class="hint">reads a CSV (save your Excel sheet as CSV first) and imports materials into your inventory. It lets you match the columns on screen; <a href="#" id="ioTpl">download a template</a> to see the columns</span></div>
+    <div class="toolRow"><button class="small" id="btnImpL">Import materials library…</button>
+      <span class="hint">${L ? `loaded: ${esc(L.name)}${L.version ? " " + esc(L.version) : ""}, ${nMats(L.materials.length)} · references for + New material; the materials already in your inventory are untouched` : "imports references for + New material: it fills in the facts of a material you add. It does not change the materials already in your Materials inventory."}</span></div>
+    <div class="toolRow"><button class="small" id="btnImpF">Import formula…</button>
+      <span class="hint">reads a miformulas-import .json (for instance a formula transcribed from a photo with the <a href="${PROMPTS}#s1-photo-pdf-or-spreadsheet-to-import-file" target="_blank" rel="noopener">AI prompts</a>) to import a single formula, or all the formulas exported from another miFormulas</span></div>
+    <div class="toolRow"><button class="small" id="btnExpL">Export my inventory as a library…</button>
+      <span class="hint">writes a miformulas-materials .json of the materials you pick: to share, or to carry your own facts to another computer</span></div>
+    <div class="toolRow"><button class="small" id="btnExpJ">Export all my formulas…</button>
+      <span class="hint">writes a miformulas-import .json with every formula and all its versions: to share, or to add them to another miFormulas. No price, supplier, stock or trial log goes along.</span></div>
+    <div class="toolRow"><button class="small" id="btnExpF">Export all formulas (Excel)</button>
+      <button class="small" id="btnExpM">Export all materials (Excel)</button>
+      <span class="hint">downloads a CSV that opens directly in Excel, with the separators of the number format in Settings. An assistant can go through the materials export and propose what is missing (<a href="${PROMPTS}#s2-checking-and-completing-your-materials" target="_blank" rel="noopener">AI prompts</a>); a name you already have is never overwritten by an import, so its corrections you enter yourself.</span></div>`,
+    "Close", () => {}, "30rem");
+  $("#dlgCancel").style.display = "none";   // a menu has nothing to cancel
+  // every button closes the window first: the next step is a file picker, another window or the import page
+  const go = (sel, fn) => $(sel)?.addEventListener("click", e => { e.preventDefault(); $("#dlg").close(); fn(); });
+  go("#ioCsv", () => $("#impCsv").click());
+  go("#ioTpl", csvTemplate);
+  go("#btnImpL", () => $("#impList").click());
+  go("#btnImpF", () => $("#impFile").click());
+  go("#btnExpL", exportInventoryLibrary);
+  go("#btnExpJ", exportFormulasFile);
+  go("#btnExpF", exportAllFormulas);
+  go("#btnExpM", exportAllMaterials);
+  if (ro) for (const id of ["ioCsv", "btnImpL", "btnImpF"]) $("#" + id).disabled = true;   // lockInputs only reaches #content
 }
 function exportAllFormulas(){
   const rows = [["Formula","Category","Entry","Date","Material","Dilution %","Weight g","Rel %","Abs %","Cost EUR"]];
@@ -3695,6 +3751,7 @@ $("#btnUndo").addEventListener("click", undo);
 $("#btnRedo").addEventListener("click", redo);
 $("#btnSave").addEventListener("click", saveData);
 $("#btnBackup").addEventListener("click", backup);
+$("#btnIO").addEventListener("click", () => { if (DATA) openImportExport(); });
 let THEME = "auto";
 function applyTheme(){
   const r = document.documentElement;
@@ -3813,7 +3870,7 @@ async function openSettings(){
       <label for="setToken">Access token</label><input id="setToken" type="password" value="${esc(tok)}" autocomplete="off">` : ""}
     </div>
     <div class="hint" style="margin-top:.6rem">${web
-      ? `A server is optional: without one the data lives in a local file or in this browser. Give <code>data.php</code> for the endpoint next to the app, or a full URL. Changing the server reloads the app.${HANDLE ? " Filling one in makes the app use that server from the next start on, instead of your data file; empty it to come back to the file." : ""}`
+      ? `A server is optional: without one the data lives in a local file or in this browser. Give <code>data.php</code> for the endpoint next to the app, or a full URL. Changing the server reloads the app.${HANDLE ? " Filling one in makes the app use that server from the next start on, instead of your data file; empty it to come back to the file." : ""} Manual section 20 walks through both ways; for step-by-step help in your own situation the AI prompts have one for a free <a href="${PROMPTS}#s5-setting-up-a-free-cloudflare-worker" target="_blank" rel="noopener">Cloudflare Worker</a> and one for <a href="${PROMPTS}#s4-setting-up-your-own-server" target="_blank" rel="noopener">your own PHP server</a>.`
       : "This copy of miFormulas keeps its data in the data file next to it, so it has no server settings. A server is set up on the site, in the Settings there."}</div>
     ${INSTALL_EVT && !window.matchMedia("(display-mode: standalone)").matches ? `<div style="margin-top:.8rem"><button class="small primary" id="setInstall">Install as an app</button> <span class="hint">own window and icon in the taskbar or Start menu; the browser does the installing</span></div>` : ""}
     ${DEMO && !HANDLE && DATA && window.showSaveFilePicker ? `<div style="margin-top:.8rem"><button class="small primary" id="setToFile">Save to a data file…</button> <span class="hint">keep your data in a file of your own instead of in this browser</span></div>` : ""}
@@ -3945,7 +4002,7 @@ const canSave = () => REMOTE || DEMO || !!HANDLE;   // server, browser storage o
 function lockInputs(){
   const keep = new Set(["searchBox","verSel","sortSel","cmpA","cmpB","cmpSortSel","bSortSel","scaleW",
     "btnPrint","btnBenchPrint","btnBenchToggle","btnBenchClose","btnCmp","btnCmpClose",
-    "btnImpCancel","btnExpF","btnExpM","btnExpL","btnExpJ"]);   // getting out of an import and exporting are read-only actions
+    "btnImpCancel"]);   // getting out of an import is a read-only action; exporting sits in the Import/Export window, outside #content
   $("#content").querySelectorAll("input,select,textarea,button").forEach(el => { if (!keep.has(el.id)) el.disabled = true; });
 }
 const readOnly = () => isMobile() && !canSave();   // one rule for CSS (body.ro), disabled inputs and hidden buttons
@@ -4003,7 +4060,7 @@ function render(){
       <div class="toolRow"><button class="primary" id="homeOpenF">${DATA.formulas.length ? "Open a formula" : "+ New formula\u2026"}</button>
         ${DATA.formulas.length ? '<button class="small" id="homeNewF">+ New formula\u2026</button>' : ""}
         <button class="small" id="homeNewM">+ New material\u2026</button>
-        <span class="hint">${DATA.formulas.length ? (isMobile() ? "or pick one from the list behind \u2039 Formulas" : "or pick one from the list on the left") : "your list is empty: this is where a formula begins"}</span></div></div>
+        <span class="hint">${DATA.formulas.length ? (isMobile() ? "or pick one from the list behind \u2039 Formulas" : "or pick one from the list on the left") : `your list is empty: this is where a formula begins, or bring one in from a photo with the <a href="${PROMPTS}#s1-photo-pdf-or-spreadsheet-to-import-file" target="_blank" rel="noopener">AI prompts</a>`}</span></div></div>
     <p class="hint" id="whereData">Your data: ${REMOTE ? "on the server" : HANDLE ? `in <b>${esc(HANDLE.name)}</b>` : DEMO ? "kept in this browser" : "loaded read-only"}.${DEMO && !HANDLE && !FALLBACK && window.showSaveFilePicker ? ` <button class="small" id="homeToFile" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file\u2026</button>` : ""}</p>
     ${showRecent ? `<div class="panelBox"><h3>Recently edited formulas</h3>${recent(DATA.formulas, "gof")}</div>
     <div class="panelBox"><h3>Recently edited materials</h3>${recent(DATA.materials, "gom")}</div>` : ""}
@@ -4011,20 +4068,8 @@ function render(){
       ${/^https?:$/.test(location.protocol) ? `<div class="toolRow"><a class="btn accent" id="btnImpFormulair" href="formulair-import.html" title="Coming from Formulair? Read its database file here and continue with all your materials and formulas">Import from Formulair…</a>
         <span class="hint">reads Formulair's macOS database and adds its materials and formulas to miFormulas (manual, section 19)</span></div>` : ""}
       <div class="toolRow"><button class="small" id="btnImpCsv">Import materials inventory from CSV…</button>
-        <input type="file" id="impCsv" accept=".csv,.txt,text/csv" style="display:none">
         <span class="hint">reads a CSV (save your Excel sheet as CSV first) and imports materials into your inventory. It lets you match the columns on screen; <a href="#" id="btnCsvTpl">download a template</a> to see the columns</span></div>
-      <div class="toolRow"><button class="small" id="btnImpL">Import materials library…</button>
-        <span class="hint">${DATA.materialList ? `loaded: ${esc(DATA.materialList.name)}${DATA.materialList.version ? " " + esc(DATA.materialList.version) : ""}, ${nMats(DATA.materialList.materials.length)} · references for + New material; the materials already in your inventory are untouched` : "imports references for + New material: it fills in the facts of a material you add. It does not change the materials already in your Materials inventory."}</span></div>
-      <div class="toolRow"><button class="small" id="btnImpF">Import formula…</button>
-        <input type="file" id="impFile" accept=".json" style="display:none">
-        <span class="hint">reads a miformulas-import .json (for instance a formula transcribed from a photo with the <a href="https://miformulas.com/docs/ai-prompts.html" target="_blank" rel="noopener">AI prompts</a>) to import a single formula, or all the formulas exported from another miFormulas</span></div>
-      <div class="toolRow"><button class="small" id="btnExpL">Export my inventory as a library…</button>
-        <span class="hint">writes a miformulas-materials .json of the materials you pick: to share, or to carry your own facts to another computer</span></div>
-      <div class="toolRow"><button class="small" id="btnExpJ">Export all my formulas…</button>
-        <span class="hint">writes a miformulas-import .json with every formula and all its versions: to share, or to add them to another miFormulas. No price, supplier, stock or trial log goes along.</span></div>
-      <div class="toolRow"><button class="small" id="btnExpF">Export all formulas (Excel)</button>
-        <button class="small" id="btnExpM">Export all materials (Excel)</button>
-        <span class="hint">downloads a CSV that opens directly in Excel, with the separators of the number format in Settings</span></div>
+      <p class="hint" style="margin:.7rem 0 0">The materials library, formulas and the Excel exports: <a href="#" id="homeIO">Import/Export</a>, the ⇅ button in the header.</p>
     </div>`;
     c.querySelectorAll("[data-gom]").forEach(a => a.addEventListener("click", () => switchTab("M", a.dataset.gom, null)));
     c.querySelectorAll("[data-gof]").forEach(a => a.addEventListener("click", () => switchTab("F", a.dataset.gof, null)));
@@ -4036,32 +4081,9 @@ function render(){
     });
     $("#homeNewF")?.addEventListener("click", () => $("#btnNew").click());
     $("#homeNewM")?.addEventListener("click", () => $("#btnNewMat").click());
-    $("#btnExpJ")?.addEventListener("click", exportFormulasFile);
-    $("#btnExpF")?.addEventListener("click", exportAllFormulas);
-    $("#btnExpM")?.addEventListener("click", exportAllMaterials);
-    $("#btnExpL")?.addEventListener("click", exportInventoryLibrary);
-    $("#btnImpF")?.addEventListener("click", () => $("#impFile").click());
-    $("#btnImpL")?.addEventListener("click", () => $("#impList").click());
     $("#btnImpCsv")?.addEventListener("click", () => $("#impCsv").click());
     $("#btnCsvTpl")?.addEventListener("click", e => { e.preventDefault(); csvTemplate(); });
-    $("#impCsv")?.addEventListener("change", async e => {
-      const file = e.target.files[0]; e.target.value = ""; if (!file) return;
-      let parsed;
-      try{ parsed = await readCsvFile(file); }catch(err){ alert("This file could not be read as a CSV."); return; }
-      if (parsed.header.length < 1 || !parsed.rows.length){ alert("The file needs a header row and at least one row of data."); return; }
-      openCsvImport(parsed, file.name);
-    });
-    $("#impFile")?.addEventListener("change", async e => {
-      const file = e.target.files[0]; if (!file) return;
-      let p;
-      try{ p = JSON.parse(await file.text()); }
-      catch(err){ alert("This file is not valid JSON."); return; }
-      const many = Array.isArray(p?.formulas) && p.formulas.length;
-      if (p?.type !== "miformulas-import" || !(many || (Array.isArray(p.lines) && p.lines.length))){
-        alert("This is not a miFormulas import file (expected type “miformulas-import” with lines, or with formulas)."); return;
-      }
-      IMPORTP = p; render();
-    });
+    $("#homeIO")?.addEventListener("click", e => { e.preventDefault(); openImportExport(); });
     makeClickable();
     if (readOnly()) lockInputs();
     return;

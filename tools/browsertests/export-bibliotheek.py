@@ -53,8 +53,9 @@ with sync_playwright() as p:
 
     # ---------- the dialog ----------
     page.click("#btnHome"); page.wait_for_timeout(400)
-    check("Welcome offers Export my inventory as a library…", page.locator("#btnExpL").is_visible())
-    page.click("#btnExpL"); page.wait_for_timeout(400)
+    page.click("#btnIO"); page.wait_for_timeout(400)
+    check("Import/Export offers Export my inventory as a library…", page.locator("#btnExpL").is_visible())
+    page.click("#btnExpL"); page.wait_for_timeout(500)
     n = start + 1
     check("every material is ticked to begin with",
           page.locator("#exRows input[data-i]").count() == n

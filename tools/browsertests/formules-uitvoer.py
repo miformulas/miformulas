@@ -38,7 +38,8 @@ with sync_playwright() as pw:
         l: DATA.formulas.reduce((s,f) => s + f.versions.reduce((t,v) => t + v.lines.length, 0), 0)})""")
 
     page.click("#btnHome"); page.wait_for_timeout(500)
-    check("de Welcome-pagina heeft de knop", page.locator("#btnExpJ").is_visible())
+    page.click("#btnIO"); page.wait_for_timeout(400)
+    check("het Import/Export-venster heeft de knop", page.locator("#btnExpJ").is_visible())
     msgs.clear()
     with page.expect_download() as dl:
         page.click("#btnExpJ")

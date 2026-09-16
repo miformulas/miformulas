@@ -78,6 +78,7 @@ with sync_playwright() as p:
 
     # ---------- 3. the export of all formulas covers versions, and nothing named variation is left in the page ----------
     page.click("#btnHome"); page.wait_for_timeout(400)
+    page.click("#btnIO"); page.wait_for_timeout(400)
     with page.expect_download() as dl:
         page.click("#btnExpF")
     csv = open(dl.value.path(), encoding="utf-8-sig").read()

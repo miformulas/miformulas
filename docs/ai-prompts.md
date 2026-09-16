@@ -6,9 +6,9 @@ Attachments: ChatGPT, Claude and Gemini accept photos, PDFs and CSV files as att
 
 ## 1. Photo, PDF or spreadsheet to import file
 
-miFormulas imports formulas from a small JSON file (type `miformulas-import`). An assistant produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet. Save the answer as a `.json` file, then in miFormulas go to the Welcome page, click **Import formula…**, choose the file, check the preview and confirm.
+miFormulas imports formulas from a small JSON file (type `miformulas-import`). An assistant produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet. Save the answer as a `.json` file, then in miFormulas click ⇅ in the header and **Import formula…**, choose the file, check the preview and confirm.
 
-Tip: attach the file **Export all materials (Excel)** from the Welcome page as well. The assistant then uses the exact names of your own inventory, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your inventory are created as "to order" for you to merge or rename.
+Tip: attach the file **Export all materials (Excel)** (⇅ in the header) as well. The assistant then uses the exact names of your own inventory, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your inventory are created as "to order" for you to merge or rename.
 
 ---
 
@@ -44,7 +44,7 @@ Optional fields: `targetFormula` (the exact name of an existing formula; the imp
 
 ## 2. Checking and completing your materials
 
-The export **Export all materials (Excel)** on the Welcome page is a CSV with one row per material: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g (tracked), Dilutions % and Description. An assistant can propose the missing CAS numbers, IFRA limits, pyramid levels, categories and one-line odour descriptions, and point out likely duplicates. The app has no bulk import for the materials you own, so you enter what you accept by hand on the material pages; do it for the materials you added recently rather than for your whole inventory at once. A larger batch can go the other way round: have the assistant write a `miformulas-materials` library file (the same format the app exports with **Export my inventory as a library…**), import it as a materials library, and tick what you want in **Browse the library…**.
+The export **Export all materials (Excel)** (⇅ in the header) is a CSV with one row per material: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g (tracked), Dilutions % and Description. An assistant can propose the missing CAS numbers, IFRA limits, pyramid levels, categories and one-line odour descriptions, and point out likely duplicates. The app has no bulk import for the materials you own, so you enter what you accept by hand on the material pages; do it for the materials you added recently rather than for your whole inventory at once. A larger batch can go the other way round: have the assistant write a `miformulas-materials` library file (the same format the app exports with **Export my inventory as a library…**), import it as a materials library, and tick what you want in **Browse the library…**.
 
 The IFRA figures deserve the most scepticism. The source that counts is the standards library on ifrafragrance.org; the prompt asks the assistant to name the amendment it took a limit from and to say "unknown" rather than guess, and you look up every value you enter. In the app, 99 means "checked, no restriction" and an empty field means "not yet checked".
 

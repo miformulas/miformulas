@@ -1,4 +1,4 @@
-"""Materialen invoeren uit een CSV (bouw 260916, bibliotheekknop in het venster 260916b): de rondgang met de eigen CSV-uitvoer, een vreemd
+"""Materialen invoeren uit een CSV (bouw 260916, bibliotheekknop 260916b, Import/Export-venster 260916d): de rondgang met de eigen CSV-uitvoer, een vreemd
 blad met ; en decimale komma en andere kopnamen, een Windows-1252-bestand, dubbels, het sjabloon en undo.
 Vereist de lokale webserver op poort 8765, zie README."""
 import csv, io, json, os, tempfile
@@ -41,7 +41,8 @@ with sync_playwright() as pw:
     page.click("#btnHome"); page.wait_for_timeout(500)
     check("de Welcome-pagina heeft de knop", page.locator("#btnImpCsv").is_visible())
     check("en de link naar het sjabloon", page.locator("#btnCsvTpl").is_visible())
-    check("de prompts zijn een link", page.locator('#content a[href$="ai-prompts.html"]').count() == 1)
+    check("Welcome verwijst naar Import/Export", page.locator("#homeIO").is_visible())
+    page.click("#homeIO"); page.wait_for_timeout(400)   # de uitvoer zit in het venster
     with page.expect_download() as dl:
         page.click("#btnExpM")
     pad = os.path.join(tmp, "uitvoer.csv"); dl.value.save_as(pad)
@@ -164,13 +165,23 @@ with sync_playwright() as pw:
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnEmpty"); page.wait_for_timeout(1400)
     check("het Welcome-blok heeft de nieuwe knopnaam", page.text_content("#btnImpCsv").strip() == "Import materials inventory from CSV…")
-    volgorde = page.evaluate("() => [...document.querySelectorAll('#content .panelBox:last-of-type button, #content .panelBox:last-of-type a.btn')].map(b => b.id)")
-    check(f"en de knoppen in de afgesproken volgorde ({volgorde})",
-          volgorde == ["btnImpFormulair", "btnImpCsv", "btnImpL", "btnImpF", "btnExpL", "btnExpJ", "btnExpF", "btnExpM"])
-    blok = page.text_content("#content .panelBox:last-of-type")
+    check("en houdt alleen de twee wegen naar binnen", page.evaluate(
+        "() => [...document.querySelectorAll('#content .panelBox:last-of-type button, #content .panelBox:last-of-type a.btn')].map(b => b.id)")
+        == ["btnImpFormulair", "btnImpCsv"])
+    page.click("#btnIO"); page.wait_for_timeout(400)
+    volgorde = page.evaluate("() => [...document.querySelectorAll('#dlg button, #dlg a.btn')].map(b => b.id).filter(id => !id.startsWith('dlg'))")
+    check(f"het venster heeft de knoppen in de afgesproken volgorde ({volgorde})",
+          volgorde == ["ioFormulair", "ioCsv", "btnImpL", "btnImpF", "btnExpL", "btnExpJ", "btnExpF", "btnExpM"])
+    check("Cancel is verborgen, want een menu heeft niets te annuleren",
+          page.evaluate("() => getComputedStyle(document.querySelector('#dlgCancel')).display") == "none")
+    blok = page.text_content("#dlg")
     check("de hint van Export all my formulas… somt op wat niet meegaat", "No price, supplier, stock or trial log goes along" in blok)
     check("en die van Import formula… noemt ook de uitvoer van een andere miFormulas", "all the formulas exported from another miFormulas" in blok)
     check("die van de bibliotheek zegt dat de eigen materialen onaangeroerd blijven", "does not change the materials already in your Materials inventory" in blok)
+    check("de prompts zijn een link naar de juiste prompt",
+          page.locator('#dlg a[href$="ai-prompts.html#s1-photo-pdf-or-spreadsheet-to-import-file"]').count() == 1
+          and page.locator('#dlg a[href$="ai-prompts.html#s2-checking-and-completing-your-materials"]').count() == 1)
+    page.click("#dlgOk"); page.wait_for_timeout(300)
     zonder = os.path.join(tmp, "namen.csv")
     open(zonder, "w", encoding="utf-8", newline="").write("Name\r\nIso E Super\r\nHedione\r\nMethyl dihydrojasmonate\r\nNieuwe stof\r\n")
     page.set_input_files("#impCsv", zonder); page.wait_for_timeout(900)
@@ -183,7 +194,7 @@ with sync_playwright() as pw:
     check(f"de bibliotheek is geladen ({page.evaluate('DATA.materialList && DATA.materialList.name')})", page.evaluate("DATA.materialList && DATA.materialList.name") == "Testbibliotheek")
     check("de regel noemt ze nu", "Testbibliotheek 2026-09-16" in page.text_content("#csvLib") and page.locator("#csvLibGet").count() == 0)
     check(f"en de teller zegt hoeveel namen ze kent, alias inbegrepen ({page.text_content('#csvCount')})", "knows 3 of them" in page.text_content("#csvCount"))
-    check("de Welcome-pagina achter het venster noemt de bibliotheek", "loaded: Testbibliotheek" in page.text_content("#content .panelBox:last-of-type"))
+    check("de Welcome-pagina achter het venster is bijgewerkt", "Import/Export" in page.text_content("#content .panelBox:last-of-type"))
     msgs3.clear(); page.click("#dlgOk"); page.wait_for_timeout(1000)
     iso = mat(page, "Iso E Super"); hed = mat(page, "Hedione"); mdj = mat(page, "Methyl dihydrojasmonate")
     check(f"de bibliotheek vult aan wat het blad niet had ({iso['cas']}, {iso['cat']}, {iso['pyr']})", iso["cas"] == "54464-57-2" and iso["cat"] == "Woody" and iso["pyr"] == 4)

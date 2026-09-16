@@ -124,9 +124,13 @@ with sync_playwright() as p:
     page.set_viewport_size({"width": 400, "height": 800})
     page.evaluate("() => { DEMO = false; HOMEVIEW = true; VIEW = {tab:'F', id:null, sub:null}; render(); }")
     page.wait_for_timeout(500)
-    check("importing is out of reach", page.locator("#btnImpF").is_disabled() and page.locator("#btnImpL").is_disabled())
+    check("the CSV import on Welcome is out of reach", page.locator("#btnImpCsv").is_disabled())
+    page.click("#btnIO"); page.wait_for_timeout(400)     # the window sits outside #content, so it disables its own import buttons
+    check("importing is out of reach", page.locator("#btnImpF").is_disabled() and page.locator("#btnImpL").is_disabled()
+          and page.locator("#ioCsv").is_disabled())
     check("exporting stays within reach", not page.locator("#btnExpF").is_disabled()
           and not page.locator("#btnExpM").is_disabled() and not page.locator("#btnExpL").is_disabled())
+    page.click("#dlgOk"); page.wait_for_timeout(300)
     page.evaluate("""() => {
         IMPORTP = {type:"miformulas-import", name:"Proef", lines:[{name:"Ambroxide", weightG:1}]};
         HOMEVIEW = false; render();

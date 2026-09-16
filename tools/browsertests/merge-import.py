@@ -53,7 +53,9 @@ with sync_playwright() as p:
           "accent" in cls and "primary" not in cls)
     prim = pg.evaluate("""() => [...document.querySelectorAll("#content button.primary, #content a.btn.primary")].map(x => x.textContent.trim())""")
     check(f"the only primary button sits in Start here ({prim})", prim == ["Open a formula"])
+    pg.click("#btnIO"); pg.wait_for_timeout(400)
     check("the export buttons say they export", pg.locator("#btnExpF").inner_text().startswith("Export") and pg.locator("#btnExpM").inner_text().startswith("Export"))
+    pg.click("#dlgOk"); pg.wait_for_timeout(300)
     pg.click("#btnSave"); pg.wait_for_timeout(500)
 
     # the importer's hand-over, then a restart
