@@ -34,7 +34,8 @@ with sync_playwright() as p:
     # ---------- ellipsis on the buttons that open a window ----------
     check("+ New formula…", page.text_content("#btnNew").strip() == "+ New formula…")
     check("+ New material…", page.text_content("#btnNewMat").strip() == "+ New material…")
-    check("Backup…", page.text_content("#btnBackup").strip() == "Backup…")
+    check("Backup zonder beletselteken: het opent geen venster van de app, en de handleiding noemt hem 29 keer zo",
+          page.text_content("#btnBackup").strip() == "Backup")
     page.evaluate("() => { const f = DATA.formulas.find(x => x.versions.length); switchTab('F', f.id, {type:'v', idx:0}); }")
     page.wait_for_timeout(500)
     check("Rename…", page.text_content("#btnRenameF").strip() == "Rename…")
@@ -95,6 +96,22 @@ with sync_playwright() as p:
           page.locator("#list .item").count() == 0)
     page.fill("#searchBox", "sta"); page.wait_for_timeout(400)
     check("the beginning of “starter set” still finds them", page.locator("#list .item").count() > 100)
+    page.fill("#searchBox", ""); page.wait_for_timeout(300)
+
+    # the same in Formulas, which §8 of the manual promises too (build 260917d)
+    page.evaluate("() => { switchTab('F', null, null); }"); page.wait_for_timeout(400)
+    n_alle = page.locator("#list .item").count()
+    gemerkt = page.locator("#list .item", has_text="starter").count()
+    check(f"every starter formula wears its label in the list ({gemerkt} of {n_alle})", gemerkt == 16)
+    page.fill("#searchBox", "sta"); page.wait_for_timeout(400)
+    check("“sta” lists the sixteen starter formulas", page.locator("#list .item").count() == 16)
+    page.fill("#searchBox", "arter"); page.wait_for_timeout(400)
+    check("a substring of “starter set” shows none of them, as in Materials",
+          page.locator("#list .item").count() == 0)
+    page.fill("#searchBox", "rose"); page.wait_for_timeout(400)
+    naam = page.locator("#list .item").first.inner_text().lower()
+    check(f"searching a name still works ({naam.splitlines()[0]})",
+          page.locator("#list .item").count() >= 1 and "rose" in naam)
     page.fill("#searchBox", ""); page.wait_for_timeout(300)
 
     # ---------- a value that rounds to nothing keeps no minus sign ----------

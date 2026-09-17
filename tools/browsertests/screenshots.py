@@ -91,8 +91,10 @@ with sync_playwright() as p:
     # ---- 2. welcome page with the amber storage bar ----
     page.click("#btnStarter"); settle(page)
     shot(page, "app-welcome.png")
+    page.set_viewport_size({"width": 1440, "height": 800}); page.wait_for_timeout(400)   # the wide header, the one the manual describes
     hb = page.locator("header").first.bounding_box()
-    shot(page, "app-header.png", clip={"x": 0, "y": 0, "width": 1280, "height": hb["y"] + hb["height"]})
+    shot(page, "app-header.png", clip={"x": 0, "y": 0, "width": 1440, "height": hb["y"] + hb["height"]})
+    page.set_viewport_size({"width": 1280, "height": 800}); page.wait_for_timeout(400)
     # the amber bar belongs on the welcome shot only
     page.add_style_tag(content="#storageHint{display:none!important}"); page.wait_for_timeout(300)
 
@@ -231,6 +233,16 @@ with sync_playwright() as p:
     page.set_viewport_size({"width": 1280, "height": 1150}); page.wait_for_timeout(300)
     page.click("#btnSettings"); page.wait_for_timeout(400)
     shot(page, "app-settings.png", "#dlg")
+    page.fill("#setServer", "https://miformulas-data.yourname.workers.dev/")
+    page.fill("#setToken", "k7QwPz2mR4xL9vB3tNdY")     # not a real token: the field shows dots
+    page.evaluate("""() => {        // step 9 is about the two fields and Apply: the rest of the window only makes the figure tall
+        const box = document.querySelector("#dlg > div"), grid = box.querySelector(".fieldGrid");
+        const keep = new Set([box.querySelector("h3"), grid, grid.nextElementSibling,
+                              [...box.querySelectorAll(".toolRow")].pop()]);
+        for (const k of [...box.children]) if (!keep.has(k)) k.remove();
+    }""")
+    page.wait_for_timeout(700)                             # let the shrunken dialog settle before the shot
+    shot(page, "cloudflare-09-app-settings.png", "#dlg > div")   # the card itself: section 7, step 9
     page.click("#dlgCancel"); page.wait_for_timeout(300)
     page.set_viewport_size({"width": 1280, "height": 800}); page.wait_for_timeout(300)
 
@@ -262,7 +274,7 @@ with sync_playwright() as p:
 try:
     from PIL import Image
     import glob
-    for f in glob.glob(os.path.join(OUT, "app-*.png")):
+    for f in glob.glob(os.path.join(OUT, "app-*.png")) + glob.glob(os.path.join(OUT, "cloudflare-09-*.png")):
         im = Image.open(f).convert("RGB")
         im.quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE).save(f, optimize=True)
     print("palette-reduced")

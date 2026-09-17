@@ -177,7 +177,7 @@ with sync_playwright() as pw:
     blok = page.text_content("#dlg")
     check("de hint van Export all my formulas… somt op wat niet meegaat", "No price, supplier, stock or trial log goes along" in blok)
     check("en die van Import formula… noemt ook de uitvoer van een andere miFormulas", "all the formulas exported from another miFormulas" in blok)
-    check("die van de bibliotheek zegt dat de eigen materialen onaangeroerd blijven", "does not change the materials already in your Materials inventory" in blok)
+    check("die van de bibliotheek zegt dat de eigen materialen onaangeroerd blijven", "does not change the materials already in your inventory" in blok)
     check("de prompts zijn een link naar de juiste prompt",
           page.locator('#dlg a[href$="ai-prompts.html#s1-photo-pdf-or-spreadsheet-to-import-file"]').count() == 1
           and page.locator('#dlg a[href$="ai-prompts.html#s2-checking-and-completing-your-materials"]').count() == 1)

@@ -1,6 +1,6 @@
 # miFormulas and your own AI assistant
 
-miFormulas itself never talks to an AI, and that is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer. But several chores around it are exactly what an AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) does well, with your files, on your account. This page collects ready-made prompts for four of them. Copy the text between the lines into the chat, attach what the prompt asks for, and check the answer before you use it: an assistant can misread a handwritten 7 as a 1 and it can state a wrong IFRA limit with full confidence.
+miFormulas itself never talks to an AI, and that is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer. But several chores around it are exactly what an AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) does well, with your files, on your account. This page collects ready-made prompts for five of them. Copy the text between the lines into the chat, attach what the prompt asks for, and check the answer before you use it: an assistant can misread a handwritten 7 as a 1 and it can state a wrong IFRA limit with full confidence.
 
 Attachments: ChatGPT, Claude and Gemini accept photos, PDFs and CSV files as attachments. Some free Copilot versions do not; paste the text of the file into the chat instead (for the materials export, the Name column is usually enough).
 
@@ -50,7 +50,7 @@ The IFRA figures deserve the most scepticism. The source that counts is the stan
 
 ---
 
-Attached is a CSV export of my own materials inventory from the miFormulas app (columns: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g, Dilutions %, Description). Help me check and complete it. Do not rename anything; I enter your proposals by hand.
+Attached is a CSV export of my own materials inventory from the miFormulas app (columns: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g (tracked), Dilutions %, Description). Help me check and complete it. Do not rename anything; I enter your proposals by hand.
 
 Give me a table with one row per material that has something missing or doubtful, with these columns:
 

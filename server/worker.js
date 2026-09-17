@@ -8,7 +8,7 @@
      Variables and Secrets a secret named exactly  TOKEN , holding a long random string of your own
 
    The same token goes into the app once per device, in Settings (the gear), together with the
-   address of this Worker (https://<name>.<account>.workers.dev). Section 20 of the manual walks
+   address of this Worker (https://<name>.<account>.workers.dev). Section 7 of the manual walks
    through the whole set-up with screenshots; https://miformulas.com/docs/manual.html
 
    Opening the address in a browser is the check that it works: it answers
