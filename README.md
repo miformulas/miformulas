@@ -173,7 +173,7 @@ shows it), and what you did.
   folder beside them and set a token in it. Either way you give that token in
   Settings on each device. Both return the JSON with an ETag on GET and refuse a
   PUT whose `If-Match` is stale, so two devices never overwrite each other, and
-  both keep daily snapshots. Section 20 of the manual walks through both.
+  both keep daily snapshots. Section 7 of the manual walks through both.
 
 ## Privacy
 
