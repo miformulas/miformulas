@@ -456,7 +456,7 @@ The screens below are how the Cloudflare dashboard looked in September 2026. Clo
 
 1. **Make an account** at https://dash.cloudflare.com. The free account is enough, and you do not need a domain.
 
-    ![The Cloudflare sidebar: Workers live under Compute, R2 under Storage & databases.](img/cloudflare-01-dashboard.png)
+    ![The two places in the Cloudflare sidebar, with what sits between them left out: Workers under Compute, R2 under Storage & databases.](img/cloudflare-01-dashboard.png)
 
 2. **Create the Worker.** In the sidebar choose **Compute** and then **Workers & Pages**, press **Create application**, and choose **Start with Hello World!**. Give it a name you will recognise, `miformulas-data` for instance; that name becomes part of the address. Deploy it once as it is.
 
