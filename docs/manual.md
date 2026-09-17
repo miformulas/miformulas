@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260916e. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
+This manual describes build 260917. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
 
 ## Contents
 
@@ -455,14 +455,41 @@ The screens below are how the Cloudflare dashboard looked in September 2026. Clo
 **Before you start.** Have your data ready: click **Backup** in the app and keep that `.json` file at hand. And choose a token now, a long random string of some twenty characters. You will paste it into two places and nowhere else.
 
 1. **Make an account** at https://dash.cloudflare.com. The free account is enough, and you do not need a domain.
-2. **Create the Worker.** In the sidebar choose **Workers & Pages**, then **Create**, and start from the Hello World example. Give it a name you will recognise, `miformulas-data` for instance; that name becomes part of the address. Deploy it once as it is.
+
+    ![The Cloudflare sidebar: Workers live under Compute, R2 under Storage & databases.](img/cloudflare-01-dashboard.png)
+
+2. **Create the Worker.** In the sidebar choose **Compute** and then **Workers & Pages**, press **Create application**, and choose **Start with Hello World!**. Give it a name you will recognise, `miformulas-data` for instance; that name becomes part of the address. Deploy it once as it is.
+
+    ![Creating the Worker: start from Hello World.](img/cloudflare-02-create-worker.png)
+
 3. **Paste the code.** Open the Worker's editor, select everything that is in it, and paste `server/worker.js` from the miFormulas repository over it (https://github.com/miformulas/miformulas/blob/main/server/worker.js, the **Copy raw file** button). Deploy again.
-4. **Create the storage.** In the sidebar choose **R2**, then **Create bucket**, and name it, `miformulas-data` for instance. This is where your data file will live.
-5. **Connect the two.** Back in the Worker, under **Settings**, **Bindings**, add an **R2 bucket** binding: the variable name must be exactly `DATA`, and the bucket is the one you just made. That name is what the code looks for.
-6. **Set the token.** In the same Settings, under **Variables and Secrets**, add a **Secret** named exactly `TOKEN`, with your own token as its value. A secret, not a plain variable: a secret is not shown again afterwards.
-7. **Note the address.** The Worker's page shows its address, ending in `.workers.dev`. That is the endpoint the app needs.
+
+    ![The Worker's code editor with worker.js pasted over the example.](img/cloudflare-03-edit-code.png)
+
+4. **Create the storage.** In the sidebar choose **Storage & databases** and then **R2 Object Storage**, press **Create bucket**, and name it, `miformulas-data` for instance. This is where your data file will live.
+
+    ![Creating the R2 bucket that will hold your data file.](img/cloudflare-04-r2-bucket.png)
+
+5. **Connect the two.** Back on the Worker's own page, not in the code editor, open its **Bindings** tab and press **Add binding +**, then choose **R2 bucket**. The variable name must be exactly `DATA`, and the bucket is the one you just made. That name is what the code looks for; finish with **Deploy**.
+
+    ![The R2 bucket binding: the variable name must be exactly DATA.](img/cloudflare-05-binding.png)
+
+6. **Set the token.** On the same Worker, open the **Settings** tab and find **Runtime variables and secrets**. Press **Add variable**, put exactly `TOKEN` in **Key** and your own token in **Value**, tick **Secret**, and confirm with **Add 1 variable and deploy**. Tick that box: a secret is not shown again afterwards, while a plain variable stays readable to anyone who opens the dashboard.
+
+    ![The token as a secret: Runtime variables and secrets, then Add variable with Secret ticked.](img/cloudflare-06-secret.png)
+
+7. **Note the address.** The Worker's **Domains** tab shows it under **Worker URL**, ending in `.workers.dev`. That is the endpoint the app needs.
+
+    ![The address of the Worker, on its Domains tab under Worker URL.](img/cloudflare-07-url.png)
+
 8. **Check it before you go to the app.** Open that address in a browser. It should answer `{"error":"invalid token","worker":3}`. That is good news: the Worker is alive, it found its bucket and its token, and it refused you because a browser sends no token. Any other answer names the step that went wrong. `TOKEN secret is not set on the Worker` is step 6, `R2 bucket binding DATA is missing on the Worker` is step 5, and a Cloudflare error page instead of JSON means the code of step 3 did not deploy.
+
+    ![The check in a browser: invalid token means the Worker is alive and found its bucket and its token.](img/cloudflare-08-check.png)
+
 9. **Connect the app.** Open https://miformulas.com, click **Settings** (⚙), fill in the address as **Server endpoint** and your token as **Access token**, and click Apply. The app reloads and says "Connected to server". The bucket is still empty, so the start screen offers the starter set and writes it there; to start from your own work, use **Open data file…** with your Backup instead, and the app saves it to the server.
+
+    ![Settings in miFormulas: the address as Server endpoint, your token as Access token.](img/cloudflare-09-app-settings.png)
+
 
 On your other computer and on your phone, only step 9: the same address, the same token. Install the app there (section 5) and it opens straight into your data.
 
