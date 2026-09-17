@@ -116,12 +116,16 @@ with sync_playwright() as p:
     rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked, cb.disabled])")
     check(f"companions v05, v05 20%, v06 ticked and enabled ({rows})", sorted(r[0] for r in rows) == ["Aura v05", "Aura v05 20%", "Aura v06"] and all(r[1] and not r[2] for r in rows))
     check("next version number announced", page.locator("#mvVno").inner_text().strip() == "(v2)")
+    namen0 = page.evaluate("DATA.formulas.map(f => f.name)")
     page.click("#dlgOk"); page.wait_for_timeout(700)
     f4 = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Aura v04"); return {n: f.versions.length,
       order: f.versions.map(v => v.sourceName || ""), vs: f.versions.map(v => v.v)}; }""")
     check(f"v05, v05 20% and v06 became versions 2 to 4 of Aura v04 ({f4['order']})", f4["n"] == 4 and f4["order"] == ["Aura v04", "Aura v05", "Aura v05 20%", "Aura v06"] and f4["vs"] == [1, 2, 3, 4])
     check("the three sources are gone, Aura v04 stays", page.evaluate("DATA.formulas.length") == n0 - 3 and page.evaluate("DATA.formulas.some(f => f.name === 'Aura v04') && !DATA.formulas.some(f => ['Aura v05', 'Aura v05 20%', 'Aura v06'].includes(f.name))"))
     check("app shows Aura v04", page.locator("#content h2").first.inner_text().startswith("Aura v04"))
+    weg = sorted(set(namen0) - set(page.evaluate("DATA.formulas.map(f => f.name)")))
+    check(f"exactly the three moved formulas left the list, no innocent bystander ({weg})",
+          weg == ["Aura v05", "Aura v05 20%", "Aura v06"])
     page.keyboard.press("Control+z"); page.wait_for_timeout(500)
     check("one Undo brings all three back and Aura v04 has one version again", page.evaluate("DATA.formulas.length") == n0 and page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').versions.length") == 1)
     # nothing ticked: a message, and nothing moves

@@ -34,6 +34,25 @@ with sync_playwright() as p:
     check("and Undo takes the category back with it",
           page.evaluate("""!DATA.formulaCategories.includes("Proefcategorie")"""))
 
+    # ---------- 1b. a category change that creates a category goes back in one step (alsoUndo, build 260917c) ----------
+    page.evaluate('''() => { const f = DATA.formulas.find(x => x.versions.length === 1);
+      switchTab("F", f.id, {type:"v", idx:0}); }''')
+    page.wait_for_timeout(500)
+    oud = page.evaluate("() => DATA.formulas.find(x => x.id === VIEW.id).category")
+    page.click("#btnCatF"); page.wait_for_timeout(400)
+    page.evaluate('''() => { window.prompt = () => "Catproef"; }''')
+    page.click("#btnNewCat"); page.wait_for_timeout(300)
+    page.click("#dlgOk"); page.wait_for_timeout(700)
+    check("the formula moved to a category that did not exist yet",
+          page.evaluate("() => DATA.formulas.find(x => x.id === VIEW.id).category") == "Catproef"
+          and page.evaluate('''DATA.formulaCategories.includes("Catproef")'''))
+    fouten = len(errs)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+    check(f"one Undo takes the category change and the new category back, without an error ({errs[fouten:][:1]})",
+          page.evaluate("() => DATA.formulas.find(x => x.id === VIEW.id).category") == oud
+          and page.evaluate('''!DATA.formulaCategories.includes("Catproef")''')
+          and len(errs) == fouten)
+
     # ---------- 2. a predilution takes its two categories back ----------
     page.evaluate("""() => {
       DATA.materials.push(

@@ -338,7 +338,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260917b</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260917c</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -403,7 +403,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260917b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260917c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -1235,9 +1235,9 @@ const rememberCat = cat => {   // returns the category when it is new, so the ca
   return cat;
 };
 function alsoUndo(extra){   // add something to the Undo step that was just pushed, instead of making a second one
-  const fn = UNDO.pop();
-  if (!fn){ pushUndo(extra); return; }
-  UNDO.push(() => { extra(); fn(); });
+  const s = UNDO.pop();
+  if (!s){ pushUndo(extra); return; }
+  UNDO.push({fn: () => { extra(); s.fn(); }, view: s.view});   // a step is {fn, view}: the view it was pushed with comes along
 }
 const undoCat = cat => { if (cat) alsoUndo(() => { DATA.formulaCategories = DATA.formulaCategories.filter(x => x !== cat); }); };
 // standard dialog frame: content + Cancel / primary button (same order everywhere)
@@ -1249,15 +1249,15 @@ function openDialog(bodyHtml, okLabel = "Apply", onOk, minW = "24rem"){
   dlg.showModal();
   $("#dlgCancel").addEventListener("click", () => { dlg.close(); dlg.dispatchEvent(new Event("cancelled")); });
   $("#dlgOk").addEventListener("click", () => { if (onOk() !== false) dlg.close(); });
-  dlg.addEventListener("keydown", e => {   // Enter in a field is the Apply button, as in any dialog; a textarea keeps its newline
-    if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
-    const t = e.target;
-    if (t.tagName === "TEXTAREA" || t.tagName === "BUTTON" || t.tagName === "A") return;
-    if (t.tagName === "INPUT" && t.type === "checkbox") return;
-    e.preventDefault(); $("#dlgOk").click();
-  });
   return dlg;
 }
+$("#dlg").addEventListener("keydown", e => {   // bound once, not per dialog: Enter in a field is the Apply button, a textarea keeps its newline
+  if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
+  const t = e.target;
+  if (t.tagName === "TEXTAREA" || t.tagName === "BUTTON" || t.tagName === "A") return;
+  if (t.tagName === "INPUT" && t.type === "checkbox") return;
+  e.preventDefault(); $("#dlgOk")?.click();
+});
 function pyrLevels(K){
   const buckets = [0,0,0,0,0]; let tot = 0;
   for (const r of K.rows){
@@ -2340,7 +2340,9 @@ function moveInto(f){
       for (const r of removed) if (!DATA.formulas.some(x => x.id === r.f.id)) DATA.formulas.splice(Math.min(r.idx, DATA.formulas.length), 0, r.f);
       if (VIEW.id === t.id) VIEW.sub = null;
     });
-    for (const r of [...removed].reverse()) DATA.formulas.splice(DATA.formulas.findIndex(x => x.id === r.f.id), 1);
+    for (const r of [...removed].reverse()){   // never splice on -1: that would remove the last formula in the list
+      const i = DATA.formulas.findIndex(x => x.id === r.f.id); if (i >= 0) DATA.formulas.splice(i, 1);
+    }
     buildUsage(); markDirty();
     switchTab("F", t.id, sub);
   }, "30rem");
@@ -2704,7 +2706,7 @@ function csvFormulaGroups(parsed, map, filename){   // the rows grouped into ver
     const fc = v(r, "formula").trim(); if (fc) lastF = fc;   // an empty cell carries on the row above, the way a sheet is written by hand
     const ec = v(r, "entry").trim();   if (ec) lastE = ec;
     const fName = map.formula == null ? stem : (lastF || stem), eName = lastE;
-    const key = normName(fName) + " " + normName(eName);
+    const key = normName(fName) + "\u0000" + normName(eName);
     let g = byKey.get(key);
     if (!g){ g = {formula: fName, entry: eName, category: "", date: "", notes: "", lines: [], total: null}; byKey.set(key, g); groups.push(g); }
     if (!g.category) g.category = v(r, "category").trim();
@@ -3292,7 +3294,8 @@ function renderCompare(f, sub){
 let IMPORTP = null;
 function resolveImportLine(L){
   // the import is the gate for files written elsewhere (an AI transcription, another perfumer): every line is checked
-  const nm = normName(L.material);
+  if (!L || typeof L !== "object") L = {};                     // a file can hold null, a number or a string where a line belongs
+  const nm = typeof L.material === "string" ? normName(L.material) : "";
   const m = !nm ? null                                   // a line without a name matches nothing: "" would land on the first material without aliases
     : (L.materialId && matById(L.materialId)) || matByName(L.material) || null;   // "Ambroxan" on a sheet finds your "Ambroxide"
   const w = L.weightG == null || L.weightG === "" ? null : parseNum(L.weightG);        // a transcription can hold "2,5" or nothing at all
@@ -3312,9 +3315,9 @@ function resolveBulk(p){   // once per file: every line checked, then only the t
   let nv = 0, nl = 0, matched = 0, bad = 0, warn = 0, solv = 0;
   for (const f of p.formulas || []){
     let fl = 0, fbad = 0, fnew = 0;
-    for (const v of f.versions || []){
+    for (const v of f?.versions || []){
       nv++;
-      for (const L of v.lines || []){
+      for (const L of v?.lines || []){
         nl++; fl++;
         const r = resolveImportLine(L);
         if (r.bad){ bad++; fbad++; continue; }
@@ -3322,8 +3325,8 @@ function resolveBulk(p){   // once per file: every line checked, then only the t
         else { const k = normName(L.material); if (!fresh.has(k)){ fresh.set(k, 1); fnew++; } }
       }
     }
-    perF.push({name: f.name || "?", versions: (f.versions || []).length, lines: fl, bad: fbad, fresh: fnew,
-               twin: !!DATA.formulas.find(x => normName(x.name) === normName(f.name))});
+    perF.push({name: f?.name || "?", versions: (f?.versions || []).length, lines: fl, bad: fbad, fresh: fnew,
+               twin: !!DATA.formulas.find(x => normName(x.name) === normName(f?.name))});
   }
   p._sum = {perF, nv, nl, matched, bad, warn, solv, fresh: fresh.size,
             twins: perF.filter(x => x.twin).length, badF: perF.filter(x => x.bad).length};
@@ -3360,9 +3363,9 @@ function applyBulkImport(){
   const made = new Map();
   for (const f of p.formulas){
     const versions = [];
-    for (const v of f.versions || []){
+    for (const v of f?.versions || []){
       const lines = [];
-      for (const L of v.lines || []){
+      for (const L of v?.lines || []){
         const r = resolveImportLine(L);
         if (r.bad) continue;
         let m = r.m;
@@ -3385,9 +3388,9 @@ function applyBulkImport(){
         name: v.name || "", notes: v.notes || "", lines});
     }
     if (!versions.length) continue;
-    let name = f.name || "Imported formula";
+    let name = f?.name || "Imported formula";
     while (DATA.formulas.some(x => normName(x.name) === normName(name))) name += " (import)";
-    const cat = f.category || "Uncategorised";
+    const cat = f?.category || "Uncategorised";
     if (!DATA.formulaCategories.includes(cat)){ DATA.formulaCategories.push(cat); createdFCats.push(cat); }
     const nf = {id: uid("f-"), name, category: cat, created: today(), modified: now(), frozenImport: false, versions};
     DATA.formulas.push(nf); createdFIds.push(nf.id);
@@ -3408,10 +3411,10 @@ function renderImport(){
   const c = $("#content");
   const p = IMPORTP;
   if (Array.isArray(p.formulas) && p.formulas.length){ renderBulkImport(); return; }
-  const rows = p.lines.map(L => ({L, ...resolveImportLine(L)}));
+  const rows = p.lines.map(L => ({L: L && typeof L === "object" ? L : {}, ...resolveImportLine(L)}));
   const bad = rows.filter(r => r.bad).length;
   const tw = rows.reduce((s, r) => s + (r.bad ? 0 : r.w), 0);
-  const newCount = rows.filter(r => !r.bad && !r.m).length, warnCount = rows.filter(r => !r.bad && r.m && !r.dilOwned).length;
+  const newCount = new Set(rows.filter(r => !r.bad && !r.m).map(r => normName(r.L.material))).size, warnCount = rows.filter(r => !r.bad && r.m && !r.dilOwned).length;
   const solvCount = rows.filter(r => r.solvMismatch).length;
   const shared = /^shared from miformulas/i.test(p.source || "");   // a file from another miFormulas: the round-number hint means nothing there
   const twin = DATA.formulas.find(x => normName(x.name) === normName(p.name));
@@ -3449,14 +3452,14 @@ function renderImport(){
 }
 function applyImport(){
   const p = IMPORTP;
-  const checked = p.lines.map(L => ({L, ...resolveImportLine(L)}));
+  const checked = p.lines.map(L => ({L: L && typeof L === "object" ? L : {}, ...resolveImportLine(L)}));
   if (checked.some(r => r.bad)){ alert("Some lines cannot be imported. Correct them in the file and import again."); return; }
   const targetId = $("#impTarget")?.value || "";
   const target = targetId ? DATA.formulas.find(x => x.id === targetId) : null;
   const oc = structuredClone(DATA.orderList);
-  const createdIds = [], createdCats = [], lines = [];
+  const createdIds = [], createdCats = [], lines = [], made = new Map();   // a name that is new on two lines is created once
   for (const {L, m: found, dil, w} of checked){
-    let m = found;
+    let m = found || made.get(normName(L.material));
     if (!m){
       const r = newMaterialFrom(L.material, dil, {wishlist: true,
         dilutions: [{pct: dil, isBase: true, date: today(), notes: "from import"}]});
@@ -3464,7 +3467,7 @@ function applyImport(){
       if (L.cas) m.cas = L.cas;                  // what you transcribed wins over the library
       if (L.solvent) m.isSolvent = true;         // a shared file says which of its lines are solvent
       if (r.newCat) createdCats.push(r.newCat);
-      createdIds.push(m.id);
+      createdIds.push(m.id); made.set(normName(L.material), m);
       DATA.orderList.push({id: uid("o-"), materialId: m.id, name: m.name, note: `needed for ${p.name}`, price: "", added: today()});
     }
     lines.push({materialId: m.id, dilutionPct: dil, weightG: w, remark: 1});

@@ -122,6 +122,42 @@ with sync_playwright() as p:
     check(f"een bibliotheekbestand wordt geweigerd ({[m[:40] for m in msgs]})",
           any("not a miFormulas import file" in m for m in msgs))
 
+    # ---------- 6. hetzelfde onbekende materiaal op twee regels wordt één keer aangemaakt ----------
+    tweemaal = schrijf("tweemaal.json", {"type": "miformulas-import", "name": "Dubbel", "lines": [
+        {"material": "Onbekend spul QQ", "dilutionPct": 100, "weightG": 4},
+        {"material": goed, "dilutionPct": 100, "weightG": 6},
+        {"material": "onbekend SPUL qq", "dilutionPct": 100, "weightG": 2},   # dezelfde naam, andere hoofdletters
+    ]})
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    page.set_input_files("#impFile", tweemaal); page.wait_for_timeout(900)
+    txt = page.text_content("#content")
+    check(f"de voorvertoning telt één nieuw materiaal, niet twee", "1 new (will be created" in txt)
+    page.click("#btnImpOk"); page.wait_for_timeout(900)
+    dub = page.evaluate('''() => { const f = DATA.formulas.find(x => x.name === "Dubbel");
+        const ids = f.versions[0].lines.map(l => l.materialId);
+        return {mats: DATA.materials.filter(m => normName(m.name) === normName("Onbekend spul QQ")).length,
+                zelfde: ids[0] === ids[2],
+                order: (DATA.orderList || []).filter(o => normName(o.name) === normName("Onbekend spul QQ")).length}; }''')
+    check(f"het materiaal is één keer aangemaakt en beide regels wijzen ernaar ({dub})",
+          dub["mats"] == 1 and dub["zelfde"] and dub["order"] == 1)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+
+    # ---------- 7. een bestand met regels die geen regel zijn ----------
+    msgs.clear()
+    rommel = schrijf("rommel.json", {"type": "miformulas-import", "name": "Rommel", "lines": [
+        {"material": goed, "dilutionPct": 100, "weightG": 10},
+        None, 42, "een regel als tekst",
+        {"material": {"naam": goed}, "weightG": 3},
+        {"material": ["lijst"], "weightG": 3},
+    ]})
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    page.set_input_files("#impFile", rommel); page.wait_for_timeout(900)
+    txt = page.text_content("#content")
+    check("een bestand met stukke regels opent de voorvertoning in plaats van te crashen", "Import formula" in txt)
+    check("de vijf onbruikbare regels worden geweigerd",
+          "5 line(s) cannot be imported" in txt and page.locator("#btnImpOk").is_disabled())
+    page.click("#btnImpCancel"); page.wait_for_timeout(400)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

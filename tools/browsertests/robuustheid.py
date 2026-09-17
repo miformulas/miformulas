@@ -44,6 +44,20 @@ with sync_playwright() as p:
     page.fill("#nmName", "Enterstof"); page.keyboard.press("Enter"); page.wait_for_timeout(700)
     check("Enter in + New material maakt het materiaal", page.evaluate("() => DATA.materials.some(m => m.name === 'Enterstof')"))
 
+    # de Enter-luisteraar hangt sinds bouw 260917c één keer aan de dialoog, niet bij elke opening opnieuw:
+    # tel hoe vaak de Apply-afhandeling loopt na één druk op Enter
+    page.evaluate('''() => { window.__oks = 0; const o = window.openDialog;
+        window.openDialog = (b, l, onOk, w) => o(b, l, () => { window.__oks++; return onOk(); }, w); }''')
+    for i in range(4):
+        page.click("#btnNew"); page.wait_for_timeout(250)
+        page.click("#dlgCancel"); page.wait_for_timeout(200)
+    page.click("#btnNew"); page.wait_for_timeout(400)
+    page.evaluate("() => { window.__oks = 0; }")
+    page.fill("#nfName", "Enterproef2"); page.keyboard.press("Enter"); page.wait_for_timeout(800)
+    n_ok = page.evaluate("() => window.__oks")
+    check(f"na vijf keer openen loopt Enter de dialoog één keer af, niet vijf keer ({n_ok}x)", n_ok == 1)
+    check("en de formule is er één keer", page.evaluate("() => DATA.formulas.filter(f => f.name === 'Enterproef2').length") == 1)
+
     # ---------- 3. klikbare elementen zijn met het toetsenbord te bedienen ----------
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 3);
         switchTab("F", f.id, {type:"v", idx:0}); }""")
