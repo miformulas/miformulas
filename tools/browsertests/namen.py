@@ -160,6 +160,67 @@ with sync_playwright() as p:
     check("en gaat door als je ja zegt, want de eigen naam wint van een alias",
           page.evaluate("""() => { const m = matByName("Ambroxan"); return m && m.id; }""") == "m-and")
 
+    # ---------- 8. bouw 260918e: Uncategorised als vertrekpunt en een kleur per categorie ----------
+    page.evaluate("""() => { switchTab("F", null, null); }"""); page.wait_for_timeout(500)
+    page.click("#btnNew"); page.wait_for_timeout(500)
+    check(f"een nieuwe formule vertrekt van Uncategorised ({page.locator('#catSel').input_value()!r})",
+          page.locator("#catSel").input_value() == "Uncategorised")
+    page.fill("#nfName", "Kleurtest A"); page.select_option("#catSel", "Predilutions")
+    page.click("#dlgOk"); page.wait_for_timeout(800)
+    check("die in de gekozen categorie landt",
+          page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Kleurtest A"); return f && f.category; }""")
+          == "Predilutions")
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Kleurtest A");
+        switchTab("F", f.id, {type:"v", idx:0}); }"""); page.wait_for_timeout(600)
+    page.evaluate("""() => switchTab("F", null, null)"""); page.wait_for_timeout(500)
+    page.click("#btnNew"); page.wait_for_timeout(500)
+    check(f"en de volgende vertrekt weer van Uncategorised, niet van de laatst bekeken formule "
+          f"({page.locator('#catSel').input_value()!r})",
+          page.locator("#catSel").input_value() == "Uncategorised")
+    check("met een kleurkiezer ernaast", page.locator("#catCol").count() == 1
+          and not page.locator("#catCol").is_disabled())
+    kleur0 = page.locator("#catCol").input_value()
+    uncat = page.evaluate("""() => ((DATA.categoryColours||{})["Uncategorised"] || "").toLowerCase()""")
+    check(f"die de kleur van die categorie toont ({kleur0!r})", kleur0 == uncat)
+    page.select_option("#catSel", "Predilutions"); page.wait_for_timeout(400)
+    zonder = page.locator("#catCol").input_value()
+    check(f"en meewisselt met de keuzelijst ({zonder!r} voor Predilutions, dat er nog geen heeft)",
+          zonder != uncat)
+    page.evaluate("""() => { const c = document.querySelector("#catCol");
+        c.value = "#3366cc"; c.dispatchEvent(new Event("change")); }""")
+    page.wait_for_timeout(500)
+    check("een kleur blijft bij de categorie, niet bij de formule",
+          page.evaluate("""() => (DATA.categoryColours||{})["Predilutions"]""") == "#3366cc")
+    page.select_option("#catSel", "Uncategorised"); page.wait_for_timeout(300)
+    check(f"en de kiezer volgt terug ({page.locator('#catCol').input_value()!r})",
+          page.locator("#catCol").input_value() == uncat)
+    page.select_option("#catSel", "Predilutions"); page.wait_for_timeout(300)
+    check("naar de zopas gekozen kleur", page.locator("#catCol").input_value() == "#3366cc")
+    page.click("#dlgCancel"); page.wait_for_timeout(400)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    terug = page.evaluate("""() => (DATA.categoryColours||{})["Predilutions"]""")
+    check(f"Ctrl+Z neemt de kleur terug ({terug!r})", terug in (None, ""))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)      # en de testformule
+    check("en daarna de formule zelf",
+          page.evaluate("""() => !DATA.formulas.some(x => x.name === "Kleurtest A")"""))
+
+    # dezelfde kiezer op de materiaalpagina en in + New material
+    page.evaluate("""() => switchTab("M", DATA.materials[0].id, null)"""); page.wait_for_timeout(600)
+    check("de materiaalpagina heeft + New category met een kleurkiezer",
+          page.locator("#btnNewMatCat").count() == 1 and page.locator("#matCatCol").count() == 1)
+    cat = page.evaluate("""() => DATA.materials[0].category""")
+    page.evaluate("""() => { const c = document.querySelector("#matCatCol");
+        c.value = "#cc3366"; c.dispatchEvent(new Event("change")); }""")
+    page.wait_for_timeout(600)
+    check(f"de kleur van de materiaalcategorie wordt bewaard ({cat!r})",
+          page.evaluate("(n) => (DATA.categoryColours||{})[n]", cat) == "#cc3366")
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    page.click("#tabM"); page.wait_for_timeout(300)
+    page.click("#btnNewMat"); page.wait_for_timeout(500)
+    check("+ New material heeft ze ook",
+          page.locator("#btnNewNmCat").count() == 1 and page.locator("#nmCatCol").count() == 1)
+    page.click("#dlgCancel"); page.wait_for_timeout(400)
+
     check("no page errors", not errs)
     b.close()
 

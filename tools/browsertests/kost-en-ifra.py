@@ -76,6 +76,22 @@ with sync_playwright() as p:
           isinstance(after["inv"], str) and after["inv"].endswith(" g") and after["ifra"])
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
 
+    # ---------- 2b. build 260918e: the preview names the smallest line you will have to weigh ----------
+    page.evaluate("""() => { VIEW = {tab:"F", id:"f-k", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
+    page.wait_for_timeout(600)
+    page.check('input.selCb[data-i="0"]'); page.check('input.selCb[data-i="1"]'); page.wait_for_timeout(300)
+    page.click("#btnPredil"); page.wait_for_timeout(600)
+    prev1 = page.text_content("#pdPrev").replace(",", ".")
+    check(f"the preview names the smallest line in grams, like every other weight ({prev1!r})",
+          "smallest line 0.010 g" in prev1 and "mg" not in prev1)
+    page.fill("#pdK", "100"); page.wait_for_timeout(400)
+    prev2 = page.text_content("#pdPrev").replace(",", ".")
+    check(f"and it follows the batch factor ({prev2!r})", "smallest line 1.000 g" in prev2 and "mg" not in prev2)
+    page.click("#dlgCancel"); page.wait_for_timeout(400)
+    page.evaluate("""() => render()"""); page.wait_for_timeout(400)
+    check("the ticks are gone again",
+          page.evaluate("""() => document.querySelectorAll("input.selCb:checked").length""") == 0)
+
     # ---------- 3. IFRA: 0 is prohibited, below zero is not a limit ----------
     page.evaluate("""() => {
       const a = DATA.materials.find(m => m.id === "m-a"), bm = DATA.materials.find(m => m.id === "m-b");

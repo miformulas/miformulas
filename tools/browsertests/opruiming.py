@@ -191,6 +191,71 @@ with sync_playwright() as p:
     check(f"elk aankruisvakje van een regel draagt de naam van zijn materiaal ({(vakjes or [None])[0]!r})",
           vakjes and all(v and len(v) > 8 for v in vakjes))
 
+    # ---------- bouw 260918e: het materiaal in een oudere versie, de knop naar de winkels, Delete version ----------
+    page.evaluate("""() => { DATA.orderList = []; DATA.materials.push(
+        {id:"m-oud", name:"Alleen in v1", category:"Test", pyramid:2, isSolvent:false, dilutions:[{pct:100, isBase:true}]},
+        {id:"m-nu",  name:"Ook in v2",    category:"Test", pyramid:2, isSolvent:false, dilutions:[{pct:100, isBase:true}]});
+      invalidateMats();
+      DATA.formulas.push({id:"f-oud", name:"Oude versie", category:"Uncategorised", created:today(), versions:[
+        {v:1, date:today(), lines:[{materialId:"m-oud", dilutionPct:100, weightG:5, remark:1},
+                                   {materialId:"m-nu",  dilutionPct:100, weightG:5, remark:1}]},
+        {v:2, date:today(), lines:[{materialId:"m-nu",  dilutionPct:100, weightG:5, remark:1}]}]});
+      buildUsage(); markDirty(); switchTab("M", "m-oud", null); }""")
+    page.wait_for_timeout(700)
+    msgs.clear()
+    page.click("#btnDelMat"); page.wait_for_timeout(600)
+    check(f"een materiaal dat alleen in een oudere versie zit, zegt wat je wel kan doen ({[m[-70:] for m in msgs]})",
+          any("older or frozen version" in m and "Delete version" in m for m in msgs))
+    check("en het materiaal staat er nog", page.evaluate("""() => !!matById("m-oud")"""))
+    page.evaluate("""() => switchTab("M", "m-nu", null)"""); page.wait_for_timeout(600)
+    msgs.clear()
+    page.click("#btnDelMat"); page.wait_for_timeout(600)
+    check(f"een materiaal in de laatste versie krijgt die zin niet ({[m[-60:] for m in msgs]})",
+          msgs and not any("older or frozen version" in m for m in msgs))
+
+    # Delete version: welke formule, wat er overblijft, en dat Undo het terughaalt
+    page.evaluate("""() => switchTab("F", "f-oud", {type:"v", idx:1})"""); page.wait_for_timeout(700)
+    msgs.clear(); mode["v"] = "dismiss"
+    page.click("#btnDelV"); page.wait_for_timeout(600)
+    eerste = (msgs[0] if msgs else "")
+    check(f"Delete version noemt de formule ({eerste[:60]!r})",
+          any("Oude versie" in m for m in msgs))
+    check("en wijst op Ctrl+Z", any("Ctrl+Z" in m for m in msgs))
+    check("bij twee versies zegt het niets over een formule zonder regels",
+          not any("without lines" in m for m in msgs))
+    check("en Cancel laat de versie staan",
+          page.evaluate("""() => DATA.formulas.find(x => x.id === "f-oud").versions.length""") == 2)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-oud");
+        f.versions.splice(1,1); markDirty(); switchTab("F", "f-oud", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    msgs.clear()
+    page.click("#btnDelV"); page.wait_for_timeout(600)
+    laatste_msg = (msgs[0] if msgs else "")
+    check(f"bij de laatste versie zegt het wat er overblijft ({laatste_msg[-90:]!r})",
+          any("only version" in m and "without lines" in m and "Delete formula" in m for m in msgs))
+    mode["v"] = "accept"
+    page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-oud");
+        DATA.materials = DATA.materials.filter(x => x.id !== "m-oud" && x.id !== "m-nu");
+        invalidateMats(); buildUsage(); markDirty(); switchTab("T", null, null); }""")
+    page.wait_for_timeout(500)
+
+    # de knop naast een bestelregel belooft niets wat ze niet kan waarmaken
+    page.evaluate("""() => { DATA.orderList = [{id:"o-1", materialId:null, name:"Iets te zoeken", added:today()}];
+        markDirty(); render(); }""")
+    page.wait_for_timeout(500)
+    knop = page.evaluate("""() => { const b = document.querySelector("[data-osearch='0']");
+        return b && {tekst: b.textContent.trim(), titel: b.getAttribute("title"), winkels: (DATA.shopSites||[]).length}; }""")
+    check(f"de starterset begint zonder winkels, dus zegt de knop dat ze het hele web doorzoekt ({knop})",
+          knop and knop["winkels"] == 0 and knop["tekst"] == "Search the web" and "whole web" in (knop["titel"] or ""))
+    page.evaluate("""() => { DATA.shopSites = ["perfumersapprentice.com", "hermitageoils.com"]; markDirty(); render(); }""")
+    page.wait_for_timeout(500)
+    knop2 = page.evaluate("""() => { const b = document.querySelector("[data-osearch='0']");
+        return b && {tekst: b.textContent.trim(), titel: b.getAttribute("title")}; }""")
+    check(f"zodra je er zelf toevoegt, zoekt ze in je winkels ({knop2})",
+          knop2 and knop2["tekst"] == "Search my shops" and "2 shop(s)" in (knop2["titel"] or ""))
+    page.evaluate("""() => { DATA.shopSites = []; DATA.orderList = []; markDirty(); render(); }""")
+    page.wait_for_timeout(400)
+
     check(f"no page errors ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

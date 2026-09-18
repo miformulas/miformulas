@@ -342,7 +342,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260918d</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260918e</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -407,7 +407,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260918d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260918e. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -628,7 +628,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. Read-only takes away what would change something; printing, the Excel export, <strong>Share this version…</strong> and the dosage field of the IFRA check stay where they are, because none of them touches your data. The header leaves out ☰, <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself. The formula table drops the columns <strong>Abs %</strong> and <strong>Cost</strong> there, to leave room for the dilution picker; swipe the table sideways to see the rest.</p>
 <h2 id="s9-materials">9. Materials</h2>
 <p>The <strong>Materials</strong> tab is your inventory: the materials you own or have on order. A <strong>materials library</strong> is something else, a reference file of facts that you import (section <a href="#s20-import-and-export">20</a>); it never changes what you own.</p>
-<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (the categories that come with the starter set and with a Formulair import carry a colour, used for the dots and the pyramid; a category you make yourself stays grey), supplier, the amount purchased and the date you bought it, cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), IFRA limit, density in g/ml (section <a href="#s19-stock-orders-and-deliveries">19</a> uses it to read a volume as a weight), whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it. A material always keeps at least one dilution, so the last one cannot be deleted: add the other one first.</p>
+<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (the categories that come with the starter set and with a Formulair import carry a colour, used for the dots and the pyramid; beside the picker sits a small colour square that sets the colour of the chosen category, so a category you make yourself does not have to stay grey, and <strong>+ New category</strong> makes one without leaving the page), supplier, the amount purchased (free text, so an imported “2 × 50 ml” stays exactly as it was) and the date you bought it, cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), IFRA limit, density in g/ml (section <a href="#s19-stock-orders-and-deliveries">19</a> uses it to read a volume as a weight), whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger, a free description, and the list of every formula the material appears in; click a name there to jump to it. A material always keeps at least one dilution, so the last one cannot be deleted: add the other one first.</p>
 <p><strong>Look it up.</strong> Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around: <strong>TGSC</strong> and <strong>Olfactorian</strong> search those sites for the CAS number (only the number itself, whatever else the field holds; or the name, if there is no CAS) through DuckDuckGo, and <strong>IFRA</strong> opens the IFRA Standards library with the CAS number already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your inventory; what you enter is up to you.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s9-materials">A material page: fields, dilutions and the stock ledger.</a></p>
 <p><strong>Dilutions.</strong> A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. Add one with <strong>Add dilution</strong> (a percentage and an optional note) and make it the base with <strong>Set base</strong>; <strong>✕</strong> removes one, and the highest remaining dilution becomes the base if you remove that one. One of them is the <strong>base</strong> dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, it only disappears from the pick list.</p>
@@ -648,7 +648,8 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with the <strong>pencil</strong>, write notes, add trial-log entries, set colour marks, arrange the bench view and use <strong>Mark as prepared</strong> on a frozen version: those are your annotations about it, not the recipe itself. In the version list a <strong>🔒</strong> marks a version that came in from an import, and the name it carried there is shown after the version number as a reference; the window behind the <strong>pencil</strong> has a tick box <strong>show the import reference</strong> to hide that name in the list once the grouping is done. It only hides it: the reference stays in the file, so a second Formulair import still recognises the formula.</p>
 <p><strong>Move into…</strong> appears on any formula that still has one version, whatever it came from: a formula from the Formulair import, one you brought in with Import formula…, or one you typed yourself. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along; an import keeps its import name as a reference and stays frozen, a formula of your own arrives as an ordinary version that keeps its name as the version label, so nothing of it is lost from the list. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s6-coming-from-formulair">6</a>). When other single-version formulas share the name, the dialog lists them under <strong>Move together</strong>: those whose name carries a version number ("Aura v04", "Aura v05 20%") come ticked and go into the target in the same go, as versions numbered by that number and then by name. Untick what should stay, and add any other single-version formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s10-formulas-and-versions">Move into…: three imported formulas about to become one formula with its own history.</a></p>
-<p><strong>Copy to new formula</strong> takes the version you are looking at as v1 of a new formula. <strong>Rename</strong> and <strong>Change category</strong> do what they say; categories are shared between formulas and get a colour dot.</p>
+<p><strong>Copy to new formula</strong> takes the version you are looking at as v1 of a new formula. <strong>Rename</strong> and <strong>Change category</strong> do what they say; categories are shared between formulas and get a colour dot, which the colour square beside the category picker sets. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
+<p><strong>Delete version</strong> asks first and names the formula and the version it is about. When it is the only version it says so: the formula then stays in your list without lines, and <strong>Delete formula</strong> is what removes the formula itself. Undo (Ctrl+Z) brings a deleted version back during the session.</p>
 <h2 id="s11-editing-a-formula">11. Editing a formula</h2>
 <p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s13-changing-dilutions">13</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice. Above the table an amber line warns about <strong>duplicate lines</strong>: the same material at the same dilution twice, which is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s11-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
@@ -676,7 +677,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent".</p>
 <h2 id="s14-batch-scaling-and-predilutions">14. Batch scaling and predilutions</h2>
 <p><strong>Batch scaling</strong> sits under the table. <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). <strong>Target total</strong> rescales the whole formula to a given weight. <strong>Set EtOH for target abs %</strong> changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none; the hint shows the maximum reachable with no ethanol at all. On a read-only entry the target field is still there, because the printed weighing sheet uses it: type 10 g and print a 10 g weighing sheet without touching the formula.</p>
-<p><strong>Create predilution…</strong> bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line), then creates three things at once: a frozen predilution formula in the category "Predilutions", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.</p>
+<p><strong>Create predilution…</strong> bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line you will have to weigh, in grams like every other weight in the app, so you can see at a glance which factor makes it weighable), then creates three things at once: a frozen predilution formula in the category "Predilutions", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s14-batch-scaling-and-predilutions">Create predilution: name, batch factor and a preview of the mix.</a></p>
 <h2 id="s15-colour-marks-notes-and-the-trial-log">15. Colour marks, notes and the trial log</h2>
 <p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the <strong>tick bar</strong>: mark them red, green, blue or yellow, unmark them, or clear every mark. Marks are per version, and they carry over into new versions and copies. Use them as you like: what changed, what to smell for, what to check.</p>
@@ -702,7 +703,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The Categories panel.</a></p>
 <h2 id="s19-stock-orders-and-deliveries">19. Stock, orders and deliveries</h2>
 <p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking. From then on purchases add, and two things deduct: <strong>Dilution made</strong> (you made 50 g of a 10 % dilution out of a base at 100 %, so 5 g of base left the bottle; with a base at 10 % it would be 50 g, and a dilution stronger than your base is refused) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one.</p>
-<p><strong>To order</strong> is the shopping list. Add a material from the list itself (existing or new), with <strong>Add to order list</strong> on a material page, or automatically when a formula or an import mentions a material you do not have. Each entry has a note, an amount and unit, a price and a product link; <strong>Search</strong> opens a Google search limited to the web shops you listed under <strong>Edit shop list</strong> (the list starts empty; add the shops you buy from, one domain per line). <strong>Delivered</strong> closes an entry: it records the amount purchased and the purchase date on the material, computes <strong>Cost € / g</strong> from the price and the amount (millilitres via density, and divided by the base dilution, because that field is the price of a gram of pure material), adds to the stock ledger if the material is tracked, creates the material if it was new, and removes the "to order" label. The price itself is not kept on the material: it is only there to work out the cost per gram.</p>
+<p><strong>To order</strong> is the shopping list. Add a material from the list itself (existing or new), with <strong>Add to order list</strong> on a material page, or automatically when a formula or an import mentions a material you do not have. Each entry has a note, an amount and unit, a price and a product link; <strong>Search my shops</strong> opens a Google search limited to the web shops you listed under <strong>Edit shop list</strong> (add the shops you buy from, one domain per line). The list starts empty, and as long as it is, the button says <strong>Search the web</strong> instead, because that is what it would do. <strong>Delivered</strong> closes an entry: you type the <strong>amount purchased</strong> as a number and pick its unit (g or ml, gram to start with), which is what lets the purchase and the ledger below it count with each other. It records that amount and the purchase date on the material, computes <strong>Cost € / g</strong> from the price and the amount (divided by the base dilution, because that field is the price of a gram of pure material),  adds to the stock ledger if the material is tracked, creates the material if it was new, and removes the "to order" label. Millilitres need the density of the material: if it has none, the window shows a density field there and then and keeps what you type, because without it neither the cost per gram nor the stock can be worked out. The price itself is not kept on the material: it is only there to work out the cost per gram.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s19-stock-orders-and-deliveries">The order list.</a></p>
 <h2 id="s20-import-and-export">20. Import and export</h2>
 <p>The ⇅ button in the header opens <strong>Import &amp; export</strong>, a window with everything that comes in and goes out. The Welcome page keeps the two ways in that a new inventory starts with, and points at that window for the rest. <strong>Import from Formulair…</strong> opens the importer described in section <a href="#s6-coming-from-formulair">6</a>.</p>
@@ -1223,6 +1224,15 @@ function matByName(name){   // your material by name or by one of its alternativ
 }
 const matListHtml = () => (MATLIST ||= DATA.materials.map(m => `<option value="${esc(m.name)}">`).join(""));
 const catColourByName = n => { const c = (DATA.categoryColours||{})[n]; return !c || c.toUpperCase() === "#FFFFFF" ? "var(--muted)" : c; };
+const catColourHex = n => { const c = (DATA.categoryColours||{})[n]; return /^#[0-9a-f]{6}$/i.test(c || "") ? c : "#9AA6B2"; };   // <input type=color> wants six digits
+const catColourInput = (cat, id = "catCol") => `<input type="color" id="${id}" value="${catColourHex(cat)}" ${cat ? "" : "disabled "}title="Colour of this category: the dots in the lists, the pyramid and the category panel follow it" style="width:2.1rem;height:1.7rem;padding:0;border:1px solid var(--line);border-radius:6px;background:none;vertical-align:middle">`;
+function setCatColour(name, col){   // the colour belongs to the category, not to what you happen to have open
+  if (!name || !/^#[0-9a-f]{6}$/i.test(col || "")) return;
+  const prev = structuredClone(DATA.categoryColours || {});
+  pushUndo(() => { DATA.categoryColours = prev; });
+  (DATA.categoryColours ||= {})[name] = col;
+  markDirty(); render();
+}
 const catColour = m => catColourByName(m.category);
 function pyrIcon(level, colour, size = 14){
   let s = `<svg class="pyricon" width="${size}" height="${size}" viewBox="0 0 14 14" aria-hidden="true">`;
@@ -1270,14 +1280,18 @@ function solventIdx(lines, skip = -1){
 const allFormulaCats = () => [...new Set([...DATA.formulaCategories, ...DATA.formulas.map(x => x.category).filter(Boolean)])].sort((a,b) => a.localeCompare(b));
 // <select id="catSel"> + "New category" button, shared by New formula / Change category / Copy
 const catPickerHtml = (cur, w = "13rem") => `<select id="catSel" style="min-width:${w}">${allFormulaCats().map(x => `<option${x===cur?" selected":""}>${esc(x)}</option>`).join("")}${cur && !allFormulaCats().includes(cur) ? `<option selected>${esc(cur)}</option>` : ""}</select>
-  <button class="small" id="btnNewCat" type="button">+ New category</button>`;
+  <button class="small" id="btnNewCat" type="button">+ New category</button> ${catColourInput(cur)}`;
 function bindNewCat(){
+  const sel = $("#catSel"), col = $("#catCol");
+  const syncCol = () => { if (col){ col.value = catColourHex(sel.value); col.disabled = !sel.value; } };
   $("#btnNewCat")?.addEventListener("click", () => {
     const n = prompt("New category name:"); if (!n || !n.trim()) return;
-    const nm = n.trim(), sel = $("#catSel");
+    const nm = n.trim();
     if (![...sel.options].some(o => o.value === nm)){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
-    sel.value = nm;
+    sel.value = nm; syncCol();
   });
+  sel?.addEventListener("change", syncCol);
+  col?.addEventListener("change", () => setCatColour(sel.value, col.value));   // the window stays open; render() redraws behind it
 }
 const rememberCat = cat => {   // returns the category when it is new, so the caller folds it into its own Undo step
   if (!cat || DATA.formulaCategories.includes(cat)) return null;
@@ -1624,7 +1638,10 @@ function renderFormula(f){
     switchTab("M", a.dataset.mat, null);
   }));
   $("#btnDelV")?.addEventListener("click", () => {
-    if (!confirm(`Delete ${vName(item)}?`)) return;
+    const laatste = f.versions.length === 1;
+    if (!confirm(`Delete ${vName(item)} of “${f.name}”?`
+      + (laatste ? `\n\nIt is the only version, so the formula stays in your list without lines. Delete formula removes the formula itself.` : "")
+      + `\n\nUndo (Ctrl+Z) can bring it back during this session.`)) return;
     snapF(f); f.versions.splice(sub.idx,1);
     VIEW.sub = {type:"v", idx: f.versions.length-1}; markDirty(); render();
   });
@@ -1900,8 +1917,7 @@ function replaceMaterial(f, item, i){
     const name = $("#rmNew").value.trim();
     const nm = ownFind(name);
     if (!nm){ alert("Unknown material: pick one from your inventory (add it first with + New material, or through the order list)."); return; }
-    dlg.close();
-    if (nm.id === l.materialId) return;
+    if (nm.id === l.materialId){ dlg.close(); return; }
     const oldId = l.materialId;
     snapF(f);
     l.materialId = nm.id;                      // dilution & weight carried over
@@ -1912,8 +1928,11 @@ function replaceMaterial(f, item, i){
       const nearest = dils.reduce((a,b) => Math.abs(b-cur) < Math.abs(a-cur) ? b : a);
       // opens the method dialog (exchange solvent / rel% only / keep weight) without a snapshot of its own, so that
       // replacing and changing the dilution is one undo step; cancelling puts the old material back and drops the step.
+      // the dialog stays open and changeDilution takes it over: close() followed by showModal()
+      // lets the queued close event land on the new listener, which would cancel at once
       changeDilution(f, item, i, nearest, () => { l.materialId = oldId; popUndo(); markDirty(); render(); }, true);
     } else {
+      dlg.close();
       render();
     }
   });
@@ -1933,10 +1952,11 @@ function applyDilutionChange(f, item, i, d2, method, solvJ, noSnap){
   markDirty(); render();
 }
 function changeDilution(f, item, i, d2, onCancel, noSnap){
+  const dlg = $("#dlg");            // Replace material leaves its dialog open and hands it over here
   const l = item.lines[i], m = matById(l.materialId) || {};
   const d1 = l.dilutionPct ?? 100, w1 = l.weightG || 0;
-  if (!d2 || d2 === d1){ render(); return; }
-  if (m.isSolvent || !w1){ applyDilutionChange(f, item, i, d2, "keepw", null, noSnap); return; }
+  if (!d2 || d2 === d1){ if (dlg.open) dlg.close(); render(); return; }
+  if (m.isSolvent || !w1){ if (dlg.open) dlg.close(); applyDilutionChange(f, item, i, d2, "keepw", null, noSnap); return; }
   const w2 = w1 * d1 / d2, delta = w2 - w1;
   const sj = solventIdx(item.lines, i);
   const solv = sj >= 0 ? {j: sj, mm: matById(item.lines[sj].materialId)||{}, w: item.lines[sj].weightG||0} : null;
@@ -1945,7 +1965,6 @@ function changeDilution(f, item, i, d2, onCancel, noSnap){
   const exLabel = !solv ? `<span class="hint">no solvent line in this formula</span>`
     : canEx ? `${esc(solv.mm.name)}: ${fmt(solv.w)} → ${fmt(solv.w - delta)} g – total weight unchanged`
     : `<span style="color:var(--danger)">not possible: ${esc(solv.mm.name)} holds only ${fmt(solv.w)} g, ${fmt(delta)} g must be taken out (short ${fmt(short)} g)</span>`;
-  const dlg = $("#dlg");
   dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;max-width:32rem">
     <h3 style="margin:0 0 .3rem">Change dilution – ${esc(m.name)}</h3>
     <div class="hint" style="margin-bottom:.8rem">${fmtS(d1)}% → ${fmtS(d2)}%</div>
@@ -1957,13 +1976,16 @@ function changeDilution(f, item, i, d2, onCancel, noSnap){
       <b>Preserve weight</b><br><span style="margin-left:1.4rem">${fmt(w1)} g stays; RM content and rel% change</span></label>
     <div class="toolRow" style="justify-content:flex-end;margin-top:1rem;position:sticky;bottom:0;background:var(--surface);padding-top:.6rem">
       <button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Apply</button></div></div>`;
-  dlg.showModal();
-  $("#dlgCancel").addEventListener("click", () => { dlg.close(); if (onCancel) onCancel(); else render(); });
+  if (!dlg.open) dlg.showModal();
+  let handled = false;
+  $("#dlgCancel").addEventListener("click", () => { handled = true; dlg.close(); if (onCancel) onCancel(); else render(); });
   $("#dlgOk").addEventListener("click", () => {
     const method = dlg.querySelector('input[name="dm"]:checked')?.value;
-    dlg.close();
+    handled = true; dlg.close();
     if (method) applyDilutionChange(f, item, i, d2, method, solv ? solv.j : null, noSnap); else if (onCancel) onCancel(); else render();
   });
+  // Escape closes a dialog without touching a button, and the picker kept saying "custom…" while the line never moved
+  dlg.addEventListener("close", () => { if (!handled){ if (onCancel) onCancel(); else render(); } }, {once: true});
 }
 function copyFormula(f, sub){
   const srcV = f.versions[sub.idx] || currentVersion(f);
@@ -2452,7 +2474,7 @@ function createPredilution(f, sub, item, dispLines){
   while (DATA.materials.some(m => m.name === defName) || DATA.formulas.some(x => x.name === defName)) defName = `${f.name} - v${cur.v} - PREDIL (${nn++})`;
   const preview = k => { const Wp = sumW*k;
     const Cp = picks.reduce((s,l) => s + l.weightG*k*(l.dilutionPct??100)/100, 0);
-    return `mix: ${fmt(Wp)} g · ${fmt(Wp>0?Cp/Wp*100:0,2)}% aromatic · smallest line ${fmt(Math.min(...picks.map(l=>l.weightG))*k*1000,1)} mg`; };
+    return `mix: ${fmt(Wp)} g · ${fmt(Wp>0?Cp/Wp*100:0,2)}% aromatic · smallest line ${fmt(Math.min(...picks.map(l=>l.weightG))*k)} g`; };
   const dlg = $("#dlg");
   dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:26rem">
     <h3 style="margin:0 0 .3rem">Create predilution</h3>
@@ -3636,6 +3658,7 @@ function shopSearchUrl(name){
 function renderOrders(){
   const c = $("#content");
   const items = DATA.orderList;
+  const shops = DATA.shopSites || [];   // empty: the button promises nothing it cannot keep
   c.innerHTML = `<h2>To order</h2>
   <div class="toolRow"><input id="ordName" list="matList" placeholder="Material (existing or new)…" style="min-width:18rem">
     <datalist id="matList">${matListHtml()}</datalist>
@@ -3652,7 +3675,7 @@ function renderOrders(){
       <td style="white-space:nowrap"><input data-ourl="${i}" value="${esc(o.url||"")}" placeholder="paste product link…" style="width:11rem">
         ${o.url ? `<button class="small" data-ogo="${i}" title="Open product page">↗</button>` : ""}</td>
       <td class="hint">${esc(o.added||"")}</td>
-      <td style="white-space:nowrap"><button class="small" data-osearch="${i}" title="Google search across your shops">Search</button>
+      <td style="white-space:nowrap"><button class="small" data-osearch="${i}" title="${shops.length ? `Google search across your ${shops.length} shop(s)` : "No shops in your list yet: this searches the whole web. Edit shop list makes it your own shops."}">${shops.length ? "Search my shops" : "Search the web"}</button>
         <button class="small" data-odeliv="${i}">Delivered…</button>
         <button class="ghost small" data-odel="${i}" title="Remove">✕</button></td></tr>`).join("")}
   </tbody></table>` : `<p class="hint">Nothing to order. Add a material above, or use “Add to order list” on a material page.</p>`}`;
@@ -3703,23 +3726,37 @@ function deliveredDialog(idx){
     <h3 style="margin:0 0 .3rem">Delivered – ${esc(o.name)}</h3>
     <div class="hint" style="margin-bottom:.7rem">${m ? "Updates the existing material." : "Creates a new material."}</div>
     <div class="fieldGrid">
-      <label for="dvAmt">Amount purchased</label><input id="dvAmt" value="${o.amount!=null?`${fmtSIn(o.amount)} ${o.unit||"g"}`:""}" placeholder="e.g. 10 g / 5 ml" style="width:9rem">
+      <label for="dvAmt">Amount purchased</label><span><input id="dvAmt" value="${o.amount!=null?fmtSIn(o.amount):""}" placeholder="10" style="width:4.5rem;text-align:right" inputmode="decimal">
+        <select id="dvU"><option${(o.unit||"g")==="g"?" selected":""}>g</option><option${o.unit==="ml"?" selected":""}>ml</option></select></span>
       <label for="dvPrice">Price paid €</label><input id="dvPrice" value="${esc(o.price||"")}" placeholder="12.50" style="width:6rem;text-align:right">
       <label for="dvDate">Purchase date</label><input type="date" id="dvDate" value="${today()}" style="justify-self:start">
-      ${tracked ? `<label for="dvG">Add to stock ledger</label><span><input id="dvG" style="width:5rem;text-align:right" placeholder="amount"> <select id="dvU"><option>g</option><option>ml</option></select></span>` : ""}
+      ${tracked ? `<label for="dvG">Add to stock ledger</label><span><input id="dvG" value="${o.amount!=null?fmtSIn(o.amount):""}" style="width:4.5rem;text-align:right" placeholder="amount"> <span class="hint" id="dvGU">${esc(o.unit||"g")}</span> · the same purchase, booked into the ledger</span>` : ""}
+      <label for="dvDens" id="dvDensL" hidden>Density g/ml</label><span id="dvDensW" hidden><input id="dvDens" value="${m && m.density != null ? fmtSIn(m.density, 4) : ""}" placeholder="e.g. 0,95" style="width:5rem;text-align:right" inputmode="decimal"> <span class="hint">millilitres become grams with this; without it neither the cost per gram nor the stock can be worked out</span></span>
     </div>
-    <div class="hint" style="margin-top:.4rem">If the amount is in g (or ml with a known density) and a price is given, Cost € / g is updated too.${m && basePct(m) !== 100 ? ` ${esc(m.name)} has a base dilution of ${fmtS(basePct(m))} %, so ${fmtS(100/basePct(m),2)} g of it holds one gram of material and the price per gram is computed on that.` : ""}</div>
+    <div class="hint" style="margin-top:.4rem">With an amount and a price, Cost € / g is worked out; millilitres need the density of the material.${m && basePct(m) !== 100 ? ` ${esc(m.name)} has a base dilution of ${fmtS(basePct(m))} %, so ${fmtS(100/basePct(m),2)} g of it holds one gram of material and the price per gram is computed on that.` : ""}</div>
     <div class="toolRow" style="justify-content:flex-end;margin-top:.9rem"><button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Confirm</button></div></div>`;
   dlg.showModal();
+  const syncU = () => {   // millilitres without a density: say so here, and let the density be typed here as well
+    const ml = $("#dvU").value === "ml", geen = !(m && m.density > 0);
+    const w = $("#dvDensW"), l = $("#dvDensL");
+    if (w && l){ w.hidden = l.hidden = !(ml && geen); }
+    const gu = $("#dvGU"); if (gu) gu.textContent = $("#dvU").value;
+  };
+  $("#dvU").addEventListener("change", syncU); syncU();
+  let gTouched = false;   // the ledger follows the purchase until you say otherwise
+  $("#dvG")?.addEventListener("input", () => { gTouched = true; });
+  $("#dvAmt").addEventListener("input", () => { if (!gTouched && $("#dvG")) $("#dvG").value = $("#dvAmt").value; });
   $("#dlgCancel").addEventListener("click", () => dlg.close());
   $("#dlgOk").addEventListener("click", () => {
-    const amt = $("#dvAmt").value.trim(), date = $("#dvDate").value || today();
+    const val = parseNum($("#dvAmt").value), unit = $("#dvU").value;
+    const amt = val != null ? `${fmtS(val)} ${unit}` : "";   // the field of a material stays free text, for imports and for what you typed years ago
+    const date = $("#dvDate").value || today();
     const price = parseNum($("#dvPrice").value);
+    const dvDens = parseNum($("#dvDens")?.value);
     const costPerGram = (dens, pct) => {          // the field holds the price of a gram of pure material
-      const am = amt.match(/([\d.,]+)\s*(g|gr|gram|ml)/i);
-      if (!price || !am) return null;
-      const val = parseNum(am[1]); if (!val) return null;
-      const grams = /ml/i.test(am[2]) ? (dens ? val * dens : null) : val;
+      if (!price || !val) return null;
+      const d = dvDens != null && dvDens > 0 ? dvDens : dens;
+      const grams = unit === "ml" ? (d ? val * d : null) : val;
       const pure = grams ? grams * ((pct ?? 100) / 100) : null;
       return pure ? price / pure : null;
     };
@@ -3729,17 +3766,19 @@ function deliveredDialog(idx){
       const mc = structuredClone(m);
       pushUndo(() => { DATA.orderList = oc; const j = DATA.materials.findIndex(x => x.id === mc.id); if (j >= 0) DATA.materials[j] = mc; });
       if (amt) m.inventory = amt;
+      if (dvDens != null && dvDens > 0 && m.density == null) m.density = dvDens;   // typed here, so it counts from now on
       const cg = costPerGram(m.density, basePct(m));
       if (cg) m.costPerGram = +cg.toFixed(4);
       m.purchaseDate = date; m.modified = now(); delete m.wishlist;
       const g = parseNum($("#dvG")?.value);
-      if (g){ const unit = $("#dvU").value; const grams = unit === "g" ? g : (m.density ? g * m.density : null);
+      if (g){ const grams = unit === "g" ? g : (m.density ? g * m.density : null);
         (m.stockEvents ||= []).push({t:"buy", date, amount: g, unit, g: grams, note: "delivered (order list)"}); }
       DATA.orderList.splice(idx, 1);
       markDirty(); switchTab("M", m.id, null);
     } else {
       const cg = costPerGram(null, 100);   // a new material starts at 100 %
       const r = newMaterialFrom(o.name, 100, {costPerGram: cg ? +cg.toFixed(4) : null, inventory: amt, purchaseDate: date,
+        density: dvDens != null && dvDens > 0 ? dvDens : null,
         dilutions:[{pct:100, isBase:true, date, notes:""}]});
       const nm = r.m, newCat = r.newCat;
       pushUndo(() => { DATA.orderList = oc; DATA.materials = DATA.materials.filter(x => x.id !== nm.id); invalidateMats();
@@ -3784,7 +3823,8 @@ function renderMaterial(m){
     ${F("Name", `<input data-f="name" value="${esc(m.name)}">`)}
     ${F("CAS", `<input data-f="cas" value="${esc(m.cas)}">`)}
     ${F("Alternative names", `<input data-f="aliases" value="${esc(m.aliases||"")}" placeholder="trade or common names, e.g. Ambroxan; Ambrofix">`)}
-    ${F("Category", `<select data-f="category">${DATA.materialCategories.map(x=>`<option${x===m.category?" selected":""}>${esc(x)}</option>`).join("")}${m.category && !DATA.materialCategories.includes(m.category) ? `<option selected>${esc(m.category)}</option>` : ""}</select>`)}
+    ${F("Category", `<select data-f="category">${DATA.materialCategories.map(x=>`<option${x===m.category?" selected":""}>${esc(x)}</option>`).join("")}${m.category && !DATA.materialCategories.includes(m.category) ? `<option selected>${esc(m.category)}</option>` : ""}</select>`
+      + ` <button class="small" id="btnNewMatCat" type="button">+ New category</button> ${catColourInput(m.category, "matCatCol")}`)}
     ${F("Supplier", `<input data-f="supplier" value="${esc(m.supplier)}" list="supList">`)}
     <datalist id="supList">${DATA.suppliers.map(s=>`<option value="${esc(s)}">`).join("")}</datalist>
     ${F("Amount purchased", `<input data-f="inventory" value="${esc(m.inventory)}">`)}
@@ -3848,10 +3888,21 @@ function renderMaterial(m){
       v = n;
     }
     snapM(m); m[k] = v; markDirty();
+    if (k === "category" && v && !DATA.materialCategories.includes(v)){   // a name typed with + New category
+      DATA.materialCategories.push(v); DATA.materialCategories.sort((a,b) => a.localeCompare(b));
+      alsoUndo(() => { DATA.materialCategories = DATA.materialCategories.filter(x => x !== v); });
+    }
     if (k === "name"){ MATLIST = null; DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats(); render(); }
     else if (k === "aliases") invalidateMats();   // the name index holds the aliases too: without this the new name is not found yet
-    else if (k === "category") renderSidebar();
+    else if (k === "category") render();
   }));
+  $("#btnNewMatCat")?.addEventListener("click", () => {
+    const n = prompt("New category name:"); if (!n || !n.trim()) return;
+    const nm = n.trim(), sel = c.querySelector('[data-f="category"]');
+    if (![...sel.options].some(o => o.value === nm)){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
+    sel.value = nm; sel.dispatchEvent(new Event("change", {bubbles: true}));   // the field handler stores it and adds the category
+  });
+  $("#matCatCol")?.addEventListener("change", e => setCatColour(m.category, e.target.value));
   c.querySelectorAll("[data-pyr]").forEach(b => b.addEventListener("click", () => { snapM(m); m.pyramid = +b.dataset.pyr; markDirty(); render(); }));
   c.querySelector("a[data-copy]")?.addEventListener("click", e => { try{ navigator.clipboard.writeText(e.currentTarget.dataset.copy); }catch(_){} });   // IFRA link: CAS on the clipboard, the link itself opens the library
   c.querySelectorAll("[data-loc]").forEach(cb => cb.addEventListener("change", () => {
@@ -3924,7 +3975,16 @@ function renderMaterial(m){
     const uses = USAGE[m.id] || [];
     if (uses.length){
       const fnames = [...new Set(uses.map(u => u.name))];
-      alert(`Cannot delete “${m.name}”: used in ${uses.length} formula line(s) (${fnames.slice(0,5).join(", ")}${fnames.length>5?", …":""}).\n\nRemove those lines first.`);
+      // an older or frozen version is read-only, so "remove those lines" cannot be done there: name the way out
+      const oud = [...new Set(uses.map(u => u.fid))].filter(fid => {
+        const f2 = DATA.formulas.find(x => x.id === fid);
+        if (!f2) return false;
+        const laatste = f2.versions[f2.versions.length - 1];
+        return f2.frozenImport || !(laatste?.lines || []).some(l => l.materialId === m.id);
+      }).length;
+      alert(`Cannot delete “${m.name}”: used in ${uses.length} formula line(s) (${fnames.slice(0,5).join(", ")}${fnames.length>5?", …":""}).`
+        + `\n\nRemove those lines from the latest version of each formula.`
+        + (oud ? `\n\nIn ${oud} formula(s) it only sits in an older or frozen version, which cannot be edited. Delete version removes such a version, also a frozen one; or leave the material where it is, since one you do not use costs you nothing.` : ""));
       return;
     }
     const onOrder = DATA.orderList.filter(o => o.materialId === m.id).length;
@@ -3940,11 +4000,11 @@ function renderMaterial(m){
 /* ---------- create ---------- */
 $("#btnNew").addEventListener("click", () => {
   if (!DATA) return;
-  const lastCat = LAST.F.id ? (DATA.formulas.find(x => x.id === LAST.F.id)||{}).category : "";
+
   openDialog(`<h3 style="margin:0 0 .3rem">New formula</h3>
     <div class="fieldGrid" style="margin-top:.7rem">
       <label for="nfName">Name</label><input id="nfName" placeholder="e.g. Gezel" style="min-width:16rem">
-      <label for="catSel">Category</label><span>${catPickerHtml(lastCat || "", "12rem")}</span>
+      <label for="catSel">Category</label><span>${catPickerHtml("Uncategorised", "12rem")}</span>
     </div>`, "Create", () => {
     const name = $("#nfName").value.trim();
     if (!name){ alert("Give the formula a name."); return false; }
@@ -3966,7 +4026,8 @@ $("#btnNewMat").addEventListener("click", () => {
   openDialog(`<h3 style="margin:0 0 .3rem">New material</h3>
     <div class="fieldGrid" style="margin-top:.7rem">
       <label for="nmName">Name</label><input id="nmName" placeholder="e.g. Hedione HC" style="min-width:16rem"${list.length ? ` list="nmList" autocomplete="off"` : ""}>
-      <label for="nmCat">Category</label><select id="nmCat">${DATA.materialCategories.map(x => `<option${x==="Uncategorised"?" selected":""}>${esc(x)}</option>`).join("")}</select>
+      <label for="nmCat">Category</label><span><select id="nmCat">${DATA.materialCategories.map(x => `<option${x==="Uncategorised"?" selected":""}>${esc(x)}</option>`).join("")}</select>
+        <button class="small" id="btnNewNmCat" type="button">+ New category</button> ${catColourInput("Uncategorised", "nmCatCol")}</span>
       <label for="nmDil">Base dilution %</label><input id="nmDil" value="100" inputmode="decimal" style="width:5rem;text-align:right">
     </div>
     ${list.length ? `<datalist id="nmList">${(() => { const seen = new Set(), out = [];   // "Rosa damascena" and "rosa damascena" are one suggestion
@@ -4005,6 +4066,14 @@ $("#btnNewMat").addEventListener("click", () => {
       sel.value = m.category;
     }
   };
+  $("#btnNewNmCat")?.addEventListener("click", () => {
+    const n = prompt("New category name:"); if (!n || !n.trim()) return;
+    const nm = n.trim(), sel = $("#nmCat");
+    if (![...sel.options].some(o => o.value === nm)){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
+    sel.value = nm; $("#nmCatCol").value = catColourHex(nm); $("#nmCatCol").disabled = false;
+  });
+  $("#nmCat").addEventListener("change", () => { $("#nmCatCol").value = catColourHex($("#nmCat").value); });
+  $("#nmCatCol")?.addEventListener("change", e => setCatColour($("#nmCat").value, e.target.value));
   $("#nmName").addEventListener("input", lookup);
   $("#nmName").addEventListener("change", lookup);
   if (list.length) $("#nmBrowse").addEventListener("click", () => { $("#dlg").close(); browseList(); });

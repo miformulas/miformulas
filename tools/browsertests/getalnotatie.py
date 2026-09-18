@@ -68,6 +68,35 @@ with sync_playwright() as p:
     cpg = page.evaluate("(() => { const m = DATA.materials.find(x => x.name === 'Hedione'); return m && m.costPerGram; })()")
     check(f"cost per gram is price / 1000 g ({cpg})", cpg is not None and abs(cpg - 0.02) < 0.0001)
 
+    # ---------- 2b. build 260918e: Amount purchased is a number with a unit ----------
+    zonder = page.evaluate("""() => { const m = DATA.materials.find(x => x.density == null && x.costPerGram == null
+        && (x.dilutions||[]).some(d => d.isBase && d.pct === 100)); return m && m.name; }""")
+    page.click("#tabM"); page.wait_for_timeout(300)
+    page.fill("#searchBox", zonder); page.wait_for_timeout(400)
+    page.click("#list .item"); page.wait_for_timeout(400)
+    page.click("#btnToOrder"); page.wait_for_timeout(500)
+    page.click("#tabT"); page.wait_for_timeout(400)
+    page.fill("[data-oamt='0']", "100"); page.locator("[data-oamt='0']").press("Tab"); page.wait_for_timeout(300)
+    page.fill("[data-oprice='0']", "50"); page.locator("[data-oprice='0']").press("Tab"); page.wait_for_timeout(300)
+    page.click("[data-odeliv='0']"); page.wait_for_timeout(600)
+    check(f"Amount purchased carries a unit, on gram to start with ({zonder})",
+          page.locator("#dvU").is_visible() and page.locator("#dvU").input_value() == "g")
+    check("and the density stays out of sight as long as you buy grams",
+          page.locator("#dvDensW").count() == 1 and page.locator("#dvDensW").is_hidden())
+    page.select_option("#dvU", "ml"); page.wait_for_timeout(400)
+    check(f"millilitres without a density ask for one ({page.text_content('#dvDensW').strip()[:46]!r})",
+          page.locator("#dvDensW").is_visible())
+    page.fill("#dvDens", "0,5"); page.wait_for_timeout(200)
+    page.click("#dlgOk"); page.wait_for_timeout(800)
+    na = page.evaluate("""(nm) => { const m = DATA.materials.find(x => x.name === nm);
+        return {cost: m.costPerGram, dens: m.density, inv: m.inventory}; }""", zonder)
+    check(f"100 ml at 0,5 g/ml is 50 g, so EUR 50 makes EUR 1 per gram ({na['cost']})",
+          na["cost"] is not None and abs(na["cost"] - 1) < 0.0001)
+    check(f"the density typed in the window is kept ({na['dens']})", na["dens"] == 0.5)
+    check(f"and the amount is written with its unit ({na['inv']!r})", (na["inv"] or "").endswith(" ml"))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    page.fill("#searchBox", ""); page.wait_for_timeout(300)
+
     # ---------- 3. the IFRA dosage belongs to one formula ----------
     page.fill("#searchBox", ""); page.click("#tabF"); page.wait_for_timeout(400)
     items = page.locator("#list .item")
@@ -106,6 +135,26 @@ with sync_playwright() as p:
     back = page.evaluate("(() => { const f = DATA.formulas.find(x => x.id === VIEW.id), v = f.versions[f.versions.length-1]; return v.lines[0].materialId; })()")
     check(f"Cancel puts the old material back ({first['name']} → {other} → cancelled)", back == first["id"])
     check("and leaves no undo step behind", page.evaluate("UNDO.length") == undo_before)
+
+    # ---------- 5b. build 260918e: Escape on the dilution window puts the picker back ----------
+    keuze = page.evaluate("""() => { const s = document.querySelector("[data-dil='0']");
+        if (!s) return null;
+        const echt = s.value;
+        s.value = "custom";                       // as the list stands after picking custom...
+        const f = DATA.formulas.find(x => x.id === VIEW.id), v = f.versions[f.versions.length-1];
+        const m = matById(v.lines[0].materialId) || {};
+        const cur = v.lines[0].dilutionPct ?? 100;
+        const d2 = (m.dilutions||[]).map(d => d.pct).find(p => p !== cur) || (cur === 1 ? 2 : 1);
+        changeDilution(f, v, 0, d2);
+        return echt; }""")
+    page.wait_for_timeout(500)
+    check("picking a dilution opens the method window", page.locator("#dlg").is_visible()
+          and "Change dilution" in page.text_content("#dlg"))
+    page.keyboard.press("Escape"); page.wait_for_timeout(600)
+    check("Escape closes it", not page.locator("#dlg").is_visible())
+    nu = page.evaluate("""() => { const s = document.querySelector("[data-dil='0']"); return s && s.value; }""")
+    check(f"and the picker shows the dilution of the line again, not custom... ({nu!r} was {keuze!r})",
+          nu == keuze and nu != "custom")
 
     # ---------- 6. a material used by a line just added cannot be deleted ----------
     unused = page.evaluate("""(() => { buildUsage();
