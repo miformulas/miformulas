@@ -185,7 +185,10 @@ with sync_playwright() as p:
     page.click("#tabT"); page.wait_for_timeout(300)
     page.fill("#ordName", "Iris Butter"); page.fill("#ordNote", "running low"); page.click("#btnOrdAdd"); page.wait_for_timeout(300)
     page.fill("#ordName", "Orris Absolute"); page.fill("#ordNote", "for the iris trial"); page.click("#btnOrdAdd"); settle(page)
+    # the row runs past 1280 px since the search button reads "Search the web", so widen for this one shot
+    page.set_viewport_size({"width": 1440, "height": 800}); page.wait_for_timeout(400)
     shot(page, "app-order-list.png")
+    page.set_viewport_size({"width": 1280, "height": 800}); page.wait_for_timeout(400)
 
     # ---- 10b. the materials library: import it, then Browse ----
     page.click("#btnHome"); page.wait_for_timeout(300)
