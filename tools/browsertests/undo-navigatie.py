@@ -153,6 +153,62 @@ with sync_playwright() as p:
           page.evaluate("""(() => { const f = DATA.formulas.find(x => x.id === "f-u");
             const v = f.versions[f.versions.length-1]; return (v.bench||{groups:[]}).groups.length; })()""") == 5)
 
+    # ---------- 7. bouw 260918d: een bench-groep houdt zijn eigen regel vast ----------
+    page.evaluate("""() => {
+      DATA.formulas.push({id:"f-b", name:"Benchtest", category:"Uncategorised", created:today(), versions:[
+        {v:1, date:today(), lines:[
+          {id:"l-1", materialId:"m-u1", dilutionPct:100, weightG:5,  remark:1},
+          {id:"l-2", materialId:"m-u1", dilutionPct:100, weightG:20, remark:1},
+          {id:"l-3", materialId:"m-u2", dilutionPct:100, weightG:75, remark:1}]}]});
+      buildUsage(); markDirty(); switchTab("F", "f-b", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(800)
+    page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-b").versions[0];
+        v.bench.groups[0].keys = ["l-1"]; markDirty(); render(); }""")   # de regel van 5 g in de eerste groep
+    page.wait_for_timeout(600)
+    eerst = page.evaluate("""() => { const g = [...document.querySelectorAll("[data-bgi]")][0];
+        return [...g.querySelectorAll(".brow")].map(r => r.innerText.replace(/\\s+/g, " ")); }""")
+    check(f"de groep toont de regel van 5 g ({eerst})",
+          len(eerst) == 1 and "5.000 g" in eerst[0].replace(",", "."))
+    page.click("#btnBenchClose"); page.wait_for_timeout(500)
+    page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-b").versions[0];
+        v.lines = v.lines.filter(l => l.id !== "l-1"); markDirty(); render(); }""")   # de regel van 5 g gewist
+    page.wait_for_timeout(500)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(800)
+    na = page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-b").versions[0];
+        const g0 = [...document.querySelectorAll("[data-bgi]")][0];
+        return {groep: [...g0.querySelectorAll(".brow")].map(r => r.innerText.replace(/\\s+/g, " ")),
+                pool: [...document.querySelectorAll("[data-bdrop='pool'] .brow")].map(r => r.innerText.replace(/\\s+/g, " ")),
+                keys: v.bench.groups[0].keys}; }""")
+    check(f"de groep neemt de regel van 20 g niet over ({na['keys']}, {na['groep']})",
+          "l-2" not in na["keys"] and not na["groep"])
+    check(f"en die regel staat nog gewoon in de pool ({na['pool']})",
+          any("20.000 g" in r.replace(",", ".") for r in na["pool"]))
+    page.click("#btnBenchClose"); page.wait_for_timeout(400)
+    page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-b");
+        buildUsage(); markDirty(); switchTab("F", "f-u", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(500)
+
+    # ---------- 8. Ctrl+P zonder printknop drukt af wat op het scherm staat ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u");
+        switchTab("F", f.id, {type:"v", idx: 0}); }""")
+    page.wait_for_timeout(600)
+    leeg = page.evaluate("""() => document.querySelector("#printArea").innerHTML.trim().length""")
+    check(f"het printblad is leeg zolang er niet gedrukt is ({leeg})", leeg == 0)
+    page.evaluate("""() => window.dispatchEvent(new Event("beforeprint"))""")
+    page.wait_for_timeout(300)
+    blad = page.evaluate("""() => document.querySelector("#printArea").innerText""")
+    check(f"Ctrl+P vult het met de versie op het scherm ({blad.split(chr(10))[0]!r})", "Undotest" in blad)
+    page.evaluate("""() => { switchTab("M", DATA.materials[0].id, null); }""")
+    page.wait_for_timeout(500)
+    check("en een nieuwe weergave laat geen oud blad achter",
+          page.evaluate("""() => document.querySelector("#printArea").innerHTML.trim().length""") == 0)
+    page.evaluate("""() => window.dispatchEvent(new Event("beforeprint"))""")
+    page.wait_for_timeout(300)
+    blad2 = page.evaluate("""() => document.querySelector("#printArea").innerText""")
+    check(f"buiten een formule zegt het blad wat je moet doen ({blad2.split(chr(10))[0]!r})",
+          "nothing to print" in blad2.lower())
+
     check("no page errors", not errs)
     b.close()
 

@@ -167,6 +167,28 @@ with sync_playwright() as p:
     check("Undo puts it back in the list",
           page.evaluate("DATA.formulas.some(x => x.id === 'f-eigen')")
           and page.evaluate("DATA.formulas.find(x => x.name === 'Rose de Mai 68').versions.length") == 1)
+    # ---- bouw 260918d: prepared en hideSource gaan mee, anders boekt Mark as prepared de batch twee keer ----
+    page.evaluate("""() => {
+        DATA.formulas.push({id: "f-prep", name: "Bereid", category: "Uncategorised", created: today(),
+          versions: [{v: 1, date: "2026-07-07", prepared: "2026-07-07", hideSource: true, sourceName: "Bereid v1",
+                      imported: true, frozen: true,
+                      lines: DATA.formulas[0].versions[0].lines.map(l => ({...l}))}]});
+        buildUsage(); switchTab("F", "f-prep", {type: "v", idx: 0});
+    }""")
+    page.wait_for_timeout(600)
+    check("de versie draagt de badge prepared", "prepared" in page.text_content("#content").lower())
+    page.click("#btnMoveF"); page.wait_for_timeout(500)
+    page.select_option("#mvTarget", label="Rose de Mai 68 (1 version)"); page.wait_for_timeout(300)
+    page.click("#dlgOk"); page.wait_for_timeout(800)
+    got = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68");
+        const v = f.versions[f.versions.length - 1];
+        return {prep: v.prepared || null, hide: !!v.hideSource, n: f.versions.length}; }""")
+    check(f"de datum van prepared komt mee ({got})", got["prep"] == "2026-07-07")
+    check("en het uitgezette vinkje van de importverwijzing ook", got["hide"] is True)
+    check("Mark as prepared staat er dus niet opnieuw",
+          page.locator("#btnPrep").count() == 0)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

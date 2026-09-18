@@ -156,6 +156,41 @@ with sync_playwright() as p:
     check("an import preview can still be left", not page.locator("#btnImpCancel").is_disabled())
     check("but not confirmed", page.locator("#btnImpOk").is_disabled())
 
+    # ---------- bouw 260918d: een lege lijst, een dode knop en een dubbelklik ----------
+    page.set_viewport_size({"width": 1280, "height": 950})        # de vorige sectie stond op een telefoon zonder opslag
+    page.evaluate("() => { DEMO = true; IMPORTP = null; switchTab('M', null, null); }"); page.wait_for_timeout(500)
+    page.fill("#searchBox", "zzzzgeenenkeletreffer"); page.wait_for_timeout(500)
+    lijst = page.text_content("#list")
+    check(f"zoeken zonder treffer geeft uitleg in plaats van een wit scherm ({lijst.strip()[:60]!r})",
+          "Nothing here matches" in lijst and "zzzzgeenenkeletreffer" in lijst)
+    page.fill("#searchBox", ""); page.wait_for_timeout(300)
+
+    page.evaluate("""() => { DATA.orderList = [
+        {id: "o-los", materialId: null, name: "Nog te kiezen stof", added: today()},
+        {id: "o-vast", materialId: DATA.materials[0].id, name: DATA.materials[0].name, added: today()}];
+        markDirty(); switchTab("T", null, null); }""")
+    page.wait_for_timeout(600)
+    rollen = page.evaluate("""() => [...document.querySelectorAll("#list .item")].map(
+        e => [e.dataset.id, e.getAttribute("role"), e.getAttribute("tabindex")])""")
+    check(f"een bestelregel zonder materiaal wordt niet als knop aangekondigd ({rollen})",
+          any(r[0] == "o-los" and r[1] is None and r[2] is None for r in rollen)
+          and any(r[0] == "o-vast" and r[1] == "button" for r in rollen))
+
+    page.evaluate("""() => { const f = DATA.formulas.find(x => !x.frozenImport && x.versions.length
+            && !x.versions[x.versions.length - 1].frozen && !x.versions[x.versions.length - 1].imported);
+        window.__dv = f.id; switchTab("F", f.id, {type: "v", idx: f.versions.length - 1}); }""")
+    page.wait_for_timeout(700)
+    check("de knop + New version staat er", page.locator("#btnNewV").count() == 1)
+    n0 = page.evaluate("""() => DATA.formulas.find(x => x.id === window.__dv).versions.length""")
+    page.evaluate("""() => { const b = document.querySelector("#btnNewV"); b.click(); b.click(); }""")
+    page.wait_for_timeout(900)
+    n1 = page.evaluate("""() => DATA.formulas.find(x => x.id === window.__dv).versions.length""")
+    check(f"een dubbelklik op + New version maakt \u00e9\u00e9n versie ({n0} \u2192 {n1})", n1 == n0 + 1)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    vakjes = page.evaluate("""() => [...document.querySelectorAll("input.selCb")].map(c => c.getAttribute("aria-label"))""")
+    check(f"elk aankruisvakje van een regel draagt de naam van zijn materiaal ({(vakjes or [None])[0]!r})",
+          vakjes and all(v and len(v) > 8 for v in vakjes))
+
     check(f"no page errors ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

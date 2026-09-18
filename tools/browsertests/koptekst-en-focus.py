@@ -126,6 +126,62 @@ with sync_playwright() as p:
         check(f"{thema}: de placeholder is niet vervaagd ({ph})", float(ph) >= 0.99)
     page.evaluate("() => delete document.documentElement.dataset.theme")
 
+    # ---------- 5. bouw 260918d: --muted haalt AA op elk vlak van het lichte thema ----------
+    page.evaluate("() => document.documentElement.dataset.theme = 'light'")
+    page.wait_for_timeout(300)
+    kleuren = page.evaluate("""() => { const cs = getComputedStyle(document.documentElement);
+      const g = n => cs.getPropertyValue(n).trim();
+      return {muted: g("--muted"), surface: g("--surface"), ground: g("--ground"),
+              panel: g("--panel"), soft: g("--accent-soft"), amber: g("--amber-soft"),
+              frozen: g("--frozen-soft"), danger: g("--danger-soft")}; }""")
+    for vlak in ("surface", "ground", "panel", "soft", "amber", "frozen", "danger"):
+        r = ratio(kleuren["muted"], kleuren[vlak])
+        check(f"licht thema: --muted haalt AA op --{vlak} ({r}:1)", r >= 4.5)
+
+    # ---------- 6. de opslagstand is leesbaar waar het verloop ook staat ----------
+    for thema in ("light", "dark"):
+        page.evaluate("(t) => document.documentElement.dataset.theme = t", thema)
+        page.wait_for_timeout(300)
+        st = page.evaluate("""() => { const el = document.querySelector("#saveState");
+          const cs = getComputedStyle(el);
+          return {kleur: cs.color, grond: cs.backgroundColor, radius: cs.borderRadius}; }""")
+        check(f"{thema}: de opslagstand draagt een eigen ondergrond ({st['grond']})",
+              st["grond"] not in ("rgba(0, 0, 0, 0)", "transparent"))
+        # de donkerste plek van het verloop waar de stand kan staan: het oranje eind met die ondergrond erover
+        oranje = page.evaluate("""() => { const cs = getComputedStyle(document.documentElement);
+          const g = cs.getPropertyValue("--header-grad");
+          const m = g.match(/#[0-9A-Fa-f]{6}/g) || []; return m[m.length - 1]; }""")
+        def over(bg, a=0.28):
+            bg = bg.lstrip("#"); v = [int(bg[i:i+2], 16) for i in (0, 2, 4)]
+            return "#%02X%02X%02X" % tuple(round(x * (1 - a)) for x in v)
+        r = ratio(st["kleur"], over(oranje))
+        check(f"{thema}: en haalt AA op het oranje eind van het verloop ({r}:1)", r >= 4.5)
+        page.evaluate("""() => { setState("Unsaved changes", "", true); }""")
+        page.wait_for_timeout(200)
+        vuil = page.evaluate("""() => getComputedStyle(document.querySelector("#saveState")).color""")
+        r2 = ratio(vuil, over(oranje))
+        check(f"{thema}: ook de stand Unsaved changes, de enige die door kleur opvalt ({r2}:1)", r2 >= 4.5)
+    page.evaluate("() => delete document.documentElement.dataset.theme")
+    page.wait_for_timeout(200)
+
+    # ---------- 7. alleen-lezen laat staan wat niets wijzigt ----------
+    page.set_viewport_size({"width": 390, "height": 844}); page.wait_for_timeout(400)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 2);
+        window.__ro = f.id; DEMO = false; HANDLE = null; REMOTE = false;
+        switchTab("F", f.id, {type:"v", idx: 0}); }""")
+    page.wait_for_timeout(700)
+    zicht = page.evaluate("""() => {
+        const z = id => { const e = document.querySelector(id); return e ? !!e.offsetParent && !e.disabled : null; };
+        return {sheet: z("#btnSheet"), csv: z("#btnCsv"), share: z("#btnShare"), print: z("#btnPrint"),
+                dose: z("#ifraDose"), move: z("#btnMoveF"), addline: z("#btnAddLine")}; }""")
+    check(f"alleen-lezen: printen, uitvoeren en delen blijven bruikbaar ({zicht})",
+          zicht["sheet"] and zicht["csv"] and zicht["share"] and zicht["print"])
+    check(f"alleen-lezen: het dosisveld van de IFRA-controle ook ({zicht['dose']})", zicht["dose"] is not False)
+    check(f"alleen-lezen: Move into… en Add line zijn weg ({zicht['move']}, {zicht['addline']})",
+          not zicht["move"] and not zicht["addline"])
+    page.evaluate("() => { DEMO = true; render(); }")
+    page.set_viewport_size({"width": 1280, "height": 950}); page.wait_for_timeout(400)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

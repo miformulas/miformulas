@@ -129,6 +129,25 @@ with sync_playwright() as b0:
     check("een nieuwe stap zet de vooruitknop weer uit", page.locator("#btnNavNext").is_disabled())
     check(f"geen paginafouten in de geïnstalleerde app ({errs2[:2]})", not errs2)
 
+    # bouw 260918d: van versie wisselen is zelf een stap, en terug landt op de versie waar je stond
+    pg3 = ctx.new_page(); pg3.on("dialog", lambda d: d.accept())
+    pg3.goto(URL); pg3.wait_for_timeout(1500)
+    pg3.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.length > 1) || DATA.formulas[0];
+        if (f.versions.length < 2) f.versions.push({v: 2, date: today(), lines: f.versions[0].lines.map(l => ({...l}))});
+        window.__fid = f.id; switchTab("F", f.id, {type: "v", idx: 1}); }""")
+    pg3.wait_for_timeout(900)
+    pg3.evaluate("""() => switchTab("F", window.__fid, {type: "v", idx: 0})""")
+    pg3.wait_for_timeout(900)
+    check("we kijken naar v1", plek(pg3)["sub"] == 0)
+    pg3.evaluate("""() => switchTab("M", DATA.materials[3].id, null)""")
+    pg3.wait_for_timeout(900)
+    pg3.go_back(); pg3.wait_for_timeout(1000)
+    p3 = plek(pg3)
+    check(f"terug landt op v1, niet op de laatste versie ({p3})", p3["tab"] == "F" and p3["sub"] == 0)
+    pg3.go_back(); pg3.wait_for_timeout(1000)
+    p4 = plek(pg3)
+    check(f"en nog eens terug geeft de versie die daarvóór openstond ({p4})", p4["sub"] == 1)
+
     print("\n%d OK, %d FAIL" % (ok, fail))
     b.close()
     raise SystemExit(1 if fail else 0)
