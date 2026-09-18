@@ -73,6 +73,23 @@ with sync_playwright() as p:
           page.evaluate("__srv.data.formulas.map(f => f.name).join()") == "A,B")
     check("no conflict was reported", 409 not in page.evaluate("__srv.codes")
           and not any("another device" in m for m in msgs))
+
+    # ---------- 1b. wie saveData() afwacht, wacht tot de data er echt is (bouw 260918a) ----------
+    # Settings met een gewijzigde server en Forget doen "if (DIRTY) await saveData(); location.reload()"
+    page.evaluate("""() => { window.__res = "wacht";
+        DATA.formulas.push({id: "f-c", name: "C", versions: []}); markDirty();
+        saveData().then(v => { window.__res = v; }); }""")
+    page.wait_for_timeout(700)
+    check("saveData geeft niets terug zolang de PUT hangt", page.evaluate("__res") == "wacht")
+    page.evaluate("""() => { DATA.formulas.push({id: "f-d", name: "D", versions: []}); markDirty(); }""")
+    page.evaluate("__release()"); page.wait_for_timeout(700)
+    check("en ook niet na de eerste PUT, want D kwam er tijdens het schrijven bij",
+          page.evaluate("__res") == "wacht" and page.evaluate("DIRTY") is True)
+    page.evaluate("__release()"); page.wait_for_timeout(700)
+    check(f"pas als alles weg is geeft hij true ({page.evaluate('__res')})",
+          page.evaluate("__res") is True and page.evaluate("DIRTY") is False)
+    check("en de server heeft C en D",
+          page.evaluate("__srv.data.formulas.map(f => f.name).join()") == "A,B,C,D")
     check("no page errors", not errs)
     ctx.close()
 
@@ -201,6 +218,59 @@ with sync_playwright() as p:
     pg.wait_for_timeout(3200)
     check("and saving to the browser continues", pg.locator("#saveState").inner_text().startswith("Saved"))
     ctx.close()
+
+    # ---------- 6. bouw 260918a: een PUT-antwoord zonder zichtbare ETag-header ----------
+    # cross-origin zonder Access-Control-Expose-Headers: de header is onzichtbaar, het lichaam draagt de etag
+    def etag_server(header, body):
+        return """
+          window.__srv = {etag: "E0", data: {schema: 1, formulas: [], materials: [], materialCategories: [], formulaCategories: []},
+                          puts: [], codes: []};
+          const realFetch = window.fetch.bind(window);
+          window.fetch = (url, opt) => {
+            const u = String(url && url.url ? url.url : url), o = opt || {};
+            if (u.indexOf("data.php") >= 0){
+              if ((o.method || "GET") === "GET")
+                return Promise.resolve(new Response(JSON.stringify(__srv.data), {status: 200, headers: {ETag: __srv.etag}}));
+              const ifm = (o.headers || {})["If-Match"] || "";
+              __srv.puts.push({ifm});
+              if (ifm && ifm !== __srv.etag){ __srv.codes.push(409); return Promise.resolve(new Response("{}", {status: 409})); }
+              __srv.data = JSON.parse(o.body); __srv.etag = "E" + __srv.puts.length; __srv.codes.push(200);
+              const h = %s, b = %s;
+              return Promise.resolve(new Response(JSON.stringify(b), {status: 200, headers: h}));
+            }
+            return realFetch(url, opt);
+          };
+        """ % (header, body)
+
+    for naam, hdr, bod, verwacht_ifm, waarschuwing in [
+        ("de etag staat alleen in het lichaam", "{}", '{ok: true, etag: __srv.etag}', True, False),
+        ("de etag is nergens te zien", "{}", "{ok: true}", False, True)]:
+        ctx = b.new_context(viewport={"width": 1200, "height": 900})
+        pg = ctx.new_page(); m2 = []; e2 = []
+        pg.on("pageerror", lambda e: e2.append(str(e)))
+        pg.on("dialog", lambda d: (m2.append(d.message), d.accept()))
+        pg.add_init_script(etag_server(hdr, bod))
+        pg.goto(URL); pg.wait_for_timeout(1500)
+        for n in ("X", "Y", "Z"):
+            pg.evaluate("n => { DATA.formulas.push({id: 'f-' + n, name: n, versions: []}); markDirty(); }", n)
+            pg.evaluate("() => saveData()"); pg.wait_for_timeout(500)
+        codes = pg.evaluate("__srv.codes")
+        state = pg.locator("#saveState").inner_text()
+        check(f"{naam}: drie schrijfacties, geen enkele 409 ({codes})", codes == [200, 200, 200])
+        check(f"{naam}: de koptekst meldt geen conflict ({state!r})", "Conflict" not in state and state.startswith("Saved"))
+        check(f"{naam}: de server heeft alle drie",
+              pg.evaluate("__srv.data.formulas.map(f => f.name).join()") == "X,Y,Z")
+        ifms = pg.evaluate("__srv.puts.map(p => p.ifm)")
+        if verwacht_ifm:
+            check(f"{naam}: de volgende PUT stuurt de nieuwe If-Match ({ifms})", ifms[1] == "E1" and ifms[2] == "E2")
+            check(f"{naam}: en er komt geen waarschuwing", not any("ETag" in x for x in m2))
+        else:
+            check(f"{naam}: de volgende PUT stuurt een lege If-Match ({ifms})", ifms[1] == "" and ifms[2] == "")
+            check(f"{naam}: met één waarschuwing, niet bij elke schrijfactie",
+                  len([x for x in m2 if "ETag" in x]) == 1)
+        check(f"{naam}: geen paginafouten ({e2[:1]})", not e2)
+        ctx.close()
+
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")

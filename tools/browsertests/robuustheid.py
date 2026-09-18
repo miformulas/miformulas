@@ -127,6 +127,44 @@ with sync_playwright() as p:
     page.wait_for_timeout(600)
     check(f"de tweede formule met hetzelfde id is bereikbaar ({errs[:1]})",
           page.locator("#content h2").count() == 1 and not errs)
+    # ---------- 6b. bouw 260918a: een bestand met regels die geen regel zijn ----------
+    rommel = {"formulas": [{"id": "f-1", "name": "Goed", "versions": [{"v": 1, "lines": []}]},
+                           None, 42, "een formule als tekst",
+                           {"id": "f-2", "name": "Zonder nummers", "versions": [{"lines": []}, {"lines": []}, {"v": 7, "lines": []}]},
+                           {"id": "f-3", "name": "Rommelregels", "versions": [{"v": 1, "lines": [None, {"materialId": "m-1", "dilutionPct": 100, "weightG": 5}, 3]}]},
+                           {"id": "f-4", "name": "Versies geen lijst", "versions": 5}],
+              "materials": [{"id": "m-1", "name": "Stof"}, None,
+                            {"id": "m-2", "name": "Lege dilutie", "dilutions": [None, {"pct": 100, "isBase": True}]}],
+              "orderList": [None, {"id": "o-1", "name": "Iets"}]}
+    errs.clear(); msgs.clear()
+    page.evaluate("(t) => { DATA = migrate(JSON.parse(t)); boot(); }", json.dumps(rommel))
+    page.wait_for_timeout(900)
+    r = page.evaluate("""() => ({f: DATA.formulas.map(f => f.name), m: DATA.materials.map(m => m.name),
+        vs: (DATA.formulas.find(f => f.name === "Zonder nummers") || {versions: []}).versions.map(v => v.v),
+        geenlijst: Array.isArray((DATA.formulas.find(f => f.name === "Versies geen lijst") || {}).versions),
+        regels: ((DATA.formulas.find(f => f.name === "Rommelregels") || {versions: [{}]}).versions[0].lines || []).length,
+        dils: ((DATA.materials.find(m => m.name === "Lege dilutie") || {}).dilutions || []).length,
+        bestel: (DATA.orderList || []).length})""")
+    check(f"formules en materialen die geen object zijn vallen weg ({r['f']}, {r['m']})",
+          r["f"] == ["Goed", "Zonder nummers", "Rommelregels", "Versies geen lijst"] and r["m"] == ["Stof", "Lege dilutie"])
+    check(f"versies zonder nummer worden doorgenummerd, bestaande nummers blijven ({r['vs']})", r["vs"] == [1, 2, 7])
+    check(f"een versies-veld dat geen lijst is wordt er een ({r['geenlijst']})", r["geenlijst"] is True)
+    check(f"stukke regels, diluties en bestelregels vallen weg ({r['regels']}, {r['dils']}, {r['bestel']})",
+          r["regels"] == 1 and r["dils"] == 1 and r["bestel"] == 1)
+    check(f"en de app draait erop zonder paginafouten ({errs[:1]})", not errs)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Zonder nummers");
+        switchTab("F", f.id, {type:"v", idx: f.versions.length - 1}); }""")
+    page.wait_for_timeout(600)
+    page.click("#btnNewV"); page.wait_for_timeout(700)
+    nieuw = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Zonder nummers");
+        return f.versions[f.versions.length - 1].v; }""")
+    check(f"+ New version rekent verder op een echt nummer, geen vNaN ({nieuw})", nieuw == 8)
+    msgs.clear()
+    kapot = page.evaluate("() => migrateSafe(null)")
+    page.wait_for_timeout(300)
+    check(f"wat migrate niet aankan, meldt zich als onleesbaar bestand ({[m[:30] for m in msgs]})",
+          kapot is None and any("could not be read" in m for m in msgs))
+
     page.click("#btnNew"); page.wait_for_timeout(400)
     check("+ New formula werkt in zo'n bestand", page.locator("#nfName").count() == 1)
     page.click("#dlgCancel"); page.wait_for_timeout(300)

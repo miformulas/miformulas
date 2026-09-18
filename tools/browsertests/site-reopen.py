@@ -123,6 +123,27 @@ with sync_playwright() as p:
     check("gone: hint explains", "could not be opened" in h and "stays in this browser" in h)
     check("gone: handle forgotten", pg2.evaluate("idb.get('fileHandle').then(h => !h)"))
     pg2.evaluate("localStorage.removeItem('fakegone'); localStorage.removeItem('fakefile')")
+
+    # 6. hetzelfde, maar de toestemming staat nog op granted (bouw 260918a): tryRestore slikte de fout,
+    #    en het startscherm bood dan gewoon de starterset aan, terwijl het bestand alleen zoek is
+    pg4 = new_page()
+    pg4.goto(URL); pg4.wait_for_timeout(1000)
+    pg4.evaluate("""() => localStorage.setItem('fakefile', JSON.stringify(
+        {formulas: [{id: 'f-x', name: 'Mijn werk', versions: [{v: 1, lines: []}]}], materials: []}))""")
+    pg4.click("#btnOpen"); pg4.wait_for_timeout(1200)
+    check("granted+weg: het bestand is eerst onthouden", pg4.evaluate("idb.get('fileHandle').then(h => !!h)"))
+    pg5 = new_page()      # window.__perm blijft 'granted'
+    pg5.add_init_script("localStorage.setItem('fakegone', '1')")
+    pg5.goto(URL); pg5.wait_for_timeout(1500)
+    check("granted+weg: Reopen wordt aangeboden, geen kaal startscherm",
+          pg5.locator("#btnReopen").is_visible() and not pg5.locator("#btnStarter").is_visible())
+    check("granted+weg: het onthouden bestand staat er nog, zodat Reopen iets te doen heeft",
+          pg5.evaluate("idb.get('fileHandle').then(h => !!h)"))
+    if pg5.locator("#btnReopen").is_visible():        # anders hangt de klik een minuut op een onzichtbare knop
+        pg5.click("#btnReopen"); pg5.wait_for_timeout(1200)
+    h5 = pg5.locator("#landingHint").inner_text()
+    check(f"granted+weg: en de uitleg zegt wat er aan de hand is ({h5[:60]!r})", "could not be opened" in h5)
+    pg5.evaluate("localStorage.removeItem('fakegone'); localStorage.removeItem('fakefile')")
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")

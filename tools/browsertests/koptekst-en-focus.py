@@ -93,6 +93,22 @@ with sync_playwright() as p:
     page.click("#btnBack"); page.wait_for_timeout(500)
     na = page.evaluate("() => ({tab: VIEW.tab, lijst: !!document.querySelector('#sidebar').offsetParent})")
     check(f"en hij brengt je er ook heen ({na})", na["tab"] != "T" and na["lijst"])
+    # de bench view schrijft niet meer in de data van een telefoon die niets kan bewaren (bouw 260918a)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 2 && !x.versions[0].bench);
+        window.__bid = f.id; window.__demo = DEMO;
+        DEMO = false; HANDLE = null; REMOTE = false;          // geen bestand, geen server, geen browseropslag
+        switchTab("F", f.id, {type:"v", idx: 0}); }""")
+    page.wait_for_timeout(700)
+    check("alleen-lezen: de app staat in die stand", page.evaluate("readOnly()") is True)
+    vuil = page.evaluate("DIRTY")
+    page.click("#btnBenchToggle"); page.wait_for_timeout(800)
+    na = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__bid);
+        return {bench: !!f.versions[0].bench, dirty: DIRTY, zicht: !!document.querySelector(".brow")}; }""")
+    check(f"alleen-lezen: de bench view opent zonder de data aan te raken ({na})",
+          na["zicht"] and not na["bench"] and na["dirty"] == vuil)
+    page.evaluate("() => { DEMO = window.__demo; }")
+    page.wait_for_timeout(200)
+
     page.set_viewport_size({"width": 1280, "height": 950}); page.wait_for_timeout(300)
 
     # ---------- 4. contrast van de amberkleurige tekst (E4) ----------

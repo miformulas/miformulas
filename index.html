@@ -337,7 +337,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260917d</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260918a</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -402,7 +402,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260917d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260918a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -804,9 +804,9 @@ const idb = {
     r.onerror = () => res();
     r.onblocked = () => res();
   }); },
-  get(k){ return new Promise(res => { if (!idb.db) return res(null);
-    try{ const t = idb.db.transaction("kv").objectStore("kv").get(k); t.onsuccess = () => res(t.result); t.onerror = () => res(null); }
-    catch(e){ res(null); } }); },
+  get(k){ return new Promise(res => { if (!idb.db) return res(undefined);   // undefined = we do not know; a stored null is an answer
+    try{ const t = idb.db.transaction("kv").objectStore("kv").get(k); t.onsuccess = () => res(t.result); t.onerror = () => res(undefined); }
+    catch(e){ res(undefined); } }); },
   set(k,v){ return new Promise(res => { if (!idb.db) return res(false);   // false = nothing was stored
     try{ const t = idb.db.transaction("kv","readwrite").objectStore("kv").put(v,k); t.onsuccess = () => res(true); t.onerror = () => res(false); }
     catch(e){ res(false); } }); }
@@ -817,7 +817,13 @@ async function tryRestore(){
   try{
     const h = await idb.get("fileHandle");
     if (!h) return false;
-    if (await h.queryPermission({mode:"readwrite"}) === "granted") return await loadFromHandle(h);
+    if (await h.queryPermission({mode:"readwrite"}) === "granted"){
+      // granted but unreadable (moved, renamed, deleted) must not land on a bare start screen: the browser copy
+      // was dropped when the file was adopted, so the starter set would begin fresh data over a file that is only lost
+      try{ if (await loadFromHandle(h)) return true; }
+      catch(e){ RESTORE = h; return false; }
+      return false;   // read but refused (damaged, not a data file): the reader has just had that message
+    }
     RESTORE = h;   // needs a user gesture – landing shows a reopen button
     return false;
   }catch(e){ return false; }
@@ -830,7 +836,9 @@ function migrate(d){
   d.shopSites ||= [...SHOP_DEFAULTS];
   d.orderList ||= [];
   d.materialList ||= null;   // one imported library of material facts, looked up when you add a material
-  d.formulas ||= []; d.materials ||= [];       // a hand-written or empty file must not crash + New formula
+  // a hand-written or damaged file must not crash + New formula: what is not a list becomes one, what is not an entry goes
+  const rows = x => Array.isArray(x) ? x.filter(e => e && typeof e === "object") : [];
+  d.formulas = rows(d.formulas); d.materials = rows(d.materials);
   d.materialCategories ||= ["Uncategorised"];
   d.formulaCategories ||= ["Uncategorised"];
   d.suppliers ||= [];
@@ -841,8 +849,13 @@ function migrate(d){
   for (const f of d.formulas || []){
     freshId(f, "f-");
     f.name ||= "Unnamed formula";          // the list and the header read this, and would stop on undefined
-    f.versions ||= [];
-    for (const v of f.versions) v.lines ||= [];
+    f.versions = rows(f.versions);
+    let vmax = 0;
+    for (const v of f.versions){
+      v.lines = rows(v.lines);
+      if (typeof v.v !== "number" || !isFinite(v.v)) v.v = vmax + 1;   // a missing number gave versions "vundefined" and "vNaN"
+      vmax = Math.max(vmax, v.v);
+    }
     oldVars += (f.variations || []).length;   // variations were dropped in build 260915b; the field is left as it is, but not shown
     for (const v of f.versions || [])      // Formulair imports are read-only
       if (v.sourceName && v.imported === undefined) v.imported = true;
@@ -854,9 +867,11 @@ function migrate(d){
   for (const m of d.materials || []){
     freshId(m, "m-");
     m.name ||= "Unnamed material";
-    if (!Array.isArray(m.dilutions) || !m.dilutions.length) m.dilutions = [{pct: 100, isBase: true, date: today(), notes: ""}];
+    m.dilutions = rows(m.dilutions);   // the calculation reads d.pct on every render: an empty slot there would stop it
+    if (!m.dilutions.length) m.dilutions = [{pct: 100, isBase: true, date: today(), notes: ""}];
     delete m._descHit;   // transient search flag that once leaked into the file
   }
+  d.orderList = rows(d.orderList);
   for (const o of d.orderList){            // old free-text amounts → number + unit
     if (typeof o.amount === "string"){
       const am = o.amount.match(/([\d.,]+)\s*(g|gr|gram|ml)?/i);
@@ -869,6 +884,10 @@ function migrate(d){
   return d;
 }
 const looksLikeData = p => !!p && typeof p === "object" && Array.isArray(p.formulas) && Array.isArray(p.materials);
+function migrateSafe(parsed){   // a file damaged beyond repair says so, instead of stopping the start-up in silence
+  try{ return migrate(parsed); }
+  catch(e){ try{ console.warn("miFormulas: this file could not be read", e); }catch(_){} alert(CORRUPT_MSG); return null; }
+}
 const NOT_DATA_MSG = "This is not a miFormulas data file: it holds no formulas and materials.\n\nTo bring in a single formula or a materials library, use Import formula… or Import materials library… behind ⇅ in the header.";
 async function offerSnapshot(){   // the landing offers the snapshot of today (or of the last day you worked)
   const bak = await idb.get("dailyBak");
@@ -897,7 +916,8 @@ async function loadFromHandle(h){
   try{ parsed = JSON.parse(await f.text()); }
   catch(e){ alert(CORRUPT_MSG); return false; }
   if (!looksLikeData(parsed)){ alert(NOT_DATA_MSG); return false; }
-  DATA = migrate(parsed);
+  const d = migrateSafe(parsed); if (!d) return false;
+  DATA = d;
   HANDLE = h; await idb.set("fileHandle", h);
   await idb.set("demoData", null);   // the file is the data now; a browser copy would only go stale
   return true;
@@ -929,7 +949,8 @@ $("#fileFallback").addEventListener("change", async e => {
   try{ parsed = JSON.parse(text); }
   catch(err){ alert(CORRUPT_MSG); return; }
   if (!looksLikeData(parsed)){ alert(NOT_DATA_MSG); return; }
-  DATA = migrate(parsed);
+  const d = migrateSafe(parsed); if (!d) return;
+  DATA = d;
   if (DEMO) idb.set("demoData", text); else idb.set("cachedData", {json: text, when: Date.now(), name: f.name});   // fast path for next visit (iOS)
   boot();
 });
@@ -976,7 +997,12 @@ $("#btnEmpty").addEventListener("click", () => {
   if (!confirm("Start with nothing: no formulas and no materials.\n\nSettings can clear this data again later, which brings this start screen back.")) return;
   DATA = emptyData(); boot(); markDirty();
 });
-let ETAG = null, TOKEN = null, SERVER_EMPTY = false;
+let ETAG = null, TOKEN = null, SERVER_EMPTY = false, ETAGWARNED = false;
+function warnNoEtag(){   // said once per session, whether the load or the save is the one that cannot see it
+  if (ETAGWARNED) return;
+  ETAGWARNED = true;
+  alert("This server does not pass an ETag back to the app, so miFormulas cannot warn you when another device saved in the meantime. Everything else works; a proxy or a missing Access-Control-Expose-Headers is the usual cause.");
+}
 let LOADED = false;   // the data in memory came from this server (or was written to it); false after a restored snapshot
 async function probeServer(){
   // earlier builds always talked to data.php next to the app; keep that working without configuration.
@@ -1000,13 +1026,11 @@ async function remoteLoad(){
     if (r.status === 404){ SERVER_EMPTY = true; return false; }   // no data file there yet: the landing offers the starter set
     if (!r.ok){ alert(`Could not load data from the server (HTTP ${r.status}).`); return false; }
     ETAG = r.headers.get("ETag");
-    if (!ETAG && !remoteLoad._etagWarned){   // without it the server cannot see that two devices wrote at once
-      remoteLoad._etagWarned = true;
-      alert("This server does not pass an ETag back to the app, so miFormulas cannot warn you when another device saved in the meantime. Everything else works; a proxy or a missing Access-Control-Expose-Headers is the usual cause.");
-    }
+    if (!ETAG) warnNoEtag();   // without it the server cannot see that two devices wrote at once
     let parsed; try{ parsed = await r.json(); }catch(e){ alert(CORRUPT_MSG); return false; }
     if (!looksLikeData(parsed)){ alert(NOT_DATA_MSG); return false; }
-    DATA = migrate(parsed); LOADED = true;
+    const d = migrateSafe(parsed); if (!d) return false;
+    DATA = d; LOADED = true;
     return true;
   }catch(e){ alert("Server not reachable: " + e.message); return false; }
 }
@@ -1031,7 +1055,12 @@ async function remoteSave(){
     if (r.status === 401){ TOKEN = null; await idb.set("token", null);
       setState("Token rejected: use Backup, then reload to enter it again", "", true); return; }
     if (!r.ok){ setState(`Save failed (server ${r.status}) – use Backup`, "", true); return; }
-    ETAG = r.headers.get("ETag") || ETAG; LOADED = true;
+    // the new etag travels in the header and in the answer body; keeping the old one would make every later PUT
+    // send a stale If-Match and collect a 409 that is not a conflict at all
+    let ans = null; try{ ans = await r.json(); }catch(e){}
+    ETAG = r.headers.get("ETag") || (ans && ans.etag) || null;
+    if (!ETAG) warnNoEtag();
+    LOADED = true;
     remoteSave._warned = false;
     finishSave(gen, "server");
     return true;
@@ -1051,8 +1080,12 @@ async function saveData(){          // the gate: one write at a time, and a manu
   SAVING = (async () => {
     let ok = false;
     try{ ok = await saveNow(); }
-    finally{ SAVING = null; if (SAVEAGAIN){ SAVEAGAIN = false; if (DIRTY) saveData(); } }
-    return ok;   // true when the data reached its place (file, browser or server)
+    finally{ SAVING = null; }
+    // a change that arrived while we were writing is not written yet, and whoever awaits this waits for that one too:
+    // Settings and Forget reload the page right after, so returning early would drop the last change
+    if (SAVEAGAIN && DIRTY){ SAVEAGAIN = false; return await saveData(); }
+    SAVEAGAIN = false;
+    return ok && !DIRTY;   // true only when the data really reached its place (file, browser or server)
   })();
   return SAVING;
 }
@@ -1499,7 +1532,8 @@ function renderFormula(f){
   }
   c.innerHTML = h;
   $("#btnBenchToggle")?.addEventListener("click", () => {
-    if (!sub.bench && item && !item.bench){   // first bench open: create the 5 default groups, explicitly saved
+    if (!sub.bench && item && !item.bench && !readOnly()){   // first bench open: create the 5 default groups, explicitly saved
+                                                            // (not in the read-only mode: a change there can never be written)
       snapF(f);
       item.bench = {groups: Array.from({length:5}, (_,i) => ({id: uid("g"), title: "Group " + (i+1), keys: []}))};
       markDirty();

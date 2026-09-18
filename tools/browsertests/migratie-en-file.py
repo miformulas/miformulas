@@ -26,4 +26,14 @@ async def main():
         print(("OK   " if (st and "Open data file" in op and modes==[False,False]) else "FOUT ")+"file://: bestandsmodus, starterknop, 'Open data file…', DEMO=REMOTE=false (%s, starterknop %s)"%(modes, st))
         print(("OK   " if not errs else "FOUT ")+"file://: geen JavaScript-fouten"+("" if not errs else ": "+errs[0][:200]))
         await b.close()
+        # D. bouw 260918a: zonder IndexedDB (privevenster, geblokkeerde opslag) moet data.php nog altijd gezocht worden
+        DATAFILE = '{"formulas": [], "materials": [], "meta": {"schema": 1}}'
+        b=await p.chromium.launch(); ctx=await b.new_context(); page=await ctx.new_page()
+        page.on("dialog", lambda d: asyncio.ensure_future(d.dismiss()))
+        await page.add_init_script("Object.defineProperty(window, 'indexedDB', {get(){ throw new DOMException('blocked'); }});")
+        await page.route("**/data.php*", lambda r: asyncio.ensure_future(r.fulfill(status=200, content_type="application/json", body=DATAFILE)))
+        await page.goto(URL); await page.wait_for_timeout(1500)
+        st=await page.evaluate("[!!idb.db, REMOTE, API]")
+        print(("OK   " if st==[False, True, "data.php"] else "FOUT ")+"zonder IndexedDB wordt data.php toch gezocht en gevonden: %s"%st)
+        await b.close()
 asyncio.run(main())
