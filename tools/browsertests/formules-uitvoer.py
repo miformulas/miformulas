@@ -69,6 +69,42 @@ with sync_playwright() as pw:
           "material" in l0 and "dilutionPct" in l0 and "weightG" in l0)
     sol = [l for f in pkg["formulas"] for v in f["versions"] for l in v["lines"] if l.get("solvent")]
     check(f"de solventregels dragen hun vlag ({len(sol)})", len(sol) > 0)
+    # ---------------- bouw 260918b: een regel naar een gewist materiaal ----------------
+    # calc geeft zo'n regel een leeg materiaal, waarna de Excel-uitvoer letterlijk "undefined" schreef
+    page.evaluate("""() => { DATA.formulas = []; DATA.materials = []; DATA.orderList = [];
+        DATA.materials.push({id: "m-1", name: "Blijver", category: "Test", pyramid: 2, isSolvent: false,
+                             dilutions: [{pct: 100, isBase: true}]});
+        DATA.materials.push({id: "m-weg", name: "Verdwijner", category: "Test", pyramid: 2, isSolvent: false,
+                             dilutions: [{pct: 100, isBase: true}]});
+        DATA.formulas.push({id: "f-1", name: "Met een gat", category: "Test", created: today(), versions: [
+            {v: 1, date: "2026-05-05", lines: [{materialId: "m-1", dilutionPct: 100, weightG: 10, remark: 1},
+                                               {materialId: "m-weg", dilutionPct: 100, weightG: 5, remark: 1}]}]});
+        DATA.materials = DATA.materials.filter(m => m.id !== "m-weg");   // het materiaal weg, de regel blijft
+        invalidateMats(); buildUsage(); markDirty(); switchTab("F", "f-1", {type: "v", idx: 0}); }""")
+    page.wait_for_timeout(700)
+    tmp3 = tempfile.mkdtemp()
+    msgs.clear()
+    with page.expect_download() as dl3:
+        page.click("#btnCsv")
+    pad3 = os.path.join(tmp3, "versie.csv"); dl3.value.save_as(pad3)
+    page.wait_for_timeout(300)
+    tekst3 = open(pad3, encoding="utf-8-sig").read()
+    check(f"de uitvoer van de versie vraagt eerst ({[m[:40] for m in msgs]})",
+          any("no longer exists" in m for m in msgs))
+    check("en schrijft geen undefined", "undefined" not in tekst3 and "Blijver" in tekst3)
+    page.click("#btnIO"); page.wait_for_timeout(400)
+    msgs.clear()
+    with page.expect_download() as dl4:
+        page.click("#btnExpF")
+    pad4 = os.path.join(tmp3, "alles.csv"); dl4.value.save_as(pad4)
+    page.wait_for_timeout(300)
+    tekst4 = open(pad4, encoding="utf-8-sig").read()
+    check(f"Export all formulas (Excel) vraagt hetzelfde ({[m[:40] for m in msgs]})",
+          any("no longer exists" in m for m in msgs))
+    check("en schrijft geen undefined", "undefined" not in tekst4 and "Blijver" in tekst4)
+    rijen4 = [r for r in tekst4.splitlines() if "Met een gat" in r]
+    check(f"de verweesde regel staat er niet in, de Total-regel wel ({len(rijen4)} rijen)", len(rijen4) == 2)
+
     check(f"geen paginafouten bij de afzender ({errs[:2]})", not errs)
     ctx.close()
 

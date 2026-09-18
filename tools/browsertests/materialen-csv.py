@@ -213,6 +213,61 @@ with sync_playwright() as pw:
     check(f"mislukt ophalen geeft een melding ({msgs3})", any("could not be fetched" in m for m in msgs3))
     check("het venster staat nog open en de knop is weer bruikbaar", page.locator("#csvMap").is_visible() and not page.locator("#csvLibGet").is_disabled())
     page.click("#dlgCancel"); page.wait_for_timeout(300)
+    # ---------------- 7. bouw 260918b: aliassen, negatieve getallen, de BOM en een verkeerd blad ----------------
+    page.evaluate("""(t) => { DATA.materials = []; DATA.orderList = [];
+        setMaterialList(JSON.parse(t)); markDirty(); render(); }""", open(lib, encoding="utf-8").read())
+    page.wait_for_timeout(400)
+    # de bibliotheek kent "Hedione" met de alias "Methyl dihydrojasmonate"; het blad brengt een eigen alias mee
+    alias = os.path.join(tmp, "alias.csv")
+    open(alias, "w", encoding="utf-8", newline="").write(
+        "Name,Alternative names,Cost EUR/g,Density g/ml\r\n"
+        "Methyl dihydrojasmonate,MDJ,0.085,0.99\r\n"
+        "Iso E Super,,-2,-1,5\r\n")
+    msgs3.clear(); page.set_input_files("#impCsv", alias); page.wait_for_timeout(900)
+    page.click("#dlgOk"); page.wait_for_timeout(1000)
+    al = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Methyl dihydrojasmonate");
+        return m ? (m.aliases || "") : null; }""")
+    check(f"de alias uit het blad komt erbij zonder die uit de bibliotheek te wissen ({al})",
+          al is not None and "MDJ" in al and "Hedione" in al)
+    neg = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Iso E Super");
+        return m ? {cost: m.costPerGram, dens: m.density} : null; }""")
+    check(f"een negatieve prijs en dichtheid komen er niet in ({neg})",
+          neg is not None and neg["cost"] in (None, "") and neg["dens"] in (None, ""))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+
+    # een UTF-8 BOM op een bestand dat verderop geen geldige UTF-8 is: de terugval mocht de BOM niet laten staan
+    mojibake = os.path.join(tmp, "mojibake.csv")
+    open(mojibake, "wb").write(b"\xef\xbb\xbfName,Supplier\r\nCistus\xe9,Robertet\x92s\r\n")
+    page.set_input_files("#impCsv", mojibake); page.wait_for_timeout(900)
+    kolom = page.evaluate("() => document.querySelector('#csv_name').value")
+    kop = page.evaluate("() => [...document.querySelectorAll('#dlg table.lines thead th')].map(t => t.textContent)")
+    check(f"de eerste kolom heet Name en koppelt vanzelf, zonder BOM ervoor ({kop})",
+          kolom == "0" and kop and kop[0] == "Name")
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+
+    # een blad met formules hoort in het andere venster
+    fblad = os.path.join(tmp, "formules.csv")
+    open(fblad, "w", encoding="utf-8", newline="").write(
+        "Formula,Entry,Material,Dilution %,Weight g\r\nAura,v1,Hedione,100,10\r\n")
+    msgs3.clear(); page.set_input_files("#impCsv", fblad); page.wait_for_timeout(900)
+    page.click("#dlgOk"); page.wait_for_timeout(600)
+    check(f"een formulesblad wordt geweigerd met de weg erbij ({[m[:40] for m in msgs3]})",
+          any("sheet of formulas" in m and "Import formula" in m for m in msgs3))
+    check("en het venster blijft open", page.locator("#csvMap").is_visible())
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+
+    # lege uitvoer: zeggen dat er niets is, in plaats van een leeg bestand te schrijven
+    page.evaluate("""() => { DATA.materials = []; DATA.formulas = []; markDirty(); render(); }""")
+    page.wait_for_timeout(400)
+    page.click("#btnIO"); page.wait_for_timeout(400)
+    msgs3.clear(); page.click("#btnExpM"); page.wait_for_timeout(600)
+    check(f"een lege inventaris levert geen leeg bestand ({[m[:40] for m in msgs3]})",
+          any("no materials in your inventory" in m for m in msgs3))
+    page.click("#btnIO"); page.wait_for_timeout(400)          # het venster sluit bij elke uitvoerknop
+    msgs3.clear(); page.click("#btnExpF"); page.wait_for_timeout(600)
+    check(f"en een lege formulelijst evenmin ({[m[:40] for m in msgs3]})",
+          any("no formulas to export" in m for m in msgs3))
+
     check(f"geen paginafouten in deel 6 ({errs3[:2]})", not errs3)
 
     check(f"geen paginafouten ({errs2[:2]})", not errs2)

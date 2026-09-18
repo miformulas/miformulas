@@ -158,6 +158,20 @@ with sync_playwright() as p:
           "5 line(s) cannot be imported" in txt and page.locator("#btnImpOk").is_disabled())
     page.click("#btnImpCancel"); page.wait_for_timeout(400)
 
+    # ---------- 8. bouw 260918b: een gewicht dat geen getal is omdat het oneindig is ----------
+    oneindig = schrijf("oneindig.json", {"type": "miformulas-import", "name": "Oneindig", "lines": [
+        {"material": goed, "dilutionPct": 100, "weightG": 10},
+        {"material": goed, "dilutionPct": 100, "weightG": "1e999"},
+    ]})
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    page.set_input_files("#impFile", oneindig); page.wait_for_timeout(900)
+    txt = page.text_content("#content")
+    check("een oneindig gewicht komt niet door de poort",
+          "1 line(s) cannot be imported" in txt and page.locator("#btnImpOk").is_disabled())
+    check("met dezelfde reden als andere onleesbare gewichten", "weight is not a number" in txt)
+    check("en het totaal telt het niet mee", "\u221e" not in txt)
+    page.click("#btnImpCancel"); page.wait_for_timeout(400)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

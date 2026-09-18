@@ -176,11 +176,49 @@ with sync_playwright() as pw:
     page.set_input_files("#impFile", stuk); page.wait_for_timeout(900)
     check("de teller meldt de rij zonder materiaalnaam", "1 row(s) without a material name" in page.text_content("#fcsvCount"))
     page.click("#dlgOk"); page.wait_for_timeout(1000)
-    check("de voorvertoning zet twee regels rood", page.locator("tr.badLine").count() == 2)
+    check("de voorvertoning zet één regel rood: de rij zonder naam is er al uit (bouw 260918b)",
+          page.locator("tr.badLine").count() == 1)
     check("Confirm import staat uit", page.locator("#btnImpOk").is_disabled())
     check("met de reden in de kolom Status", "weight is not a number" in page.text_content("table.lines"))
+    check("en de rij zonder naam staat in de controleregel, niet in het rood",
+          page.locator("#impCheck").count() == 1 and "no material name" in page.text_content("#impCheck"))
     page.click("#btnImpCancel"); page.wait_for_timeout(500)
     check("er is niets veranderd", page.evaluate("DATA.formulas.length") == 0)
+
+    # ---------------- 4b. bouw 260918b: de Total-regel, het doorlopende label en de datum ----------------
+    total = schrijf(os.path.join(tmp, "total.csv"),      # de dilutiekolom in Excel naar beneden doorgetrokken
+        "Formula,Entry,Date,Material,Dilution %,Weight g\r\n"
+        "Doorgetrokken,v1,2026-02-03,Geraniol,100,10\r\n"
+        "Doorgetrokken,v1,2026-02-03,Hedione,100,15\r\n"
+        "Doorgetrokken,v1,2026-02-03,Total,100,25\r\n")
+    page.set_input_files("#impFile", total); page.wait_for_timeout(900)
+    check("een Total-regel met een dilutie telt niet als regel",
+          "1 formula(s) · 1 version(s) · 2 line(s)" in page.text_content("#fcsvCount"))
+    page.click("#dlgOk"); page.wait_for_timeout(1000)
+    check("en de gewichtscontrole klopt, dus geen waarschuwing", page.locator("#impCheck").count() == 0)
+    check("geen materiaal Total in de voorvertoning", "Total" not in page.text_content("table.lines tbody"))
+    page.click("#btnImpOk"); page.wait_for_timeout(1000)
+    na = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Doorgetrokken");
+        return {n: f.versions[0].lines.length, datum: f.versions[0].date,
+                total: DATA.materials.some(m => /^total$/i.test(m.name)),
+                bestel: (DATA.orderList || []).some(o => /^total$/i.test(o.name))}; }""")
+    check(f"twee regels binnen, geen materiaal Total, geen bestelregel ({na})",
+          na["n"] == 2 and not na["total"] and not na["bestel"])
+    check(f"en de datum uit het blad staat op de versie ({na['datum']})", na["datum"] == "2026-02-03")
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+
+    label = schrijf(os.path.join(tmp, "label.csv"),       # het label staat alleen bij de eerste formule
+        "Formula,Entry,Material,Dilution %,Weight g\r\n"
+        "Eerste,v1 45gr,Geraniol,100,10\r\n"
+        "Tweede,,Hedione,100,10\r\n"
+        "Derde,,Geraniol,100,10\r\n")
+    page.set_input_files("#impFile", label); page.wait_for_timeout(900)
+    page.click("#dlgOk"); page.wait_for_timeout(1000)
+    page.click("#btnImpOk"); page.wait_for_timeout(1200)
+    labels = page.evaluate("""() => ["Eerste", "Tweede", "Derde"].map(n => {
+        const f = DATA.formulas.find(x => x.name === n); return f ? f.versions[0].name : "?"; })""")
+    check(f"het label loopt niet door naar de volgende formule ({labels})", labels == ["45gr", "", ""])
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
 
     # ---------------- 5. een materialenblad hoort hier niet ----------------
     mats = schrijf(os.path.join(tmp, "kast.csv"),
