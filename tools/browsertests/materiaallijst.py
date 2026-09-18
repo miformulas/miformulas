@@ -253,6 +253,42 @@ with sync_playwright() as p:
     pg2 = ctx.new_page(); pg2.on("dialog", lambda d: d.accept())
     pg2.goto(URL); pg2.wait_for_timeout(1200)
     check("the list is still there in a new visit", pg2.evaluate("DATA.materialList && DATA.materialList.materials.length") == 5)
+    # ---------- bouw 260918c: accenten en de ligatuur œ staan een zoekopdracht niet meer in de weg ----------
+    page.evaluate("""() => { setMaterialList(normLibrary({type: "miformulas-materials", name: "Accenten", version: "1",
+        materials: [{name: "Vetiver Ha\u00efti", cas: "8016-96-4", category: "Woody", pyramid: 4},
+                    {name: "Patchouli c\u0153ur", cas: "8014-09-3", category: "Woody", pyramid: 4}]}));
+        DATA.materials = []; DATA.orderList = []; invalidateMats(); markDirty();
+        switchTab("M", null, null); }""")
+    page.wait_for_timeout(600)
+    page.fill("#searchBox", "haiti"); page.wait_for_timeout(500)
+    check("de bibliotheek biedt Vetiver Ha\u00efti aan als je haiti typt",
+          page.locator('#list button[data-add="Vetiver Ha\u00efti"]').count() == 1)
+    page.fill("#searchBox", "coeur"); page.wait_for_timeout(500)
+    check("en Patchouli c\u0153ur als je coeur typt",
+          page.locator('#list button[data-add="Patchouli c\u0153ur"]').count() == 1)
+    page.fill("#searchBox", ""); page.wait_for_timeout(300)
+    check("listFind vindt ze ook zonder de accenten",
+          page.evaluate("""() => { const a = listFind("Vetiver Haiti"), b = listFind("patchouli coeur");
+              return [a && a.cas, b && b.cas]; }""") == ["8016-96-4", "8014-09-3"])
+    page.click("#btnNewMat"); page.wait_for_timeout(300)
+    page.fill("#nmName", "Vetiver Haiti"); page.wait_for_timeout(400)
+    check("+ New material toont de feiten uit de bibliotheek bij de naam zonder accent",
+          "8016-96-4" in page.text_content("#nmFound"))
+    page.click("#dlgOk"); page.wait_for_timeout(700)
+    nieuw = page.evaluate("""() => { const m = DATA.materials.find(x => /vetiver/i.test(x.name));
+        return m && {naam: m.name, cas: m.cas, pyr: m.pyramid}; }""")
+    check(f"en het materiaal komt niet kaal binnen ({nieuw})",
+          nieuw and nieuw["cas"] == "8016-96-4" and nieuw["pyr"] == 4)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    zoek = page.evaluate("""() => { DATA.materials = [{id:"m-h", name:"Vetiver Ha\u00efti", category:"Woody",
+            pyramid:4, isSolvent:false, dilutions:[{pct:100, isBase:true}]}];
+        invalidateMats(); markDirty(); switchTab("M", null, null); return true; }""")
+    page.wait_for_timeout(500)
+    page.fill("#searchBox", "haiti"); page.wait_for_timeout(500)
+    check("en de zijbalk vindt je eigen materiaal met accent op dezelfde manier",
+          page.locator("#list .item").count() == 1)
+    page.fill("#searchBox", ""); page.wait_for_timeout(300)
+
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

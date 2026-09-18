@@ -119,6 +119,47 @@ with sync_playwright() as p:
     check(f"a delivered material that the library knows is not bare ({m3})",
           m3 and m3["cas"] == "106-02-5" and m3["cat"] == "Musks" and abs(m3["cpg"] - 2) < 1e-9 and not m3["wish"])
 
+    # ---------- 6. bouw 260918c: een alternatieve naam telt meteen mee ----------
+    page.evaluate("""() => {
+      DATA.materials = [{id:"m-amb", name:"Ambroxide", category:"Test", pyramid:4, isSolvent:false,
+                         dilutions:[{pct:100, isBase:true}]}];
+      DATA.orderList = [];
+      DATA.formulas = [{id:"f-al", name:"Aliastest", category:"Uncategorised", created:today(),
+                        versions:[{v:1, date:today(), lines:[{materialId:"m-amb", dilutionPct:100, weightG:10, remark:1}]}]}];
+      invalidateMats(); buildUsage(); markDirty();
+      matByName("Ambroxide");                       // de naamindex staat er nu, zoals na een import of een Add line
+      VIEW = {tab:"M", id:"m-amb", sub:null}; HOMEVIEW = false; setTabs(); render(); }""")
+    page.wait_for_timeout(700)
+    page.fill("[data-f='aliases']", "Ambroxan")
+    page.locator("[data-f='aliases']").press("Tab"); page.wait_for_timeout(600)
+    check("de alias wordt meteen door de naamindex gevonden",
+          page.evaluate("""() => { const m = matByName("Ambroxan"); return m && m.name; }""") == "Ambroxide")
+    msgs.clear()
+    page.evaluate("""() => { switchTab("F", "f-al", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    page.fill("#addMat", "Ambroxan"); page.click("#btnAddLine"); page.wait_for_timeout(800)
+    na = page.evaluate("""() => ({m: DATA.materials.length, o: (DATA.orderList || []).length,
+        regels: DATA.formulas[0].versions[0].lines.map(l => l.materialId)})""")
+    check(f"Add line landt op het bestaande materiaal, zonder tweede materiaal of bestelregel ({na})",
+          na["m"] == 1 and na["o"] == 0 and na["regels"] == ["m-amb", "m-amb"])
+    check("en de tweede regel op dezelfde dilutie vroeg eerst om bevestiging",
+          any("already in this version" in m for m in msgs))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+
+    # ---------- 7. hernoemen naar een naam die een ander als alias draagt ----------
+    page.evaluate("""() => {
+      DATA.materials.push({id:"m-and", name:"Andere stof", category:"Test", pyramid:2, isSolvent:false,
+                           dilutions:[{pct:100, isBase:true}]});
+      invalidateMats(); markDirty(); switchTab("M", "m-and", null); }""")
+    page.wait_for_timeout(700)
+    msgs.clear()
+    page.fill("[data-f='name']", "Ambroxan")
+    page.locator("[data-f='name']").press("Tab"); page.wait_for_timeout(700)
+    check(f"hernoemen naar andermans alias vraagt eerst ({[m[:45] for m in msgs]})",
+          any("as an alternative name" in m for m in msgs))
+    check("en gaat door als je ja zegt, want de eigen naam wint van een alias",
+          page.evaluate("""() => { const m = matByName("Ambroxan"); return m && m.id; }""") == "m-and")
+
     check("no page errors", not errs)
     b.close()
 

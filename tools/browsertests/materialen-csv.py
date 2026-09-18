@@ -235,6 +235,27 @@ with sync_playwright() as pw:
           neg is not None and neg["cost"] in (None, "") and neg["dens"] in (None, ""))
     page.keyboard.press("Control+z"); page.wait_for_timeout(700)
 
+    # een lege maar gekoppelde kolom Solvent mag de vlag uit de bibliotheek niet wissen (bouw 260918c)
+    page.evaluate("""(t) => { DATA.materials = []; DATA.orderList = [];
+        const lib = JSON.parse(t);
+        lib.materials.push({name: "Proefsolvent", cas: "64-17-5", category: "Solvents", isSolvent: true});
+        setMaterialList(normLibrary(lib)); markDirty(); render(); }""", open(lib, encoding="utf-8").read())
+    page.wait_for_timeout(400)
+    solv = os.path.join(tmp, "solvent.csv")
+    open(solv, "w", encoding="utf-8", newline="").write("Name,Solvent\r\nProefsolvent,\r\n")
+    page.set_input_files("#impCsv", solv); page.wait_for_timeout(900)
+    check("de kolom Solvent koppelt vanzelf", page.evaluate("() => document.querySelector('#csv_isSolvent').value") == "1")
+    page.click("#dlgOk"); page.wait_for_timeout(1000)
+    check("een lege cel laat de solventvlag uit de bibliotheek staan",
+          page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Proefsolvent"); return m && !!m.isSolvent; }"""))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+    open(solv, "w", encoding="utf-8", newline="").write("Name,Solvent\r\nProefsolvent,no\r\n")
+    page.set_input_files("#impCsv", solv); page.wait_for_timeout(900)
+    page.click("#dlgOk"); page.wait_for_timeout(1000)
+    check("maar een ingevulde cel beslist wel",
+          page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Proefsolvent"); return m && !m.isSolvent; }"""))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+
     # een UTF-8 BOM op een bestand dat verderop geen geldige UTF-8 is: de terugval mocht de BOM niet laten staan
     mojibake = os.path.join(tmp, "mojibake.csv")
     open(mojibake, "wb").write(b"\xef\xbb\xbfName,Supplier\r\nCistus\xe9,Robertet\x92s\r\n")

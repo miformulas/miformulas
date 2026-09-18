@@ -92,6 +92,84 @@ with sync_playwright() as p:
             for (const r of K.rows){ if (r.m.isSolvent) continue; const e = agg.get(r.m.id) || {m:r.m, rel:0}; e.rel += r.rel||0; agg.set(r.m.id, e); }
             return [...agg.values()].filter(e => e.m.ifraLimit != null && e.m.ifraLimit >= 0 && e.m.ifraLimit < 99).length; })()""") == 1)
 
+    # ---------- 3b. bouw 260918c: een solvent verdwijnt niet meer uit de controle ----------
+    page.evaluate("""() => {
+      const a = DATA.materials.find(m => m.id === "m-a"), bm = DATA.materials.find(m => m.id === "m-b");
+      a.ifraLimit = 99; bm.ifraLimit = 99;                       // nagekeken, geen beperking
+      const e = DATA.materials.find(m => m.id === "m-e");
+      e.ifraLimit = 0.681; e.name = "Benzylbenzoaat (drager)";   // een solvent met een echte limiet
+      invalidateMats(); IDOSE = null; IFRAOPEN = true; markDirty(); render(); }""")
+    page.wait_for_timeout(600)
+    panel = page.text_content("#ifraBox")
+    kop = page.text_content("#ifraBox summary")
+    check(f"het aangevinkte solvent staat er, met zijn limiet ({page.locator('#ifraSolv').count()})",
+          page.locator("#ifraSolv").count() == 1 and "Benzylbenzoaat (drager)" in panel and "0,681" in panel.replace(".", ","))
+    check("met de uitleg waarom er geen percentage bij staat",
+          "part of the finished product all the same" in panel)
+    check(f"en het kopje zwijgt niet meer ({kop!r})", "solvent(s) to check by hand" in kop)
+    page.evaluate("""() => { const e = DATA.materials.find(m => m.id === "m-e"); e.isSolvent = false;
+      invalidateMats(); markDirty(); render(); }""")
+    page.wait_for_timeout(600)
+    check("het vinkje weghalen zet het materiaal gewoon in de tabel",
+          page.locator("#ifraSolv").count() == 0 and "Benzylbenzoaat (drager)" in page.text_content("#ifraBox table"))
+    page.evaluate("""() => { const e = DATA.materials.find(m => m.id === "m-e"); e.isSolvent = true;
+      invalidateMats(); markDirty(); render(); }""")
+    page.wait_for_timeout(400)
+
+    # ---------- 3c. niets nagekeken is geen vrijgave ----------
+    page.evaluate("""() => { for (const m of DATA.materials) m.ifraLimit = null;
+      invalidateMats(); markDirty(); render(); }""")
+    page.wait_for_timeout(600)
+    kop = page.text_content("#ifraBox summary")
+    check(f"het dichtgeklapte kopje zegt dat er niets nagekeken is ({kop!r})", "nothing verified yet" in kop)
+    check("en binnenin staat dezelfde zin, niet 'no restricted materials'",
+          "carries an IFRA limit yet" in page.text_content("#ifraBox") and "No restricted materials present" not in page.text_content("#ifraBox"))
+    page.evaluate("""() => { const a = DATA.materials.find(m => m.id === "m-a"); a.ifraLimit = 99;
+      invalidateMats(); markDirty(); render(); }""")
+    page.wait_for_timeout(500)
+    check("één nagekeken materiaal maakt er weer 'no restricted materials' van",
+          "no restricted materials" in page.text_content("#ifraBox summary"))
+    page.evaluate("""() => { for (const m of DATA.materials) m.ifraLimit = null;
+      const e = DATA.materials.find(m => m.id === "m-a"); e.isSolvent = true;   // alles solvent: ook dan geen vrijgave
+      invalidateMats(); markDirty(); render(); }""")
+    page.wait_for_timeout(600)
+    check(f"ook een formule van louter solventen krijgt geen vrijgave ({page.text_content('#ifraBox summary').strip()!r})",
+          "nothing verified yet" in page.text_content("#ifraBox summary"))
+    page.evaluate("""() => { const e = DATA.materials.find(m => m.id === "m-a"); e.isSolvent = false;
+      invalidateMats(); markDirty(); render(); }""")
+    page.wait_for_timeout(400)
+
+    # ---------- 3d. Deduct base rekent met de basisdilutie ----------
+    page.evaluate("""() => {
+      DATA.materials.push({id:"m-st", name:"Voorraadstof", category:"Test", pyramid:2, isSolvent:false,
+        dilutions:[{pct:10, isBase:true}, {pct:1}], stockEvents:[{t:"take", date: today(), g: 100}]});
+      invalidateMats(); markDirty(); VIEW = {tab:"M", id:"m-st", sub:null}; HOMEVIEW = false; setTabs(); render(); }""")
+    page.wait_for_timeout(700)
+    page.fill("#stDilPct", "1"); page.fill("#stDilG", "50")
+    page.click("#btnDil"); page.wait_for_timeout(700)
+    st = page.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-st");
+        const e = m.stockEvents[m.stockEvents.length - 1];
+        return {g: e.g, base: e.base, qty: stockCalc(m).qty}; }""")
+    check(f"50 g van 1 % uit een basis van 10 % kost 5 g, niet 0,5 g ({st})",
+          abs(st["g"] - 5) < 0.0001 and st["base"] == 10 and abs(st["qty"] - 95) < 0.0001)
+    check("en de regel in het logboek noemt de basis", "base 10%" in page.text_content("#content"))
+    msgs.clear()
+    page.fill("#stDilPct", "50"); page.fill("#stDilG", "10")
+    page.click("#btnDil"); page.wait_for_timeout(600)
+    check(f"een dilutie sterker dan de basis wordt geweigerd ({[m[:45] for m in msgs]})",
+          any("cannot be made out of" in m for m in msgs)
+          and page.evaluate("""() => DATA.materials.find(x => x.id === "m-st").stockEvents.length""") == 2)
+
+    # ---------- 3e. de laatste dilutie blijft staan ----------
+    msgs.clear()
+    page.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-st"); m.dilutions = [{pct: 10, isBase: true}];
+        invalidateMats(); markDirty(); render(); }""")
+    page.wait_for_timeout(600)
+    page.click("[data-deldil='0']"); page.wait_for_timeout(600)
+    check(f"de laatste dilutie kan niet weg ({[m[:45] for m in msgs]})",
+          any("without a dilution" in m for m in msgs)
+          and page.evaluate("""() => DATA.materials.find(x => x.id === "m-st").dilutions.length""") == 1)
+
     # ---------- 4. a materials library with rubbish in it ----------
     LIB = {"type": "miformulas-materials", "name": "Rommel", "version": "1", "materials": [
         {"name": "Goede stof", "aliases": "Alias een; Alias twee", "cas": 12345, "pyramid": "3",
