@@ -33,6 +33,7 @@ with sync_playwright() as pw:
         const nv = {v: 2, date: "2026-03-04", name: "45gr", notes: "Eerste regel.\\nTweede regel met ; en \\" erin.",
                     lines: v1.lines.map(l => ({...l}))};
         nv.lines[0].weightG = 0.0004;                       // een spoorregel mag niet naar 0 afronden
+        nv.lines[1].weightG = 0.0025;                       // drie decimalen zouden hier 0,003 van maken (bouw 260920b)
         const eth = DATA.materials.find(m => m.isSolvent && m.name === "Ethanol");
         nv.lines.push({materialId: eth.id, dilutionPct: 100, weightG: 12.5, remark: 1});
         f.versions.push(nv); markDirty(); render(); }""")
@@ -59,6 +60,8 @@ with sync_playwright() as pw:
     check("de notities houden hun regeleinde", "\n" in rose[0][10])
     spoor = rose[0][6].replace(",", ".")
     check(f"een spoorregel houdt zes decimalen ({rose[0][6]!r})", float(spoor) == 0.0004)
+    halve = rose[1][6].replace(",", ".")
+    check(f"en een gewicht dat drie decimalen niet exact dragen ook ({rose[1][6]!r})", float(halve) == 0.0025)
     tot = [r for r in rose if r[4] == "Total"]
     check(f"de Total-regel sluit de versie af ({len(tot)})", len(tot) == 1 and tot[0][5] == "")
     check("een solventregel draagt (solvent) in de naam", any("(solvent)" in r[4] for r in rose))
@@ -89,13 +92,14 @@ with sync_playwright() as pw:
     check(f"alles is binnen ({na})", na == telling)
     r = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68");
         const v = f.versions[1], m = id => DATA.materials.find(x => x.id === id);
-        return {cat: f.category, n: v.name, d: v.date, notes: v.notes, w0: v.lines[0].weightG,
+        return {cat: f.category, n: v.name, d: v.date, notes: v.notes, w0: v.lines[0].weightG, w1: v.lines[1].weightG,
                 eth: !!m(v.lines[v.lines.length-1].materialId)?.isSolvent, ethw: v.lines[v.lines.length-1].weightG,
                 nums: f.versions.map(x => x.v)}; }""")
     check(f"het versielabel is het label alleen ({r['n']!r})", r["n"] == "45gr")
     check(f"de datum en de categorie komen mee ({r['d']}, {r['cat']})", r["d"] == "2026-03-04" and r["cat"] == "Bases & Accords")
     check("de notities komen mee, met hun regeleinde", r["notes"].startswith("Eerste regel.") and "\n" in r["notes"])
     check(f"de spoorregel overleeft de rondgang ({r['w0']})", abs(r["w0"] - 0.0004) < 1e-9)
+    check(f"en 0,0025 g komt niet als 0,003 terug ({r['w1']})", abs(r["w1"] - 0.0025) < 1e-9)
     check(f"de solventvlag komt mee ({r['eth']}, {r['ethw']} g)", r["eth"] is True and abs(r["ethw"] - 12.5) < 1e-9)
     check(f"de versies zijn hernummerd ({r['nums']})", r["nums"] == [1, 2])
     page.keyboard.press("Control+z"); page.wait_for_timeout(1200)

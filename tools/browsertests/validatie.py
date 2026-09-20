@@ -195,6 +195,40 @@ with sync_playwright() as p:
         check(f"and the snapshot still holds the earlier work ({bak})", bak == ["Months of work"])
         c7.close()
 
+    # ---------- 8. getallen die de app niet aanvaardt (bouw 260920b) ----------
+    res = page.evaluate("""() => { const d = migrate({meta:{schema:1}, formulas:[], materials:[
+        {id:"mx", name:"Zonder basis", dilutions:[{pct:10},{pct:1}]}]});
+        const m = d.materials[0];
+        return {base: (m.dilutions.find(x => x.isBase)||{}).pct, n: m.dilutions.filter(x => x.isBase).length}; }""")
+    check(f"migrate gives a material without a base dilution the strongest one ({res})",
+          res["base"] == 10 and res["n"] == 1)
+
+    page.evaluate("""() => { DATA.formulas.push({id:"f-inf", name:"Oneindig", category:"Uncategorised", versions:[
+        {v:1, date:today(), lines:[{id:"i1", materialId:DATA.materials[0].id, dilutionPct:100, weightG:10, remark:1}]}]});
+        buildUsage(); switchTab("F", "f-inf", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    msgs.clear()
+    page.fill("input.w", "1e400"); page.locator("input.w").first.press("Tab"); page.wait_for_timeout(600)
+    w = page.evaluate("""() => DATA.formulas.find(x => x.id === "f-inf").versions[0].lines[0].weightG""")
+    check(f"an infinite weight is refused and the old figure stays ({msgs[:1]}, {w})", w == 10)
+
+    page.evaluate("""() => { const m = DATA.materials[0];
+        DATA.orderList = [{id:"o1", materialId:m.id, name:m.name, note:"x", amount:20, unit:"g", added:today()}];
+        switchTab("T"); }""")
+    page.wait_for_timeout(600)
+    msgs.clear()
+    page.fill("[data-oamt]", "twintig"); page.locator("[data-oamt]").first.press("Tab"); page.wait_for_timeout(600)
+    check(f"an unreadable amount on the order list keeps the previous one ({msgs[:1]})",
+          page.evaluate("() => DATA.orderList[0].amount") == 20)
+
+    page.evaluate("""() => { const m = DATA.materials[0]; m.stockEvents = [{t:"take", date: today(), g: 100}];
+        switchTab("M", m.id, null); }""")
+    page.wait_for_timeout(700)
+    msgs.clear()
+    page.fill("#stBuyAmt", "-40"); page.click("#btnBuy"); page.wait_for_timeout(600)
+    check(f"a negative purchase is refused ({msgs[:1]})",
+          page.evaluate("""() => (DATA.materials[0].stockEvents||[]).filter(e => e.t === "buy").length""") == 0)
+
     check("no page errors", not errs)
     b.close()
 

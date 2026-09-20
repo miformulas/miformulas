@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
     def rond(o):   # zoals de app bij het opslaan: niet-gehele getallen op 6 decimalen
         if isinstance(o, float):
-            return o if o == int(o) else round(o, 6)
+            return int(o) if o.is_integer() else round(o, 6)   # 100, niet 100.0: precies wat de app schrijft
         if isinstance(o, dict):
             return {k: rond(v) for k, v in o.items()}
         if isinstance(o, list):

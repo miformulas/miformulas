@@ -198,6 +198,28 @@ with sync_playwright() as p:
     check(f"the IFRA label sits beside its own field ({grid})", grid["sameRow"] and grid["labelLeft"])
     check("and so does the cost label, hint and all", grid["costSameRow"] and grid["costLabelLeft"])
 
+    # ---------- the export keeps the weight it was given (build 260920b) ----------
+    w = page.evaluate("""() => [wCsv(12.5), wCsv(0.0025), wCsv(0.0005), wCsv(0.0004), wCsv(0), wCsv(100.00005)]""")
+    check(f"wCsv writes six decimals only where three would change the weight ({w})",
+          w[0] == "12.500" and w[1] == "0.002500" and w[2] == "0.000500" and w[3] == "0.000400"
+          and w[4] == "0.000" and w[5] == "100.000050")
+
+    # ---------- Apply on a target total nobody typed changes nothing (build 260920b) ----------
+    page.evaluate("""() => { SCALEOPEN = true;
+        DATA.formulas.push({id:"f-round", name:"Rounding", category:"Uncategorised", versions:[{v:1, date:today(), lines:[
+          {id:"r1", materialId:DATA.materials[0].id, dilutionPct:100, weightG:3.3333, remark:1},
+          {id:"r2", materialId:DATA.materials[1].id, dilutionPct:100, weightG:96.66675, remark:1}]}]});
+        buildUsage(); switchTab("F", "f-round", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    veld = page.locator("#scaleW").input_value()
+    voor = page.evaluate("""() => DATA.formulas.find(x=>x.id==="f-round").versions[0].lines.map(l=>l.weightG)""")
+    page.click("#btnApplyScale"); page.wait_for_timeout(700)
+    na = page.evaluate("""() => DATA.formulas.find(x=>x.id==="f-round").versions[0].lines.map(l=>l.weightG)""")
+    check(f"Apply on an untouched target total leaves every weight alone ({veld!r}: {voor} -> {na})", voor == na)
+    page.fill("#scaleW", "200"); page.click("#btnApplyScale"); page.wait_for_timeout(700)
+    tot = page.evaluate("""() => DATA.formulas.find(x=>x.id==="f-round").versions[0].lines.reduce((s,l)=>s+l.weightG,0)""")
+    check(f"but a target you type is applied ({tot})", abs(tot - 200) < 1e-9)
+
     check("no page errors", not errs)
     b.close()
 

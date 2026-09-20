@@ -342,7 +342,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920a</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920b</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -407,7 +407,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260920a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260920b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -643,7 +643,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <h2 id="s10-formulas-and-versions">10. Formulas and versions</h2>
 <p>A <strong>formula</strong> is a named recipe in a category. Its history is a row of <strong>versions</strong>: v1, v2, v3 and so on, each with a date, an optional label, notes and its own lines. Only the latest version can be edited; every earlier version is a frozen record of what you did, kept exactly as it was. When you want to change something, create a new version (<strong>+ New version</strong> copies the version you are looking at) and edit that. Deleting a version is possible, deleting the past is not: a new version never rewrites an old one.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s10-formulas-and-versions">The version row: the version list, + New version and Compare…</a></p>
-<p>Another presentation of the same recipe is a version too: the formula at 20 % instead of 15 %, with the costly material taken from the 10 % dilution instead of the pure one (make a new version and change the dilutions with <strong>Preserve rel % and exchange solvent</strong>, section <a href="#s13-changing-dilutions">13</a>), or made up as a 44 g batch instead of 100 g (Batch scaling, section <a href="#s14-batch-scaling-and-predilutions">14</a>, or simply the target total on the weighing sheet, which rescales the print without touching the formula). Give such a version a label with the <strong>pencil</strong> ("20%", "soap", "44gr") so the list tells them apart. Earlier builds had a separate notion of "variations" for this; it went in build 260915b, because versions do the same with less to learn. A data file that still holds variations loads with a warning: they are left in the file untouched, but not shown.</p>
+<p>Another presentation of the same recipe is a version too: the formula at 20 % instead of 15 %, with the costly material taken from the 10 % dilution instead of the pure one (make a new version and change the dilutions with <strong>Preserve rel % and exchange solvent</strong>, section <a href="#s13-changing-dilutions">13</a>), or made up as a 44 g batch instead of 100 g (Batch scaling, section <a href="#s14-batch-scaling-and-predilutions">14</a>). Give such a version a label with the <strong>pencil</strong> ("20%", "soap", "44gr") so the list tells them apart. Earlier builds had a separate notion of "variations" for this; it went in build 260915b, because versions do the same with less to learn. A data file that still holds variations loads with a warning: they are left in the file untouched, but not shown.</p>
 <p>Formulas imported from Formulair are frozen too (section <a href="#s6-coming-from-formulair">6</a>): you read them, compare them and copy them, but to work on one you make a new version.</p>
 <p>Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with the <strong>pencil</strong>, write notes, add trial-log entries, set colour marks, arrange the bench view and use <strong>Mark as prepared</strong> on a frozen version: those are your annotations about it, not the recipe itself. In the version list a <strong>🔒</strong> marks a version that came in from an import, and the name it carried there is shown after the version number as a reference; the window behind the <strong>pencil</strong> has a tick box <strong>show the import reference</strong> to hide that name in the list once the grouping is done. It only hides it: the reference stays in the file, so a second Formulair import still recognises the formula.</p>
 <p><strong>Move into…</strong> appears on any formula that still has one version, whatever it came from: a formula from the Formulair import, one you brought in with Import formula…, or one you typed yourself. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along; an import keeps its import name as a reference and stays frozen, a formula of your own arrives as an ordinary version that keeps its name as the version label, so nothing of it is lost from the list. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s6-coming-from-formulair">6</a>). When other single-version formulas share the name, the dialog lists them under <strong>Move together</strong>: those whose name carries a version number ("Aura v04", "Aura v05 20%") come ticked and go into the target in the same go, as versions numbered by that number and then by name. Untick what should stay, and add any other single-version formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
@@ -655,7 +655,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s11-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
 <p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s20-import-and-export">20</a>) it arrives with the facts the library holds, exactly as <strong>+ New material</strong> does; the same goes for a formula import and for <strong>Delivered</strong> on the order list.</p>
 <p>The table can be ordered by original entry, by category or by pyramid level (top to base), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
-<p>Below the table sit <strong>Batch scaling</strong> (section <a href="#s14-batch-scaling-and-predilutions">14</a>), <strong>Notes</strong>, the <strong>Trial log</strong> (section <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>), the <strong>Categories</strong> panel and the <strong>IFRA check</strong> (section <a href="#s18-ifra-check-and-category-panel">18</a>), and <strong>Mark as prepared</strong> for the stock ledger (section <a href="#s19-stock-orders-and-deliveries">19</a>).</p>
+<p>Below the table sit <strong>Batch scaling</strong> (section <a href="#s14-batch-scaling-and-predilutions">14</a>, on the editable version only), <strong>Notes</strong>, the <strong>Trial log</strong> (section <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>), the <strong>Categories</strong> panel and the <strong>IFRA check</strong> (section <a href="#s18-ifra-check-and-category-panel">18</a>), and <strong>Mark as prepared</strong> for the stock ledger (section <a href="#s19-stock-orders-and-deliveries">19</a>).</p>
 <h2 id="s12-percentages-and-the-perfumery-arithmetic">12. Percentages and the perfumery arithmetic</h2>
 <p>The table shows two percentages per line, and they follow perfumery practice rather than plain weight shares.</p>
 <p>The <strong>content</strong> of a line is its weight corrected for the dilution: 2 g of a 10 % dilution is 0.2 g of material.</p>
@@ -676,7 +676,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s13-changing-dilutions">Ticked lines and the tick bar: marks, Lower and Higher, Create predilution…</a></p>
 <p>Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent".</p>
 <h2 id="s14-batch-scaling-and-predilutions">14. Batch scaling and predilutions</h2>
-<p><strong>Batch scaling</strong> sits under the table. <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). <strong>Target total</strong> rescales the whole formula to a given weight. <strong>Set EtOH for target abs %</strong> changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none; the hint shows the maximum reachable with no ethanol at all. On a read-only entry the target field is still there, because the printed weighing sheet uses it: type 10 g and print a 10 g weighing sheet without touching the formula.</p>
+<p><strong>Batch scaling</strong> sits under the table. <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). <strong>Target total</strong> rescales the whole formula to a given weight. <strong>Set EtOH for target abs %</strong> changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none; the hint shows the maximum reachable with no ethanol at all. Batch scaling is there on the editable version only, and the printed weighing sheet always shows the weights as they are stored. To weigh another quantity, make a new version and scale that one: the batch on your bench then carries a version number that points back into the app, which a rescaled print would not.</p>
 <p><strong>Create predilution…</strong> bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line you will have to weigh, in grams like every other weight in the app, so you can see at a glance which factor makes it weighable), then creates three things at once: a frozen predilution formula in the category "Predilutions", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s14-batch-scaling-and-predilutions">Create predilution: name, batch factor and a preview of the mix.</a></p>
 <h2 id="s15-colour-marks-notes-and-the-trial-log">15. Colour marks, notes and the trial log</h2>
@@ -687,7 +687,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s16-bench-view-and-printing">Bench view: the Unsorted column with its own sort order on the left, the groups you build the batch with on the right.</a></p>
 <p>From the table view, four buttons under the lines, in this order: <strong>Print full formula</strong>, <strong>Excel export</strong>, <strong>Share this version…</strong> and <strong>Print weighing sheet</strong>. The line under them says what each is for. The two prints are not the same sheet: the full formula is the record of the version, the weighing sheet is what you work from at the bench. <strong>Ctrl+P</strong> or File › Print without one of these buttons prints the weighing sheet of the version you are looking at, and outside a formula it prints a line saying so: what goes to the printer is never a sheet left over from earlier.</p>
 <ul>
-<li><strong>Print weighing sheet</strong> prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, at the target weight from Batch scaling if you set one. Fridge materials carry the ❄, and a material you do not own yet reads "(to order)", so you notice at the bench and not at the cupboard.</li>
+<li><strong>Print weighing sheet</strong> prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, exactly as the version holds them; it never rescales, so what you weigh always matches a version number (section <a href="#s14-batch-scaling-and-predilutions">14</a>). Fridge materials carry the ❄, and a material you do not own yet reads "(to order)", so you notice at the bench and not at the cupboard.</li>
 <li><strong>Print full formula</strong> prints the complete entry with weights, both percentages, the cost per line and the total, and the notes and the trial log underneath. This is the record of the version, the one to keep on paper or as a PDF.</li>
 <li><strong>Excel export</strong> downloads the entry as a CSV file, which a spreadsheet opens directly. Use this for a colleague who does not use miFormulas: they can read it, sort it and work in it.</li>
 <li><strong>Share this version…</strong> downloads the entry as a miformulas-import file, the same format described in section <a href="#s20-import-and-export">20</a>. Send it to someone who does use miFormulas and they import it in one action, instead of typing your formula line by line. It holds the material names with their dilution and weight, the CAS numbers, a mark on the lines that are solvent in your inventory, the category, the label of this version and its notes, and nothing of your own lab: no price, no supplier, no stock, no trial log. The lines keep the order of the version, not the sort order on your screen. Weights and dilutions are never converted, here or on the way in, so a dilution the other does not stock arrives with a ⚠ and they convert it themselves in a new version. A material they do not own yet is created for them as "to order", with its CAS and, where the file says so, as a solvent, so that their rel % and abs % read the same as yours. Where the two of you disagree about what is a solvent, their own material decides and the import page says so.</li>
@@ -697,7 +697,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>Compare…</strong> (shown as soon as a formula has two versions) puts two versions side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. Change A and B with the two lists and close with <strong>Close compare</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s17-comparing-versions">Compare: two versions side by side, aggregated per material, largest change first.</a></p>
 <h2 id="s18-ifra-check-and-category-panel">18. IFRA check and category panel</h2>
-<p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. <strong>A predilution switches the check off.</strong> Its materials live as text in the description of the predilution material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the predilution, and you check the version from before the predilution was made, or the predilution itself under Predilutions, where its materials are lines again. A material you ticked as a <strong>solvent</strong> gets no percentage here, since rel % is measured against the non-solvent content and a solvent is not part of it; one carrying a limit is named under the table instead of disappearing, because IFRA counts it as part of the finished product whatever role it has in your formula. Work that one out by hand, or untick Solvent if it is a raw material in your formulas. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
+<p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure, above 0, to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. <strong>A predilution switches the check off.</strong> Its materials live as text in the description of the predilution material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the predilution, and you check the version from before the predilution was made, or the predilution itself under Predilutions, where its materials are lines again. A material you ticked as a <strong>solvent</strong> gets no percentage here, since rel % is measured against the non-solvent content and a solvent is not part of it; one carrying a limit is named under the table instead of disappearing, because IFRA counts it as part of the finished product whatever role it has in your formula. Work that one out by hand, or untick Solvent if it is a raw material in your formulas. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The IFRA check panel: materials over their limit come first.</a></p>
 <p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table does the same per pyramid level.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The Categories panel.</a></p>
@@ -716,7 +716,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>Turning a photo, PDF or spreadsheet into an import file.</strong> You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a <code>.json</code> file and import it. The prompt tells the AI assistant to transcribe verbatim, to convert nothing, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the <strong>Export all materials (Excel)</strong> export as well and the assistant uses the exact names of your inventory, so that every line lands on the right material. The app offers the prompts where they help: next to Import formula… and next to the Excel exports in Import &amp; export, under the server fields in Settings, in <strong>Move into…</strong> for grouping a Formulair import, and on the Welcome page while your list of formulas is still empty. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.</p>
 <p><strong>Export my inventory as a library…</strong> does the reverse of importing a library: it writes the materials you tick as a miformulas-materials file of your own, named <code>miformulas-my-materials.json</code>. Everything is ticked to begin with, Shift-click ticks a range, and the counter says how many of the ticked ones carry a description you wrote yourself, because those descriptions go into the file exactly as they are. What stays behind is what is nobody's business but yours: stock, price, supplier, dilutions and dates. The file carries no name, version, licence or attribution either, because it is your data and not a publication. Use it to carry your own facts to another computer, or to give a colleague a head start; when a file like that is imported as a library, its descriptions take the place of the odour lines the miFormulas library would otherwise fill in.</p>
 <p><strong>Export all my formulas…</strong> writes every formula with all its versions as one miformulas-import file, the same format a single shared formula uses. It is the counterpart of Export my inventory as a library: the formulas and their lines, with the material names, their dilutions and weights, the CAS numbers and a mark on the lines that are solvent in your inventory, plus the label, date and notes of each version. Nothing of your own lab goes along: no price, supplier, stock or trial log. Use it to hand a colleague your whole collection, or to bring the formulas of one miFormulas into another without overwriting what is there, which is what a Backup would do. A line pointing to a material you have since deleted has no name to match on and is left out, and the app says how many.</p>
-<p><strong>Export all formulas (Excel)</strong> and <strong>Export all materials (Excel)</strong> download everything as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. The formulas export carries a last column <strong>Notes</strong>, filled on the first line of each version, and writes six decimals where three would round a trace line to zero, so that the file can be read back whole with <strong>Import formula…</strong>; only the trial log stays behind. The separators follow the number format in Settings: a comma for the decimal and a semicolon between the columns in Belgian and most European settings, a point and a comma in English ones, which is what Excel expects in each.</p>
+<p><strong>Export all formulas (Excel)</strong> and <strong>Export all materials (Excel)</strong> download everything as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. The formulas export carries a last column <strong>Notes</strong>, filled on the first line of each version, and writes more decimals whenever three would not hold the weight exactly, so that the file can be read back whole with <strong>Import formula…</strong>; only the trial log stays behind. The separators follow the number format in Settings: a comma for the decimal and a semicolon between the columns in Belgian and most European settings, a point and a comma in English ones, which is what Excel expects in each.</p>
 <h2 id="s21-settings-theme-and-keyboard-shortcuts">21. Settings, theme and keyboard shortcuts</h2>
 <p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case) and <strong>Open where you left off</strong>. That last one is off by default; with it on, the app starts on the formula or material you had open, and on the version you were looking at, as long as it is still there, instead of on the list. It is a setting of the device you set it on and not part of your data, so each computer and phone has its own, and switching it off forgets the place again. On the site there is also the <strong>server endpoint</strong> and its token; the app you downloaded has neither, because it always works on the data file next to it, and a server is set up in the Settings on the site. Then a few buttons that depend on the situation: <strong>Install as an app</strong> when the browser offers it, <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser…</strong> in browser-storage mode, and <strong>Forget the remembered data file…</strong> when a file is remembered. At the bottom sits the materials library (section <a href="#s20-import-and-export">20</a>): the name, size and licence of the one that is loaded, its attribution and source when it carries them, and the buttons <strong>Import materials library…</strong>, <strong>Remove the library…</strong> and <strong>Get the latest library</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s21-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
@@ -888,6 +888,8 @@ function migrate(d){
     m.name ||= "Unnamed material";
     m.dilutions = rows(m.dilutions);   // the calculation reads d.pct on every render: an empty slot there would stop it
     if (!m.dilutions.length) m.dilutions = [{pct: 100, isBase: true, date: today(), notes: ""}];
+    else if (!m.dilutions.some(d => d.isBase))    // without one basePct reads 100 %, a strength the material does not have
+      m.dilutions.reduce((a,x) => !a || x.pct > a.pct ? x : a, null).isBase = true;
     delete m._descHit;   // transient search flag that once leaked into the file
   }
   d.orderList = rows(d.orderList);
@@ -1263,7 +1265,10 @@ function calc(lines){
   let tw = 0, tc = 0, content = 0;
   const rows = (lines||[]).map(l => {
     const m = matById(l.materialId) || {};
-    const w = +l.weightG || 0, dil = +(l.dilutionPct ?? 100) || 0;
+    // a file written elsewhere can hold "2,5" or "" where a number belongs: read it rather than silently make it 0
+    const w = (typeof l.weightG === "number" ? l.weightG : parseNum(l.weightG)) || 0;
+    const dRaw = l.dilutionPct;
+    const dil = (dRaw == null || dRaw === "" ? 100 : (typeof dRaw === "number" ? dRaw : parseNum(dRaw))) || 0;
     const cost = w * (m.costPerGram||0) * dil/100;
     const cont = m.isSolvent ? 0 : w * dil/100;
     tw += w; tc += cost; content += cont;
@@ -1547,17 +1552,19 @@ function renderFormula(f){
     const ethIdx = lines.findIndex(l => isEthanol(matById(l.materialId)));
     const wOther = K.totalW - (ethIdx >= 0 ? (lines[ethIdx].weightG||0) : 0);
     const maxAbs = wOther > 0 ? content/wOther*100 : 0;
-    h += `<details class="panelBox" id="scaleBox"${SCALEOPEN?" open":""}>
+    // Only on the editable version: scaling changes the formula, and the printed sheet always shows the
+    // weights as they are stored. A read-only entry that could be printed at another weight would put a
+    // batch on the bench that no version number points back to.
+    if (editable) h += `<details class="panelBox" id="scaleBox"${SCALEOPEN?" open":""}>
       <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Batch scaling</summary>
       <div class="scaleGrid" style="margin-top:.6rem">
-      ${editable?`<span>Apply factor</span><span><input type="text" id="scaleF" inputmode="decimal" placeholder="2.5"> ×</span>
-        <button class="small" id="btnApplyFactor">Apply</button><span></span>`:""}
+      <span>Apply factor</span><span><input type="text" id="scaleF" inputmode="decimal" placeholder="2.5"> ×</span>
+        <button class="small" id="btnApplyFactor">Apply</button><span></span>
       <span>Target total</span><span><input type="text" id="scaleW" inputmode="decimal" value="${fmtIn(K.totalW)}"> g</span>
-      ${editable?'<button class="small" id="btnApplyScale">Apply</button>':"<span></span>"}<span></span>
-      ${editable?`<span>Set EtOH for target abs %</span><span><input type="text" id="targetAbs" inputmode="decimal" value="${fmtIn(K.totalAbsPct,2)}"> %</span>
-        <button class="small" id="btnSetAbs">Apply</button><span class="hint">max ${fmt(maxAbs,2)} % (EtOH at 0 g)</span>`:""}
+      <button class="small" id="btnApplyScale">Apply</button><span></span>
+      <span>Set EtOH for target abs %</span><span><input type="text" id="targetAbs" inputmode="decimal" value="${fmtIn(K.totalAbsPct,2)}"> %</span>
+        <button class="small" id="btnSetAbs">Apply</button><span class="hint">max ${fmt(maxAbs,2)} % (EtOH at 0 g)</span>
     </div>
-    ${!editable ? `<div class="hint" style="margin-top:.4rem">Read-only version – the target is used for the printed weighing sheet.</div>` : ""}
     </details>`;
     const hasNotes = !!(item.notes || "").trim();
     h += `<details class="panelBox" id="notesBox"${(NOTESOPEN ?? hasNotes) ? " open" : ""}>
@@ -1677,19 +1684,25 @@ function renderFormula(f){
     });
   }
   $("#btnNewV")?.addEventListener("click", e => { e.currentTarget.disabled = true; newVersion(f, sub.idx); });   // a double click made two versions, and the history is immutable
-  $("#btnPrint")?.addEventListener("click", ()=> printSheet(f, item, lines, parseNum($("#scaleW")?.value)));
+  $("#btnPrint")?.addEventListener("click", ()=> printSheet(f, item, lines));
   $("#btnPrep")?.addEventListener("click", ()=> markPrepared(f, item, lines));
   $("#btnSheet")?.addEventListener("click", ()=> formulaSheetPrint(f, item, lines, K));
   $("#btnCsv")?.addEventListener("click", ()=> csvDownload(f, item, lines, K));
   $("#btnShare")?.addEventListener("click", ()=> shareVersion(f, item, K));
-  $("#ifraDose")?.addEventListener("change", e => { IDOSE = parseNum(e.target.value); IFRAOPEN = true; render(); });
+  $("#ifraDose")?.addEventListener("change", e => {
+    const v = parseNum(e.target.value);
+    if (v != null && !(v > 0)){ alert("A dosage is a percentage above 0."); IDOSE = null; }   // 0 or below read every material as within limits
+    else IDOSE = v;
+    IFRAOPEN = true; render(); });
   $("#ifraBox")?.addEventListener("toggle", e => { IFRAOPEN = e.target.open; });
   $("#scaleBox")?.addEventListener("toggle", e => { SCALEOPEN = e.target.open; });
   $("#catsBox")?.addEventListener("toggle", e => { CATSOPEN = e.target.open; });
   $("#notesBox")?.addEventListener("toggle", e => { NOTESOPEN = e.target.open; });
   $("#btnApplyScale")?.addEventListener("click", ()=>{
-    const t = parseNum($("#scaleW").value); if (!K.totalW) return;
-    if (!(t > 0)){ alert("Enter a target total above 0 g."); return; }
+    const el = $("#scaleW");
+    if (el.value === el.defaultValue) return;   // the field holds the rounded total: applying it unchanged would rewrite every weight
+    const t = parseNum(el.value); if (!K.totalW) return;
+    if (!(t > 0) || !isFinite(t)){ alert("Enter a target total above 0 g."); return; }
     snapF(f);
     const k = t / K.totalW; item.lines.forEach(l => l.weightG = (l.weightG||0)*k);
     markDirty(); render();
@@ -1716,14 +1729,16 @@ function renderFormula(f){
   $("#btnDilUp")?.addEventListener("click", () => bulkDilShift(f, item, +1));
   $("#btnApplyFactor")?.addEventListener("click", () => {
     const k = parseNum($("#scaleF").value);
-    if (!k || k <= 0){ alert("Enter a factor above 0, for instance 2.5 (or 2,5 depending on your number format)."); return; }
+    if (!k || k <= 0 || !isFinite(k)){ alert("Enter a factor above 0, for instance 2.5 (or 2,5 depending on your number format)."); return; }
     snapF(f);
     item.lines.forEach(l => l.weightG = (l.weightG||0) * k);
     markDirty(); render();
   });
   $("#btnSetAbs")?.addEventListener("click", () => {
-    const p = parseNum($("#targetAbs").value);
-    if (!p || p <= 0){ alert("Enter a target abs % above 0."); return; }
+    const el = $("#targetAbs");
+    if (el.value === el.defaultValue) return;   // unchanged: it holds the rounded abs %, and applying it would move the ethanol line
+    const p = parseNum(el.value);
+    if (!p || p <= 0 || !isFinite(p)){ alert("Enter a target abs % above 0."); return; }
     const content = K.rows.reduce((s,r) => s + r.cont, 0);
     const eIdx = item.lines.findIndex(l => isEthanol(matById(l.materialId)));
     const wOther = K.totalW - (eIdx >= 0 ? (item.lines[eIdx].weightG||0) : 0);
@@ -1816,6 +1831,7 @@ function bindLineEditors(f, item){
       const i = +e.target.dataset.i, step = TABSTEP; TABSTEP = 0;
       const v = parseNum(e.target.value);
       if (v == null){ render(); refocus(i, 0); return; }        // unreadable: put the old figure back
+      if (!isFinite(v)){ alert("That weight is too large."); render(); refocus(i, 0); return; }   // 1e999 parses to Infinity, which JSON.stringify writes away as null
       if (v < 0){ alert("A weight cannot be negative."); render(); refocus(i, 0); return; }
       snapF(f); item.lines[i].weightG = v; markDirty(); render(); refocus(i, step);
     });
@@ -2508,7 +2524,7 @@ function createPredilution(f, sub, item, dispLines){
     if (newMatCat){ DATA.materialCategories.push("Predils"); DATA.materialCategories.sort((a,b)=>a.localeCompare(b)); }
     (DATA.categoryColours ||= {})["Predils"] ||= "#7A5EA8";
     const pm = {id: uid("m-"), name, cas: "", category: "Predils", supplier: "", modified: now(),
-      costPerGram: Cp > 0 ? +(costT/Cp).toFixed(4) : null,   // per gram of pure material, as everywhere else
+      costPerGram: Cp > 0 && costT > 0 ? +(costT/Cp).toFixed(4) : null,   // per gram of pure material, as everywhere else; empty without prices, because 0 reads as "free"
       ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`, isPredil: true,   // the IFRA check cannot look inside a mix: it switches off on a formula that holds one
       purchaseDate: today(), pyramid: 5, isSolvent: false,
       description: `Predilution of ${f.name} v${cur.v} (factor ×${k}).\n\n` +
@@ -2954,7 +2970,8 @@ function openImportExport(){
   if (ro) for (const id of ["ioCsv", "btnImpL", "btnImpF"]) $("#" + id).disabled = true;   // lockInputs only reaches #content
 }
 // three decimals as on screen, but a trace line keeps six: this CSV can be read back, and 0,0004 g must not become 0
-const wCsv = w => w && Math.abs(w) < 0.0005 ? w.toFixed(6) : w.toFixed(3);
+// three decimals when they hold the weight exactly, six when they would not: the file has to read back whole
+const wCsv = w => { const n = +w || 0, t = n.toFixed(3); return +t === n ? t : n.toFixed(6); };
 const orphanOk = n => !n || confirm(`${n} line(s) point to a material that no longer exists; they have no name to write and are left out.\n\nWrite the file anyway?`);
 function exportAllFormulas(){
   if (!DATA.formulas.length){ alert("There are no formulas to export yet."); return; }
@@ -2999,8 +3016,8 @@ function csvDownload(f, item, lines, K){
   const rows = [[`${f.name} – ${label}`,"","","","",""],
     ["Material","Dilution %","Weight g","Rel %","Abs %","Cost EUR"]];
   sortRows(K.rows).filter(r => r.m && r.m.name).forEach(r => rows.push([r.m.name + (r.m.isSolvent ? " (solvent)" : ""), nBE(r.dil),
-    nBE(r.w.toFixed(3)), r.rel == null ? "" : nBE(r.rel.toFixed(2)), nBE(r.absPct.toFixed(2)), nBE(r.cost.toFixed(2))]));
-  rows.push(["Total","", nBE(K.totalW.toFixed(3)), "", nBE(K.totalAbsPct.toFixed(2)), nBE(K.totalCost.toFixed(2))]);
+    nBE(wCsv(r.w)), r.rel == null ? "" : nBE(r.rel.toFixed(2)), nBE(r.absPct.toFixed(2)), nBE(r.cost.toFixed(2))]));
+  rows.push(["Total","", nBE(wCsv(K.totalW)), "", nBE(K.totalAbsPct.toFixed(2)), nBE(K.totalCost.toFixed(2))]);
   dlCsv(rows, `${stamp()} ${f.name} ${label.replace(/[«»]/g,"")}.csv`.replace(/[\\/:*?"<>|]/g, "-"));
 }
 function shareVersion(f, item, K){   // the version you are looking at, as a file another miFormulas user can import
@@ -3705,7 +3722,10 @@ function renderOrders(){
     markDirty(); render();
   });
   c.querySelectorAll("[data-onote]").forEach(inp => inp.addEventListener("change", e => { snapO(); items[+inp.dataset.onote].note = e.target.value; markDirty(); }));
-  c.querySelectorAll("[data-oamt]").forEach(inp => inp.addEventListener("change", e => { snapO(); items[+inp.dataset.oamt].amount = parseNum(e.target.value); markDirty(); }));
+  c.querySelectorAll("[data-oamt]").forEach(inp => inp.addEventListener("change", e => {
+    const txt = e.target.value.trim(), v = txt ? parseNum(txt) : null;
+    if (txt && (v == null || v < 0)){ alert("That is not an amount. The previous value is kept."); render(); return; }
+    snapO(); items[+inp.dataset.oamt].amount = v; markDirty(); }));
   c.querySelectorAll("[data-ounit]").forEach(sel => sel.addEventListener("change", e => { snapO(); items[+sel.dataset.ounit].unit = e.target.value; markDirty(); }));
   c.querySelectorAll("[data-oprice]").forEach(inp => inp.addEventListener("change", e => { snapO(); items[+inp.dataset.oprice].price = e.target.value; markDirty(); }));
   c.querySelectorAll("[data-ourl]").forEach(inp => inp.addEventListener("change", e => { snapO(); items[+inp.dataset.ourl].url = e.target.value.trim(); markDirty(); render(); }));
@@ -3931,7 +3951,8 @@ function renderMaterial(m){
     snapM(m); (m.stockEvents ||= []).push({t:"take", date: today(), g}); markDirty(); render();
   });
   $("#btnBuy")?.addEventListener("click", () => {
-    const amt = parseNum($("#stBuyAmt").value); if (!amt){ alert("Enter the purchased amount."); return; }
+    const amt = parseNum($("#stBuyAmt").value);
+    if (!amt || amt < 0 || !isFinite(amt)){ alert("Enter the purchased amount, above 0."); return; }
     const unit = $("#stBuyUnit").value;
     const g = unit === "g" ? amt : (m.density ? amt * m.density : null);
     snapM(m); (m.stockEvents ||= []).push({t:"buy", date: today(), amount: amt, unit, g, note: $("#stBuyNote").value.trim()});
@@ -3939,7 +3960,7 @@ function renderMaterial(m){
   });
   $("#btnDil")?.addEventListener("click", () => {
     const pct = parseNum($("#stDilPct").value), tot = parseNum($("#stDilG").value);
-    if (!pct || !tot){ alert("Enter dilution % and total weight made."); return; }
+    if (!pct || !tot || pct < 0 || tot < 0 || !isFinite(pct) || !isFinite(tot)){ alert("Enter dilution % and total weight made, both above 0."); return; }
     const bp = basePct(m);   // the stock is kept in the base concentration: 50 g of 1 % out of a 10 % base takes 5 g, not 0,5 g
     if (pct > bp){ alert(`A ${fmtS(pct)}% dilution cannot be made out of a ${fmtS(bp)}% base.\n\nSet the stronger concentration as the base first, or enter the amount by hand with Stocktake.`); return; }
     snapM(m); (m.stockEvents ||= []).push({t:"dil", date: today(), pct, totalG: tot, base: bp, g: tot * pct / bp});
@@ -4059,9 +4080,10 @@ $("#btnNewMat").addEventListener("click", () => {
     if (DATA.materials.some(x => normName(x.name) === normName(name))){ alert("A material with that name already exists."); return false; }
     const owner = DATA.materials.find(x => (x.aliases || "").split(";").some(a => normName(a) === normName(name)));
     if (owner && !confirm(`You already have “${owner.name}”, which carries “${name}” as an alternative name.\n\nCreate a second material anyway?`)) return false;
-    const pctIn = parseNum($("#nmDil").value);
-    if (pctIn != null && !(pctIn > 0 && pctIn <= 100)){ alert("A dilution is a percentage between 0 and 100."); return false; }
-    const pct = pctIn || 100;
+    const dilTxt = $("#nmDil").value.trim();
+    const pctIn = dilTxt ? parseNum(dilTxt) : null;
+    if (dilTxt && (pctIn == null || !(pctIn > 0 && pctIn <= 100))){ alert("A dilution is a percentage between 0 and 100."); return false; }
+    const pct = pctIn || 100;   // empty means 100 %; text that is not a number is refused above instead of quietly becoming 100
     const hit = listFind(name);
     const cat = $("#nmCat").value || "Uncategorised";
     const newCat = !DATA.materialCategories.includes(cat);
@@ -4137,21 +4159,22 @@ $("#btnTheme").addEventListener("click", () => {
 $("#btnOpen").addEventListener("click", openFile);
 
 /* ---------- print ---------- */
-function sheetHtml(f, item, lines, targetW){
+// The sheet prints the weights of the version as they are stored. It never rescales: a printed batch has
+// to point back at a version number, so another quantity means a new version (Batch scaling makes one).
+function sheetHtml(f, item, lines){
   const K = calc(lines);
-  const k = targetW > 0 && K.totalW ? targetW/K.totalW : 1;
   const label = vName(item);
   return `<h2>${esc(f.name)} – ${esc(label)}</h2>
-  <div>Printed ${today()} · target ${fmt((K.totalW||0)*k)} g · concentrate ${fmt(K.totalAbsPct,2)}% · est. cost € ${fmt(K.totalCost*k,2)}</div>
+  <div>Printed ${today()} · total ${fmt(K.totalW||0)} g · concentrate ${fmt(K.totalAbsPct,2)}% · est. cost € ${fmt(K.totalCost,2)}</div>
   <table class="bench"><colgroup><col class="cbc"><col class="pyc"><col class="matc"><col class="dilc"><col class="wc"><col class="rc"></colgroup>
   <thead><tr><th></th><th></th><th>Material</th><th>Dilution</th><th class="num">Weight (g)</th><th class="num">Rel %</th></tr></thead><tbody>
   ${sortRows(K.rows).map(r =>
     `<tr><td><span class="cb"></span></td><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}</td><td>${esc(r.m.name)}${fridgeMark(r.m, r.dil)}${r.m.wishlist ? " (to order)" : ""}</td><td>${fmtS(r.dil)}%</td>
-      <td class="num">${fmt(r.w*k)}</td><td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td></tr>`).join("")}
+      <td class="num">${fmt(r.w)}</td><td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td></tr>`).join("")}
   </tbody></table>`;
 }
-function printSheet(f, item, lines, targetW){
-  $("#printArea").innerHTML = sheetHtml(f, item, lines, targetW);
+function printSheet(f, item, lines){
+  $("#printArea").innerHTML = sheetHtml(f, item, lines);
   window.print();
 }
 // Ctrl+P or File > Print without touching a print button used to hand the printer whatever was there
@@ -4162,7 +4185,7 @@ window.addEventListener("beforeprint", () => {
   const f = DATA && VIEW.tab === "F" && VIEW.id ? DATA.formulas.find(x => x.id === VIEW.id) : null;
   const item = f && VIEW.sub && VIEW.sub.type === "v" ? f.versions[VIEW.sub.idx] : null;
   area.innerHTML = item
-    ? sheetHtml(f, item, item.lines, null)
+    ? sheetHtml(f, item, item.lines)
     : `<h2>miFormulas</h2><div>There is nothing to print here. Open a formula and use <b>Print weighing sheet</b> or <b>Print full formula</b>: each of them prints the version you are looking at.</div>`;
 });
 
@@ -4384,7 +4407,7 @@ function offerReopen(onGone){
 }
 const canSave = () => REMOTE || DEMO || !!HANDLE;   // server, browser storage or a writable local file → editing on a phone is safe
 function lockInputs(){
-  const keep = new Set(["searchBox","verSel","sortSel","cmpA","cmpB","cmpSortSel","bSortSel","scaleW",
+  const keep = new Set(["searchBox","verSel","sortSel","cmpA","cmpB","cmpSortSel","bSortSel",
     "btnPrint","btnSheet","btnCsv","btnShare","ifraDose",   // printing, exporting and the IFRA dosage change nothing
     "btnBenchPrint","btnBenchToggle","btnBenchClose","btnCmp","btnCmpClose",
     "btnImpCancel"]);   // getting out of an import is a read-only action; exporting sits in the Import/Export window, outside #content

@@ -283,6 +283,14 @@ with sync_playwright() as p:
     pg.wait_for_timeout(700)
     head = pg.text_content("#ifraBox summary")
     check(f"without a predilution the check runs ({head!r})", "over limit" in head)
+    # a dosage of 0 or below used to read every material as within limits (build 260920b)
+    for bad in ("0", "-5"):
+        pg.fill("#ifraDose", bad); pg.locator("#ifraDose").press("Tab"); pg.wait_for_timeout(600)
+        head = pg.text_content("#ifraBox summary")
+        check(f"a dosage of {bad} is refused and the verdict stands ({head!r})", "over limit" in head)
+    pg.fill("#ifraDose", "20"); pg.locator("#ifraDose").press("Tab"); pg.wait_for_timeout(600)
+    head = pg.text_content("#ifraBox summary")
+    check(f"a dosage above 0 is still taken ({head!r})", "over limit" in head or "within limits" in head)
     pg.evaluate("""() => { document.querySelectorAll("#content input[type=checkbox][data-i]").forEach(cb => {
         if (+cb.dataset.i <= 1){ cb.checked = true; cb.dispatchEvent(new Event("change", {bubbles:true})); } }); }""")
     pg.wait_for_timeout(400)

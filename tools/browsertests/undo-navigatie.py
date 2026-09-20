@@ -209,6 +209,33 @@ with sync_playwright() as p:
     check(f"buiten een formule zegt het blad wat je moet doen ({blad2.split(chr(10))[0]!r})",
           "nothing to print" in blad2.lower())
 
+    # ---------- 9. het weegblad herschaalt niet (bouw 260920b) ----------
+    # Een blad op een ander gewicht dan de versie zou een batch op de bank leggen waar geen versienummer
+    # naar terugwijst; Batch scaling hoort daarom bij de bewerkbare versie en het blad drukt wat er staat.
+    page.evaluate("""() => {
+        DATA.formulas.push({id:"f-print", name:"Printtest", category:"Uncategorised", versions:[
+          {v:1, frozen:true, date:today(), lines:[{id:"p1", materialId:DATA.materials[0].id, dilutionPct:100, weightG:40, remark:1}]},
+          {v:2, date:today(), lines:[{id:"p2", materialId:DATA.materials[0].id, dilutionPct:100, weightG:50, remark:1}]}]});
+        buildUsage(); SCALEOPEN = true; switchTab("F", "f-print", {type:"v", idx:1}); }""")
+    page.wait_for_timeout(700)
+    check("de bewerkbare versie heeft Batch scaling", page.locator("#scaleBox").count() == 1)
+    page.fill("#scaleW", "500")                      # een doelgewicht invullen, niet toepassen
+    page.evaluate("""() => { window.print = () => { window.__printed = true; }; }""")
+    page.click("#btnPrint"); page.wait_for_timeout(500)
+    blad = page.evaluate("""() => document.getElementById("printArea").innerText.replace(/,/g, ".")""")
+    check(f"het blad drukt het opgeslagen gewicht ({blad.splitlines()[1] if len(blad.splitlines()) > 1 else blad!r})",
+          page.evaluate("() => !!window.__printed") and "50.000" in blad and "500.000" not in blad)
+    check("en de kopregel noemt het totaal, geen doel", " total " in blad and "target" not in blad)
+    page.evaluate("""() => { document.getElementById("printArea").innerHTML = ""; window.dispatchEvent(new Event("beforeprint")); }""")
+    blad3 = page.evaluate("""() => document.getElementById("printArea").innerText.replace(/,/g, ".")""")
+    check("en Ctrl+P zonder knop drukt hetzelfde blad", "50.000" in blad3 and "500.000" not in blad3)
+    bewaard = page.evaluate("""() => DATA.formulas.find(x => x.id === "f-print").versions[1].lines[0].weightG""")
+    check(f"het invullen van een doelgewicht raakt de versie niet ({bewaard})", bewaard == 50)
+    page.evaluate("""() => switchTab("F", "f-print", {type:"v", idx:0})""")
+    page.wait_for_timeout(600)
+    check("een bevroren versie heeft geen Batch scaling meer", page.locator("#scaleBox").count() == 0)
+    check("en dus ook geen doelgewichtveld", page.locator("#scaleW").count() == 0)
+
     check("no page errors", not errs)
     b.close()
 
