@@ -146,6 +146,7 @@ h2{margin:.2rem 0 .3rem;font-size:1.35rem}
 .chipRow{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0}
 .badge{font-size:.72rem;border-radius:4px;padding:.05rem .4rem;background:var(--frozen-soft);color:var(--frozen);vertical-align:middle}
 .tblwrap{max-width:100%;overflow-x:auto}
+.nowrap{white-space:nowrap}
 .panelBox,details.panelBox{max-width:100%}
 table.lines{border-collapse:collapse;width:100%;margin:.6rem 0;font-variant-numeric:tabular-nums}
 table.lines th{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink);text-align:left;padding:.3rem .5rem;border-bottom:2px solid var(--accent)}
@@ -252,7 +253,7 @@ table.lines tbody tr:hover{background:var(--accent-soft)}
 .brow:hover{background:var(--accent-soft)}
 .brow.dragging{opacity:.35}
 .brow.dropbefore{box-shadow:inset 0 2px 0 var(--amber)}
-.bgrip{color:var(--line);font-size:.85rem;letter-spacing:-2px;flex:none}
+.bgrip{color:var(--muted);font-size:.85rem;letter-spacing:-2px;flex:none}   /* like .bghandle: a grip nobody can see is not a grip, and a touch screen has no hover */
 .brow:hover .bgrip{color:var(--accent)}
 .bname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bdil{color:var(--muted);font-size:.8rem;width:3.6rem;text-align:right;flex:none}
@@ -296,6 +297,12 @@ td.dim{color:var(--muted)}
   table.lines td,table.lines th{padding:.16rem .3rem}
   .fieldGrid{grid-template-columns:1fr;gap:.15rem .8rem}
   .abscol,.costcol{display:none} /* portrait: drop Abs % and Cost to make room for the dilution picker */
+  /* the order list is the one table that carries buttons, and a clipped button cannot be tapped at all:
+     it keeps its own width inside its wrapper, the desk columns go, and the buttons wrap instead of falling off */
+  table.lines.ord{width:auto;table-layout:auto}
+  table.lines.ord td,table.lines.ord th{overflow:visible}
+  table.lines.ord td.nowrap{white-space:normal}
+  .deskcol{display:none}
   table.lines select.d{min-width:5.2rem}
   .scaleGrid{grid-template-columns:auto 1fr;gap:.4rem .6rem}
   #verSel{max-width:100%}
@@ -342,7 +349,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920b</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920c</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -407,7 +414,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260920b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260920c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -625,7 +632,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Accents and ligatures do not matter: "haiti" finds Vetiver Haïti and "coeur" finds Patchouli cœur, and the same folding decides whether an import lands on a material you already have. Each tab keeps its own term, so the name of a material does not stay behind in the formula list when you switch. Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section <a href="#s20-import-and-export">20</a>), the panel says "Not in your inventory" and shows what the library does know, with a <strong>+ Add</strong> button that puts the material in your inventory with its facts.</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-the-screen">The list panel on the left and a formula page on the right.</a></p>
-<p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. Read-only takes away what would change something; printing, the Excel export, <strong>Share this version…</strong> and the dosage field of the IFRA check stay where they are, because none of them touches your data. The header leaves out ☰, <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself. The formula table drops the columns <strong>Abs %</strong> and <strong>Cost</strong> there, to leave room for the dilution picker; swipe the table sideways to see the rest.</p>
+<p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. Read-only takes away what would change something; printing, the Excel export, <strong>Share this version…</strong> and the dosage field of the IFRA check stay where they are, because none of them touches your data. The header leaves out ☰, <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself. The formula table drops the columns <strong>Abs %</strong> and <strong>Cost</strong> there, to leave room for the dilution picker; swipe the table sideways to see the rest. The order list drops <strong>Note</strong>, <strong>Price €</strong>, <strong>Product URL</strong> and <strong>Added</strong>, so that the material, the amount and the three buttons fit on the screen without swiping: in a shop you work from that list, you do not fill it in.</p>
 <h2 id="s9-materials">9. Materials</h2>
 <p>The <strong>Materials</strong> tab is your inventory: the materials you own or have on order. A <strong>materials library</strong> is something else, a reference file of facts that you import (section <a href="#s20-import-and-export">20</a>); it never changes what you own.</p>
 <p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (the categories that come with the starter set and with a Formulair import carry a colour, used for the dots and the pyramid; beside the picker sits a small colour square that sets the colour of the chosen category, so a category you make yourself does not have to stay grey, and <strong>+ New category</strong> makes one without leaving the page), supplier, the amount purchased (free text, so an imported “2 × 50 ml” stays exactly as it was), cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger (which also holds the date you bought it and the density in g/ml that section <a href="#s19-stock-orders-and-deliveries">19</a> uses to read a volume as a weight), a free description, and the list of every formula the material appears in; click a name there to jump to it. A material always keeps at least one dilution, so the last one cannot be deleted: add the other one first.</p>
@@ -3700,20 +3707,20 @@ function renderOrders(){
     <input id="ordNote" placeholder="reason / note" style="min-width:12rem">
     <button class="primary small" id="btnOrdAdd">Add</button>
     <button class="small" id="btnShops" style="margin-left:auto">Edit shop list (${(DATA.shopSites||[]).length})…</button></div>
-  ${items.length ? `<table class="lines"><thead><tr><th>Material</th><th>Note</th><th>Amount</th><th>Price €</th><th>Product URL</th><th>Added</th><th></th></tr></thead><tbody>
+  ${items.length ? `<div class="tblwrap"><table class="lines ord"><thead><tr><th>Material</th><th class="deskcol">Note</th><th>Amount</th><th class="deskcol">Price €</th><th class="deskcol">Product URL</th><th class="deskcol">Added</th><th></th></tr></thead><tbody>
     ${items.map((o,i) => `<tr>
       <td>${o.materialId ? `<a class="matlink" data-mat="${o.materialId}">${esc(o.name)}</a>` : `${esc(o.name)} <span class="badge">new</span>`}</td>
-      <td><input data-onote="${i}" value="${esc(o.note||"")}" style="width:10rem"></td>
-      <td style="white-space:nowrap"><input data-oamt="${i}" value="${o.amount!=null?fmtSIn(o.amount):""}" placeholder="10" style="width:3.6rem;text-align:right">
+      <td class="deskcol"><input data-onote="${i}" value="${esc(o.note||"")}" style="width:10rem"></td>
+      <td class="nowrap"><input data-oamt="${i}" value="${o.amount!=null?fmtSIn(o.amount):""}" placeholder="10" style="width:3.6rem;text-align:right">
         <select data-ounit="${i}"><option${(o.unit||"g")==="g"?" selected":""}>g</option><option${o.unit==="ml"?" selected":""}>ml</option></select></td>
-      <td><input data-oprice="${i}" value="${esc(o.price||"")}" placeholder="12.50" style="width:5rem;text-align:right"></td>
-      <td style="white-space:nowrap"><input data-ourl="${i}" value="${esc(o.url||"")}" placeholder="paste product link…" style="width:11rem">
+      <td class="deskcol"><input data-oprice="${i}" value="${esc(o.price||"")}" placeholder="12.50" style="width:5rem;text-align:right"></td>
+      <td class="deskcol nowrap"><input data-ourl="${i}" value="${esc(o.url||"")}" placeholder="paste product link…" style="width:11rem">
         ${o.url ? `<button class="small" data-ogo="${i}" title="Open product page">↗</button>` : ""}</td>
-      <td class="hint">${esc(o.added||"")}</td>
-      <td style="white-space:nowrap"><button class="small" data-osearch="${i}" title="${shops.length ? `Google search across your ${shops.length} shop(s)` : "No shops in your list yet: this searches the whole web. Edit shop list makes it your own shops."}">${shops.length ? "Search my shops" : "Search the web"}</button>
+      <td class="hint deskcol">${esc(o.added||"")}</td>
+      <td class="nowrap"><button class="small" data-osearch="${i}" title="${shops.length ? `Google search across your ${shops.length} shop(s)` : "No shops in your list yet: this searches the whole web. Edit shop list makes it your own shops."}">${shops.length ? "Search my shops" : "Search the web"}</button>
         <button class="small" data-odeliv="${i}">Delivered…</button>
         <button class="ghost small" data-odel="${i}" title="Remove">✕</button></td></tr>`).join("")}
-  </tbody></table>` : `<p class="hint">Nothing to order. Add a material above, or use “Add to order list” on a material page.</p>`}`;
+  </tbody></table></div>` : `<p class="hint">Nothing to order. Add a material above, or use “Add to order list” on a material page.</p>`}`;
   $("#btnOrdAdd").addEventListener("click", () => {
     const name = $("#ordName").value.trim(); if (!name) return;
     if (items.some(o => o.name.toLowerCase() === name.toLowerCase())){ alert("That material is already on the order list."); return; }

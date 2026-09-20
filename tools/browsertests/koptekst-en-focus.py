@@ -182,6 +182,66 @@ with sync_playwright() as p:
     page.evaluate("() => { DEMO = true; render(); }")
     page.set_viewport_size({"width": 1280, "height": 950}); page.wait_for_timeout(400)
 
+    # ---------- 8. de bestellijst is bedienbaar op een telefoon (B5 en staart 36, bouw 260920c) ----------
+    # Een knop die weggeknipt wordt, kan niet aangeraakt worden: wie op zijn telefoon iets op de bestellijst
+    # zette, kreeg het er niet meer af. De tabel houdt nu haar eigen breedte binnen haar wrapper.
+    page.evaluate("""() => { const m = DATA.materials[0];
+        DATA.orderList = [{id:"o1", materialId:m.id, name:m.name, note:"nodig", amount:20, unit:"g",
+                           price:"12.50", url:"https://voorbeeld.be/p/123", added:today()}];
+        switchTab("T"); }""")
+    page.wait_for_timeout(500)
+    raak = """(sel) => { const e = document.querySelector(sel); if (!e) return "ontbreekt";
+        const b = e.getBoundingClientRect(), x = b.left + b.width/2, y = b.top + b.height/2;
+        if (x < 0 || x > innerWidth || y < 0 || y > innerHeight) return "buiten het venster";
+        const el = document.elementFromPoint(x, y);
+        return el === e || e.contains(el) ? "raakt" : "afgedekt"; }"""
+    for w in (360, 390, 430, 700):
+        page.set_viewport_size({"width": w, "height": 844}); page.wait_for_timeout(450)
+        knop = {n: page.evaluate(raak, s) for n, s in
+                (("Search", "[data-osearch='0']"), ("Delivered", "[data-odeliv='0']"), ("✕", "[data-odel='0']"))}
+        maat = page.evaluate("""() => { const c = document.querySelector("#content"), wr = c.querySelector(".tblwrap");
+            if (!wr) return {tabel: Math.round(c.querySelector("table.lines").getBoundingClientRect().width),
+                             wrapper: -1, paneel: c.scrollWidth - c.clientWidth, wrapper_ontbreekt: true};
+            return {tabel: Math.round(wr.querySelector("table").getBoundingClientRect().width),
+                    wrapper: Math.round(wr.clientWidth), paneel: c.scrollWidth - c.clientWidth}; }""")
+        check(f"{w} px: Search, Delivered… en ✕ zijn aan te raken ({knop})",
+              all(v == "raakt" for v in knop.values()))
+        check(f"{w} px: zonder zijwaarts schuiven, en het paneel schuift evenmin ({maat})",
+              maat["tabel"] <= maat["wrapper"] and maat["paneel"] == 0)
+    kol = page.evaluate("""() => [...document.querySelectorAll("table.lines.ord thead th")]
+        .map(th => getComputedStyle(th).display === "none" ? null : th.textContent.trim()).filter(x => x !== null)""")
+    check(f"700 px: alleen materiaal, hoeveelheid en de knoppen ({kol})",
+          "Material" in kol and "Amount" in kol and not any(k in kol for k in ("Note", "Price €", "Product URL", "Added")))
+    page.set_viewport_size({"width": 1280, "height": 950}); page.wait_for_timeout(450)
+    kol = page.evaluate("""() => [...document.querySelectorAll("table.lines.ord thead th")]
+        .map(th => getComputedStyle(th).display === "none" ? null : th.textContent.trim()).filter(x => x !== null)""")
+    check(f"1280 px: de bureaukolommen staan er weer ({kol})",
+          all(k in kol for k in ("Material", "Note", "Amount", "Price €", "Product URL", "Added")))
+    br = page.evaluate("""() => { const c = document.querySelector("#content"), wr = c.querySelector(".tblwrap");
+        if (!wr) return {tabelSchuift: 0, paneelSchuift: c.scrollWidth - c.clientWidth, kop: 0, kopNa: 0, wrapper_ontbreekt: true};
+        const voor = wr.scrollLeft; wr.scrollLeft = 9999; const na = wr.scrollLeft; wr.scrollLeft = voor;
+        const kop = document.querySelector("#content h2").getBoundingClientRect().left;
+        wr.scrollLeft = 9999; const kopNa = document.querySelector("#content h2").getBoundingClientRect().left;
+        wr.scrollLeft = voor;
+        return {tabelSchuift: na, paneelSchuift: c.scrollWidth - c.clientWidth, kop, kopNa}; }""")
+    check(f"1280 px: de tabel schuift in haar eigen wrapper, niet het paneel ({br})",
+          br["tabelSchuift"] > 0 and br["paneelSchuift"] == 0 and br["kop"] == br["kopNa"])
+
+    # de sleepgreep van een bench-regel is zichtbaar zonder hover (staart 20)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 2);
+        switchTab("F", f.id, {type:"v", idx:0, bench:true}); }""")
+    page.wait_for_timeout(700)
+    for thema in ("light", "dark"):
+        page.evaluate("(t) => document.documentElement.dataset.theme = t", thema)
+        page.wait_for_timeout(250)
+        kl = page.evaluate("""() => { const g = document.querySelector(".bgrip");
+            let el = g.closest(".brow"), bg = getComputedStyle(el).backgroundColor;
+            while (bg === "rgba(0, 0, 0, 0)" && el.parentElement){ el = el.parentElement; bg = getComputedStyle(el).backgroundColor; }
+            return {grip: getComputedStyle(g).color, bg, hoogte: g.getBoundingClientRect().height}; }""")
+        r = ratio(kl["grip"], kl["bg"])
+        check(f"{thema}: de sleepgreep haalt 3:1 zonder hover ({r}:1)", r >= 3 and kl["hoogte"] > 0)
+    page.evaluate("() => delete document.documentElement.dataset.theme")
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")
