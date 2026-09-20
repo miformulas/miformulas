@@ -349,7 +349,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920c</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920d</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -414,7 +414,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260920c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260920d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -706,7 +706,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <h2 id="s18-ifra-check-and-category-panel">18. IFRA check and category panel</h2>
 <p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure, above 0, to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. <strong>A predilution switches the check off.</strong> Its materials live as text in the description of the predilution material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the predilution, and you check the version from before the predilution was made, or the predilution itself under Predilutions, where its materials are lines again. A material you ticked as a <strong>solvent</strong> gets no percentage here, since rel % is measured against the non-solvent content and a solvent is not part of it; one carrying a limit is named under the table instead of disappearing, because IFRA counts it as part of the finished product whatever role it has in your formula. Work that one out by hand, or untick Solvent if it is a raw material in your formulas. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The IFRA check panel: materials over their limit come first.</a></p>
-<p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table does the same per pyramid level.</p>
+<p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table works per pyramid level, over the material that carries one: a line whose material still has no level (?) is left out, so those percentages are shares of what is classified, not of the whole concentrate.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The Categories panel.</a></p>
 <h2 id="s19-stock-orders-and-deliveries">19. Stock, orders and deliveries</h2>
 <p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking. From then on purchases add, and two things deduct: <strong>Dilution made</strong> (you made 50 g of a 10 % dilution out of a base at 100 %, so 5 g of base left the bottle; with a base at 10 % it would be 50 g, and a dilution stronger than your base is refused) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one.</p>
@@ -877,8 +877,18 @@ function migrate(d){
         if (!l.id) l.id = uid("l-");
         old.set(base + "|" + n, l.id);
       }
-      if (v.bench && Array.isArray(v.bench.groups) && !v.bench.byId){
-        for (const g of v.bench.groups) g.keys = (g.keys || []).map(k => old.get(k)).filter(Boolean);
+      // bench was the one structure migrate left alone, and it is the one with opaque key lists that a hand or a
+      // foreign file would get wrong: {} or {groups:null} stopped the bench view on every render, restart included
+      if (v.bench != null){
+        if (typeof v.bench !== "object" || Array.isArray(v.bench)) delete v.bench;
+        else {
+          v.bench.groups = rows(v.bench.groups).map(g => ({...g, id: g.id || uid("g"),
+            title: typeof g.title === "string" ? g.title : "Group",
+            keys: Array.isArray(g.keys) ? g.keys.filter(k => typeof k === "string") : []}));
+        }
+      }
+      if (v.bench && !v.bench.byId){
+        for (const g of v.bench.groups) g.keys = g.keys.map(k => old.get(k)).filter(Boolean);
         v.bench.byId = true;
       }
     }
@@ -1169,7 +1179,11 @@ async function backup(){
 }
 window.addEventListener("keydown", e => {
   if ($("#dlg").open) return;                    // a dialog holds its own copy of the data: no undo/redo underneath it
-  if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase() === "s"){ e.preventDefault(); saveData(); }
+  if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase() === "s"){ e.preventDefault();
+    // a note or a weight still in hand has not fired its change event yet, and the Save button gets that for free
+    // because a mouse click blurs first. "Saved 12:38" must not mean the sentence you just typed is nowhere.
+    if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
+    saveData(); }
   else if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase() === "b"){ e.preventDefault(); document.body.classList.toggle("hidebar"); }
   else if ((e.ctrlKey||e.metaKey) && (e.key.toLowerCase() === "z" || e.key.toLowerCase() === "y")){
     const t = e.target.tagName;
@@ -1365,17 +1379,17 @@ function pyrPyramid(K){
     if (frac <= 0) continue;
     const w = Math.max(3, (frac/maxFrac) * W);
     parts += `<rect x="${(cx-w/2).toFixed(1)}" y="${(y+gap/2).toFixed(1)}" width="${w.toFixed(1)}" height="${(rowH-gap).toFixed(1)}" rx="1.5"
-      fill="${PYRCOLS[i]}"><title>${PYRLABS[i]} – ${fmt(frac*100,1)}%</title></rect>`;
+      fill="${PYRCOLS[i]}"><title>${PYRLABS[i]} – ${fmt(frac*100,1)}% of the material with a level</title></rect>`;
     parts += `<text x="${W+7}" y="${(y+rowH/2+3).toFixed(1)}">${fmt(frac*100,1)}%</text>`;
   }
   return `<svg class="fpyr" width="185" height="${H+8}" viewBox="0 0 185 ${H+8}" role="img"
-    aria-label="Olfactive pyramid: share of each level in the non-solvent content">${parts}</svg>`;
+    aria-label="Olfactive pyramid: share of each level, counted over the material that carries a level">${parts}</svg>`;
 }
 function pyrBar(K){
   const {buckets, tot} = pyrLevels(K);
   if (tot <= 0) return "";
   return `<div class="pyrbar">` + buckets.map((b,i) =>
-    b > 0 ? `<span style="flex:${(b/tot).toFixed(4)};background:${PYRCOLS[i]}" title="${PYRLABS[i]} ${fmt(b/tot*100,1)}%"></span>` : "").join("") + `</div>`;
+    b > 0 ? `<span style="flex:${(b/tot).toFixed(4)};background:${PYRCOLS[i]}" title="${PYRLABS[i]} ${fmt(b/tot*100,1)}% of the material with a level"></span>` : "").join("") + `</div>`;
 }
 let SORT = {key:"orig", dir:1};
 let TABSTEP = 0;   // -1, 0 or +1: a Tab or Shift+Tab that triggered the change event of a weight
@@ -1496,6 +1510,42 @@ function setTabs(){ HELPVIEW = false; $("#tabF").classList.toggle("active", VIEW
 $("#searchBox").addEventListener("input", () => { QBY[VIEW.tab] = $("#searchBox").value; renderSidebar(); });
 
 /* ---------- formula view ---------- */
+// The buttons of the formula itself, and their handlers. They are their own pair because a formula without versions
+// needs them too: Delete version on the only version leaves the formula in the list, and the confirmation that got
+// you there points at Delete formula, which used to exist nowhere on that page.
+function metaActionsHtml(f, withCopy){
+  return `<button id="btnRenameF" title="Rename this formula">Rename…</button>
+      ${withCopy ? '<button id="btnCopyF" title="The selected version becomes v1 of a new formula">Copy to new formula…</button>' : ""}
+      ${canMoveInto(f) ? '<button id="btnMoveF" title="This formula becomes a version of another formula">Move into…</button>' : ""}
+      <button id="btnCatF" title="Move to another category">Change category…</button><i></i>
+      <button id="btnDelF" class="danger" title="Delete the whole formula (undo possible)">Delete formula</button>`;
+}
+function bindFormulaMeta(f, sub){
+  $("#btnRenameF")?.addEventListener("click", () => {
+    const n = prompt("Formula name:", f.name); if (!n || n.trim() === f.name) return;
+    if (DATA.formulas.some(x => x !== f && normName(x.name) === normName(n))){ alert(`Another formula is already called “${n.trim()}”.`); return; }
+    snapF(f); f.name = n.trim(); buildUsage(); markDirty(); render();
+  });
+  $("#btnCopyF")?.addEventListener("click", () => copyFormula(f, sub));
+  $("#btnMoveF")?.addEventListener("click", () => moveInto(f));
+  $("#btnCatF")?.addEventListener("click", () => {
+    openDialog(`<h3 style="margin:0 0 .3rem">Category – ${esc(f.name)}</h3>
+      <div class="toolRow" style="margin:.7rem 0">${catPickerHtml(f.category, "14rem")}</div>`, "Apply", () => {
+      const cat = $("#catSel").value;
+      if (!cat || cat === f.category) return;
+      snapF(f); f.category = cat; undoCat(rememberCat(cat));
+      markDirty(); render();
+    }, "22rem");
+    bindNewCat();
+  });
+  $("#btnDelF")?.addEventListener("click", () => {
+    if (!confirm(`Delete formula “${f.name}” with ${f.versions.length} version(s)?\n\nUndo (Ctrl+Z) can bring it back during this session.`)) return;
+    const idx = DATA.formulas.findIndex(x => x.id === f.id), copy = f;
+    pushUndo(() => DATA.formulas.splice(idx, 0, copy));
+    DATA.formulas.splice(idx, 1);
+    VIEW.id = null; VIEW.sub = null; buildUsage(); markDirty(); render();
+  });
+}
 function renderFormula(f){
   const c = $("#content");
   let sub = VIEW.sub || {type:"v", idx: f.versions.length-1};
@@ -1506,9 +1556,13 @@ function renderFormula(f){
   VIEW.sub = sub;
   const item = f.versions[sub.idx];
   if (!item){
-    c.innerHTML = `<h2>${esc(f.name)}</h2><p class="hint">Empty formula – add a version.</p>
+    c.innerHTML = `<h2>${esc(f.name)}</h2>
+      <div class="metaLine"><span>${esc(f.category||"")}${f.created?" · since "+f.created:""}</span>
+        <span class="actions">${metaActionsHtml(f, false)}</span></div>
+      <p class="hint">Empty formula – add a version.</p>
       <div class="toolRow"><button class="small" id="btnNewV">+ New version</button></div>`;
     $("#btnNewV").addEventListener("click", e => { e.currentTarget.disabled = true; newVersion(f, null); });
+    bindFormulaMeta(f, sub);
     return;
   }
   const frozen = (item.frozen ?? f.frozenImport) || (sub.idx < f.versions.length-1) || item.imported;   // only the latest version is edited
@@ -1518,12 +1572,7 @@ function renderFormula(f){
   let h = `<h2>${esc(f.name)}${item ? `<button id="btnBenchToggle" class="benchBtn">${sub.bench?"Table view":"Bench view"}</button>` : ""}</h2>
   <div class="metaLine"><span>${esc(f.category||"")}${f.created?" · since "+f.created:""}${item.sourceName && !item.hideSource?` · imported as “${esc(item.sourceName)}”`:""}${f.starter?' · <span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other formula.">starter set</span>':""}</span>
     ${frozen?`<span class="badge" title="Read-only: an older version, or an import">frozen</span>`:""}
-    <span class="actions">
-      <button id="btnRenameF" title="Rename this formula">Rename…</button>
-      <button id="btnCopyF" title="The selected version becomes v1 of a new formula">Copy to new formula…</button>
-      ${canMoveInto(f) ? '<button id="btnMoveF" title="This formula becomes a version of another formula">Move into…</button>' : ""}
-      <button id="btnCatF" title="Move to another category">Change category…</button><i></i>
-      <button id="btnDelF" class="danger" title="Delete the whole formula (undo possible)">Delete formula</button></span></div>
+    <span class="actions">${metaActionsHtml(f, true)}</span></div>
   <div class="fhead">${pyrPyramid(K)}
   ${pyrBar(K)}
   <div class="chipRow"><label class="hint">Version</label>
@@ -1592,8 +1641,10 @@ function renderFormula(f){
   }
   c.innerHTML = h;
   $("#btnBenchToggle")?.addEventListener("click", () => {
-    if (!sub.bench && item && !item.bench && !readOnly()){   // first bench open: create the 5 default groups, explicitly saved
-                                                            // (not in the read-only mode: a change there can never be written)
+    if (!sub.bench && item && !(item.bench && Array.isArray(item.bench.groups)) && !readOnly()){
+      // first bench open: create the 5 default groups, explicitly saved. A bench field without a list of groups
+      // (a foreign file, a hand edit) is repaired here in the same breath, so + Add group has something to push into
+      // (not in the read-only mode: a change there can never be written)
       snapF(f);
       item.bench = {groups: Array.from({length:5}, (_,i) => ({id: uid("g"), title: "Group " + (i+1), keys: []}))};
       markDirty();
@@ -1601,30 +1652,7 @@ function renderFormula(f){
     VIEW.sub = {...sub, bench: !sub.bench}; render();
   });
   if (item && sub.bench) bindBench(f, item, lines, K);
-  $("#btnRenameF")?.addEventListener("click", () => {
-    const n = prompt("Formula name:", f.name); if (!n || n.trim() === f.name) return;
-    if (DATA.formulas.some(x => x !== f && normName(x.name) === normName(n))){ alert(`Another formula is already called “${n.trim()}”.`); return; }
-    snapF(f); f.name = n.trim(); buildUsage(); markDirty(); render();
-  });
-  $("#btnCopyF")?.addEventListener("click", () => copyFormula(f, sub));
-  $("#btnMoveF")?.addEventListener("click", () => moveInto(f));
-  $("#btnCatF")?.addEventListener("click", () => {
-    openDialog(`<h3 style="margin:0 0 .3rem">Category – ${esc(f.name)}</h3>
-      <div class="toolRow" style="margin:.7rem 0">${catPickerHtml(f.category, "14rem")}</div>`, "Apply", () => {
-      const cat = $("#catSel").value;
-      if (!cat || cat === f.category) return;
-      snapF(f); f.category = cat; undoCat(rememberCat(cat));
-      markDirty(); render();
-    }, "22rem");
-    bindNewCat();
-  });
-  $("#btnDelF")?.addEventListener("click", () => {
-    if (!confirm(`Delete formula “${f.name}” with ${f.versions.length} version(s)?\n\nUndo (Ctrl+Z) can bring it back during this session.`)) return;
-    const idx = DATA.formulas.findIndex(x => x.id === f.id), copy = f;
-    pushUndo(() => DATA.formulas.splice(idx, 0, copy));
-    DATA.formulas.splice(idx, 1);
-    VIEW.id = null; VIEW.sub = null; buildUsage(); markDirty(); render();
-  });
+  bindFormulaMeta(f, sub);
   $("#verSel")?.addEventListener("change", e => { if (e.target.value !== ""){ VIEW.sub = {type:"v", idx:+e.target.value}; render(); }});
   $("#btnNameV")?.addEventListener("click", () => {
     const dlg = $("#dlg");
@@ -1642,7 +1670,9 @@ function renderFormula(f){
       dlg.close(); snapF(f);
       item.name = n;
       if (item.sourceName && !keep){   // only hidden: a second Formulair import still recognises it by sourceName
-        item.notes = (item.notes ? item.notes + "\n\n" : "") + `Imported as “${item.sourceName}”.`;
+        // the line goes in once, never again: this window is used to set a label, and every Apply used to add it anew
+        const ref = `Imported as “${item.sourceName}”.`;
+        if (!(item.notes || "").includes(ref)) item.notes = (item.notes ? item.notes + "\n\n" : "") + ref;
         item.hideSource = true;
       } else if (keep) delete item.hideSource;
       markDirty(); render();
@@ -2450,13 +2480,20 @@ function moveInto(f){
       const nv = {v: vNext++, date: s.date || x.created || today(),
         name: s.name || (imported ? "" : x.name), notes: s.notes || "", lines: (s.lines || []).map(l => ({...l}))};
       if (imported){ nv.sourceName = s.sourceName || x.name; nv.imported = true; nv.frozen = true; }
-      else if (s.sourceName) nv.sourceName = s.sourceName;
+      else {
+        if (s.sourceName) nv.sourceName = s.sourceName;
+        if (s.frozen) nv.frozen = true;   // a frozen version that is no import (a predilution) stays frozen: moving it is not unfreezing it
+      }
       if (s.trials?.length) nv.trials = structuredClone(s.trials);
       if (s.bench) nv.bench = structuredClone(s.bench);
       if (s.prepared) nv.prepared = s.prepared;   // without this the badge goes, Mark as prepared returns, and a second click books the batch twice
       if (s.hideSource) nv.hideSource = true;
       t.versions.push(nv); if (x === f) sub = {type:"v", idx: t.versions.length - 1};
     }
+    // a version of your own landing in a Formulair import has to be editable, exactly as + New version leaves it:
+    // the import's own versions carry frozen: true themselves, so the formula-wide flag takes nothing away
+    const last = t.versions[t.versions.length - 1];
+    if (last && !last.frozen) t.frozenImport = false;
     t.modified = now();
     pushUndo(() => {   // one step: the target as it was, and every moved formula back in its place
       const ti = DATA.formulas.findIndex(x => x.id === tclone.id); if (ti >= 0) DATA.formulas[ti] = tclone;
@@ -3185,7 +3222,9 @@ function ifraPanel(f, item, K){
 }
 
 /* ---------- bench view (free ordering & grouping) ---------- */
-const benchOf = item => item.bench || {groups: []};   // reading never creates it: the first bench open does, explicitly
+// reading never creates it: the first bench open does, explicitly. A bench without a list of groups reads as none,
+// so a damaged field costs you the arrangement, not the whole view.
+const benchOf = item => (item.bench && Array.isArray(item.bench.groups)) ? item.bench : {groups: []};
 let BDRAG = null, BSORT = "orig";
 function benchPoolSort(pool, K){
   if (BSORT === "orig") return pool;
@@ -3268,6 +3307,9 @@ function benchMove(f, item, keys, target, beforeKey){
 }
 function bindBench(f, item, lines, K){
   const c = $("#content");
+  // benchOf keeps a damaged field from stopping the view; every handler below writes to item.bench.groups itself,
+  // so repair it here as well. Quietly: there was nothing in it to lose, and migrate does the same on the next load.
+  if (item.bench && !Array.isArray(item.bench.groups)) item.bench.groups = [];
   c.querySelectorAll(".brow").forEach(r => {
     r.addEventListener("dragstart", e => {
       const key = r.dataset.key;

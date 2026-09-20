@@ -256,6 +256,30 @@ with sync_playwright() as p:
     page.evaluate("""() => { DATA.shopSites = []; DATA.orderList = []; markDirty(); render(); }""")
     page.wait_for_timeout(400)
 
+    # ---------- B13 (bouw 260920d): een formule zonder versies is geen doodlopende weg ----------
+    # Delete version op de enige versie zegt letterlijk dat Delete formula de formule zelf verwijdert; die knop
+    # stond op dat scherm nergens, en de lijst heeft er bewust geen.
+    page.evaluate("""() => { DATA.formulas.push({id:"f-leeg", name:"Leeggelopen", category:"Uncategorised",
+        created:today(), frozenImport:false, versions:[]});
+        buildUsage(); markDirty(); switchTab("F", "f-leeg", null); }""")
+    page.wait_for_timeout(700)
+    aanwezig = page.evaluate("""() => ["btnRenameF","btnCatF","btnDelF","btnNewV","btnCopyF"]
+        .filter(id => !!document.getElementById(id))""")
+    check(f"een formule zonder versies houdt Rename, Change category en Delete formula ({aanwezig})",
+          all(k in aanwezig for k in ("btnRenameF", "btnCatF", "btnDelF", "btnNewV")))
+    check("en geen Copy to new formula, want er is geen versie om te kopiëren", "btnCopyF" not in aanwezig)
+    check("de uitleg staat er nog",
+          "Empty formula" in page.evaluate("""() => document.querySelector("#content").innerText"""))
+    mode["v"] = "accept"; msgs.clear()
+    page.click("#btnDelF"); page.wait_for_timeout(700)
+    check(f"en Delete formula werkt er ook echt ({[m[:40] for m in msgs]})",
+          page.evaluate("""() => !DATA.formulas.some(x => x.id === "f-leeg")"""))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check("Ctrl+Z brengt ze terug", page.evaluate("""() => DATA.formulas.some(x => x.id === "f-leeg")"""))
+    page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-leeg");
+        buildUsage(); switchTab("F", null, null); }""")
+    page.wait_for_timeout(400)
+
     check(f"no page errors ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

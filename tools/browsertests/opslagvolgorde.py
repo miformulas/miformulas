@@ -271,6 +271,41 @@ with sync_playwright() as p:
         check(f"{naam}: geen paginafouten ({e2[:1]})", not e2)
         ctx.close()
 
+    # ---------- 7. B14 (bouw 260920d): Ctrl+S met een veld dat nog de focus heeft ----------
+    # De knop Save had het probleem niet, want een muisklik geeft eerst blur. Bij de sneltoets bleef de notitie
+    # in het veld staan terwijl de statusregel "Saved" zei en DIRTY op false ging: geen beforeunload meer.
+    ctx = b.new_context(viewport={"width": 1200, "height": 900})
+    pg = ctx.new_page(); e3 = []
+    pg.on("pageerror", lambda e: e3.append(str(e)))
+    pg.on("dialog", lambda d: d.accept())
+    pg.goto(URL); pg.wait_for_timeout(800)
+    pg.click("#btnStarter"); pg.wait_for_timeout(1400)
+    pg.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.length && !x.frozenImport && !x.versions[0].frozen);
+        window.__nid = f.id; NOTESOPEN = true; switchTab("F", f.id, {type:"v", idx: f.versions.length-1}); }""")
+    pg.wait_for_timeout(800)
+    pg.evaluate("""() => { const d = document.querySelector("#notesEd")?.closest("details"); if (d) d.open = true; }""")
+    pg.wait_for_timeout(300)
+    pg.click("#notesEd"); pg.type("#notesEd", "een waarneming die niet verloren mag gaan")
+    pg.keyboard.press("Control+s"); pg.wait_for_timeout(900)
+    r = pg.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__nid);
+        return {data: (f.versions[f.versions.length-1].notes || ""), dirty: DIRTY,
+                status: (document.querySelector("#saveState")?.textContent || "").trim()}; }""")
+    check(f"Ctrl+S bewaart de notitie die nog in het veld staat ({r['data'][:24]!r})",
+          "een waarneming die niet verloren mag gaan" in r["data"])
+    check(f"en 'Saved' betekent dan ook echt bewaard ({r['dirty']}, {r['status'][:22]!r})",
+          r["dirty"] is False and r["status"].startswith("Saved"))
+    # hetzelfde voor een gewichtsveld dat nog de focus heeft
+    pg.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__nid);
+        window.__w0 = f.versions[f.versions.length-1].lines[0].weightG; }""")
+    veld = pg.locator("input.w").first
+    veld.click(); veld.fill("7.25")
+    pg.keyboard.press("Control+s"); pg.wait_for_timeout(900)
+    r = pg.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__nid);
+        return {nu: f.versions[f.versions.length-1].lines[0].weightG, voor: window.__w0, dirty: DIRTY}; }""")
+    check(f"ook een gewicht dat nog in het veld staat ({r})", r["nu"] == 7.25 and r["dirty"] is False)
+    check(f"geen paginafouten ({e3[:1]})", not e3)
+    ctx.close()
+
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")

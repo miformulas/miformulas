@@ -150,6 +150,35 @@ with sync_playwright() as p:
           head["chart"] and head["chart"]["y"] + head["chart"]["height"] <= head["order"]["y"] + 1)
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(400)
 
+    # ---------- 9. B17 (bouw 260920d): de piramide zegt waarover ze rekent ----------
+    # Keuze van Mathieu: een materiaal zonder niveau hoeft niet mee te tellen, dus de rekening blijft zoals ze was
+    # en de omschrijving volgt. Vroeger beloofde ze "the non-solvent content", wat het Categories-paneel doet.
+    page.evaluate("""() => { const met = DATA.materials.filter(m => !m.isSolvent && m.pyramid != null && m.pyramid <= 4).slice(0,2);
+        let zonder = DATA.materials.find(m => !m.isSolvent && (m.pyramid == null || m.pyramid > 4));
+        if (!zonder){ zonder = DATA.materials.find(m => !m.isSolvent && m !== met[0] && m !== met[1]); zonder.pyramid = null; }
+        DATA.formulas.push({id:"f-pyr", name:"Piramide", category:"Uncategorised", created:today(), frozenImport:false,
+          versions:[{v:1, date:today(), lines:[
+            {id:"y1", materialId:met[0].id, dilutionPct:100, weightG:10, remark:1},
+            {id:"y2", materialId:met[1].id, dilutionPct:100, weightG:10, remark:1},
+            {id:"y3", materialId:zonder.id, dilutionPct:100, weightG:80, remark:1}]}]});
+        buildUsage(); switchTab("F", "f-pyr", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    pyr = page.evaluate("""() => { const svg = document.querySelector(".fpyr");
+        return {label: svg ? svg.getAttribute("aria-label") : null,
+                titels: [...document.querySelectorAll(".fpyr title")].map(t => t.textContent),
+                balk: [...document.querySelectorAll(".pyrbar span")].map(s => s.getAttribute("title")),
+                pct: [...document.querySelectorAll(".fpyr text")].map(t => parseFloat(t.textContent))}; }""")
+    check(f"de piramide rekent over wat een niveau draagt ({pyr['pct']})",
+          abs(sum(pyr["pct"]) - 100) < 0.2 and len(pyr["pct"]) == 2)
+    check(f"en zegt dat ook in haar naam ({pyr['label']!r})",
+          "carries a level" in (pyr["label"] or "") and "non-solvent" not in (pyr["label"] or ""))
+    check(f"elke band zegt het in haar tooltip ({pyr['titels'][:1]})",
+          pyr["titels"] and all("of the material with a level" in t for t in pyr["titels"]))
+    check(f"en elk segment van de balk ook ({pyr['balk'][:1]})",
+          pyr["balk"] and all("of the material with a level" in t for t in pyr["balk"]))
+    page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-pyr"); buildUsage(); render(); }""")
+    page.wait_for_timeout(300)
+
     check("no page errors", not errs)
     b.close()
 

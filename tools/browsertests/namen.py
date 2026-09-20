@@ -221,6 +221,36 @@ with sync_playwright() as p:
           page.locator("#btnNewNmCat").count() == 1 and page.locator("#nmCatCol").count() == 1)
     page.click("#dlgCancel"); page.wait_for_timeout(400)
 
+    # ---------- 9. B15 (bouw 260920d): het venster "Name version" zet de importverwijzing één keer bij ----------
+    # Het venster dient om een label te zetten; elke Apply schreef opnieuw een alinea in een veld van de gebruiker.
+    page.evaluate("""() => { const m = DATA.materials[0];
+        DATA.formulas.push({id:"f-src", name:"Bron", category:"Uncategorised", created:today(), frozenImport:true,
+          versions:[{v:1, date:today(), imported:true, frozen:true, sourceName:"Bron v03", notes:"eigen waarneming",
+                     lines:[{id:"s1", materialId:m.id, dilutionPct:100, weightG:9, remark:1}]}]});
+        buildUsage(); switchTab("F", "f-src", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    for ronde in range(3):
+        page.click("#btnNameV"); page.wait_for_timeout(400)
+        if ronde == 0:
+            page.evaluate("""() => { const c = document.querySelector("#vnSrc"); if (c) c.checked = false; }""")
+        page.click("#dlgOk"); page.wait_for_timeout(500)
+    r = page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-src").versions[0];
+        return {keer: ((v.notes||"").match(/Imported as/g) || []).length, notes: v.notes, hide: !!v.hideSource}; }""")
+    check(f"drie keer Apply geeft één keer “Imported as …” ({r['keer']})", r["keer"] == 1 and r["hide"] is True)
+    check("en de eigen notitie staat er nog voor", r["notes"].startswith("eigen waarneming"))
+    # opnieuw aanvinken en weer uitvinken voegt ze evenmin een tweede keer toe
+    page.click("#btnNameV"); page.wait_for_timeout(400)
+    page.evaluate("""() => { const c = document.querySelector("#vnSrc"); if (c) c.checked = true; }""")
+    page.click("#dlgOk"); page.wait_for_timeout(500)
+    check("aanvinken toont de verwijzing weer in de kop",
+          page.evaluate("""() => !DATA.formulas.find(x => x.id === "f-src").versions[0].hideSource"""))
+    page.click("#btnNameV"); page.wait_for_timeout(400)
+    page.evaluate("""() => { const c = document.querySelector("#vnSrc"); if (c) c.checked = false; }""")
+    page.click("#dlgOk"); page.wait_for_timeout(500)
+    r = page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-src").versions[0];
+        return ((v.notes||"").match(/Imported as/g) || []).length; }""")
+    check(f"en weer uitvinken ook niet ({r})", r == 1)
+
     check("no page errors", not errs)
     b.close()
 

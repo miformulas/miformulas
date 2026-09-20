@@ -189,6 +189,44 @@ with sync_playwright() as p:
           page.locator("#btnPrep").count() == 0)
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
 
+    # ---------- B11 en B12 (bouw 260920d): wat bevroren was blijft bevroren, wat van jou is blijft bewerkbaar ----------
+    # Het venster belooft "its name stays on the version as its label", dus een gewone versie; de formulevlag
+    # frozenImport gold over elke versie heen en maakte die binnengekomen versie alsnog alleen-lezen.
+    page.evaluate("""() => { const m = DATA.materials[0];
+        DATA.formulas.push({id:"f-imp2", name:"Aura import", category:"Uncategorised", created:today(), frozenImport:true,
+          versions:[{v:1, date:today(), imported:true, frozen:true, sourceName:"Aura v05",
+                     lines:[{id:"m1", materialId:m.id, dilutionPct:100, weightG:10, remark:1}]}]});
+        DATA.formulas.push({id:"f-eigen2", name:"Aura v06 eigen", category:"Uncategorised", created:today(), frozenImport:false,
+          versions:[{v:1, date:today(), lines:[{id:"m2", materialId:m.id, dilutionPct:100, weightG:12, remark:1}]}]});
+        buildUsage(); switchTab("F", "f-eigen2", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.select_option("#mvTarget", "f-imp2"); page.wait_for_timeout(200)
+    page.click("#dlgOk"); page.wait_for_timeout(800)
+    r = page.evaluate("""() => { const t = DATA.formulas.find(x => x.id === "f-imp2"), nv = t.versions[t.versions.length-1];
+        return {frozenImport: t.frozenImport, versieFrozen: !!nv.frozen, label: nv.name,
+                badge: !!document.querySelector(".metaLine .badge[title*='Read-only']"),
+                velden: document.querySelectorAll("input.w").length}; }""")
+    check(f"een eigen versie in een import blijft bewerkbaar ({r})",
+          r["frozenImport"] is False and r["versieFrozen"] is False and r["velden"] == 1 and not r["badge"])
+    check("en de oudere import blijft bevroren op haar eigen vlag",
+          page.evaluate("""() => !!DATA.formulas.find(x => x.id === "f-imp2").versions[0].frozen""") is True)
+    page.evaluate("""() => { const m = DATA.materials[1];
+        DATA.formulas.push({id:"f-pre2", name:"Predil Y 10%", category:"Predilutions", created:today(), frozenImport:false,
+          versions:[{v:1, date:today(), frozen:true,
+                     lines:[{id:"m3", materialId:m.id, dilutionPct:100, weightG:1, remark:1}]}]});
+        DATA.formulas.push({id:"f-doel2", name:"Predils bundel", category:"Predilutions", created:today(), frozenImport:false,
+          versions:[{v:1, date:today(), lines:[{id:"m4", materialId:m.id, dilutionPct:100, weightG:2, remark:1}]}]});
+        buildUsage(); switchTab("F", "f-pre2", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.select_option("#mvTarget", "f-doel2"); page.wait_for_timeout(200)
+    page.click("#dlgOk"); page.wait_for_timeout(800)
+    r = page.evaluate("""() => { const t = DATA.formulas.find(x => x.id === "f-doel2"), nv = t.versions[t.versions.length-1];
+        return {versies: t.versions.length, frozen: !!nv.frozen, velden: document.querySelectorAll("input.w").length}; }""")
+    check(f"een bevroren versie die geen import is blijft bevroren ({r})",
+          r["versies"] == 2 and r["frozen"] is True and r["velden"] == 0)
+
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

@@ -190,6 +190,41 @@ with sync_playwright() as p:
     hint = pg3.text_content("#landingHint")
     check(f"het startscherm legt uit dat de browserkopie stuk is ({hint[:60]!r})", "could not be read" in hint and "Backup" in hint)
     ctx3.close()
+
+    # ---------- 9. B16 (bouw 260920d): een beschadigd bench-object legt de bench view niet stil ----------
+    # bench was de enige structuur die migrate niet dichttimmerde, en juist de structuur met ondoorzichtige
+    # sleutellijsten. {} gaf een TypeError bij elke render, ook na een herstart, want VIEW.sub.bench bleef staan.
+    ctx4 = b.new_context(viewport={"width": 1280, "height": 900})
+    pg4 = ctx4.new_page(); e4 = []
+    pg4.on("pageerror", lambda e: e4.append(str(e)))
+    pg4.on("dialog", lambda d: d.accept())
+    pg4.goto(URL); pg4.wait_for_timeout(900)
+    pg4.click("#btnStarter"); pg4.wait_for_timeout(1400)
+    mig = pg4.evaluate("""() => { const d = migrate({meta:{schema:1}, materials:[], formulas:[
+        {id:"x", name:"x", versions:[{v:1, lines:[], bench:{}}, {v:2, lines:[], bench:{groups:null}},
+                                     {v:3, lines:[], bench:[1,2]}, {v:4, lines:[], bench:{groups:[{title:5, keys:"nee"}]}}]}]});
+        return d.formulas[0].versions.map(v => JSON.stringify(v.bench ?? null)); }""")
+    check(f"migrate maakt van elke vorm een bruikbare bench ({mig})",
+          all(m == "null" or ('"groups":[' in m) for m in mig)
+          and '"keys":[]' in mig[3] and '"title":"Group"' in mig[3])
+    for naam, vorm in (("{}", "{}"), ("{groups:null}", "{groups:null}")):
+        e4.clear()
+        pg4.evaluate("""(vorm) => { const m = DATA.materials[0];
+            DATA.formulas = DATA.formulas.filter(x => x.id !== "f-bench");
+            DATA.formulas.push({id:"f-bench", name:"Benchstuk", category:"Uncategorised", created:today(),
+              frozenImport:false, versions:[{v:1, date:today(), bench: eval("(" + vorm + ")"),
+                lines:[{id:"b1", materialId:m.id, dilutionPct:100, weightG:5, remark:1}]}]});
+            buildUsage(); switchTab("F", "f-bench", {type:"v", idx:0, bench:true}); }""", vorm)
+        pg4.wait_for_timeout(800)
+        r = pg4.evaluate("""() => ({rijen: document.querySelectorAll(".brow").length,
+            knop: !!document.querySelector("#btnAddGroup")})""")
+        check(f"een bench {naam} opent gewoon ({r}, fouten {[x[:40] for x in e4]})", r["rijen"] == 1 and not e4)
+        pg4.evaluate("() => render()"); pg4.wait_for_timeout(400)
+        check(f"en een tweede render gooit evenmin ({[x[:40] for x in e4]})", not e4)
+    pg4.click("#btnAddGroup"); pg4.wait_for_timeout(600)
+    check(f"+ Add group heeft weer een lijst om in te duwen ({[x[:40] for x in e4]})",
+          not e4 and pg4.evaluate("""() => (DATA.formulas.find(x => x.id === "f-bench").versions[0].bench.groups||[]).length""") > 0)
+    ctx4.close()
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")
