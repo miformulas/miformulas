@@ -116,7 +116,13 @@ with sync_playwright() as p:
     check("gone: hint explains", "could not be opened" in pg.locator("#landingHint").inner_text())
     check("gone: handle forgotten", pg.evaluate("idb.get('fileHandle').then(h => !h)"))
     pg.evaluate("localStorage.removeItem('fakegone')")
-    pg.click("#btnStarter"); pg.wait_for_timeout(1200); pg.click("#dlgOk"); pg.wait_for_timeout(1500)
+    # a daily snapshot exists by now (the data file was opened earlier), so the starter set warns first (build 260920a)
+    pgmsg = []
+    pg.on("dialog", lambda d: (pgmsg.append(d.message), d.accept()))
+    pg.click("#btnStarter"); pg.wait_for_timeout(1200)
+    check(f"gone: the starter set warns that the snapshot would be out of reach ({[m[:40] for m in pgmsg[:1]]})",
+          any("daily snapshot" in m for m in pgmsg))
+    pg.click("#dlgOk"); pg.wait_for_timeout(1500)
     check("gone: starter set creates a new file", not pg.locator("#landing").is_visible() and pg.evaluate("DATA.formulas.length") == 16)
     pg.evaluate("idb.set('fileHandle', null)"); pg.evaluate("localStorage.removeItem('fakefile')")
 
@@ -126,6 +132,7 @@ with sync_playwright() as p:
                 lambda r: r.fulfill(status=200, content_type="application/json", body=STARTER,
                                     headers={"Access-Control-Allow-Origin": "*"}))
     page2.add_init_script("window.showSaveFilePicker = async () => { throw new DOMException('cancel','AbortError'); }; window.showOpenFilePicker = async () => {};")
+    page2.on("dialog", lambda d: d.accept())      # the snapshot warning of build 260920a
     page2.goto(APP); page2.wait_for_timeout(800)
     page2.click("#btnStarter"); page2.wait_for_timeout(1200); page2.click("#dlgOk"); page2.wait_for_timeout(1000)
     check("cancelled picker: landing stays", page2.locator("#landing").is_visible())
@@ -136,7 +143,7 @@ with sync_playwright() as p:
     page3 = ctx.new_page()
     page3.route("https://miformulas.com/data/miformulas-starter.json", lambda r: r.abort())
     dl = []
-    page3.on("dialog", lambda d: (dl.append(d.message), d.dismiss()))
+    page3.on("dialog", lambda d: (dl.append(d.message), d.accept()))   # accept: the snapshot warning of 260920a comes first
     page3.goto(APP); page3.wait_for_timeout(800)
     page3.click("#btnStarter"); page3.wait_for_timeout(1500)
     check("offline: alert mentions internet", any("internet connection" in m for m in dl))

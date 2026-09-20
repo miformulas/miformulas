@@ -172,6 +172,21 @@ with sync_playwright() as p:
     check("en het totaal telt het niet mee", "\u221e" not in txt)
     page.click("#btnImpCancel"); page.wait_for_timeout(400)
 
+    # ---------- een materiaal-id in het bestand telt niet mee (bouw 260920a) ----------
+    # De starterset geeft iedereen dezelfde id's m1…m199, dus een verzonnen of overgenomen id landde
+    # bij vrijwel elke ontvanger op een bestaand materiaal, en de voorvertoning toonde alleen dat materiaal.
+    naam_m1 = page.evaluate("() => (DATA.materials.find(m => m.id === 'm1')||{}).name")
+    ander = page.evaluate("""() => { const a = (DATA.materials.find(m => m.id === 'm1')||{}).name;
+        return (DATA.materials.find(m => m.id !== 'm1' && m.name !== a)||{}).name; }""")
+    idtest = schrijf("idtest.json", {"type": "miformulas-import", "name": "Idtest",
+        "lines": [{"material": ander, "materialId": "m1", "dilutionPct": 100, "weightG": 5}]})
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    page.set_input_files("#impFile", idtest); page.wait_for_timeout(900)
+    txt = page.text_content("#content")
+    check("de naam beslist, niet het materiaal-id uit het bestand", ander in txt and naam_m1 not in txt)
+    check("en de regel telt als treffer op die naam", "matched" in txt)
+    page.click("#btnImpCancel"); page.wait_for_timeout(400)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

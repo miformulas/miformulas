@@ -24,9 +24,13 @@ with sync_playwright() as p:
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnStarter"); page.wait_for_timeout(1600)
 
-    # the snapshot of the state you opened with is written at once
+    # a fresh start writes no snapshot (build 260920a): it would overwrite the one the start screen offers
+    check("a start from the starter set leaves the snapshot alone",
+          page.evaluate("idb.get('dailyBak').then(b => b == null)"))
+    page.wait_for_timeout(2200)                     # let the autosave write the browser copy first
+    page.reload(); page.wait_for_timeout(1800)      # the next visit starts from your own data, and that is what a snapshot is of
     snap = page.evaluate("idb.get('dailyBak').then(b => b && {date: b.date, n: JSON.parse(b.json).formulas.length})")
-    check(f"a daily snapshot is kept from the start ({snap})", snap and snap["n"] == 16)
+    check(f"the next start keeps a daily snapshot of the state you opened with ({snap})", snap and snap["n"] == 16)
 
     # ---------- 1. weights ----------
     page.evaluate("""() => {
@@ -160,6 +164,36 @@ with sync_playwright() as p:
     check("which brings back the state you opened with, not the changed one",
           pg2.evaluate("DATA.formulas.length") == 16
           and pg2.evaluate("""!DATA.formulas.some(f => f.name === "Gewijzigd")"""))
+
+    # ---------- 7. the snapshot survives the other two ways in (build 260920a) ----------
+    # Starting from the starter set or from nothing used to run dailySnapshot() over the snapshot that
+    # the very same start screen was offering, so one click destroyed the last copy of the user's work.
+    SNAP = """async () => {
+        await idb.set("dailyBak", {date: "2026-09-19", json: JSON.stringify({meta:{schema:1},
+            formulas: [{id:"f-old", name:"Months of work", category:"Uncategorised",
+                        versions:[{v:1, date:"2026-09-19", lines:[]}]}], materials: []})});
+        await idb.set("demoData", "{broken"); }"""
+    def landing_with_snapshot():
+        c = b.new_context(viewport={"width": 1280, "height": 950})
+        seen = []
+        pg = c.new_page()
+        pg.on("dialog", lambda d: (seen.append(d.message), d.accept()))
+        pg.route("**/data.php*", lambda r: r.fulfill(status=404, body="no"))
+        pg.goto(URL); pg.wait_for_timeout(900)
+        pg.evaluate(SNAP)
+        pg.reload(); pg.wait_for_timeout(1600)
+        return c, pg, seen
+    for btn, label in (("#btnStarter", "the starter set"), ("#btnEmpty", "Start empty")):
+        c7, pg7, seen = landing_with_snapshot()
+        check(f"the start screen offers the snapshot next to {label}",
+              pg7.locator("#btnSnap").is_visible() and pg7.locator(btn).is_visible())
+        seen.clear()
+        pg7.click(btn); pg7.wait_for_timeout(2600)
+        check(f"{label} asks first and names the snapshot ({[x[:60] for x in seen[:1]]})",
+              any("2026-09-19" in x for x in seen))
+        bak = pg7.evaluate("idb.get('dailyBak').then(b => b && JSON.parse(b.json).formulas.map(f => f.name))")
+        check(f"and the snapshot still holds the earlier work ({bak})", bak == ["Months of work"])
+        c7.close()
 
     check("no page errors", not errs)
     b.close()

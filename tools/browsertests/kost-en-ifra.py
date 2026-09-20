@@ -255,6 +255,53 @@ with sync_playwright() as p:
           pg.evaluate("DATA && DATA.formulas.length") == 16
           and pg.locator("#saveState").inner_text().startswith("Saved"))
     check("no page errors", not errs3)
+    ctx.close()
+
+    # ---------- 7. a predilution switches the IFRA check off (build 260920a) ----------
+    # The app cannot look inside a predilution: its materials are text in the description, not lines. Before
+    # 260920a the panel simply stopped counting them, so a formula three times over the limit read "no
+    # restricted materials" right after Create predilution…
+    ctx = b.new_context(viewport={"width": 1280, "height": 950})
+    errs4 = []; msgs4 = []
+    pg = ctx.new_page()
+    pg.on("pageerror", lambda e: errs4.append(str(e)))
+    pg.on("dialog", lambda d: (msgs4.append(d.message), d.accept()))
+    pg.route("**/data.php*", lambda r: r.fulfill(status=404, body="no"))
+    pg.goto(URL); pg.wait_for_timeout(700)
+    pg.click("#btnStarter"); pg.wait_for_timeout(1600)
+    pg.evaluate("""() => {
+        IFRAOPEN = true;
+        const mk = (id,n,lim,sol) => ({id, name:n, category:"Uncategorised", ifraLimit:lim, isSolvent:!!sol,
+                                       dilutions:[{pct:100, isBase:true}], aliases:"", cas:""});
+        DATA.materials.push(mk("q1","Restricted A",0.5), mk("q2","Restricted B",1), mk("q3","EtOH test",99,true));
+        invalidateMats();
+        DATA.formulas.push({id:"f-q", name:"IFRA test", category:"Uncategorised", versions:[{v:1, date:today(), lines:[
+            {id:"a1", materialId:"q1", dilutionPct:100, weightG:4, remark:1},
+            {id:"a2", materialId:"q2", dilutionPct:100, weightG:3, remark:1},
+            {id:"a3", materialId:"q3", dilutionPct:100, weightG:93, remark:1}]}]});
+        VIEW = {tab:"F", id:"f-q", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
+    pg.wait_for_timeout(700)
+    head = pg.text_content("#ifraBox summary")
+    check(f"without a predilution the check runs ({head!r})", "over limit" in head)
+    pg.evaluate("""() => { document.querySelectorAll("#content input[type=checkbox][data-i]").forEach(cb => {
+        if (+cb.dataset.i <= 1){ cb.checked = true; cb.dispatchEvent(new Event("change", {bubbles:true})); } }); }""")
+    pg.wait_for_timeout(400)
+    pg.click("#btnPredil"); pg.wait_for_timeout(700)
+    pg.click("#dlgOk"); pg.wait_for_timeout(1400)
+    head = pg.text_content("#ifraBox summary"); body = pg.text_content("#ifraBox")
+    check(f"with a predilution in the version the check is off and says so ({head!r})", "off (predilution" in head)
+    check("the panel names the predilution and the way to check it anyway",
+          "does not look inside" in body and "Predilutions" in body)
+    check("no verdict and no dosage field while it is off",
+          "no restricted materials" not in body and "within limits" not in body and pg.locator("#ifraDose").count() == 0)
+    check("the predilution material carries the marker",
+          pg.evaluate("""() => { const m = DATA.materials.find(x => x.isPredil); return !!m && m.category === "Predils"; }"""))
+    pg.evaluate("""() => { const pf = DATA.formulas.find(f => f.category === "Predilutions");
+        VIEW = {tab:"F", id:pf.id, sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
+    pg.wait_for_timeout(600)
+    head = pg.text_content("#ifraBox summary")
+    check(f"the predilution formula itself is still checked ({head!r})", "over limit" in head)
+    check("no page errors", not errs4)
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")

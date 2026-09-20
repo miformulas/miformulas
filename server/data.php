@@ -27,6 +27,10 @@ function fail($code, $msg, $extra = []) {
   exit;
 }
 function etag_of($s) { return '"' . sha1($s) . '"'; }
+// A web server that compresses the response may weaken the ETag to W/"..."; the app sends that back in
+// If-Match. Compare without W/ and without quotes, exactly as server/worker.js does.
+function norm_tag($e) { $e = trim((string)$e); $e = preg_replace('/^W\//i', '', $e); return preg_replace('/^"|"$/', '', $e); }
+function same_tag($a, $b) { return norm_tag($a) === norm_tag($b); }
 function hdr($name) {
   $k = 'HTTP_' . strtoupper(str_replace('-', '_', $name));
   return isset($_SERVER[$k]) ? $_SERVER[$k] : '';
@@ -65,7 +69,7 @@ if ($method === 'PUT' || $method === 'POST') {
   $cur = file_exists($FILE) ? file_get_contents($FILE) : '';
   $curTag = $cur === '' ? '' : etag_of($cur);
   $ifMatch = hdr('If-Match');
-  if ($cur !== '' && $ifMatch !== '' && $ifMatch !== $curTag) {
+  if ($cur !== '' && $ifMatch !== '' && !same_tag($ifMatch, $curTag)) {
     flock($fh, LOCK_UN); fclose($fh);
     fail(409, 'conflict: the data changed on another device – reload before saving', ['etag' => $curTag]);
   }

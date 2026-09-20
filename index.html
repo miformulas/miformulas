@@ -342,7 +342,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260918e</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920a</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -407,7 +407,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260918e. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260920a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -697,7 +697,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>Compare…</strong> (shown as soon as a formula has two versions) puts two versions side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. Change A and B with the two lists and close with <strong>Close compare</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s17-comparing-versions">Compare: two versions side by side, aggregated per material, largest change first.</a></p>
 <h2 id="s18-ifra-check-and-category-panel">18. IFRA check and category panel</h2>
-<p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. A material you ticked as a <strong>solvent</strong> gets no percentage here, since rel % is measured against the non-solvent content and a solvent is not part of it; one carrying a limit is named under the table instead of disappearing, because IFRA counts it as part of the finished product whatever role it has in your formula. Work that one out by hand, or untick Solvent if it is a raw material in your formulas. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
+<p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. <strong>A predilution switches the check off.</strong> Its materials live as text in the description of the predilution material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the predilution, and you check the version from before the predilution was made, or the predilution itself under Predilutions, where its materials are lines again. A material you ticked as a <strong>solvent</strong> gets no percentage here, since rel % is measured against the non-solvent content and a solvent is not part of it; one carrying a limit is named under the table instead of disappearing, because IFRA counts it as part of the finished product whatever role it has in your formula. Work that one out by hand, or untick Solvent if it is a raw material in your formulas. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The IFRA check panel: materials over their limit come first.</a></p>
 <p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table does the same per pyramid level.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The Categories panel.</a></p>
@@ -709,7 +709,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>The ⇅ button in the header opens <strong>Import &amp; export</strong>, a window with everything that comes in and goes out. The Welcome page keeps the two ways in that a new inventory starts with, and points at that window for the rest. <strong>Import from Formulair…</strong> opens the importer described in section <a href="#s6-coming-from-formulair">6</a>.</p>
 <p><strong>Import materials inventory from CSV…</strong> is the way in for the materials you already keep in Excel, Numbers or Google Sheets, which is where almost everyone keeps them. Save the sheet as a CSV first (in Excel: <strong>File › Save As › CSV</strong>; the app reads the comma, the semicolon and the tab, a decimal comma as well as a point, and the Windows encoding Excel uses when you do not choose "CSV UTF-8"). Then choose the file, and the app shows its columns next to the fields of a material and lets you match them on screen. It fills the matches in itself when it recognises the headers: its own, from <strong>Export all materials (Excel)</strong>, and the usual names (Material, Ingredient, CAS No., Vendor, Price, IFRA, Notes); anything it did not recognise you pick from the list, and only <strong>Name</strong> is required. Under the matching you see the first rows of your sheet as they were read, and a count of what will happen: how many materials will be created, how many rows are skipped because you already have a material with that name (nothing of yours is touched by an import) and how many rows have no name. What the sheet leaves empty, the materials library fills in when it knows the name (section <a href="#s9-materials">9</a>), so a sheet with nothing but names still arrives with CAS numbers, categories and pyramid levels. The window names the library that is loaded and says how many of the new names it knows; when none is loaded, it offers <strong>Get the latest library</strong> right there, so the first import does not have to pass through Settings. Pyramid takes the words Top, Top-heart, Heart, Heart-base, Base or the numbers 0 to 4; Solvent, Cupboard, Fridge and Freezer take yes or nothing; Dilutions takes the base first and the others after a slash ("100 / 10"), and a single figure like "10%" makes that the base. A stock column is ignored, because stock is a ledger and an import cannot invent its history. The whole import is one Undo step. <strong>Download a template</strong> (in the same window, in Import &amp; export and on the Welcome page) writes a CSV with the columns the app uses itself and two example rows to overwrite, so nobody has to guess the format with an empty inventory.</p>
 <p><strong>Import materials library…</strong> reads a miformulas-materials JSON file: a library of materials with their facts, which the app uses when you add a material, when you tick several in <strong>Browse the library…</strong>, and when a search in Materials finds nothing in your inventory. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. One library is loaded at a time, so importing a newer or fuller one replaces the previous one; the materials you own are never touched. Settings (⚙) names the library that is loaded, with its size and its licence, removes it again, and fetches the latest miFormulas library straight from the site with <strong>Get the latest library</strong>, so you do not have to download a file first. The library travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step.</p>
-<p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, or shared by another miFormulas user, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your inventory (by name, or by one of the alternative names of a material), the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). It also reads the file critically, because such a file is written elsewhere: a line without a material name, a weight that is not a number or is negative, and a dilution outside 0 to 100 are shown in red with the reason, and <strong>Confirm import</strong> stays out of reach until you correct them in the file. What can be read is repaired quietly: a decimal comma, a percent sign after a dilution, a missing dilution (which means 100). If you already have a formula with the same name, a new version of it is preselected. Nothing else is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens; Undo takes the whole import back, including the materials, order lines and categories it created. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
+<p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, or shared by another miFormulas user, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your inventory (always by name, or by one of the alternative names of a material; a material id in the file is ignored, because an id from another data file points at another material), the total weight (a round number suggests a complete transcription), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). It also reads the file critically, because such a file is written elsewhere: a line without a material name, a weight that is not a number or is negative, and a dilution outside 0 to 100 are shown in red with the reason, and <strong>Confirm import</strong> stays out of reach until you correct them in the file. What can be read is repaired quietly: a decimal comma, a percent sign after a dilution, a missing dilution (which means 100). If you already have a formula with the same name, a new version of it is preselected. Nothing else is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens; Undo takes the whole import back, including the materials, order lines and categories it created. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
 <p>The same button reads a file that holds <strong>several formulas at once</strong>, the kind <strong>Export all my formulas…</strong> writes. Such a file can hold tens of thousands of lines, so the page shows a summary instead of a table of lines: how many formulas, versions and lines, how many lines matched a material you own and how many materials will be created, how many lines use a dilution you do not stock and how many you and the sender disagree about being a solvent. Under that, one row per formula with its versions, lines and new materials. Every line is checked exactly as in a single import, and one that cannot be read blocks <strong>Confirm import</strong> with the formula it sits in named. The formulas arrive as new formulas, each with all its versions; one whose name you already have arrives as "Name (import)" and nothing of yours is touched, so you can join them afterwards with <strong>Move into…</strong> (section <a href="#s10-formulas-and-versions">10</a>). The materials it creates are marked "to order" in Materials but are <strong>not</strong> put on the order list, because hundreds of rows there would drown the list you keep yourself; add the ones you want with <strong>Add to order list</strong> on the material page. The whole import is a single Undo step.</p>
 <p><strong>The same button also reads a CSV</strong>, the one <strong>Export all formulas (Excel)</strong> writes, so a collection that went out to a spreadsheet can come back. Choose a <code>.csv</code> file instead of a JSON one and the app puts its columns next to the fields it knows, the way the materials import does: Formula, Category, Entry, Date, Material, Dilution %, Weight g and Notes. Only <strong>Material</strong> and <strong>Weight g</strong> are required. The rows are grouped by Formula and Entry in the order they appear, an empty cell in either carries on the row above, and "v3 45gr" becomes the version label "45gr", because the app numbers versions itself. A material with " (solvent)" behind its name loses the suffix and comes in as a solvent line. The Total line is not read as a line whatever stands beside it: it is the check on the weights, and a version whose lines do not add up to it is named on the next screen, without blocking anything. A row that holds a weight but no material name, a section heading for instance, is left out and counted on both screens. The date from the sheet comes along as the date of the version. Rel %, Abs % and Cost EUR are ignored, because the app works them out from the weights; a sheet that holds percentages or parts instead of grams goes in the <strong>Weight g</strong> column and is read exactly as it stands, since nothing is ever converted. Without a Formula column the file name is the formula and the whole sheet is one version, which is the ordinary case of one formula per sheet. From there on it is the import described above: line by line for a single version, a summary for more, every line checked the same way, and a formula whose name you already have arriving as "Name (import)" for <strong>Move into…</strong> (section <a href="#s10-formulas-and-versions">10</a>) to join afterwards. A sheet written from scratch, with one tab per formula or versions side by side in columns, has no shape the app can guess; for those the AI prompts below are the way in.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s20-import-and-export">The import page: every line with its match, the total weight, new materials and dilutions you do not stock.</a></p>
@@ -908,17 +908,19 @@ function migrateSafe(parsed){   // a file damaged beyond repair says so, instead
   catch(e){ try{ console.warn("miFormulas: this file could not be read", e); }catch(_){} alert(CORRUPT_MSG); return null; }
 }
 const NOT_DATA_MSG = "This is not a miFormulas data file: it holds no formulas and materials.\n\nTo bring in a single formula or a materials library, use Import formula… or Import materials library… behind ⇅ in the header.";
+let SNAPOFFER = null;   // the date of the snapshot the start screen offers, so the other two ways in can warn about it
 async function offerSnapshot(){   // the landing offers the snapshot of today (or of the last day you worked)
   const bak = await idb.get("dailyBak");
   if (!bak || !bak.json) return;
   const bs = $("#btnSnap");
   if (!bs || bs.dataset.bound) return;
+  SNAPOFFER = bak.date;
   bs.dataset.bound = "1";
   bs.style.display = ""; bs.textContent = `Restore daily snapshot (${bak.date})`;
   bs.addEventListener("click", () => {
     try{ DATA = migrate(JSON.parse(bak.json)); }
     catch(e){ alert("The snapshot could not be read."); return; }
-    boot();
+    boot(true);
     if (REMOTE && !SERVER_EMPTY){   // the server was unreachable: nothing is written there until it has been read (see remoteSave)
       setState("Snapshot loaded, not on the server: use Backup, or reload (F5) once the server is back", "", true);
     } else {
@@ -927,6 +929,10 @@ async function offerSnapshot(){   // the landing offers the snapshot of today (o
     }
     $("#saveState").className = "dirty";
   });
+}
+function snapStillThere(){   // starting here is the last moment the snapshot is within reach
+  return !SNAPOFFER || confirm(`A daily snapshot of ${SNAPOFFER} is offered above (Restore daily snapshot).\n\n`
+    + `Starting here does not delete it, but this start screen does not come back once the app has data, so the snapshot would be out of reach. Restore it first if you want it.\n\nStart anyway?`);
 }
 const CORRUPT_MSG = "The data file could not be read (invalid JSON). Nothing was changed.\n\nRestore a timestamped backup, the version history of your cloud storage, or the daily snapshot on the start screen.";
 async function loadFromHandle(h){
@@ -1013,8 +1019,9 @@ function emptyData(){   // the third way in: nothing at all, rather than deletin
   return migrate({meta: {schema: SCHEMA}, formulas: [], materials: []});
 }
 $("#btnEmpty").addEventListener("click", () => {
-  if (!confirm("Start with nothing: no formulas and no materials.\n\nSettings can clear this data again later, which brings this start screen back.")) return;
-  DATA = emptyData(); boot(); markDirty();
+  if (!confirm("Start with nothing: no formulas and no materials.\n\nSettings can clear this data again later, which brings this start screen back."
+    + (SNAPOFFER ? `\n\nThe daily snapshot of ${SNAPOFFER} above stays where it is, but this screen does not come back on its own: restore it first if you want it.` : ""))) return;
+  DATA = emptyData(); boot(true); markDirty();
 });
 let ETAG = null, TOKEN = null, SERVER_EMPTY = false, ETAGWARNED = false;
 function warnNoEtag(){   // said once per session, whether the load or the save is the one that cannot see it
@@ -2502,7 +2509,7 @@ function createPredilution(f, sub, item, dispLines){
     (DATA.categoryColours ||= {})["Predils"] ||= "#7A5EA8";
     const pm = {id: uid("m-"), name, cas: "", category: "Predils", supplier: "", modified: now(),
       costPerGram: Cp > 0 ? +(costT/Cp).toFixed(4) : null,   // per gram of pure material, as everywhere else
-      ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`,
+      ifraLimit: null, inventory: `${(+Wp.toFixed(3))} g`, isPredil: true,   // the IFRA check cannot look inside a mix: it switches off on a formula that holds one
       purchaseDate: today(), pyramid: 5, isSolvent: false,
       description: `Predilution of ${f.name} v${cur.v} (factor ×${k}).\n\n` +
         picks.map(l => { const m = matById(l.materialId); return `${(m||{}).name||"?"} (${fmtS(l.dilutionPct??100)}%) – ${(+(l.weightG*k).toFixed(4))} g`; }).join("\n"),
@@ -3089,7 +3096,17 @@ function catPanel(K){
     </tbody><tfoot><tr><td>Total</td><td class="num">${rows.reduce((s,[,e]) => s+e.n, 0)}</td><td class="num">${fmt(tot,2)}</td><td></td></tr></tfoot></table>
     <div class="hint">Share of the non-solvent content, dilution-corrected.</div></details>`;
 }
+// a predilution is a mix: its components live as text in the material's description, not as lines, so no
+// percentage here can be right. isPredil marks the ones the app makes; the category is the fallback for
+// the predilutions already in a data file, so that nothing has to be migrated or rewritten.
+const isPredil = m => !!(m && (m.isPredil || m.category === "Predils"));
 function ifraPanel(f, item, K){
+  const predils = [...new Set(K.rows.filter(r => isPredil(r.m)).map(r => r.m.name).filter(Boolean))];
+  if (predils.length){   // switched off rather than wrong: a check that looks past a mix reads as a clearance
+    return `<details class="panelBox" id="ifraBox"${IFRAOPEN?" open":""}>
+    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--amber-ink)">IFRA check – off (predilution in this version)</summary>
+    <div class="hint" id="ifraOff" style="color:var(--amber-ink);margin-top:.5rem">This version holds a predilution (${predils.slice(0,6).map(esc).join(", ")}${predils.length>6?", …":""}), and the app does not look inside one: its materials are text in the description, not lines. Checking anyway would report this formula as clean while a restricted material sits in the mix, so the check is off here. Check the version before the predilution was made, or the predilution itself under <b>Predilutions</b>, where the materials are lines again.</div></details>`;
+  }
   const agg = new Map(), solvents = new Map();
   for (const r of K.rows){
     // a solvent line has no rel %: it is outside the base these percentages stand on, so it cannot be
@@ -3434,7 +3451,8 @@ function resolveImportLine(L){
   if (!L || typeof L !== "object") L = {};                     // a file can hold null, a number or a string where a line belongs
   const nm = typeof L.material === "string" ? normName(L.material) : "";
   const m = !nm ? null                                   // a line without a name matches nothing: "" would land on the first material without aliases
-    : (L.materialId && matById(L.materialId)) || matByName(L.material) || null;   // "Ambroxan" on a sheet finds your "Ambroxide"
+    : matByName(L.material) || null;   // the name decides, never an id: "Ambroxan" on a sheet finds your "Ambroxide", while an id
+                                       // from another data file (the starter set gives everyone m1…m199) would point at another material
   const w = L.weightG == null || L.weightG === "" ? null : parseNum(L.weightG);        // a transcription can hold "2,5" or nothing at all
   const dil = L.dilutionPct == null || L.dilutionPct === "" ? 100 : parseNum(L.dilutionPct);
   const bad = !nm ? "no material name"
@@ -4540,7 +4558,7 @@ async function dailySnapshot(){   // once a day: the state as it was when you op
   LASTBAK = day;
   if (!prev || prev.date !== day) idb.set("dailyBak", {date: day, json: serialize()});
 }
-function boot(){
+function boot(fresh){   // fresh = the app starts from the starter set, from nothing or from a snapshot, not from your own data
   $("#landing").style.display = "none";
   $("header").inert = false; $("#main").inert = false;   // released only now: before this there is no DATA to work on
   if (isMobile()) HOMEVIEW = true;      // phones start on the welcome screen, not on an empty list
@@ -4554,7 +4572,7 @@ function boot(){
   setTabs(); render();
   if (STANDALONE && DEMO && !HANDLE){ saveNow._persistAsked = true; requestPersistence(); }   // installed app: granted silently, so the bar never flashes
   else updateStorageHint();
-  dailySnapshot();
+  if (!fresh) dailySnapshot();   // a start from the starter set would otherwise overwrite the snapshot that is offered on that very screen
   checkPendingImport();
 }
 (async () => {
@@ -4583,7 +4601,7 @@ function boot(){
         $("#landingHint").textContent = "The server at " + url + " has no data file yet. Start with the starter set and the app writes it there, or use Connect to server once the file exists.";
         const bs = $("#btnStarter"); bs.style.display = "";
         $("#btnEmpty").style.display = "";
-        bs.addEventListener("click", async () => { const d = await loadStarter(); if (!d) return; DATA = d; boot(); markDirty(); });
+        bs.addEventListener("click", async () => { if (!snapStillThere()) return; const d = await loadStarter(); if (!d) return; DATA = d; boot(true); markDirty(); });
       }
       return;
     }
@@ -4597,7 +4615,7 @@ function boot(){
     const demo = await idb.get("demoData");
     if (!demo){   // nothing here yet, but a Formulair import waiting: that becomes the data
       const pend = await idb.get("pendingImport");
-      if (pend){ await idb.set("pendingImport", null); try{ DATA = migrate(JSON.parse(pend)); boot(); markDirty(); return; }catch(e){ alert("The Formulair import could not be read; run the importer again."); } }
+      if (pend){ await idb.set("pendingImport", null); try{ DATA = migrate(JSON.parse(pend)); boot(true); markDirty(); return; }catch(e){ alert("The Formulair import could not be read; run the importer again."); } }
     }
     let demoBroken = false;
     if (demo){
@@ -4613,8 +4631,9 @@ function boot(){
     if (IOS){ $("#btnDownload").style.display = "none"; $("#btnFormulair").style.display = "none"; }   // neither is possible on an iPhone or iPad
     offerSnapshot();
     bs.addEventListener("click", async () => {
+      if (!snapStillThere()) return;
       const d = await loadStarter(); if (!d) return;
-      DATA = d; boot(); markDirty();
+      DATA = d; boot(true); markDirty();
     });
     const DL_MSG = "miFormulas.html is now in your Downloads folder. Move it to a folder of its own, for instance Documents\\miFormulas, and open it there in Chrome or Edge; it then keeps your data in a file next to it. If you already made formulas here, click Backup first and open that file in the downloaded app.";
     $("#btnDownload").addEventListener("click", e => {
@@ -4659,6 +4678,7 @@ function boot(){
   const bsf = $("#btnStarter"); bsf.style.display = "";
   const NOFILE_MSG = "No data file was created, so nothing is saved. Start with the starter set to try again, or open an existing data file.";
   bsf.addEventListener("click", async () => {
+    if (!snapStillThere()) return;
     const d = await loadStarter(); if (!d) return;   // fetched first; the dialog button below gives the picker a fresh user gesture
     const dlg = $("#dlg");
     const onCancel = () => { $("#landingHint").textContent = NOFILE_MSG; };
@@ -4674,7 +4694,7 @@ function boot(){
           catch(e){ /* cancelled */ }
           if (!h){ $("#landingHint").textContent = NOFILE_MSG; return; }
           DATA = d; HANDLE = h; await idb.set("fileHandle", h);
-          boot(); saveData();
+          boot(true); saveData();
         })();
       }, "28rem");
   });
