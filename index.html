@@ -350,7 +350,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920j</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920k</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -417,7 +417,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260920j. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260920k. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -671,10 +671,10 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with the <strong>pencil</strong>, write notes, add trial-log entries, set colour marks, arrange the bench view and use <strong>Mark as prepared</strong> on a frozen version: those are your annotations about it, not the recipe itself. In the version list a <strong>🔒</strong> marks a version that came in from an import, and the name it carried there is shown after the version number as a reference; the window behind the <strong>pencil</strong> has a tick box <strong>show the import reference</strong> to hide that name in the list once the grouping is done. It only hides it: the reference stays in the file, so a second Formulair import still recognises the formula.</p>
 <p><strong>Move into…</strong> appears on any formula that still has one version, whatever it came from: a formula from the Formulair import, one you brought in with Import formula…, or one you typed yourself. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along; an import keeps its import name as a reference and stays frozen, a formula of your own arrives as an ordinary version that keeps its name as the version label, so nothing of it is lost from the list. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s6-coming-from-formulair">6</a>). When other single-version formulas share the name, the dialog lists them under <strong>Move together</strong>: those whose name carries a version number ("Aura v04", "Aura v05 20%") come ticked and go into the target in the same go, as versions numbered by that number and then by name. Untick what should stay, and add any other single-version formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s10-formulas-and-versions">Move into…: three imported formulas about to become one formula with its own history.</a></p>
-<p><strong>Copy to new formula…</strong> takes the version you are looking at as v1 of a new formula. <strong>Rename…</strong> and <strong>Change category…</strong> do what they say; categories are shared between formulas and get a colour dot, which the colour square beside the category picker sets. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
+<p><strong>Copy to new formula…</strong> takes the version you are looking at as v1 of a new formula, with its lines, bench arrangement, notes and trial log; the notes open with a line saying which formula and version it was copied from. <strong>Rename…</strong> and <strong>Change category…</strong> do what they say; categories are shared between formulas and get a colour dot, which the colour square beside the category picker sets. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
 <p><strong>Delete version</strong> asks first and names the formula and the version it is about. When it is the only version it says so: the formula then stays in your list without lines, and <strong>Delete formula</strong> is what removes the formula itself. Undo (Ctrl+Z) brings a deleted version back during the session.</p>
 <h2 id="s11-editing-a-formula">11. Editing a formula</h2>
-<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s13-changing-dilutions">13</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice, and the suggestion list shows each material with its alternative names beside it, so typing one of those names brings up the materials that carry it. When nothing of yours carries the name you typed, the app does not go straight to creating one: it runs the same search as the list panel in section <a href="#s8-the-screen">8</a> (name, alternative names, CAS number, supplier, and the description) and shows what that finds, with what it matched on, so that you can pick the material you meant. <strong>None of these</strong> goes on to create it. Adding a material the version already holds at that same dilution asks first, and says what a second line would mean: the weighing sheet lists it twice, while Compare adds the two together. Say yes and an amber line above the table keeps warning about those <strong>duplicate lines</strong>, because it is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.</p>
+<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s13-changing-dilutions">13</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice, and the suggestion list shows each material with its alternative names beside it, so typing one of those names brings up the materials that carry it. When nothing of yours carries the name you typed, the app does not go straight to creating one: it runs the same search as the list panel in section <a href="#s8-the-screen">8</a> (name, alternative names, CAS number, supplier, and the description) and shows what that finds, with what it matched on, so that you can pick the material you meant. <strong>None of these</strong> goes on to create it. Adding a material the version already holds at that same dilution asks first, and says what a second line would mean: the weighing sheet lists it twice, while Compare adds the two together. Say yes and an amber line keeps warning about those <strong>duplicate lines</strong>, in the table and in the bench view alike, because it is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s11-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
 <p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s20-import-and-export">20</a>) it arrives with the facts the library holds, exactly as <strong>+ New material…</strong> does; the same goes for a formula import and for <strong>Delivered…</strong> on the order list.</p>
 <p>The table can be ordered by original entry, by category or by pyramid level (top to base), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
@@ -711,13 +711,13 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>From the table view, four buttons under the lines, in this order: <strong>Print full formula</strong>, <strong>Excel export</strong>, <strong>Share this version…</strong> and <strong>Print weighing sheet</strong>. The line under them says what each is for. The two prints are not the same sheet: the full formula is the record of the version, the weighing sheet is what you work from at the bench. <strong>Ctrl+P</strong> or File › Print without one of these buttons prints that same weighing sheet of the version you are looking at, in bench view as well; outside a formula it prints a line saying so, so what goes to the printer is never a sheet left over from earlier.</p>
 <ul>
 <li><strong>Print weighing sheet</strong> prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, exactly as the version holds them; it never rescales, so what you weigh always matches a version number (section <a href="#s14-batch-scaling-and-predilutions">14</a>). Fridge materials carry the ❄, and a material you do not own yet reads "(to order)", so you notice at the bench and not at the cupboard.</li>
-<li><strong>Print full formula</strong> prints the complete entry with weights, both percentages, the cost per line and the total, and the notes and the trial log underneath. This is the record of the version, the one to keep on paper or as a PDF.</li>
+<li><strong>Print full formula</strong> prints the complete entry with weights, both percentages, the total, and the notes and the trial log underneath; the cost per line is there once a material of yours carries a price, exactly as the column on the screen appears only then. This is the record of the version, the one to keep on paper or as a PDF.</li>
 <li><strong>Excel export</strong> downloads the entry as a CSV file, which a spreadsheet opens directly. Use this for a colleague who does not use miFormulas: they can read it, sort it and work in it. A line whose material you have since deleted has no name to write; the app says how many there are and asks before it leaves them out.</li>
 <li><strong>Share this version…</strong> downloads the entry as a miformulas-import file, the same format described in section <a href="#s20-import-and-export">20</a>. Send it to someone who does use miFormulas and they import it in one action, instead of typing your formula line by line. It holds the material names with their dilution and weight, the CAS numbers, a mark on the lines that are solvent in your inventory, the category, the label of this version and its notes, and nothing of your own lab: no price, no supplier, no stock, no trial log, no colour marks. The lines keep the order of the version, not the sort order on your screen. Here too a line to a material you deleted is left out, after the app has said how many and asked. Weights and dilutions are never converted, here or on the way in, so a dilution the other does not stock arrives with a ⚠ and they convert it themselves in a new version. A material they do not own yet is created for them as "to order", with its CAS and, where the file says so, as a solvent, so that their rel % and abs % read the same as yours. Where the two of you disagree about what is a solvent, their own material decides and the import page says so.</li>
 </ul>
 <p>Printing uses the browser's print dialog; choose "Save as PDF" there for a PDF.</p>
 <h2 id="s17-comparing-versions">17. Comparing versions</h2>
-<p><strong>Compare…</strong> (shown as soon as a formula has two versions) puts two versions side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. Change A and B with the two lists and close with <strong>Close compare</strong>.</p>
+<p><strong>Compare…</strong> (shown as soon as a formula has two versions) puts two versions side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. A is the older of the two and B the newer, so the difference reads as what changed since A; opening Compare on the very first version puts that one in A and the next in B. Change A and B with the two lists and close with <strong>Close compare</strong>, which puts you back where you came from, the bench view included. Two versions side by side is not a sheet, so printing is done from one version: close the comparison first.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s17-comparing-versions">Compare: two versions side by side, aggregated per material, largest change first.</a></p>
 <h2 id="s18-ifra-check-and-category-panel">18. IFRA check and category panel</h2>
 <p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. It takes each material's rel %, multiplies it by the concentrate dosage (by default the formula's own abs % total, but type another figure, above 0, to see the same concentrate at 12 % or 20 % in a finished product), and compares the result with the material's limit. The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. <strong>A predilution switches the check off.</strong> Its materials live as text in the description of the predilution material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the predilution, and you check the version from before the predilution was made, or the predilution itself under Predilutions, where its materials are lines again. A material you ticked as a <strong>solvent</strong> gets no percentage here, since rel % is measured against the non-solvent content and a solvent is not part of it; one carrying a limit is named under the table instead of disappearing, because IFRA counts it as part of the finished product whatever role it has in your formula. Work that one out by hand, or untick Solvent if it is a raw material in your formulas. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
@@ -1686,11 +1686,13 @@ function renderFormula(f){
     ${f.versions.length >= 2 ? '<button class="small" id="btnCmp">Compare…</button>' : ""}
     <button class="small danger" id="btnDelV" title="Delete this version (undo possible)">Delete version</button></div></div>`;
   if (item){
-    if (sub.bench){ h += renderBench(f, item, lines, K); } else {
+    // the same material at the same dilution twice, warned about in both views: it used to sit in the
+    // table branch alone, so it fell away in the bench view, where you have the two rows in front of you
     const seenD = new Set(), dupNames = new Set();
     for (const l of lines || []){ const k = l.materialId + "|" + (l.dilutionPct ?? 100);
       if (seenD.has(k)) dupNames.add((matById(l.materialId)||{}).name || "?"); seenD.add(k); }
     if (dupNames.size) h += `<div class="hint" style="color:var(--amber-ink);font-weight:600">⚠ Duplicate lines (same material and dilution twice): ${[...dupNames].map(esc).join(", ")}</div>`;
+    if (sub.bench){ h += renderBench(f, item, lines, K); } else {
     h += renderLines(f, item, lines, K, editable);
     if (lines.length){   // everything that acts on the ticked lines lives here, in one place
       h += `<div class="tickBar"><span class="hint">Ticked lines:</span>
@@ -1756,7 +1758,8 @@ function renderFormula(f){
   });
   if (item && sub.bench) bindBench(f, item, lines, K);
   bindFormulaMeta(f, sub);
-  $("#verSel")?.addEventListener("change", e => { if (e.target.value !== ""){ VIEW.sub = {type:"v", idx:+e.target.value}; render(); }});
+  // the bench belongs to the way you are looking, not to the version: switching version keeps it open
+  $("#verSel")?.addEventListener("change", e => { if (e.target.value !== ""){ VIEW.sub = {type:"v", idx:+e.target.value, bench: !!sub.bench}; render(); }});
   $("#btnNameV")?.addEventListener("click", () => {
     const dlg = $("#dlg");
     dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:24rem">
@@ -1858,11 +1861,15 @@ function renderFormula(f){
     snapF(f); item.trials.splice(+b.dataset.deltrial, 1); markDirty(); render();
   }));
   $("#btnCmp")?.addEventListener("click", () => {
-    const opts = cmpOptions(f);
+    // A is the older of the two and B the newer, so the Δ column reads as what changed since A.
+    // From the first version there is nothing older: it becomes A itself and the next one is B,
+    // instead of landing in A and turning the whole column around.
     const cur = "v"+sub.idx;
-    let prev = sub.idx > 0 ? "v"+(sub.idx-1) : opts.find(o => o.key !== cur)?.key;
+    const older = sub.idx > 0 ? "v"+(sub.idx-1) : null;
+    const newer = cmpOptions(f).find(o => o.key !== cur)?.key;
     CSORT = mapSortToCmp();
-    VIEW.sub = {type:"cmp", a: prev || cur, b: cur, from: {type: sub.type, idx: sub.idx}}; render();
+    // the whole sub, so Close compare puts you back where you were, bench view included
+    VIEW.sub = {type:"cmp", a: older || cur, b: older ? cur : (newer || cur), from: {...sub}}; render();
   });
   $("#btnPredil")?.addEventListener("click", () => createPredilution(f, sub, item, lines));
   $("#btnDilDown")?.addEventListener("click", () => bulkDilShift(f, item, -1));
@@ -2188,9 +2195,13 @@ function copyFormula(f, sub){
     if (DATA.formulas.some(x => normName(x.name) === normName(name))){ alert("A formula with that name already exists."); return false; }   // the same folding as Rename: no "Rosé" beside "Rose"
     const cat = $("#catSel").value || "";
     const newCat = rememberCat(cat);
+    // notes and trial log come along, as with Move into…: what you wrote about this recipe is about the
+    // copy too. The line above them says where it came from, so the copy carries its own history.
+    const srcNotes = (srcV.notes || "").trim();
     const nf = {id: uid("f-"), name, category: cat, created: today(), modified: now(), frozenImport: false,
-      versions: [{v: 1, date: today(), notes: `Copied from ${f.name} ${vName(srcV)}.`,
+      versions: [{v: 1, date: today(), notes: `Copied from ${f.name} ${vName(srcV)}.` + (srcNotes ? "\n\n" + srcNotes : ""),
         lines: srcV.lines.map(l => ({...l})),
+        trials: (srcV.trials || []).length ? structuredClone(srcV.trials) : undefined,
         bench: srcV.bench ? structuredClone(srcV.bench) : undefined}]};
     DATA.formulas.push(nf);
     pushUndo(() => { DATA.formulas = DATA.formulas.filter(x => x.id !== nf.id);
@@ -3249,15 +3260,16 @@ function exportFormulasFile(){   // every formula with all its versions, as a fi
 }
 function formulaSheetPrint(f, item, lines, K){
   const label = vName(item);
+  const anyCost = DATA.materials.some(m => m.costPerGram);   // as on the screen: a column of "0.00" says nothing
   $("#printArea").innerHTML = `<h2>${esc(f.name)} – ${esc(label)}</h2>
   <div>Printed ${today()}${item.date ? " · created " + item.date : ""} · miFormulas</div>
-  <table class="sheet"><colgroup><col class="matc"><col class="wc"><col class="rc"><col class="rc"><col class="rc"></colgroup>
-  <thead><tr><th>Formula entry</th><th class="num">Rel %</th><th class="num">Abs %</th><th class="num">Weight (g)</th><th class="num">Cost €</th></tr></thead><tbody>
+  <table class="sheet"><colgroup><col class="matc"><col class="wc"><col class="rc"><col class="rc">${anyCost?'<col class="rc">':""}</colgroup>
+  <thead><tr><th>Formula entry</th><th class="num">Rel %</th><th class="num">Abs %</th><th class="num">Weight (g)</th>${anyCost?'<th class="num">Cost €</th>':""}</tr></thead><tbody>
   ${sortRows(K.rows).map(r => `<tr><td>${esc(r.m.name)}${r.m.isSolvent ? " (solvent)" : ` (${fmtS(r.dil)}%)`}</td>
     <td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td><td class="num">${fmt(r.absPct,2)}</td>
-    <td class="num">${fmt(r.w)}</td><td class="num">${fmt(r.cost,2)}</td></tr>`).join("")}
+    <td class="num">${fmt(r.w)}</td>${anyCost?`<td class="num">${fmt(r.cost,2)}</td>`:""}</tr>`).join("")}
   </tbody><tfoot><tr><td><b>Total</b></td><td class="num"><b>${K.content > 0 ? fmt(100,2) : "–"}</b></td><td class="num"><b>${fmt(K.totalAbsPct,2)}</b></td>
-    <td class="num"><b>${fmt(K.totalW)}</b></td><td class="num"><b>${fmt(K.totalCost,2)}</b></td></tr></tfoot></table>
+    <td class="num"><b>${fmt(K.totalW)}</b></td>${anyCost?`<td class="num"><b>${fmt(K.totalCost,2)}</b></td>`:""}</tr></tfoot></table>
   ${item.notes ? `<h3>Notes</h3><div style="white-space:pre-wrap">${esc(item.notes)}</div>` : ""}
   ${(item.trials||[]).length ? `<h3>Trial log</h3>${item.trials.map(t=>`<div>${esc(t.date||"")} · ${esc(t.text)}</div>`).join("")}` : ""}`;
   window.print();
@@ -3376,7 +3388,10 @@ function benchData(item, lines){
 }
 function renderBench(f, item, lines, K){
   const BD = benchData(item, lines);
-  const row = k => { const r = K.rows[k.i]; return `<div class="brow" draggable="true" data-key="${k.key}">
+  // a read-only mode cannot write, so the rows do not offer a drag either: dropping one used to leave an
+  // undo step and a modified date behind in a state that may never save. benchMove() refuses as well.
+  const drag = readOnly() ? "false" : "true";
+  const row = k => { const r = K.rows[k.i]; return `<div class="brow" draggable="${drag}" data-key="${k.key}">
     <input type="checkbox" class="bsel" data-key="${k.key}"><span class="bgrip">⠿</span>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}
     <span class="bname">${esc(r.m.name)}${fridgeMark(r.m, r.dil)}${r.m.isSolvent?" (solvent)":""}</span><span class="bdil">${fmtS(r.dil)}%</span>
     <span class="bw">${fmt(r.w)} g</span><span class="bp">${r.rel==null?"–":fmt(r.rel,2)}%</span></div>`; };
@@ -3407,7 +3422,7 @@ function renderBench(f, item, lines, K){
     <div>`;
   groups.forEach((g, gi) => {
     h += `<div class="bpanel" data-bgi="${gi}"><div class="bhead">
-      <span class="bghandle" draggable="true" data-bgdrag="${gi}" title="Drag to reorder groups">⠿</span>
+      <span class="bghandle" draggable="${drag}" data-bgdrag="${gi}" title="Drag to reorder groups">⠿</span>
       <input class="btitle" data-bg="${gi}" value="${esc(g.title)}" placeholder="Name this group">
       <span class="hint">${stats(g.keys)}</span>
       <span style="white-space:nowrap">
@@ -3422,6 +3437,7 @@ function renderBench(f, item, lines, K){
   return h;
 }
 function benchMove(f, item, keys, target, beforeKey){
+  if (readOnly()) return;   // nothing here may be written, so nothing here takes an undo step
   snapF(f);
   for (const g of item.bench.groups) g.keys = g.keys.filter(k => !keys.includes(k));
   if (target !== "pool"){
@@ -3513,7 +3529,7 @@ function bindBench(f, item, lines, K){
       if (GDRAG == null) return;
       e.preventDefault(); e.stopPropagation();
       const to = +p.dataset.bgi, from = GDRAG; GDRAG = null;
-      if (to === from) { render(); return; }
+      if (to === from || readOnly()) { render(); return; }   // as in benchMove: a state that cannot save takes no undo step
       snapF(f);
       const g = item.bench.groups, [moved] = g.splice(from, 1);
       g.splice(to > from ? to - 1 : to, 0, moved);
@@ -4394,8 +4410,12 @@ window.addEventListener("beforeprint", () => {
   if (!area || area.innerHTML.trim()) return;                   // a print button has just filled it
   const f = DATA && VIEW.tab === "F" && VIEW.id ? DATA.formulas.find(x => x.id === VIEW.id) : null;
   const item = f && VIEW.sub && VIEW.sub.type === "v" ? f.versions[VIEW.sub.idx] : null;
-  area.innerHTML = item
-    ? sheetHtml(f, item, item.lines)
+  // Compare is two versions side by side, which is not a sheet: say that, instead of "open a formula"
+  // while one is open. Printing the comparison itself would be a second print layout for a screen you
+  // read rather than carry to the bench.
+  const cmp = !!(f && VIEW.sub && VIEW.sub.type === "cmp");
+  area.innerHTML = item ? sheetHtml(f, item, item.lines)
+    : cmp ? `<h2>miFormulas</h2><div>Two versions side by side is not a sheet to print. Use <b>Close compare</b>, then <b>Print weighing sheet</b> or <b>Print full formula</b>: each of them prints one version.</div>`
     : `<h2>miFormulas</h2><div>There is nothing to print here. Open a formula and use <b>Print weighing sheet</b> or <b>Print full formula</b>: each of them prints the version you are looking at.</div>`;
 });
 

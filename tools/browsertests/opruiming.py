@@ -280,6 +280,86 @@ with sync_playwright() as p:
         buildUsage(); switchTab("F", null, null); }""")
     page.wait_for_timeout(400)
 
+    # ---------- staart 12, 13, 14, 15, 18 en 19 (bouw 260920k) ----------
+    page.evaluate("""() => {
+      const m = DATA.materials[0], m2 = DATA.materials[1];
+      DATA.formulas.push({id:"f-staart", name:"Staarttest", category:"Uncategorised", created:today(), versions:[
+        {v:1, date:"2026-09-01", notes:"Nota van v1", trials:[{date:"2026-09-02", text:"dag 1, te scherp"}],
+         lines:[{id:"l-1", materialId:m.id, dilutionPct:100, weightG:10, remark:1},
+                {id:"l-2", materialId:m.id, dilutionPct:100, weightG:5, remark:1},
+                {id:"l-3", materialId:m2.id, dilutionPct:10, weightG:2, remark:1}]},
+        {v:2, date:"2026-09-10", lines:[{id:"l-4", materialId:m.id, dilutionPct:100, weightG:12, remark:1}]}]});
+      buildUsage(); switchTab("F", "f-staart", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+
+    # 12: Compare vanaf de eerste versie zet de oudste in A
+    page.click("#btnCmp"); page.wait_for_timeout(500)
+    ab = page.evaluate("""() => ({a: VIEW.sub.a, b: VIEW.sub.b})""")
+    check(f"Compare vanaf de eerste versie: de oudste in A, de volgende in B ({ab})", ab == {"a": "v0", "b": "v1"})
+    page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:1})"""); page.wait_for_timeout(400)
+    page.click("#btnCmp"); page.wait_for_timeout(500)
+    ab2 = page.evaluate("""() => ({a: VIEW.sub.a, b: VIEW.sub.b})""")
+    check(f"en vanaf een latere versie blijft die zelf de B-kant ({ab2})", ab2 == {"a": "v0", "b": "v1"})
+
+    # 14: Ctrl+P in Compare zegt wat er aan de hand is, met een formule open
+    page.evaluate("""() => { document.querySelector("#printArea").innerHTML = "";
+        window.dispatchEvent(new Event("beforeprint")); }""")
+    pa = page.evaluate("""() => document.querySelector("#printArea").innerText""")
+    check(f"Ctrl+P in Compare noemt Close compare in plaats van “open a formula” ({pa[:60]!r})",
+          "Close compare" in pa and "Open a formula" not in pa)
+
+    # 13: Close compare brengt je terug in de bench view waar je vandaan kwam
+    page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:0, bench:true})"""); page.wait_for_timeout(500)
+    check("de bench view staat open", page.locator(".brow").count() > 0)
+    page.click("#btnCmp"); page.wait_for_timeout(500)
+    page.click("#btnCmpClose"); page.wait_for_timeout(500)
+    check(f"Close compare komt terug in de bench view ({page.evaluate('() => VIEW.sub')})",
+          page.evaluate("""() => !!VIEW.sub.bench""") and page.locator(".brow").count() > 0)
+    # en van versie wisselen houdt de bench view vast
+    page.select_option("#verSel", "1"); page.wait_for_timeout(500)
+    check("van versie wisselen houdt de bench view vast",
+          page.evaluate("""() => VIEW.sub.idx === 1 && !!VIEW.sub.bench""") and page.locator(".brow").count() > 0)
+
+    # 18: de waarschuwing over dubbele regels blijft staan in de bench view
+    page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:0, bench:true})"""); page.wait_for_timeout(500)
+    txt = page.evaluate("""() => document.querySelector("#content").innerText""")
+    check(f"de dubbele regels worden ook in de bench view gemeld ({'Duplicate lines' in txt})",
+          "Duplicate lines" in txt)
+    page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:0})"""); page.wait_for_timeout(400)
+    check("en in de tabel nog altijd",
+          "Duplicate lines" in page.evaluate("""() => document.querySelector("#content").innerText"""))
+
+    # 15: Print full formula toont de kolom Cost pas met een prijs
+    prijzen = page.evaluate("""() => { const had = DATA.materials.filter(m => m.costPerGram);
+        had.forEach(m => { m._bewaard = m.costPerGram; m.costPerGram = null; }); return had.length; }""")
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-staart"), it = f.versions[0];
+        const K = calc(it.lines); formulaSheetPrint(f, it, it.lines, K); }""")
+    page.wait_for_timeout(300)
+    zonder = page.evaluate("""() => document.querySelector("#printArea").innerText""")
+    check(f"Print full formula zonder één prijs heeft geen kolom Cost ({prijzen} prijzen weggehaald)",
+          "Cost" not in zonder and "Rel %" in zonder)
+    page.evaluate("""() => { DATA.materials.forEach(m => { if (m._bewaard != null){ m.costPerGram = m._bewaard; delete m._bewaard; } });
+        if (!DATA.materials.some(m => m.costPerGram)) DATA.materials[0].costPerGram = 1.5;
+        const f = DATA.formulas.find(x => x.id === "f-staart"), it = f.versions[0];
+        const K = calc(it.lines); formulaSheetPrint(f, it, it.lines, K); }""")
+    page.wait_for_timeout(300)
+    check("en met een prijs staat ze er wel",
+          "Cost" in page.evaluate("""() => document.querySelector("#printArea").innerText"""))
+    page.evaluate("""() => { document.querySelector("#printArea").innerHTML = ""; }""")
+
+    # 19: Copy to new formula neemt de notities en het proeflog mee
+    page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:0})"""); page.wait_for_timeout(400)
+    page.click("#btnCopyF"); page.wait_for_timeout(400)
+    page.fill("#cpName", "Staarttest kopie"); page.click("#dlgOk"); page.wait_for_timeout(700)
+    kop = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Staarttest kopie");
+        return f ? {notes: f.versions[0].notes, trials: (f.versions[0].trials||[]).length} : null; }""")
+    check(f"de kopie draagt Copied from … met de notities van de bron eronder ({kop})",
+          kop and kop["notes"].startswith("Copied from Staarttest") and "Nota van v1" in kop["notes"])
+    check("en het proeflog gaat mee", kop and kop["trials"] == 1)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check("Ctrl+Z neemt de kopie terug",
+          page.evaluate("""() => !DATA.formulas.some(x => x.name === "Staarttest kopie")"""))
+
     check(f"no page errors ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

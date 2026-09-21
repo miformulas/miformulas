@@ -106,8 +106,24 @@ with sync_playwright() as p:
         return {bench: !!f.versions[0].bench, dirty: DIRTY, zicht: !!document.querySelector(".brow")}; }""")
     check(f"alleen-lezen: de bench view opent zonder de data aan te raken ({na})",
           na["zicht"] and not na["bench"] and na["dirty"] == vuil)
-    page.evaluate("() => { DEMO = window.__demo; }")
-    page.wait_for_timeout(200)
+    # staart 16 (bouw 260920k): geen sleepaffordance, en een drop die er toch komt schrijft niets
+    sleep = page.evaluate("""() => ({rij: document.querySelector(".brow")?.getAttribute("draggable"),
+        greep: document.querySelector(".bghandle")?.getAttribute("draggable")})""")
+    check(f"alleen-lezen: bench-regels en groepsgrepen bieden geen sleepbeweging aan ({sleep})",
+          sleep["rij"] == "false" and sleep["greep"] in (None, "false"))
+    undo = page.evaluate("UNDO.length")
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__bid), it = f.versions[0];
+        const k = document.querySelector(".brow").dataset.key;
+        benchMove(f, it, [k], "0", null); }""")
+    page.wait_for_timeout(400)
+    na2 = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__bid);
+        return {bench: !!f.versions[0].bench, dirty: DIRTY, undo: UNDO.length, mod: !!f.modified}; }""")
+    check(f"alleen-lezen: een drop laat geen undo-stap en geen wijziging achter ({na2})",
+          na2["undo"] == undo and not na2["bench"] and na2["dirty"] == vuil)
+    page.evaluate("() => { DEMO = window.__demo; render(); }")
+    page.wait_for_timeout(400)
+    check("en zodra er wél bewaard kan worden, is de regel weer sleepbaar",
+          page.evaluate("""() => document.querySelector(".brow")?.getAttribute("draggable")""") == "true")
 
     page.set_viewport_size({"width": 1280, "height": 950}); page.wait_for_timeout(300)
 
