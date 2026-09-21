@@ -356,6 +356,82 @@ with sync_playwright() as p:
     check(f"het aliasveld noemt de materialen die de naam al dragen ({[m[:60] for m in msgs]})",
           any("Ylang B" in m and "Ylang C" in m and "already answer" in m for m in msgs))
 
+    # ---------- 11b. één zoekfunctie voor de lijst en voor de naamvelden (bouw 260920f) ----------
+    # De zoeklijst filtert (een treffer te veel kost niets), een naamveld identificeert (er belandt een gewicht op).
+    # Alles wat de lijst vindt is nu ook via het veld bereikbaar, maar als keuze, nooit als stille greep.
+    page.evaluate("""() => { DATA.materials = DATA.materials.filter(x => !/^Ylang [ABC]$/.test(x.name));
+        const maak = (naam, extra) => Object.assign({id:"m-"+naam.replace(/\\W/g,""), name:naam, category:"Flowers",
+            pyramid:2, isSolvent:false, cas:"", aliases:"", supplier:"", description:"",
+            dilutions:[{pct:100, isBase:true, date:today(), notes:""}]}, extra);
+        DATA.materials.push(maak("Ylang cas", {cas:"8006-81-3; cananga odorata"}),
+                            maak("Ylang beschrijving", {description:"floral\\nBotanical: cananga odorata"}),
+                            maak("Ylang alias", {aliases:"ylang unieke alias"}));
+        DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats(); }""")
+    page.wait_for_timeout(400)
+    r = page.evaluate("""() => matSearch("cananga odorata").map(h => h.m.name + "/" + h.via)""")
+    check(f"matSearch vindt een naam naast het CAS-nummer en in de beschrijving ({r})",
+          "Ylang cas/cas" in r and "Ylang beschrijving/description" in r)
+    check("de suggestielijst draagt de alternatieve namen",
+          page.evaluate("""() => matListHtml().includes('value="ylang unieke alias"')"""))
+    lab = page.evaluate("""() => { const a = DATA.materials.find(x => x.name === "Ylang cas"),
+            b2 = DATA.materials.find(x => x.name === "Ylang beschrijving");
+        a.aliases = "gedeelde plantnaam"; b2.aliases = "gedeelde plantnaam"; invalidateMats();
+        const m = /value="gedeelde plantnaam" label="([^"]*)"/.exec(matListHtml());
+        a.aliases = ""; b2.aliases = ""; invalidateMats();
+        return m && m[1]; }""")
+    check(f"en noemt bij een gedeelde naam de materialen die hem dragen ({lab!r})",
+          lab and "Ylang beschrijving" in lab and "Ylang cas" in lab)
+    page.evaluate("""() => { if (!DATA.formulas.some(x => x.id === "f-amb"))
+            DATA.formulas.push({id:"f-amb", name:"Ambigutest", category:"Uncategorised", created:today(),
+              frozenImport:false, versions:[{v:1, date:today(), lines:[]}]});
+        buildUsage(); switchTab("F", "f-amb", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    voor = page.evaluate("""() => DATA.formulas.find(x => x.id === "f-amb").versions[0].lines.length""")
+    msgs.clear()
+    page.fill("#addMat", "cananga odorata"); page.click("#btnAddLine"); page.wait_for_timeout(700)
+    r = page.evaluate("""() => { const s = document.querySelector("#pkMat");
+        return {opties: s ? [...s.options].map(o => o.textContent) : null,
+                tekst: document.querySelector("#dlg .hint")?.textContent.trim(),
+                geen: !!document.querySelector("#pkNone")}; }""")
+    check(f"Add line biedt de bredere treffers aan in plaats van meteen een materiaal te maken ({r['opties']})",
+          r["opties"] and len(r["opties"]) == 2 and not msgs)
+    check("met de reden erbij", any("CAS number" in o for o in (r["opties"] or []))
+          and any("description" in o for o in (r["opties"] or [])))
+    check(f"en een uitweg om het toch aan te maken ({r['geen']})", r["geen"] is True)
+    page.select_option("#pkMat", "0"); page.click("#dlgOk"); page.wait_for_timeout(700)
+    r = page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-amb").versions[0];
+        return {n: v.lines.length, mat: matById(v.lines[v.lines.length-1].materialId)?.name,
+                nieuw: DATA.materials.some(x => normName(x.name) === "cananga odorata")}; }""")
+    check(f"de gekozene komt in de formule, zonder een nieuw materiaal ({r})",
+          r["n"] == voor + 1 and r["mat"] == "Ylang beschrijving" and r["nieuw"] is False)
+    msgs.clear()
+    page.fill("#addMat", "cananga odorata"); page.click("#btnAddLine"); page.wait_for_timeout(600)
+    page.click("#pkNone"); page.wait_for_timeout(800)
+    check(f"None of these stelt alsnog de gewone vraag ({[m[:45] for m in msgs]})",
+          any("is not in your inventory" in m for m in msgs))
+    check("en maakt het materiaal aan", page.evaluate("""() => DATA.materials.some(x => normName(x.name) === "cananga odorata")"""))
+    page.evaluate("""() => { DATA.materials = DATA.materials.filter(x => normName(x.name) !== "cananga odorata");
+        DATA.orderList = []; invalidateMats(); buildUsage();
+        switchTab("F", "f-amb", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    # ⇄ Replace en de bestellijst vragen het ook, in plaats van "Unknown material"
+    page.click("[data-repl='0']"); page.wait_for_timeout(500)
+    page.fill("#rmNew", "cananga odorata"); page.click("#dlgOk"); page.wait_for_timeout(600)
+    opties = page.evaluate("""() => { const s = document.querySelector("#pkMat");
+        return s ? [...s.options].map(o => o.textContent.split(" · ")[0]) : null; }""")
+    check(f"⇄ Replace zegt niet meer alleen 'Unknown material' ({opties})",
+          opties and set(opties) == {"Ylang cas", "Ylang beschrijving"})
+    page.evaluate("""() => document.querySelector("#dlgCancel")?.click()"""); page.wait_for_timeout(400)
+    page.evaluate("""() => { DATA.orderList = []; switchTab("T"); }"""); page.wait_for_timeout(500)
+    page.fill("#ordName", "cananga odorata"); page.click("#btnOrdAdd"); page.wait_for_timeout(700)
+    opties = page.evaluate("""() => { const s = document.querySelector("#pkMat");
+        return s ? [...s.options].map(o => o.textContent.split(" · ")[0]) : null; }""")
+    check(f"de bestellijst ook, vóór je iets bestelt dat je al hebt ({opties})",
+          opties and set(opties) == {"Ylang cas", "Ylang beschrijving"})
+    page.select_option("#pkMat", "0"); page.click("#dlgOk"); page.wait_for_timeout(700)
+    check("en de regel hangt aan dat materiaal",
+          page.evaluate("""() => { const o = DATA.orderList[0]; return o && !!o.materialId && matById(o.materialId).name; }""") in ("Ylang beschrijving", "Ylang cas"))
+
     # ---------- 12. staart 17 (bouw 260920e): formulenamen vouwen zoals Rename ----------
     msgs.clear()
     page.evaluate("""() => { DATA.formulas.push({id:"f-rose", name:"Rose", category:"Uncategorised", created:today(),

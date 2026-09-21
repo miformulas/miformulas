@@ -349,7 +349,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920e</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920f</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -414,7 +414,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260920e. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260920f. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -644,7 +644,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>Storage.</strong> A material stored in the fridge shows a ❄ next to formula lines that use it at its base concentration, also on the printed weighing sheet, so you know which bottles to fetch first.</p>
 <p><strong>To order.</strong> A material you do not have yet, whether you added it from the order list or it came out of an import, carries the label "to order" and a 🛒 in the list until it is delivered.</p>
 <p>Materials come from <strong>+ New material</strong> in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from the predilution tool. With a materials library loaded (section <a href="#s20-import-and-export">20</a>) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. The search box in Materials also reaches the library: under your own results it lists what the library knows and you do not have ("Also in the materials library:", or "Not in your inventory. In the materials library:" when you have none of them), eight at a time with "and N more; narrow the search" underneath, each with a <strong>+ Add</strong>. <strong>Browse the library…</strong>, in the + New material window, opens the whole library with a search field and a tick box per material: useful when you start from nothing and want ten materials at once. Shift-click ticks a range, as in the formula table. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. A material can only be deleted when no formula uses it; the page tells you which formulas do. Two materials cannot carry the same name, and if you type a name that one of your materials already carries as an alternative name, the app says so before making a second one.</p>
-<p><strong>Alternative names may be shared, and often have to be.</strong> Four ylangs come from the same plant, and two isomers with a profile of their own sit under one chemical name, so a botanical or common name can belong to several of your materials at once; the library that comes with miFormulas has twenty-one such names. Your own names stay unique and always win, but a shared alternative name no longer says which jar you mean. The app therefore does not choose one behind your back: <strong>Add line</strong>, <strong>⇄ Replace</strong> and <strong>Delivered</strong> ask which of them you mean, the import page shows the match it would make together with the other materials that answer to the same name, and the alternative names field tells you when a name you type is already carried by another material, so that you know it will be asked about later.</p>
+<p><strong>Alternative names may be shared, and often have to be.</strong> Four ylangs come from the same plant, and two isomers with a profile of their own sit under one chemical name, so a botanical or common name can belong to several of your materials at once; the library that comes with miFormulas has twenty-one such names. Your own names stay unique and always win, but a shared alternative name no longer says which jar you mean. The app therefore does not choose one behind your back: <strong>Add line</strong>, <strong>⇄ Replace</strong> and <strong>Delivered</strong> ask which of them you mean, the import page shows the match it would make together with the other materials that answer to the same name, and the alternative names field tells you when a name you type is already carried by another material, so that you know it will be asked about later. The suggestion lists behind those boxes hold every name you can type, alternative names included, and a shared one shows which materials answer to it.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s9-materials">Browse the library: tick what belongs in your own inventory. What you already have is greyed out.</a></p>
 <p>Filling in CAS numbers, IFRA limits, pyramid levels and descriptions for many materials is tedious; <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose them from the <strong>Export all materials (Excel)</strong> export, for you to check and enter.</p>
 <p>What some apps ship as a built-in materials database, miFormulas keeps as a file you import: a <strong>materials library</strong> (section <a href="#s20-import-and-export">20</a>). With one loaded, a new material arrives with its CAS number, category, pyramid level, IFRA limit, alternative names and a few lines of odour facts already in place, all of it editable. Those are facts, and facts can be shared freely; the odour descriptions on supplier sites are somebody's writing and are not in it. The library published by miFormulas holds several hundred materials under CC BY 4.0, and <strong>Get the latest library</strong> in Settings fetches the current one. It is not inside the app, the repository or the ZIP: it changes more often than the app does, so the app asks for it when you do.</p>
@@ -659,7 +659,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>Copy to new formula</strong> takes the version you are looking at as v1 of a new formula. <strong>Rename</strong> and <strong>Change category</strong> do what they say; categories are shared between formulas and get a colour dot, which the colour square beside the category picker sets. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
 <p><strong>Delete version</strong> asks first and names the formula and the version it is about. When it is the only version it says so: the formula then stays in your list without lines, and <strong>Delete formula</strong> is what removes the formula itself. Undo (Ctrl+Z) brings a deleted version back during the session.</p>
 <h2 id="s11-editing-a-formula">11. Editing a formula</h2>
-<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s13-changing-dilutions">13</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice. Above the table an amber line warns about <strong>duplicate lines</strong>: the same material at the same dilution twice, which is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.</p>
+<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one, or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s13-changing-dilutions">13</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice, and the suggestion list offers those names as well, with the material they belong to beside them. When nothing of yours carries the name you typed, the app does not go straight to creating one: it runs the same search as the list panel in section <a href="#s8-the-screen">8</a> (name, alternative names, CAS number, supplier, and the description) and shows what that finds, with what it matched on, so that you can pick the material you meant. <strong>None of these</strong> goes on to create it. Above the table an amber line warns about <strong>duplicate lines</strong>: the same material at the same dilution twice, which is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s11-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
 <p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s20-import-and-export">20</a>) it arrives with the facts the library holds, exactly as <strong>+ New material</strong> does; the same goes for a formula import and for <strong>Delivered</strong> on the order list.</p>
 <p>The table can be ordered by original entry, by category or by pyramid level (top to base), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
@@ -1270,7 +1270,43 @@ function matsByName(name){
   if (!m) return [];
   return MATAMBI.get(normName(name)) || [m];
 }
-const matListHtml = () => (MATLIST ||= DATA.materials.map(m => `<option value="${esc(m.name)}">`).join(""));
+// One search for the list panel and for the boxes that have to end on a material. It says what it matched on:
+// the panel marks a description hit with ✎, and a box can ask "did you mean one of these" instead of taking one,
+// because a hit on a supplier or on prose in a description is not the same as "this is that material".
+function matSearch(q){
+  const t = fold(q || "").trim();
+  if (!t) return [];
+  const out = [];
+  for (const m of DATA.materials){
+    let via = null;
+    if (fold(m.name).includes(t)) via = "name";
+    else if (fold(m.aliases).includes(t)) via = "alias";
+    else if (fold(m.cas).includes(t)) via = "cas";
+    else if (fold(m.supplier).includes(t)) via = "supplier";
+    else if (m.starter && t.length >= 3 && "starter set".startsWith(t)) via = "starter";
+    else if (t.length >= 3 && fold(m.description).includes(t)) via = "description";
+    if (via) out.push({m, via});
+  }
+  return out;
+}
+const VIALABEL = {name: "", alias: "alternative name", cas: "CAS number", supplier: "supplier",
+                  starter: "starter set", description: "description"};
+// the suggestions behind Add material…, ⇄ Replace and the order list: every name you can type, so an
+// alternative name is offered as well and a shared one shows which materials answer to it
+const matListHtml = () => (MATLIST ||= (() => {
+  const names = new Map(), alias = new Map();
+  for (const m of DATA.materials){ const k = normName(m.name); if (k && !names.has(k)) names.set(k, m.name); }
+  for (const m of DATA.materials)
+    for (const a of (m.aliases || "").split(";")){
+      const t = a.trim(), k = normName(t);
+      if (!k || names.has(k)) continue;
+      const e = alias.get(k) || {value: t, owners: []};
+      if (!e.owners.includes(m.name)) e.owners.push(m.name);
+      alias.set(k, e);
+    }
+  return [...[...names.values()].map(n => `<option value="${esc(n)}">`),
+          ...[...alias.values()].map(e => `<option value="${esc(e.value)}" label="${esc(e.owners.join(", "))}">`)].join("");
+})());
 const catColourByName = n => { const c = (DATA.categoryColours||{})[n]; return !c || c.toUpperCase() === "#FFFFFF" ? "var(--muted)" : c; };
 const catColourHex = n => { const c = (DATA.categoryColours||{})[n]; return /^#[0-9a-f]{6}$/i.test(c || "") ? c : "#9AA6B2"; };   // <input type=color> wants six digits
 const catColourInput = (cat, id = "catCol") => `<input type="color" id="${id}" value="${catColourHex(cat)}" ${cat ? "" : "disabled "}title="Colour of this category: the dots in the lists, the pyramid and the category panel follow it" style="width:2.1rem;height:1.7rem;padding:0;border:1px solid var(--line);border-radius:6px;background:none;vertical-align:middle">`;
@@ -1356,21 +1392,34 @@ function alsoUndo(extra){   // add something to the Undo step that was just push
 }
 const undoCat = cat => { if (cat) alsoUndo(() => { DATA.formulaCategories = DATA.formulaCategories.filter(x => x !== cat); }); };
 // standard dialog frame: content + Cancel / primary button (same order everywhere)
-// one name, several jars: the body of the question, used on its own and inside a dialog that is already open
-function pickBody(cands, name){
+// One name, several jars: the body of the question, used on its own and inside a dialog that is already open.
+// hits are {m, via}: either every material that carries a shared alternative name, or what the wider search found.
+function pickBody(hits, name){
+  const shared = hits.every(h => h.via === "alias-shared");
   return `<h3 style="margin:0 0 .3rem">Which material?</h3>
-    <div class="hint" style="margin-bottom:.7rem">${cands.length} of your materials carry “${esc(name)}” as an alternative name,
-      so the name alone does not say which jar you mean.</div>
-    <select id="pkMat" style="min-width:18rem">${cands.map((m,i) =>
-      `<option value="${i}">${esc(m.name)}${m.category ? ` · ${esc(m.category)}` : ""}</option>`).join("")}</select>`;
+    <div class="hint" style="margin-bottom:.7rem">${shared
+      ? `${hits.length} of your materials carry “${esc(name)}” as an alternative name, so the name alone does not say which jar you mean.`
+      : `“${esc(name)}” is not the name of one of your materials, but ${hits.length} of them match it. Did you mean one of these?`}</div>
+    <select id="pkMat" style="min-width:18rem">${hits.map((h,i) =>
+      `<option value="${i}">${esc(h.m.name)}${h.m.category ? ` · ${esc(h.m.category)}` : ""}${
+        VIALABEL[h.via] ? ` · ${VIALABEL[h.via]}` : ""}</option>`).join("")}</select>`;
 }
-function pickMaterial(cands, name, onPick){
-  openDialog(pickBody(cands, name), "Use this one", () => {
-    const m = cands[+$("#pkMat").value] || cands[0];
-    // let this window close first: openDialog closes right after this handler, and a window opened from inside it
-    // would be the one that closes
-    setTimeout(() => onPick(m), 0);
-  }, "26rem");
+const asHits = mats => mats.map(m => ({m, via: "alias-shared"}));
+function pickMaterial(hits, name, onPick, onNone){
+  const dlg = $("#dlg");
+  dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:min(26rem,90vw)">${pickBody(hits, name)}
+    <div class="toolRow" style="justify-content:flex-end;margin-top:.9rem"><button id="dlgCancel">Cancel</button>
+      ${onNone ? `<button id="pkNone">${esc(onNone.label)}</button>` : ""}
+      <button class="primary" id="dlgOk">Use this one</button></div></div>`;
+  if (!dlg.open) dlg.showModal();
+  $("#dlgCancel").addEventListener("click", () => dlg.close());
+  if (onNone) $("#pkNone").addEventListener("click", () => { dlg.close(); setTimeout(onNone.run, 0); });
+  $("#dlgOk").addEventListener("click", () => {
+    const h = hits[+$("#pkMat").value] || hits[0];
+    dlg.close();
+    // let this window close first: a window opened from inside its own handler would be the one that closes
+    setTimeout(() => onPick(h.m), 0);
+  });
 }
 function openDialog(bodyHtml, okLabel = "Apply", onOk, minW = "24rem"){
   const dlg = $("#dlg");
@@ -1462,13 +1511,11 @@ function renderSidebar(){
   } else if (VIEW.tab === "M"){
     const groups = {};
     const descHits = new Set();   // kept outside the data – never written to the file
+    const via = q ? new Map(matSearch(q).map(h => [h.m.id, h.via])) : null;   // the same search the name boxes fall back on
     for (const m of DATA.materials){
       if (q){
-        const hit = fold(m.name).includes(q) || fold(m.cas).includes(q) || fold(m.aliases).includes(q)
-          || fold(m.supplier).includes(q) || (m.starter && q.length >= 3 && "starter set".startsWith(q));
-        const descHit = !hit && q.length >= 3 && fold(m.description).includes(q);
-        if (!hit && !descHit) continue;
-        if (descHit) descHits.add(m.id);
+        const v = via.get(m.id); if (!v) continue;
+        if (v === "description") descHits.add(m.id);
       }
       (groups[m.category||"Uncategorised"] ||= []).push(m);
     }
@@ -1922,18 +1969,23 @@ function bindLineEditors(f, item){
   $("#btnAddLine")?.addEventListener("click", () => {
     const name = $("#addMat").value.trim(); if (!name) return;
     const cands = matsByName(name);
-    if (cands.length > 1){ pickMaterial(cands, name, m => addLineWith(f, item, m, null, null, null)); return; }
-    let m = cands[0] || null, created = null, newCat = null, oc = null;   // an alternative name is the same material
-    if (!m){
+    if (cands.length > 1){ pickMaterial(asHits(cands), name, m => addLineWith(f, item, m, null, null, null)); return; }
+    if (cands.length === 1){ addLineWith(f, item, cands[0], null, null, null); return; }
+    // no material of yours carries this name: before offering to create a fifth of something you have four of,
+    // the wider search of the list panel gets its say – CAS, supplier and description included
+    const wijd = matSearch(name);
+    const maak = () => {
       const known = listFind(name);
       if (!confirm(`“${name}” is not in your inventory.\n\nCreate it as a to-be-ordered material? It will be added to the order list and marked in the formula until delivered.${known ? `\n\nThe materials library knows this name: its CAS number, category, pyramid level and IFRA limit come along.` : ""}`)) return;
-      oc = structuredClone(DATA.orderList);
+      const oc = structuredClone(DATA.orderList);
       const r = newMaterialFrom(name, 100, {wishlist: true});
-      m = r.m; created = m.id; newCat = r.newCat;
       DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats();
-      DATA.orderList.push({id: uid("o-"), materialId: m.id, name, note: `needed for ${f.name}`, price:"", added: today()});
-    }
-    addLineWith(f, item, m, created, newCat, oc);
+      DATA.orderList.push({id: uid("o-"), materialId: r.m.id, name, note: `needed for ${f.name}`, price:"", added: today()});
+      addLineWith(f, item, r.m, r.m.id, r.newCat, oc);
+    };
+    if (wijd.length){ pickMaterial(wijd, name, m => addLineWith(f, item, m, null, null, null),
+      {label: "None of these", run: maak}); return; }
+    maak();
   });
   $("#addMat")?.addEventListener("keydown", e => {
     if (e.key === "Enter" && !e.isComposing){ e.preventDefault(); $("#btnAddLine").click(); }
@@ -2036,13 +2088,15 @@ function replaceMaterial(f, item, i){
   $("#dlgOk").addEventListener("click", () => {
     const name = $("#rmNew").value.trim();
     const cands = matsByName(name);
-    if (!cands.length){ alert("Unknown material: pick one from your inventory (add it first with + New material, or through the order list)."); return; }
-    if (cands.length > 1){
-      // the same window asks on: closing it to open another one lets the queued close event cancel the replacement
-      dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:26rem">${pickBody(cands, name)}
+    // a name of yours settles it; a shared alternative name and the wider search both ask, in this same window,
+    // because closing it to open another one lets the queued close event cancel the replacement
+    const hits = cands.length ? (cands.length > 1 ? asHits(cands) : null) : matSearch(name);
+    if (!cands.length && !hits.length){ alert("Unknown material: pick one from your inventory (add it first with + New material, or through the order list)."); return; }
+    if (hits){
+      dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:26rem">${pickBody(hits, name)}
         <div class="toolRow" style="justify-content:flex-end;margin-top:.9rem"><button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Replace</button></div></div>`;
       $("#dlgCancel").addEventListener("click", () => dlg.close());
-      $("#dlgOk").addEventListener("click", () => doReplace(cands[+$("#pkMat").value] || cands[0]));
+      $("#dlgOk").addEventListener("click", () => doReplace((hits[+$("#pkMat").value] || hits[0]).m));
       return;
     }
     doReplace(cands[0]);
@@ -3824,9 +3878,18 @@ function renderOrders(){
     const name = $("#ordName").value.trim(); if (!name) return;
     if (items.some(o => normName(o.name) === normName(name))){ alert("That material is already on the order list."); return; }
     // the same folding as everywhere else: "Vertofix coeur" is the Vertofix cœur you already own, not a new material
-    const m = ownFind(name);
-    snapO(); items.push({id: uid("o-"), materialId: m ? m.id : null, name, note: $("#ordNote").value.trim(), price: "", added: today()});
-    markDirty(); render();
+    // the name you typed stays on the entry when it is a name of that material; a material found by the wider
+    // search (its CAS, its supplier, its description) puts its own name there, or the entry would say something
+    // that is nowhere on the material page
+    const zet = (m, eigenNaam) => { snapO(); items.push({id: uid("o-"), materialId: m ? m.id : null,
+      name: m && eigenNaam ? m.name : name, note: $("#ordNote").value.trim(), price: "", added: today()});
+      markDirty(); render(); };
+    const cands = matsByName(name);
+    if (cands.length > 1){ pickMaterial(asHits(cands), name, m => zet(m, false)); return; }
+    if (cands.length === 1){ zet(cands[0], false); return; }
+    const wijd = matSearch(name);   // before ordering something you already have, the wider search gets its say
+    if (wijd.length){ pickMaterial(wijd, name, m => zet(m, true), {label: "None of these", run: () => zet(null)}); return; }
+    zet(null);
   });
   c.querySelectorAll("[data-onote]").forEach(inp => inp.addEventListener("change", e => { snapO(); items[+inp.dataset.onote].note = e.target.value; markDirty(); }));
   c.querySelectorAll("[data-oamt]").forEach(inp => inp.addEventListener("change", e => {
@@ -3868,7 +3931,7 @@ function deliveredDialog(idx, chosen){
   // empty material that answered to the name of the first one from then on
   if (!chosen && !o.materialId){
     const cands = matsByName(o.name);
-    if (cands.length > 1){ pickMaterial(cands, o.name, m2 => deliveredDialog(idx, m2)); return; }
+    if (cands.length > 1){ pickMaterial(asHits(cands), o.name, m2 => deliveredDialog(idx, m2)); return; }
   }
   const m = chosen || (o.materialId ? matById(o.materialId) : ownFind(o.name));
   const tracked = m ? stockCalc(m).tracked : false;
