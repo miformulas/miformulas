@@ -30,12 +30,18 @@ sed "s#^\$DATA_DIR = .*#\$DATA_DIR = '$OUT';#" "$TMP/web/data.php" > "$TMP/web/o
 sed "s#^\$DATA_DIR = .*#\$DATA_DIR = '$TMP/gone';#" "$TMP/web/data.php" > "$TMP/web/nodir.php"
 grep -q "^\$TOKEN    = '$TOKEN';" "$TMP/web/data.php" || { echo "could not set the token in the copy"; exit 2; }
 
+# A port can already be taken by something else, and php -S then fails to bind while the probe still
+# gets an answer: the whole run would test that other server. So the probe asks for a marker only this
+# copy serves, and checks that php itself is still alive.
+MARKER="miformulas-servertest-$$-$TOKEN"
+printf '%s' "$MARKER" > "$TMP/web/marker.txt"
 PORT=""
 for p in $(seq 8799 8809); do
   php -S "127.0.0.1:$p" -t "$TMP/web" >"$TMP/php.log" 2>&1 &
   PHPPID=$!
   sleep 1
-  if curl -sS --noproxy '*' -o /dev/null "http://127.0.0.1:$p/data.php" 2>/dev/null; then PORT="$p"; break; fi
+  if kill -0 "$PHPPID" 2>/dev/null &&
+     [ "$(curl -sS --noproxy '*' "http://127.0.0.1:$p/marker.txt" 2>/dev/null)" = "$MARKER" ]; then PORT="$p"; break; fi
   kill "$PHPPID" 2>/dev/null; PHPPID=""
 done
 [ -n "$PORT" ] || { echo "could not start php -S (see $TMP/php.log)"; exit 2; }
