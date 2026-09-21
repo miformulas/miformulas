@@ -5,6 +5,7 @@ Build 260915: a daily snapshot restored while the server is unreachable is not w
 server's data, and a data file whose first write fails leaves the browser copy in place.
 Uses a fake server inside the page (fetch is replaced before the app boots), so no webserver of its
 own is needed beyond the one serving the app on port 8765 (see README)."""
+import json
 from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/index.html"
@@ -411,6 +412,48 @@ with sync_playwright() as p:
           any("was not loaded in this session" in x for x in m6))
     state = pg.locator("#saveState").inner_text()
     check(f"en de balk zegt het ook ({state!r})", "not loaded here" in state)
+    ctx.close()
+
+    # ---------- 10. D1 (bouw 260920j): een lege server met een Backup van jezelf ----------
+    # "Connect to server" nam de plaats in van Open data file…, precies op het scherm waar je je eigen
+    # data binnenbrengt. De knop staat er nu naast, en het bestand gaat naar de server, niet naar schijf.
+    BACKUP = {"schema": 1, "formulas": [{"id": "f-mine", "name": "Uit mijn Backup", "category": "Uncategorised",
+              "created": "2026-09-21", "versions": [{"v": 1, "date": "2026-09-21", "lines": []}]}],
+              "materials": [], "materialCategories": [], "formulaCategories": []}
+    PICKER = """
+      window.__gets = 0;
+      window.showOpenFilePicker = async () => [{ name: "mijn-backup.json", kind: "file",
+        getFile: async () => new File([JSON.stringify(%s)], "mijn-backup.json") }];
+    """ % json.dumps(BACKUP)
+    ctx = b.new_context(viewport={"width": 1200, "height": 900})
+    pg = ctx.new_page(); m7 = []; gets = []; puts = []
+    pg.on("dialog", lambda d: (m7.append(d.message), d.accept()))
+    def srv(route, request):
+        if request.method == "GET":
+            gets.append(1); route.fulfill(status=404, body="no")
+        else:
+            puts.append({"ifm": request.headers.get("if-match", ""), "body": request.post_data})
+            route.fulfill(status=200, body='{"ok":true}', headers={"ETag": "E1"})
+    pg.route("**/data.php*", srv)
+    pg.add_init_script(PICKER)
+    pg.goto(URL); pg.wait_for_timeout(900)
+    pg.evaluate("""() => idb.set("serverUrl", "data.php")""")
+    pg.reload(); pg.wait_for_timeout(1800)
+    check("de server houdt nog niets, dus het startscherm blijft staan",
+          pg.evaluate("[REMOTE, SERVER_EMPTY, LOADED]") == [True, True, False])
+    check(f"de oude knop heet daar Connect to server ({pg.locator('#btnOpen').inner_text()!r})",
+          pg.locator("#btnOpen").inner_text().strip() == "Connect to server")
+    check("en Open data file… staat er nu naast", pg.locator("#btnLandOpen").is_visible()
+          and pg.locator("#btnLandOpen").inner_text().strip().startswith("Open data file"))
+    pg.click("#btnLandOpen"); pg.wait_for_timeout(900)
+    check("het bestand opent de app met jouw formules",
+          pg.evaluate("[!!DATA, DATA ? DATA.formulas.map(f => f.name) : null]") == [True, ["Uit mijn Backup"]])
+    check("zonder een bestandsverwijzing vast te houden: de server is de plek",
+          pg.evaluate("[HANDLE, REMOTE]") == [None, True])
+    pg.wait_for_timeout(3200)
+    check(f"en de eerste schrijfactie brengt het naar de server ({len(puts)} PUT)",
+          len(puts) == 1 and "Uit mijn Backup" in (puts[0]["body"] or ""))
+    check(f"die eerst nog eens keek, want er is hier niets geladen ({len(gets)} GET)", len(gets) >= 2)
     ctx.close()
 
     b.close()

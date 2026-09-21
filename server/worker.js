@@ -16,11 +16,15 @@
    step that was missed.
 
    In the bucket: miformulas-data.json, and snapshots/YYYY-MM-DD.json, the state before the first
-   save of each day, the last fourteen days.
+   save of each day, the last fourteen days. And, only if you put one there yourself, a published
+   materials library: that one file is handed out without a token, which is how miformulas.com
+   serves the library behind Get the latest library. Your data is never public.
 
    GET  /            -> JSON body, header ETag
    PUT  /            -> body = JSON, headers X-Token, If-Match (ETag from load); 409 on conflict
    GET  /?ping=1     -> {"ok":true,"etag":...,"bytes":...}
+   GET  /miformulas-materials.json -> that public library, read-only and without a token; 404 when
+                        the bucket holds no such file, which is the ordinary set-up
    OPTIONS           -> CORS preflight (the app on miformulas.com calls this from another origin)
 
    The ETag is the R2 object etag, and the conflict guard uses R2's conditional put, so two
@@ -28,8 +32,9 @@
 
    Part of miFormulas, https://github.com/miformulas/miformulas - GPL v3, see LICENSE and NOTICE. */
 
-const VERSION = 3;   // shown in every JSON answer, so you can see which code is live
+const VERSION = 5;   // shown in every JSON answer, so you can see which code is live
 const FILE = "miformulas-data.json";
+const LIST_FILE = "miformulas-materials.json";   // the one file this Worker hands out without a token
 const SNAPDIR = "snapshots/";
 const KEEP_DAYS = 14;
 const TIMEZONE = "Europe/Brussels";
@@ -93,11 +98,24 @@ export default {
     const method = request.method;
     if (method === "OPTIONS") return new Response(null, { status: 204, headers: BASE });   // BASE, so this answer carries no-store and nosniff too
 
+    const url = new URL(request.url);
+    // One name is public on purpose, and only this one: a materials library you publish for others to
+    // fetch. Read-only, GET only, no token. An ordinary bucket holds no such file and answers 404, and
+    // nothing about your own data is reachable this way.
+    if (method === "GET" && env.DATA && url.pathname === "/" + LIST_FILE) {
+      const lib = await env.DATA.get(LIST_FILE);
+      if (!lib) return fail(404, "no materials library in this bucket");
+      return new Response(lib.body, {
+        status: 200,
+        headers: { "Content-Type": "application/json; charset=utf-8", ETag: lib.httpEtag, ...CORS,
+          "X-Content-Type-Options": "nosniff",
+          "Cache-Control": "public, max-age=300" },   // not BASE: a library may be cached, and a new upload is live within five minutes
+      });
+    }
+
     if (!env.TOKEN) return fail(500, "TOKEN secret is not set on the Worker");
     if (!env.DATA) return fail(500, "R2 bucket binding DATA is missing on the Worker");
     if ((request.headers.get("X-Token") || "") !== env.TOKEN) return fail(401, "invalid token");
-
-    const url = new URL(request.url);
 
     if (method === "GET") {
       if (url.searchParams.has("ping")) {

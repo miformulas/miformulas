@@ -1,8 +1,17 @@
-"""Help button: the manual embedded in the app (template#manualTpl), shown in the page pane.
+"""Help button: the manual embedded in the app (template#manualTpl), shown in the page pane, and
+(build 260920j) the manual naming every button exactly as the app labels it, ellipsis included.
 Needs the local web server on port 8765 (see README)."""
+import os, re
 from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/"
+PUB = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+SRC = open(os.path.join(PUB, "index.html"), encoding="utf-8").read()
+MAN = SRC.split("MANUAL:BEGIN")[1].split("MANUAL:END")[0]
+# a button the manual names should carry the name the user reads on it; the ellipsis says "this opens a window"
+BUTTONS = ["btnNew", "btnNewMat", "btnRenameF", "btnCopyF", "btnCatF", "btnDil", "btnOpen", "btnPrint",
+           "btnSheet", "btnShare", "btnCsv", "btnPrep", "btnImpCsv", "btnExpF", "btnExpM", "btnStarter", "btnEmpty"]
+BARLINKS = ["Read online, with screenshots", "Report a problem", "Or write an e-mail"]
 ok = fail = 0
 def check(name, cond):
     global ok, fail
@@ -22,10 +31,20 @@ with sync_playwright() as p:
           page.locator("#btnManual").is_visible() and page.locator("#btnManual").get_attribute("href") == "https://miformulas.com/docs/manual.html")
     check("template with the manual is present and not empty", page.evaluate("document.querySelector('#manualTpl').innerHTML.length > 30000"))
     check("template holds no script", page.evaluate("!/<script/i.test(document.querySelector('#manualTpl').innerHTML)"))
+    miss = []
+    for i in BUTTONS:
+        m = re.search(r'id="%s"[^>]*>([^<]*)<' % i, SRC)
+        lab = (m.group(1).replace("\\u2026", "\u2026").strip() if m else "")
+        if not lab or lab not in MAN: miss.append(i + ": " + (lab or "no label in the file"))
+    check(f"the manual names all {len(BUTTONS)} buttons as the app labels them ({miss})", not miss)
+    check(f"and it names the links in the Help bar ({[x for x in BARLINKS if x not in MAN]})",
+          all(x in MAN for x in BARLINKS))
     check("help button does nothing before data is loaded", page.evaluate("(() => { document.querySelector('#btnHelp').click(); return document.querySelector('#content').innerHTML === ''; })()"))
 
     page.click("#btnStarter"); page.wait_for_timeout(1200)
     page.click("#btnHelp"); page.wait_for_timeout(300)
+    check("the Help bar really carries those links",
+          all(x in page.text_content("#content .helpbar") for x in BARLINKS))
     check("help view renders the manual", page.locator("#content .help h1").inner_text().strip() == "miFormulas manual")
     check("contents list is linked", page.locator("#content .help ol.toc a").count() == 24)
     check("figures became links to the online manual", page.locator("#content .help .helpfig a").count() >= 40

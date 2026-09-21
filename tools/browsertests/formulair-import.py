@@ -23,7 +23,7 @@ async def main():
         ref=json.load(open('/home/claude/ref-cloud.json',encoding='utf-8'))
         got['meta']['generated']=ref['meta']['generated']
         same = json.dumps(got,sort_keys=True,ensure_ascii=False)==json.dumps(ref,sort_keys=True,ensure_ascii=False)
-        print(("OK   " if same else "FOUT ")+"gedownloade JSON is byte-voor-byte gelijk aan de Python-referentie")
+        print(("OK   " if same else "FOUT ")+"gedownloade JSON gelijk aan de Python-referentie (ontleed vergeleken, meta.generated genormaliseerd)")
         if not same:
             for k in ref:
                 a=json.dumps(got.get(k),sort_keys=True); r=json.dumps(ref.get(k),sort_keys=True)

@@ -172,8 +172,9 @@ shows it), and what you did.
   web server with PHP: put it next to `index.html`, create a writable `data`
   folder beside them and set a token in it. Either way you give that token in
   Settings on each device. Both return the JSON with an ETag on GET and refuse a
-  PUT whose `If-Match` is stale, so two devices never overwrite each other, and
-  both keep daily snapshots. Section 7 of the manual walks through both.
+  PUT whose `If-Match` is stale, so two devices cannot overwrite each other as
+  long as the ETag reaches the browser (the app says so once when it does not),
+  and both keep daily snapshots. Section 7 of the manual walks through both.
 
 ## Privacy
 

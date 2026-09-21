@@ -71,7 +71,7 @@ Keep the table plain (no merged cells) so that I can copy it into a spreadsheet.
 
 ## 3. Grouping formulas that came from Formulair
 
-The Formulair importer keeps every Formulair formula as a separate frozen formula, because Formulair is flat: "Aura v04" and "Aura v05" are two formulas there. In miFormulas they belong together as versions of one formula, "Aura v05 20%" included, with the "20%" as its label. An assistant can propose that grouping from the names, for you to review; the app does the moving itself with **Move into…** and **Move together**. Give it the names: the export **All formulas (Excel)** on the Welcome page has them in the first column, or copy them from the list on the left.
+The Formulair importer keeps every Formulair formula as a separate frozen formula, because Formulair is flat: "Aura v04" and "Aura v05" are two formulas there. In miFormulas they belong together as versions of one formula, "Aura v05 20%" included, with the "20%" as its label. An assistant can propose that grouping from the names, for you to review; the app does the moving itself with **Move into…** and **Move together**. Give it the names: the export **Export all formulas (Excel)** (⇅ in the header) has them in the first column, or copy them from the list on the left.
 
 Applying the proposal goes through **Move into…**: open the formula that should carry the history (the lowest number of the series), and the window lists the other imported formulas with the same name stem, already ticked, under **Move together**. Each of them becomes a version of the one you opened, in a single step that one Undo takes back. **Copy to new formula** remains for the cases the names do not cover. Frozen imports stay as they are, so nothing is lost while you regroup.
 
@@ -100,7 +100,7 @@ Way B of section 7: the app and `server/data.php` on a web server with PHP, a wr
 
 ---
 
-I want to run the miFormulas app on my own web server so that all my devices share one data file. Attached are the server endpoint `data.php` from the miFormulas repository and the section "Your own server" of its manual. Read both first.
+I want to run the miFormulas app on my own web server so that all my devices share one data file. Attached are the server endpoint `data.php` from the miFormulas repository and section 7 of its manual, whose part B, "Your own web server with PHP", is the one I am following. Read both first.
 
 My situation: (describe your device and what you know, for example: a Synology DS220+ with DSM 7.2, Web Station is installed but I have never used it; or: a Raspberry Pi 4 with Raspberry Pi OS; or: shared hosting at provider X with PHP 8.2 and FTP access. Say whether you can already reach the device by name or address in a browser, and whether you want to reach it from outside your home.)
 

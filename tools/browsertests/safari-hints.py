@@ -113,6 +113,20 @@ with sync_playwright() as p:
     check("file://: link to miformulas.com", pg.locator("#landingHint a[href='https://miformulas.com']").count() == 1)
     check("file://: no Add to Dock link on the start screen", not pg.locator("#btnInstall").is_visible())
     check("file://: no JavaScript errors", not errs)
+
+    # 5. the daily snapshot (build 260920j): this branch keeps one like the others, and now offers it too
+    SNAP = {"schema": 1, "formulas": [{"id": "f-s", "name": "Van gisteren", "category": "Uncategorised",
+            "created": "2026-09-20", "versions": [{"v": 1, "date": "2026-09-20", "lines": []}]}],
+            "materials": [], "materialCategories": [], "formulaCategories": []}
+    pg.evaluate("""snap => idb.set("dailyBak", {date: "2026-09-20", json: JSON.stringify(snap)})""", SNAP)
+    pg.reload(); pg.wait_for_timeout(900)
+    check("file://: the daily snapshot is offered, with its date",
+          pg.locator("#btnSnap").is_visible() and "2026-09-20" in pg.text_content("#btnSnap"))
+    pg.click("#btnSnap"); pg.wait_for_timeout(600)
+    check("file://: and it loads, with the way out named",
+          pg.evaluate("DATA ? DATA.formulas.map(f => f.name) : None".replace("None", "null")) == ["Van gisteren"]
+          and "Backup" in pg.text_content("#saveState"))
+    check("file://: still no JavaScript errors", not errs)
     ctx.close(); b.close()
 
 print("\n" + ("alles in orde" if not fouten else f"{len(fouten)} fout(en)"))

@@ -216,7 +216,25 @@ check("the oldest three are gone and the fourth is not", !R2.text("snapshots/202
 check("today's snapshot is one of the fourteen", snaps.includes(snapKey));
 check("a backup you put there by hand survives", R2.text("snapshots/my own backup.json") === "mine");
 
-/* ---------- 9. anything else ---------- */
+/* ---------- 9. the one public file ---------- */
+R2.reset(); R2.seed(FILE, DATA);
+const LIB = '{"type":"miformulas-materials","name":"Test library","materials":[]}';
+r = await hit("GET", "/miformulas-materials.json");
+check("a bucket without a library answers 404, without asking for a token", r.status === 404 && /library/.test((await body(r)).error), r.status);
+R2.seed("miformulas-materials.json", LIB);
+r = await hit("GET", "/miformulas-materials.json");
+const lib = await r.text();
+check("a published library is handed out without a token", r.status === 200 && lib === LIB, r.status);
+check("with its etag and the CORS header, so a browser on another site can read it",
+  !!r.headers.get("ETag") && r.headers.get("Access-Control-Allow-Origin") === "*");
+check("and it may be cached, unlike your own data", /max-age/.test(r.headers.get("Cache-Control") || ""), r.headers.get("Cache-Control"));
+r = await hit("GET", "/", { headers: { "X-Token": "wrong" } });
+check("the data itself still needs the token", r.status === 401);
+r = await hit("PUT", "/miformulas-materials.json", { body: DATA2 });
+check("the public name cannot be written to without a token", r.status === 401, r.status);
+check("and the library was not touched", R2.text("miformulas-materials.json") === LIB);
+
+/* ---------- 10. anything else ---------- */
 r = await hit("DELETE", "/", { headers: { "X-Token": TOKEN } });
 check("a method the endpoint does not know is 405", r.status === 405 && (await body(r)).error === "method not allowed");
 
