@@ -220,6 +220,33 @@ with sync_playwright() as p:
     tot = page.evaluate("""() => DATA.formulas.find(x=>x.id==="f-round").versions[0].lines.reduce((s,l)=>s+l.weightG,0)""")
     check(f"but a target you type is applied ({tot})", abs(tot - 200) < 1e-9)
 
+    # ---------- staart 21 (bouw 260920l): een dilutie die wegrondt naar "0" ----------
+    # twee regels met een factor tien verschil droegen hetzelfde opschrift, ook op de weegstaat
+    page.evaluate("""() => {
+      const m = DATA.materials[0];
+      if (!(m.dilutions||[]).some(d => d.pct === 0.001)) m.dilutions.push({pct:0.001, date:today(), notes:""});
+      if (!(m.dilutions||[]).some(d => d.pct === 0.0001)) m.dilutions.push({pct:0.0001, date:today(), notes:""});
+      DATA.formulas.push({id:"f-spoor", name:"Spoortest", category:"Uncategorised", created:today(), versions:[
+        {v:1, date:today(), lines:[{id:"s-1", materialId:m.id, dilutionPct:0.001, weightG:1, remark:1},
+                                   {id:"s-2", materialId:m.id, dilutionPct:0.0001, weightG:1, remark:1}]}]});
+      buildUsage(); switchTab("F", "f-spoor", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    opschrift = page.evaluate("""() => [...document.querySelectorAll("#content table.lines tbody tr")]
+      .map(tr => (tr.querySelector("select.d") ? tr.querySelector("select.d").selectedOptions[0].textContent : tr.cells[2].textContent).trim())""")
+    check(f"twee dilutiestappen onder 0,005 % lezen niet allebei “0%” ({opschrift})",
+          len(set(opschrift)) == len(opschrift) and not any(x in ("0%", "0 %") for x in opschrift))
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-spoor"), it = f.versions[0];
+        document.querySelector("#printArea").innerHTML = sheetHtml(f, it, it.lines); }""")
+    blad = page.evaluate("""() => document.querySelector("#printArea").innerText""")
+    check(f"en op de weegstaat evenmin ({[x for x in blad.split(chr(10)) if '%' in x][:2]})",
+          "0,001%" in blad.replace(".", ",") and "0,0001%" in blad.replace(".", ","))
+    page.evaluate("""() => { document.querySelector("#printArea").innerHTML = "";
+        DATA.formulas = DATA.formulas.filter(x => x.id !== "f-spoor");
+        const m = DATA.materials[0]; m.dilutions = (m.dilutions||[]).filter(d => d.pct > 0.005);
+        buildUsage(); switchTab("F", null, null); }""")
+    page.wait_for_timeout(400)
+    check("een echte nul blijft gewoon 0", page.evaluate("""() => fmtS(0)""") == "0")
+
     check("no page errors", not errs)
     b.close()
 

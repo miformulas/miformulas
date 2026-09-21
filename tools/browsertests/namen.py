@@ -196,6 +196,17 @@ with sync_playwright() as p:
           page.locator("#catCol").input_value() == uncat)
     page.select_option("#catSel", "Predilutions"); page.wait_for_timeout(300)
     check("naar de zopas gekozen kleur", page.locator("#catCol").input_value() == "#3366cc")
+    # staart 25 (bouw 260920l): de lijsten lezen #FFFFFF als "geen kleur" en tekenen grijs; de kiezer toonde wit
+    page.evaluate("""() => { (DATA.categoryColours ||= {})["Predilutions"] = "#FFFFFF"; render(); }""")
+    page.wait_for_timeout(300)
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    page.click("#btnNew"); page.wait_for_timeout(500)
+    page.select_option("#catSel", "Predilutions"); page.wait_for_timeout(400)
+    wit = page.locator("#catCol").input_value()
+    lijst = page.evaluate("""() => catColourByName("Predilutions")""")
+    check(f"een categorie op #FFFFFF: de kiezer toont dezelfde grijs als de lijsten ({wit!r} naast {lijst!r})",
+          wit.lower() == "#9aa6b2" and lijst == "var(--muted)")
+    page.evaluate("""() => { delete DATA.categoryColours["Predilutions"]; }""")
     page.click("#dlgCancel"); page.wait_for_timeout(400)
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
     terug = page.evaluate("""() => (DATA.categoryColours||{})["Predilutions"]""")

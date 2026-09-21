@@ -108,7 +108,9 @@ with sync_playwright() as p:
             for (const r of K.rows){ if (r.m.isSolvent) continue; const e = agg.get(r.m.id) || {m:r.m, rel:0}; e.rel += r.rel||0; agg.set(r.m.id, e); }
             return [...agg.values()].filter(e => e.m.ifraLimit != null && e.m.ifraLimit >= 0 && e.m.ifraLimit < 99).length; })()""") == 1)
 
-    # ---------- 3b. bouw 260918c: een solvent verdwijnt niet meer uit de controle ----------
+    # ---------- 3b. bouw 260920l: de dosering staat op de volledige inhoud, solventen inbegrepen ----------
+    # IFRA-limieten gelden in het eindproduct, en dat is alles wat in de fles zit: de tabel rekent met
+    # abs % en een aangevinkt solvent staat er gewoon in, met zijn eigen percentage.
     page.evaluate("""() => {
       const a = DATA.materials.find(m => m.id === "m-a"), bm = DATA.materials.find(m => m.id === "m-b");
       a.ifraLimit = 99; bm.ifraLimit = 99;                       // nagekeken, geen beperking
@@ -118,18 +120,52 @@ with sync_playwright() as p:
     page.wait_for_timeout(600)
     panel = page.text_content("#ifraBox")
     kop = page.text_content("#ifraBox summary")
-    check(f"het aangevinkte solvent staat er, met zijn limiet ({page.locator('#ifraSolv').count()})",
-          page.locator("#ifraSolv").count() == 1 and "Benzylbenzoaat (drager)" in panel and "0,681" in panel.replace(".", ","))
-    check("met de uitleg waarom er geen percentage bij staat",
-          "part of the finished product all the same" in panel)
-    check(f"en het kopje zwijgt niet meer ({kop!r})", "solvent(s) to check by hand" in kop)
-    page.evaluate("""() => { const e = DATA.materials.find(m => m.id === "m-e"); e.isSolvent = false;
+    check(f"het solvent staat in de tabel zelf, met zijn limiet ({page.locator('#ifraSolv').count()} apart blok)",
+          page.locator("#ifraSolv").count() == 0
+          and "Benzylbenzoaat (drager)" in page.text_content("#ifraBox table") and "0,681" in panel.replace(".", ","))
+    rij = page.evaluate("""() => { const tr = [...document.querySelectorAll("#ifraBox table tbody tr")]
+        .find(t => t.cells[0].textContent.includes("Benzylbenzoaat"));
+      return tr ? [...tr.cells].map(td => td.textContent.trim()) : null; }""")
+    check(f"met 89,99 % van het eindproduct, zijn gewichtsaandeel ({rij})",
+          rij and rij[1].replace(",", ".").startswith("89.99"))
+    check(f"en het kopje telt het mee ({kop!r})", "1 over limit" in kop)
+    veld = page.evaluate("""() => document.querySelector("#ifraDose").value""")
+    check(f"de dosering staat standaard op 100 % ({veld!r})", veld.replace(",", ".").startswith("100"))
+    check("met de uitleg dat deze formule zelf het eindproduct is",
+          "solvents included, is the finished product" in panel)
+
+    # de rekening: abs % maal de dosering, niet rel %
+    page.evaluate("""() => { const a = DATA.materials.find(m => m.id === "m-a"); a.ifraLimit = 5;
+      IDOSE = null; markDirty(); render(); }""")
+    page.wait_for_timeout(500)
+    rijA = page.evaluate("""() => { const tr = [...document.querySelectorAll("#ifraBox table tbody tr")]
+        .find(t => t.cells[0].textContent.includes("Kost A"));
+      return tr ? [...tr.cells].map(td => td.textContent.trim()) : null; }""")
+    check(f"Kost A staat op 10 g van 100 g, dus 10 % van het eindproduct ({rijA})",
+          rijA and rijA[1].replace(",", ".").startswith("10.0"))
+    page.fill("#ifraDose", "50"); page.dispatch_event("#ifraDose", "change"); page.wait_for_timeout(500)
+    rijA2 = page.evaluate("""() => { const tr = [...document.querySelectorAll("#ifraBox table tbody tr")]
+        .find(t => t.cells[0].textContent.includes("Kost A"));
+      return tr ? [...tr.cells].map(td => td.textContent.trim()) : null; }""")
+    check(f"gaat de hele formule voor 50 % in het product, dan is dat 5 % ({rijA2})",
+          rijA2 and rijA2[1].replace(",", ".").startswith("5.0"))
+    page.evaluate("""() => { IDOSE = null; const a = DATA.materials.find(m => m.id === "m-a"); a.ifraLimit = 99;
+      const e = DATA.materials.find(m => m.id === "m-e"); e.ifraLimit = null; e.name = "Ethanol kost";
       invalidateMats(); markDirty(); render(); }""")
-    page.wait_for_timeout(600)
-    check("het vinkje weghalen zet het materiaal gewoon in de tabel",
-          page.locator("#ifraSolv").count() == 0 and "Benzylbenzoaat (drager)" in page.text_content("#ifraBox table"))
-    page.evaluate("""() => { const e = DATA.materials.find(m => m.id === "m-e"); e.isSolvent = true;
-      invalidateMats(); markDirty(); render(); }""")
+    page.wait_for_timeout(500)
+
+    # staart 8: een regel naar een gewist materiaal telt wel in de gewichten, maar is niets om na te kijken
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
+      f.versions[0].lines.push({id:"l-weg", materialId:"m-bestaat-niet", dilutionPct:100, weightG:1, remark:1});
+      markDirty(); render(); }""")
+    page.wait_for_timeout(500)
+    panel = page.text_content("#ifraBox")
+    check(f"een regel naar een gewist materiaal wordt apart gemeld ({page.locator('#ifraGone').count()})",
+          page.locator("#ifraGone").count() == 1 and "no longer exists" in panel)
+    check(f"en staat niet meer als “undefined” bij de niet-nagekeken materialen ({panel[:0]})",
+          "undefined" not in panel)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
+      f.versions[0].lines = f.versions[0].lines.filter(l => l.id !== "l-weg"); markDirty(); render(); }""")
     page.wait_for_timeout(400)
 
     # ---------- 3c. niets nagekeken is geen vrijgave ----------
@@ -309,6 +345,45 @@ with sync_playwright() as p:
     pg.wait_for_timeout(600)
     head = pg.text_content("#ifraBox summary")
     check(f"the predilution formula itself is still checked ({head!r})", "over limit" in head)
+    # ---------- staart 6 (bouw 260920l): Delivered vraagt of de oude voorraad op is ----------
+    pg.evaluate("""() => {
+      DATA.materials.push({id:"m-vrd", name:"Voorraadtest", category:"Test", pyramid:3, isSolvent:false,
+        dilutions:[{pct:100, isBase:true}], stockEvents:[{t:"take", date:"2026-09-01", g:40}]});
+      invalidateMats();
+      (DATA.orderList ||= []).push({id:"o-vrd", materialId:"m-vrd", name:"Voorraadtest", added:today()});
+      markDirty(); VIEW = {tab:"T", id:null, sub:null}; HOMEVIEW = false; setTabs(); render(); }""")
+    pg.wait_for_timeout(600)
+    rij = pg.evaluate("""() => [...document.querySelectorAll("[data-odeliv]")].findIndex(b =>
+      b.closest("tr").textContent.includes("Voorraadtest"))""")
+    pg.fill(f"[data-oamt='{rij}']", "10"); pg.locator(f"[data-oamt='{rij}']").press("Tab"); pg.wait_for_timeout(300)
+    pg.click(f"[data-odeliv='{rij}']"); pg.wait_for_timeout(600)
+    check(f"Delivered vraagt of de oude voorraad op is, met de stand erbij ({pg.locator('#dvFresh').count()})",
+          pg.locator("#dvFresh").count() == 1 and not pg.locator("#dvFresh").is_checked()
+          and "40" in pg.text_content("#dlg"))
+    pg.click("#dlgOk"); pg.wait_for_timeout(900)
+    na = pg.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-vrd"); return stockCalc(m).qty; }""")
+    check(f"laat je het vakje uit, dan telt de aankoop erbij: 40 + 10 = 50 g ({na})", abs(na - 50) < 1e-9)
+    pg.keyboard.press("Control+z"); pg.wait_for_timeout(700)
+    terug = pg.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-vrd");
+      return {q: stockCalc(m).qty, order: (DATA.orderList||[]).some(o => o.id === "o-vrd")}; }""")
+    check(f"Ctrl+Z zet de voorraad en de bestelregel terug ({terug})", abs(terug["q"] - 40) < 1e-9 and terug["order"])
+    pg.evaluate("""() => { VIEW = {tab:"T", id:null, sub:null}; HOMEVIEW = false; setTabs(); render(); }""")
+    pg.wait_for_timeout(500)
+    rij = pg.evaluate("""() => [...document.querySelectorAll("[data-odeliv]")].findIndex(b =>
+      b.closest("tr").textContent.includes("Voorraadtest"))""")
+    pg.fill(f"[data-oamt='{rij}']", "10"); pg.locator(f"[data-oamt='{rij}']").press("Tab"); pg.wait_for_timeout(300)
+    pg.click(f"[data-odeliv='{rij}']"); pg.wait_for_timeout(600)
+    pg.check("#dvFresh"); pg.click("#dlgOk"); pg.wait_for_timeout(900)
+    vers = pg.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-vrd");
+      return {q: stockCalc(m).qty, ev: (m.stockEvents||[]).map(e => e.t + ":" + e.g + (e.note ? " " + e.note : ""))}; }""")
+    check(f"vink je het aan, dan begint het boek opnieuw: 10 g ({vers})", abs(vers["q"] - 10) < 1e-9)
+    check(f"met een stocktake van 0 g en de reden erbij ({vers['ev'][-2:]})",
+          any(e.startswith("take:0") and "used up" in e for e in vers["ev"]))
+    regels = pg.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-vrd");
+      return (m.stockEvents||[]).map(e => evLabel(e)); }""")
+    check(f"en het boek zegt het ook in woorden ({regels[-2:]})",
+          any("stocktake" in r and "used up" in r for r in regels))
+
     check("no page errors", not errs4)
     b.close()
 

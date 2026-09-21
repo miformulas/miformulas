@@ -360,6 +360,26 @@ with sync_playwright() as p:
     check("Ctrl+Z neemt de kopie terug",
           page.evaluate("""() => !DATA.formulas.some(x => x.name === "Staarttest kopie")"""))
 
+    # ---------- staart 26 (bouw 260920l): een afgekapte gebruikslijst zegt dat ze afgekapt is ----------
+    page.evaluate("""() => {
+      const m = DATA.materials[0];
+      for (let i = 1; i <= 65; i++) DATA.formulas.push({id:"f-u"+i, name:"Gebruik "+i, category:"Uncategorised",
+        created:today(), versions:[{v:1, date:today(), lines:[{id:"u"+i, materialId:m.id, dilutionPct:100, weightG:1, remark:1}]}]});
+      buildUsage(); switchTab("M", m.id, null); }""")
+    page.wait_for_timeout(800)
+    kop = page.evaluate("""() => document.querySelector(".panelBox.usage h3").textContent""")
+    tekst = page.evaluate("""() => document.querySelector(".panelBox.usage").innerText""")
+    getoond = page.evaluate("""() => document.querySelectorAll(".panelBox.usage [data-go]").length""")
+    n = int("".join(ch for ch in kop.split("(")[-1] if ch.isdigit()))
+    check(f"de kop telt alles ({kop!r}) en de lijst toont er zestig ({getoond})", n > 60 and getoond == 60)
+    check(f"en eronder staat hoeveel er niet getoond worden ({[l for l in tekst.split(chr(10)) if 'more' in l]})",
+          f"and {n - 60} more" in tekst)
+    page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(f => !/^f-u\\d+$/.test(f.id));
+      buildUsage(); switchTab("M", DATA.materials[0].id, null); }""")
+    page.wait_for_timeout(500)
+    check("en bij een korte lijst blijft die zin weg",
+          "more" not in page.evaluate("""() => document.querySelector(".panelBox.usage").innerText"""))
+
     check(f"no page errors ({errs[:2]})", not errs)
     ctx.close(); b.close()
 
