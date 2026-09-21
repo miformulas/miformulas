@@ -193,7 +193,12 @@ with sync_playwright() as pw:
     check("het venster blijft open", page.locator("#csvMap").is_visible())
     check(f"de bibliotheek is geladen ({page.evaluate('DATA.materialList && DATA.materialList.name')})", page.evaluate("DATA.materialList && DATA.materialList.name") == "Testbibliotheek")
     check("de regel noemt ze nu", "Testbibliotheek 2026-09-16" in page.text_content("#csvLib") and page.locator("#csvLibGet").count() == 0)
-    check(f"en de teller zegt hoeveel namen ze kent, alias inbegrepen ({page.text_content('#csvCount')})", "knows 3 of them" in page.text_content("#csvCount"))
+    # sinds bouw 260920m telt het plan de aliassen mee die de invoer zelf meegeeft: de rij "Methyl dihydrojasmonate"
+    # landt straks op de Hedione die deze invoer aanmaakt, dus ze wordt niet meer als nieuw materiaal beloofd
+    tel = page.text_content("#csvCount")
+    check(f"de teller belooft er drie, want de aliasrij landt op de stof die hier gemaakt wordt ({tel})",
+          "3 material(s) will be created" in tel)
+    check(f"en zegt hoeveel namen de bibliotheek kent ({tel})", "knows 2 of them" in tel)
     check("de Welcome-pagina achter het venster is bijgewerkt", "Import/Export" in page.text_content("#content .panelBox:last-of-type"))
     msgs3.clear(); page.click("#dlgOk"); page.wait_for_timeout(1000)
     iso = mat(page, "Iso E Super"); hed = mat(page, "Hedione"); mdj = mat(page, "Methyl dihydrojasmonate")
@@ -288,6 +293,30 @@ with sync_playwright() as pw:
     msgs3.clear(); page.click("#btnExpF"); page.wait_for_timeout(600)
     check(f"en een lege formulelijst evenmin ({[m[:40] for m in msgs3]})",
           any("no formulas to export" in m for m in msgs3))
+
+    # ---------------- staart 28 en 34 (bouw 260920m) ----------------
+    # 28: "100 / 100 / 10" maakte twee keer dezelfde dilutie, wat de app overal elders weigert
+    # 34: het plan kende de aliassen niet die de invoer zelf meegeeft, en beloofde meer dan er kwam
+    page.evaluate("""() => { setMaterialList({type:"miformulas-materials", name:"Aliaslijst", version:"1",
+        materials:[{name:"Ambroxide", aliases:["Ambroxan"], cas:"6790-58-5", category:"Test", pyramid:4}]});
+        render(); }""")
+    page.wait_for_timeout(400)
+    dub = os.path.join(tmp, "dubbele-dilutie.csv")
+    open(dub, "w", encoding="utf-8", newline="").write(
+        "Name;Category;Dilutions\nDubbeldil;Test;100 / 100 / 10\nAmbroxide;Test;100\nAmbroxan;Test;100\n")
+    msgs3.clear()
+    page.set_input_files("#impCsv", dub); page.wait_for_timeout(900)
+    telling = page.text_content("#csvCount")
+    check(f"het plan belooft twee materialen, niet drie: de alias telt mee ({telling.strip()[:60]!r})",
+          "2 material(s) will be created" in telling)
+    page.click("#dlgOk"); page.wait_for_timeout(1200)
+    dd = mat(page, "Dubbeldil")
+    check(f"dezelfde dilutie komt maar één keer binnen ({dd['dil']}, basis {dd['base']})",
+          sorted(dd["dil"]) == [10, 100] and dd["base"] == 100)
+    check(f"er kwamen er twee, zoals beloofd ({page.evaluate('DATA.materials.length')})",
+          page.evaluate("""() => DATA.materials.filter(m => /Dubbeldil|Ambroxide|Ambroxan/.test(m.name)).length""") == 2)
+    check(f"en de melding zegt waarom de derde rij wegviel ({[m[:110] for m in msgs3][-1:]})",
+          any("earlier row in this sheet" in m for m in msgs3))
 
     check(f"geen paginafouten in deel 6 ({errs3[:2]})", not errs3)
 

@@ -1,7 +1,7 @@
 """Alle formules uitvoeren naar één bestand en ze elders weer invoeren (bouw 260915n).
 De rondgang zit erin: uitvoeren, het JSON nalezen op wat er wel en niet in staat, en invoeren in een tweede
 browser die de formules niet heeft. Vereist de lokale webserver op poort 8765, zie README."""
-import json, os, tempfile
+import datetime, json, os, tempfile
 from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/"
@@ -10,6 +10,8 @@ def check(naam, cond):
     global ok, fail
     ok += bool(cond); fail += (not cond)
     print(("OK   " if cond else "FAIL ") + naam)
+
+today = datetime.date.today().isoformat()
 
 with sync_playwright() as pw:
     b = pw.chromium.launch()
@@ -105,6 +107,36 @@ with sync_playwright() as pw:
     rijen4 = [r for r in tekst4.splitlines() if "Met een gat" in r]
     check(f"de verweesde regel staat er niet in, de Total-regel wel ({len(rijen4)} rijen)", len(rijen4) == 2)
 
+    # staart 31 (bouw 260920m): Export all my formulas… vraagt vooraf, net als de drie andere uitvoeren
+    page.click("#btnIO"); page.wait_for_timeout(400)
+    msgs.clear()
+    with page.expect_download() as dl5:
+        page.click("#btnExpJ")
+    pad5 = os.path.join(tmp3, "alles.json"); dl5.value.save_as(pad5)
+    page.wait_for_timeout(300)
+    check(f"de grote uitvoer vraagt vóór ze schrijft ({[m[:46] for m in msgs]})",
+          any("no longer exists" in m and "anyway" in m for m in msgs))
+    check("en de melding achteraf zegt hoeveel er wegbleven",
+          any("were left out" in m for m in msgs))
+    pak5 = json.load(open(pad5, encoding="utf-8"))
+    rg = [len(v["lines"]) for f in pak5["formulas"] for v in f["versions"]]
+    check(f"het bestand draagt de goede regel en niet de verweesde ({rg})",
+          rg == [1] and all(l.get("material") == "Blijver" for f in pak5["formulas"] for v in f["versions"] for l in v["lines"]))
+
+    # staart 35: een versie zonder datum houdt haar lege datum bij de rondgang
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-1");
+        f.versions[0].date = ""; markDirty(); render(); }""")
+    page.wait_for_timeout(400)
+    page.click("#btnIO"); page.wait_for_timeout(400)
+    msgs.clear()
+    with page.expect_download() as dl6:
+        page.click("#btnExpJ")
+    pad6 = os.path.join(tmp3, "zonderdatum.json"); dl6.value.save_as(pad6)
+    page.wait_for_timeout(300)
+    pak = json.load(open(pad6, encoding="utf-8"))
+    leeg = [v for f in pak["formulas"] for v in f["versions"] if v.get("date") == ""]
+    check(f"de uitvoer draagt de lege datum ({len(leeg)} versie(s))", len(leeg) >= 1)
+
     check(f"geen paginafouten bij de afzender ({errs[:2]})", not errs)
     ctx.close()
 
@@ -180,6 +212,14 @@ with sync_playwright() as pw:
     check("en de voorvertoning zegt in hoeveel formules ze zitten",
           "cannot be imported" in page.text_content("#content"))
     page.click("#btnImpCancel"); page.wait_for_timeout(600)
+    # staart 35: en bij de ontvanger blijft ze leeg in plaats van vandaag te worden
+    page.set_input_files("#impFile", pad6); page.wait_for_timeout(2000)
+    page.click("#btnImpOk"); page.wait_for_timeout(1500)
+    datums = page.evaluate("""() => { const f = DATA.formulas.find(x => /Met een gat/.test(x.name));
+      return f ? f.versions.map(v => v.date) : null; }""")
+    check(f"een versie zonder datum krijgt niet stilletjes die van vandaag ({datums})",
+          datums == [""] )
+
     check(f"geen paginafouten bij de ontvanger ({errs2[:2]})", not errs2)
 
     print("\n%d OK, %d FAIL" % (ok, fail))

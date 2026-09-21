@@ -187,6 +187,41 @@ with sync_playwright() as p:
     check("en de regel telt als treffer op die naam", "matched" in txt)
     page.click("#btnImpCancel"); page.wait_for_timeout(400)
 
+    # ---------- staart 29, 30 en 33 (bouw 260920m) ----------
+    # 33: "matched" rekende regels min unieke nieuwe namen, dus een nieuwe naam op drie regels telde twee treffers te veel
+    drie = schrijf("drie.json", {"type": "miformulas-import", "name": "Drie keer nieuw", "lines": [
+        {"material": "Nooitgezien X", "dilutionPct": 100, "weightG": 1},
+        {"material": "Nooitgezien X", "dilutionPct": 10, "weightG": 2},
+        {"material": "Nooitgezien X", "dilutionPct": 1, "weightG": 3}]})
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    page.set_input_files("#impFile", drie); page.wait_for_timeout(900)
+    tel = page.text_content("#content").split("lines")[1].split("new")[0]
+    check(f"drie regels op één nieuwe naam: geen enkele treffer ({tel.strip()!r})", "0 matched" in tel)
+    page.click("#btnImpCancel"); page.wait_for_timeout(400)
+
+    # 30: een bestand zonder naam geeft geen bestelregel "needed for undefined"
+    naamloos = schrijf("naamloos.json", {"type": "miformulas-import", "lines": [
+        {"material": "Naamloze stof Q", "dilutionPct": 100, "weightG": 5}]})
+    page.set_input_files("#impFile", naamloos); page.wait_for_timeout(900)
+    page.click("#btnImpOk"); page.wait_for_timeout(1200)
+    notitie = page.evaluate("""() => { const o = (DATA.orderList||[]).find(x => /Naamloze stof Q/.test(x.name));
+      return o ? o.note : null; }""")
+    check(f"de bestelregel noemt de formule, niet “undefined” ({notitie!r})",
+          notitie and "undefined" not in notitie and "Imported formula" in notitie)
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+
+    # 29: een bestand waar niets uit komt, komt niet door de sluis
+    leeg = schrijf("leeg.json", {"type": "miformulas-import", "source": "Leegtest",
+        "formulas": [{"name": "Zonder regels", "versions": [{"name": "v1", "lines": []}]}]})
+    undo0 = page.evaluate("UNDO.length"); vuil0 = page.evaluate("DIRTY")
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    page.set_input_files("#impFile", leeg); page.wait_for_timeout(900)
+    check("Confirm staat uit bij een bestand zonder regels",
+          page.locator("#btnImpOk").is_disabled() and page.locator("#impEmpty").count() == 1)
+    page.click("#btnImpCancel"); page.wait_for_timeout(500)
+    check(f"en er blijft geen undo-stap of schrijfbeurt achter ({undo0} → {page.evaluate('UNDO.length')})",
+          page.evaluate("UNDO.length") == undo0 and page.evaluate("DIRTY") == vuil0)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

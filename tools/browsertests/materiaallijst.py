@@ -289,6 +289,25 @@ with sync_playwright() as p:
           page.locator("#list .item").count() == 1)
     page.fill("#searchBox", ""); page.wait_for_timeout(300)
 
+    # ---------- staart 32 (bouw 260920m): een bibliotheek woont in je databestand ----------
+    # elke wijziging herschrijft dat bestand in zijn geheel, dus de maat telt en er is een plafond
+    msgs.clear()
+    page.set_input_files("#impList", f); page.wait_for_timeout(800)
+    check(f"de melding noemt de maat van de bibliotheek ({[m[:70] for m in msgs][:1]})",
+          any(("kB" in m or "MB" in m) and "library loaded" in m for m in msgs))
+    groot = {"type": "miformulas-materials", "name": "Te grote lijst", "version": "2026-09-21",
+             "materials": [{"name": "Vulstof %04d" % i, "category": "Test", "pyramid": 2,
+                            "description": "x" * 900} for i in range(2600)]}
+    pad_groot = os.path.join(tempfile.mkdtemp(), "groot.json")
+    open(pad_groot, "w", encoding="utf-8").write(json.dumps(groot))
+    voor = page.evaluate("""() => DATA.materialList && DATA.materialList.name""")
+    msgs.clear()
+    page.set_input_files("#impList", pad_groot); page.wait_for_timeout(1500)
+    check(f"een bibliotheek boven 2 MB wordt geweigerd, met de reden ({[m[:80] for m in msgs][:1]})",
+          any("limit is 2" in m and "data file" in m for m in msgs))
+    check(f"en de geladen bibliotheek blijft wat ze was ({voor!r})",
+          page.evaluate("""() => DATA.materialList && DATA.materialList.name""") == voor)
+
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")
