@@ -316,6 +316,7 @@ body.ro .swatch,body.ro [data-mark],body.ro #btnClearMarks,body.ro .selCb,body.r
 body.ro [data-add],body.ro [data-deltrial],body.ro [data-deldil],body.ro [data-setbase],body.ro [data-del],body.ro [data-pyr],body.ro [data-repl],
 body.ro .bghandle,body.ro [data-bup],body.ro [data-bdown],body.ro [data-bempty],body.ro [data-bdel],
 body.ro #btnPrep,body.ro #btnTake,body.ro #btnBuy,body.ro #btnDil,body.ro #stTake,body.ro #stBuyAmt,body.ro #stBuyUnit,body.ro #stBuyNote,body.ro #stDilPct,body.ro #stDilG,body.ro [data-delev],
+body.ro #btnImpFormulair,   /* a link, so lockInputs cannot disable it: an import here would have nowhere to go */
 body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 #btnBack{display:none}
 @media print{
@@ -349,7 +350,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920g</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920h</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -395,6 +396,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
        <button id="btnEmpty" class="small" style="display:none;margin-left:.6rem" title="No example formulas or materials: an empty inventory you fill yourself">Start empty</button></p>
     <p><button id="btnSnap" class="small" style="display:none"></button></p>
     <p class="hint" id="landingHint"></p>
+    <p><button id="btnLandBak" class="primary small" style="display:none" title="Download everything that was read, as a JSON file">Backup</button></p>
     <p><button id="btnSettingsLanding" class="small">Settings…</button>
        <a id="btnManual" class="small" style="margin-left:.6rem" href="https://miformulas.com/docs/manual.html" target="_blank" rel="noopener" title="The manual, with screenshots; once you are working, the ? button in the header shows it inside the app">Manual</a>
        <a id="btnFeedback" class="small" style="margin-left:.6rem" href="https://github.com/miformulas/miformulas/issues" target="_blank" rel="noopener" title="Questions, problems and ideas: open an issue on GitHub, or write to info@miformulas.com if you would rather not">Feedback</a>
@@ -414,7 +416,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260920g. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260920h. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -624,7 +626,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>Reaching the server from outside your home is a matter of your network. A VPN such as Tailscale is the simple and safe way, and it can also give the server an https address, which the "Install as an app" options need. Do not put <code>data.php</code> on the open internet without https: the token travels in a header. None of this applies to way A, which is on the internet with https from the start.</p>
 <p>To update the app on your own server, copy the new <code>index.html</code> over the old one; the data stays.</p>
 <h3 id="what-the-endpoint-does-on-either-way">What the endpoint does, on either way</h3>
-<p>It returns the data with an ETag, accepts a save only when the ETag still matches, so that two devices can never overwrite each other (the app then shows a conflict warning: make a Backup, reload and redo the change), and it keeps a snapshot of the previous state on the first save of each day, fourteen days long: in <code>data/snapshots</code> on a PHP server, under <code>snapshots/</code> in the bucket on Cloudflare. A server that hides the ETag from the browser (a proxy that strips the header, or CORS without <code>Access-Control-Expose-Headers</code>) makes the app say so once: saving still works, but that protection is off until it is fixed. Restoring a snapshot is copying that file over <code>miformulas-data.json</code>.</p>
+<p>It returns the data with an ETag, accepts a save only when the ETag still matches, so that two devices can never overwrite each other (the app then shows a conflict warning: make a Backup, reload and redo the change), and it keeps a snapshot of the previous state on the first save of each day, fourteen days long: in <code>data/snapshots</code> on a PHP server, under <code>snapshots/</code> in the bucket on Cloudflare. A server that hides the ETag from the browser (a proxy that strips the header, or CORS without <code>Access-Control-Expose-Headers</code>) makes the app say so once: saving still works, but that protection is off until it is fixed. Restoring a snapshot is copying that file over <code>miformulas-data.json</code>. When the app starts without loading anything from the server, because it was unreachable or held no data file yet, the first save looks once more before it writes: if a data file has arrived in the meantime, nothing is sent and the app says so, so that a fresh start here cannot land on top of work that was saved elsewhere.</p>
 <p>If you would like step-by-step instructions for your own situation, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt for each way. Keep in mind that an assistant knows the miFormulas side of it well and the Cloudflare dashboard badly: for way A the screens in this section are the authority, not what an assistant remembers.</p>
 <h2 id="s8-the-screen">8. The screen</h2>
 <p>The <strong>header</strong> holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula</strong> and <strong>+ New material</strong>; the installed app adds a back and a forward arrow there, because an app window has no toolbar of its own (section <a href="#s21-settings-theme-and-keyboard-shortcuts">21</a>). On the right what the file is: the save state, <strong>Undo</strong> and <strong>Redo</strong> (arrows on a narrow window), <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, <strong>Import/Export</strong> (⇅, section <a href="#s20-import-and-export">20</a>), and then the four buttons you need rarely: reload (the circular arrow, for after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙). Below about 1160 pixels the right group moves to a second row as a whole, so nothing ever runs off the edge.</p>
@@ -632,7 +634,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Accents and ligatures do not matter: "haiti" finds Vetiver Haïti and "coeur" finds Patchouli cœur, and the same folding decides whether an import lands on a material you already have. Each tab keeps its own term, so the name of a material does not stay behind in the formula list when you switch. Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section <a href="#s20-import-and-export">20</a>), the panel says "Not in your inventory" and shows what the library does know, with a <strong>+ Add</strong> button that puts the material in your inventory with its facts.</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-the-screen">The list panel on the left and a formula page on the right.</a></p>
-<p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. Read-only takes away what would change something; printing, the Excel export, <strong>Share this version…</strong> and the dosage field of the IFRA check stay where they are, because none of them touches your data. The header leaves out ☰, <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself. The formula table drops the columns <strong>Abs %</strong> and <strong>Cost</strong> there, to leave room for the dilution picker; swipe the table sideways to see the rest. The order list drops <strong>Note</strong>, <strong>Price €</strong>, <strong>Product URL</strong> and <strong>Added</strong>, so that the material, the amount and the three buttons fit on the screen without swiping: in a shop you work from that list, you do not fill it in.</p>
+<p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. Read-only takes away what would change something, in the windows as well: a materials library cannot be imported or fetched there, and <strong>Import from Formulair…</strong> is not offered, because there would be nowhere to save the result. Printing, the Excel export, <strong>Share this version…</strong> and the dosage field of the IFRA check stay where they are, because none of them touches your data. The header leaves out ☰, <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself. The formula table drops the columns <strong>Abs %</strong> and <strong>Cost</strong> there, to leave room for the dilution picker; swipe the table sideways to see the rest. The order list drops <strong>Note</strong>, <strong>Price €</strong>, <strong>Product URL</strong> and <strong>Added</strong>, so that the material, the amount and the three buttons fit on the screen without swiping: in a shop you work from that list, you do not fill it in.</p>
 <h2 id="s9-materials">9. Materials</h2>
 <p>The <strong>Materials</strong> tab is your inventory: the materials you own or have on order. A <strong>materials library</strong> is something else, a reference file of facts that you import (section <a href="#s20-import-and-export">20</a>); it never changes what you own.</p>
 <p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (the categories that come with the starter set and with a Formulair import carry a colour, used for the dots and the pyramid; beside the picker sits a small colour square that sets the colour of the chosen category, so a category you make yourself does not have to stay grey, and <strong>+ New category</strong> makes one without leaving the page), supplier, the amount purchased (free text, so an imported “2 × 50 ml” stays exactly as it was), cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger (which also holds the date you bought it and the density in g/ml that section <a href="#s19-stock-orders-and-deliveries">19</a> uses to read a volume as a weight), a free description, and the list of every formula the material appears in; click a name there to jump to it. A material always keeps at least one dilution, so the last one cannot be deleted: add the other one first.</p>
@@ -734,6 +736,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header writes the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>); Chrome and Edge ask where it should go and remember that folder. Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
 <p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file. When the browser copy is the thing that could not be read, the start screen says so and points at your last Backup, because starting again there would write over what is left of it. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.</p>
+<p><strong>If the app cannot open your data</strong>, the start screen says so and offers a <strong>Backup</strong> of everything that was read, and nothing else: a fresh start would write over the data that is still there. Download that file, reload, and if it happens again open it in another browser or in the downloaded app. A copy that could not be read at all is a different message: there the start screen says the data is damaged and points at your last Backup.</p>
 <p>In server mode the server keeps daily snapshots for fourteen days (section <a href="#s7-a-server-setup-for-cross-device-use">7</a>).</p>
 <p><strong>Open data file…</strong> opens any of these files. <strong>Undo</strong> covers the last fifty things you did since the app was opened, deletions included (Redo the last ten of them); it does not survive a reload.</p>
 <h2 id="s23-questions-and-answers">23. Questions and answers</h2>
@@ -1083,12 +1086,15 @@ async function remoteLoad(){
 async function remoteSave(){
   const gen = SAVEGEN, s = serialize();
   try{
-    if (!LOADED && !SERVER_EMPTY){   // a restored snapshot while the server was unreachable: look before writing, an empty If-Match would overwrite
+    // Nothing was loaded in this session: look before writing, an empty If-Match would overwrite whatever is there.
+    // A 404 from an earlier GET is not a licence either: the file may have arrived in the seconds since (a backup put
+    // back by hand, the other device that saved first), and this write would be the starter set over your own work.
+    if (!LOADED){
       const g = await fetch(API, {headers: {"X-Token": TOKEN || ""}, cache: "no-store"});
       if (g.status === 404) SERVER_EMPTY = true;
       else if (g.ok){
         setState("⚠ The server holds data that was not loaded here – use Backup, then reload (F5)", "", true);
-        if (!remoteSave._warned){ remoteSave._warned = true; alert("The server holds data that was not loaded in this session: you restored a snapshot while it was unreachable.\n\nUse Backup to keep what you see, then reload (F5) to continue with the data on the server."); }
+        if (!remoteSave._warned){ remoteSave._warned = true; alert("The server holds data that was not loaded in this session: you started here while it was unreachable or held nothing, and it has data now.\n\nUse Backup to keep what you see, then reload (F5) to continue with the data on the server."); }
         return;
       } else if (g.status !== 401){ setState(`Save failed (server ${g.status}) – use Backup`, "", true); return; }
     }
@@ -4469,20 +4475,27 @@ async function openSettings(){
       : "No materials library loaded. A library fills in the facts when you add a material; it does not change the materials you own."}</div>
     ${DATA.materialList ? `<div class="hint">Used when you add a material; the materials you own are not part of it.</div>` : ""}
     ${listCredit()}
-    <div style="margin-top:.3rem"><button class="small" id="setListImp">Import materials library…</button>${
-      DATA.materialList ? ` <button class="small" id="setListDel">Remove the library…</button>` : ""}${
-      LIST_URL ? ` <button class="small" id="setListGet">Get the latest library</button>` : ""}</div>` : ""}`,
+    <div style="margin-top:.3rem"><button class="small" id="setListImp"${readOnly() ? " disabled" : ""}>Import materials library…</button>${
+      DATA.materialList ? ` <button class="small" id="setListDel"${readOnly() ? " disabled" : ""}>Remove the library…</button>` : ""}${
+      LIST_URL ? ` <button class="small" id="setListGet"${readOnly() ? " disabled" : ""}>Get the latest library</button>` : ""}${
+      readOnly() ? ` <span class="hint">read-only here: there is nowhere to save a library to</span>` : ""}</div>` : ""}`,
   "Apply", () => {
     const nl = $("#setLocale").value || null;
     const ns = web ? ($("#setServer").value.trim() || null) : null, nt = web ? ($("#setToken").value.trim() || null) : null;
     const nlast = !!$("#setOpenLast").checked;
     const serverChanged = web && ((ns||"") !== (url||"") || (nt||"") !== (tok||""));
     (async () => {
+      // saveData() says whether it worked, and changing the server reloads the app: throwing that answer away is
+      // how the change you just made disappears. Ask first, and apply nothing at all when the answer is to stay.
+      if (serverChanged && DIRTY && !(await saveData())
+          && !confirm("Your last changes could not be saved: the bar under the header says why.\n\n"
+            + "Changing the server reloads the app, and what is not saved is lost. Cancel changes nothing and keeps you "
+            + "here, so you can use Backup first.\n\nChange the server and reload anyway?")) return;
       await idb.set("locale", nl);
       if (web){ await idb.set("serverUrl", ns); await idb.set("token", nt); }   // no server fields in the downloaded app: leave what is stored alone
       if (nlast !== OPENLAST){ OPENLAST = nlast; await idb.set("openLast", nlast); if (!nlast) await idb.set("lastView", null); }
       LOCALE = nl || undefined;
-      if (serverChanged){ if (DIRTY) await saveData(); location.reload(); }
+      if (serverChanged) location.reload();
       else if (DATA) render();
     })();
   }, "26rem");
@@ -4508,7 +4521,11 @@ async function openSettings(){
   });
   $("#setForget")?.addEventListener("click", async () => {
     if (!confirm("Forget the remembered data file?\n\nThe file itself is not touched and your data stays in it. The app stops offering Reopen, so the next start begins fresh in this browser; use “Open data file…” to pick your file again.")) return;
-    if (DIRTY) await saveData();
+    // the same as above: a failed save must not be followed by a reload, and the handle is only dropped once you agree
+    if (DIRTY && !(await saveData())
+        && !confirm("Your last changes could not be saved: the bar under the header says why.\n\n"
+          + "Forgetting the file reloads the app, and what is not saved is lost. Cancel changes nothing and keeps you "
+          + "here, so you can use Backup first.\n\nForget it and reload anyway?")) return;
     await idb.set("fileHandle", null);
     $("#dlg").close(); location.reload();
   });
@@ -4762,6 +4779,29 @@ async function dailySnapshot(){   // once a day: the state as it was when you op
   LASTBAK = day;
   if (!prev || prev.date !== day) idb.set("dailyBak", {date: day, json: serialize()});
 }
+// The copy in this browser, on its way in. Three outcomes, because they are three different things to say:
+// "ok" the app is running, "broken" the copy itself could not be read, "stuck" the copy was read fine but the app
+// could not open it. That last one used to be caught as "your data is damaged", on a start screen boot() had already
+// hidden on its first line, so it left a blank page. Its own branch now, with the one thing that helps: a Backup.
+function startFromBrowserCopy(demo){
+  let d = null;
+  try{ d = migrate(JSON.parse(demo)); }
+  catch(e){ console.warn("miFormulas: data kept in this browser could not be loaded", e); return "broken"; }
+  DATA = d;
+  try{ boot(); return "ok"; }
+  catch(e){
+    console.warn("miFormulas: the data was read, but the app could not open it", e);
+    $("#landing").style.display = ""; $("header").inert = true; $("#main").inert = true;
+    $("#landingHint").textContent = "Your data was read, but the app could not open it ("
+      + ((e && e.message) || "unknown error") + "). Nothing has been changed and your data is still in this browser: "
+      + "download a Backup below, then reload (F5). If it happens again, that Backup opens in another browser or in the downloaded app.";
+    const bk = $("#btnLandBak");
+    bk.style.display = ""; bk.addEventListener("click", () => backup());
+    // no starter set and no empty start here: both would write over the data that is still sitting in this browser
+    for (const id of ["btnStarter", "btnEmpty", "btnSnap"]) $("#" + id).style.display = "none";
+    return "stuck";
+  }
+}
 function boot(fresh){   // fresh = the app starts from the starter set, from nothing or from a snapshot, not from your own data
   $("#landing").style.display = "none";
   $("header").inert = false; $("#main").inert = false;   // released only now: before this there is no DATA to work on
@@ -4823,8 +4863,9 @@ function boot(fresh){   // fresh = the app starts from the starter set, from not
     }
     let demoBroken = false;
     if (demo){
-      try{ DATA = migrate(JSON.parse(demo)); boot(); return; }
-      catch(e){ demoBroken = true; console.warn("miFormulas: data kept in this browser could not be loaded", e); }
+      const uit = startFromBrowserCopy(demo);
+      if (uit !== "broken") return;    // running, or stuck with its own screen: either way the start screen is settled
+      demoBroken = true;
     }
     const bs = $("#btnStarter"); bs.style.display = "";
     $("#btnEmpty").style.display = "";

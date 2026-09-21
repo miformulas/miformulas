@@ -306,6 +306,113 @@ with sync_playwright() as p:
     check(f"geen paginafouten ({e3[:1]})", not e3)
     ctx.close()
 
+    # ---------- 8. B6 (bouw 260920h): Settings en Forget herladen niet over een mislukte schrijfactie heen ----------
+    # saveData() zegt of het gelukt is; dat antwoord weggooien en toch herladen is hoe de wijziging verdwijnt.
+    FAIL_PUT = """
+      window.__srv = {etag:"E0", puts:0,
+        data:{schema:1, formulas:[{id:"f-serv", name:"Op de server", versions:[{v:1, date:"2026-09-01", lines:[]}]}],
+              materials:[], materialCategories:["Uncategorised"], formulaCategories:["Uncategorised"]}};
+      const realFetch = window.fetch.bind(window);
+      window.fetch = (url, opt) => {
+        const u = String(url && url.url ? url.url : url), o = opt || {};
+        if (u.indexOf("data.php") >= 0){
+          if ((o.method || "GET") === "GET")
+            return Promise.resolve(new Response(JSON.stringify(__srv.data), {status:200, headers:{ETag:__srv.etag}}));
+          __srv.puts++; return Promise.resolve(new Response("{}", {status:500}));
+        }
+        return realFetch(url, opt);
+      };
+    """
+    for naam, antwoord in (("Cancel", False), ("OK", True)):
+        ctx = b.new_context(viewport={"width": 1200, "height": 900})
+        pg = ctx.new_page(); m4 = []
+        pg.on("dialog", lambda d: (m4.append(d.message), d.accept() if antwoord else d.dismiss()))
+        pg.add_init_script(FAIL_PUT)
+        pg.goto(URL); pg.wait_for_timeout(1600)
+        pg.evaluate("""() => { DATA.formulas.push({id:"f-nieuw", name:"Net getypt", versions:[{v:1, date:today(), lines:[]}]});
+            buildUsage(); markDirty(); }""")
+        pg.wait_for_timeout(2600)                       # de autosave probeert en mislukt
+        state = pg.locator("#saveState").inner_text()
+        check(f"{naam}: de balk zegt dat het niet gelukt is ({state!r})", "Save failed" in state and pg.evaluate("DIRTY") is True)
+        pg.click("#btnSettings"); pg.wait_for_timeout(700)
+        pg.fill("#setServer", "data.php?v=2")
+        m4.clear()
+        pg.click("#dlgOk"); pg.wait_for_timeout(2500)
+        gevraagd = any("could not be saved" in x for x in m4)
+        check(f"{naam}: de app vraagt eerst, in plaats van te herladen ({[x[:40] for x in m4]})", gevraagd)
+        if not antwoord:
+            r = pg.evaluate("""() => idb.get("serverUrl").then(u => ({url: u,
+                formules: DATA ? DATA.formulas.map(f => f.name) : null, dirty: DIRTY}))""")
+            check(f"Cancel: je blijft staan en niets is toegepast ({r})",
+                  r["formules"] and "Net getypt" in r["formules"] and r["url"] != "data.php?v=2" and r["dirty"] is True)
+        else:
+            r = pg.evaluate("""() => idb.get("serverUrl").then(u => ({url: u,
+                formules: DATA ? DATA.formulas.map(f => f.name) : null}))""")
+            check(f"OK: de server is gewijzigd en de app herladen ({r})",
+                  r["url"] == "data.php?v=2" and r["formules"] == ["Op de server"])
+        ctx.close()
+
+    # Forget: dezelfde vraag, en de onthouden verwijzing wordt pas daarna gewist
+    ctx = b.new_context(viewport={"width": 1200, "height": 900})
+    pg = ctx.new_page(); m5 = []
+    pg.on("dialog", lambda d: (m5.append(d.message),
+          d.dismiss() if "could not be saved" in d.message else d.accept()))
+    pg.add_init_script(FAIL_PUT)
+    pg.goto(URL); pg.wait_for_timeout(1600)
+    pg.evaluate("""() => idb.set("fileHandle", {name: "mijn-data.json"})""")
+    pg.evaluate("""() => { DATA.formulas.push({id:"f-n2", name:"Net getypt", versions:[{v:1, date:today(), lines:[]}]});
+        buildUsage(); markDirty(); }""")
+    pg.wait_for_timeout(2600)
+    pg.click("#btnSettings"); pg.wait_for_timeout(700)
+    check("Forget staat er voor een onthouden bestand", pg.locator("#setForget").count() == 1)
+    m5.clear()
+    pg.click("#setForget"); pg.wait_for_timeout(1500)
+    r = pg.evaluate("""() => idb.get("fileHandle").then(h => ({handle: h && h.name,
+        formules: DATA ? DATA.formulas.map(f => f.name) : null}))""")
+    check(f"Forget vraagt het ook ({[x[:36] for x in m5]})", any("could not be saved" in x for x in m5))
+    check(f"en laat bij Cancel de onthouden verwijzing staan ({r})",
+          r["handle"] == "mijn-data.json" and r["formules"] and "Net getypt" in r["formules"])
+    ctx.close()
+
+    # ---------- 9. B7 (bouw 260920h): een 404 van daarnet is geen vrijbrief om te overschrijven ----------
+    EMPTY_THEN_FULL = """
+      window.__srv = {etag:"E9", leeg:true, puts:[],
+        data:{schema:1, formulas:[{id:"f-echt", name:"Echt werk", versions:[{v:1, date:"2026-09-01", lines:[]}]}],
+              materials:[], materialCategories:["Uncategorised"], formulaCategories:["Uncategorised"]}};
+      const realFetch = window.fetch.bind(window);
+      window.fetch = (url, opt) => {
+        const u = String(url && url.url ? url.url : url), o = opt || {};
+        if (u.indexOf("data.php") >= 0){
+          if ((o.method || "GET") === "GET"){
+            if (__srv.leeg){ __srv.leeg = false; return Promise.resolve(new Response("", {status:404})); }
+            return Promise.resolve(new Response(JSON.stringify(__srv.data), {status:200, headers:{ETag:__srv.etag}}));
+          }
+          __srv.puts.push({ifm: (o.headers||{})["If-Match"], n: JSON.parse(o.body).formulas.length});
+          __srv.data = JSON.parse(o.body); return Promise.resolve(new Response("{}", {status:200, headers:{ETag:"E10"}}));
+        }
+        return realFetch(url, opt);
+      };
+    """
+    ctx = b.new_context(viewport={"width": 1200, "height": 900})
+    pg = ctx.new_page(); m6 = []
+    pg.on("dialog", lambda d: (m6.append(d.message), d.accept()))
+    pg.add_init_script(EMPTY_THEN_FULL)
+    pg.goto(URL); pg.wait_for_timeout(900)
+    pg.evaluate("""() => idb.set("serverUrl", "data.php")""")
+    pg.reload(); pg.wait_for_timeout(2000)
+    check("de server gaf 404, dus het startscherm biedt de starterset aan",
+          pg.evaluate("[REMOTE, SERVER_EMPTY, LOADED]") == [True, True, False])
+    m6.clear()
+    pg.click("#btnStarter"); pg.wait_for_timeout(3000)
+    r = pg.evaluate("""() => ({puts: __srv.puts, opDeServer: __srv.data.formulas.map(f => f.name)})""")
+    check(f"er gaat geen schrijfactie heen ({r['puts']})", r["puts"] == [])
+    check(f"en wat er intussen op de server staat, blijft staan ({r['opDeServer']})", r["opDeServer"] == ["Echt werk"])
+    check(f"met een waarschuwing die zegt wat er aan de hand is ({[x[:50] for x in m6]})",
+          any("was not loaded in this session" in x for x in m6))
+    state = pg.locator("#saveState").inner_text()
+    check(f"en de balk zegt het ook ({state!r})", "not loaded here" in state)
+    ctx.close()
+
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")

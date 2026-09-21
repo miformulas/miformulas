@@ -242,6 +242,32 @@ with sync_playwright() as p:
         check(f"{thema}: de sleepgreep haalt 3:1 zonder hover ({r}:1)", r >= 3 and kl["hoogte"] > 0)
     page.evaluate("() => delete document.documentElement.dataset.theme")
 
+    # ---------- 9. B24 (bouw 260920h): de alleen-leesstand houdt ook op in Settings op ----------
+    # Dezelfde handeling werd één venster verderop geweigerd: het ⇅-venster schakelde de bibliotheekknoppen uit,
+    # Settings niet, en lockInputs bereikt alleen formulierelementen binnen #content.
+    page.set_viewport_size({"width": 390, "height": 844}); page.wait_for_timeout(500)
+    page.evaluate("""() => { window.__demo2 = DEMO; DEMO = false; HANDLE = null; REMOTE = false;
+        HOMEVIEW = true; switchTab("F", null, null); render(); }""")
+    page.wait_for_timeout(600)
+    check("de app staat in de alleen-leesstand", page.evaluate("readOnly()") is True)
+    check("de Formulair-link op de Welcome-pagina is weg",
+          page.evaluate("""() => { const a = document.querySelector("#btnImpFormulair");
+              return !a || getComputedStyle(a).display === "none"; }"""))
+    page.click("#btnSettings"); page.wait_for_timeout(700)
+    r = page.evaluate("""() => { const z = id => { const e = document.getElementById(id);
+            return e ? (e.disabled ? "uit" : "aan") : "geen"; };
+        return {imp: z("setListImp"), get: z("setListGet"),
+                uitleg: [...document.querySelectorAll("#dlg .hint")].some(h => /read-only here/.test(h.textContent))}; }""")
+    check(f"Settings laat er geen bibliotheek meer in ({r})",
+          r["imp"] == "uit" and r["get"] in ("uit", "geen") and r["uitleg"] is True)
+    page.evaluate("""() => document.querySelector("#dlgCancel")?.click()"""); page.wait_for_timeout(400)
+    page.evaluate("""() => { DEMO = window.__demo2; render(); }"""); page.wait_for_timeout(400)
+    page.click("#btnSettings"); page.wait_for_timeout(700)
+    check("en zodra er wél ergens bewaard kan worden, staat ze weer open",
+          page.evaluate("""() => { const e = document.getElementById("setListImp"); return e && !e.disabled; }"""))
+    page.evaluate("""() => document.querySelector("#dlgCancel")?.click()"""); page.wait_for_timeout(300)
+    page.set_viewport_size({"width": 1280, "height": 950}); page.wait_for_timeout(400)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

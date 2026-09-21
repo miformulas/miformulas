@@ -225,6 +225,40 @@ with sync_playwright() as p:
     check(f"+ Add group heeft weer een lijst om in te duwen ({[x[:40] for x in e4]})",
           not e4 and pg4.evaluate("""() => (DATA.formulas.find(x => x.id === "f-bench").versions[0].bench.groups||[]).length""") > 0)
     ctx4.close()
+
+    # ---------- 10. B8 (bouw 260920h): gelezen maar niet geopend is iets anders dan stuk ----------
+    # Het catch dekte ook boot(), dus een fout in render of buildUsage meldde dat de browserkopie beschadigd was,
+    # op een startscherm dat boot() op zijn eerste regel al verborgen had: een lege pagina met één console.warn.
+    ctx5 = b.new_context(viewport={"width": 1280, "height": 900})
+    pg5 = ctx5.new_page(); e5 = []
+    pg5.on("pageerror", lambda e: e5.append(str(e)))
+    pg5.on("dialog", lambda d: d.accept())
+    pg5.route("**/data.php*", lambda r: r.fulfill(status=404, body="no"))
+    pg5.goto(URL); pg5.wait_for_timeout(900)
+    pg5.click("#btnStarter"); pg5.wait_for_timeout(1500)
+    r = pg5.evaluate("""() => { const demo = serialize();          // een gave kopie
+        const oud = render; render = () => { throw new TypeError("iets in render gaat stuk"); };
+        const uit = startFromBrowserCopy(demo);
+        const zicht = id => getComputedStyle(document.querySelector("#" + id)).display !== "none";
+        const r = {uit, landing: zicht("landing"), hint: document.querySelector("#landingHint").textContent,
+                   backup: zicht("btnLandBak"), starter: zicht("btnStarter"), leeg: zicht("btnEmpty"),
+                   formules: DATA ? DATA.formulas.length : null};
+        render = oud; return r; }""")
+    check(f"een fout ín boot() heet niet 'de kopie is stuk' ({r['uit']})", r["uit"] == "stuck")
+    check(f"het startscherm komt terug, zodat je de melding kan zien ({r['landing']})", r["landing"] is True)
+    check(f"en die melding zegt wat er echt gebeurde ({r['hint'][:60]!r})",
+          "could not open it" in r["hint"] and "iets in render gaat stuk" in r["hint"])
+    check(f"er staat een Backup-knop ({r['backup']})", r["backup"] is True)
+    check(f"en geen knop die over je data heen zou starten ({r['starter']}, {r['leeg']})",
+          r["starter"] is False and r["leeg"] is False)
+    check(f"de data die gelezen was, staat er nog ({r['formules']})", r["formules"] == 16)
+    r2 = pg5.evaluate("""() => startFromBrowserCopy("{dit is geen json")""")
+    check(f"een onleesbare kopie heet nog altijd stuk ({r2})", r2 == "broken")
+    r3 = pg5.evaluate("""() => { document.querySelector("#landing").style.display = "";
+        return startFromBrowserCopy(serialize()); }""")
+    check(f"en een gave kopie start gewoon op ({r3})", r3 == "ok")
+    check(f"geen paginafouten ({e5[:1]})", not e5)
+    ctx5.close()
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")
