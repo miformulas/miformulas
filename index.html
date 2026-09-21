@@ -353,7 +353,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920n</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920o</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -436,7 +436,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>The bottom line of the start screen has <strong>Settings…</strong>, <strong>Manual</strong> (this text, with its screenshots, on the site), <strong>Feedback</strong>, and, where they apply, <strong>Download the app</strong>, <strong>Install as an app</strong> and <strong>Import from Formulair…</strong>.</p>
 <p>Whichever way in you take, you land on the Welcome page: four tiles (formulas, versions, materials, to order), a block <strong>Start here</strong> with the three things you usually come for (open a formula, <strong>+ New formula…</strong>, <strong>+ New material…</strong>), a line saying where your data lives, the recently edited items once you have edited something of your own, and the ways in for materials and formulas that come from elsewhere (section <a href="#s20-import-and-export">20</a>; the downloaded app leaves out the Formulair line, which needs the site). Pick a formula or material in the list on the left, or create a new one with <strong>+ New formula…</strong> and <strong>+ New material…</strong> in the header.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The Welcome page after loading the starter set, with the amber storage bar.</a></p>
-<p>Every change is saved automatically a few seconds after you make it; <strong>Ctrl+Z</strong> undoes it. Deleting a line, a version or a formula always asks for confirmation, and a material that is still used in a formula is not deleted at all: the app says which formulas hold it (section <a href="#s9-materials">9</a>).</p>
+<p>Every change is saved automatically a few seconds after you make it, and straight away when you close the page or switch away from it, so a phone that puts the app aside keeps your last change; <strong>Ctrl+Z</strong> undoes it. Deleting a line, a version or a formula always asks for confirmation, and a material that is still used in a formula is not deleted at all: the app says which formulas hold it (section <a href="#s9-materials">9</a>).</p>
 <h2 id="s2-where-your-data-lives-browser-file-or-server">2. Where your data lives: browser, file or server</h2>
 <p>miFormulas stores everything in one JSON file, <code>miformulas-data.json</code>. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server"). On a window narrower than about 1300 pixels only the time is shown, to keep the header on one line; the place is then in the tooltip. Between a change and the save that follows it a second or two later, the header says "Unsaved changes" in colour; that colour is the app telling you it still has something to write, and it disappears by itself. A warning is always given in full: "Server not reachable: changes kept in memory, use Backup", "⚠ Conflict: changed on another device – reload (F5) before editing", "⚠ The server holds data that was not loaded here", "Token rejected: use Backup, then reload to enter it again" and "Save failed – use Backup". Each of them names the same way out, because a warning about your data is only useful with one. Two other states belong to particular situations: "Loaded (read-only fallback – use Backup to save)" in a browser that cannot write files (section <a href="#s4-recommended-setup-and-the-other-ways-in">4</a>), and "Cached copy – reload the file for the latest data" when the app started from the copy it kept while the file itself was not read yet. When the network comes back after "Server not reachable", the app saves again by itself.</p>
 <p>Two buttons on the start screen belong to particular situations. With a server configured, <strong>Open data file…</strong> reads <strong>Connect to server</strong> instead, and asks for the token if the server wants one. In the read-mostly fallback (the downloaded app in Firefox or Safari, section <a href="#s4-recommended-setup-and-the-other-ways-in">4</a>) the start screen offers <strong>Continue with data from …</strong> with the date and time of the copy the app kept in the browser, so you do not have to pick the file again. In server mode a save that could not reach the server does not use that button: the status says "Server not reachable: changes kept in memory, use Backup", and after a reload the start screen offers <strong>Connect to server</strong> and, if there is one, the daily snapshot (section <a href="#s22-backups-and-recovery">22</a>).</p>
@@ -560,7 +560,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-coming-from-formulair">The Formulair folder: DataModel.sqlite with its -wal and -shm files. After File, Close the database carries today's date and the -wal file is small.</a></p>
 </li>
 <li>
-<p>Open the importer: click <strong>Import from Formulair</strong> on the start screen or in the Import &amp; export box on the Welcome page, or go to <a href="https://miformulas.com/formulair-import.html">https://miformulas.com/formulair-import.html</a>. Drop <code>DataModel.sqlite</code> on it and wait a moment; the file can be large because Formulair keeps a long sync history inside it. If you point the browser straight at Formulair's own folder instead of at the copy on your Desktop, macOS asks whether the browser may access data from other apps: that other app is Formulair, so click <strong>Allow</strong>.</p>
+<p>Open the importer: click <strong>Import from Formulair</strong> on the start screen or in the Import &amp; export box on the Welcome page, or go to <a href="https://miformulas.com/formulair-import.html">https://miformulas.com/formulair-import.html</a>. Drop <code>DataModel.sqlite</code> on it and wait a moment; the file can be large because Formulair keeps a long sync history inside it. When it is done it asks once whether the copy is complete, and points at the same <code>DataModel.sqlite-wal</code> file as step 2. If you point the browser straight at Formulair's own folder instead of at the copy on your Desktop, macOS asks whether the browser may access data from other apps: that other app is Formulair, so click <strong>Allow</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-coming-from-formulair">The Formulair importer after reading the database.</a></p>
 </li>
 <li>
@@ -749,7 +749,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s21-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
 <p>The <strong>theme</strong> button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.</p>
 <p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. While the cursor is in a text field, Ctrl+Z is the browser's own undo for that field, not the app's; click outside it first to take back the change itself. In the list panel a row takes focus with Tab and opens with Enter, and the same goes for material names, sort headers and colour swatches. In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add) and <strong>Escape</strong> closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.</p>
-<p><strong>Back and forward.</strong> Every place you open is a step: a formula and the version you were looking at, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the <strong>back and forward buttons of your mouse</strong> work, and so do the browser's own two buttons, <strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. Switching to another version of the same formula is a step of its own, so back returns you to the version you were reading. A step whose formula or material has been deleted since is skipped and lands you on the list. Reloading the page lands you back on the step you were on when <strong>Open where you left off</strong> is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.</p>
+<p><strong>Back and forward.</strong> Every place you open is a step: a formula and the version you were looking at, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the <strong>back and forward buttons of your mouse</strong> work, and so do the browser's own two buttons, <strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. Switching to another version of the same formula is a step of its own, so back returns you to the version you were reading. A step whose formula or material has been deleted since is skipped and lands you on the list. Reloading the page lands you back on the step you were on when <strong>Open where you left off</strong> is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends, and also when the browser has run out of steps to give, because a browser keeps only the last fifty or so. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.</p>
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header writes the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>); Chrome and Edge ask where it should go and remember that folder. Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
 <p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. A start from the starter set, an empty start and a restored snapshot do not replace it, so what is offered is the state of the last day you really worked. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached, or the browser cannot write to files at all), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file. When the browser copy is the thing that could not be read, the start screen says so and points at your last Backup, because starting again there would write over what is left of it. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.</p>
@@ -1275,6 +1275,12 @@ function redo(){
   buildUsage(); markDirty(); setTabs(); render();
 }
 window.addEventListener("beforeunload", e => { if (DIRTY){ e.preventDefault(); e.returnValue = ""; }});
+// A phone does not close a page, it hides it, and a hidden page may be thrown away without a word:
+// beforeunload never comes there. So the moment the page steps aside the 2.5 s wait is cut short and
+// the write starts. This is the pair the browsers themselves point to for exactly this.
+const saveOnHide = () => { if (DIRTY) saveData(); };
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") saveOnHide(); });
+window.addEventListener("pagehide", saveOnHide);
 
 /* ---------- lookups & calculations ---------- */
 let MATIDX = null, MATLIST = null, MATNAME = null, MATAMBI = null;
@@ -4805,8 +4811,8 @@ $("#btnBack").addEventListener("click", () => {
   if (VIEW.tab === "T" && !HOMEVIEW && !HELPVIEW){ switchTab(PREVTAB); return; }   // To order fills the pane itself: back means another tab
   VIEW.id = null; VIEW.sub = null; HOMEVIEW = false; HELPVIEW = false; render();
 });
-$("#btnNavPrev").addEventListener("click", () => history.back());
-$("#btnNavNext").addEventListener("click", () => history.forward());
+$("#btnNavPrev").addEventListener("click", () => navStep(-1));
+$("#btnNavNext").addEventListener("click", () => navStep(1));
 $("#btnHelp").addEventListener("click", () => { if (!DATA) return; HELPVIEW = !HELPVIEW; render(); });
 window.matchMedia("(max-width:700px)").addEventListener("change", () => { if (DATA) render(); });
 let VIEWSAVE = null;
@@ -4851,8 +4857,20 @@ function syncNav(){               // the installed app has no toolbar of its own
   if (b) b.disabled = NAVI <= 0;
   if (f) f.disabled = NAVI >= NAVMAX;
 }
+let NAVWAIT = null;
+// A browser keeps a fixed number of steps (Chromium: fifty) and drops the oldest, and it never says so.
+// NAVI kept counting, so after eighty places the back arrow stayed lit while pressing it did nothing at all.
+// A browser also does nothing when the step is not there, so that is the signal: no popstate within a
+// moment means this was the end of what it kept, and the counter moves to that end so the arrow goes out.
+function navStep(dir){
+  clearTimeout(NAVWAIT);
+  NAVWAIT = setTimeout(() => { NAVWAIT = null; if (dir < 0) NAVI = 0; else NAVI = NAVMAX; syncNav(); }, 250);
+  try{ if (dir < 0) history.back(); else history.forward(); }
+  catch(e){ clearTimeout(NAVWAIT); NAVWAIT = null; }
+}
 window.addEventListener("popstate", e => {
   const s = e.state;
+  clearTimeout(NAVWAIT); NAVWAIT = null;     // the step landed, so the end-of-history guess is off
   if (!DATA || !s || !s.mf) return;          // an entry that is not ours: let the browser do its thing
   NAVI = typeof s.i === "number" ? s.i : NAVI;
   NAVBACK = true;

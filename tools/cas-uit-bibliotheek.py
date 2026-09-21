@@ -5,11 +5,22 @@ Alleen deterministische regels, geen fuzzy matching: een naam wordt tot een
 set varianten herleid (leverancier tussen haakjes weg, oplosmiddel weg,
 kwaliteitsaanduiding weg, EO en oil gelijkgesteld) en een treffer telt enkel
 als precies één bibliotheekmateriaal met dezelfde variant overblijft.
-"""
-import json, re, unicodedata, collections, sys
 
-LIB = "/mnt/user-data/uploads/miFormulas/miformulas-data.json"
-SET = "/home/claude/out/miformulas-starter.json"
+  python3 cas-uit-bibliotheek.py <bibliotheek.json> [starterset.json] [uitvoermap]
+
+De bibliotheek is elk databestand met materialen (miformulas-materials.json of
+een eigen databestand). De starterset is standaard ../data/miformulas-starter.json
+naast dit script; de twee uitvoerbestanden komen in de uitvoermap, standaard de
+huidige map.
+"""
+import json, re, unicodedata, collections, sys, os
+
+if len(sys.argv) < 2:
+    sys.exit(__doc__.strip())
+LIB = sys.argv[1]
+HIER = os.path.dirname(os.path.abspath(__file__))
+SET = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HIER, "..", "data", "miformulas-starter.json")
+UIT = sys.argv[3] if len(sys.argv) > 3 else "."
 
 SOLV = r"(?:DEP|DPG|TEC|IPM|BB|EtOH|ethanol|jojo|jojoba|MCT)"
 KWAL = {"extra", "pure", "nat", "natural", "coeur", "cur", "coz", "co2",
@@ -101,7 +112,8 @@ for n in geen:
     if kand:
         sugg[n] = kand
     print("  %-32s %s" % (n, ", ".join(kand)))
-json.dump(sugg, open("/home/claude/cas_suggesties.json", "w"), ensure_ascii=False, indent=1)
-
-json.dump({n: c for n, c, _ in gevonden}, open("/home/claude/cas_gevonden.json", "w"),
-          ensure_ascii=False, indent=1)
+for naam, inhoud in [("cas_suggesties.json", sugg),
+                     ("cas_gevonden.json", {n: c for n, c, _ in gevonden})]:
+    pad = os.path.join(UIT, naam)
+    json.dump(inhoud, open(pad, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    print("geschreven:", pad)

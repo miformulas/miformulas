@@ -456,6 +456,48 @@ with sync_playwright() as p:
     check(f"die eerst nog eens keek, want er is hier niets geladen ({len(gets)} GET)", len(gets) >= 2)
     ctx.close()
 
+    # ---------- 8. de pagina die stapt aan de kant schrijft meteen weg (bouw 260920o) ----------
+    # Een telefoon sluit een pagina niet, ze verbergt ze, en beforeunload komt daar niet. Elke wijziging
+    # stond dus 2,5 s buiten de opslag. visibilitychange en pagehide korten die wachttijd af.
+    ctx = b.new_context(viewport={"width": 1200, "height": 900})
+    pg = ctx.new_page()
+    hfout = []
+    pg.on("pageerror", lambda e: hfout.append(str(e)))
+    pg.on("dialog", lambda d: d.accept())
+    pg.add_init_script(FAKE_SERVER)
+    pg.goto(URL); pg.wait_for_timeout(1500)
+    check("de app staat in serverstand", pg.evaluate("[REMOTE, API]") == [True, "data.php"])
+
+    pg.evaluate("""() => { DATA.formulas.push({id: "f-h1", name: "Verborgen", versions: []}); markDirty(); }""")
+    n0 = pg.evaluate("__srv.puts.length")
+    pg.evaluate("""() => { Object.defineProperty(document, "visibilityState", {get: () => "hidden", configurable: true});
+        document.dispatchEvent(new Event("visibilitychange")); }""")
+    pg.wait_for_timeout(300)
+    n1 = pg.evaluate("__srv.puts.length")
+    check(f"de pagina verbergen schrijft meteen weg, ruim vóór de 2,5 s ({n0} -> {n1} PUT)", n1 == n0 + 1)
+    pg.evaluate("__release()"); pg.wait_for_timeout(600)
+
+    pg.evaluate("""() => { DATA.formulas.push({id: "f-h2", name: "Weg", versions: []}); markDirty(); }""")
+    n2 = pg.evaluate("__srv.puts.length")
+    pg.evaluate("""() => window.dispatchEvent(new PageTransitionEvent("pagehide", {persisted: false}))""")
+    pg.wait_for_timeout(300)
+    n3 = pg.evaluate("__srv.puts.length")
+    check(f"en pagehide doet hetzelfde ({n2} -> {n3} PUT)", n3 == n2 + 1)
+    pg.evaluate("__release()"); pg.wait_for_timeout(600)
+
+    n4 = pg.evaluate("__srv.puts.length")
+    pg.evaluate("""() => { DATA.formulas.push({id: "f-h3", name: "Gewoon", versions: []}); markDirty(); }""")
+    pg.wait_for_timeout(300)
+    check("zonder verbergen houdt de app haar eigen tempo aan", pg.evaluate("__srv.puts.length") == n4)
+    pg.wait_for_timeout(2600)
+    check(f"en schrijft ze na de gewone wachttijd alsnog ({pg.evaluate('__srv.puts.length')} PUT)",
+          pg.evaluate("__srv.puts.length") == n4 + 1)
+    pg.evaluate("__release()"); pg.wait_for_timeout(600)
+    check("de server houdt alle drie de wijzigingen",
+          pg.evaluate("__srv.data.formulas.map(f => f.name).join()") == "Verborgen,Weg,Gewoon")
+    check(f"geen paginafouten ({hfout[:2]})", not hfout)
+    ctx.close()
+
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")

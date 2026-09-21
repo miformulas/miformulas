@@ -18,7 +18,7 @@ Formulair-conventies:
   - ZIFRA -1 = fout (zelfde codering als miFormulas), leeg = niet ingegeven
   - kleuren als NSKeyedArchiver-plist; de RGB-drieslag staat er als tekst in
 """
-import sqlite3, json, sys, re, os, datetime
+import sqlite3, json, sys, re, os, datetime, math, unicodedata
 
 EPOCH = datetime.datetime(2001, 1, 1)
 
@@ -47,6 +47,31 @@ def cd_stamp(ts):
     return (EPOCH + datetime.timedelta(seconds=ts)).strftime("%Y-%m-%dT%H:%M:%S")
 
 
+def half_up(x):
+    """Zoals Math.round in de browser: 0,5 gaat omhoog. Pythons round() rondt
+    naar het even getal, dus 127,5 werd 128 in de browser en 128 hier alleen bij
+    toeval; op 0,5 exact liepen de twee omzettingen uiteen."""
+    return int(math.floor(x + 0.5))
+
+
+LIGATUREN = [("\u0153", "oe"), ("\u00e6", "ae"), ("\u00f8", "o"), ("\u00df", "ss"),
+             ("\u0111", "d"), ("\u00f0", "d"), ("\u0142", "l")]
+
+
+def sort_key(s):
+    """Zoals localeCompare("en"), en zoals fold() in de app: een accent telt niet
+    mee in de volgorde maar scheidt nog wel twee namen die verder gelijk zijn, en
+    een ligatuur telt als de letters waar ze uit bestaat. str.lower() alleen zette
+    Élemi achter Ylang en Œillet achter Zdravetz, want é en œ staan na z in de
+    codetabel."""
+    low = s.lower()
+    folded = "".join(ch for ch in unicodedata.normalize("NFD", low)
+                     if not unicodedata.combining(ch))
+    for k, v in LIGATUREN:
+        folded = folded.replace(k, v)
+    return (folded, low)
+
+
 def colour_of(blob):
     """'#RRGGBB' uit de plist-blob, of None. De blob bevat de kleur als tekst
     'r g b' met waarden 0..1; bij dynamische kleuren nemen we de eerste."""
@@ -55,7 +80,7 @@ def colour_of(blob):
     m = re.search(rb"(\d\.\d+|\d) (\d\.\d+|\d) (\d\.\d+|\d)", blob)
     if not m:
         return None
-    r, g, b = (round(float(x) * 255) for x in m.groups())
+    r, g, b = (half_up(float(x) * 255) for x in m.groups())
     return "#%02X%02X%02X" % (r, g, b)
 
 
@@ -147,14 +172,14 @@ def convert(path):
             }],
         })
 
-    mcats = sorted({m["category"] for m in materials} | set(rmcat.values()), key=str.lower)
-    fcats = sorted({f["category"] for f in formulas} | set(fcat.values()), key=str.lower)
+    mcats = sorted({m["category"] for m in materials} | set(rmcat.values()), key=sort_key)
+    fcats = sorted({f["category"] for f in formulas} | set(fcat.values()), key=sort_key)
     return {
         "meta": {"schema": 1, "generated": datetime.date.today().isoformat(),
                  "source": "Formulair DataModel.sqlite (flat import)", "uiLanguage": "en"},
         "materialCategories": mcats,
         "formulaCategories": fcats,
-        "suppliers": sorted({s for s in supp.values() if s}, key=str.lower),
+        "suppliers": sorted({s for s in supp.values() if s}, key=sort_key),
         "materials": materials,
         "formulas": formulas,
         "categoryColours": colours,

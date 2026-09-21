@@ -99,7 +99,10 @@ function splitCas(s){
   const rest = s.replace(hit[0], "").replace(/^[\s\\\/,;:·–-]+|[\s\\\/,;:·–-]+$/g, "").replace(/\s*[\\\/]\s*/g, "; ").trim();
   return {cas: hit[0], aliases: rest};
 }
-const byLower = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
+// "en" erbij, want zonder taal sorteert elke browser in de taal van het toestel: Ångström viel in het
+// Zweeds achter Z en in het Engels bij A, dus dezelfde database gaf twee volgordes. De Python-referentie
+// volgt deze ene volgorde.
+const byLower = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase(), "en");
 
 function rows(db, sql){ const r = db.exec(sql); return r.length ? r[0].values : []; }
 
@@ -220,7 +223,9 @@ async function handle(file){
     </div>
     <p class="hint" style="margin-top:.6rem">Add to miFormulas: your formulas and materials are added to your data in the app in this browser or installed app, wherever it keeps its data (browser storage, a data file or a server). Materials with the same name are matched, nothing is replaced, and one Undo takes it all back. Download: the same data as a file, for a server or your own tools.</p>
   </div>`;
-  if (walMode) html += `<div class="box warn"><b>Did you choose File › Close in Formulair before copying?</b> This database keeps its latest changes in a separate <code>-wal</code> file until Formulair folds them in, which File › Close does (quitting alone does not always). If in doubt, choose File › Close in Formulair, copy the file again and read it once more.</div>`;
+  // Every Formulair database sits in this mode, so this was an alarm on every single import. It is a note:
+  // it names the one file that actually says whether the copy is complete, and lets you look.
+  if (walMode) html += `<div class="box"><b>Is this copy complete?</b> A database in this mode keeps new changes in a <code>DataModel.sqlite-wal</code> file beside it until Formulair folds them in, so that file is what decides. Look next to the <code>DataModel.sqlite</code> you copied: if <code>DataModel.sqlite-wal</code> is 0 bytes or not there, everything is in the copy you just read. If it has a size, choose File › Close in Formulair (quitting alone does not always do it), copy the database again and read it once more.</div>`;
   $("#out").innerHTML = html;
   $("#btnDl").addEventListener("click", download);
   $("#btnOpen").addEventListener("click", openHere);

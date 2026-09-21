@@ -1,7 +1,7 @@
 {
  "name": "miFormulas",
  "short_name": "miFormulas",
- "description": "Perfume formulation app: materials, formulas with version history and variations, dilutions, batch scaling, IFRA check, weighing sheets. Your data stays with you.",
+ "description": "Perfume formulation app: materials, formulas with version history, dilutions, batch scaling, IFRA check, weighing sheets. Your data stays with you.",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",

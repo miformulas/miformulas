@@ -213,6 +213,9 @@ with sync_playwright() as p:
     # 29: een bestand waar niets uit komt, komt niet door de sluis
     leeg = schrijf("leeg.json", {"type": "miformulas-import", "source": "Leegtest",
         "formulas": [{"name": "Zonder regels", "versions": [{"name": "v1", "lines": []}]}]})
+    # eerst laten wegschrijven: anders viel de gewone schrijfbeurt van 2,5 s midden in deze controle en
+    # mat ze de klok in plaats van het invoervenster (ze zakte alleen door onder belasting)
+    page.evaluate("() => saveData()"); page.wait_for_timeout(400)
     undo0 = page.evaluate("UNDO.length"); vuil0 = page.evaluate("DIRTY")
     page.click("#btnHome"); page.wait_for_timeout(300)
     page.set_input_files("#impFile", leeg); page.wait_for_timeout(900)

@@ -148,6 +148,31 @@ with sync_playwright() as b0:
     p4 = plek(pg3)
     check(f"en nog eens terug geeft de versie die daarvóór openstond ({p4})", p4["sub"] == 1)
 
+    # bouw 260920o: de browser bewaart een vast aantal stappen (Chromium: vijftig) en laat de oudste vallen.
+    # NAVI telde door, dus na tachtig plaatsen bleef de terugpijl aan terwijl klikken niets meer deed.
+    pg4 = ctx.new_page(); pg4.on("dialog", lambda d: d.accept())
+    errs4 = []
+    pg4.on("pageerror", lambda e: errs4.append(str(e)))
+    pg4.goto(URL); pg4.wait_for_timeout(1500)
+    pg4.evaluate("""async n => { for (let i = 0; i < n; i++){ switchTab("M", DATA.materials[i].id, null);
+        await new Promise(r => setTimeout(r, 15)); } }""", 80)
+    pg4.wait_for_timeout(400)
+    tel = pg4.evaluate("[NAVI, history.length]")
+    check(f"tachtig plaatsen gezet, de browser houdt er vijftig ({tel})", tel[0] == 80 and tel[1] <= 50)
+    klikken = 0
+    while klikken < 80 and not pg4.locator("#btnNavPrev").is_disabled():
+        waar = pg4.evaluate("VIEW.id")
+        pg4.click("#btnNavPrev"); pg4.wait_for_timeout(160); klikken += 1
+        if pg4.evaluate("VIEW.id") == waar:
+            pg4.wait_for_timeout(400)          # niets bewoog: geef de app de tijd om dat te merken
+    check(f"de terugpijl gaat uit zodra de browser niets meer heeft ({klikken} klikken, NAVI {pg4.evaluate('NAVI')})",
+          pg4.locator("#btnNavPrev").is_disabled() and klikken < 80)
+    check(f"de app bleef waar ze was ({pg4.url})", pg4.url.startswith(URL))
+    check(f"geen paginafouten aan het einde van de geschiedenis ({errs4[:2]})", not errs4)
+    # en de vooruitpijl herstelt zich zodra er weer een stap is
+    pg4.evaluate("() => switchTab('M', DATA.materials[0].id, null)"); pg4.wait_for_timeout(500)
+    check("een nieuwe stap zet de terugpijl weer aan", not pg4.locator("#btnNavPrev").is_disabled())
+
     print("\n%d OK, %d FAIL" % (ok, fail))
     b.close()
     raise SystemExit(1 if fail else 0)

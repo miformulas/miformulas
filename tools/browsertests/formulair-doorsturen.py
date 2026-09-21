@@ -1,6 +1,10 @@
-import asyncio, time
+import asyncio, os, sys, time
 from playwright.async_api import async_playwright
-SQ="/mnt/user-data/uploads/miFormulas/co.uk.lux-terra.Formulair/Data/Library/Application Support/Formulair/DataModel.sqlite"
+# Wijs je eigen Formulair-database aan; ze staat niet in de repo:
+#   MIF_SQLITE=/pad/naar/DataModel.sqlite python formulair-doorsturen.py
+SQ = os.environ.get("MIF_SQLITE", "")
+if not SQ or not os.path.exists(SQ):
+    sys.exit("zet MIF_SQLITE op het pad van DataModel.sqlite (de kopie die je na File > Close in Formulair maakte)")
 async def main():
     async with async_playwright() as p:
         b=await p.chromium.launch(); ctx=await b.new_context(); page=await ctx.new_page()
