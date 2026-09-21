@@ -251,6 +251,123 @@ with sync_playwright() as p:
         return ((v.notes||"").match(/Imported as/g) || []).length; }""")
     check(f"en weer uitvinken ook niet ({r})", r == 1)
 
+    # ---------- 10. B4 (bouw 260920e): de bestellijst en Delivered vouwen zoals de rest ----------
+    # "Vertofix coeur" naast "Vertofix cœur" gaf een tweede, leeg materiaal dat daarna élke opzoeking op de naam
+    # van het eerste kaapte: het stond vooraan in de lijst en matByName neemt de eerste.
+    page.evaluate("""() => { DATA.orderList = [];
+        DATA.materials = DATA.materials.filter(x => !/vertofix/i.test(x.name));
+        DATA.materials.push({id:"m-vert", name:"Vertofix cœur", category:"Woody", pyramid:4, ifraLimit:99,
+          isSolvent:false, cas:"", aliases:"", dilutions:[{pct:100, isBase:true, date:today(), notes:""}]});
+        DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats(); switchTab("T"); }""")
+    page.wait_for_timeout(500)
+    page.fill("#ordName", "Vertofix coeur"); page.click("#btnOrdAdd"); page.wait_for_timeout(600)
+    r = page.evaluate("""() => { const o = DATA.orderList[0];
+        return {id: o.materialId, echte: matById(o.materialId)?.name,
+                badge: !!document.querySelector("table.lines.ord tbody .badge")}; }""")
+    check(f"een ligatuur op de bestellijst is het materiaal dat je al hebt ({r})",
+          r["echte"] == "Vertofix cœur" and not r["badge"])
+    page.evaluate("""() => { const o = DATA.orderList[0]; o.amount = 50; o.unit = "g"; o.price = "25"; render(); }""")
+    page.wait_for_timeout(400)
+    page.click("[data-odeliv='0']"); page.wait_for_timeout(500)
+    hint = page.evaluate("""() => document.querySelector("#dlg .hint")?.textContent.trim()""")
+    check(f"en het venster noemt het materiaal dat het bijwerkt ({hint!r})",
+          "Updates" in (hint or "") and "Vertofix cœur" in (hint or ""))
+    page.click("#dlgOk"); page.wait_for_timeout(800)
+    r = page.evaluate("""() => { const alle = DATA.materials.filter(x => /vertofix/i.test(x.name));
+        const g = matByName("Vertofix cœur");
+        return {aantal: alle.length, treffer: g && g.name, ifra: g && g.ifraLimit}; }""")
+    check(f"Delivered werkt het bij in plaats van een dubbel te maken ({r})",
+          r["aantal"] == 1 and r["treffer"] == "Vertofix cœur" and r["ifra"] == 99)
+
+    # ---------- 11. B22 (bouw 260920e): een gedeelde alias beslist niet meer alleen ----------
+    # Materialen van dezelfde plant of isomeren met een eigen profiel delen nu eenmaal een naam; de app moet
+    # het vragen in plaats van de eerste uit de lijst te nemen.
+    page.evaluate("""() => { const maak = (naam, alias) => ({id:"m-"+naam.replace(/\\W/g,""), name:naam,
+            category:"Flowers", pyramid:2, isSolvent:false, aliases: alias,
+            dilutions:[{pct:100, isBase:true, date:today(), notes:""}]});
+        DATA.materials.push(maak("Ylang A", "cananga odorata"), maak("Ylang B", "cananga odorata"),
+                            maak("Ylang C", "cananga odorata; ylang eigen"));
+        DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats(); render(); }""")
+    page.wait_for_timeout(500)
+    r = page.evaluate("""() => ({alle: matsByName("cananga odorata").map(x => x.name),
+        eigenNaam: matsByName("Ylang A").map(x => x.name),
+        uniekeAlias: matsByName("ylang eigen").map(x => x.name)})""")
+    check(f"matsByName geeft alle dragers van een gedeelde alias ({r['alle']})", r["alle"] == ["Ylang A", "Ylang B", "Ylang C"])
+    check(f"een eigen naam blijft één materiaal ({r['eigenNaam']})", r["eigenNaam"] == ["Ylang A"])
+    check(f"en een alias die maar één materiaal draagt ook ({r['uniekeAlias']})", r["uniekeAlias"] == ["Ylang C"])
+    page.evaluate("""() => { if (!DATA.formulas.some(x => x.id === "f-amb"))
+            DATA.formulas.push({id:"f-amb", name:"Ambigutest", category:"Uncategorised", created:today(),
+              frozenImport:false, versions:[{v:1, date:today(), lines:[]}]});
+        buildUsage(); switchTab("F", "f-amb", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    voor = page.evaluate("""() => DATA.formulas.find(x => x.id === "f-amb").versions[0].lines.length""")
+    page.fill("#addMat", "cananga odorata"); page.click("#btnAddLine"); page.wait_for_timeout(600)
+    opties = page.evaluate("""() => { const s = document.querySelector("#pkMat");
+        return s ? [...s.options].map(o => o.textContent.split(" · ")[0]) : null; }""")
+    check(f"Add line vraagt welk materiaal je bedoelt ({opties})", opties == ["Ylang A", "Ylang B", "Ylang C"])
+    page.select_option("#pkMat", "1"); page.click("#dlgOk"); page.wait_for_timeout(700)
+    r = page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-amb").versions[0];
+        return {n: v.lines.length, mat: matById(v.lines[v.lines.length-1].materialId)?.name}; }""")
+    check(f"en neemt de gekozen ({r})", r["n"] == voor + 1 and r["mat"] == "Ylang B")
+    # ⇄ Replace vraagt het in hetzelfde venster, want een tweede venster annuleert de vervanging
+    page.click("[data-repl='0']"); page.wait_for_timeout(500)
+    page.fill("#rmNew", "cananga odorata"); page.click("#dlgOk"); page.wait_for_timeout(500)
+    opties = page.evaluate("""() => { const s = document.querySelector("#pkMat");
+        return s ? [...s.options].map(o => o.textContent.split(" · ")[0]) : null; }""")
+    check(f"⇄ Replace vraagt het in hetzelfde venster ({opties})", opties == ["Ylang A", "Ylang B", "Ylang C"])
+    page.select_option("#pkMat", "2"); page.click("#dlgOk"); page.wait_for_timeout(800)
+    check("en vervangt door de gekozene",
+          page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-amb").versions[0];
+              return matById(v.lines[0].materialId)?.name; }""") == "Ylang C")
+    # Delivered vraagt het vóór het venster opengaat: daar kan je de naam niet zelf hertypen
+    page.evaluate("""() => { DATA.orderList = [{id:"o-amb", materialId:null, name:"cananga odorata",
+        amount:10, unit:"g", price:"20", added:today()}]; switchTab("T"); }""")
+    page.wait_for_timeout(500)
+    page.click("[data-odeliv='0']"); page.wait_for_timeout(500)
+    opties = page.evaluate("""() => { const s = document.querySelector("#pkMat");
+        return s ? [...s.options].map(o => o.textContent.split(" · ")[0]) : null; }""")
+    check(f"Delivered vraagt het ook ({opties})", opties == ["Ylang A", "Ylang B", "Ylang C"])
+    page.select_option("#pkMat", "0"); page.click("#dlgOk"); page.wait_for_timeout(600)
+    hint = page.evaluate("""() => document.querySelector("#dlg .hint")?.textContent.trim()""")
+    check(f"en werkt daarna dat materiaal bij ({hint!r})", "Ylang A" in (hint or ""))
+    page.click("#dlgOk"); page.wait_for_timeout(700)
+    r = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Ylang A");
+        return {n: DATA.materials.filter(x => /ylang|cananga/i.test(x.name)).length, prijs: m.costPerGram}; }""")
+    check(f"zonder een vierde materiaal te maken ({r})", r["n"] == 3 and r["prijs"] > 0)
+
+    # de invoervoorvertoning vraagt niets, maar zegt wel wat er speelt
+    page.evaluate("""() => { IMPORTP = {name:"Ylangproef", category:"Uncategorised", source:"", lines:[
+        {material:"cananga odorata", dilutionPct:100, weightG:5},
+        {material:"ylang eigen", dilutionPct:100, weightG:5}]}; render(); }""")
+    page.wait_for_timeout(700)
+    rijen = page.evaluate("""() => [...document.querySelectorAll("#content table.lines tbody tr")]
+        .map(tr => [...tr.cells].map(c => c.textContent.trim()).join(" | "))""")
+    check(f"de voorvertoning noemt de naam uit het bestand ({rijen[0][:60]!r})", "← cananga odorata" in rijen[0])
+    check("en alle materialen die die naam dragen",
+          "shared name: Ylang A, Ylang B, Ylang C" in rijen[0])
+    check(f"een alias van één materiaal krijgt die melding niet ({rijen[1][:50]!r})", "shared name" not in rijen[1])
+    page.evaluate("""() => { IMPORTP = null; render(); }"""); page.wait_for_timeout(400)
+    # het aliasveld zegt het meteen
+    msgs.clear()
+    page.evaluate("""() => switchTab("M", DATA.materials.find(x => x.name === "Ylang A").id, null)""")
+    page.wait_for_timeout(600)
+    page.fill("[data-f='aliases']", "cananga odorata; iets eigens")
+    page.locator("[data-f='aliases']").press("Tab"); page.wait_for_timeout(600)
+    check(f"het aliasveld noemt de materialen die de naam al dragen ({[m[:60] for m in msgs]})",
+          any("Ylang B" in m and "Ylang C" in m and "already answer" in m for m in msgs))
+
+    # ---------- 12. staart 17 (bouw 260920e): formulenamen vouwen zoals Rename ----------
+    msgs.clear()
+    page.evaluate("""() => { DATA.formulas.push({id:"f-rose", name:"Rose", category:"Uncategorised", created:today(),
+        versions:[{v:1, date:today(), lines:[]}]}); buildUsage(); switchTab("F", "f-rose", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(600)
+    page.click("#btnCopyF"); page.wait_for_timeout(400)
+    page.fill("#cpName", "Rosé"); page.click("#dlgOk"); page.wait_for_timeout(600)
+    check(f"Copy to new formula weigert “Rosé” naast “Rose” ({[m[:40] for m in msgs]})",
+          any("already exists" in m for m in msgs) and
+          page.evaluate("""() => DATA.formulas.filter(x => /^Ros/.test(x.name)).length""") == 1)
+    page.evaluate("""() => document.querySelector("#dlgCancel")?.click()"""); page.wait_for_timeout(400)
+
     check("no page errors", not errs)
     b.close()
 
