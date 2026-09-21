@@ -371,16 +371,24 @@ with sync_playwright() as p:
     r = page.evaluate("""() => matSearch("cananga odorata").map(h => h.m.name + "/" + h.via)""")
     check(f"matSearch vindt een naam naast het CAS-nummer en in de beschrijving ({r})",
           "Ylang cas/cas" in r and "Ylang beschrijving/description" in r)
-    check("de suggestielijst draagt de alternatieve namen",
-          page.evaluate("""() => matListHtml().includes('value="ylang unieke alias"')"""))
-    lab = page.evaluate("""() => { const a = DATA.materials.find(x => x.name === "Ylang cas"),
+    # één regel per materiaal, met zijn alternatieve namen als label: Chrome en Edge filteren ook op het label,
+    # dus een gedeelde plantnaam brengt de dragers zelf boven en klikken kiest er meteen een
+    check("de suggestielijst zet de alternatieve namen in het label van het materiaal",
+          page.evaluate("""() => /value="Ylang alias" label="ylang unieke alias"/.test(matListHtml())"""))
+    check("en geeft een materiaal zonder alternatieve namen geen leeg label",
+          page.evaluate("""() => /value="Ylang cas">/.test(matListHtml())"""))
+    r = page.evaluate("""() => { const a = DATA.materials.find(x => x.name === "Ylang cas"),
             b2 = DATA.materials.find(x => x.name === "Ylang beschrijving");
         a.aliases = "gedeelde plantnaam"; b2.aliases = "gedeelde plantnaam"; invalidateMats();
-        const m = /value="gedeelde plantnaam" label="([^"]*)"/.exec(matListHtml());
+        const h = matListHtml();
+        const dragers = [...h.matchAll(/value="([^"]*)" label="([^"]*)"/g)]
+            .filter(m => m[2].includes("gedeelde plantnaam")).map(m => m[1]);
+        const oude = h.includes('value="gedeelde plantnaam"');
         a.aliases = ""; b2.aliases = ""; invalidateMats();
-        return m && m[1]; }""")
-    check(f"en noemt bij een gedeelde naam de materialen die hem dragen ({lab!r})",
-          lab and "Ylang beschrijving" in lab and "Ylang cas" in lab)
+        return {dragers, oude}; }""")
+    check(f"een gedeelde naam staat bij elk van de dragers ({r['dragers']})",
+          sorted(r["dragers"]) == ["Ylang beschrijving", "Ylang cas"])
+    check("en niet als een regel op zichzelf, die je toch niet naar één materiaal brengt", r["oude"] is False)
     page.evaluate("""() => { if (!DATA.formulas.some(x => x.id === "f-amb"))
             DATA.formulas.push({id:"f-amb", name:"Ambigutest", category:"Uncategorised", created:today(),
               frozenImport:false, versions:[{v:1, date:today(), lines:[]}]});
