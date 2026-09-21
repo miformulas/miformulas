@@ -1,0 +1,10 @@
+# miFormulas: this folder holds your data file and its snapshots, and nothing here belongs on the web.
+# Apache reads this file; nginx, Caddy and others do not, so a folder outside the web root is safer still
+# (see the note at $DATA_DIR in ../data.php). data.php writes this file itself when it is missing.
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>

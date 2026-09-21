@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260920h. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
+This manual describes build 260920i. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
 
 ## Contents
 
@@ -312,6 +312,12 @@ The screens below are how the Cloudflare dashboard looked in September 2026. Clo
 
 On your other computer and on your phone, only step 9: the same address, the same token. Install the app there (section 5) and it opens straight into your data.
 
+**Is my data really in there?** The Worker reports on itself as well, at the same address with `?ping=1`. A browser cannot send the token, so this one asks for a command line (`curl.exe` on Windows, `curl` on macOS and Linux):
+
+    curl -H "X-Token: your-token" "https://miformulas-data.yourname.workers.dev/?ping=1"
+
+The answer is `{"ok":true,"worker":3,"etag":…,"bytes":…}`, where `bytes` is the size of the data file in the bucket, to hold against the size of your last Backup. The R2 page in the dashboard shows the same file with its size, next to the folder `snapshots/`.
+
 **Keeping it.** There is nothing to maintain. The app itself comes from miformulas.com and updates itself, and the Worker only holds your data; a newer `worker.js` is worth pasting in only when the release notes say so, and your data stays where it is because the code and the storage are separate things.
 
 ### B. Your own web server with PHP
@@ -319,9 +325,16 @@ On your other computer and on your phone, only step 9: the same address, the sam
 You need a web server with PHP (8.x) that you can put files on: a Synology or QNAP NAS with its web station, a Raspberry Pi, a small hosting account.
 
 1. Put `index.html` and `server/data.php` in a folder on the server, and create a folder `data` next to them that the web server is allowed to write to. On a NAS this means giving the web server's user (often `http`) read and write rights on that folder; the endpoint tells you in plain words when it cannot write.
+
+    That folder sits in the web root, and a web server serves what is in its web root: someone who tries the address `…/data/miformulas-data.json` gets your whole file, token or no token, because the token only guards `data.php`. On Apache the endpoint writes an `.htaccess` in that folder that denies it, and the repository carries the same file. Other web servers (nginx, Caddy, the web station of some NAS models) do not read `.htaccess`, so there the safe answer is a folder the web has no address for: open `data.php` and set `$DATA_DIR` to a path outside the web root, `dirname(__DIR__) . '/miformulas-data'` for instance. Step 5 tells you which of the two you have.
 2. Open `data.php` in a text editor and replace `change-me-to-a-long-random-token` by a long random string of your own. This token is the password to your data.
 3. Put your `miformulas-data.json` in the `data` folder (a Backup from the app, or the file from the Formulair importer), or let the app create it.
-4. Open the server's address in a browser. The app detects `data.php` next to itself, asks for the token once, and from then on says "Connected to server". On other devices, open the same address and give the same token; or open Settings and fill in the server endpoint and token by hand, which also works for a `data.php` at another address than the app. Those two fields are there when you open the app from a web address, which is what a server is; the copy you downloaded to your own disk does not show them.
+4. Open the server's address in a browser. The app detects `data.php` next to itself, asks for the token once, and from then on says "Connected to server". On other devices, open the same address and give the same token; or open Settings and fill in the server endpoint and token by hand, which also works for a `data.php` at another address than the app: the endpoint answers the browser's preflight and allows any origin, so the app and your data may live on two different addresses. Those two fields are there when you open the app from a web address, which is what a server is; the copy you downloaded to your own disk does not show them.
+5. **Check it when something is off.** Open the address of `data.php` itself in a browser: `{"error":"invalid token"}` is the good answer, because a browser sends no token, and it already tells you that PHP runs and that the file is reachable. With the token it reports on itself. A browser cannot send a header, so this one asks for a command line (`curl.exe` on Windows, `curl` on macOS and Linux):
+
+        curl -H "X-Token: your-token" "https://your-server/data.php?ping=1"
+
+    The answer is `{"ok":true,"etag":…,"bytes":…,"dataDirInWebRoot":…,"htaccess":…}`. `bytes` is the size of the data file on the server, which you can hold against the size of your last Backup; `"dataDirInWebRoot":true` with `"htaccess":false` is the case that step 1 is about. The call writes the `.htaccess` when it is missing and Apache is what you run.
 
 Reaching the server from outside your home is a matter of your network. A VPN such as Tailscale is the simple and safe way, and it can also give the server an https address, which the "Install as an app" options need. Do not put `data.php` on the open internet without https: the token travels in a header. None of this applies to way A, which is on the internet with https from the start.
 
@@ -329,7 +342,7 @@ To update the app on your own server, copy the new `index.html` over the old one
 
 ### What the endpoint does, on either way
 
-It returns the data with an ETag, accepts a save only when the ETag still matches, so that two devices can never overwrite each other (the app then shows a conflict warning: make a Backup, reload and redo the change), and it keeps a snapshot of the previous state on the first save of each day, fourteen days long: in `data/snapshots` on a PHP server, under `snapshots/` in the bucket on Cloudflare. A server that hides the ETag from the browser (a proxy that strips the header, or CORS without `Access-Control-Expose-Headers`) makes the app say so once: saving still works, but that protection is off until it is fixed. Restoring a snapshot is copying that file over `miformulas-data.json`. When the app starts without loading anything from the server, because it was unreachable or held no data file yet, the first save looks once more before it writes: if a data file has arrived in the meantime, nothing is sent and the app says so, so that a fresh start here cannot land on top of work that was saved elsewhere.
+It returns the data with an ETag, accepts a save only when the ETag still matches, so that two devices can never overwrite each other (the app then shows a conflict warning: make a Backup, reload and redo the change), and it keeps a snapshot of the previous state on the first save of each day, fourteen days long: in `data/snapshots` on a PHP server, under `snapshots/` in the bucket on Cloudflare. A server that hides the ETag from the browser (a proxy that strips the header, or CORS without `Access-Control-Expose-Headers`) makes the app say so once: saving still works, but that protection is off until it is fixed. Both endpoints send that header themselves, together with the rest of the CORS block and an answer to the browser's preflight, so the app and the endpoint may sit at two different addresses; what can still take the header away is a proxy or a CDN in front of the server. A save is answered with the new ETag and with the number of bytes that were stored, the same figure `?ping=1` reports, so what is on the server can always be held against the size of your last Backup. Restoring a snapshot is copying that file over `miformulas-data.json`. When the app starts without loading anything from the server, because it was unreachable or held no data file yet, the first save looks once more before it writes: if a data file has arrived in the meantime, nothing is sent and the app says so, so that a fresh start here cannot land on top of work that was saved elsewhere.
 
 If you would like step-by-step instructions for your own situation, `docs/ai-prompts.md` has a prompt for each way. Keep in mind that an assistant knows the miFormulas side of it well and the Cloudflare dashboard badly: for way A the screens in this section are the authority, not what an assistant remembers.
 

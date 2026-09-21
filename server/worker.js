@@ -65,10 +65,15 @@ function sameTag(a, b) {
   return norm(a) === norm(b);
 }
 
+const SNAPKEY = /^snapshots\/\d{4}-\d{2}-\d{2}\.json$/;   // a daily snapshot, and nothing else
+
 function looksLikeDataFile(s) {
-  // cheap check without parsing the whole file (a few MB): an object with materials and formulas
-  const head = s.slice(0, 64).trimStart();
-  return head.startsWith("{") && s.includes('"materials"') && s.includes('"formulas"');
+  // Cheap check without parsing the whole file (a few MB would not fit in the CPU budget): an object that
+  // carries materials and formulas as fields. Looking for the bare words would let any text through that
+  // happens to mention them, and it would be written over the good data.
+  const head = s.slice(0, 64).trimStart(), tail = s.slice(-64).trimEnd();
+  return head.startsWith("{") && tail.endsWith("}")
+    && /"materials"\s*:/.test(s) && /"formulas"\s*:/.test(s);
 }
 
 async function snapshot(env, cur) {
@@ -77,14 +82,16 @@ async function snapshot(env, cur) {
   if (await env.DATA.head(key)) return;
   await env.DATA.put(key, cur.body, { httpMetadata: { contentType: "application/json" } });
   const list = await env.DATA.list({ prefix: SNAPDIR });
-  const keys = list.objects.map((o) => o.key).sort();
+  // only the daily files count: a backup you put in this folder by hand used to be counted as a snapshot,
+  // so it either ate a day or was the first thing deleted
+  const keys = list.objects.map((o) => o.key).filter((k) => SNAPKEY.test(k)).sort();
   while (keys.length > KEEP_DAYS) await env.DATA.delete(keys.shift());
 }
 
 export default {
   async fetch(request, env) {
     const method = request.method;
-    if (method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
+    if (method === "OPTIONS") return new Response(null, { status: 204, headers: BASE });   // BASE, so this answer carries no-store and nosniff too
 
     if (!env.TOKEN) return fail(500, "TOKEN secret is not set on the Worker");
     if (!env.DATA) return fail(500, "R2 bucket binding DATA is missing on the Worker");
@@ -123,14 +130,20 @@ export default {
       const opts = { httpMetadata: { contentType: "application/json" } };
       let put = await env.DATA.put(FILE, body, cur ? { ...opts, onlyIf: { etagMatches: cur.etag } } : opts);
       if (!put && cur) {
-        // the conditional write was refused: either someone really wrote in between, or R2 could not
-        // match the etag of this object (seen with multipart uploads from the dashboard). Re-check.
+        // The conditional write was refused: either someone really wrote in between, or R2 could not match the
+        // etag of this object (seen with multipart uploads from the dashboard). Look again, and keep a guard:
+        // writing without one leaves a window between this head and that put in which another device can write,
+        // and that write would be overwritten without a word. uploadedBefore closes it on time instead of on etag.
         const now = await env.DATA.head(FILE);
-        if (now && sameTag(now.httpEtag, curTag)) put = await env.DATA.put(FILE, body, opts);
-        else return fail(409, "conflict: the data changed on another device, reload before saving", { etag: now ? now.httpEtag : "", received: ifMatch, where: "write-race" });
+        if (!now || !sameTag(now.httpEtag, curTag))
+          return fail(409, "conflict: the data changed on another device, reload before saving", { etag: now ? now.httpEtag : "", received: ifMatch, where: "write-race" });
+        put = await env.DATA.put(FILE, body, { ...opts, onlyIf: { uploadedBefore: now.uploaded } });
+        if (!put) return fail(409, "conflict: the data changed on another device, reload before saving", { etag: now.httpEtag, received: ifMatch, where: "write-race" });
       }
       if (!put) return fail(500, "write failed");
-      return json(200, { ok: true, etag: put.httpEtag, bytes: body.length, saved: new Date().toISOString() }, { ETag: put.httpEtag });
+      // put.size is what R2 stored: body.length counts characters, so every accent made the number too low,
+      // while ?ping=1 and data.php report real bytes and section 7 holds them against your last Backup
+      return json(200, { ok: true, etag: put.httpEtag, bytes: put.size ?? body.length, saved: new Date().toISOString() }, { ETag: put.httpEtag });
     }
 
     return fail(405, "method not allowed");

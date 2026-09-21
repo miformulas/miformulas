@@ -5,3 +5,7 @@ node_modules/
 .DS_Store
 Thumbs.db
 __pycache__/
+
+# your own server data never belongs in a clone: the folder is here for its .htaccess only
+server/data/*
+!server/data/.htaccess
