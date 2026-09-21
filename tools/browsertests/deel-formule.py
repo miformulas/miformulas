@@ -1,4 +1,4 @@
-"""Share this version…: what the file holds, and the way back in at the other end.
+"""Share this version: what the file holds, and the way back in at the other end.
 Needs the local web server on port 8765 (see README)."""
 import json, os, tempfile
 from playwright.sync_api import sync_playwright
@@ -51,7 +51,8 @@ with sync_playwright() as p:
     # ---------- de knop en zijn buren ----------
     check("de uitvoerrij heeft vier knoppen",
           all(page.locator(s).count() == 1 for s in ("#btnSheet", "#btnCsv", "#btnShare", "#btnPrint")))
-    check("Share this version…", page.text_content("#btnShare").strip() == "Share this version…")
+    # sinds bouw 260920n zonder beletselteken: de knop schrijft meteen het bestand, ze vraagt niets in te vullen
+    check("Share this version", page.text_content("#btnShare").strip() == "Share this version")
     check("de twee afdrukken dragen elk een eigen naam",
           page.text_content("#btnSheet").strip() == "Print full formula"
           and page.text_content("#btnPrint").strip() == "Print weighing sheet")

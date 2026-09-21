@@ -44,6 +44,26 @@ with sync_playwright() as p:
     check("the pencil says so in its tooltip", page.get_attribute("#btnNameV", "title") == "Name this version…")
     check("the replace arrows say so in their tooltip",
           (page.get_attribute("[data-repl]", "title") or "").endswith("…"))
+    # staart 43 (bouw 260920n): het teken betekent "je moet nog iets ingeven", dus niet bij wat meteen doet
+    # wat het zegt, en evenmin bij een knop die alleen een ja-of-neevraag stelt
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === VIEW.id);
+        if (f.versions.length < 2) f.versions.push({v:2, date:today(), lines:[...f.versions[0].lines]});
+        render(); }""")
+    page.wait_for_timeout(500)
+    check(f"Compare zonder beletselteken ({page.text_content('#btnCmp').strip()!r})",
+          page.text_content("#btnCmp").strip() == "Compare")
+    check(f"Share this version en Excel export evenmin ({page.text_content('#btnShare').strip()!r})",
+          page.text_content("#btnShare").strip() == "Share this version"
+          and page.text_content("#btnCsv").strip() == "Excel export")
+    page.click("#btnIO"); page.wait_for_timeout(500)
+    check(f"Export all my formulas evenmin ({page.text_content('#btnExpJ').strip()!r})",
+          page.text_content("#btnExpJ").strip() == "Export all my formulas")
+    check("terwijl Import formula… er wél een draagt, want er komt een kiezer",
+          "Import formula\u2026" in page.text_content("#dlg"))
+    page.click("#dlgOk"); page.wait_for_timeout(400)   # het Import/Export-venster sluit met Close
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === VIEW.id);
+        if (f.versions.length > 1) f.versions.length = 1; VIEW.sub = {type:"v", idx:0}; render(); }""")
+    page.wait_for_timeout(400)
 
     # ---------- a trial note asks before it goes ----------
     page.fill("#trialText", "Smells of pear drops."); page.click("#btnAddTrial"); page.wait_for_timeout(400)
@@ -379,6 +399,37 @@ with sync_playwright() as p:
     page.wait_for_timeout(500)
     check("en bij een korte lijst blijft die zin weg",
           "more" not in page.evaluate("""() => document.querySelector(".panelBox.usage").innerText"""))
+
+    # ---------- staart 42 (bouw 260920n): Clear all vraagt, en de bevestigingen noemen dezelfde weg terug ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 1);
+        window.__cid = f.id; f.versions[0].lines.forEach((l, i) => l.remark = i < 2 ? 2 : 1);
+        markDirty(); switchTab("F", f.id, {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    mode["v"] = "dismiss"; msgs.clear()
+    page.click("#btnClearMarks"); page.wait_for_timeout(500)
+    gemerkt = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__cid);
+        return f.versions[0].lines.filter(l => (l.remark ?? 1) !== 1).length; }""")
+    check(f"Clear all vraagt eerst, en Cancel laat de merktekens staan ({[m[:60] for m in msgs]})",
+          any("colour mark" in m and "Ctrl+Z" in m for m in msgs) and gemerkt == 2)
+    mode["v"] = "accept"; msgs.clear()
+    page.click("#btnClearMarks"); page.wait_for_timeout(600)
+    check("en na ja zijn ze weg",
+          page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__cid);
+            return f.versions[0].lines.every(l => (l.remark ?? 1) === 1); }"""))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check("Ctrl+Z brengt ze terug, zoals de vraag belooft",
+          page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__cid);
+            return f.versions[0].lines.filter(l => (l.remark ?? 1) !== 1).length; }""") == 2)
+    msgs.clear(); page.click("#btnClearMarks"); page.wait_for_timeout(500)
+    page.click("#btnClearMarks"); page.wait_for_timeout(500)
+    check(f"zonder merktekens zegt de knop dat er niets te wissen valt ({[m[:40] for m in msgs][-1:]})",
+          any("no marks" in m for m in msgs))
+    check("Delete material draagt een tooltip, zoals de andere wisknoppen",
+          bool(page.evaluate("""() => { switchTab("M", DATA.materials[0].id, null); return true; }""")))
+    page.wait_for_timeout(600)
+    check(f"en die noemt de voorwaarde ({(page.get_attribute('#btnDelMat', 'title') or '')[:40]!r})",
+          "no version uses it" in (page.get_attribute("#btnDelMat", "title") or "")
+          or "undo" in (page.get_attribute("#btnDelMat", "title") or "").lower())
 
     check(f"no page errors ({errs[:2]})", not errs)
     ctx.close(); b.close()

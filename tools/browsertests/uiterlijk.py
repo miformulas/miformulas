@@ -61,7 +61,21 @@ with sync_playwright() as p:
     pr = page.evaluate("""(() => { const s = getComputedStyle(document.body);
       return {bg: s.backgroundColor}; })()""")
     check(f"the page prints on white ({pr['bg']})", pr["bg"] == "rgb(255, 255, 255)")
+    # staart 44 (bouw 260920n): het printblok zette --muted op :root, en dat weegt minder dan
+    # :root[data-theme="dark"], dus wie uit het donkere thema afdrukte kreeg lichtgrijs op wit papier
+    for thema in ("light", "dark"):
+        page.evaluate("t => { document.documentElement.dataset.theme = t; }", thema)
+        page.wait_for_timeout(200)
+        m = page.evaluate("""() => getComputedStyle(document.documentElement).getPropertyValue("--muted").trim()""")
+        check(f"afdrukken uit het {thema} thema gebruikt de donkere grijs ({m})", m.upper() == "#6C7A88")
+    page.evaluate("() => delete document.documentElement.dataset.theme")
     page.emulate_media(media="screen")
+    # staart 45: een lange koppeling in de ingebedde handleiding breekt af, op elke breedte
+    w = page.evaluate("""() => getComputedStyle(document.querySelector("#manualTpl") ? document.documentElement : document.documentElement).getPropertyValue("--ink")""")
+    brk = page.evaluate("""() => { const d = document.createElement("div"); d.className = "help";
+        d.innerHTML = '<a href="#">https://example.org/' + "x".repeat(120) + '</a>';
+        document.body.appendChild(d); const v = getComputedStyle(d.querySelector("a")).overflowWrap; d.remove(); return v; }""")
+    check(f"een lange koppeling in de handleiding breekt af ({brk})", brk == "anywhere")
 
     # ---------- 4. the soft red in both themes ----------
     soft = page.evaluate("""(() => getComputedStyle(document.documentElement).getPropertyValue('--danger-soft').trim())()""")
@@ -127,8 +141,11 @@ with sync_playwright() as p:
           "Formulas" in (page.locator("#searchBox").get_attribute("title") or ""))
     page.click("#tabT"); page.wait_for_timeout(400)
     page.click("#btnShops"); page.wait_for_timeout(500)
-    check("the shop dialog names the button it belongs to",
-          "Web shops for the “Search” button" in page.text_content("#dlg"))
+    # staart 39 (bouw 260920n): de kop noemt de knop zoals hij sinds 260918e heet
+    kop = page.text_content("#dlg h3")
+    knop = page.text_content("#btnShopSearch") if page.locator("#btnShopSearch").count() else ""
+    check(f"het winkelvenster noemt de knop zoals hij heet ({kop!r})",
+          "Search my shops" in kop and "“Search” button" not in kop)
     page.click("#dlgCancel"); page.wait_for_timeout(300)
 
     # ---------- 8. the head of a formula (build 260915c): version row, Delete version, pyramid chart ----------

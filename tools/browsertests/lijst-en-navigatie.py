@@ -119,6 +119,23 @@ with sync_playwright() as p:
     page.click("#helpClose"); page.wait_for_timeout(700)
     check(f"en de formule staat daarna weer bovenaan ({top(page)} px)", top(page) == 0)
 
+    # staart 40 (bouw 260920n): zoeken zonder treffer in To order zei dat de lijst leeg was
+    page.evaluate("""() => { (DATA.orderList ||= []).push({id:"o-z", name:"Zoekproef", added:today()});
+        switchTab("T", null, null); }""")
+    page.wait_for_timeout(600)
+    page.fill("#searchBox", "bestaatniet"); page.wait_for_timeout(500)
+    tekst = page.text_content("#list")
+    check(f"zonder treffer zegt To order wat er aan de hand is ({tekst.strip()[:60]!r})",
+          "matches" in tekst and "Nothing to order" not in tekst)
+    page.fill("#searchBox", ""); page.wait_for_timeout(400)
+    check("en met een lege zoekterm staat de regel er gewoon",
+          "Zoekproef" in page.text_content("#list"))
+    page.evaluate("""() => { DATA.orderList = (DATA.orderList||[]).filter(o => o.id !== "o-z");
+        (DATA.orderList||[]).length ? render() : render(); }""")
+    page.wait_for_timeout(400)
+    check("en een echt lege lijst zegt Nothing to order",
+          "Nothing to order" in page.text_content("#list") if not page.evaluate("(DATA.orderList||[]).length") else True)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     print("\n%d OK, %d FAIL" % (ok, fail))
     b.close()

@@ -284,6 +284,68 @@ with sync_playwright() as p:
     page.evaluate("""() => document.querySelector("#dlgCancel")?.click()"""); page.wait_for_timeout(300)
     page.set_viewport_size({"width": 1280, "height": 950}); page.wait_for_timeout(400)
 
+    # ---------- staart 37, 38 en 41 (bouw 260920n) ----------
+    # de knoppen en de badges op de plek waar het verloop het lichtst is, en de merktekens die betekenis dragen
+    KLEUREN = """() => { const cs = getComputedStyle(document.documentElement), v = n => cs.getPropertyValue(n).trim();
+      const eind = n => { const m = v(n).match(/#[0-9A-Fa-f]{6}/g) || []; return m[m.length - 1]; };
+      return {btnEind: eind("--btn-grad"), kopEind: eind("--header-grad"), kopInkt: v("--header-ink"),
+              frozen: v("--frozen"), frozenSoft: v("--frozen-soft"), amberInk: v("--amber-ink"),
+              accentSoft: v("--accent-soft"), hl3: v("--hl3"), surface: v("--surface"), accent: v("--accent"),
+              ground: v("--ground")}; }"""
+    for thema in ("light", "dark"):
+        page.evaluate("t => { document.documentElement.dataset.theme = t; }", thema)
+        page.wait_for_timeout(300)
+        k = page.evaluate(KLEUREN)
+        r = ratio("#ffffff", k["btnEind"])
+        check(f"{thema}: wit haalt AA op het lichtste eind van een primaire knop ({r}:1)", r >= 4.5)
+        r = ratio(k["kopInkt"], k["kopEind"])
+        check(f"{thema}: de kopinkt haalt AA op het lichtste eind van de kopbalk ({r}:1)", r >= 4.5)
+        r = ratio(k["frozen"], k["frozenSoft"])
+        check(f"{thema}: de badges starter en frozen halen AA ({r}:1)", r >= 4.5)
+        r = ratio(k["amberInk"], k["accentSoft"])
+        check(f"{thema}: amberkleurige tekst op een accentvlak haalt AA ({r}:1)", r >= 4.5)
+        r = ratio(k["hl3"], k["surface"])
+        check(f"{thema}: het gele merkteken haalt 3:1, want het draagt betekenis ({r}:1)", r >= 3)
+        pyr = page.evaluate("""() => { const b = document.createElement("button"); b.className = "sel";
+          const w = document.createElement("span"); w.className = "pyr"; w.appendChild(b); document.body.appendChild(w);
+          const cs = getComputedStyle(b); const r = {kleur: cs.color, grond: cs.backgroundColor}; w.remove(); return r; }""")
+        r = ratio(pyr["kleur"], pyr["grond"])
+        check(f"{thema}: de gekozen piramideknop haalt AA ({r}:1, {pyr['kleur']} op {pyr['grond']})", r >= 4.5)
+    page.evaluate("() => delete document.documentElement.dataset.theme")
+    page.wait_for_timeout(300)
+
+    # elk bedieningselement draagt een naam: zonder naam is het voor een schermlezer een naamloos vakje
+    NAMEN = """() => {
+      const out = [];
+      for (const el of document.querySelectorAll("button, a[href], input:not([type=hidden]), select, textarea")){
+        if (el.closest("#manualTpl, .help") || !el.getClientRects().length) continue;
+        const lab = el.id ? document.querySelector(`label[for="${CSS.escape(el.id)}"]`) : null;
+        const wrap = el.closest("label");
+        const naam = (el.getAttribute("aria-label") || "").trim() || (lab ? lab.textContent.trim() : "")
+          || (wrap ? wrap.textContent.trim() : "")
+          || (el.tagName === "BUTTON" || el.tagName === "A" ? el.textContent.trim() : "")
+          || (el.getAttribute("title") || "").trim();
+        if (!naam) out.push(el.tagName.toLowerCase() + "#" + (el.id || "-") + "." + (el.className || "-"));
+      }
+      return [...new Set(out)];
+    }"""
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 2);
+        (DATA.orderList ||= []).push({id:"o-n", name:"Naamtest", added:today()});
+        switchTab("F", f.id, {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    for naam, js in [("de formulepagina", None),
+                     ("de bench view", """() => { VIEW.sub = {...VIEW.sub, bench:true}; render(); }"""),
+                     ("een materiaalpagina", """() => switchTab("M", DATA.materials[0].id, null)"""),
+                     ("de bestellijst", """() => switchTab("T", null, null)""")]:
+        if js: page.evaluate(js); page.wait_for_timeout(600)
+        zonder = page.evaluate(NAMEN)
+        check(f"{naam}: elk bedieningselement draagt een naam ({zonder})", not zonder)
+    page.evaluate("""() => { DATA.orderList = (DATA.orderList||[]).filter(o => o.id !== "o-n"); render(); }""")
+    page.wait_for_timeout(300)
+    los = page.evaluate("""() => [...document.querySelectorAll("label[for]")]
+        .filter(l => !document.getElementById(l.getAttribute("for"))).map(l => l.textContent.trim())""")
+    check(f"en geen label wijst naar een veld dat er niet is ({los})", not los)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")
