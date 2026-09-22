@@ -497,6 +497,52 @@ with sync_playwright() as p:
     check(f"met een vrije naam gaat het wel door ({gemaakt})", gemaakt == [True, True])
     page.keyboard.press("Control+z"); page.wait_for_timeout(700)
 
+    # ---------- B2 (bouw 260922d): de waarschuwing zegt welk van de twee gevallen het is ----------
+    page.evaluate("""() => {
+      DATA.materials.push(
+        {id:"m-b2a", name:"Bezette Naam", category:"Test", pyramid:3, isSolvent:false, dilutions:[{pct:100,isBase:true}]},
+        {id:"m-b2b", name:"Alias Drager", category:"Test", pyramid:3, isSolvent:false, aliases:"Gedeelde Alias",
+         dilutions:[{pct:100,isBase:true}]},
+        {id:"m-b2c", name:"Ontvanger", category:"Test", pyramid:3, isSolvent:false, dilutions:[{pct:100,isBase:true}]});
+      invalidateMats(); markDirty(); VIEW = {tab:"M", id:"m-b2c", sub:null}; HOMEVIEW = false; setTabs(); render(); }""")
+    page.wait_for_timeout(700)
+    n0 = len(msgs)
+    page.fill("[data-f='aliases']", "Bezette Naam")
+    page.locator("[data-f='aliases']").press("Tab"); page.wait_for_timeout(700)
+    zeg = msgs[n0:]
+    check(f"een alias die de eigen naam van een ander materiaal is, zegt dat die altijd wint ({zeg[:1]})",
+          any("always wins" in m and "never reach" in m for m in zeg))
+    check("en niet dat er later iets gevraagd wordt",
+          not any("asks which of them you mean" in m for m in zeg))
+    n1 = len(msgs)
+    page.fill("[data-f='aliases']", "Gedeelde Alias")
+    page.locator("[data-f='aliases']").press("Tab"); page.wait_for_timeout(700)
+    zeg2 = msgs[n1:]
+    check(f"een alias die een ander ook als alias draagt, belooft wel de vraag ({zeg2[:1]})",
+          any("asks which of them you mean" in m for m in zeg2))
+    gevraagd = page.evaluate("""() => { const l = matsByName("Gedeelde Alias"); return l.map(x => x.name).sort(); }""")
+    check(f"en die vraag komt er ook echt ({gevraagd})", gevraagd == ["Alias Drager", "Ontvanger"])
+
+    # ---------- B3 (bouw 260922d): één materiaal, één regel op de bestellijst ----------
+    page.evaluate("""() => {
+      const m = DATA.materials.find(x => x.id === "m-b2a");
+      m.aliases = "Tweede Naam B3"; m.supplier = "Proefleverancier B3"; invalidateMats();
+      DATA.orderList = []; markDirty(); VIEW = {tab:"T", id:null, sub:null}; HOMEVIEW = false; setTabs(); render(); }""")
+    page.wait_for_timeout(600)
+    page.fill("#ordName", "Bezette Naam"); page.click("#btnOrdAdd"); page.wait_for_timeout(700)
+    n2 = len(msgs)
+    page.fill("#ordName", "Tweede Naam B3"); page.click("#btnOrdAdd"); page.wait_for_timeout(800)
+    lijst = page.evaluate("(DATA.orderList||[]).map(o => o.name)")
+    check(f"dezelfde stof onder een andere naam komt er niet twee keer op ({lijst})", len(lijst) == 1)
+    check(f"en het zegt waarom ({msgs[n2:][:1]})",
+          any("already on the order list" in m for m in msgs[n2:]))
+    n3 = len(msgs)
+    page.fill("#ordName", "Proefleverancier B3"); page.click("#btnOrdAdd"); page.wait_for_timeout(800)
+    if page.locator("#dlgOk").count():
+        page.click("#dlgOk"); page.wait_for_timeout(700)
+    lijst2 = page.evaluate("(DATA.orderList||[]).map(o => o.name)")
+    check(f"ook niet via de bredere zoekopdracht op de leverancier ({lijst2})", len(lijst2) == 1)
+
     check("no page errors", not errs)
     b.close()
 

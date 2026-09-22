@@ -241,6 +241,50 @@ with sync_playwright() as pw:
     check("een .json dat geen import is wordt nog altijd geweigerd",
           any("not a miFormulas import file" in m for m in msgs2))
 
+    # ---------------- B6 (bouw 260922d): alleen een blad met een Date-kolom kan "geen datum" bedoelen ----------------
+    # csvFormulaGroups start elke groep op date:"", dus csvToImport stuurde altijd een date-sleutel mee. De wacht van
+    # 260920m leest "de sleutel bestaat" als "de afzender bedoelde geen datum", en daardoor kreeg élk blad zonder
+    # Date-kolom versies met een lege datum, terwijl de regel is dat zo'n bestand vandaag krijgt.
+    ctx3 = b.new_context(viewport={"width": 1400, "height": 900})
+    pg3 = ctx3.new_page(); errs3 = []; msgs3 = []
+    pg3.on("pageerror", lambda e: errs3.append(str(e)))
+    pg3.on("dialog", lambda d: (msgs3.append(d.message), d.accept()))
+    pg3.goto(URL); pg3.wait_for_timeout(800)
+    pg3.click("#btnStarter"); pg3.wait_for_timeout(1500)
+    vandaag = pg3.evaluate("today()")
+
+    zonder = schrijf(os.path.join(tmp, "zonder-datum.csv"),
+        "Material,Weight g\nIso E Super,10\nHedione,5\n")
+    pg3.set_input_files("#impFile", zonder); pg3.wait_for_timeout(1000)
+    pg3.click("#dlgOk"); pg3.wait_for_timeout(1100)      # eerst het kolomvenster
+    pg3.click("#btnImpOk"); pg3.wait_for_timeout(1200)
+    d1 = pg3.evaluate("""() => { const f = DATA.formulas.find(x => /zonder-datum/i.test(x.name));
+        return f ? f.versions[f.versions.length-1].date : "geen formule"; }""")
+    check(f"een blad zonder Date-kolom krijgt de datum van vandaag ({d1})", d1 == vandaag)
+    pg3.keyboard.press("Control+z"); pg3.wait_for_timeout(700)
+
+    leeg = schrijf(os.path.join(tmp, "lege-datum.csv"),
+        "Formula,Date,Material,Weight g\nB6 leeg,,Iso E Super,10\n")
+    pg3.set_input_files("#impFile", leeg); pg3.wait_for_timeout(1000)
+    pg3.click("#dlgOk"); pg3.wait_for_timeout(1100)
+    pg3.click("#btnImpOk"); pg3.wait_for_timeout(1200)
+    d2 = pg3.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "B6 leeg");
+        return f ? f.versions[f.versions.length-1].date : "geen formule"; }""")
+    check(f"een blad mét een lege Date-cel houdt zijn lege datum ({d2!r})", d2 == "")
+    pg3.keyboard.press("Control+z"); pg3.wait_for_timeout(700)
+
+    twee = schrijf(os.path.join(tmp, "twee-zonder.csv"),
+        "Formula,Material,Weight g\nB6 een,Iso E Super,10\nB6 twee,Hedione,5\n")
+    pg3.set_input_files("#impFile", twee); pg3.wait_for_timeout(1000)
+    pg3.click("#dlgOk"); pg3.wait_for_timeout(1100)
+    pg3.click("#btnImpOk"); pg3.wait_for_timeout(1300)
+    d3 = pg3.evaluate("""() => DATA.formulas.filter(f => /^B6 (een|twee)$/.test(f.name))
+        .map(f => f.name + ":" + f.versions[0].date)""")
+    check(f"ook bij meerdere formules in één blad zonder Date-kolom ({d3})",
+          sorted(d3) == ["B6 een:" + vandaag, "B6 twee:" + vandaag])
+    check(f"geen paginafouten bij de datumproef ({errs3[:2]})", not errs3)
+    ctx3.close()
+
     check(f"geen paginafouten in de uitvoer ({errs[:2]})", not errs)
     check(f"geen paginafouten in de invoer ({errs2[:2]})", not errs2)
     print("\n%d OK, %d FAIL" % (ok, fail))

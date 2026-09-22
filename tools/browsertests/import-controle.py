@@ -285,6 +285,33 @@ with sync_playwright() as p:
     nX = page.evaluate("DATA.formulas.filter(f => f.name === 'X').length")
     check(f"en er is niets ingevoerd ({nX} formule(s) X)", nX == 0)
 
+    # ---------- B5 (bouw 260922d): het venster telt wat er werkelijk aankomt ----------
+    # applyBulkImport laat een versie zonder regels vallen en een formule die daardoor geen versie overhoudt.
+    # De kop telde alles wat het bestand noemt, dus ze beloofde formules en versies die nooit aankwamen.
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    gemengd = schrijf("gemengd.json", {"type": "miformulas-import", "source": "B5", "formulas": [
+        {"name": "B5 volledig", "versions": [{"name": "v1", "lines": [
+            {"material": "Iso E Super", "dilutionPct": 100, "weightG": 1}]}]},
+        {"name": "B5 half", "versions": [
+            {"name": "leeg", "lines": []},
+            {"name": "vol", "lines": [{"material": "Iso E Super", "dilutionPct": 100, "weightG": 2}]}]},
+        {"name": "B5 leeg", "versions": [{"name": "niets", "lines": []}]}]})
+    page.set_input_files("#impFile", gemengd); page.wait_for_timeout(1100)
+    kop = " ".join((page.text_content("#content") or "").split())
+    check(f"de kop telt wat er aankomt, niet wat het bestand noemt ({kop[:60]!r})",
+          "2 formulas · 2 versions" in kop)
+    drop = page.evaluate("""() => { const e = document.querySelector("#impDrop"); return e ? e.textContent.trim() : null; }""")
+    check(f"en een regel zegt wat er wegvalt ({drop!r})",
+          bool(drop) and "2 version(s)" in drop and "1 formula(s)" in drop)
+    check("de rij van de lege formule zegt het ook", "no lines – left out" in (page.text_content("#content") or ""))
+    voorF = page.evaluate("DATA.formulas.length")
+    page.click("#btnImpOk"); page.wait_for_timeout(1200)
+    kwam = page.evaluate("DATA.formulas.length") - voorF
+    namen = page.evaluate("""() => DATA.formulas.filter(f => /^B5 /.test(f.name)).map(f => f.name + ":" + f.versions.length)""")
+    check(f"en er komt precies dat aan ({kwam}: {namen})",
+          kwam == 2 and sorted(namen) == ["B5 half:1", "B5 volledig:1"])
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

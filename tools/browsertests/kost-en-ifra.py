@@ -411,6 +411,45 @@ with sync_playwright() as p:
     kost2 = pg.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-neg"); return m.costPerGram; }""")
     check(f"met een gewone prijs gaat het wel door ({kost2} EUR/g)", abs((kost2 or 0) - 5) < 1e-9)
 
+    # ---------- B4 (bouw 260922d): de IFRA-tabel zegt hoeveel beperkte materialen er niet op staan ----------
+    # De tabel stopt op acht, of op zoveel als er boven hun limiet zitten, dus niets boven een limiet valt weg.
+    # Wat wegviel was de rest van de beperkte lijst, en dat gebeurde zonder een woord.
+    pg.evaluate("""() => {
+      const ids = [];
+      for (let i = 0; i < 12; i++){
+        const id = "m-ifr" + i;
+        DATA.materials.push({id, name:"IFRA proef " + i, category:"Test", pyramid:3, isSolvent:false,
+          ifraLimit: 10 + i, dilutions:[{pct:100, isBase:true}]});
+        ids.push(id);
+      }
+      invalidateMats();
+      DATA.formulas.push({id:"f-ifr", name:"IFRA twaalf", category:"Uncategorised", created:today(), versions:[
+        {v:1, date:today(), lines: ids.map(id => ({materialId:id, dilutionPct:100, weightG:1, remark:1}))}]});
+      markDirty(); VIEW = {tab:"F", id:"f-ifr", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
+    pg.wait_for_timeout(700)
+    pg.evaluate("""() => { const d = [...document.querySelectorAll("details")].find(x => /IFRA/i.test(x.textContent));
+                           if (d) d.open = true; }""")
+    pg.wait_for_timeout(500)
+    rijen = pg.evaluate("""() => { const d = [...document.querySelectorAll("details")].find(x => /IFRA/i.test(x.textContent));
+        return d ? [...d.querySelectorAll("tbody tr")].length : -1; }""")
+    meer = pg.evaluate("""() => { const e = document.querySelector("#ifraMore"); return e ? e.textContent : null; }""")
+    check(f"twaalf beperkte materialen, acht rijen in de tabel ({rijen})", rijen == 8)
+    check(f"en eronder staat hoeveel er niet op staan ({meer!r})",
+          bool(meer) and "4 more" in meer)
+    # alles boven de limiet blijft staan, ook als het er meer dan acht zijn
+    pg.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-ifr");
+        for (const m of DATA.materials) if (/^IFRA proef /.test(m.name)) m.ifraLimit = 0.001;
+        invalidateMats(); render(); }""")
+    pg.wait_for_timeout(600)
+    pg.evaluate("""() => { const d = [...document.querySelectorAll("details")].find(x => /IFRA/i.test(x.textContent));
+                           if (d) d.open = true; }""")
+    pg.wait_for_timeout(400)
+    rijen2 = pg.evaluate("""() => { const d = [...document.querySelectorAll("details")].find(x => /IFRA/i.test(x.textContent));
+        return d ? [...d.querySelectorAll("tbody tr")].length : -1; }""")
+    meer2 = pg.evaluate("""() => !!document.querySelector("#ifraMore")""")
+    check(f"zitten ze alle twaalf boven hun limiet, dan staan ze er alle twaalf ({rijen2})", rijen2 == 12)
+    check("en dan is er niets om bij te tellen", meer2 is False)
+
     check("no page errors", not errs4)
     b.close()
 

@@ -173,6 +173,51 @@ with sync_playwright() as b0:
     pg4.evaluate("() => switchTab('M', DATA.materials[0].id, null)"); pg4.wait_for_timeout(500)
     check("een nieuwe stap zet de terugpijl weer aan", not pg4.locator("#btnNavPrev").is_disabled())
 
+    # bouw 260922d: de gok zette NAVI op 0 maar liet de i in de ingang waar de browser op staat ongemoeid,
+    # dus een latere popstate haalde die oude index terug: de vooruitpijl ging uit terwijl vooruit kon, en
+    # de terugpijl lichtte aan het einde weer op. De ingang draagt nu de teller die we concludeerden.
+    def stand(pg):
+        return pg.evaluate("""() => ({NAVI, NAVMAX, i: (history.state||{}).i,
+            terug: document.querySelector("#btnNavPrev").disabled,
+            vooruit: document.querySelector("#btnNavNext").disabled})""")
+    pg5 = ctx.new_page(); pg5.on("dialog", lambda d: d.accept())
+    pg5.goto(URL); pg5.wait_for_timeout(1500)
+    pg5.evaluate("""async n => { for (let i = 0; i < n; i++){ switchTab("M", DATA.materials[i].id, null);
+        await new Promise(r => setTimeout(r, 15)); } }""", 80)
+    pg5.wait_for_timeout(400)
+    klikken = 0
+    while klikken < 80 and not pg5.locator("#btnNavPrev").is_disabled():
+        waar = pg5.evaluate("VIEW.id")
+        pg5.click("#btnNavPrev"); pg5.wait_for_timeout(160); klikken += 1
+        if pg5.evaluate("VIEW.id") == waar:
+            pg5.wait_for_timeout(400)
+    eind = stand(pg5)
+    check(f"aan het einde draagt de ingang dezelfde teller als de app ({eind})",
+          eind["terug"] is True and eind["NAVI"] == 0 and eind["i"] == 0)
+    pg5.evaluate("() => switchTab('M', DATA.materials[3].id, null)"); pg5.wait_for_timeout(600)
+    na = stand(pg5)
+    check(f"een nieuwe stap zet de reeks netjes op één ({na})", na["NAVI"] == 1 and na["NAVMAX"] == 1)
+    pg5.click("#btnNavPrev"); pg5.wait_for_timeout(700)
+    terug = stand(pg5)
+    check(f"en één keer terug laat vooruit gewoon toe ({terug})",
+          terug["NAVI"] == 0 and terug["vooruit"] is False and terug["terug"] is True)
+    # de terugpijl blijft uit aan het einde: vooruit en weer terug mag hem niet doen oplichten
+    pg5.click("#btnNavNext"); pg5.wait_for_timeout(700)
+    pg5.click("#btnNavPrev"); pg5.wait_for_timeout(700)
+    weer = stand(pg5)
+    check(f"vooruit en weer terug laat hem uit ({weer})", weer["terug"] is True)
+
+    # dezelfde ontsporing na een herlaadbeurt: de bewaarde ingangen houden hun oude nummers
+    pg6 = ctx.new_page(); pg6.on("dialog", lambda d: d.accept())
+    pg6.goto(URL); pg6.wait_for_timeout(1500)
+    pg6.evaluate("""async n => { for (let i = 0; i < n; i++){ switchTab("M", DATA.materials[i].id, null);
+        await new Promise(r => setTimeout(r, 20)); } }""", 5)
+    pg6.wait_for_timeout(400)
+    pg6.reload(); pg6.wait_for_timeout(1800)
+    pg6.go_back(); pg6.wait_for_timeout(900)
+    herl = stand(pg6)
+    check(f"na een herlaadbeurt blijft vooruit mogelijk na één stap terug ({herl})", herl["vooruit"] is False)
+
     print("\n%d OK, %d FAIL" % (ok, fail))
     b.close()
     raise SystemExit(1 if fail else 0)

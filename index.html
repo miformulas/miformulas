@@ -353,7 +353,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922c</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922d</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -420,7 +420,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260922c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260922d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -662,7 +662,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>To order.</strong> A material you do not have yet, whether you added it from the order list or it came out of an import, carries the label "to order" and a 🛒 in the list until it is delivered.</p>
 <p>Materials come from <strong>+ New material…</strong> in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from the predilution tool. With a materials library loaded (section <a href="#s20-import-and-export">20</a>) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. The search box in Materials also reaches the library: under your own results it lists what the library knows and you do not have ("Also in the materials library:", or "Not in your inventory. In the materials library:" when you have none of them), eight at a time with "and N more; narrow the search" underneath, each with a <strong>+ Add</strong>. <strong>Browse the library…</strong>, in the + New material window, opens the whole library with a search field and a tick box per material: useful when you start from nothing and want ten materials at once. Shift-click ticks a range, as in the formula table. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. <strong>Delete material</strong> refuses as long as any version uses the material, an older or a frozen one included, and names the formulas; the list of them stands on the page as well. Removing the lines from the latest version is the way out, and for a version that cannot be edited the refusal says so and points at <strong>Delete version</strong>, or at leaving the material where it is, since one you do not use costs you nothing. When nothing uses it any more, deleting asks for confirmation and says how many order-list entries go with it.</p>
 <p>Two materials cannot carry the same name, and the app watches the alternative names in both directions. Type a name that one of your materials already carries as an alternative name and it says so before making a second material. Rename a material to a name that another one carries as an alternative name and it asks as well, with the consequence: from then on an import that uses that name lands on the renamed material instead of the other one.</p>
-<p><strong>Alternative names may be shared, and often have to be.</strong> Four ylangs come from the same plant, and two isomers with a profile of their own sit under one chemical name, so a botanical or common name can belong to several of your materials at once; the library that comes with miFormulas has twenty-one such names. Your own names stay unique and always win, but a shared alternative name no longer says which jar you mean. The app therefore does not choose one behind your back: <strong>Add line</strong>, <strong>⇄ Replace</strong> and <strong>Delivered…</strong> ask which of them you mean, the import page shows the match it would make together with the other materials that answer to the same name, and the alternative names field tells you when a name you type is already carried by another material, so that you know it will be asked about later. The suggestion lists behind those boxes carry one line per material with its alternative names beside it, and Chrome and Edge match what you type against those names too, so a botanical name four of your materials share brings up those four and picking one puts its own name in the box.</p>
+<p><strong>Alternative names may be shared, and often have to be.</strong> Four ylangs come from the same plant, and two isomers with a profile of their own sit under one chemical name, so a botanical or common name can belong to several of your materials at once; the library that comes with miFormulas has twenty-one such names. Your own names stay unique and always win, but a shared alternative name no longer says which jar you mean. The app therefore does not choose one behind your back: <strong>Add line</strong>, <strong>⇄ Replace</strong> and <strong>Delivered…</strong> ask which of them you mean, the import page shows the match it would make together with the other materials that answer to the same name, and the alternative names field tells you when a name you type is already carried by another material. It says which of the two cases you are in: another material carries it as an <strong>alternative name</strong> too, and typing it will ask which of you meant; or it is the <strong>own name</strong> of another material, and then that one always wins, so the alternative name you are typing will never reach this material at all. The suggestion lists behind those boxes carry one line per material with its alternative names beside it, and Chrome and Edge match what you type against those names too, so a botanical name four of your materials share brings up those four and picking one puts its own name in the box.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s9-materials">Browse the library: tick what belongs in your own inventory. What you already have is greyed out.</a></p>
 <p>Filling in CAS numbers, IFRA limits, pyramid levels and descriptions for many materials is tedious; <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose them from the <strong>Export all materials (Excel)</strong> export, for you to check and enter.</p>
 <p>What some apps ship as a built-in materials database, miFormulas keeps as a file you import: a <strong>materials library</strong> (section <a href="#s20-import-and-export">20</a>). With one loaded, a new material arrives with its CAS number, category, pyramid level, IFRA limit, alternative names and a few lines of odour facts already in place, all of it editable. Those are facts, and facts can be shared freely; the odour descriptions on supplier sites are somebody's writing and are not in it. The library published by miFormulas holds several hundred materials under CC BY 4.0, and <strong>Get the latest library</strong> in Settings fetches the current one. It is not inside the app, the repository or the ZIP: it changes more often than the app does, so the app asks for it when you do.</p>
@@ -724,7 +724,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s17-comparing-versions">Compare: two versions side by side, aggregated per material, largest change first.</a></p>
 <h2 id="s18-ifra-check-and-category-panel">18. IFRA check and category panel</h2>
 <p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. An IFRA limit is a percentage of the <strong>finished product</strong>, and the finished product is everything in the bottle, so the check works from each material's share of the whole weight of this version, solvent lines included, and not from its rel %, which stands on the non-solvent content alone. That share is multiplied by the figure in the box, <strong>the percentage of the finished product this formula is</strong>, and compared with the material's limit. The box starts at 100 %: the formula as it stands, with whatever solvents it holds, is what ends up on skin. Write a formula that is a concentrate to be diluted later and you type the figure it goes in at, 12 or 20, and the panel reads as the finished product would.</p>
-<p>The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. A material you ticked as a <strong>solvent</strong> stands in that table like any other, with its own share: IFRA counts it as part of the finished product whatever role it has in your formula. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. A line whose material you have since deleted is named separately: it still counts in the weights, but there is nothing left to check it against. <strong>A predilution switches the check off.</strong> Its materials live as text in the description of the predilution material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the predilution, and you check the version from before the predilution was made, or the predilution itself under Predilutions, where its materials are lines again. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
+<p>The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. It stops at eight rows, or at however many are over their limit, so nothing over a limit is ever left out; a line under the table says how many further materials stayed below theirs. A material you ticked as a <strong>solvent</strong> stands in that table like any other, with its own share: IFRA counts it as part of the finished product whatever role it has in your formula. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. A line whose material you have since deleted is named separately: it still counts in the weights, but there is nothing left to check it against. <strong>A predilution switches the check off.</strong> Its materials live as text in the description of the predilution material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the predilution, and you check the version from before the predilution was made, or the predilution itself under Predilutions, where its materials are lines again. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The IFRA check panel: materials over their limit come first.</a></p>
 <p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table works per pyramid level, over the material that carries one: a line whose material still has no level (?) is left out, so those percentages are shares of what is classified, not of the whole concentrate.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The Categories panel.</a></p>
@@ -3122,15 +3122,20 @@ function csvToImport(parsed, map, filename){   // a miformulas-import package in
   let p;
   if (use.length === 1){                       // one formula, one version: the line by line preview, with the choice of a new version
     const g = use[0];
+    // Only a sheet that HAS a Date column can mean "no date". csvFormulaGroups starts every group on date:"",
+    // so sending the key regardless made every sheet without that column yield versions with an empty date,
+    // where the rule of build 260920m is that a file naming no date at all gets today.
     p = {type: "miformulas-import", name: g.formula, versionName: entryLabel(g.entry),
-         category: g.category || "Uncategorised", source: src, date: okDate(g.date), lines: g.lines};
+         category: g.category || "Uncategorised", source: src, lines: g.lines};
+    if (map.date != null) p.date = okDate(g.date);
     if (g.notes.trim()) p.notes = g.notes.trim();
   } else {                                     // more than one version: the summary, and every formula arrives as a new one
     const formulas = [];
     for (const nm of [...new Set(use.map(g => normName(g.formula)))]){
       const gs = use.filter(g => normName(g.formula) === nm);
       formulas.push({name: gs[0].formula, category: gs[0].category || "Uncategorised",
-        versions: gs.map(g => ({name: entryLabel(g.entry), date: g.date, notes: g.notes.trim(), lines: g.lines}))});
+        versions: gs.map(g => ({name: entryLabel(g.entry), notes: g.notes.trim(), lines: g.lines,
+          ...(map.date != null ? {date: g.date} : {})}))});
     }
     p = {type: "miformulas-import", source: src, formulas};
   }
@@ -3405,11 +3410,14 @@ function ifraPanel(f, item, K){
       ? "None of the materials here carries an IFRA limit yet, so nothing was checked against one."
       : "No restricted materials present."}</div>`;
   } else {
+    // The table stops at eight, or at however many are over their limit, so nothing over a limit is ever hidden.
+    // What used to disappear in silence was the rest of the restricted list; it says so now, like the usage list.
+    const toon = restricted.slice(0, over.length > 8 ? over.length : 8), rest = restricted.length - toon.length;
     h += `<table class="lines"><thead><tr><th>Material</th><th class="num">In product %</th><th class="num">IFRA limit %</th><th class="num">Used</th></tr></thead><tbody>
-    ${restricted.slice(0, over.length > 8 ? over.length : 8).map(r => `<tr${r.ratio>1?' style="color:var(--danger);font-weight:600"':''}>
+    ${toon.map(r => `<tr${r.ratio>1?' style="color:var(--danger);font-weight:600"':''}>
       <td>${esc(r.m.name)}</td><td class="num">${fmt(r.finalPct,3)}</td><td class="num">${r.lim === 0 ? "prohibited" : fmt(r.lim,3)}</td>
       <td class="num">${r.lim>0?fmt(r.ratio*100,0)+"%":"not allowed"}</td></tr>`).join("")}
-    </tbody></table>`;
+    </tbody></table>${rest > 0 ? `<div class="hint" id="ifraMore">and ${rest} more restricted material(s), all further below their limit.</div>` : ""}`;
   }
   if (unknown.length) h += `<div class="hint">Not yet verified against IFRA (${unknown.length}): ${unknown.slice(0,12).map(esc).join(", ")}${unknown.length>12?", …":""}</div>`;
   // a line to a deleted material used to land in that list as "undefined", while it counts in the weights
@@ -3735,11 +3743,12 @@ function resolveBulk(p){   // once per file: every line checked, then only the t
   const perF = []; const fresh = new Map();   // a material to create is counted once for the whole file
   let nv = 0, nl = 0, matched = 0, bad = 0, warn = 0, solv = 0;
   for (const f of asList(p.formulas)){
-    let fl = 0, fbad = 0, fnew = 0;
+    let fl = 0, fbad = 0, fnew = 0, fv = 0;
     for (const v of asList(f?.versions)){
       nv++;
+      let vl = 0;
       for (const L of asList(v?.lines)){
-        nl++; fl++;
+        nl++; fl++; vl++;
         const r = resolveImportLine(L);
         if (r.bad){ bad++; fbad++; continue; }
         if (r.m){ matched++; if (!r.dilOwned) warn++; if (r.solvMismatch) solv++; }
@@ -3747,12 +3756,17 @@ function resolveBulk(p){   // once per file: every line checked, then only the t
                  const hit = listFind(L.material);   // the names that one material will answer to, counted once
                  if (hit) for (const a of [hit.name, ...(hit.aliases || [])]){ const kk = normName(a); if (kk) fresh.set(kk, 1); } } }
       }
+      // applyBulkImport keeps only a version that holds lines, and only a formula that keeps a version. The
+      // window used to count everything the file names, so it promised formulas and versions that never arrived.
+      if (vl) fv++;
     }
-    perF.push({name: f?.name || "?", versions: asList(f?.versions).length, lines: fl, bad: fbad, fresh: fnew,
+    perF.push({name: f?.name || "?", versions: asList(f?.versions).length, komen: fv, lines: fl, bad: fbad, fresh: fnew,
                labels: asList(f?.versions).map(v => (v && v.name) || ""),   // so the labels are visible before you confirm
                twin: !!DATA.formulas.find(x => normName(x.name) === normName(f?.name))});
   }
-  p._sum = {perF, nv, nl, matched, bad, warn, solv, fresh: fresh.size,
+  const komenV = perF.reduce((n, f) => n + f.komen, 0), komenF = perF.filter(f => f.komen).length;
+  p._sum = {perF, nv, nl, matched, bad, warn, solv, fresh: fresh.size, komenV, komenF,
+            wegV: nv - komenV, wegF: perF.length - komenF,
             twins: perF.filter(x => x.twin).length, badF: perF.filter(x => x.bad).length};
   return p._sum;
 }
@@ -3761,7 +3775,11 @@ function renderBulkImport(){   // several formulas at once: a summary, because a
   c.innerHTML = `<h2>Import formulas – ${p.formulas.length} formulas</h2>
   <div class="metaLine">${esc(p.source || "a miFormulas file")}</div>
   <div class="panelBox"><h3>Check before confirming</h3>
-    <div><b>${p.formulas.length} formulas · ${s.nv} versions · ${s.nl} lines</b></div>
+    <div><b>${s.komenF} formula${s.komenF === 1 ? "" : "s"} · ${s.komenV} version${s.komenV === 1 ? "" : "s"} · ${s.nl} lines</b></div>
+    ${s.wegV || s.wegF ? `<div class="hint" id="impDrop" style="color:var(--amber-ink)">${
+        s.wegV ? `${s.wegV} version(s) in this file hold no lines and are left out` : ""}${
+        s.wegV && s.wegF ? ", so " : ""}${
+        s.wegF ? `${s.wegF} formula(s) are left out entirely` : ""}. The file names ${p.formulas.length} formula(s) and ${s.nv} version(s).</div>` : ""}
     <div class="hint">${s.matched} line(s) matched a material you own · ${s.fresh} material(s) will be created
       as “to order”; they are not put on the order list, so To order stays yours.</div>
     ${s.warn ? `<div class="hint" id="impWarn" style="color:var(--amber-ink)">${s.warn} line(s) use a dilution you do not stock (⚠ convert them in a next version).</div>` : ""}
@@ -3773,8 +3791,9 @@ function renderBulkImport(){   // several formulas at once: a summary, because a
   <table class="lines"><thead><tr><th>Formula</th><th class="num">Versions</th><th class="num">Lines</th><th class="num">New materials</th><th>Status</th></tr></thead><tbody>
   ${s.perF.map(f => `<tr${f.bad ? ' class="badLine"' : ""}><td>${esc(f.name)}${
       (f.labels || []).some(Boolean) ? `<div class="hint">${esc((f.labels || []).map(l => l || "–").join(" · "))}</div>` : ""}</td>
-    <td class="num">${f.versions}</td><td class="num">${f.lines}</td><td class="num">${f.fresh || ""}</td>
+    <td class="num">${f.komen < f.versions ? `${f.komen} of ${f.versions}` : f.versions}</td><td class="num">${f.lines}</td><td class="num">${f.fresh || ""}</td>
     <td>${f.bad ? `<span style="color:var(--danger)">${f.bad} line(s) cannot be imported</span>`
+              : !f.komen ? '<span style="color:var(--amber-ink)">no lines – left out</span>'
               : f.twin ? '<span style="color:var(--amber-ink)">name taken – arrives as “(import)”</span>'
               : '<span class="hint">new formula</span>'}</td></tr>`).join("")}
   </tbody></table>
@@ -3991,13 +4010,19 @@ function renderOrders(){
   </tbody></table></div>` : `<p class="hint">Nothing to order. Add a material above, or use “Add to order list” on a material page.</p>`}`;
   $("#btnOrdAdd").addEventListener("click", () => {
     const name = $("#ordName").value.trim(); if (!name) return;
-    if (items.some(o => normName(o.name) === normName(name))){ alert("That material is already on the order list."); return; }
     // the same folding as everywhere else: "Vertofix coeur" is the Vertofix cœur you already own, not a new material
     // the name you typed stays on the entry when it is a name of that material; a material found by the wider
     // search (its CAS, its supplier, its description) puts its own name there, or the entry would say something
     // that is nowhere on the material page
-    const zet = (m, eigenNaam) => { snapO(); items.push({id: uid("o-"), materialId: m ? m.id : null,
-      name: m && eigenNaam ? m.name : name, note: $("#ordNote").value.trim(), price: "", added: today()});
+    // The duplicate check waits until the material is known. It used to compare the text you typed with the names
+    // already on the list, so an alternative name, a ligature or a hit on a supplier or CAS number slipped past and
+    // the list carried the same material twice; Delivered then closed one row and left the others ordering it still.
+    const zet = (m, eigenNaam) => {
+      if (m ? items.some(o => o.materialId === m.id) : items.some(o => normName(o.name) === normName(name))){
+        alert("That material is already on the order list."); return;
+      }
+      snapO(); items.push({id: uid("o-"), materialId: m ? m.id : null,
+        name: m && eigenNaam ? m.name : name, note: $("#ordNote").value.trim(), price: "", added: today()});
       markDirty(); render(); };
     const cands = matsByName(name);
     if (cands.length > 1){ pickMaterial(asHits(cands), name, m => zet(m, false)); return; }
@@ -4234,10 +4259,25 @@ function renderMaterial(m){
     if (k === "aliases"){
       // Sharing a name is normal: the same plant, or an isomer with a profile of its own. It is the app that has to
       // keep its head, so it says which jars would answer to it rather than refusing the name.
+      // Two different clashes, and only one of them ends in the question this box used to promise for both.
+      // Against another material's ALIAS: matByName records the shared name and every caller asks which you mean.
+      // Against another material's own NAME: a name of your own always wins (matByName, the byName branch), so
+      // nothing is ever asked and the alias you are typing can never reach this material at all. Say which it is.
       const eigen = new Set(String(v).split(";").map(a => normName(a)).filter(Boolean));
-      const deel = DATA.materials.filter(x => x !== m &&
-        [...eigen].some(a => normName(x.name) === a || (x.aliases || "").split(";").some(b => normName(b) === a)));
-      if (deel.length && !confirm(`${deel.map(x => `“${x.name}”`).join(", ")} already answer${deel.length === 1 ? "s" : ""} to one of these names.\n\n`
+      const raakt = x => [...eigen].filter(a => normName(x.name) === a ||
+        (x.aliases || "").split(";").some(b => normName(b) === a));
+      const opNaam = [], opAlias = [];
+      for (const x of DATA.materials){
+        if (x === m || !raakt(x).length) continue;
+        ([...eigen].some(a => normName(x.name) === a) ? opNaam : opAlias).push(x);
+      }
+      const noem = l => l.map(x => `“${x.name}”`).join(", ");
+      if (opNaam.length){
+        if (!confirm(`${noem(opNaam)} ${opNaam.length === 1 ? "is" : "are"} the name of a material of yours.\n\n`
+            + `A name of your own always wins, so typing it will keep finding ${opNaam.length === 1 ? "that material" : "those materials"} `
+            + `and this alternative name will never reach “${m.name}”. Keep it anyway?`)){ render(); return; }
+      }
+      if (opAlias.length && !confirm(`${noem(opAlias)} already answer${opAlias.length === 1 ? "s" : ""} to one of these names.\n\n`
           + `Keep it anyway? Adding a line or importing one under that name then asks which of them you mean, instead of picking one.`)){ render(); return; }
     }
     snapM(m); m[k] = v; markDirty();
@@ -4892,7 +4932,15 @@ function navState(){
 function pushPlace(){
   if (NAVBACK) return;            // a popstate put us here, so its entry exists already
   try{
-    if (NAVFIRST){ NAVFIRST = false; history.replaceState(navState(), ""); }
+    if (NAVFIRST){
+      NAVFIRST = false;
+      // A reload keeps the entries around this one, and they keep the numbers they were pushed with. Starting
+      // the count at zero made the app disagree with its own history: one step back then landed on a higher
+      // number than the app knew, and the forward arrow went out while a forward step was there.
+      const st = history.state;
+      if (st && st.mf && typeof st.i === "number"){ NAVI = st.i; NAVMAX = Math.max(NAVMAX, st.i); }
+      history.replaceState(navState(), "");
+    }
     else { NAVI = NAVI + 1; NAVMAX = NAVI; history.pushState(navState(), ""); }   // a new step drops what lay ahead
   }catch(e){}                     // a browser that refuses it simply has no back and forward
   syncNav();
@@ -4909,7 +4957,15 @@ let NAVWAIT = null;
 // moment means this was the end of what it kept, and the counter moves to that end so the arrow goes out.
 function navStep(dir){
   clearTimeout(NAVWAIT);
-  NAVWAIT = setTimeout(() => { NAVWAIT = null; if (dir < 0) NAVI = 0; else NAVI = NAVMAX; syncNav(); }, 250);
+  NAVWAIT = setTimeout(() => {
+    NAVWAIT = null;
+    if (dir < 0) NAVI = 0; else NAVI = NAVMAX;
+    // The entry the browser is sitting on still carries the index it was pushed with, and a later popstate
+    // would read that stale number back: the forward arrow then went out while a forward step existed, and
+    // the back arrow lit up again at the very end. So the entry is given the counter we just concluded.
+    try{ history.replaceState(navState(), ""); }catch(e){}
+    syncNav();
+  }, 250);
   try{ if (dir < 0) history.back(); else history.forward(); }
   catch(e){ clearTimeout(NAVWAIT); NAVWAIT = null; }
 }
@@ -4917,6 +4973,10 @@ window.addEventListener("popstate", e => {
   const s = e.state;
   clearTimeout(NAVWAIT); NAVWAIT = null;     // the step landed, so the end-of-history guess is off
   if (!DATA || !s || !s.mf) return;          // an entry that is not ours: let the browser do its thing
+  // We moved back, so the entry we just left is reachable going forward, whatever this session had counted.
+  // After a reload the counters start at zero while the surviving entries keep their old numbers, and without
+  // this the first step back switched the forward arrow off.
+  if (typeof s.i === "number" && s.i < NAVI) NAVMAX = Math.max(NAVMAX, NAVI);
   NAVI = typeof s.i === "number" ? s.i : NAVI;
   NAVBACK = true;
   try{
