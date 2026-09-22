@@ -12,7 +12,7 @@
    through the whole set-up with screenshots; https://miformulas.com/docs/manual.html
 
    Opening the address in a browser is the check that it works: it answers
-   {"error":"invalid token","worker":3}, because a browser sends no token. Anything else names the
+   {"error":"invalid token","worker":5}, because a browser sends no token. Anything else names the
    step that was missed.
 
    In the bucket: miformulas-data.json, and snapshots/YYYY-MM-DD.json, the state before the first

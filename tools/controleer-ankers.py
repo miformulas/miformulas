@@ -18,7 +18,11 @@ C. The bare mentions. Files that name a chapter without linking to it (server/wo
    meant. They are printed with the title of the chapter the number now points at, for a glance. This
    is where "Section 20 -> 20. Import and export" in worker.js gives itself away.
 
-Run it after every renumbering of the manual and before a release. Exit code 1 when A or B find
+D. The numbers the documentation copies out of the code. The build stamp in "This manual describes build
+   ..." and the Worker's VERSION in `{"worker":N}` are written by hand into the texts, and both have
+   already travelled wrong into a release. Every mention has to match what the code says.
+
+Run it after every renumbering of the manual and before a release. Exit code 1 when A, B or D find
 something; pass C never fails the run.
 """
 import importlib.util, os, re, sys
@@ -154,6 +158,48 @@ for rel, regel, tekst, titel in rijen:
     print(f"   {rel + ':' + str(regel):<34} {tekst:<12} -> {titel}")
 if not rijen:
     print("   geen")
+
+# ---------- D. de getallen die de documentatie uit de code overschrijft ----------
+# Twee getallen staan in de teksten omdat de code ze zegt, en ze reizen met de hand mee. Allebei zijn ze
+# al eens verkeerd in een release beland: de bouwstempel in v1.6 (de handleiding noemde 260920n terwijl
+# de app 260920o was) en het workernummer bij 260920i (de handleiding hield 3 aan terwijl de code 5 werd).
+print("\nD. Getallen die de code bepaalt")
+
+
+def uit_code(rel, patroon, wat):
+    s = lees(rel)
+    m = re.search(patroon, s or "")
+    if not m:
+        fouten.append(f"{rel}: {wat} niet gevonden, dus niets om de teksten tegen te houden")
+        return None
+    return m.group(1)
+
+
+def vergelijk(waarde, patroon, wat, bestanden):
+    """Elke plaats waar de teksten dit getal noemen, moet het getal van de code noemen."""
+    n = 0
+    for rel in bestanden:
+        s = lees(rel)
+        if s is None:
+            continue
+        for m in re.finditer(patroon, s):
+            n += 1
+            if m.group(1) != waarde:
+                regel = s[:m.start()].count("\n") + 1
+                fouten.append(f"{rel}:{regel}: {wat} staat hier op {m.group(1)}, de code zegt {waarde}")
+    print(f"   {wat}: {waarde} volgens de code, {n} vermelding(en) in de teksten")
+    return n
+
+
+bouw = uit_code("index.html", r'id="build"[^>]*>\s*([0-9a-z]+)\s*<', "de bouwstempel")
+if bouw:
+    vergelijk(bouw, r"describes build ([0-9a-z]+)", "de bouwstempel",
+              ["docs/manual.md", "docs/manual.html", "index.html"])
+wv = uit_code("server/worker.js", r"const VERSION = (\d+)", "het versienummer van de Worker")
+if wv:
+    vergelijk(wv, r'"worker":\s*(\d+)', "het versienummer van de Worker",
+              ["docs/manual.md", "docs/manual.html", "index.html", "server/worker.js", "README.md",
+               "docs/ai-prompts.md", "docs/ai-prompts.html"])
 
 print()
 for f in fouten:

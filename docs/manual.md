@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260922b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
+This manual describes build 260922c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
 
 ## Contents
 
@@ -316,7 +316,7 @@ On your other computer and on your phone, only step 9: the same address, the sam
 
     curl -H "X-Token: your-token" "https://miformulas-data.yourname.workers.dev/?ping=1"
 
-The answer is `{"ok":true,"worker":3,"etag":…,"bytes":…}`, where `bytes` is the size of the data file in the bucket, to hold against the size of your last Backup. The R2 page in the dashboard shows the same file with its size, next to the folder `snapshots/`.
+The answer is `{"ok":true,"worker":5,"etag":…,"bytes":…}`, where `bytes` is the size of the data file in the bucket, to hold against the size of your last Backup. The R2 page in the dashboard shows the same file with its size, next to the folder `snapshots/`.
 
 **Keeping it.** There is nothing to maintain. The app itself comes from miformulas.com and updates itself, and the Worker only holds your data; a newer `worker.js` is worth pasting in only when the release notes say so, and your data stays where it is because the code and the storage are separate things.
 
