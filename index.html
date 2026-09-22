@@ -323,7 +323,9 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 @media print{
   /* printing from the dark theme must not put light grey on white paper. The theme sets these on
      :root[data-theme="dark"], which weighs more than a bare :root, so this has to match it. */
-  :root,:root[data-theme="dark"],:root[data-theme="light"]{--muted:#6C7A88;--ink:#212A33}
+  /* the automatic dark branch is :root:not([data-theme="light"]) and outweighs a bare :root, so it has to be
+     named here too, or a printout from the default theme keeps the dark values */
+  :root,:root[data-theme="dark"],:root[data-theme="light"],:root:not([data-theme="light"]){--muted:#6C7A88;--ink:#212A33}
   body>*{display:none !important}
   #printArea{display:block !important;font:14.5px/1.5 "Segoe UI",system-ui,sans-serif;color:#000}
   #printArea h2{margin:0 0 .2rem}
@@ -353,7 +355,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922d</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922e</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -420,7 +422,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260922d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260922e. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -936,6 +938,12 @@ function migrate(d){
     if (!m.dilutions.length) m.dilutions = [{pct: 100, isBase: true, date: today(), notes: ""}];
     else if (!m.dilutions.some(d => d.isBase))    // without one basePct reads 100 %, a strength the material does not have
       m.dilutions.reduce((a,x) => !a || x.pct > a.pct ? x : a, null).isBase = true;
+    // The materials library writes aliases as a list, and a file written by hand or by an AI copies that shape.
+    // Everything downstream reads one string with semicolons (matByName, ownNames, the search, renaming), so it
+    // is folded here once rather than guarded at every reader.
+    if (Array.isArray(m.aliases))
+      m.aliases = m.aliases.filter(a => typeof a === "string").map(a => a.trim()).filter(Boolean).join("; ");
+    else if (m.aliases != null && typeof m.aliases !== "string") m.aliases = "";
     delete m._descHit;   // transient search flag that once leaked into the file
   }
   d.orderList = rows(d.orderList);
@@ -1344,7 +1352,7 @@ const VIALABEL = {name: "", alias: "alternative name", cas: "CAS number", suppli
 // the choice is made there and then. A browser that only matches the value shows nothing for such a word,
 // and the wider search behind the button catches it after you press Add line.
 const matListHtml = () => (MATLIST ||= DATA.materials.map(m => {
-  const al = (m.aliases || "").split(";").map(a => a.trim()).filter(Boolean).join("; ");
+  const al = String(m.aliases || "").split(";").map(a => a.trim()).filter(Boolean).join("; ");
   return `<option value="${esc(m.name)}"${al ? ` label="${esc(al)}"` : ""}>`;
 }).join(""));
 const catColourByName = n => { const c = (DATA.categoryColours||{})[n]; return !c || c.toUpperCase() === "#FFFFFF" ? "var(--muted)" : c; };
@@ -1758,7 +1766,7 @@ function renderFormula(f){
         <input id="trialText" aria-label="Trial-log entry" placeholder="Smelling note, maceration observation…" style="flex:1;min-width:14rem">
         <button class="small" id="btnAddTrial">Add</button></div></div>`;
     h += catPanel(K);
-    h += ifraPanel(f, item, K);
+    h += ifraPanel(f, item, K, editable);
     h += `<div class="toolRow" style="margin-top:.6rem">${item.prepared
       ? `<span class="badge" style="background:var(--accent-soft);color:var(--accent-ink)">prepared ${item.prepared.date} · ${item.prepared.materials} tracked material(s) · −${fmt(item.prepared.deductedG)} g</span>`
       : `<button class="small" id="btnPrep">Mark as prepared</button> <span class="hint">deducts base-dilution lines from tracked stock – once per version</span>`}</div>`;
@@ -1817,10 +1825,10 @@ function renderFormula(f){
   $("#btnDelV")?.addEventListener("click", () => {
     const laatste = f.versions.length === 1;
     if (!confirm(`Delete ${vName(item)} of “${f.name}”?\n\nUndo (Ctrl+Z) brings it back.`
-      + (laatste ? `\n\nIt is the only version, so the formula stays in your list without lines. Delete formula removes the formula itself.` : "")
-      + `\n\nUndo (Ctrl+Z) can bring it back during this session.`)) return;
+      + (laatste ? `\n\nIt is the only version, so the formula stays in your list without lines. Delete formula removes the formula itself.` : ""))) return;
     snapF(f); f.versions.splice(sub.idx,1);
-    VIEW.sub = {type:"v", idx: f.versions.length-1}; markDirty(); render();
+    VIEW.sub = {type:"v", idx: f.versions.length-1, bench: !!sub.bench};   // the bench is how you look at a formula
+    markDirty(); render();
   });
   if (item && !sub.bench){
     let lastCb = null;
@@ -1857,7 +1865,7 @@ function renderFormula(f){
   $("#btnShare")?.addEventListener("click", ()=> shareVersion(f, item, K));
   $("#ifraDose")?.addEventListener("change", e => {
     const v = parseNum(e.target.value);
-    if (v != null && !(v > 0)){ alert("A dosage is a percentage above 0."); IDOSE = null; }   // 0 or below read every material as within limits
+    if (v != null && !(v > 0 && isFinite(v))){ alert("A dosage is a percentage above 0."); IDOSE = null; }   // 0 or below read every material as within limits, and 1e999 is not a percentage
     else IDOSE = v;
     IFRAOPEN = true; render(); });
   $("#ifraBox")?.addEventListener("toggle", e => { IFRAOPEN = e.target.open; });
@@ -1949,7 +1957,7 @@ function renderLines(f, item, lines, K, editable){
       ? ` <span title="This dilution is not among the material's dilutions: convert to an available dilution (dilution dialog: preserve rel% + exchange solvent) in a next version" style="color:var(--amber-ink);cursor:help">⚠</span>` : "";
     if (editable){
       h += `<td>${dilSelect(r.m, r.dil, i)}${dilWarn}</td>
-        <td class="num"><input class="w" data-i="${i}" type="text" inputmode="decimal" value="${fmtIn(r.w)}" aria-label="Weight of ${esc(r.m.name || "line " + (i+1))} in grams"></td>`;
+        <td class="num"><input class="w" data-i="${i}" type="text" inputmode="decimal" value="${fmtIn(r.w)}" aria-label="Weight of ${esc(r.m.name || "line " + (i+1))} at ${fmtS(r.dil)}% in grams"></td>`;
     } else {
       h += `<td>${fmtS(r.dil)}%${dilWarn}</td><td class="num">${fmt(r.w)}</td>`;
     }
@@ -1980,8 +1988,9 @@ function renderLines(f, item, lines, K, editable){
 function dilSelect(m, cur, i){
   // only the material's own dilutions are offered – 100% is NOT implied (some RMs exist only diluted)
   const dils = [...new Set([...(m.dilutions||[]).map(d=>d.pct), cur])].sort((a,b)=>b-a);
-  // the name of the material is what tells a screen reader which line this picker belongs to
-  return `<select class="d" data-dil="${i}" aria-label="Dilution of ${esc(m.name || "line " + (i+1))}">` +
+  // The name alone does not say which line: one material at two dilutions is ordinary in perfumery, and a
+  // screen reader then read two identical controls. The dilution of this row tells them apart, as on the tick box.
+  return `<select class="d" data-dil="${i}" aria-label="Dilution of ${esc(m.name || "line " + (i+1))}, now ${fmtS(cur)}%">` +
     dils.map(d=>`<option value="${d}"${d===cur?" selected":""}>${fmtS(d)}%</option>`).join("") +
     `<option value="custom">custom…</option></select>`;
 }
@@ -2460,7 +2469,7 @@ function exportInventoryLibrary(){   // your own materials as a library file: th
     if (!picked.size){ alert("Tick the materials you want to export."); return false; }
     const materials = all.filter(m => picked.has(m.id)).map(m => {
       const e = {name: m.name};
-      const al = (m.aliases || "").split(";").map(a => a.trim()).filter(Boolean);
+      const al = String(m.aliases || "").split(";").map(a => a.trim()).filter(Boolean);
       if (al.length) e.aliases = al;
       if ((m.cas || "").trim()) e.cas = m.cas.trim();
       if ((m.category || "").trim()) e.category = m.category.trim();
@@ -2702,7 +2711,7 @@ function moveInto(f){
   };
   $("#mvTarget").addEventListener("change", fillBase); fillBase();
   $("#mvAdd")?.addEventListener("change", e => {
-    const x = movables.find(y => y.name === e.target.value.trim());
+    const x = movables.find(y => normName(y.name) === normName(e.target.value));   // the same folding as everywhere else
     if (!x || document.querySelector(`#mvTogether input.mvTog[data-id="${x.id}"]`)) return;
     $("#mvTogether").insertAdjacentHTML("beforeend", togRow(x)); e.target.value = "";
     document.querySelector(`#mvAddList option[value="${CSS.escape(x.name)}"]`)?.remove(); fillBase();
@@ -2797,7 +2806,8 @@ function newVersion(f, fromIdx){
     lines: src ? src.lines.map(l => ({...l})) : []};
   if (src && src.bench) v.bench = structuredClone(src.bench);   // the way you weigh it stays the same
   f.versions.push(v); f.frozenImport = false;
-  VIEW.sub = {type:"v", idx: f.versions.length-1};
+  // the arrangement travels to the new version, so the view it was made in travels with it
+  VIEW.sub = {type:"v", idx: f.versions.length-1, bench: !!(VIEW.sub && VIEW.sub.bench)};
   markDirty(); render();
 }
 
@@ -3368,7 +3378,7 @@ function catPanel(K){
 // percentage here can be right. isPredil marks the ones the app makes; the category is the fallback for
 // the predilutions already in a data file, so that nothing has to be migrated or rewritten.
 const isPredil = m => !!(m && (m.isPredil || m.category === "Predils"));
-function ifraPanel(f, item, K){
+function ifraPanel(f, item, K, editable){
   const predils = [...new Set(K.rows.filter(r => isPredil(r.m)).map(r => r.m.name).filter(Boolean))];
   if (predils.length){   // switched off rather than wrong: a check that looks past a mix reads as a clearance
     return `<details class="panelBox" id="ifraBox"${IFRAOPEN?" open":""}>
@@ -3421,7 +3431,10 @@ function ifraPanel(f, item, K){
   }
   if (unknown.length) h += `<div class="hint">Not yet verified against IFRA (${unknown.length}): ${unknown.slice(0,12).map(esc).join(", ")}${unknown.length>12?", …":""}</div>`;
   // a line to a deleted material used to land in that list as "undefined", while it counts in the weights
-  if (gone) h += `<div class="hint" style="color:var(--amber-ink)" id="ifraGone">${gone} line(s) point to a material that no longer exists. They count in the weights above, but there is nothing left to check them against: give them a material again with ⇄, or remove them.</div>`;
+  // ⇄ and the line delete are only drawn on an editable version, so an older or frozen one cannot follow
+  // that instruction: there the way out is a new version.
+  if (gone) h += `<div class="hint" style="color:var(--amber-ink)" id="ifraGone">${gone} line(s) point to a material that no longer exists. They count in the weights above, but there is nothing left to check them against: ${
+    editable ? "give them a material again with ⇄, or remove them" : "make a new version to give them a material again, or to remove them"}.</div>`;
   return h + `</details>`;
 }
 
@@ -3457,7 +3470,7 @@ function renderBench(f, item, lines, K){
   // undo step and a modified date behind in a state that may never save. benchMove() refuses as well.
   const drag = readOnly() ? "false" : "true";
   const row = k => { const r = K.rows[k.i]; return `<div class="brow" draggable="${drag}" data-key="${k.key}">
-    <input type="checkbox" class="bsel" data-key="${k.key}" aria-label="Select ${esc(r.m.name || "this line")}"><span class="bgrip">⠿</span>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}
+    <input type="checkbox" class="bsel" data-key="${k.key}" aria-label="Select ${esc(r.m.name || "this line")} ${fmtS(r.dil)}%"><span class="bgrip">⠿</span>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}
     <span class="bname">${esc(r.m.name)}${fridgeMark(r.m, r.dil)}${r.m.isSolvent?" (solvent)":""}</span><span class="bdil">${fmtS(r.dil)}%</span>
     <span class="bw">${fmt(r.w)} g</span><span class="bp">${r.rel==null?"–":fmt(r.rel,2)}%</span></div>`; };
   const stats = keys => { let w = 0, rel = 0, cont = 0;
@@ -3685,7 +3698,7 @@ function renderCompare(f, sub){
   rows.sort((x,y) => CSORT.dir * by(x,y));
   const cell = e => e ? `${fmt(e.w)} g <span class="hint">(${[...e.dils].sort((a,b)=>b-a).map(fmtS).join("/")}%)</span>` : "–";
   const relCell = e => e ? (e.rel==null ? "–" : fmt(e.rel,2)) : "–";
-  const sel = (id, cur) => `<select id="${id}" aria-label="Version ${id === "cmpA" ? "A, the older one" : "B, the newer one"}">${opts.map(o=>`<option value="${o.key}"${o.key===cur?" selected":""}>${esc(o.label)}</option>`).join("")}</select>`;
+  const sel = (id, cur) => `<select id="${id}" aria-label="Version ${id === "cmpA" ? "A" : "B"}">${opts.map(o=>`<option value="${o.key}"${o.key===cur?" selected":""}>${esc(o.label)}</option>`).join("")}</select>`;
   const arrow = k => CSORT.key===k ? (CSORT.dir>0?" ▲":" ▼") : "";
   const hdr = (k, label, num) => `<th${num?' class="num"':''}><span class="sortable" data-csort="${k}">${label}${arrow(k)}</span></th>`;
   c.innerHTML = `<h2>${esc(f.name)} – compare</h2>
@@ -3880,7 +3893,7 @@ function renderImport(){
   const shared = /^shared from miformulas/i.test(p.source || "");   // a file from another miFormulas: the round-number hint means nothing there
   const twin = DATA.formulas.find(x => normName(x.name) === normName(p.name));
   const pick = p.targetFormula ? DATA.formulas.find(x => normName(x.name) === normName(p.targetFormula)) : twin;
-  c.innerHTML = `<h2>Import formula – ${esc(p.name||"?")}</h2>
+  c.innerHTML = `<h2>Import formula – ${esc(p.name || "Imported formula")}</h2>
   <div class="metaLine">${esc(p.category||"Uncategorised")}${p.source?` · ${esc(p.source)}`:""}</div>
   <div class="panelBox"><h3>Check before confirming</h3>
     <div class="toolRow">Import as
@@ -4519,8 +4532,11 @@ $("#btnOpen").addEventListener("click", openFile);
 function sheetHtml(f, item, lines){
   const K = calc(lines);
   const label = vName(item);
+  // No price anywhere means a cost of 0,00, which says nothing: the Cost column left the printed formula in
+  // 260920k for that reason, and the summary line of the sheet carried the same figure on.
+  const kost = K.rows.some(r => r.m && r.m.costPerGram != null) ? ` · est. cost € ${fmt(K.totalCost,2)}` : "";
   return `<h2>${esc(f.name)} – ${esc(label)}</h2>
-  <div>Printed ${today()} · total ${fmt(K.totalW||0)} g · concentrate ${fmt(K.totalAbsPct,2)}% · est. cost € ${fmt(K.totalCost,2)}</div>
+  <div>Printed ${today()} · total ${fmt(K.totalW||0)} g · concentrate ${fmt(K.totalAbsPct,2)}%${kost}</div>
   <table class="bench"><colgroup><col class="cbc"><col class="pyc"><col class="matc"><col class="dilc"><col class="wc"><col class="rc"></colgroup>
   <thead><tr><th></th><th></th><th>Material</th><th>Dilution</th><th class="num">Weight (g)</th><th class="num">Rel %</th></tr></thead><tbody>
   ${sortRows(K.rows).map(r =>

@@ -243,6 +243,10 @@ with sync_playwright() as p:
     check("en wijst op Ctrl+Z", any("Ctrl+Z" in m for m in msgs))
     check("bij twee versies zegt het niets over een formule zonder regels",
           not any("without lines" in m for m in msgs))
+    # mini-audit C1: sinds 260920n stond de Undo-zin er twee keer, in twee bewoordingen
+    check(f"en de Undo-zin staat er één keer ({eerste.count('Ctrl+Z')}x)", eerste.count("Ctrl+Z") == 1)
+    check(f"twee alinea's voor één ja of nee ({len(eerste.split(chr(10)+chr(10)))})",
+          len(eerste.split("\n\n")) == 2)
     check("en Cancel laat de versie staan",
           page.evaluate("""() => DATA.formulas.find(x => x.id === "f-oud").versions.length""") == 2)
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-oud");
@@ -253,6 +257,12 @@ with sync_playwright() as p:
     laatste_msg = (msgs[0] if msgs else "")
     check(f"bij de laatste versie zegt het wat er overblijft ({laatste_msg[-90:]!r})",
           any("only version" in m and "without lines" in m and "Delete formula" in m for m in msgs))
+    # mini-audit C1: en die uitleg stond tussen de twee Undo-zinnen in, dus vier alinea's
+    check(f"ook daar één Undo-zin en drie alinea's ({laatste_msg.count('Ctrl+Z')}x, "
+          f"{len(laatste_msg.split(chr(10)+chr(10)))} alinea's)",
+          laatste_msg.count("Ctrl+Z") == 1 and len(laatste_msg.split("\n\n")) == 3)
+    check("met de uitleg als laatste alinea, niet ingesloten",
+          laatste_msg.split("\n\n")[-1].startswith("It is the only version"))
     mode["v"] = "accept"
     page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-oud");
         DATA.materials = DATA.materials.filter(x => x.id !== "m-oud" && x.id !== "m-nu");
@@ -320,6 +330,20 @@ with sync_playwright() as p:
     page.click("#btnCmp"); page.wait_for_timeout(500)
     ab2 = page.evaluate("""() => ({a: VIEW.sub.a, b: VIEW.sub.b})""")
     check(f"en vanaf een latere versie blijft die zelf de B-kant ({ab2})", ab2 == {"a": "v0", "b": "v1"})
+
+    # mini-audit C6: de keuzelijsten heetten "A, the older one" en "B, the newer one", ook nadat je ze omdraait
+    la = page.get_attribute("#cmpA", "aria-label") or ""
+    lb = page.get_attribute("#cmpB", "aria-label") or ""
+    check(f"de keuzelijsten van Compare heten gewoon A en B ({la!r}, {lb!r})",
+          la == "Version A" and lb == "Version B")
+    page.select_option("#cmpA", "v1"); page.wait_for_timeout(400)
+    page.select_option("#cmpB", "v0"); page.wait_for_timeout(400)
+    la2 = page.get_attribute("#cmpA", "aria-label") or ""
+    lb2 = page.get_attribute("#cmpB", "aria-label") or ""
+    check(f"en omgedraaid beweren ze niets over ouder of nieuwer ({la2!r}, {lb2!r})",
+          "older" not in la2 + lb2 and "newer" not in la2 + lb2)
+    page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:1})"""); page.wait_for_timeout(400)
+    page.click("#btnCmp"); page.wait_for_timeout(500)
 
     # 14: Ctrl+P in Compare zegt wat er aan de hand is, met een formule open
     page.evaluate("""() => { document.querySelector("#printArea").innerHTML = "";

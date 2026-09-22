@@ -28,6 +28,9 @@ cp "$SRC" "$TMP/web/raw.php"                                       # untouched: 
 sed "s/^\$TOKEN    = '.*';/\$TOKEN    = '$TOKEN';/" "$SRC" > "$TMP/web/data.php"
 sed "s#^\$DATA_DIR = .*#\$DATA_DIR = '$OUT';#" "$TMP/web/data.php" > "$TMP/web/outside.php"
 sed "s#^\$DATA_DIR = .*#\$DATA_DIR = '$TMP/gone';#" "$TMP/web/data.php" > "$TMP/web/nodir.php"
+mkdir -p "$TMP/web-data"                                           # beside the web root, and its path starts with it
+sed "s#^\$DATA_DIR = .*#\$DATA_DIR = '$TMP/web-data';#" "$TMP/web/data.php" > "$TMP/web/sibling.php"
+sed "s#^\$DATA_DIR = .*#\$DATA_DIR = '$TMP/web';#"      "$TMP/web/data.php" > "$TMP/web/root.php"
 grep -q "^\$TOKEN    = '$TOKEN';" "$TMP/web/data.php" || { echo "could not set the token in the copy"; exit 2; }
 
 # A port can already be taken by something else, and php -S then fails to bind while the probe still
@@ -74,6 +77,11 @@ BYTES=$(wc -c < "$TMP/data.json" | tr -d ' ')
 req GET /raw.php
 is   "an unedited token is refused" "500" "$CODE"
 has  "and it says which line to edit" 'set $TOKEN first' "$BODY"
+# the guard used to sit above the CORS block, so an app on another address saw an opaque CORS error
+# instead of this message. It now waits until after the preflight, exactly as server/worker.js does.
+has  "and the message carries Allow-Origin, so the app can read it from another address" "Access-Control-Allow-Origin: *" "$HEAD"
+req OPTIONS /raw.php
+is   "the preflight is answered even with an unedited token" "204" "$CODE"
 req GET "/nodir.php" -H "X-Token: $TOKEN"
 is   "a missing data folder is 500" "500" "$CODE"
 has  "and it names the folder it looked for" "data directory missing" "$BODY"
@@ -106,6 +114,12 @@ has  "and it denies everything" "Require all denied" "$(cat "$DIR/.htaccess" 2>/
 has  "the default folder is reported as reachable from the web" '"dataDirInWebRoot":true' "$BODY"
 req GET "/outside.php?ping=1" -H "X-Token: $TOKEN"
 has  "a folder outside the web root is reported as safe" '"dataDirInWebRoot":false' "$BODY"
+# the comparison was a bare string prefix, so a folder BESIDE the web root read as inside it
+req GET "/sibling.php?ping=1" -H "X-Token: $TOKEN"
+has  "a folder beside the web root is not read as inside it" '"dataDirInWebRoot":false' "$BODY"
+req GET "/root.php?ping=1" -H "X-Token: $TOKEN"
+has  "and the web root itself still counts as inside" '"dataDirInWebRoot":true' "$BODY"
+rm -f "$TMP/web/.htaccess"
 
 # ---------- 5. the gate in front of a write ----------
 req GET /data.php -H "X-Token: $TOKEN"

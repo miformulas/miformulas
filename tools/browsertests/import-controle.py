@@ -203,6 +203,11 @@ with sync_playwright() as p:
     naamloos = schrijf("naamloos.json", {"type": "miformulas-import", "lines": [
         {"material": "Naamloze stof Q", "dilutionPct": 100, "weightG": 5}]})
     page.set_input_files("#impFile", naamloos); page.wait_for_timeout(900)
+    # mini-audit C14: de kop van de voorvertoning zei "Import formula – ?" terwijl de formule als
+    # "Imported formula" aankomt, dus het venster noemde iets anders dan wat je bevestigt
+    kop = (page.text_content("#content h2") or "").strip()
+    check(f"de kop noemt de formule zoals ze aankomt ({kop!r})",
+          "Imported formula" in kop and "?" not in kop)
     page.click("#btnImpOk"); page.wait_for_timeout(1200)
     notitie = page.evaluate("""() => { const o = (DATA.orderList||[]).find(x => /Naamloze stof Q/.test(x.name));
       return o ? o.note : null; }""")

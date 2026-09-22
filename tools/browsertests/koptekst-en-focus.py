@@ -346,6 +346,28 @@ with sync_playwright() as p:
         .filter(l => !document.getElementById(l.getAttribute("for"))).map(l => l.textContent.trim())""")
     check(f"en geen label wijst naar een veld dat er niet is ({los})", not los)
 
+    # mini-audit C5: dezelfde stof puur en op 10 % is gewoon in de parfumerie, en dan noemden het
+    # gewichtsveld, de dilutiekiezer en het bench-vakje alleen het materiaal: twee paar gelijke namen
+    page.evaluate("""() => { const m = DATA.materials.find(x => !x.isSolvent);
+      DATA.formulas.push({id:"f-tweemaal", name:"Twee keer dezelfde stof", category:"Uncategorised", created:today(),
+        versions:[{v:1, date:today(), lines:[
+          {id:"t-1", materialId:m.id, dilutionPct:100, weightG:2, remark:1},
+          {id:"t-2", materialId:m.id, dilutionPct:10,  weightG:8, remark:1}]}]});
+      buildUsage(); switchTab("F", "f-tweemaal", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    for waar, sel in [("het gewichtsveld", "input.w"), ("de dilutiekiezer", "select.d")]:
+        namen = page.evaluate("""(s) => [...document.querySelectorAll(s)].map(e => e.getAttribute("aria-label"))""", sel)
+        check(f"{waar} van de twee regels heet niet hetzelfde ({namen})",
+              len(namen) == 2 and len(set(namen)) == 2 and all("%" in (n or "") for n in namen))
+    page.evaluate("""() => { VIEW.sub = {...VIEW.sub, bench:true}; render(); }""")
+    page.wait_for_timeout(600)
+    bnamen = page.evaluate("""() => [...document.querySelectorAll("input.bsel")].map(e => e.getAttribute("aria-label"))""")
+    check(f"en het aankruisvakje in de bench view evenmin ({bnamen})",
+          len(bnamen) == 2 and len(set(bnamen)) == 2)
+    page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-tweemaal");
+        buildUsage(); switchTab("F", DATA.formulas[0].id, {type:"v", idx:0}); }""")
+    page.wait_for_timeout(400)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

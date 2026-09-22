@@ -164,6 +164,20 @@ with sync_playwright() as p:
           page.locator("#ifraGone").count() == 1 and "no longer exists" in panel)
     check(f"en staat niet meer als “undefined” bij de niet-nagekeken materialen ({panel[:0]})",
           "undefined" not in panel)
+    check("en de hint wijst op ⇄, dat op een bewerkbare versie ook getekend wordt",
+          "⇄" in page.text_content("#ifraGone"))
+    # mini-audit C8: op een bevroren of oudere versie bestaan ⇄ en de ✕ niet, dus die weg is er niet
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
+      f.versions.push({v:2, date:today(), lines:[{id:"l-n", materialId:"m-a", dilutionPct:100, weightG:1, remark:1}]});
+      markDirty(); switchTab("F", "f-k", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    oudere = page.text_content("#ifraGone")
+    check(f"op een oudere versie belooft de hint geen ⇄ ({oudere[-80:]!r})", "⇄" not in oudere)
+    check("maar wijst ze de weg die er wel is: een nieuwe versie",
+          "new version" in oudere and "no longer exists" in oudere)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
+      f.versions.pop(); markDirty(); switchTab("F", "f-k", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(500)
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
       f.versions[0].lines = f.versions[0].lines.filter(l => l.id !== "l-weg"); markDirty(); render(); }""")
     page.wait_for_timeout(400)
@@ -320,10 +334,14 @@ with sync_playwright() as p:
     head = pg.text_content("#ifraBox summary")
     check(f"without a predilution the check runs ({head!r})", "over limit" in head)
     # a dosage of 0 or below used to read every material as within limits (build 260920b)
-    for bad in ("0", "-5"):
+    # mini-audit C7: the guard was !(v > 0), and 1e999 is Infinity, which is above 0. Every other number
+    # field got an isFinite in 260920b; the field read ∞ afterwards, and so did the columns.
+    for bad in ("0", "-5", "1e999"):
         pg.fill("#ifraDose", bad); pg.locator("#ifraDose").press("Tab"); pg.wait_for_timeout(600)
         head = pg.text_content("#ifraBox summary")
         check(f"a dosage of {bad} is refused and the verdict stands ({head!r})", "over limit" in head)
+        check(f"and no ∞ is left behind ({bad})",
+              "∞" not in pg.text_content("#ifraBox") and pg.evaluate("() => IDOSE") is None)
     pg.fill("#ifraDose", "20"); pg.locator("#ifraDose").press("Tab"); pg.wait_for_timeout(600)
     head = pg.text_content("#ifraBox summary")
     check(f"a dosage above 0 is still taken ({head!r})", "over limit" in head or "within limits" in head)

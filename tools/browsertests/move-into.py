@@ -96,8 +96,16 @@ with sync_playwright() as p:
     check("the suggested target Aura v04 is listed but disabled and unticked", any(r[0] == "Aura v04" and not r[1] and r[2] for r in rows))
     check("the others are ticked", all(r[1] for r in rows if r[0] != "Aura v04"))
     check("Vetiver Test is not a companion but can be added", page.locator("#mvAddList option[value='Vetiver Test']").count() == 1)
+    # mini-audit C16: the field compared with ===, so a name typed in another case was dropped in silence
+    page.fill("#mvAdd", "  vetiver TEST "); page.dispatch_event("#mvAdd", "change"); page.wait_for_timeout(200)
+    check("a name typed in another case is found, not dropped in silence",
+          page.evaluate("(() => { const cb = [...document.querySelectorAll('#mvTogether input.mvTog')].find(c => c.parentElement.textContent.includes('Vetiver Test')); return cb && cb.checked; })()"))
+    check("and it is taken out of the list of what is left to add",
+          page.locator("#mvAddList option[value='Vetiver Test']").count() == 0 and page.input_value("#mvAdd") == "")
     page.fill("#mvAdd", "Vetiver Test"); page.dispatch_event("#mvAdd", "change"); page.wait_for_timeout(200)
     check("added formula appears ticked", page.evaluate("(() => { const cb = [...document.querySelectorAll('#mvTogether input.mvTog')].find(c => c.parentElement.textContent.includes('Vetiver Test')); return cb && cb.checked; })()"))
+    check("and adding the same one twice does not double it",
+          page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].filter(c => c.parentElement.textContent.includes('Vetiver Test')).length") == 1)
     page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].find(c => c.parentElement.textContent.includes('Vetiver Test')).checked = false")
     page.click("#dlgOk"); page.wait_for_timeout(700)
     f4 = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Aura v04"); return {n: f.versions.length,

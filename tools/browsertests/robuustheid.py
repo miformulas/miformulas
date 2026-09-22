@@ -159,6 +159,32 @@ with sync_playwright() as p:
     nieuw = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Zonder nummers");
         return f.versions[f.versions.length - 1].v; }""")
     check(f"+ New version rekent verder op een echt nummer, geen vNaN ({nieuw})", nieuw == 8)
+
+    # ---------- 6c. mini-audit C15: aliases als lijst, de vorm van het bibliotheekformaat ----------
+    # Een met de hand of door een AI geschreven bestand kopieert die vorm, en alles achteraan leest één
+    # tekst met kommapunten: matByName, ownNames, het zoeken en het hernoemen stopten erop.
+    alias = {"formulas": [{"id": "f-al", "name": "Met aliassen", "versions": [{"v": 1, "lines": [
+                 {"id": "l-al", "materialId": "m-al", "dilutionPct": 100, "weightG": 5}]}]}],
+             "materials": [{"id": "m-al", "name": "Ambroxide", "aliases": ["Ambroxan", "Ambrofix"],
+                            "dilutions": [{"pct": 100, "isBase": True}]},
+                           {"id": "m-rm", "name": "Rommelalias", "aliases": 42,
+                            "dilutions": [{"pct": 100, "isBase": True}]}]}
+    errs.clear()
+    page.evaluate("(t) => { DATA = migrate(JSON.parse(t)); boot(); }", json.dumps(alias))
+    page.wait_for_timeout(900)
+    al = page.evaluate("""() => DATA.materials.map(m => m.aliases)""")
+    check(f"een lijst met aliassen wordt één tekst met kommapunten ({al})", al == ["Ambroxan; Ambrofix", ""])
+    page.evaluate("""() => switchTab("F", "f-al", {type:"v", idx:0})"""); page.wait_for_timeout(700)
+    check(f"de formulepagina opent ({errs[:1]})", page.locator("#content h2").count() == 1 and not errs)
+    proef = page.evaluate("""() => { const uit = {};
+        for (const [k, fn] of [["matByName", () => (matByName("Ambroxan")||{}).name],
+                               ["ownNames",  () => [...ownNames()].length],
+                               ["lijst",     () => { MATLIST = null; return matListHtml().includes("Ambroxan; Ambrofix"); }]])
+          { try { uit[k] = fn(); } catch(e){ uit[k] = "FOUT: " + e.message; } }
+        return uit; }""")
+    check(f"en de opzoeklogica leest de aliassen ({proef})",
+          proef["matByName"] == "Ambroxide" and proef["ownNames"] == 4 and proef["lijst"] is True)
+    check(f"geen paginafouten op zo'n bestand ({errs[:1]})", not errs)
     msgs.clear()
     kapot = page.evaluate("() => migrateSafe(null)")
     page.wait_for_timeout(300)

@@ -69,7 +69,41 @@ with sync_playwright() as p:
         m = page.evaluate("""() => getComputedStyle(document.documentElement).getPropertyValue("--muted").trim()""")
         check(f"afdrukken uit het {thema} thema gebruikt de donkere grijs ({m})", m.upper() == "#6C7A88")
     page.evaluate("() => delete document.documentElement.dataset.theme")
-    page.emulate_media(media="screen")
+    # mini-audit C9: het standaardthema Auto stond er niet bij. De automatische donkere tak is
+    # :root:not([data-theme="light"]) en weegt zwaarder dan een kale :root, dus die moest mee benoemd.
+    page.emulate_media(media="print", color_scheme="dark")
+    page.wait_for_timeout(200)
+    auto = page.evaluate("""() => { const s = getComputedStyle(document.documentElement);
+      return [s.getPropertyValue("--muted").trim(), s.getPropertyValue("--ink").trim()]; }""")
+    check(f"en afdrukken uit Auto op een donker systeem ook ({auto})",
+          auto[0].upper() == "#6C7A88" and auto[1].upper() == "#212A33")
+    page.emulate_media(media="print", color_scheme="light")
+    page.wait_for_timeout(200)
+    page.emulate_media(media="screen", color_scheme="light")
+
+    # mini-audit C4: 260920k haalde de kolom Cost van de afdruk omdat een kolom nullen niets zegt,
+    # maar de samenvattingsregel van het weegblad droeg "est. cost € 0,00" verder
+    page.evaluate("""() => {
+      DATA.materials.push({id:"m-gratis", name:"Zonder prijs", category:"Test", pyramid:2, isSolvent:false,
+        dilutions:[{pct:100, isBase:true}]});
+      invalidateMats();
+      DATA.formulas.push({id:"f-gratis", name:"Weegblad zonder prijs", category:"Uncategorised", created:today(),
+        versions:[{v:1, date:today(), lines:[{id:"g-1", materialId:"m-gratis", dilutionPct:100, weightG:10, remark:1}]}]});
+      markDirty(); switchTab("F", "f-gratis", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    BLAD = """() => { const a = document.querySelector("#printArea"); a.innerHTML = "";
+      window.dispatchEvent(new Event("beforeprint")); return a.textContent; }"""
+    blad = page.evaluate(BLAD)
+    check(f"een weegblad zonder één prijs noemt geen kost ({blad[:90]!r})",
+          "est. cost" not in blad and "total" in blad and "concentrate" in blad)
+    page.evaluate("""() => { matById("m-gratis").costPerGram = 0.25; invalidateMats(); render(); }""")
+    page.wait_for_timeout(500)
+    blad2 = page.evaluate(BLAD)
+    check(f"en met een prijs staat ze er wel ({blad2[:110]!r})", "est. cost" in blad2)
+    page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-gratis");
+      DATA.materials = DATA.materials.filter(x => x.id !== "m-gratis"); invalidateMats(); buildUsage();
+      switchTab("F", "f-x", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(400)
     # staart 45: een lange koppeling in de ingebedde handleiding breekt af, op elke breedte
     w = page.evaluate("""() => getComputedStyle(document.querySelector("#manualTpl") ? document.documentElement : document.documentElement).getPropertyValue("--ink")""")
     brk = page.evaluate("""() => { const d = document.createElement("div"); d.className = "help";

@@ -153,6 +153,26 @@ with sync_playwright() as p:
           page.evaluate("""(() => { const f = DATA.formulas.find(x => x.id === "f-u");
             const v = f.versions[f.versions.length-1]; return (v.bench||{groups:[]}).groups.length; })()""") == 5)
 
+    # mini-audit C13: 260920k haalde de bench-vlag door Close compare en de versiekiezer, maar
+    # + New version en Delete version schreven VIEW.sub zonder die vlag en zetten je op de tabel
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u");
+      VIEW = {tab:"F", id:"f-u", sub:{type:"v", idx:f.versions.length-1, bench:true}}; setTabs(); render(); }""")
+    page.wait_for_timeout(600)
+    check("de bench view staat open", page.locator(".brow").count() > 0)
+    page.click("#btnNewV"); page.wait_for_timeout(800)
+    check(f"+ New version laat je in de bench view ({page.evaluate('() => !!(VIEW.sub && VIEW.sub.bench)')})",
+          page.evaluate("() => !!(VIEW.sub && VIEW.sub.bench)") and page.locator(".brow").count() > 0)
+    check("en op de nieuwe versie",
+          page.evaluate("""() => VIEW.sub.idx === DATA.formulas.find(x => x.id === "f-u").versions.length - 1"""))
+    msgs.clear()
+    page.click("#btnDelV"); page.wait_for_timeout(800)
+    check(f"Delete version ook ({page.evaluate('() => !!(VIEW.sub && VIEW.sub.bench)')}, {[m[:40] for m in msgs]})",
+          page.evaluate("() => !!(VIEW.sub && VIEW.sub.bench)") and page.locator(".brow").count() > 0)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u");
+      while (f.versions.length > 1) f.versions.pop();
+      VIEW = {tab:"F", id:"f-u", sub:{type:"v", idx:0}}; setTabs(); render(); }""")
+    page.wait_for_timeout(500)
+
     # ---------- 7. bouw 260918d: een bench-groep houdt zijn eigen regel vast ----------
     page.evaluate("""() => {
       DATA.formulas.push({id:"f-b", name:"Benchtest", category:"Uncategorised", created:today(), versions:[

@@ -11,7 +11,6 @@
    asks for it once per device (Settings, or when it first connects). */
 
 $TOKEN    = 'change-me-to-a-long-random-token';
-if ($TOKEN === 'change-me-to-a-long-random-token') { http_response_code(500); header('Content-Type: text/plain'); echo 'data.php: set $TOKEN first'; exit; }
 // The web server serves this folder as well: a browser that asks for data/miformulas-data.json gets the whole
 // file, token or no token, because the token only guards this script. Safest is a folder OUTSIDE the web root,
 // for instance dirname(__DIR__) . '/miformulas-data'; the default below keeps older setups working and is
@@ -60,12 +59,20 @@ function guard_dir($dir) {
 function in_web_root($dir) {
   $root = isset($_SERVER['DOCUMENT_ROOT']) ? realpath($_SERVER['DOCUMENT_ROOT']) : '';
   $d = realpath($dir);
-  return $root && $d && strncmp($d, $root, strlen($root)) === 0;
+  if ($root === '' || $root === false || $d === false) return false;
+  // A bare prefix reads /var/www/html-data as "inside /var/www/html": compare on the folder boundary.
+  $root = rtrim($root, '/\\');
+  if ($root === '') return true;                                     // the web root is the root of the file system
+  $sep = strpos($d, '\\') !== false ? '\\' : '/';
+  return $d === $root || strncmp($d, $root . $sep, strlen($root) + 1) === 0;
 }
 
 $method = $_SERVER['REQUEST_METHOD'];
 // The preflight of a browser carries no headers of its own, so it can never bring a token: answer it first.
 if ($method === 'OPTIONS') { http_response_code(204); exit; }
+// The same order as server/worker.js: the preflight first, then this guard, so the CORS headers above are
+// already sent and the app can read the message from another address instead of a bare CORS error.
+if ($TOKEN === 'change-me-to-a-long-random-token') fail(500, 'data.php: set $TOKEN first');
 if (!hash_equals($TOKEN, hdr('X-Token'))) fail(401, 'invalid token');   // constant time, so the token cannot be guessed by the clock
 
 if (!is_dir($DATA_DIR)) fail(500, 'data directory missing: ' . $DATA_DIR);

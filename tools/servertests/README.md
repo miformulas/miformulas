@@ -5,7 +5,7 @@ nagebootste server in de pagina en raken de echte code nooit. Geen netwerk, geen
 en geen webserver nodig: beide tests zetten hun eigen omgeving op en breken ze weer af.
 
     node worker.mjs        # server\worker.js met een nagemaakte R2-bak (53 controles)
-    bash data-php.sh       # server\data.php achter php -S, met curl (46 controles)
+    bash data-php.sh       # server\data.php achter php -S, met curl (50 controles)
 
 `worker.mjs` bootst R2 na met echte etag- en uploadtijdsemantiek en stuurt de geëxporteerde
 `fetch()` rechtstreeks aan: de preflight, de twee opzetfouten (geen TOKEN, geen DATA), het token,
