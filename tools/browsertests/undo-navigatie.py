@@ -71,6 +71,10 @@ with sync_playwright() as p:
     page.click("#dlgOk"); page.wait_for_timeout(800)
     check("the predilution made its categories",
           page.evaluate("""DATA.materialCategories.includes("Predils") && DATA.formulaCategories.includes("Predilutions")"""))
+    # bouw 260922f: de regels van de predilutieformule dragen een id, zoals elke regel (anders past een bench erop niet na herladen)
+    pids = page.evaluate("""() => { const pf = DATA.formulas.find(x => x.category === "Predilutions");
+        return pf ? pf.versions[0].lines.map(l => typeof l.id === "string" && l.id.startsWith("l-")) : null; }""")
+    check(f"en de regels van de predilutieformule dragen een id ({pids})", bool(pids) and all(pids))
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(700)
     check("and one Undo takes formula, material and both categories back",
           page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-u").versions.length)()""") == 1
@@ -206,6 +210,36 @@ with sync_playwright() as p:
           any("20.000 g" in r.replace(",", ".") for r in na["pool"]))
     page.click("#btnBenchClose"); page.wait_for_timeout(400)
     page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-b");
+        buildUsage(); markDirty(); switchTab("F", "f-u", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(500)
+
+    # ---------- 7b. bouw 260922f: een schikking die in de app gemaakt is, overleeft herladen en Redo ----------
+    # De eerste keer Bench view maakte een bench zonder de vlag byId, en migrate haalde de sleutels dan door de
+    # kaart van oude sleutels, waar een regel-id nooit in staat: elke groep was leeg na de volgende herlaadbeurt,
+    # en ook na één Redo, want redo() draait migrate op de hele data.
+    page.evaluate("""() => {
+      DATA.formulas.push({id:"f-r", name:"Reloadtest", category:"Uncategorised", created:today(), versions:[
+        {v:1, date:today(), lines:[
+          {id:"l-r1", materialId:"m-u1", dilutionPct:100, weightG:5,  remark:1},
+          {id:"l-r2", materialId:"m-u2", dilutionPct:100, weightG:95, remark:1}]}]});
+      buildUsage(); markDirty(); switchTab("F", "f-r", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(800)   # de eerste keer: de app maakt de bench zelf aan
+    page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-r").versions[0];
+        v.bench.groups[0].keys = ["l-r1", "l-r2"]; markDirty(); render(); }""")
+    page.wait_for_timeout(300)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-r"); snapF(f); f.name = "Reloadtest 2"; markDirty(); render(); }""")
+    page.wait_for_timeout(300)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    page.keyboard.press("Control+y"); page.wait_for_timeout(600)
+    naRedo = page.evaluate("""() => DATA.formulas.find(x => x.id === "f-r").versions[0].bench.groups[0].keys""")
+    check(f"na Undo en Redo staat de schikking er nog ({naRedo})", naRedo == ["l-r1", "l-r2"])
+    page.evaluate("() => saveData()"); page.wait_for_timeout(800)
+    page.reload(); page.wait_for_timeout(1500)
+    naReload = page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-r").versions[0];
+        return [v.bench.byId === true, v.bench.groups[0].keys]; }""")
+    check(f"na herladen ook ({naReload})", naReload[1] == ["l-r1", "l-r2"] and naReload[0])
+    page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-r");
         buildUsage(); markDirty(); switchTab("F", "f-u", {type:"v", idx:0}); }""")
     page.wait_for_timeout(500)
 

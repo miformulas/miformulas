@@ -355,7 +355,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922e</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922f</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -422,7 +422,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260922e. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260922f. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -918,8 +918,11 @@ function migrate(d){
             keys: Array.isArray(g.keys) ? g.keys.filter(k => typeof k === "string") : []}));
         }
       }
+      // a key that already is a line id of this version stays as it is: a bench made in the app carried its ids
+      // without the flag until build 260922f, and this is what keeps such a bench from being emptied on load
       if (v.bench && !v.bench.byId){
-        for (const g of v.bench.groups) g.keys = g.keys.map(k => old.get(k)).filter(Boolean);
+        const ids = new Set(v.lines.map(l => l.id));
+        for (const g of v.bench.groups) g.keys = g.keys.map(k => ids.has(k) ? k : old.get(k)).filter(Boolean);
         v.bench.byId = true;
       }
     }
@@ -1779,7 +1782,7 @@ function renderFormula(f){
       // (a foreign file, a hand edit) is repaired here in the same breath, so + Add group has something to push into
       // (not in the read-only mode: a change there can never be written)
       snapF(f);
-      item.bench = {groups: Array.from({length:5}, (_,i) => ({id: uid("g"), title: "Group " + (i+1), keys: []}))};
+      item.bench = {groups: Array.from({length:5}, (_,i) => ({id: uid("g"), title: "Group " + (i+1), keys: []})), byId: true};
       markDirty();
     }
     VIEW.sub = {...sub, bench: !sub.bench}; render();
@@ -2608,7 +2611,7 @@ function mergeImport(pkg){
     const f = structuredClone(inf); delete f.starter;
     if (ids.has(f.id)) f.id = uid("f-");
     ids.add(f.id);
-    for (const v of f.versions || []) for (const l of v.lines || []) l.materialId = idMap.get(l.materialId) || l.materialId;
+    for (const v of f.versions || []) for (const l of v.lines || []){ l.materialId = idMap.get(l.materialId) || l.materialId; if (!l.id) l.id = uid("l-"); }
     DATA.formulas.push(f); n.fAdded++;
   }
   pushUndo(() => { for (const k of Object.keys(DATA)) delete DATA[k]; Object.assign(DATA, before); buildUsage(); });
@@ -2776,7 +2779,7 @@ function createPredilution(f, sub, item, dispLines){
     const pf = {id: uid("f-"), name, category: "Predilutions", created: today(), modified: now(), frozenImport: false,
       versions: [{v: 1, frozen: true, date: today(),
         notes: `Predilution for ${f.name} v${cur.v} · factor ×${k} · total ${(+Wp.toFixed(3))} g · ${conc.toFixed(2)}% aromatic`,
-        lines: picks.map(l => ({materialId: l.materialId, dilutionPct: l.dilutionPct??100, weightG: l.weightG*k, remark: 1}))}]};
+        lines: picks.map(l => ({id: uid("l-"), materialId: l.materialId, dilutionPct: l.dilutionPct??100, weightG: l.weightG*k, remark: 1}))}]};
     const idxSet = new Set(pickIdx);
     const newLines = cur.lines.filter((l,i) => !idxSet.has(i)).map(l => ({...l}));
     newLines.push({id: uid("l-"), materialId: pm.id, dilutionPct: conc, weightG: replW, remark: 1});
