@@ -5,7 +5,7 @@ Build 260915: a daily snapshot restored while the server is unreachable is not w
 server's data, and a data file whose first write fails leaves the browser copy in place.
 Uses a fake server inside the page (fetch is replaced before the app boots), so no webserver of its
 own is needed beyond the one serving the app on port 8765 (see README)."""
-import json
+import json, time
 from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/index.html"
@@ -496,6 +496,26 @@ with sync_playwright() as p:
     check("de server houdt alle drie de wijzigingen",
           pg.evaluate("__srv.data.formulas.map(f => f.name).join()") == "Verborgen,Weg,Gewoon")
     check(f"geen paginafouten ({hfout[:2]})", not hfout)
+
+    # De andere helft van wat §1 belooft (bouw 260922b): verbergen schrijft meteen weg, maar sluiten kan geen
+    # netwerkverzoek meer afmaken, dus daar is beforeunload het vangnet. Gemeten: keepalive helpt niet, want
+    # boven ongeveer 64 kB weigert de browser zo'n verzoek meteen en een databestand is groter. Of de browser
+    # de vraag dan ook toont is zijn zaak (headless doet het niet); wat de app moet doen is het verzoek
+    # tegenhouden, en dat is wat hier staat.
+    pg2 = ctx.new_page()
+    pg2.add_init_script(FAKE_SERVER)
+    pg2.on("dialog", lambda d: d.accept())
+    pg2.goto(URL); pg2.wait_for_timeout(1500)
+    pg2.evaluate("() => { saveData(); }"); pg2.wait_for_timeout(300)
+    pg2.evaluate("() => { __release && __release(); }"); pg2.wait_for_timeout(700)
+    vraag = """() => { const e = new Event("beforeunload", {cancelable: true});
+                       window.dispatchEvent(e); return [DIRTY, e.defaultPrevented]; }"""
+    schoon = pg2.evaluate(vraag)
+    check(f"zonder onbewaarde wijziging houdt de app het sluiten niet tegen ({schoon})", schoon == [False, False])
+    pg2.evaluate("""() => { DATA.formulas.push({id:"f-bu", name:"Onbewaard", versions:[]}); markDirty(); }""")
+    pg2.wait_for_timeout(150)
+    vuil = pg2.evaluate(vraag)
+    check(f"met een onbewaarde wijziging wel, zodat de browser eerst vraagt ({vuil})", vuil == [True, True])
     ctx.close()
 
     b.close()

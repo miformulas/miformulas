@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260922a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
+This manual describes build 260922b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
 
 ## Contents
 
@@ -58,7 +58,7 @@ Whichever way in you take, you land on the Welcome page: four tiles (formulas, v
 
 ![The Welcome page after loading the starter set, with the amber storage bar.](img/app-welcome.png)
 
-Every change is saved automatically a few seconds after you make it, and straight away when you close the page or switch away from it, so a phone that puts the app aside keeps your last change; **Ctrl+Z** undoes it. Deleting a line, a version or a formula always asks for confirmation, and a material that is still used in a formula is not deleted at all: the app says which formulas hold it (section 9).
+Every change is saved automatically a few seconds after you make it, and straight away when you switch away from the page or it goes out of sight, so a phone that puts the app aside keeps your last change. Close the page while something is still unsaved and the browser asks first; **Ctrl+Z** undoes a change. Deleting a line, a version or a formula always asks for confirmation, and a material that is still used in a formula is not deleted at all: the app says which formulas hold it (section 9).
 
 ## 2. Where your data lives: browser, file or server
 
