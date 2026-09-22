@@ -36,9 +36,16 @@ Draaien tegen een lokale webserver met de inhoud van de repo (`public\` in de On
     python instellingen.py         # Settings: de servervelden staan er op de site en niet in de gedownloade app (met de hint die de weg wijst), en Open where you left off onthoudt tabblad, formule of materiaal en versie per toestel, herstelt ze bij de start, slaat een verdwenen formule over en wist alles zodra je het uitzet (37 controles)
     python robuustheid.py          # wat de app moet overleven: databestand met gaten en dubbele id's, een host die elke url met html beantwoordt, een onleesbare browserkopie, tekst in een getalveld; Enter in een dialoog (één keer, ook na vijf openingen), Tab vanaf het startscherm (inert), klikbare elementen met het toetsenbord, Undo terug naar de wijziging (22 controles)
     python safari-hints.py         # Safari op de Mac: Add to Dock-link en dialoog, waarschuwing bij Download the app, alleen-lezen startscherm via file://, opslagbalk in tabblad en Dock-app, Import from Formulair op de Welcome-pagina, importer in de Dock-app, dagsnapshot op het alleen-lezen startscherm (40 controles)
+    python webkit.py               # WebKit (de motor van Safari) naast Chromium: rekenkern, getalnotatie, vouwing en volgorde, de uitvoer, elke stijlregel, IndexedDB en een herlaadbeurt (25 controles; eigen pakket, zie onder)
     python screenshots.py          # geen test: maakt de app-schermen voor docs/img (zie docstring)
 
 `python tools/controleer-bench.js <app.html> <data.json>` zegt of de bench-schikkingen van een databestand de overstap van bouw 260918d overleven (het verandert niets).
+
+`webkit.py` heeft een eigen motor nodig, want Playwright levert er hier geen: `sudo apt-get install -y
+webkit2gtk-driver xvfb && pip install selenium`. Zonder die twee stopt het script met exitcode 2 en zegt
+het wat er ontbreekt, zodat het in een reeks geen valse fout geeft. Het is WebKitGTK, niet Safari: wat het
+niet kan zien (de opruiming van IndexedDB na zeven dagen, Add to Dock, iOS, de printmotor van Safari)
+staat onderaan in dat bestand en blijft werk voor een echte Mac of iPhone.
 
 Vereist `pip install playwright` en `playwright install chromium`. De scripts zoeken de app en de
 starterset zelf op, twee mappen hoger; alleen de twee Formulair-tests hebben je eigen database nodig,
