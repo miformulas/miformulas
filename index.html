@@ -353,7 +353,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260920o</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922a</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -420,7 +420,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260920n. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260922a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -798,6 +798,10 @@ function makeClickable(root){   // a span or a link without href is invisible to
     });
   }
 }
+// A file can hold an object or a number where a list belongs. "|| []" only catches null, and a for-of over an
+// object throws out of renderImport; IMPORTP then stayed set and every later render threw again, so the app
+// sat frozen on whatever was open until a reload.
+const asList = x => Array.isArray(x) ? x : [];
 const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const uid = p => p + Math.random().toString(36).slice(2,8);
 let LOCALE = undefined;   // number format for display; undefined = browser default, set in Settings
@@ -2339,6 +2343,15 @@ function addFromList(hit, name, pct, cat){   // one material from a library entr
   DATA.materials.push(m);
   return {m, newCat: same ? null : c};
 }
+// addFromList hangs the library entry's own name and its alternative names on the new material, so a later
+// line carrying one of those names belongs on THIS material, not on a second one. An import keyed the map on
+// the literal name of the line alone, so "Hedione" and "Methyl dihydrojasmonate" made two jars, each holding
+// the other's name as an alias, and the IFRA check then weighed half a material against the whole limit.
+function alsoKnownAs(m, map, val){
+  for (const a of [m.name, ...String(m.aliases || "").split(";")]){
+    const k = normName(a); if (k) map.set(k, val === undefined ? m : val);
+  }
+}
 function newMaterialFrom(name, pct, extra){   // a material you do not own yet: the library fills in what it knows
   const r = addFromList(listFind(name), name, pct, null);
   Object.assign(r.m, extra || {});
@@ -2711,7 +2724,11 @@ function createPredilution(f, sub, item, dispLines){
   const replW = conc > 0 ? baseC*100/conc : sumW;
   let defName = `${f.name} - v${cur.v} - PREDIL`;
   let nn = 2;
-  while (DATA.materials.some(m => m.name === defName) || DATA.formulas.some(x => x.name === defName)) defName = `${f.name} - v${cur.v} - PREDIL (${nn++})`;
+  // the same folding as everywhere else: a name that differs only in case, an accent or a ligature is the same
+  // name here too. It used to pass, and the new material then sorted in front of yours and won every lookup.
+  const nameTaken = n => DATA.materials.some(m => normName(m.name) === normName(n))
+                      || DATA.formulas.some(x => normName(x.name) === normName(n));
+  while (nameTaken(defName)) defName = `${f.name} - v${cur.v} - PREDIL (${nn++})`;
   const preview = k => { const Wp = sumW*k;
     const Cp = picks.reduce((s,l) => s + l.weightG*k*(l.dilutionPct??100)/100, 0);
     return `mix: ${fmt(Wp)} g · ${fmt(Wp>0?Cp/Wp*100:0,2)}% aromatic · smallest line ${fmt(Math.min(...picks.map(l=>l.weightG))*k)} g`; };
@@ -2731,7 +2748,7 @@ function createPredilution(f, sub, item, dispLines){
   $("#dlgOk").addEventListener("click", () => {
     const name = $("#pdName").value.trim(), k = parseNum($("#pdK").value);
     if (!name || !k || k <= 0){ alert("Enter a name and a factor above 0."); return; }
-    if (DATA.materials.some(m => m.name === name) || DATA.formulas.some(x => x.name === name)){ alert("That name is already in use."); return; }
+    if (nameTaken(name)){ alert("That name is already in use."); return; }
     dlg.close();
     const Wp = sumW * k;
     const Cp = picks.reduce((s,l) => s + l.weightG*k*(l.dilutionPct??100)/100, 0);
@@ -3717,20 +3734,22 @@ function resolveBulk(p){   // once per file: every line checked, then only the t
   if (p._sum) return p._sum;
   const perF = []; const fresh = new Map();   // a material to create is counted once for the whole file
   let nv = 0, nl = 0, matched = 0, bad = 0, warn = 0, solv = 0;
-  for (const f of p.formulas || []){
+  for (const f of asList(p.formulas)){
     let fl = 0, fbad = 0, fnew = 0;
-    for (const v of f?.versions || []){
+    for (const v of asList(f?.versions)){
       nv++;
-      for (const L of v?.lines || []){
+      for (const L of asList(v?.lines)){
         nl++; fl++;
         const r = resolveImportLine(L);
         if (r.bad){ bad++; fbad++; continue; }
         if (r.m){ matched++; if (!r.dilOwned) warn++; if (r.solvMismatch) solv++; }
-        else { const k = normName(L.material); if (!fresh.has(k)){ fresh.set(k, 1); fnew++; } }
+        else { const k = normName(L.material); if (!fresh.has(k)){ fresh.set(k, 1); fnew++;
+                 const hit = listFind(L.material);   // the names that one material will answer to, counted once
+                 if (hit) for (const a of [hit.name, ...(hit.aliases || [])]){ const kk = normName(a); if (kk) fresh.set(kk, 1); } } }
       }
     }
-    perF.push({name: f?.name || "?", versions: (f?.versions || []).length, lines: fl, bad: fbad, fresh: fnew,
-               labels: (f?.versions || []).map(v => (v && v.name) || ""),   // so the labels are visible before you confirm
+    perF.push({name: f?.name || "?", versions: asList(f?.versions).length, lines: fl, bad: fbad, fresh: fnew,
+               labels: asList(f?.versions).map(v => (v && v.name) || ""),   // so the labels are visible before you confirm
                twin: !!DATA.formulas.find(x => normName(x.name) === normName(f?.name))});
   }
   p._sum = {perF, nv, nl, matched, bad, warn, solv, fresh: fresh.size,
@@ -3768,11 +3787,11 @@ function applyBulkImport(){
   if (s.bad){ alert("Some lines cannot be imported. Correct them in the file and import again."); return; }
   const createdIds = [], createdMatCats = [], createdFCats = [], createdFIds = [];
   const made = new Map();
-  for (const f of p.formulas){
+  for (const f of asList(p.formulas)){
     const versions = [];
-    for (const v of f?.versions || []){
+    for (const v of asList(f?.versions)){
       const lines = [];
-      for (const L of v?.lines || []){
+      for (const L of asList(v?.lines)){
         const r = resolveImportLine(L);
         if (r.bad) continue;
         let m = r.m;
@@ -3786,7 +3805,7 @@ function applyBulkImport(){
             if (L.cas) m.cas = L.cas;              // what the sender transcribed wins over the library
             if (L.solvent) m.isSolvent = true;
             if (res.newCat) createdMatCats.push(res.newCat);
-            createdIds.push(m.id); made.set(k, m);
+            createdIds.push(m.id); made.set(k, m); alsoKnownAs(m, made);
           }
         }
         lines.push({id: uid("l-"), materialId: m.id, dilutionPct: r.dil, weightG: r.w, remark: 1});
@@ -3827,7 +3846,17 @@ function renderImport(){
   const rows = p.lines.map(L => ({L: L && typeof L === "object" ? L : {}, ...resolveImportLine(L)}));
   const bad = rows.filter(r => r.bad).length;
   const tw = rows.reduce((s, r) => s + (r.bad ? 0 : r.w), 0);
-  const newCount = new Set(rows.filter(r => !r.bad && !r.m).map(r => normName(r.L.material))).size, warnCount = rows.filter(r => !r.bad && r.m && !r.dilOwned).length;
+  // The same counting as the bulk preview: one material, however many of its names the file uses. A library
+  // entry gives the new material its own name and its aliases, so a later line carrying one of those lands
+  // on it instead of making a second; counting the literal names promised more than ever arrived.
+  const seenNew = new Map(); let newCount = 0;
+  for (const r of rows){ if (r.bad || r.m) continue;
+    const k = normName(r.L.material); if (seenNew.has(k)) continue;
+    seenNew.set(k, 1); newCount++;
+    const hit = listFind(r.L.material);
+    if (hit) for (const a of [hit.name, ...(hit.aliases || [])]){ const kk = normName(a); if (kk) seenNew.set(kk, 1); }
+  }
+  const warnCount = rows.filter(r => !r.bad && r.m && !r.dilOwned).length;
   const solvCount = rows.filter(r => r.solvMismatch).length;
   const shared = /^shared from miformulas/i.test(p.source || "");   // a file from another miFormulas: the round-number hint means nothing there
   const twin = DATA.formulas.find(x => normName(x.name) === normName(p.name));
@@ -3887,7 +3916,7 @@ function applyImport(){
       if (L.cas) m.cas = L.cas;                  // what you transcribed wins over the library
       if (L.solvent) m.isSolvent = true;         // a shared file says which of its lines are solvent
       if (r.newCat) createdCats.push(r.newCat);
-      createdIds.push(m.id); made.set(normName(L.material), m);
+      createdIds.push(m.id); made.set(normName(L.material), m); alsoKnownAs(m, made);
       DATA.orderList.push({id: uid("o-"), materialId: m.id, name: m.name, note: `needed for ${impName}`, price: "", added: today()});
     }
     lines.push({id: uid("l-"), materialId: m.id, dilutionPct: dil, weightG: w, remark: 1});
@@ -4065,6 +4094,11 @@ function deliveredDialog(idx, chosen){
       const pure = grams ? grams * ((pct ?? 100) / 100) : null;
       return pure ? price / pure : null;
     };
+    // the same rule as the material page and the CSV import: a negative price makes the cost of every formula
+    // that holds this material negative, and Delivered was the one way in
+    if (price != null && price < 0){ alert("A price cannot be negative."); return; }
+    if (dvDens != null && dvDens < 0){ alert("A density cannot be negative."); return; }
+    if (val != null && val < 0){ alert("An amount cannot be negative."); return; }
     dlg.close();
     const oc = structuredClone(DATA.orderList);
     if (m){
@@ -4749,7 +4783,18 @@ function render(){
     + (HOMEVIEW ? "|home" : "") + (HELPVIEW ? "|help" : "") + (IMPORTP ? "|import" : "");
   if (place !== SHOWING){ SHOWING = place; c.scrollTop = 0; pushPlace(); }
   if (HELPVIEW){ renderHelp(); return; }
-  if (IMPORTP){ renderImport(); makeClickable(); if (readOnly()) lockInputs(); return; }
+  if (IMPORTP){
+    // A shape nobody foresaw must not be able to freeze the app. IMPORTP stayed set when renderImport threw,
+    // so every later render threw again and the screen sat on whatever was open, with a reload as the only way out.
+    try{ renderImport(); }
+    catch(e){
+      console.warn("miFormulas: this import file could not be read", e);
+      IMPORTP = null;
+      alert("This import file could not be read (" + ((e && e.message) || "unknown error") + ").\n\nNothing has been imported.");
+      render(); return;
+    }
+    makeClickable(); if (readOnly()) lockInputs(); return;
+  }
   if (VIEW.tab === "T"){ renderOrders(); makeClickable(); if (readOnly()) lockInputs(); return; }
   if (!VIEW.id){
     const recent = (arr, go) => arr.filter(x => x.modified).sort((a,b) => b.modified.localeCompare(a.modified)).slice(0,8)
@@ -4908,8 +4953,11 @@ function startFromBrowserCopy(demo){
       + "download a Backup below, then reload (F5). If it happens again, that Backup opens in another browser or in the downloaded app.";
     const bk = $("#btnLandBak");
     bk.style.display = ""; bk.addEventListener("click", () => backup());
-    // no starter set and no empty start here: both would write over the data that is still sitting in this browser
-    for (const id of ["btnStarter", "btnEmpty", "btnSnap"]) $("#" + id).style.display = "none";
+    // Nothing here may touch the data that is still sitting in this browser. A fresh start would write over it,
+    // and so would opening a data file: loadFromHandle clears the browser copy the moment it has a file. The
+    // Backup is the only way out, exactly as the hint and section 22 say; after it, F5 gives the usual screen.
+    for (const id of ["btnStarter", "btnEmpty", "btnSnap", "btnOpen", "btnLandOpen", "btnReopen"])
+      $("#" + id).style.display = "none";
     return "stuck";
   }
 }

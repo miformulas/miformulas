@@ -384,6 +384,33 @@ with sync_playwright() as p:
     check(f"en het boek zegt het ook in woorden ({regels[-2:]})",
           any("stocktake" in r and "used up" in r for r in regels))
 
+    # ---------- A3 (bouw 260922a): Delivered weigert een negatieve prijs ----------
+    # De materiaalpagina en de CSV-invoer weigeren een negatieve prijs al, want ze maakt de kost van elke
+    # formule met dat materiaal negatief. Delivered was de ene weg naar binnen.
+    pg.evaluate("""() => {
+      DATA.materials.push({id:"m-neg", name:"Negatief", category:"Test", pyramid:3, isSolvent:false,
+        dilutions:[{pct:100, isBase:true}]});
+      invalidateMats();
+      (DATA.orderList ||= []).push({id:"o-neg", materialId:"m-neg", name:"Negatief", added:today()});
+      markDirty(); VIEW = {tab:"T", id:null, sub:null}; HOMEVIEW = false; setTabs(); render(); }""")
+    pg.wait_for_timeout(600)
+    rij = pg.evaluate("""() => [...document.querySelectorAll("[data-odeliv]")].findIndex(b =>
+      b.closest("tr").textContent.includes("Negatief"))""")
+    pg.fill(f"[data-oamt='{rij}']", "10"); pg.locator(f"[data-oamt='{rij}']").press("Tab"); pg.wait_for_timeout(300)
+    pg.click(f"[data-odeliv='{rij}']"); pg.wait_for_timeout(600)
+    pg.fill("#dvAmt", "10"); pg.fill("#dvPrice", "-50")
+    n0 = len(msgs4)
+    pg.click("#dlgOk"); pg.wait_for_timeout(700)
+    gezegd = msgs4[n0:]
+    check(f"een negatieve prijs wordt geweigerd, met de reden ({gezegd[:1]})",
+          any("price cannot be negative" in m for m in gezegd))
+    check("het venster blijft open, dus je kan het verbeteren", pg.locator("#dvPrice").count() == 1)
+    kost = pg.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-neg"); return m.costPerGram; }""")
+    check(f"en er staat geen negatieve kost per gram op het materiaal ({kost})", not (kost != None and kost < 0))
+    pg.fill("#dvPrice", "50"); pg.click("#dlgOk"); pg.wait_for_timeout(800)
+    kost2 = pg.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-neg"); return m.costPerGram; }""")
+    check(f"met een gewone prijs gaat het wel door ({kost2} EUR/g)", abs((kost2 or 0) - 5) < 1e-9)
+
     check("no page errors", not errs4)
     b.close()
 

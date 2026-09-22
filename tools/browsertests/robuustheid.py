@@ -242,6 +242,9 @@ with sync_playwright() as p:
         const zicht = id => getComputedStyle(document.querySelector("#" + id)).display !== "none";
         const r = {uit, landing: zicht("landing"), hint: document.querySelector("#landingHint").textContent,
                    backup: zicht("btnLandBak"), starter: zicht("btnStarter"), leeg: zicht("btnEmpty"),
+                   open: zicht("btnOpen"), landopen: zicht("btnLandOpen"), reopen: zicht("btnReopen"),
+                   zichtbaar: [...document.querySelectorAll("#landing button")]
+                     .filter(x => x.offsetParent).map(x => x.id),
                    formules: DATA ? DATA.formulas.length : null};
         render = oud; return r; }""")
     check(f"een fout ín boot() heet niet 'de kopie is stuk' ({r['uit']})", r["uit"] == "stuck")
@@ -252,6 +255,13 @@ with sync_playwright() as p:
     check(f"en geen knop die over je data heen zou starten ({r['starter']}, {r['leeg']})",
           r["starter"] is False and r["leeg"] is False)
     check(f"de data die gelezen was, staat er nog ({r['formules']})", r["formules"] == 16)
+    # A4 van de mini-audit (bouw 260922a): Open data file wist de browserkopie die dit scherm net veilig
+    # noemde, want loadFromHandle zet demoData op null zodra het een bestand heeft. Alle drie de wegen daarheen
+    # gaan weg; na de Backup geeft F5 het gewone startscherm terug.
+    check(f"geen weg die de browserkopie zou wissen ({r['open']}, {r['landopen']}, {r['reopen']})",
+          r["open"] is False and r["landopen"] is False and r["reopen"] is False)
+    check(f"de Backup is werkelijk het enige wat er staat ({r['zichtbaar']})",
+          [x for x in r["zichtbaar"] if x != "btnSettingsLanding"] == ["btnLandBak"])
     r2 = pg5.evaluate("""() => startFromBrowserCopy("{dit is geen json")""")
     check(f"een onleesbare kopie heet nog altijd stuk ({r2})", r2 == "broken")
     r3 = pg5.evaluate("""() => { document.querySelector("#landing").style.display = "";

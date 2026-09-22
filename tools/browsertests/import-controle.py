@@ -225,6 +225,66 @@ with sync_playwright() as p:
     check(f"en er blijft geen undo-stap of schrijfbeurt achter ({undo0} → {page.evaluate('UNDO.length')})",
           page.evaluate("UNDO.length") == undo0 and page.evaluate("DIRTY") == vuil0)
 
+    # ---- bouw 260922a, punt A1: twee namen van één bibliotheekingang geven één materiaal ----
+    # addFromList hangt de eigen naam en de aliassen van de ingang op het nieuwe materiaal, dus de tweede
+    # regel hoort daarop te landen. Vroeger kwamen er twee potjes die elkaars naam als alias droegen, en de
+    # IFRA-controle woog daarna elk half materiaal tegen de hele limiet.
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    bib = schrijf("bib.json", {"type": "miformulas-materials", "name": "A1", "version": "1", "materials": [
+        {"name": "Proefstof A1", "aliases": ["Tweede naam A1"], "cas": "111-11-1",
+         "category": "Test", "pyramid": 3, "ifraLimit": 1}]})
+    page.set_input_files("#impList", bib); page.wait_for_timeout(900)
+    check("de proefbibliotheek is geladen",
+          page.evaluate("typeof listMaterials === 'function' && listMaterials().some(m => m.name === 'Proefstof A1')"))
+    voorM = page.evaluate("DATA.materials.length")
+    tweenamen = schrijf("tweenamen.json", {"type": "miformulas-import", "name": "A1 test", "lines": [
+        {"material": "Proefstof A1", "dilutionPct": 100, "weightG": 0.6},
+        {"material": "Tweede naam A1", "dilutionPct": 100, "weightG": 0.6},
+        {"material": "Ethanol", "dilutionPct": 100, "weightG": 98.8, "solvent": True}]})
+    page.set_input_files("#impFile", tweenamen); page.wait_for_timeout(1000)
+    kop = page.text_content("#content")
+    import re as _re
+    mnew = _re.search(r"(\d+) new \(will be created", kop or "")
+    check(f"de voorvertoning belooft één nieuw materiaal voor die twee namen ({mnew.group(1) if mnew else '?'})",
+          bool(mnew) and mnew.group(1) == "1")
+    page.click("#btnImpOk"); page.wait_for_timeout(1200)
+    gemaakt = page.evaluate("DATA.materials.length") - voorM
+    namen = page.evaluate("""() => DATA.materials.filter(m => /A1/.test(m.name) || /A1/.test(m.aliases||"")).map(m => m.name)""")
+    check(f"en er komt ook één materiaal ({gemaakt}: {namen})", gemaakt == 1)
+    een = page.evaluate("""() => { const a = matByName('Proefstof A1'), b = matByName('Tweede naam A1');
+        return [!!a, !!b, a && b && a.id === b.id]; }""")
+    check(f"beide namen wijzen naar hetzelfde materiaal ({een})", een == [True, True, True])
+    gew = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === 'A1 test');
+        const v = f.versions[f.versions.length-1];
+        const ids = new Set(v.lines.map(l => l.materialId));
+        return [v.lines.length, ids.size]; }""")
+    check(f"de twee regels staan op één materiaal ({gew})", gew == [3, 2])
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+
+    # ---- bouw 260922a, punt A5: een vorm die geen lijst is, zet de app niet vast ----
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    for naam, pkg in [
+        ("obj.json",  {"type": "miformulas-import", "formulas": [{"name": "X", "versions": {"v1": {"lines": []}}}]}),
+        ("getal.json",{"type": "miformulas-import", "formulas": [{"name": "X", "versions": 3}]}),
+        ("tekst.json",{"type": "miformulas-import", "formulas": [{"name": "X", "versions": "oeps"}]}),
+        ("regels.json",{"type": "miformulas-import", "formulas": [{"name": "X", "versions": [{"lines": {"a": 1}}]}]}),
+    ]:
+        f = schrijf(naam, pkg)
+        page.set_input_files("#impFile", f); page.wait_for_timeout(900)
+        # de voorvertoning wordt getekend in plaats van te gooien, en de sluis weigert het bestand netjes
+        getekend = page.evaluate("!!document.querySelector('#btnImpCancel')")
+        leeg = page.locator("#impEmpty").count() == 1
+        dicht = page.locator("#btnImpOk").count() == 0 or page.locator("#btnImpOk").is_disabled()
+        check(f"{naam}: de voorvertoning wordt getekend in plaats van te gooien", getekend)
+        check(f"{naam}: Confirm blijft dicht en het zegt waarom (leeg={leeg})", dicht and leeg)
+        page.click("#btnImpCancel"); page.wait_for_timeout(500)
+        page.click("#tabF"); page.wait_for_timeout(300)
+        page.click("#list .item >> nth=0"); page.wait_for_timeout(600)
+        weer = page.evaluate("[!!IMPORTP, !!VIEW.id, !!document.querySelector('#btnImpCancel')]")
+        check(f"{naam}: en daarna opent een formule gewoon ({weer})", weer == [False, True, False])
+    nX = page.evaluate("DATA.formulas.filter(f => f.name === 'X').length")
+    check(f"en er is niets ingevoerd ({nX} formule(s) X)", nX == 0)
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

@@ -463,6 +463,40 @@ with sync_playwright() as p:
           page.evaluate("""() => DATA.formulas.filter(x => /^Ros/.test(x.name)).length""") == 1)
     page.evaluate("""() => document.querySelector("#dlgCancel")?.click()"""); page.wait_for_timeout(400)
 
+    # ---------- A4 (bouw 260922a): een predilutienaam volgt dezelfde vouwing als de rest ----------
+    # Create predilution maakt zowel een materiaal als een formule. De naamcontrole stond nog op ===, dus
+    # een naam die alleen in hoofdletters of een accent verschilde kwam erdoor; het nieuwe materiaal sorteerde
+    # dan vóór het echte en won elke opzoeking.
+    page.evaluate("""() => {
+      DATA.materials.push(
+        {id:"m-pd1", name:"Predilproef", category:"Test", pyramid:3, isSolvent:false, dilutions:[{pct:100,isBase:true}]},
+        {id:"m-pd2", name:"Predilsolvent", category:"Solvents", pyramid:5, isSolvent:true, dilutions:[{pct:100,isBase:true}]});
+      invalidateMats();
+      DATA.formulas.push({id:"f-pd", name:"Predilformule", category:"Uncategorised", created:today(), versions:[
+        {v:1, date:today(), lines:[
+          {materialId:"m-pd1", dilutionPct:100, weightG:10, remark:1},
+          {materialId:"m-pd2", dilutionPct:100, weightG:90, remark:1}]}]});
+      markDirty(); VIEW = {tab:"F", id:"f-pd", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
+    page.wait_for_timeout(700)
+    page.evaluate("""() => document.querySelectorAll("#content table.lines tbody input[type=checkbox]").forEach(c => { c.checked = true; c.dispatchEvent(new Event("change", {bubbles:true})); })""")
+    page.wait_for_timeout(400)
+    page.click("#btnPredil"); page.wait_for_timeout(600)
+    check("het predilutievenster staat open", page.locator("#pdName").count() == 1)
+    n0 = len(msgs)
+    page.fill("#pdName", "PREDILPROEF")          # zelfde naam, andere hoofdletters
+    page.click("#dlgOk"); page.wait_for_timeout(700)
+    check(f"een naam die alleen in hoofdletters verschilt wordt geweigerd ({msgs[n0:][:1]})",
+          any("already in use" in m for m in msgs[n0:]))
+    aantal = page.evaluate("""() => DATA.materials.filter(m => normName(m.name) === normName("Predilproef")).length""")
+    check(f"en er is geen tweede materiaal met die naam ({aantal})", aantal == 1)
+    n1 = len(msgs)
+    page.fill("#pdName", "Predilproef 10%")      # een naam die vrij is
+    page.click("#dlgOk"); page.wait_for_timeout(900)
+    gemaakt = page.evaluate("""() => [DATA.materials.some(m => m.name === "Predilproef 10%"),
+                                      DATA.formulas.some(f => f.name === "Predilproef 10%")]""")
+    check(f"met een vrije naam gaat het wel door ({gemaakt})", gemaakt == [True, True])
+    page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+
     check("no page errors", not errs)
     b.close()
 
