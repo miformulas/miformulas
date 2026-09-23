@@ -80,8 +80,10 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 const log = s => { $("#log").textContent += s + "\n"; };
 const EPOCH = Date.UTC(2001, 0, 1);
 const pad2 = n => String(n).padStart(2, "0");
-function cdDate(ts){ if (ts == null) return ""; const d = new Date(EPOCH + ts * 1000); return `${d.getUTCFullYear()}-${pad2(d.getUTCMonth()+1)}-${pad2(d.getUTCDate())}`; }
-function cdStamp(ts){ if (ts == null) return ""; const d = new Date(EPOCH + ts * 1000); return `${cdDate(ts)}T${pad2(d.getUTCHours())}:${pad2(d.getUTCMinutes())}:${pad2(d.getUTCSeconds())}`; }
+// Formulair shows its dates in the time of the computer, and so does miFormulas (build 260922h). Read in UTC, a formula
+// made after midnight in Brussels carried the day before: 90 of the 698 formulas of one real database.
+function cdDate(ts){ if (ts == null) return ""; const d = new Date(EPOCH + ts * 1000); return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function cdStamp(ts){ if (ts == null) return ""; const d = new Date(EPOCH + ts * 1000); return `${cdDate(ts)}T${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`; }
 function colourOf(blob){
   if (!blob) return null;
   const txt = new TextDecoder("latin1").decode(blob);

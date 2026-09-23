@@ -310,6 +310,20 @@ with sync_playwright() as p:
     check(f"en de geladen bibliotheek blijft wat ze was ({voor!r})",
           page.evaluate("""() => DATA.materialList && DATA.materialList.name""") == voor)
 
+    # bouw 260922h (C-c 25): een bibliotheek leest het pyramid-niveau ook in woorden, zoals de CSV van materialen.
+    # Een library die een assistent schrijft, gebruikt woorden; "Base" viel stil weg.
+    woorden = {"type": "miformulas-materials", "name": "Woorden", "version": "1", "materials": [
+        {"name": "Woord Base", "pyramid": "Base"}, {"name": "Woord Topheart", "pyramid": "Top-heart"},
+        {"name": "Woord Spatie", "pyramid": "top / heart"}, {"name": "Woord Getal", "pyramid": 2},
+        {"name": "Woord Tekstgetal", "pyramid": "3"}, {"name": "Woord Onzin", "pyramid": "Middle"}, {"name": "Woord Zeven", "pyramid": 7}]}
+    pad_w = os.path.join(tempfile.mkdtemp(), "woorden.json")
+    open(pad_w, "w", encoding="utf-8").write(json.dumps(woorden))
+    page.set_input_files("#impList", pad_w); page.wait_for_timeout(800)
+    lv = page.evaluate("""() => ["Base", "Topheart", "Spatie", "Getal", "Tekstgetal", "Onzin", "Zeven"].map(n => {
+        const e = (DATA.materialList && DATA.materialList.materials || []).find(x => x.name === "Woord " + n); return e ? (e.pyramid ?? null) : "weg"; })""")
+    check(f"25: Base, Top-heart en top / heart worden 4, 1 en 1; een woord dat niets zegt en 7 vallen weg ({lv})",
+          lv == [4, 1, 1, 2, 3, None, None])
+
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")

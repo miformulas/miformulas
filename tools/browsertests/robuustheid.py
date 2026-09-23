@@ -295,6 +295,41 @@ with sync_playwright() as p:
     check(f"en een gave kopie start gewoon op ({r3})", r3 == "ok")
     check(f"geen paginafouten ({e5[:1]})", not e5)
     ctx5.close()
+
+    # ---------- 11. C8 (bouw 260922h): een getal of een lijst waar tekst hoort, in het databestand zelf ----------
+    # Een categorie 5 legde het opstarten stil, een materiaalnaam 1234 de materiaalpagina, notities als lijst de
+    # formulepagina en Export all my formulas, een beschrijving als lijst Export all materials (Excel).
+    ctx6 = b.new_context(viewport={"width": 1280, "height": 900}, accept_downloads=True)
+    pg6 = ctx6.new_page(); e6 = []
+    pg6.on("pageerror", lambda e: e6.append(str(e)))
+    pg6.on("dialog", lambda d: d.accept())
+    pg6.goto(URL); pg6.wait_for_timeout(900)
+    pg6.click("#btnStarter"); pg6.wait_for_timeout(1400)
+    pg6.evaluate("""async () => { const d = JSON.parse(serialize());
+        d.formulas[0].category = 5; d.formulas[0].versions[0].notes = ["eerste regel", "tweede regel"];
+        d.formulas[1].name = 1881; d.formulas[1].versions[0].name = 2;
+        d.materials[0].name = 1234; d.materials[1].description = ["x", "y"]; d.materials[2].cas = 4940111; d.materials[3].supplier = {naam: "z"};
+        await idb.set("demoData", JSON.stringify(d)); }""")
+    pg6.reload(); pg6.wait_for_timeout(1800)
+    vorm = pg6.evaluate("""() => DATA && [DATA.formulas[0].category, DATA.formulas[0].versions[0].notes, DATA.formulas[1].name,
+        DATA.formulas[1].versions[0].name, DATA.materials.some(m => m.name === "1234"), DATA.materials.map(m => m.description).includes("x\\ny"),
+        DATA.materials.some(m => m.cas === "4940111"), DATA.materials.every(m => typeof (m.supplier ?? "") === "string")]""")
+    check(f"C8: de app start en maakt tekst van elk veld ({vorm})",
+          vorm == ["5", "eerste regel\ntweede regel", "1881", "2", True, True, True, True] and not e6)
+    pg6.evaluate("""() => switchTab("F", DATA.formulas[0].id, {type: "v", idx: 0})"""); pg6.wait_for_timeout(600)
+    check(f"C8: de formulepagina opent ({e6[:1]})", "eerste regel" in (pg6.text_content("#content") or "") and not e6)
+    pg6.evaluate("""() => switchTab("M", DATA.materials.find(m => m.name === "1234").id, null)"""); pg6.wait_for_timeout(600)
+    check(f"C8: de materiaalpagina opent ({e6[:1]})", not e6 and "1234" in (pg6.text_content("#content") or ""))
+    pg6.click("#btnIO"); pg6.wait_for_timeout(400)
+    with pg6.expect_download() as d6:
+        pg6.click("#btnExpJ")
+    check(f"C8: Export all my formulas schrijft ({e6[:1]})", bool(d6.value.suggested_filename) and not e6)
+    pg6.wait_for_timeout(300)
+    if not pg6.locator("#btnExpM").is_visible(): pg6.click("#btnIO"); pg6.wait_for_timeout(400)
+    with pg6.expect_download() as d7:
+        pg6.click("#btnExpM")
+    check(f"C8: Export all materials (Excel) schrijft ({e6[:1]})", bool(d7.value.suggested_filename) and not e6)
+    ctx6.close()
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")

@@ -32,6 +32,38 @@ PKG = {
   "shopSites": [], "orderList": [],
 }
 
+# bouw 260922h (A4, B13): twee Formulair-materialen met één naam blijven twee, een formulenaam die je al hebt krijgt
+# "(Formulair)", twee gelijke titels binnen Formulair blijven zoals ze waren, en een tweede invoer legt alles terug op
+# waar de eerste het zette.
+def mat2(i, name, sup, cost, desc, dils):
+    return {"id": i, "name": name, "cas": "", "category": "Test category", "supplier": sup, "costPerGram": cost, "ifraLimit": None,
+            "inventory": None, "pyramid": 4, "isSolvent": False, "description": desc, "locations": {}, "density": None, "modified": "2026-09-22",
+            "dilutions": [{"pct": d, "isBase": k == 0, "date": "", "notes": ""} for k, d in enumerate(dils)]}
+def form2(i, name, notes, lines):
+    return {"id": i, "name": name, "category": "Tests", "created": "2026-09-22", "modified": "2026-09-22 10:00", "frozenImport": True,
+            "versions": [{"v": 1, "name": "", "date": "2026-09-22", "notes": notes, "sourceName": name, "imported": True, "frozen": True,
+                          "lines": [{"materialId": m, "dilutionPct": d, "weightG": w, "remark": None} for m, d, w in lines]}]}
+PKG2 = {"meta": {"schema": 1, "source": "test 260922h"}, "materialCategories": ["Test category"], "formulaCategories": ["Tests"],
+  "suppliers": ["Supplier A", "Supplier B"], "categoryColours": {},
+  "materials": [mat2("m-v1", "Vetiver Oil", "Supplier A", 0.5, "from Java", [100]),
+                mat2("m-v2", "Vetiver Oil", "Supplier B", 2.0, "from Haiti", [100, 10]),
+                mat2("m-u1", "", "", None, "unnamed one", [100]), mat2("m-u2", "", "", None, "unnamed two", [50]),
+                mat2("m-r1", "Rose Oxide Special", "Supplier A", 1.0, "first rose", [100]),
+                mat2("m-r2", "Rose Oxide Special", "Supplier B", 3.0, "second rose", [100])],
+  "formulas": [form2("f-v", "Vetiver test", "", [("m-v2", 10, 10), ("m-r2", 100, 1), ("m-u2", 50, 2)]),
+               form2("f-a", "Angel", "the Formulair Angel", [("m-v1", 100, 1)]),
+               form2("f-t1", "Tabak v2x", "first tabak", [("m-r1", 100, 1)]),
+               form2("f-t2", "Tabak v2x", "second tabak", [("m-v1", 100, 2)])],
+  "shopSites": [], "orderList": []}
+BEELD = """() => { const vt = DATA.formulas.find(f => f.name === "Vetiver test");
+    return {vet: DATA.materials.filter(m => m.name === "Vetiver Oil").map(m => [m.supplier || "", m.costPerGram, m.dilutions.map(d => d.pct).sort((a, b) => a - b)]),
+            rose: DATA.materials.filter(m => m.name === "Rose Oxide Special").map(m => m.costPerGram).sort(),
+            unnamed: DATA.materials.filter(m => m.name === "Unnamed material").map(m => m.description).sort(),
+            lines: vt ? vt.versions[0].lines.map(l => { const m = matById(l.materialId); return m ? [m.supplier || "", m.costPerGram, m.description] : null; }) : null,
+            angel: DATA.formulas.filter(f => /^Angel/.test(f.name)).map(f => f.name).sort(),
+            tabak: DATA.formulas.filter(f => f.name === "Tabak v2x").map(f => f.versions[0].notes).sort(),
+            n: [DATA.formulas.length, DATA.materials.length]}; }"""
+
 with sync_playwright() as p:
     b = p.chromium.launch(); ctx = b.new_context(); pg = ctx.new_page()
     errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
@@ -87,6 +119,29 @@ with sync_playwright() as p:
     pg.evaluate("t => idb.set('pendingImport', t)", json.dumps(PKG)); pg.goto(URL); pg.wait_for_timeout(1500)
     again = pg.evaluate("[DATA.formulas.length, DATA.materials.length]")
     check(f"same import again: formula skipped, materials matched: {again}", again == [17, 200] and any("1 already present" in m for m in msgs))
+    # ---------- bouw 260922h: A4 en B13 ----------
+    msgs.clear()
+    pg.click("#btnSave"); pg.wait_for_timeout(500)
+    pg.evaluate("t => idb.set('pendingImport', t)", json.dumps(PKG2)); pg.goto(URL); pg.wait_for_timeout(1500)
+    r = pg.evaluate(BEELD)
+    check(f"A4: twee Vetiver Oils blijven twee, de tweede met haar eigen leverancier, prijs en dilutie ({r['vet']})",
+          len(r["vet"]) == 2 and ["Supplier B", 2.0, [10, 100]] in r["vet"])
+    check(f"A4: een naam die de app nog niet had, blijft ook twee ({r['rose']})", r["rose"] == [1.0, 3.0])
+    check(f"A4: twee naamloze materialen blijven twee, als Unnamed material ({r['unnamed']})", r["unnamed"] == ["unnamed one", "unnamed two"])
+    check(f"A4: de regels wijzen naar hun eigen materiaal ({r['lines']})",
+          r["lines"] == [["Supplier B", 2.0, "from Haiti"], ["Supplier B", 3.0, "second rose"], ["", None, "unnamed two"]])
+    check(f"B13: Angel van Formulair komt als Angel (Formulair) naast die van de starterset ({r['angel']})", r["angel"] == ["Angel", "Angel (Formulair)"])
+    check(f"B13: twee gelijke titels binnen Formulair blijven zoals ze waren ({r['tabak']})", r["tabak"] == ["first tabak", "second tabak"])
+    check(f"de melding telt het ({[m[:160] for m in msgs][-1:]})",
+          any("Materials: 5 added, 1 matched by name" in m and "with “(Formulair)” behind the name" in m for m in msgs))
+    na1 = r["n"]
+    msgs.clear()
+    pg.click("#btnSave"); pg.wait_for_timeout(500)
+    pg.evaluate("t => idb.set('pendingImport', t)", json.dumps(PKG2)); pg.goto(URL); pg.wait_for_timeout(1500)
+    r2 = pg.evaluate(BEELD)
+    check(f"A4: een tweede invoer legt elk materiaal waar de eerste het zette, niets erbij ({na1} -> {r2['n']})",
+          r2["n"] == na1 and any("Materials: 0 added, 6 matched by name" in m and "4 already present" in m for m in msgs))
+    check(f"A4: en de twee Vetiver Oils zijn niets van elkaar kwijt ({r2['vet']})", ["Supplier B", 2.0, [10, 100]] in r2["vet"] and len(r2["vet"]) == 2)
     check("no JavaScript errors", not errs)
     ctx.close()
 
@@ -98,6 +153,18 @@ with sync_playwright() as p:
     fresh = pg.evaluate("DATA ? [DATA.formulas.length, DATA.materials.length, DEMO] : null")
     check(f"empty browser: the import becomes the data: {fresh}", fresh == [1, 2, True])
     check("no JavaScript errors (fresh)", not errs)
+    ctx.close()
+
+    # bouw 260922h: hetzelfde bestand in een lege browser geeft hetzelfde beeld (behalve de naam die daar niet bezet is)
+    ctx = b.new_context(); pg = ctx.new_page(); errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
+    pg.on("dialog", lambda d: d.accept())
+    pg.goto(URL); pg.wait_for_timeout(600)
+    pg.evaluate("t => idb.set('pendingImport', t)", json.dumps(PKG2)); pg.goto(URL); pg.wait_for_timeout(1200)
+    r3 = pg.evaluate(BEELD)
+    check(f"lege browser: twee Vetiver Oils, twee rozen, twee naamloze, Angel zonder achtervoegsel ({r3['vet']}, {r3['angel']})",
+          sorted(x[0] for x in r3["vet"]) == ["Supplier A", "Supplier B"] and r3["rose"] == [1.0, 3.0]
+          and r3["unnamed"] == ["unnamed one", "unnamed two"] and r3["angel"] == ["Angel"] and len(r3["tabak"]) == 2)
+    check("no JavaScript errors (lege browser 260922h)", not errs)
     ctx.close(); b.close()
 
 print("\n" + ("alles in orde" if not fouten else f"{len(fouten)} fout(en)"))

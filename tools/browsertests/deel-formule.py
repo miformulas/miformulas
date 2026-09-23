@@ -10,7 +10,7 @@ def check(name, cond):
     ok += bool(cond); fail += (not cond)
     print(("OK   " if cond else "FAIL ") + name)
 
-TOEGESTAAN = {"type", "name", "versionName", "category", "source", "notes", "lines"}
+TOEGESTAAN = {"type", "name", "versionName", "date", "category", "source", "notes", "lines"}   # date sinds bouw 260922h
 REGELVELDEN = {"material", "dilutionPct", "weightG", "cas", "solvent"}
 
 with sync_playwright() as p:
@@ -28,6 +28,7 @@ with sync_playwright() as p:
         const f = DATA.formulas.find(x => x.versions.length && x.versions[0].lines.length > 3);
         const v = f.versions[0];
         v.name = "45gr";                                   // het label van de versie
+        v.date = "2025-11-01";                             // een datum die niet die van vandaag is (bouw 260922h)
         v.notes = "Second trial, more geraniol.";
         const m = matById(v.lines[0].materialId);
         m.costPerGram = 2.5; m.supplier = "Somebody"; m.inventory = "50 g";
@@ -76,6 +77,7 @@ with sync_playwright() as p:
           pkg.get("versionName") == "45gr")
     check(f"de herkomst staat erbij ({pkg.get('source')})", "Shared from miFormulas" in pkg.get("source", ""))
     check("de notities van de versie gaan mee", pkg.get("notes") == "Second trial, more geraniol.")
+    check(f"260922h: de datum van de versie gaat mee ({pkg.get('date')!r})", pkg.get("date") == "2025-11-01")
     check("elke regel is meegegaan", len(pkg["lines"]) == nlines)
     check(f"in de volgorde van de versie, niet die van het scherm",
           [L["material"] for L in pkg["lines"]] == volgorde)
@@ -155,11 +157,14 @@ with sync_playwright() as p:
     got = page2.evaluate("""(naam) => { const f = DATA.formulas.find(x => x.name === naam);
         const v = f.versions[f.versions.length - 1];
         const K = calc(v.lines);
-        return {naam: f.name, cat: f.category, notes: v.notes, n: v.lines.length, label: v.name,
+        return {naam: f.name, cat: f.category, notes: v.notes, n: v.lines.length, label: v.name, datum: v.date,
                 abs: +K.totalAbsPct.toFixed(2), gewichten: v.lines.map(l => l.weightG)}; }""", naam)
     check(f"de formule is aangekomen ({got['naam']}, {got['n']} regels)", got["n"] == nlines)
     check(f"met het label van de afzender ({got['label']!r})", got["label"] == "45gr")
     check("met de notities erbij", "more geraniol" in (got["notes"] or ""))
+    check(f"260922h: met de datum van de afzender, niet die van vandaag ({got['datum']})", got["datum"] == "2025-11-01")
+    check("260922h: en de herkomst in de notities van de nieuwe formule",
+          "Shared from miFormulas" in (got["notes"] or "") and "2025-11-01" in (got["notes"] or ""))
     check("en met de gewichten van de afzender",
           [round(w, 6) for w in got["gewichten"]] == [round(L["weightG"], 6) for L in pkg["lines"]])
     nieuw = page2.evaluate("""(naam) => { const m = DATA.materials.find(x => x.name === naam);

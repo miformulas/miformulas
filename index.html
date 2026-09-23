@@ -362,7 +362,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922g</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922h</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -430,7 +430,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260922g. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260922h. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -575,10 +575,10 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s6-coming-from-formulair">The Formulair importer after reading the database.</a></p>
 </li>
 <li>
-<p>Click <strong>Add to miFormulas</strong>. The app opens and adds everything to what is already there: materials with the same name are matched (their Formulair dilutions come along and empty fields are filled in), the others are added, and every Formulair formula arrives as a frozen formula. A message tells you the counts; one Undo takes the whole import back, and a formula imported before is not imported twice. Prefer a file? <strong>Download miformulas-data.json</strong> gives the same data as a file, for a server or your own tools. <strong>Back to miFormulas</strong> at the top returns to the app without importing.</p>
+<p>Click <strong>Add to miFormulas</strong>. The app opens and adds everything to what is already there: a material you already have takes the Formulair material with the same name (its Formulair dilutions come along and empty fields are filled in), the others are added, and every Formulair formula arrives as a frozen formula. Two Formulair materials with one name are two jars: the first lands on yours, the second is added as a material of its own, so the price and supplier of neither are lost. A formula whose name you already have arrives as "Name (Formulair)". A message tells you the counts; one Undo takes the whole import back, and a formula imported before is not imported twice. Prefer a file? <strong>Download miformulas-data.json</strong> gives the same data as a file, for a server or your own tools. <strong>Back to miFormulas</strong> at the top returns to the app without importing.</p>
 </li>
 </ol>
-<p>Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, date, category and colour marks per line, and every material comes with its dilutions, CAS (if you wrote other names next to the CAS number in Formulair, the number stays and those names become alternative names), supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted or renamed, and amounts are in grams.</p>
+<p>Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, its date as Formulair showed it (also for a formula made after midnight), its category and its colour marks per line, and every material comes with its dilutions, CAS (if you wrote other names next to the CAS number in Formulair, the number stays and those names become alternative names), supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted, amounts are in grams, and the one name the import changes is a formula name you already had.</p>
 <p>Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4, v5 and v6 is a decision for you, made afterwards in the app with <strong>Move into…</strong> (section <a href="#s10-formulas-and-versions">10</a>): open "Aura v04", the one with the lowest number, and click Move into…: the app suggests <strong>this formula</strong> as the target and lists "Aura v05", "Aura v05 20%" and "Aura v06" under Move together, ticked. Click Move: they become the next versions of "Aura v04" in one go, in the order of the numbers in their names; then rename "Aura v04" to "Aura" and give the 20 % one its label with the <strong>pencil</strong>. Opening another one first works too: the app then suggests the lowest-numbered formula as the target. A formula that already holds several versions can no longer be moved itself, so stragglers are moved from their own page. The app never groups by itself, because every perfumer names things differently. For a large collection, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.</p>
 <p>The same conversion exists as a command-line script, <code>tools/formulair-naar-json.py</code>, for those who prefer a terminal.</p>
 <h2 id="s7-a-server-setup-for-cross-device-use">7. A server setup for cross-device use</h2>
@@ -726,8 +726,8 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <ul>
 <li><strong>Print weighing sheet</strong> prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, exactly as the version holds them; it never rescales, so what you weigh always matches a version number (section <a href="#s14-batch-scaling-and-predilutions">14</a>). Fridge materials carry the ❄, and a material you do not own yet reads "(to order)", so you notice at the bench and not at the cupboard.</li>
 <li><strong>Print full formula</strong> prints the complete entry with weights, both percentages, the total, and the notes and the trial log underneath; the cost per line is there once a material of yours carries a price, exactly as the column on the screen appears only then. This is the record of the version, the one to keep on paper or as a PDF.</li>
-<li><strong>Excel export</strong> downloads the entry as a CSV file, which a spreadsheet opens directly. Use this for a colleague who does not use miFormulas: they can read it, sort it and work in it. A line whose material you have since deleted has no name to write; the app says how many there are and asks before it leaves them out.</li>
-<li><strong>Share this version</strong> downloads the entry as a miformulas-import file, the same format described in section <a href="#s20-import-and-export">20</a>. Send it to someone who does use miFormulas and they import it in one action, instead of typing your formula line by line. It holds the material names with their dilution and weight, the CAS numbers, a mark on the lines that are solvent in your inventory, the category, the label of this version and its notes, and nothing of your own lab: no price, no supplier, no stock, no trial log, no colour marks. The lines keep the order of the version, not the sort order on your screen. Here too a line to a material you deleted is left out, after the app has said how many and asked. Weights and dilutions are never converted, here or on the way in, so a dilution the other does not stock arrives with a ⚠ and they convert it themselves in a new version. A material they do not own yet is created for them as "to order", with its CAS and, where the file says so, as a solvent, so that their rel % and abs % read the same as yours. Where the two of you disagree about what is a solvent, their own material decides and the import page says so.</li>
+<li><strong>Excel export</strong> downloads the entry as a CSV file, which a spreadsheet opens directly. Use this for a colleague who does not use miFormulas: they can read it, sort it and work in it. It also comes back: <strong>Import formula…</strong> reads the file with its title row, so a version you changed in the spreadsheet returns as a new version of its formula (section <a href="#s20-import-and-export">20</a>). A line whose material you have since deleted has no name to write; the app says how many there are and asks before it leaves them out.</li>
+<li><strong>Share this version</strong> downloads the entry as a miformulas-import file, the same format described in section <a href="#s20-import-and-export">20</a>. Send it to someone who does use miFormulas and they import it in one action, instead of typing your formula line by line. It holds the material names with their dilution and weight, the CAS numbers, a mark on the lines that are solvent in your inventory, the category, the label and the date of this version and its notes, and nothing of your own lab: no price, no supplier, no stock, no trial log, no colour marks. The lines keep the order of the version, not the sort order on your screen. Here too a line to a material you deleted is left out, after the app has said how many and asked. Weights and dilutions are never converted, here or on the way in, so a dilution the other does not stock arrives with a ⚠ and they convert it themselves in a new version. A material they do not own yet is created for them as "to order", with its CAS and, where the file says so, as a solvent, so that their rel % and abs % read the same as yours. Where the two of you disagree about what is a solvent, their own material decides and the import page says so.</li>
 </ul>
 <p>Printing uses the browser's print dialog; choose "Save as PDF" there for a PDF. It always comes out dark on white, whichever theme you work in.</p>
 <h2 id="s17-comparing-versions">17. Comparing versions</h2>
@@ -745,11 +745,11 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s19-stock-orders-and-deliveries">The order list.</a></p>
 <h2 id="s20-import-and-export">20. Import and export</h2>
 <p>The ⇅ button in the header opens <strong>Import &amp; export</strong>, a window with everything that comes in and goes out. The Welcome page keeps the two ways in that a new inventory starts with, and points at that window for the rest. <strong>Import from Formulair…</strong> opens the importer described in section <a href="#s6-coming-from-formulair">6</a>.</p>
-<p><strong>Import materials inventory from CSV…</strong> is the way in for the materials you already keep in Excel, Numbers or Google Sheets, which is where almost everyone keeps them. Save the sheet as a CSV first (in Excel: <strong>File › Save As › CSV</strong>; the app reads the comma, the semicolon and the tab, a decimal comma as well as a point, and the Windows encoding Excel uses when you do not choose "CSV UTF-8"). Then choose the file, and the app shows its columns next to the fields of a material and lets you match them on screen. It fills the matches in itself when it recognises the headers: its own, from <strong>Export all materials (Excel)</strong>, and the usual names (Material, Ingredient, CAS No., Vendor, Price, IFRA, Notes); anything it did not recognise you pick from the list, and only <strong>Name</strong> is required. Under the matching you see the first rows of your sheet as they were read, and a count of what will happen: how many materials will be created, how many rows are skipped because you already have a material with that name, because the name stands twice in the sheet, or because an earlier row in the same sheet brings in a material that answers to it, which happens when the library gives that material an alternative name (nothing of yours is touched by an import) and how many rows have no name. The count is what the import really does: a row that will land on a material another row creates is not promised as a new one. What the sheet leaves empty, the materials library fills in when it knows the name (section <a href="#s9-materials">9</a>), so a sheet with nothing but names still arrives with CAS numbers, categories and pyramid levels. The window names the library that is loaded and says how many of the new names it knows; when none is loaded, it offers <strong>Get the latest library</strong> right there, so the first import does not have to pass through Settings. Pyramid takes the words Top, Top-heart, Heart, Heart-base, Base or the numbers 0 to 4; Solvent, Cupboard, Fridge and Freezer take yes or nothing; Dilutions takes the base first and the others after a slash ("100 / 10"), and a single figure like "10%" makes that the base; the same percentage twice in one cell is read once, as it is everywhere else in the app. A stock column is ignored, because stock is a ledger and an import cannot invent its history. The whole import is one Undo step. <strong>Download a template</strong> (in the same window, in Import &amp; export and on the Welcome page) writes a CSV with the columns the app uses itself and two example rows to overwrite, so nobody has to guess the format with an empty inventory.</p>
-<p><strong>Import materials library…</strong> reads a miformulas-materials JSON file: a library of materials with their facts, which the app uses when you add a material, when you tick several in <strong>Browse the library…</strong>, and when a search in Materials finds nothing in your inventory. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. One library is loaded at a time, so importing a newer or fuller one replaces the previous one; the materials you own are never touched. Settings (⚙) names the library that is loaded, with its size and its licence, removes it again, and fetches the latest miFormulas library straight from the site with <strong>Get the latest library</strong>, so you do not have to download a file first. The library travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step. That is also why its size matters: it sits inside your data file, and every change you make writes that file whole, so a large library would be sent to your disk or your server over and over. The app names the size when you load one, and refuses a library above <strong>2 MB</strong>; the published miFormulas library is a fraction of that.</p>
-<p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, or shared by another miFormulas user, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your inventory (always by name, or by one of the alternative names of a material; a material id in the file is ignored, because an id from another data file points at another material). When the file names the material differently from you, that name is shown behind the match ("Ambroxide ← Ambroxan"), because this is the one moment at which you can check it; and when several of your materials answer to the name in the file, they are all named, so you see which one the import would take. It also shows the total weight (with, for a transcription, the reminder that a round number such as 100 or 1000 suggests a complete one; a file shared from another miFormulas is not a transcription, so there that line stays away), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). It also reads the file critically, because such a file is written elsewhere: a line without a material name, a weight that is not a number or is negative, and a dilution outside 0 to 100 are shown in red with the reason, and <strong>Confirm import</strong> stays out of reach until you correct them in the file. A file that holds no lines at all is refused in the same way, instead of confirming an import of nothing. What can be read is repaired quietly: a decimal comma, a percent sign after a dilution, a missing dilution (which means 100). If you already have a formula with the same name, a new version of it is preselected. Nothing else is converted: dilutions and weights come in exactly as written, and you convert in a next version. Confirm, and the formula opens; Undo takes the whole import back, including the materials, order lines and categories it created. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
+<p><strong>Import materials inventory from CSV…</strong> is the way in for the materials you already keep in Excel, Numbers or Google Sheets, which is where almost everyone keeps them. Save the sheet as a CSV first (in Excel: <strong>File › Save As › CSV</strong>; the app reads the comma, the semicolon and the tab, a decimal comma as well as a point, and the Windows encoding Excel uses when you do not choose "CSV UTF-8"). Then choose the file, and the app shows its columns next to the fields of a material and lets you match them on screen. It fills the matches in itself when it recognises the headers: its own, from <strong>Export all materials (Excel)</strong>, and the usual names (Material, Ingredient, CAS No., Vendor, Price, IFRA, Notes); anything it did not recognise you pick from the list, and only <strong>Name</strong> is required. Under the matching you see the first rows of your sheet as they were read, and a count of what will happen: how many materials will be created, how many rows are skipped because you already have a material with that name, because the name stands twice in the sheet, or because an earlier row in the same sheet brings in a material that answers to it, which happens when the library gives that material an alternative name (nothing of yours is touched by an import) and how many rows have no name. The count is what the import really does: a row that will land on a material another row creates is not promised as a new one. What the sheet leaves empty, the materials library fills in when it knows the name (section <a href="#s9-materials">9</a>), so a sheet with nothing but names still arrives with CAS numbers, categories and pyramid levels. The window names the library that is loaded and says how many of the new names it knows; when none is loaded, it offers <strong>Get the latest library</strong> right there, so the first import does not have to pass through Settings. Pyramid takes the words Top, Top-heart, Heart, Heart-base, Base or the numbers 0 to 4; Solvent, Cupboard, Fridge and Freezer take yes or nothing; Dilutions takes the base first and the others after a slash ("100 / 10"), and a single figure like "10%" makes that the base; the same percentage twice in one cell is read once, as it is everywhere else in the app. A purchase date may stand as 2026-01-15 or in the short form of your spreadsheet (15/01/2026); one the app cannot read is left empty, and the final message counts it. A stock column is ignored, because stock is a ledger and an import cannot invent its history. The whole import is one Undo step. <strong>Download a template</strong> (in the same window, in Import &amp; export and on the Welcome page) writes a CSV with the columns the app uses itself and two example rows to overwrite, so nobody has to guess the format with an empty inventory.</p>
+<p><strong>Import materials library…</strong> reads a miformulas-materials JSON file: a library of materials with their facts, which the app uses when you add a material, when you tick several in <strong>Browse the library…</strong>, and when a search in Materials finds nothing in your inventory. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. Its pyramid level may be a number from 0 (Top) to 4 (Base) or the word, as in the CSV above. One library is loaded at a time, so importing a newer or fuller one replaces the previous one; the materials you own are never touched. Settings (⚙) names the library that is loaded, with its size and its licence, removes it again, and fetches the latest miFormulas library straight from the site with <strong>Get the latest library</strong>, so you do not have to download a file first. The library travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step. That is also why its size matters: it sits inside your data file, and every change you make writes that file whole, so a large library would be sent to your disk or your server over and over. The app names the size when you load one, and refuses a library above <strong>2 MB</strong>; the published miFormulas library is a fraction of that.</p>
+<p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, or shared by another miFormulas user, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your inventory (always by name, or by one of the alternative names of a material; a material id in the file is ignored, because an id from another data file points at another material). When the file names the material differently from you, that name is shown behind the match ("Ambroxide ← Ambroxan"), because this is the one moment at which you can check it; and when several of your materials answer to the name in the file, they are all named, so you see which one the import would take. It also shows the total weight (with, for a transcription, the reminder that a round number such as 100 or 1000 suggests a complete one; a file shared from another miFormulas is not a transcription, so there that line stays away), which materials are new (they are created as "to order") and which dilutions you do not stock (⚠). It also reads the file critically, because such a file is written elsewhere: a line without a material name, a weight that is not a number or is negative, and a dilution outside 0 to 100 are shown in red with the reason, and <strong>Confirm import</strong> stays out of reach until you correct them in the file. A number is a number: "1:10", "3-4", "2 drops" or "0,5 ml" are refused as well rather than guessed at (write a dilution in percent: 1:10 is 10). A file that holds no lines at all is refused in the same way, instead of confirming an import of nothing. What can be read is repaired quietly: a decimal comma, thousands in groups of three, a percent sign after a dilution, a g after a weight, a missing dilution (which means 100), and a list or a number where text belongs, such as notes written as a list, which become lines; a field that cannot be read as text is left out, and the page says how many. A date may be written 2026-09-22 or in the short form of a spreadsheet (22/09/2026, 22.09.2026, or 9/22/2026 when the number format is American); a date the app cannot read is named on the page, and the version arrives without one. Where the file marks its solvent lines (a shared file does) and you disagree about one, your own material decides and the page says so; a file that says nothing about solvents, such as a transcription, has nothing to disagree about. If you already have a formula with the same name, a new version of it is preselected. Nothing else is converted: dilutions and weights come in exactly as written, and you convert in a next version. The notes of the new version, or of the new formula, record where it came from (the day, the name and the source in the file) and the comments the file carries on its lines. Confirm, and the formula opens; Undo takes the whole import back, including the materials, order lines and categories it created. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
 <p>The same button reads a file that holds <strong>several formulas at once</strong>, the kind <strong>Export all my formulas</strong> writes. Such a file can hold tens of thousands of lines, so the page shows a summary instead of a table of lines: how many formulas, versions and lines, how many lines matched a material you own and how many materials will be created, how many lines use a dilution you do not stock and how many you and the sender disagree about being a solvent. Under that, one row per formula with its versions, lines and new materials. Every line is checked exactly as in a single import, and one that cannot be read blocks <strong>Confirm import</strong> with the formula it sits in named. The formulas arrive as new formulas, each with all its versions; one whose name you already have arrives as "Name (import)" and nothing of yours is touched, so you can join them afterwards with <strong>Move into…</strong> (section <a href="#s10-formulas-and-versions">10</a>). The materials it creates are marked "to order" in Materials but are <strong>not</strong> put on the order list, because hundreds of rows there would drown the list you keep yourself; add the ones you want with <strong>Add to order list</strong> on the material page. The whole import is a single Undo step.</p>
-<p><strong>The same button also reads a CSV</strong>, the one <strong>Export all formulas (Excel)</strong> writes, so a collection that went out to a spreadsheet can come back. Choose a <code>.csv</code> file instead of a JSON one and the app puts its columns next to the fields it knows, the way the materials import does: Formula, Category, Entry, Date, Material, Dilution %, Weight g and Notes. Only <strong>Material</strong> and <strong>Weight g</strong> are required. The rows are grouped by Formula and Entry in the order they appear, an empty cell in either carries on the row above, and "v3 45gr" becomes the version label "45gr", because the app numbers versions itself. A material with " (solvent)" behind its name loses the suffix and comes in as a solvent line. The Total line is not read as a line whatever stands beside it: it is the check on the weights, and a version whose lines do not add up to it is named on the next screen, without blocking anything. A row that holds a weight but no material name, a section heading for instance, is left out and counted on both screens. The date from the sheet comes along as the date of the version. A file that carries an empty date keeps it empty on the way in, so a version you never dated does not quietly acquire today's date on a round trip; a file that names no date at all does get today's. Rel %, Abs % and Cost EUR are ignored, because the app works them out from the weights; a sheet that holds percentages or parts instead of grams goes in the <strong>Weight g</strong> column and is read exactly as it stands, since nothing is ever converted. Without a Formula column the file name is the formula and the whole sheet is one version, which is the ordinary case of one formula per sheet. From there on it is the import described above: line by line for a single version, a summary for more, every line checked the same way, and a formula whose name you already have arriving as "Name (import)" for <strong>Move into…</strong> (section <a href="#s10-formulas-and-versions">10</a>) to join afterwards. A sheet written from scratch, with one tab per formula or versions side by side in columns, has no shape the app can guess; for those the AI prompts below are the way in.</p>
+<p><strong>The same button also reads a CSV</strong>, the one <strong>Export all formulas (Excel)</strong> writes, so a collection that went out to a spreadsheet can come back. Choose a <code>.csv</code> file instead of a JSON one and the app puts its columns next to the fields it knows, the way the materials import does: Formula, Category, Entry, Date, Material, Dilution %, Weight g and Notes. Only <strong>Material</strong> and <strong>Weight g</strong> are required. The rows are grouped by Formula and Entry in the order they appear, an empty cell in either carries on the row above, and "v3 45gr" becomes the version label "45gr", because the app numbers versions itself. A material with " (solvent)" behind its name loses the suffix and comes in as a solvent line. The Total line is not read as a line whatever stands beside it: it is the check on the weights, and a version whose lines do not add up to it is named on the next screen, without blocking anything. A row that holds a weight but no material name, a section heading for instance, is left out and counted on both screens. The date from the sheet comes along as the date of the version, also in the short form Excel writes back (22/09/2026). Two formulas with the same name stay two: a version that starts again after its Total line begins another formula, which arrives as "Name (import)". A file that carries an empty date keeps it empty on the way in, so a version you never dated does not quietly acquire today's date on a round trip; a file that names no date at all does get today's. Rel %, Abs % and Cost EUR are ignored, because the app works them out from the weights; a sheet that holds percentages or parts instead of grams goes in the <strong>Weight g</strong> column and is read exactly as it stands, since nothing is ever converted. Without a Formula column the file name is the formula and the whole sheet is one version, which is the ordinary case of one formula per sheet. The <strong>Excel export</strong> of one version (section <a href="#s16-bench-view-and-printing">16</a>) reads back too: its first row, "Angel – v1 45gr", is the title, so the formula is Angel and the label 45gr, and since you have Angel, a new version of it is preselected. From there on it is the import described above: line by line for a single version, a summary for more, every line checked the same way, and a formula whose name you already have arriving as "Name (import)" for <strong>Move into…</strong> (section <a href="#s10-formulas-and-versions">10</a>) to join afterwards. A sheet written from scratch, with one tab per formula or versions side by side in columns, has no shape the app can guess; for those the AI prompts below are the way in.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s20-import-and-export">The import page: every line with its match, the total weight, new materials and dilutions you do not stock.</a></p>
 <p><strong>Turning a photo, PDF or spreadsheet into an import file.</strong> You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a <code>.json</code> file and import it. The prompt tells the AI assistant to transcribe verbatim, to convert nothing, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the <strong>Export all materials (Excel)</strong> export as well and the assistant uses the exact names of your inventory, so that every line lands on the right material. The app offers the prompts where they help: next to Import formula… and next to the Excel exports in Import &amp; export, under the server fields in Settings, in <strong>Move into…</strong> for grouping a Formulair import, and on the Welcome page while your list of formulas is still empty. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.</p>
 <p><strong>Export my inventory as a library…</strong> does the reverse of importing a library: it writes the materials you tick as a miformulas-materials file of your own, named <code>miformulas-my-materials.json</code>. Everything is ticked to begin with, Shift-click ticks a range, and the counter says how many of the ticked ones carry a description you wrote yourself, because those descriptions go into the file exactly as they are. What stays behind is what is nobody's business but yours: stock, price, supplier, dilutions and dates. The file carries no name, version, licence or attribution either, because it is your data and not a publication. Use it to carry your own facts to another computer, or to give a colleague a head start; when a file like that is imported as a library, its descriptions take the place of the odour lines the miFormulas library would otherwise fill in.</p>
@@ -813,6 +813,13 @@ function makeClickable(root){   // a span or a link without href is invisible to
 // object throws out of renderImport; IMPORTP then stayed set and every later render threw again, so the app
 // sat frozen on whatever was open until a reload.
 const asList = x => Array.isArray(x) ? x : [];
+// Text where text belongs (build 260922h): a list of text becomes its lines (a name: its parts with "; "), a number its
+// digits; anything else (an object, true/false, a list of objects) is undefined, for the caller to drop.
+const toText = (x, sep = "\n") => typeof x === "string" ? x
+  : typeof x === "number" && isFinite(x) ? String(x)
+  : Array.isArray(x) && x.every(e => typeof e === "string" || (typeof e === "number" && isFinite(e)))
+    ? x.map(e => String(e).trim()).filter(Boolean).join(sep)
+  : undefined;
 const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const uid = p => p + Math.random().toString(36).slice(2,8);
 let LOCALE = undefined;   // number format for display; undefined = browser default, set in Settings
@@ -931,13 +938,20 @@ function migrate(d){
   let oldVars = 0;
   const seenId = new Set();
   const freshId = (x, p) => { if (!x.id || seenId.has(x.id)) x.id = uid(p); seenId.add(x.id); };   // a duplicate id hides the second one
+  // A number or a list where the app keeps text stopped the start-up (a category 5), the material page (a name 1234),
+  // the formula page and Export all my formulas (notes as a list) or Export all materials (a description as a list).
+  // Such a field becomes text here, once (build 260922h): a list of text its lines, a number its digits.
+  const text = (o, keys, dflt = {}) => { for (const k of keys){ const x = o[k];
+    if (x != null && typeof x !== "string"){ const t = toText(x, k === "notes" || k === "description" ? "\n" : "; "); o[k] = t || dflt[k] || ""; } } };
   for (const f of d.formulas || []){
     freshId(f, "f-");
+    text(f, ["name", "category"], {category: "Uncategorised"});
     f.name ||= "Unnamed formula";          // the list and the header read this, and would stop on undefined
     f.versions = rows(f.versions);
     let vmax = 0;
     for (const v of f.versions){
       v.lines = rows(v.lines);
+      text(v, ["name", "notes", "date"]);
       if (typeof v.v !== "number" || !isFinite(v.v)) v.v = vmax + 1;   // a missing number gave versions "vundefined" and "vNaN"
       vmax = Math.max(vmax, v.v);
       // a bench group used to hold material|dilution|ordinal, and that ordinal shifted as soon as one of two
@@ -977,6 +991,7 @@ function migrate(d){
   }
   for (const m of d.materials || []){
     freshId(m, "m-");
+    text(m, ["name", "cas", "category", "supplier", "inventory", "purchaseDate", "description"], {category: "Uncategorised"});
     m.name ||= "Unnamed material";
     m.dilutions = rows(m.dilutions);   // the calculation reads d.pct on every render: an empty slot there would stop it
     if (!m.dilutions.length) m.dilutions = [{pct: 100, isBase: true, date: today(), notes: ""}];
@@ -2342,7 +2357,8 @@ function nameStem(name){   // "Aura v05" → ["aura", 5]; "Aura" → ["aura", nu
 /* ---------- Formulair import: added to the current library, whatever the storage mode ---------- */
 // one folding for every comparison: "haiti" finds "Ha\u00efti", "coeur" finds "c\u0153ur", and an import that
 // writes "Patchouli coeur" lands on your own "Patchouli c\u0153ur"
-const fold = x => (x || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+// String(): a CAS or a supplier that a file holds as a number stopped every search after it (build 260922h)
+const fold = x => String(x ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   .replace(/\u0153/g, "oe").replace(/\u00e6/g, "ae").replace(/\u00f8/g, "o").replace(/\u00df/g, "ss").replace(/[\u0111\u00f0]/g, "d").replace(/\u0142/g, "l");
 const normName = x => fold(x).trim().replace(/\s+/g, " ");
 /* ---------- the materials library: one imported file of facts, used when you add a material ---------- */
@@ -2447,6 +2463,7 @@ function alsoKnownAs(m, map, val){
   }
 }
 function newMaterialFrom(name, pct, extra){   // a material you do not own yet: the library fills in what it knows
+  name = String(name ?? "").trim();            // "Brandnew Stuff  " from a file kept its spaces (build 260922h)
   const r = addFromList(listFind(name), name, pct, null);
   Object.assign(r.m, extra || {});
   return r;
@@ -2589,7 +2606,9 @@ function normLibrary(p){   // a library can come from anywhere: keep the usable 
   const list = v => Array.isArray(v) ? v.map(x => String(x).trim()).filter(Boolean)
                   : (typeof v === "string" && v.trim() ? v.split(";").map(x => x.trim()).filter(Boolean) : []);
   const txt = v => typeof v === "string" ? v.trim() : typeof v === "number" ? String(v) : "";   // an object here would read as "[object Object]"
-  const lvl = v => { const n = num(v); return n != null && Number.isInteger(n) && n >= 0 && n <= 4 ? n : null; };   // 5 is "?", which is no level
+  // the words as the CSV of materials reads them, Top to Base (build 260922h): a library an assistant writes uses them
+  const lvl = v => { if (typeof v === "string" && /[a-z]/i.test(v)){ const i = PYR.findIndex(x => x.toLowerCase() === v.trim().toLowerCase().replace(/\s*[-\/]\s*/g, "-")); return i >= 0 && i <= 4 ? i : null; }
+                     const n = num(v); return n != null && Number.isInteger(n) && n >= 0 && n <= 4 ? n : null; };   // 5 is "?", which is no level
   const ifra = v => { const n = num(v); return n != null && n >= 0 ? n : null; };                                   // a negative value means "not looked up"
   const flag = v => v === true || v === 1 || /^(true|yes|y|1)$/i.test(typeof v === "string" ? v.trim() : "");        // "no" is not a solvent
   const seen = new Set();
@@ -2655,17 +2674,29 @@ $("#impFile").addEventListener("change", async e => {
   if (p?.type !== "miformulas-import" || !(many || (Array.isArray(p.lines) && p.lines.length))){
     alert("This is not a miFormulas import file (expected type “miformulas-import” with lines, or with formulas)."); return;
   }
+  p._tidy = tidyImport(p);   // the text fields in shape before anything reads them
   IMPORTP = p; render();
 });
 function mergeImport(pkg){
   const before = structuredClone(DATA);
-  const byName = new Map(DATA.materials.map(m => [normName(m.name), m]));
+  // Each material you had before the import takes at most one Formulair material of its name; a second one with that
+  // name is a jar of its own and is added (build 260922h). Every Formulair material with a name you had used to fall
+  // on your material, and one the import had just added counted as yours too: two Vetiver Oils from two suppliers
+  // became one, the second one's price, supplier and description were lost and its formulas changed cost without a
+  // word, while the same file in an empty browser kept both. Taken in the order of your inventory, so a second import
+  // of the same database lands every one of them where the first one put it. A material without a name is matched as
+  // the "Unnamed material" the app makes of it, one to one as well.
+  const byName = new Map();
+  for (const m of DATA.materials){ const k = normName(m.name); if (k){ if (!byName.has(k)) byName.set(k, []); byName.get(k).push(m); } }
+  const taken = new Map();
   const ids = new Set([...DATA.materials.map(m => m.id), ...DATA.formulas.map(f => f.id)]);
   const idMap = new Map();
-  const n = {matAdded: 0, matMatched: 0, dilAdded: 0, fAdded: 0, fSkipped: 0};
+  const n = {matAdded: 0, matMatched: 0, dilAdded: 0, fAdded: 0, fSkipped: 0, fRenamed: 0};
   for (const im of pkg.materials || []){
-    const ex = byName.get(normName(im.name));
+    const k = normName(im.name) || "unnamed material", mine = byName.get(k) || [], i = taken.get(k) || 0;
+    const ex = i < mine.length ? mine[i] : null;
     if (ex){   // same name: one material; its Formulair dilutions come along, empty fields are filled in
+      taken.set(k, i + 1);
       n.matMatched++; idMap.set(im.id, ex.id);
       ex.dilutions ||= [];
       for (const d of im.dilutions || []) if (!ex.dilutions.some(x => Math.abs(x.pct - d.pct) < 1e-9)){ ex.dilutions.push({...d, isBase: false}); n.dilAdded++; }
@@ -2677,8 +2708,9 @@ function mergeImport(pkg){
     } else {
       const m = structuredClone(im); delete m.starter;
       if (ids.has(m.id)) m.id = uid("m-");
+      if (!normName(m.name)) m.name = "Unnamed material";   // what migrate calls it at the next start
       ids.add(m.id); idMap.set(im.id, m.id);
-      DATA.materials.push(m); byName.set(normName(m.name), m); n.matAdded++;
+      DATA.materials.push(m); n.matAdded++;   // not in byName: only what you had before the import is matched
     }
   }
   const addCats = (list, extra) => { for (const c of extra || []) if (c && !list.includes(c)) list.push(c); list.sort((a, b) => a.localeCompare(b)); };
@@ -2688,11 +2720,21 @@ function mergeImport(pkg){
   DATA.categoryColours ||= {};
   for (const [c, col] of Object.entries(pkg.categoryColours || {})) if (!DATA.categoryColours[c]) DATA.categoryColours[c] = col;
   const known = new Set(DATA.formulas.flatMap(f => f.versions.filter(v => v.imported && v.sourceName).map(v => normName(v.sourceName))));
+  const had = new Set(DATA.formulas.map(f => normName(f.name)));   // the names of your formulas before the import
   for (const inf of pkg.formulas || []){
     if (known.has(normName(inf.name))){ n.fSkipped++; continue; }   // imported before: not twice
     const f = structuredClone(inf); delete f.starter;
     if (ids.has(f.id)) f.id = uid("f-");
     ids.add(f.id);
+    // A name you already have gets "(Formulair)" behind it, as an import elsewhere gets "(import)" (build 260922h): two
+    // formulas with one name melted into one version on the way through Excel. The versions keep the Formulair name,
+    // so a later import still knows this one. Two equal titles inside Formulair stay as Formulair had them, here as
+    // in an empty browser.
+    if (had.has(normName(f.name))){
+      let nm = `${f.name} (Formulair)`;
+      while (had.has(normName(nm)) || DATA.formulas.some(x => normName(x.name) === normName(nm))) nm += " (Formulair)";
+      f.name = nm; n.fRenamed++;
+    }
     for (const v of f.versions || []) for (const l of v.lines || []){ l.materialId = idMap.get(l.materialId) || l.materialId; if (!l.id) l.id = uid("l-"); }
     DATA.formulas.push(f); n.fAdded++;
   }
@@ -2715,7 +2757,7 @@ async function checkPendingImport(){   // left by formulair-import.html ("Add to
   const where = REMOTE ? "on the server" : HANDLE ? `in ${HANDLE.name}` : DEMO ? "in this browser" : "in memory only (use Backup to keep it)";
   const starter = DATA.formulas.some(f => f.starter) || DATA.materials.some(m => m.starter);
   await new Promise(r => setTimeout(r, 80));   // let the new list paint before the message blocks
-  alert(`Formulair import added ${where}.\n\nFormulas: ${n.fAdded} added${n.fSkipped ? `, ${n.fSkipped} already present (skipped)` : ""}.\nMaterials: ${n.matAdded} added, ${n.matMatched} matched by name${n.dilAdded ? ` (${n.dilAdded} dilutions added to them)` : ""}.${starter ? "\n\nThe starter set is still there; delete it when you no longer need it." : ""}\n\nFormulas that belong together (Aura v04, Aura v05…) can be grouped afterwards: open one of them and use Move into….\n\nUndo (Ctrl+Z) takes the whole import back.`);
+  alert(`Formulair import added ${where}.\n\nFormulas: ${n.fAdded} added${n.fRenamed ? ` (${n.fRenamed} with “(Formulair)” behind the name, because you already had one by that name)` : ""}${n.fSkipped ? `, ${n.fSkipped} already present (skipped)` : ""}.\nMaterials: ${n.matAdded} added, ${n.matMatched} matched by name${n.dilAdded ? ` (${n.dilAdded} dilutions added to them)` : ""}.${starter ? "\n\nThe starter set is still there; delete it when you no longer need it." : ""}\n\nFormulas that belong together (Aura v04, Aura v05…) can be grouped afterwards: open one of them and use Move into….\n\nUndo (Ctrl+Z) takes the whole import back.`);
 }
 function moveInto(f){
   const others = DATA.formulas.filter(x => x.id !== f.id).sort((a,b) => a.name.localeCompare(b.name, undefined, {numeric: true}));
@@ -2958,7 +3000,19 @@ function markPrepared(f, item, lines){
 }
 
 /* ---------- exports & IFRA ---------- */
-const csvSep = () => (LOCALE || navigator.language || "").toLowerCase().startsWith("en") ? "," : ";";   // Excel follows the list separator of its own language
+// The separators follow the number format the app shows (build 260922h): the decimal sign of the language, and a comma
+// between the columns only where thousands are written with a comma too (English, Japanese), a semicolon elsewhere.
+// "Not English" used to mean a semicolon and a decimal comma, which Excel in Swiss German or in Japanese reads wrongly.
+let NUMP = null;
+const numParts = () => {
+  const loc = LOCALE || navigator.language || "en";
+  if (NUMP && NUMP.loc === loc) return NUMP;
+  let dec = ".", grp = ",";
+  try{ const p = new Intl.NumberFormat(loc).formatToParts(1234567.5);
+       dec = (p.find(x => x.type === "decimal") || {}).value || "."; grp = (p.find(x => x.type === "group") || {}).value || ""; }catch(e){}
+  return NUMP = {loc, dec: dec === "," ? "," : ".", sep: dec === "," ? ";" : grp === "," ? "," : ";"};
+};
+const csvSep = () => numParts().sep;   // Excel reads a CSV with the list separator of its own language
 function dlCsv(rows, filename){
   const sep = csvSep();
   const cell = x => {
@@ -2973,7 +3027,7 @@ function dlCsv(rows, filename){
 }
 const stamp = () => { const d = new Date(), p = x => String(x).padStart(2,"0"); return `${String(d.getFullYear()).slice(2)}${p(d.getMonth()+1)}${p(d.getDate())}`; };
 // numbers in the export follow the number format of the app: a comma for Belgian, a point for English
-const nBE = x => x == null || x === "" ? "" : (csvSep() === "," ? String(x) : String(x).replace(".", ","));
+const nBE = x => x == null || x === "" ? "" : (numParts().dec === "," ? String(x).replace(".", ",") : String(x));
 /* ---------- materials from a spreadsheet: a CSV read back with the columns matched on screen ---------- */
 async function readCsvFile(file){   // Excel on Windows writes CSV in the system code page unless told otherwise: try UTF-8 first
   let buf = await file.arrayBuffer();
@@ -3107,7 +3161,7 @@ function openCsvImport(parsed, filename){
 function applyCsvImport(parsed, map){
   const v = (r, k) => map[k] == null ? "" : csvCell(r, map[k]);
   const yes = s => /^(yes|y|true|1|x|ja|oui)$/i.test(s);
-  const seen = new Set(), added = [], cats = []; let dup = 0, viaAlias = 0;
+  const seen = new Set(), added = [], cats = []; let dup = 0, viaAlias = 0, badDates = 0;
   const had = ownNames();   // what you had before this import started, so a name an earlier row brought in can be told apart
   for (const r of parsed.rows){
     const name = v(r, "name"); const n = normName(name);
@@ -3122,7 +3176,9 @@ function applyCsvImport(parsed, map){
     const res = addFromList(listFind(name), name, base, v(r, "category") || null);   // the sheet wins, the library fills the gaps
     const m = res.m; if (res.newCat) cats.push(res.newCat);
     invalidateMats();
-    for (const k of ["cas", "supplier", "inventory", "purchaseDate", "description"]) if (v(r, k)) m[k] = v(r, k);
+    for (const k of ["cas", "supplier", "inventory", "description"]) if (v(r, k)) m[k] = v(r, k);
+    // the date field on the material page shows 2026-01-15 only: "3/02/2025" was kept, and never seen (build 260922h)
+    if (v(r, "purchaseDate")){ const pd = okDate(v(r, "purchaseDate")); if (pd) m.purchaseDate = pd; else badDates++; }
     if (v(r, "aliases")){   // addFromList keeps the library name as an alias so a later import still matches: add to it, never replace it
       const seenAl = new Set([normName(m.name)]), merged = [];
       for (const a of [...v(r, "aliases").split(";"), ...(m.aliases || "").split(";")]){
@@ -3151,7 +3207,8 @@ function applyCsvImport(parsed, map){
   });
   markDirty();
   alert(`${added.length} material(s) imported into your inventory${dup ? `; ${dup} row(s) skipped because you already have that name` : ""}`
-    + `${viaAlias ? ` (${viaAlias} of them because an earlier row in this sheet brought in a material that answers to it)` : ""}. Undo (Ctrl+Z) takes them all back.`);
+    + `${viaAlias ? ` (${viaAlias} of them because an earlier row in this sheet brought in a material that answers to it)` : ""}.`
+    + `${badDates ? ` ${badDates} purchase date(s) could not be read, so they are left empty.` : ""} Undo (Ctrl+Z) takes them all back.`);
   switchTab("M", null, null);
 }
 function csvTemplate(){   // the columns the app writes itself, with two example rows to overwrite
@@ -3173,26 +3230,46 @@ const FCSV_FIELDS = [   // the columns the app writes itself; Rel %, Abs % and C
   {k: "notes",    label: "Notes",      syn: ["note", "remarks", "comment", "comments", "opmerkingen"]},
 ];
 const entryLabel = s => { const t = (s || "").trim(), m = /^v\s*\d+\s*(.*)$/i.exec(t); return (m ? m[1] : t).trim(); };   // "v3 45gr" is the label "45gr": the app numbers versions itself
+// The Excel export of one version on the formula page writes a title row ("Angel – v1 45gr") above its column headers
+// (build 260922h). Read the ordinary way, the title took the place of the headers and no column could be matched: a
+// dead end. A first row with one filled cell, followed by a row with Material and Weight g, is that title.
+function csvTitle(parsed){
+  const next = parsed.rows[0] || [], keys = next.map(csvKey);
+  if (parsed.header.filter(h => h !== "").length !== 1 || !parsed.header[0] || !keys.includes("material") || !keys.includes("weight g")) return parsed;
+  const t = parsed.header[0].trim(), m = /^(.*\S)\s+[–-]\s+(v\s*\d+(?:\s.*)?)$/i.exec(t);
+  return {...parsed, header: next.map(x => x.trim()), rows: parsed.rows.slice(1),
+          title: m ? {text: t, formula: m[1].trim(), entry: m[2].trim()} : {text: t, formula: t, entry: ""}};
+}
 function csvFormulaGroups(parsed, map, filename){   // the rows grouped into versions, in the order they appear
   const v = (r, k) => map[k] == null ? "" : csvCell(r, map[k]);
-  const stem = (filename || "").replace(/\.[^.]+$/, "").trim() || "Imported formula";   // no Formula column: the file is one formula
-  const groups = [], byKey = new Map();
-  let lastF = "", lastE = "", noName = 0;
+  // no Formula column: the file is one formula, named by its title row if it has one, else by the file
+  const stem = (parsed.title && parsed.title.formula) || (filename || "").replace(/\.[^.]+$/, "").trim() || "Imported formula";
+  const groups = [], byKey = new Map(), inst = new Map();
+  let lastF = "", lastE = parsed.title ? parsed.title.entry : "", noName = 0;
   for (const r of parsed.rows){
     const fc = v(r, "formula").trim();
     if (fc){ if (normName(fc) !== normName(lastF)) lastE = ""; lastF = fc; }   // a new formula starts without the label of the one above
     const ec = v(r, "entry").trim();   if (ec) lastE = ec;
     const fName = map.formula == null ? stem : (lastF || stem), eName = lastE;
-    const key = normName(fName) + "\u0000" + normName(eName);
-    let g = byKey.get(key);
-    if (!g){ g = {formula: fName, entry: eName, category: "", date: "", notes: "", lines: [], total: null}; byKey.set(key, g); groups.push(g); }
+    let name = v(r, "material").trim();
+    const isTotal = /^total$/i.test(name);
+    // Two formulas can carry one name (a Formulair import beside the starter set used to make such pairs). Their rows
+    // share Formula and Entry, but the export closes every version with a Total row: a version that starts again after
+    // its Total row is another formula (build 260922h). The two used to melt into one version with the lines of both.
+    const fn = normName(fName), key = () => (inst.get(fn) || 0) + "\u0000" + fn + "\u0000" + normName(eName);
+    let g = byKey.get(key());
+    if (g && g.closed){
+      if (isTotal) continue;   // a second Total row under the same version starts nothing
+      inst.set(fn, (inst.get(fn) || 0) + 1); g = null;
+    }
+    if (!g){ g = {formula: fName, fkey: (inst.get(fn) || 0) + "\u0000" + fn, entry: eName, category: "", date: "", notes: "", lines: [], total: null};
+             byKey.set(key(), g); groups.push(g); }
     if (!g.category) g.category = v(r, "category").trim();
     if (!g.date)     g.date     = v(r, "date").trim();
     if (!g.notes)    g.notes    = v(r, "notes");             // the export writes the notes on the first line of a version
-    let name = v(r, "material").trim();
     const dil = v(r, "dilution").trim();
-    if (/^total$/i.test(name)){ g.total = parseNum(v(r, "weight")); continue; }   // the weight check, whatever stands in the dilution
-                                                                                 // column: a column dragged down in Excel made it a material
+    if (isTotal){ g.total = parseNum(v(r, "weight")); g.closed = true; continue; }   // the weight check, whatever stands in the dilution
+                                                                                     // column: a column dragged down in Excel made it a material
     const bare = name.replace(/\s*\(solvent\)\s*$/i, "").trim();
     const L = {material: bare, dilutionPct: dil, weightG: v(r, "weight").trim()};   // as written: resolveImportLine repairs "2,5" and "10%" and refuses the rest
     if (bare !== name) L.solvent = true;
@@ -3201,7 +3278,24 @@ function csvFormulaGroups(parsed, map, filename){   // the rows grouped into ver
   }
   return {groups, noName};
 }
-const okDate = s => /^\d{4}-\d{2}-\d{2}$/.test((s || "").trim()) ? s.trim() : "";   // the app writes dates this way; anything else is left to today()
+// A date as the app writes it (2026-09-22), or as a spreadsheet writes it back in the short form of the computer
+// (build 260922h): 22/09/2026, 22-9-2026, 22.09.2026, 2026/09/22, and 9/22/2026 where the number format is American.
+// A number above 12 settles the order by itself. A date that does not exist (30/02) is not guessed at: "".
+const monthFirst = () => /^en-us\b/i.test(LOCALE || navigator.language || "");
+function okDate(s){
+  const t = typeof s === "string" ? s.trim() : "";
+  let y, mo, d, m;
+  if ((m = /^(\d{4})([-\/.])(\d{1,2})\2(\d{1,2})(?:[T ][\d:.]+Z?)?$/.exec(t))){ y = +m[1]; mo = +m[3]; d = +m[4]; }
+  else if ((m = /^(\d{1,2})([-\/.])(\d{1,2})\2(\d{4}|\d{2})$/.exec(t))){
+    const a = +m[1], b = +m[3];
+    y = +m[4] + (m[4].length === 2 ? (+m[4] < 70 ? 2000 : 1900) : 0);
+    if (a > 12 || (b <= 12 && !monthFirst())){ d = a; mo = b; } else { mo = a; d = b; }
+  }
+  else return "";
+  if (!(y >= 1000 && mo >= 1 && mo <= 12 && d >= 1 && d <= new Date(y, mo, 0).getDate())) return "";
+  return `${y}-${pad2(mo)}-${pad2(d)}`;
+}
+const badDate = s => typeof s === "string" && !!s.trim() && !okDate(s);   // a date was given, and it cannot be read
 function csvToImport(parsed, map, filename){   // a miformulas-import package in memory, so the existing preview does the matching, the ⚠ and the one Undo step
   const {groups, noName} = csvFormulaGroups(parsed, map, filename);
   const use = groups.filter(g => g.lines.length);
@@ -3226,12 +3320,12 @@ function csvToImport(parsed, map, filename){   // a miformulas-import package in
     // where the rule of build 260920m is that a file naming no date at all gets today.
     p = {type: "miformulas-import", name: g.formula, versionName: entryLabel(g.entry),
          category: g.category || "Uncategorised", source: src, lines: g.lines};
-    if (map.date != null) p.date = okDate(g.date);
+    if (map.date != null) p.date = g.date;   // as written: the preview names a date it cannot read
     if (g.notes.trim()) p.notes = g.notes.trim();
   } else {                                     // more than one version: the summary, and every formula arrives as a new one
     const formulas = [];
-    for (const nm of [...new Set(use.map(g => normName(g.formula)))]){
-      const gs = use.filter(g => normName(g.formula) === nm);
+    for (const fk of [...new Set(use.map(g => g.fkey))]){   // one formula per name, or per second formula of that name
+      const gs = use.filter(g => g.fkey === fk);
       formulas.push({name: gs[0].formula, category: gs[0].category || "Uncategorised",
         versions: gs.map(g => ({name: entryLabel(g.entry), notes: g.notes.trim(), lines: g.lines,
           ...(map.date != null ? {date: g.date} : {})}))});
@@ -3242,6 +3336,7 @@ function csvToImport(parsed, map, filename){   // a miformulas-import package in
   return p;
 }
 function openCsvFormulas(parsed, filename){
+  parsed = csvTitle(parsed);
   const map = csvAutoMap(parsed.header, FCSV_FIELDS);
   const opts = sel => `<option value="">– not in this sheet –</option>` + parsed.header.map((h, i) =>
     `<option value="${i}"${sel === i ? " selected" : ""}>${esc(h || "(column " + (i + 1) + ")")}</option>`).join("");
@@ -3251,7 +3346,8 @@ function openCsvFormulas(parsed, filename){
     <div class="hint" style="margin-bottom:.6rem">${esc(filename)}: ${parsed.rows.length} rows, ${parsed.header.length} columns${parsed.sep === "\t" ? ", tab-separated" : `, separated by “${parsed.sep}”`}.
       This reads back the CSV of <b>Export all formulas (Excel)</b>: the rows are grouped by <b>Formula</b> and <b>Entry</b>, and the Total line is a check on the weights.
       Only <b>Material</b> and <b>Weight g</b> are required; without a Formula column the file name is the formula and the sheet is one version.
-      Rel %, Abs % and Cost are ignored, because the app works them out itself. Nothing is converted: a sheet in percentages or in parts goes in the <b>Weight g</b> column and is read as it stands.</div>
+      Rel %, Abs % and Cost are ignored, because the app works them out itself. Nothing is converted: a sheet in percentages or in parts goes in the <b>Weight g</b> column and is read as it stands.${
+      parsed.title ? ` The first row is read as the title: <b>${esc(parsed.title.text)}</b>.` : ""}</div>
     <div class="fieldGrid" id="fcsvMap" style="max-width:none;gap:.25rem .8rem">
       ${FCSV_FIELDS.map(f => `<label for="fcsv_${f.k}">${f.label}${f.req ? " *" : ""}</label><select id="fcsv_${f.k}" data-k="${f.k}" style="width:100%;min-width:0;font-size:.85rem;padding:.15rem .3rem">${opts(map[f.k])}</select>`).join("")}
     </div>
@@ -3276,7 +3372,7 @@ function openCsvFormulas(parsed, filename){
     }
     const {groups, noName} = csvFormulaGroups(parsed, m, filename);
     const use = groups.filter(g => g.lines.length);
-    const nf = new Set(use.map(g => normName(g.formula))).size;
+    const nf = new Set(use.map(g => g.fkey)).size;
     const nl = use.reduce((s, g) => s + g.lines.length, 0);
     $("#fcsvCount").innerHTML = `<b>${nf} formula(s) · ${use.length} version(s) · ${nl} line(s)</b>`
       + (noName ? ` · <span style="color:var(--amber-ink)">${noName} row(s) without a material name</span>` : "");
@@ -3380,6 +3476,7 @@ function shareVersion(f, item, K){   // the version you are looking at, as a fil
   if (!lines.length){ alert("This version has no lines to share."); return; }
   if (orphans && !confirm(`${orphans} line(s) point to a material that no longer exists; they cannot be shared and are left out.\n\nWrite the file anyway?`)) return;
   const pkg = {type: "miformulas-import", name: f.name, versionName: item.name || "",
+    date: item.date || "",   // the version keeps its own date at the other end (build 260922h), not the day of the import
     category: f.category || "Uncategorised",
     source: `Shared from miFormulas · ${label}${item.date ? " · " + item.date : ""}`};
   if ((item.notes || "").trim()) pkg.notes = item.notes.trim();   // no price, supplier, stock or trial log
@@ -3822,28 +3919,69 @@ function renderCompare(f, sub){
 
 /* ---------- formula import (photo-to-formula, phase 4) ---------- */
 let IMPORTP = null;
-function resolveImportLine(L){
+// A file written elsewhere (an assistant, a script, a hand) can hold a list or a number where the app keeps text: notes
+// as a list made the formula unopenable and stopped Export all my formulas, a category 5 stopped + New formula…, a CAS
+// as a number every search (build 260922h). The gate puts those fields in shape once, and counts what it had to drop.
+function tidyImport(p){
+  let dropped = 0;
+  const tidy = (o, keys) => { if (!o || typeof o !== "object") return;
+    for (const k of keys){ const x = o[k];
+      if (x == null || typeof x === "string") continue;
+      const t = toText(x, k === "notes" ? "\n" : "; ");
+      if (t === undefined){ delete o[k]; dropped++; } else o[k] = t; } };
+  tidy(p, ["name", "category", "versionName", "targetFormula", "source", "notes", "date"]);
+  for (const L of asList(p.lines)) tidy(L, ["cas", "comment"]);
+  for (const f of asList(p.formulas)){
+    tidy(f, ["name", "category"]);
+    for (const v of asList(f && f.versions)){ tidy(v, ["name", "notes", "date"]); for (const L of asList(v && v.lines)) tidy(L, ["cas", "comment"]); }
+  }
+  return dropped;
+}
+// A number in a file is a number, or the cell is refused (build 260922h). parseNum reads up to the first sign that is not
+// a digit, which suits a field you type in but not a file: "1:10" was a dilution of 1 %, "2 drops" 2 g and "3-4" 3,
+// without a word. What stays: a decimal comma or point, thousands in groups of three, a % after a dilution, a g after
+// a weight. NaN for anything else.
+function impNum(x, unit){
+  if (typeof x === "number") return x;
+  let s = String(x).trim();
+  if (unit) s = s.replace(unit === "%" ? /\s*%$/ : /\s*gr?$/i, "");
+  s = s.replace(/(\d)[\s  ](?=\d{3}(?!\d))/g, "$1");   // 1 234,5 as French writes it
+  const t = /^[-+]?(\d+([.,]\d*)?|[.,]\d+)([eE][-+]?\d+)?$/.test(s) ? s.replace(",", ".")    // one decimal sign, or none
+    : /^[-+]?\d{1,3}(\.\d{3})+(,\d+)?$/.test(s) ? s.replace(/\./g, "").replace(",", ".")     // 1.234,5
+    : /^[-+]?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s) ? s.replace(/,/g, "")                         // 1,234.5
+    : null;
+  return t == null ? NaN : parseFloat(t);
+}
+// A file that says nothing about solvents cannot disagree about them (build 260922h): an assistant's transcription never
+// writes the flag, so every one with ethanol or DEP read "the sender counts as a solvent and you do not". Share this
+// version, Export all my formulas and the Excel exports write it on their solvent lines.
+const usesSolvent = p => [...asList(p.lines), ...asList(p.formulas).flatMap(f => asList(f && f.versions).flatMap(v => asList(v && v.lines)))]
+  .some(L => L && typeof L === "object" && "solvent" in L);
+function resolveImportLine(L, solv = true){
   // the import is the gate for files written elsewhere (an AI transcription, another perfumer): every line is checked
   if (!L || typeof L !== "object") L = {};                     // a file can hold null, a number or a string where a line belongs
   const nm = typeof L.material === "string" ? normName(L.material) : "";
   const m = !nm ? null                                   // a line without a name matches nothing: "" would land on the first material without aliases
     : matByName(L.material) || null;   // the name decides, never an id: "Ambroxan" on a sheet finds your "Ambroxide", while an id
                                        // from another data file (the starter set gives everyone m1…m199) would point at another material
-  const w = L.weightG == null || L.weightG === "" ? null : parseNum(L.weightG);        // a transcription can hold "2,5" or nothing at all
-  const dil = L.dilutionPct == null || L.dilutionPct === "" ? 100 : parseNum(L.dilutionPct);
+  const w = L.weightG == null || L.weightG === "" ? null : impNum(L.weightG, "g");     // a transcription can hold "2,5" or nothing at all
+  const dil = L.dilutionPct == null || L.dilutionPct === "" ? 100 : impNum(L.dilutionPct, "%");
   const bad = !nm ? "no material name"
     : w == null || !isFinite(w) ? "weight is not a number"   // "1e999" parses to Infinity, which JSON.stringify writes away as null
     : w < 0 ? "negative weight"
-    : dil == null || !(dil > 0 && dil <= 100) ? "dilution must be above 0 and at most 100"
+    : !isFinite(dil) ? (/^\s*\d+([.,]\d+)?\s*[:\/]\s*\d+([.,]\d+)?\s*$/.test(String(L.dilutionPct))
+        ? "dilution is not a number: write it in percent (1:10 is 10)" : "dilution is not a number")   // nothing is converted
+    : !(dil > 0 && dil <= 100) ? "dilution must be above 0 and at most 100"
     : "";
   const dilOwned = m && !bad ? (m.dilutions||[]).some(d => d.pct === dil) : true;
-  const solvMismatch = !bad && !!m && !!L.solvent !== !!m.isSolvent;   // the sender calls the line a solvent and you do not, or the reverse
+  const solvMismatch = solv && !bad && !!m && !!L.solvent !== !!m.isSolvent;   // the sender calls the line a solvent and you do not, or the reverse
   return {m, dil, w, bad, dilOwned, solvMismatch};
 }
 function resolveBulk(p){   // once per file: every line checked, then only the totals are drawn
   if (p._sum) return p._sum;
   const perF = []; const fresh = new Map();   // a material to create is counted once for the whole file
   let nv = 0, nl = 0, matched = 0, bad = 0, warn = 0, solv = 0;
+  const ws = usesSolvent(p), badD = [], names = new Set();   // names: the formulas of this file that arrive, for a second one of a name
   for (const f of asList(p.formulas)){
     let fl = 0, fbad = 0, fnew = 0, fv = 0;
     for (const v of asList(f?.versions)){
@@ -3851,7 +3989,7 @@ function resolveBulk(p){   // once per file: every line checked, then only the t
       let vl = 0;
       for (const L of asList(v?.lines)){
         nl++; fl++; vl++;
-        const r = resolveImportLine(L);
+        const r = resolveImportLine(L, ws);
         if (r.bad){ bad++; fbad++; continue; }
         if (r.m){ matched++; if (!r.dilOwned) warn++; if (r.solvMismatch) solv++; }
         else { const k = normName(L.material); if (!fresh.has(k)){ fresh.set(k, 1); fnew++;
@@ -3860,14 +3998,17 @@ function resolveBulk(p){   // once per file: every line checked, then only the t
       }
       // applyBulkImport keeps only a version that holds lines, and only a formula that keeps a version. The
       // window used to count everything the file names, so it promised formulas and versions that never arrived.
-      if (vl) fv++;
+      if (vl){ fv++; if (badDate(v && v.date)) badD.push(v.date); }   // a date of a version that arrives, which cannot be read
     }
+    // applyBulkImport gives a formula "(import)" when its name is taken, also by an earlier formula of this same file
+    const fk = normName(f?.name || "Imported formula");
     perF.push({name: f?.name || "?", versions: asList(f?.versions).length, komen: fv, lines: fl, bad: fbad, fresh: fnew,
                labels: asList(f?.versions).map(v => (v && v.name) || ""),   // so the labels are visible before you confirm
-               twin: !!DATA.formulas.find(x => normName(x.name) === normName(f?.name))});
+               twin: !!DATA.formulas.find(x => normName(x.name) === fk) || names.has(fk)});
+    if (fv) names.add(fk);
   }
   const komenV = perF.reduce((n, f) => n + f.komen, 0), komenF = perF.filter(f => f.komen).length;
-  p._sum = {perF, nv, nl, matched, bad, warn, solv, fresh: fresh.size, komenV, komenF,
+  p._sum = {perF, nv, nl, matched, bad, warn, solv, badD, fresh: fresh.size, komenV, komenF,
             wegV: nv - komenV, wegF: perF.length - komenF,
             twins: perF.filter(x => x.twin).length, badF: perF.filter(x => x.bad).length};
   return p._sum;
@@ -3887,7 +4028,9 @@ function renderBulkImport(){   // several formulas at once: a summary, because a
     ${s.warn ? `<div class="hint" id="impWarn" style="color:var(--amber-ink)">${s.warn} line(s) use a dilution you do not stock (⚠ convert them in a next version).</div>` : ""}
     ${s.solv ? `<div class="hint" id="impSolv" style="color:var(--amber-ink)">${s.solv} line(s) the sender counts as a solvent and you do not, or the reverse. Your own material decides.</div>` : ""}
     ${p.checkNote ? `<div class="hint" id="impCheck" style="color:var(--amber-ink)">${esc(p.checkNote)}</div>` : ""}
-    ${s.twins ? `<div class="hint" id="impTwins">${s.twins} formula(s) carry a name you already have; they arrive as “Name (import)” and nothing of yours is touched. Move into… joins them afterwards if you want.</div>` : ""}
+    ${s.badD.length ? `<div class="hint" id="impDate" style="color:var(--amber-ink)">${s.badD.length} version(s) carry a date that cannot be read (${s.badD.slice(0, 3).map(d => `“${esc(d)}”`).join(", ")}${s.badD.length > 3 ? ", …" : ""}); they arrive without a date.</div>` : ""}
+    ${p._tidy ? `<div class="hint" id="impTidy" style="color:var(--amber-ink)">${p._tidy} field(s) in this file hold something other than text where text belongs; they are left out.</div>` : ""}
+    ${s.twins ? `<div class="hint" id="impTwins">${s.twins} formula(s) carry a name you already have, or the name of an earlier formula in this file; they arrive as “Name (import)” and nothing of yours is touched. Move into… joins them afterwards if you want.</div>` : ""}
     ${!s.nl ? `<div class="hint" id="impEmpty" style="color:var(--danger)"><b>There is nothing to import in this file.</b> Its formulas hold no lines, so confirming would add nothing.</div>` : ""}
     ${s.bad ? `<div class="hint" id="impBad" style="color:var(--danger)"><b>${s.bad} line(s) in ${s.badF} formula(s) cannot be imported.</b> Correct them in the file and import again; nothing has been changed yet.</div>` : ""}</div>
   <table class="lines"><thead><tr><th>Formula</th><th class="num">Versions</th><th class="num">Lines</th><th class="num">New materials</th><th>Status</th></tr></thead><tbody>
@@ -3964,7 +4107,8 @@ function renderImport(){
   const c = $("#content");
   const p = IMPORTP;
   if (Array.isArray(p.formulas) && p.formulas.length){ renderBulkImport(); return; }
-  const rows = p.lines.map(L => ({L: L && typeof L === "object" ? L : {}, ...resolveImportLine(L)}));
+  const ws = usesSolvent(p);
+  const rows = p.lines.map(L => ({L: L && typeof L === "object" ? L : {}, ...resolveImportLine(L, ws)}));
   const bad = rows.filter(r => r.bad).length;
   const tw = rows.reduce((s, r) => s + (r.bad ? 0 : r.w), 0);
   // The same counting as the bulk preview: one material, however many of its names the file uses. A library
@@ -3997,6 +4141,8 @@ function renderImport(){
     <div class="hint">${rows.length} lines · ${rows.filter(r => !r.bad && r.m).length} matched · ${newCount} new (will be created as “to order”) · ${warnCount} with a dilution you don’t stock (⚠ convert in a next version)</div>
     ${solvCount ? `<div class="hint" id="impSolv" style="color:var(--amber-ink)">${solvCount} line(s) the sender counts as a solvent and you do not, or the reverse. Your own material decides, so check Rel % and Abs % afterwards.</div>` : ""}
     ${p.checkNote ? `<div class="hint" id="impCheck" style="color:var(--amber-ink)">${esc(p.checkNote)}</div>` : ""}
+    ${badDate(p.date) ? `<div class="hint" id="impDate" style="color:var(--amber-ink)">The date in this file, “${esc(p.date)}”, cannot be read, so the version arrives without a date.</div>` : ""}
+    ${p._tidy ? `<div class="hint" id="impTidy" style="color:var(--amber-ink)">${p._tidy} field(s) in this file hold something other than text where text belongs; they are left out.</div>` : ""}
     ${bad ? `<div class="hint" id="impBad" style="color:var(--danger)"><b>${bad} line(s) cannot be imported.</b> Correct them in the file and import again; nothing has been changed yet.</div>` : ""}</div>
   <table class="lines"><thead><tr><th>Material</th><th class="num">Dilution</th><th class="num">Weight (g)</th><th>Status</th></tr></thead><tbody>
   ${rows.map(r => `<tr${r.bad ? ' class="badLine"' : ""}>
@@ -4043,12 +4189,17 @@ function applyImport(){
     lines.push({id: uid("l-"), materialId: m.id, dilutionPct: dil, weightG: w, remark: 1});
   }
   if (createdIds.length){ DATA.materials.sort((a,b) => a.name.localeCompare(b.name)); invalidateMats(); }
+  // Provenance goes into the notes, of a new formula as of a new version, and so do the comments the file carries on
+  // its lines (build 260922h): a new formula kept neither, so the source an assistant named and its doubts
+  // ("possibly: …") were gone after Confirm. The version label stays free for the user to choose.
+  const prov = `Imported ${today()}${p.name?` · source: ${p.name}`:""}${p.source?` · ${p.source}`:""}.`;
+  const said = p.lines.filter(L => L && typeof L === "object" && typeof L.comment === "string" && L.comment.trim());
+  const impNotes = [p.notes, prov, said.length ? "Comments in the file:\n" + said.map(L => `${L.material || "–"}: ${L.comment.trim()}`).join("\n") : ""]
+    .filter(Boolean).join("\n\n");
   if (target){   // add as a new version of an existing formula
     const clone = structuredClone(target);
-    // provenance goes into the notes; the version label stays free for the user to choose
-    const prov = `Imported ${today()}${p.name?` · source: ${p.name}`:""}${p.source?` · ${p.source}`:""}.`;
     const nv = {v: Math.max(...target.versions.map(x => x.v), 0) + 1, date: okDate(p.date) || ("date" in p ? "" : today()),
-      name: p.versionName || "", notes: p.notes ? `${p.notes}\n\n${prov}` : prov, lines};
+      name: p.versionName || "", notes: impNotes, lines};
     target.versions.push(nv); target.frozenImport = false; target.modified = now();
     pushUndo(() => {
       DATA.orderList = oc;
@@ -4066,7 +4217,7 @@ function applyImport(){
   const newFCat = !DATA.formulaCategories.includes(cat);
   if (newFCat) DATA.formulaCategories.push(cat);
   const f = {id: uid("f-"), name, category: cat, created: today(), modified: now(), frozenImport: false,
-    versions: [{v: 1, date: okDate(p.date) || ("date" in p ? "" : today()), name: p.versionName || "", notes: p.notes || "", lines}]};
+    versions: [{v: 1, date: okDate(p.date) || ("date" in p ? "" : today()), name: p.versionName || "", notes: impNotes, lines}]};
   DATA.formulas.push(f);
   pushUndo(() => {   // one step: the formula, the materials it created, the order lines and both new categories
     DATA.orderList = oc;

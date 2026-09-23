@@ -35,16 +35,26 @@ def split_cas(s):
     rest = re.sub(r"\s*[\\/]\s*", "; ", rest).strip()
     return hit.group(0), rest
 
+# Formulair toont zijn datums in de tijd van de computer, en miFormulas ook (bouw 260922h). In UTC gelezen kreeg een
+# formule van na middernacht in Brussel de dag ervoor: 90 van de 698 formules van een echte databank. Dezelfde
+# lezing als de browser (getFullYear en de rest): de tijdzone van deze computer, of die van TZ.
+EPOCH_UNIX = 978307200   # 2001-01-01 in seconden sinds 1970
+
+
+def cd_local(ts):
+    return datetime.datetime.fromtimestamp(ts + EPOCH_UNIX)
+
+
 def cd_date(ts):
     if ts is None:
         return ""
-    return (EPOCH + datetime.timedelta(seconds=ts)).strftime("%Y-%m-%d")
+    return cd_local(ts).strftime("%Y-%m-%d")
 
 
 def cd_stamp(ts):
     if ts is None:
         return ""
-    return (EPOCH + datetime.timedelta(seconds=ts)).strftime("%Y-%m-%dT%H:%M:%S")
+    return cd_local(ts).strftime("%Y-%m-%dT%H:%M:%S")
 
 
 def half_up(x):

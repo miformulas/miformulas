@@ -317,6 +317,141 @@ with sync_playwright() as p:
           kwam == 2 and sorted(namen) == ["B5 half:1", "B5 volledig:1"])
     page.keyboard.press("Control+z"); page.wait_for_timeout(700)
 
+    # ---------- bouw 260922h: de weg in ----------
+    # B15: een getal is een getal. "1:10" las als een dilutie van 1 %, "2 drops" als 2 g, "3-4" als 3, zonder rood.
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    getallen = schrijf("getallen.json", {"type": "miformulas-import", "name": "Getallen", "lines": [
+        {"material": "Iso E Super", "dilutionPct": "1:10", "weightG": 2},
+        {"material": "Iso E Super", "dilutionPct": "1/10", "weightG": 2},
+        {"material": "Iso E Super", "dilutionPct": 100, "weightG": "3-4"},
+        {"material": "Iso E Super", "dilutionPct": 100, "weightG": "2 drops"},
+        {"material": "Iso E Super", "dilutionPct": 100, "weightG": "0,5 ml"},
+        {"material": "Iso E Super", "dilutionPct": 100, "weightG": "12.5.3"},
+        {"material": "Hedione", "dilutionPct": "10 %", "weightG": "2,5 g"},
+        {"material": "Hedione", "dilutionPct": 100, "weightG": "1.234,5"},
+        {"material": "Hedione", "dilutionPct": 100, "weightG": "45gr"},
+        {"material": "Hedione", "dilutionPct": "50", "weightG": "1 234,5"},
+        {"material": "Hedione", "dilutionPct": 100, "weightG": "1,234,567.5"}]})
+    page.set_input_files("#impFile", getallen); page.wait_for_timeout(900)
+    txt = page.text_content("#content")
+    check("B15: zes cellen die geen getal zijn staan in het rood",
+          page.locator("tr.badLine").count() == 6 and "6 line(s) cannot be imported" in txt)
+    check("B15: 1:10 en 1/10 krijgen de uitleg in procent", txt.count("write it in percent (1:10 is 10)") == 2)
+    check("B15: de andere vier zijn geen gewicht", txt.count("weight is not a number") == 4)
+    rij = page.evaluate("""() => IMPORTP.lines.slice(6).map(L => { const r = resolveImportLine(L); return [r.bad, r.dil, r.w]; })""")
+    check(f"B15: wat leesbaar is blijft leesbaar, met een g of gr achter het gewicht ({rij})",
+          rij == [["", 10, 2.5], ["", 100, 1234.5], ["", 100, 45], ["", 50, 1234.5], ["", 100, 1234567.5]])
+    check("B15: Confirm blijft uit", page.locator("#btnImpOk").is_disabled())
+    page.click("#btnImpCancel"); page.wait_for_timeout(300)
+
+    # A5, B14: een lijst of een getal waar tekst hoort. Notities als lijst maakten de formule onopenbaar en legden
+    # Export all my formulas stil, een categorie 5 + New formula…, een CAS als getal elke zoekopdracht.
+    tekst = schrijf("tekst.json", {"type": "miformulas-import", "name": "Tekstvelden", "category": 5, "versionName": 2,
+        "source": ["photo", "J. Smit"], "notes": ["regel 3 onleesbaar", "omgerekend naar gram"], "date": {"dag": 1},
+        "lines": [{"material": "Stof Getal", "cas": 4940111, "dilutionPct": 100, "weightG": 1, "comment": 7},
+                  {"material": "Hedione", "dilutionPct": 100, "weightG": 2}]})
+    page.set_input_files("#impFile", tekst); page.wait_for_timeout(900)
+    tidy = page.evaluate("""() => { const e = document.querySelector("#impTidy"); return e ? e.textContent.trim() : ""; }""")
+    check(f"A5: de voorvertoning zegt wat wegvalt ({tidy[:50]!r})", tidy.startswith("1 field(s)"))
+    page.click("#btnImpOk"); page.wait_for_timeout(1200)
+    tv = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Tekstvelden"); const v = f && f.versions[0];
+        const m = DATA.materials.find(x => x.name === "Stof Getal");
+        return f && {cat: f.category, label: v.name, notes: v.notes, cas: m && m.cas}; }""")
+    check(f"A5: categorie en label zijn tekst ({tv and [tv['cat'], tv['label']]})", tv and tv["cat"] == "5" and tv["label"] == "2")
+    check("A5: notities als lijst worden regels", tv and tv["notes"].startswith("regel 3 onleesbaar\nomgerekend naar gram"))
+    check("B14: het CAS-nummer is tekst", tv and tv["cas"] == "4940111")
+    check(f"A5: de formulepagina opent ({errs[:1]})", "Tekstvelden" in (page.text_content("#content") or "") and not errs)
+    page.click("#btnNew"); page.wait_for_timeout(500)
+    check(f"A5: + New formula… opent ({errs[:1]})", page.locator("#dlg").is_visible() and not errs)
+    page.keyboard.press("Escape"); page.wait_for_timeout(300)
+    page.click("#btnHome"); page.wait_for_timeout(400)
+    page.click("#btnIO"); page.wait_for_timeout(400)
+    with page.expect_download() as dl:
+        page.click("#btnExpJ")
+    check(f"A5: Export all my formulas schrijft het bestand ({errs[:1]})", bool(dl.value.suggested_filename) and not errs)
+    page.wait_for_timeout(300)
+    if page.locator("#dlg").is_visible(): page.keyboard.press("Escape"); page.wait_for_timeout(300)
+    # B14 los van de sluis: een CAS als getal in een databestand legde het zoeken stil (fold)
+    page.evaluate("""() => { DATA.materials.find(x => x.name === "Stof Getal").cas = 4940111; invalidateMats(); }""")
+    page.click("#tabM"); page.wait_for_timeout(300)
+    page.fill("#searchBox", "zzonbekend"); page.wait_for_timeout(400)
+    page.fill("#searchBox", "4940"); page.wait_for_timeout(400)
+    zicht = page.evaluate("""() => [...document.querySelectorAll("#list .item")].map(x => x.textContent).join("|")""")
+    check(f"B14: zoeken werkt met een CAS als getal en vindt het ({errs[:1]})", "Stof Getal" in zicht and not errs)
+    page.fill("#searchBox", ""); page.wait_for_timeout(200)
+    page.click("#tabF"); page.wait_for_timeout(300)
+
+    # B16: datums in de korte vorm, en een datum die niet te lezen is
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    datum = schrijf("datum.json", {"type": "miformulas-import", "name": "Datum kort", "date": "22/09/2026",
+        "lines": [{"material": "Hedione", "weightG": 1}]})
+    page.set_input_files("#impFile", datum); page.wait_for_timeout(800)
+    check("B16: een leesbare korte datum geeft geen melding", page.locator("#impDate").count() == 0)
+    page.click("#btnImpOk"); page.wait_for_timeout(1000)
+    d1 = page.evaluate("""() => DATA.formulas.find(x => x.name === "Datum kort").versions[0].date""")
+    check(f"B16: 22/09/2026 wordt 2026-09-22 ({d1})", d1 == "2026-09-22")
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    datum2 = schrijf("datum2.json", {"type": "miformulas-import", "name": "Datum fout", "date": "30/02/2026",
+        "lines": [{"material": "Hedione", "weightG": 1}]})
+    page.set_input_files("#impFile", datum2); page.wait_for_timeout(800)
+    melding = page.evaluate("""() => { const e = document.querySelector("#impDate"); return e ? e.textContent : ""; }""")
+    check(f"B16: een onmogelijke datum wordt genoemd ({melding[:60]!r})", "30/02/2026" in melding and "without a date" in melding)
+    page.click("#btnImpOk"); page.wait_for_timeout(1000)
+    d2 = page.evaluate("""() => DATA.formulas.find(x => x.name === "Datum fout").versions[0].date""")
+    check(f"B16: en de versie komt zonder datum ({d2!r})", d2 == "")
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    datum3 = schrijf("datum3.json", {"type": "miformulas-import", "source": "datums", "formulas": [
+        {"name": "Datums veel", "versions": [
+            {"name": "a", "date": "22.09.2026", "lines": [{"material": "Hedione", "weightG": 1}]},
+            {"name": "b", "date": "13/13/2026", "lines": [{"material": "Hedione", "weightG": 2}]}]}]})
+    page.set_input_files("#impFile", datum3); page.wait_for_timeout(900)
+    melding = page.evaluate("""() => { const e = document.querySelector("#impDate"); return e ? e.textContent : ""; }""")
+    check(f"B16: de samenvatting noemt de onleesbare datum ({melding[:60]!r})", melding.startswith("1 version(s)") and "13/13/2026" in melding)
+    page.click("#btnImpOk"); page.wait_for_timeout(1000)
+    d3 = page.evaluate("""() => DATA.formulas.find(x => x.name === "Datums veel").versions.map(v => v.date)""")
+    check(f"B16: 22.09.2026 gelezen, 13/13/2026 leeg ({d3})", d3 == ["2026-09-22", ""])
+
+    # C-c 22: een bestand dat niets over solventen zegt, kan er niet over van mening verschillen
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    solv1 = schrijf("solv1.json", {"type": "miformulas-import", "name": "Transcriptie", "lines": [
+        {"material": "Ethanol", "weightG": 80}, {"material": "Hedione", "weightG": 2}]})
+    page.set_input_files("#impFile", solv1); page.wait_for_timeout(800)
+    check("22: een transcriptie zonder solventvlag geeft geen solventwaarschuwing", page.locator("#impSolv").count() == 0
+          and "a solvent in your inventory" not in page.text_content("#content"))
+    page.click("#btnImpCancel"); page.wait_for_timeout(300)
+    solv2 = schrijf("solv2.json", {"type": "miformulas-import", "name": "Gedeeld", "lines": [
+        {"material": "Ethanol", "weightG": 80}, {"material": "Hedione", "weightG": 2, "solvent": True}]})
+    page.set_input_files("#impFile", solv2); page.wait_for_timeout(800)
+    sv = page.evaluate("""() => { const e = document.querySelector("#impSolv"); return e ? e.textContent : ""; }""")
+    check(f"22: een bestand dat de vlag gebruikt, vergelijkt wel ({sv[:40]!r})", sv.startswith("2 line(s)"))
+    page.click("#btnImpCancel"); page.wait_for_timeout(300)
+
+    # C-c 21: de herkomst en de opmerkingen per regel, ook bij een nieuwe formule
+    herkomst = {"type": "miformulas-import", "name": "Herkomst", "source": "photo of a handwritten sheet, author J. Smit",
+        "notes": "Line 4 partly illegible.", "lines": [
+            {"material": "Hedione", "dilutionPct": 100, "weightG": 1, "comment": "possibly: Hedione HC"},
+            {"material": "Iso E Super", "dilutionPct": 100, "weightG": 2}]}
+    page.set_input_files("#impFile", schrijf("herkomst.json", herkomst)); page.wait_for_timeout(800)
+    page.click("#btnImpOk"); page.wait_for_timeout(1000)
+    nt = page.evaluate("""() => DATA.formulas.find(x => x.name === "Herkomst").versions[0].notes""")
+    check(f"21: een nieuwe formule houdt notities, bron en opmerkingen ({nt[:40]!r}…)",
+          nt.startswith("Line 4 partly illegible.") and "source: Herkomst" in nt and "author J. Smit" in nt
+          and "Comments in the file:\nHedione: possibly: Hedione HC" in nt)
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    page.set_input_files("#impFile", schrijf("herkomst2.json", {**herkomst, "targetFormula": "Herkomst"})); page.wait_for_timeout(800)
+    page.click("#btnImpOk"); page.wait_for_timeout(1000)
+    nt2 = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Herkomst"); return f.versions.length + "|" + f.versions[1].notes; }""")
+    check("21: een nieuwe versie krijgt de opmerkingen er nu ook bij", nt2.startswith("2|") and "Comments in the file:" in nt2)
+
+    # C-c 24: een nieuwe materiaalnaam zonder spaties errond
+    page.click("#btnHome"); page.wait_for_timeout(300)
+    spaties = schrijf("spaties.json", {"type": "miformulas-import", "name": "Spaties", "lines": [
+        {"material": "Brandnew Stuff  ", "weightG": 1}, {"material": "  brandnew stuff", "weightG": 2}]})
+    page.set_input_files("#impFile", spaties); page.wait_for_timeout(800)
+    page.click("#btnImpOk"); page.wait_for_timeout(1000)
+    bn = page.evaluate("""() => DATA.materials.filter(m => /brandnew stuff/i.test(m.name)).map(m => m.name)""")
+    check(f"24: één materiaal, getrimd ({bn})", bn == ["Brandnew Stuff"])
+
     check(f"geen paginafouten ({errs[:2]})", not errs)
     ctx.close(); b.close()
 

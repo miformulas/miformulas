@@ -32,6 +32,15 @@ with sync_playwright() as p:
     check("no setting: the browser decides",
           page.evaluate("""(() => { LOCALE = undefined; return csvSep(); })()""")
           == ("," if page.evaluate("navigator.language").lower().startswith("en") else ";"))
+    # build 260922h (C-c 26): the separators follow the number format itself, not "English or not". Swiss German writes
+    # a decimal point and Excel there takes the semicolon; Japanese writes a point and a comma, as English does.
+    loc = page.evaluate("""(() => { const out = {};
+        for (const l of ["nl-BE", "de-DE", "fr-FR", "en-GB", "en-US", "de-CH", "ja-JP"]){ LOCALE = l; out[l] = [csvSep(), nBE("0.130")]; }
+        LOCALE = undefined; return out; })()""")
+    check(f"the five fixed choices of Settings stay as they were ({[loc[l] for l in ['nl-BE', 'de-DE', 'fr-FR', 'en-GB', 'en-US']]})",
+          [loc[l] for l in ["nl-BE", "de-DE", "fr-FR", "en-GB", "en-US"]] == [[";", "0,130"]] * 3 + [[",", "0.130"]] * 2)
+    check(f"Swiss German: a semicolon and a decimal point ({loc['de-CH']})", loc["de-CH"] == [";", "0.130"])
+    check(f"Japanese: a comma and a decimal point ({loc['ja-JP']})", loc["ja-JP"] == [",", "0.130"])
 
     # ---------- 2. a formula with an awkward name ----------
     page.evaluate("""() => { LOCALE = "nl-BE";

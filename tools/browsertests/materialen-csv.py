@@ -320,6 +320,26 @@ with sync_playwright() as pw:
 
     check(f"geen paginafouten in deel 6 ({errs3[:2]})", not errs3)
 
+    # ---------------- 7. bouw 260922h: de aankoopdatum in de korte vorm van een spreadsheet ----------------
+    # "3/02/2025" werd bewaard zoals het er stond, en het datumveld op de materiaalpagina toonde niets.
+    page.evaluate("LOCALE = 'nl-BE'")
+    dat = os.path.join(tmp, "aankoopdatums.csv")
+    open(dat, "w", encoding="utf-8", newline="").write(
+        "Name;Purchase date\nDatum Kort;3/02/2025\nDatum Iso;2025-02-04\nDatum Fout;31/02/2025\nDatum Leeg;\n")
+    msgs3.clear()
+    page.set_input_files("#impCsv", dat); page.wait_for_timeout(900)
+    page.click("#dlgOk"); page.wait_for_timeout(1200)
+    pd = page.evaluate("""() => ["Datum Kort", "Datum Iso", "Datum Fout", "Datum Leeg"].map(n => { const m = DATA.materials.find(x => x.name === n); return m ? (m.purchaseDate || "") : null; })""")
+    check(f"23: 3/02/2025 wordt 2025-02-03, een onmogelijke datum blijft leeg ({pd})", pd == ["2025-02-03", "2025-02-04", "", ""])
+    check(f"23: de slotmelding telt de datum die niet te lezen was ({[m[-120:] for m in msgs3][-1:]})",
+          any("1 purchase date(s) could not be read" in m for m in msgs3))
+    page.evaluate("""() => switchTab("M", DATA.materials.find(x => x.name === "Datum Kort").id, null)""")
+    page.wait_for_timeout(500)
+    veld = page.evaluate("""() => { const e = [...document.querySelectorAll('#content input[type=date]')][0]; return e ? e.value : null; }""")
+    check(f"23: en het datumveld toont ze ({veld})", veld == "2025-02-03")
+    page.evaluate("LOCALE = undefined")
+    check(f"geen paginafouten in deel 7 ({errs3[:2]})", not errs3)
+
     check(f"geen paginafouten ({errs2[:2]})", not errs2)
     print("\n%d OK, %d FAIL" % (ok, fail))
     b.close()

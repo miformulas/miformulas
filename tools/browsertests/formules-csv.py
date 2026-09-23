@@ -285,6 +285,99 @@ with sync_playwright() as pw:
     check(f"geen paginafouten bij de datumproef ({errs3[:2]})", not errs3)
     ctx3.close()
 
+    # ---------------- bouw 260922h: datums uit Excel, de uitvoer van één versie terug, twee formules met één naam ----------------
+    ctx4 = b.new_context(viewport={"width": 1400, "height": 900}, accept_downloads=True)
+    pg4 = ctx4.new_page(); errs4 = []; msgs4 = []
+    pg4.on("pageerror", lambda e: errs4.append(str(e)))
+    pg4.on("dialog", lambda d: (msgs4.append(d.message), d.accept()))
+    pg4.goto(URL); pg4.wait_for_timeout(800)
+    pg4.click("#btnStarter"); pg4.wait_for_timeout(1400)
+
+    # B16: de korte vorm die Excel terugschrijft
+    lees = pg4.evaluate("""() => { const out = [];
+        for (const loc of ["nl-BE", "en-US"]){ LOCALE = loc;
+          out.push(["22/09/2026", "9/22/2026", "03/04/2026", "22-9-2026", "22.09.2026", "2026/09/22", "30/02/2026", "13/13/2026", "gisteren"].map(okDate)); }
+        LOCALE = undefined; return out; }""")
+    check(f"B16: nl-BE leest dag eerst, een getal boven 12 beslist zelf ({lees[0]})",
+          lees[0] == ["2026-09-22", "2026-09-22", "2026-04-03", "2026-09-22", "2026-09-22", "2026-09-22", "", "", ""])
+    check(f"B16: en-US leest maand eerst ({lees[1][2]})", lees[1][2] == "2026-03-04" and lees[1][:2] == ["2026-09-22", "2026-09-22"])
+    kort = schrijf(os.path.join(tmp, "datums-kort.csv"),
+        "Formula,Entry,Date,Material,Weight g\nH datum,v1,22-9-2026,Iso E Super,10\nH datum,v2,31/04/2026,Hedione,5\n")
+    pg4.click("#btnHome"); pg4.wait_for_timeout(300)
+    pg4.set_input_files("#impFile", kort); pg4.wait_for_timeout(900)
+    pg4.click("#dlgOk"); pg4.wait_for_timeout(1100)
+    m4 = pg4.evaluate("""() => { const e = document.querySelector("#impDate"); return e ? e.textContent : ""; }""")
+    check(f"B16: de samenvatting noemt 31/04/2026 ({m4[:50]!r})", m4.startswith("1 version(s)") and "31/04/2026" in m4)
+    pg4.click("#btnImpOk"); pg4.wait_for_timeout(1200)
+    dd = pg4.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "H datum"); return f ? f.versions.map(v => v.date) : null; }""")
+    check(f"B16: 22-9-2026 komt aan als 2026-09-22, 31/04/2026 zonder datum ({dd})", dd == ["2026-09-22", ""])
+
+    # B17: Excel export van één versie (titelrij boven de kolomkoppen) leest terug als nieuwe versie van die formule
+    info = pg4.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Angel"); switchTab("F", f.id, {type: "v", idx: f.versions.length - 1});
+        return {id: f.id, n: f.versions.length, lines: f.versions[f.versions.length - 1].lines.length}; }""")
+    pg4.wait_for_timeout(600)
+    with pg4.expect_download() as dl4:
+        pg4.click("#btnCsv")
+    een = os.path.join(tmp, dl4.value.suggested_filename); dl4.value.save_as(een)
+    eerste = open(een, encoding="utf-8-sig").readline()
+    check(f"B17: de uitvoer begint met de titelrij ({eerste.strip()[:30]!r})", eerste.startswith('"Angel – v'))
+    pg4.click("#btnHome"); pg4.wait_for_timeout(300)
+    pg4.set_input_files("#impFile", een); pg4.wait_for_timeout(900)
+    venster = pg4.text_content("#dlg") or ""
+    check("B17: het kolomvenster zegt dat de eerste rij de titel is", "The first row is read as the title" in venster)
+    pg4.click("#dlgOk"); pg4.wait_for_timeout(1100)
+    kop4 = pg4.text_content("#content h2") or ""
+    doel = pg4.evaluate("""() => $("#impTarget") ? $("#impTarget").value : null""")
+    n4 = pg4.evaluate("IMPORTP && IMPORTP.lines ? IMPORTP.lines.length : -1")
+    check(f"B17: de formule heet Angel, niet de bestandsnaam ({kop4!r})", kop4.strip() == "Import formula – Angel")
+    check("B17: een nieuwe versie van Angel staat voorgeselecteerd", doel == info["id"])
+    check(f"B17: alle regels zijn er ({n4} van {info['lines']})", n4 == info["lines"])
+    pg4.click("#btnImpOk"); pg4.wait_for_timeout(1100)
+    na = pg4.evaluate("""id => { const f = DATA.formulas.find(x => x.id === id); const a = f.versions[f.versions.length - 2], z = f.versions[f.versions.length - 1];
+        return [f.versions.length, a.lines.map(l => l.weightG).join("|") === z.lines.map(l => l.weightG).join("|") || a.lines.length === z.lines.length]; }""", info["id"])
+    check(f"B17: Angel heeft een versie meer, met dezelfde regels ({na})", na[0] == info["n"] + 1 and na[1])
+    met_label = schrijf(os.path.join(tmp, "260923 Rose de Mai 68 v2 45gr.csv"),
+        '"Rose de Mai 68 – v2 45gr";"";"";"";"";""\r\n"Material";"Dilution %";"Weight g";"Rel %";"Abs %";"Cost EUR"\r\n'
+        '"Hedione";"100";"1,000";"";"";""\r\n"Total";"";"1,000";"";"";""\r\n')
+    pg4.click("#btnHome"); pg4.wait_for_timeout(300)
+    pg4.set_input_files("#impFile", met_label); pg4.wait_for_timeout(900)
+    pg4.click("#dlgOk"); pg4.wait_for_timeout(1000)
+    lab = pg4.evaluate("IMPORTP ? [IMPORTP.name, IMPORTP.versionName] : null")
+    check(f"B17: v2 45gr in de titel wordt het label 45gr ({lab})", lab == ["Rose de Mai 68", "45gr"])
+    pg4.click("#btnImpCancel"); pg4.wait_for_timeout(300)
+
+    # B13: twee formules met dezelfde naam versmelten niet meer in de rondgang via Excel
+    pg4.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Angel");
+        const mats = DATA.materials.filter(m => !m.isSolvent).slice(0, 3);
+        DATA.formulas.push({id: "f-angel2", name: "Angel", category: f.category, created: today(), modified: now(), frozenImport: false,
+          versions: [{v: 1, date: "2026-01-01", name: "", notes: "the other Angel", lines: mats.map((m, i) => ({id: "l-a2" + i, materialId: m.id, dilutionPct: 100, weightG: 1}))}]});
+        markDirty(); }""")
+    pg4.click("#btnHome"); pg4.wait_for_timeout(300)
+    pg4.click("#homeIO"); pg4.wait_for_timeout(400)
+    with pg4.expect_download() as dl5:
+        pg4.click("#btnExpF")
+    alle = os.path.join(tmp, "alle.csv"); dl5.value.save_as(alle); pg4.wait_for_timeout(300)
+    if pg4.locator("#dlg").is_visible(): pg4.keyboard.press("Escape"); pg4.wait_for_timeout(300)
+    tekst = open(alle, encoding="utf-8-sig").read()
+    groep = pg4.evaluate("""t => { const parsed = csvTitle(parseCsv(t)); const map = csvAutoMap(parsed.header, FCSV_FIELDS);
+        const p = csvToImport(parsed, map, "alle.csv");
+        const hoek = p.formulas.filter(f => f.name === "Angel");
+        return {angels: hoek.map(f => f.versions.map(v => v.lines.length + ":" + v.notes)), note: p.checkNote || ""}; }""", tekst)
+    ref = pg4.evaluate("""() => DATA.formulas.filter(x => x.name === "Angel").map(f => f.versions.map(v => v.lines.length + ":" + (v.notes || "").trim()))""")
+    check(f"B13: twee formules Angel komen als twee terug, elk met hun eigen regels ({[len(a) for a in groep['angels']]})",
+          groep["angels"] == ref)
+    check("B13: geen Total-melding voor Angel", "Angel" not in groep["note"])
+    pg4.click("#btnHome"); pg4.wait_for_timeout(300)
+    pg4.set_input_files("#impFile", alle); pg4.wait_for_timeout(900)
+    pg4.click("#dlgOk"); pg4.wait_for_timeout(1400)
+    tw = pg4.evaluate("""() => { const e = document.querySelector("#impTwins"); return e ? e.textContent : ""; }""")
+    check(f"B13: de voorvertoning ziet beide Angels als naam die bezet is ({tw[:40]!r})", "the name of an earlier formula in this file" in tw)
+    pg4.click("#btnImpOk"); pg4.wait_for_timeout(1500)
+    terug = pg4.evaluate("""() => DATA.formulas.filter(x => /^Angel \\(import\\)/.test(x.name)).map(f => f.name + "=" + f.versions.map(v => v.lines.length).join(","))""")
+    check(f"B13: en ze komen aan als Angel (import) en Angel (import) (import) ({terug})", len(terug) == 2 and len(set(t.split("=")[1] for t in terug)) == 2)
+    check(f"geen paginafouten in 260922h ({errs4[:2]})", not errs4)
+    ctx4.close()
+
     check(f"geen paginafouten in de uitvoer ({errs[:2]})", not errs)
     check(f"geen paginafouten in de invoer ({errs2[:2]})", not errs2)
     print("\n%d OK, %d FAIL" % (ok, fail))
