@@ -130,6 +130,7 @@ with sync_playwright() as b0:
     check(f"geen paginafouten in de geïnstalleerde app ({errs2[:2]})", not errs2)
 
     # bouw 260918d: van versie wisselen is zelf een stap, en terug landt op de versie waar je stond
+    page.close()   # een herstart: het vorige venster is dicht (sinds 260922g bewaart in één browser één venster)
     pg3 = ctx.new_page(); pg3.on("dialog", lambda d: d.accept())
     pg3.goto(URL); pg3.wait_for_timeout(1500)
     pg3.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.length > 1) || DATA.formulas[0];
@@ -150,6 +151,7 @@ with sync_playwright() as b0:
 
     # bouw 260920o: de browser bewaart een vast aantal stappen (Chromium: vijftig) en laat de oudste vallen.
     # NAVI telde door, dus na tachtig plaatsen bleef de terugpijl aan terwijl klikken niets meer deed.
+    pg3.close()
     pg4 = ctx.new_page(); pg4.on("dialog", lambda d: d.accept())
     errs4 = []
     pg4.on("pageerror", lambda e: errs4.append(str(e)))
@@ -180,6 +182,7 @@ with sync_playwright() as b0:
         return pg.evaluate("""() => ({NAVI, NAVMAX, i: (history.state||{}).i,
             terug: document.querySelector("#btnNavPrev").disabled,
             vooruit: document.querySelector("#btnNavNext").disabled})""")
+    pg4.close()
     pg5 = ctx.new_page(); pg5.on("dialog", lambda d: d.accept())
     pg5.goto(URL); pg5.wait_for_timeout(1500)
     pg5.evaluate("""async n => { for (let i = 0; i < n; i++){ switchTab("M", DATA.materials[i].id, null);
@@ -208,6 +211,7 @@ with sync_playwright() as b0:
     check(f"vooruit en weer terug laat hem uit ({weer})", weer["terug"] is True)
 
     # dezelfde ontsporing na een herlaadbeurt: de bewaarde ingangen houden hun oude nummers
+    pg5.close()
     pg6 = ctx.new_page(); pg6.on("dialog", lambda d: d.accept())
     pg6.goto(URL); pg6.wait_for_timeout(1500)
     pg6.evaluate("""async n => { for (let i = 0; i < n; i++){ switchTab("M", DATA.materials[i].id, null);

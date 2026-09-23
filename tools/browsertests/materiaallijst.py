@@ -251,8 +251,10 @@ with sync_playwright() as p:
     # it survives a save and a fresh visit (browser storage)
     page.click("#btnSave"); page.wait_for_timeout(600)
     pg2 = ctx.new_page(); pg2.on("dialog", lambda d: d.accept())
-    pg2.goto(URL); pg2.wait_for_timeout(1200)
+    # een tweede venster naast dit leest sinds 260922g alleen, en dat volstaat om te zien wat er bewaard is
+    pg2.goto(URL); pg2.wait_for_function("() => typeof DATA !== 'undefined' && DATA && DATA.formulas", timeout=10000)
     check("the list is still there in a new visit", pg2.evaluate("DATA.materialList && DATA.materialList.materials.length") == 5)
+    pg2.close()
     # ---------- bouw 260918c: accenten en de ligatuur œ staan een zoekopdracht niet meer in de weg ----------
     page.evaluate("""() => { setMaterialList(normLibrary({type: "miformulas-materials", name: "Accenten", version: "1",
         materials: [{name: "Vetiver Ha\u00efti", cas: "8016-96-4", category: "Woody", pyramid: 4},

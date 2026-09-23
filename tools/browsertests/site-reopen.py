@@ -30,8 +30,12 @@ FAKE_FS = """
 with sync_playwright() as p:
     b = p.chromium.launch()
     ctx = b.new_context(viewport={"width": 1200, "height": 900})
-    def new_page(extra="", accept=False):
-        pg = ctx.new_page()
+    def new_page(extra="", accept=False, c=None):
+        # een nieuw bezoek: het vorige venster is dicht, want sinds 260922g bewaart in één browser één venster;
+        # een eigen context (c) is een andere browser, en laat de vensters van deze open
+        if c is None:
+            for q in list(ctx.pages): q.close()
+        pg = (c or ctx).new_page()
         pg.route("**/data.php*", lambda r: r.fulfill(status=404, body="not here"))
         pg.add_init_script(FAKE_FS + extra)
         pg.on("dialog", lambda d: d.accept() if accept else d.dismiss())
@@ -54,7 +58,7 @@ with sync_playwright() as p:
     check("install link calls prompt() and hides", pg.evaluate("window.__prompted === true") and not pg.locator("#btnInstall").is_visible())
 
     # 1b. starter set in browser storage, then "Save to a data file…" from the amber bar
-    ps = new_page()
+    ps = new_page(c=b.new_context(viewport={"width": 1200, "height": 900}))   # naast pg, dat hierna nog verder gaat
     ps.route("**/data/miformulas-starter.json", lambda r: r.fulfill(status=200, content_type="application/json", body=STARTER))
     ps.goto(URL); ps.wait_for_timeout(1000)
     ps.click("#btnStarter"); ps.wait_for_timeout(1500)

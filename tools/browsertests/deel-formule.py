@@ -127,7 +127,7 @@ with sync_playwright() as p:
     check("en gaat niet mee in het bestand", len(weespkg["lines"]) == 1)
 
     # ---------- de rondgang: bij iemand anders, die het materiaal en het solvent niet heeft ----------
-    page2 = ctx.new_page()
+    page2 = b.new_context(viewport={"width": 1280, "height": 900}, accept_downloads=True).new_page()   # iemand anders: een eigen browser (sinds 260922g bewaart in één browser één venster; een tweede leest alleen)
     msgs2 = []
     page2.on("pageerror", lambda e: errs.append(str(e)))
     page2.on("dialog", lambda d: (msgs2.append(d.message), d.accept()))

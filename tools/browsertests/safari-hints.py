@@ -52,6 +52,7 @@ with sync_playwright() as p:
     check("Safari tab: Welcome page offers Import from Formulair…", pg.locator("#btnImpFormulair").is_visible() and pg.get_attribute("#btnImpFormulair", "href") == "formulair-import.html")
     check("Safari tab: no Cowork mention on the Welcome page", "Cowork" not in pg.text_content("#content"))
     pg.click("#btnSave"); pg.wait_for_timeout(600)   # make sure the browser storage holds the data
+    pg.close()   # een nieuw bezoek: het vorige venster is dicht (sinds 260922g bewaart in één browser één venster)
     pg2 = ctx.new_page(); pg2.goto(URL); pg2.wait_for_timeout(1200)
     persisted = pg2.evaluate("navigator.storage.persisted()")
     check("Safari tab: data back in a new visit", pg2.locator("#btnImpFormulair").is_visible())

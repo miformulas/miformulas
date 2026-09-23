@@ -88,6 +88,7 @@ with sync_playwright() as p:
     page.evaluate("localStorage.setItem('fakefile', window.__written.at(-1))")
 
     # restart: same browser profile, permission back to "prompt" -> Reopen, no starter set
+    page.close()   # een herstart: het vorige venster is dicht (sinds 260922g bewaart in één browser één venster)
     pr = ctx.new_page()
     pr.add_init_script(FAKE_FS + " window.__perm = 'prompt';")
     pr.goto(APP); pr.wait_for_timeout(1000)
@@ -101,6 +102,7 @@ with sync_playwright() as p:
     check("restart: 16 formulas loaded", pr.evaluate("DATA.formulas.length") == 16)
 
     # restart after the data file was deleted: Reopen fails -> forget it, offer the starter set
+    pr.close()
     pg = ctx.new_page()
     pg.route("https://miformulas.com/data/miformulas-starter.json",
              lambda r: r.fulfill(status=200, content_type="application/json", body=STARTER,
@@ -127,6 +129,7 @@ with sync_playwright() as p:
     pg.evaluate("idb.set('fileHandle', null)"); pg.evaluate("localStorage.removeItem('fakefile')")
 
     # cancelled picker: back to the start screen
+    pg.close()
     page2 = ctx.new_page()
     page2.route("https://miformulas.com/data/miformulas-starter.json",
                 lambda r: r.fulfill(status=200, content_type="application/json", body=STARTER,
@@ -140,6 +143,7 @@ with sync_playwright() as p:
     check("cancelled picker: no file handle stored", page2.evaluate("idb.get('fileHandle').then(h => !h)"))
 
     # offline: clear message
+    page2.close()
     page3 = ctx.new_page()
     page3.route("https://miformulas.com/data/miformulas-starter.json", lambda r: r.abort())
     dl = []

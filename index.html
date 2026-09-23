@@ -309,7 +309,8 @@ td.dim{color:var(--muted)}
   #verSel{max-width:100%}
   .benchBtn{margin-left:.4rem}
 }
-/* read-only mode (a phone without a way to save): editing controls disappear entirely */
+/* read-only mode (a phone without a way to save, or a second window while the first one saves: see LOCKED):
+   editing controls disappear entirely */
 body.ro #btnNewV,body.ro #btnDelV,body.ro #btnRenameF,body.ro #btnCopyF,body.ro #btnCatF,body.ro #btnDelF,body.ro #btnMoveF,
 body.ro #btnApplyFactor,body.ro #scaleF,body.ro #btnApplyScale,body.ro #btnSetAbs,body.ro #targetAbs,body.ro #btnAddTrial,body.ro #trialDate,body.ro #trialText,
 body.ro #btnDelMat,body.ro #btnAddDil,body.ro #newDil,body.ro #newDilNote,body.ro #btnAddLine,body.ro #addMat,body.ro #btnPredil,body.ro #btnDilDown,body.ro #btnDilUp,
@@ -317,8 +318,14 @@ body.ro .swatch,body.ro [data-mark],body.ro #btnClearMarks,body.ro .selCb,body.r
 body.ro [data-add],body.ro [data-deltrial],body.ro [data-deldil],body.ro [data-setbase],body.ro [data-del],body.ro [data-pyr],body.ro [data-repl],
 body.ro .bghandle,body.ro [data-bup],body.ro [data-bdown],body.ro [data-bempty],body.ro [data-bdel],
 body.ro #btnPrep,body.ro #btnTake,body.ro #btnBuy,body.ro #btnDil,body.ro #stTake,body.ro #stBuyAmt,body.ro #stBuyUnit,body.ro #stBuyNote,body.ro #stDilPct,body.ro #stDilG,body.ro [data-delev],
-body.ro #btnImpFormulair,   /* a link, so lockInputs cannot disable it: an import here would have nowhere to go */
+body.ro #btnImpFormulair,body.ro #ioFormulair,   /* links, so lockInputs cannot disable them: an import here would have nowhere to go */
+body.ro #btnNew,body.ro #btnNewMat,body.ro #storageHintSave,   /* in the header and the storage bar, outside #content */
 body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
+/* a second window of the same browser (LOCKED): the start screen offers nothing that would write, and says why */
+#lockHint{display:none}
+body.locked #lockHint{display:block}
+body.locked #landingHint,body.locked #btnStarter,body.locked #btnEmpty,body.locked #btnOpen,body.locked #btnLandOpen,
+body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.locked #storageHint{display:none !important}
 #btnBack{display:none}
 @media print{
   /* printing from the dark theme must not put light grey on white paper. The theme sets these on
@@ -355,7 +362,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922f</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922g</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -401,6 +408,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
        <button id="btnEmpty" class="small" style="display:none;margin-left:.6rem" title="No example formulas or materials: an empty inventory you fill yourself">Start empty</button>
        <button id="btnLandOpen" class="small" style="display:none;margin-left:.6rem" title="Read a Backup or data file of your own; the app saves it to the server">Open data file…</button></p>
     <p><button id="btnSnap" class="small" style="display:none"></button></p>
+    <p class="hint" id="lockHint">miFormulas is already open in another window or tab of this browser, and that one saves your data. Continue there; this window takes over by itself as soon as the other one is closed.</p>
     <p class="hint" id="landingHint"></p>
     <p><button id="btnLandBak" class="primary small" style="display:none" title="Download everything that was read, as a JSON file">Backup</button></p>
     <p><button id="btnSettingsLanding" class="small">Settings…</button>
@@ -422,7 +430,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260922f. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260922g. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -447,6 +455,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p><strong>In a file.</strong> In Chrome or Edge the app can read and write a data file on your disk directly. You see the file, you can copy it, put it in a synced folder, and open it on another computer. The app remembers which file you used; the next time you open it you click <strong>Reopen</strong> and, if the browser asks, allow it to write to the file again. This works with the downloaded app (section <a href="#s4-recommended-setup-and-the-other-ways-in">4</a>) and just as well on miformulas.com itself: <strong>Save to a data file…</strong> (in the amber bar or in Settings) moves your work from the browser's storage into a file, <strong>Open data file…</strong> on the start screen switches to an existing file, and the site remembers the file for next time. For a site the browser can also remember the permission itself, in particular once the site is installed as an app: the app then opens straight into your data, and Reopen only appears when the browser wants a fresh click. Combined with "Install as an app" (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>) that gives you an app with its own icon, your own data file, and updates that arrive by themselves. Firefox cannot write to files: on the site you work in the browser's storage and use Backup to save, and a downloaded copy opened in Firefox is read-mostly (pick the data file once, the app keeps a cached copy, and Backup is the way to save). Safari has no direct file access either, so expect the same there: browser storage and Backup; it has only been tried on the start screen.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s2-where-your-data-lives-browser-file-or-server">Next time, the start screen offers Reopen for the remembered data file.</a></p>
 <p><strong>On a server.</strong> If you have a web server with PHP (a NAS at home, a small hosting account), put the app and the endpoint <code>server/data.php</code> on it and every device with the token shares the same data. The server refuses to overwrite changes made from another device in the meantime and keeps a daily snapshot. Section <a href="#s7-a-server-setup-for-cross-device-use">7</a> explains the setup.</p>
+<p><strong>One window at a time.</strong> In one browser, one window saves your data: the first one you open. Open miFormulas a second time, in another tab or as the installed app beside a tab, and that second window shows your data read-only; the header says "Read-only: open in another window" and the Welcome page says why. As soon as the first window is closed, the second one reloads by itself and takes over, on the place where you were. Without this, two windows would each write their own copy over the other's. With a server the rule does not apply: there the server itself refuses a save from a window that did not see the latest data, with the conflict warning above.</p>
 <p>Whichever mode you use, <strong>Backup</strong> in the header writes a copy of the data file with a date and time in its name (Chrome and Edge ask where; the other browsers put it in your downloads folder), and <strong>Open data file…</strong> on the start screen opens any such file. Moving between modes is nothing more than a Backup on one side and an Open on the other.</p>
 <h2 id="s3-privacy-who-can-see-your-formulas">3. Privacy: who can see your formulas</h2>
 <p>Nobody but you. miFormulas runs entirely on your own computer, inside your browser, and your data lives where you put it: in the browser's storage, in a file on your disk, or on a server you own. There is no account, no cloud, no telemetry and no update check, and the author of the app has no way to see your formulas. The app never uploads anything.</p>
@@ -510,7 +519,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <h2 id="s5-install-as-an-app-with-its-own-icon">5. Install as an app with its own icon</h2>
 <p>If you want miFormulas to feel like a program of its own rather than a tab, install it as an app: two minutes, no download, nothing difficult. It then opens in its own window without address bar or tabs, has its own icon in the taskbar, the Start menu or the Dock, and shows up when you switch between programs. Underneath it is the same app in the same browser: the installed app and the site in a normal tab share their data, their remembered data file and their updates.</p>
 <p>Browsers only offer this for pages served over https, so it works with miformulas.com and with your own server if that has an https address. A downloaded <code>miFormulas.html</code> cannot be installed this way; the last part of this section shows a shortcut that comes close.</p>
-<p><strong>The one-click way (Chrome and Edge, Windows and Mac).</strong> Open <a href="https://miformulas.com">https://miformulas.com</a>. When the browser can install the site, the start screen shows the link <strong>Install as an app</strong>, and the same button appears in <strong>Settings</strong> (⚙), under the fields, once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data and its updates with the site in a normal tab. Want your data in a file of your own? Click <strong>Save to a data file…</strong> on the Welcome page, in the storage bar or under the tiles (also in Settings): the app creates <code>miformulas-data.json</code> where you choose and remembers it. Chrome and Edge keep the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without questions. In Safari on a Mac the start screen shows <strong>Add to Dock…</strong> instead, which explains the File › Add to Dock route.</p>
+<p><strong>The one-click way (Chrome and Edge, Windows and Mac).</strong> Open <a href="https://miformulas.com">https://miformulas.com</a>. When the browser can install the site, the start screen shows the link <strong>Install as an app</strong>, and the same button appears in <strong>Settings</strong> (⚙), under the fields, once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Close the tab you installed it from: one window at a time saves your data (section <a href="#s2-where-your-data-lives-browser-file-or-server">2</a>), and the app takes over as soon as the tab is closed. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data and its updates with the site in a normal tab. Want your data in a file of your own? Click <strong>Save to a data file…</strong> on the Welcome page, in the storage bar or under the tiles (also in Settings): the app creates <code>miformulas-data.json</code> where you choose and remembers it. Chrome and Edge keep the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without questions. In Safari on a Mac the start screen shows <strong>Add to Dock…</strong> instead, which explains the File › Add to Dock route.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">The Install as an app link on the start screen.</a></p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">The browser's own install prompt (Edge).</a></p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">After installing, Edge offers to pin the app to the taskbar and the Start menu.</a></p>
@@ -545,7 +554,7 @@ body.ro #btnUndo,body.ro #btnRedo,body.ro #btnSave{display:none !important}
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">Automator: a new document of the type Application.</a></p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">The launcher: the action Run Shell Script with the open line.</a></p>
 <h3 id="android">Android</h3>
-<p><strong>Chrome</strong> (version 132 or later, January 2025, which is when Chrome on Android learned to write to files). Open <a href="https://miformulas.com">https://miformulas.com</a> and tap <strong>Install as an app</strong> on the start screen; confirm Chrome's <strong>Install app</strong> window. The app is installed with your other apps, so look for it in the app list and press and hold its icon there to add it to the Home screen. It opens without an address bar and works on the same data as the Chrome tab, which is why anything you tried in the tab is still there.</p>
+<p><strong>Chrome</strong> (version 132 or later, January 2025, which is when Chrome on Android learned to write to files). Open <a href="https://miformulas.com">https://miformulas.com</a> and tap <strong>Install as an app</strong> on the start screen; confirm Chrome's <strong>Install app</strong> window. The app is installed with your other apps, so look for it in the app list and press and hold its icon there to add it to the Home screen. It opens without an address bar and works on the same data as the Chrome tab, which is why anything you tried in the tab is still there. Close that tab once the app is open: one window at a time saves your data (section <a href="#s2-where-your-data-lives-browser-file-or-server">2</a>), and the app takes over as soon as the tab is closed.</p>
 <p><strong>Save to a data file…</strong> works here as well. The Android file window opens in Downloads; browse to another folder if you prefer, for instance Documents, where the folder icon with a + makes a new folder. Keep the name miformulas-data.json and tap Save.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-install-as-an-app-with-its-own-icon">Choosing where to keep miformulas-data.json on Android.</a></p>
 <p>At every start the app shows <strong>Reopen</strong> and Chrome asks whether the site may edit the file. Tap <strong>Allow</strong> and you are in your data. Chrome on Android grants that permission only until you close the site's tabs, so unlike on a computer the question comes back every time. A server of your own (section <a href="#s7-a-server-setup-for-cross-device-use">7</a>) avoids it, and gives you the same data on your phone and your computer.</p>
@@ -855,6 +864,38 @@ const idb = {
     try{ const t = idb.db.transaction("kv","readwrite").objectStore("kv").put(v,k); t.onsuccess = () => res(true); t.onerror = () => res(false); }
     catch(e){ res(false); } }); }
 };
+/* One window writes (build 260922g). Two windows on the same browser storage or the same data file each wrote
+   their own copy over the other's, without a word: the installed app beside a tab was enough. The first window
+   takes a lock and holds it until it closes; another one shows the data read-only, waits in line, and takes over
+   by itself (a reload) as soon as the first one lets go. A server needs none of this: its etag tells writers apart. */
+let LOCKED = false;
+const LOCKED_MSG = "Read-only: open in another window";
+function claimWriter(){   // resolves once it is settled whether this window writes
+  return new Promise(done => {
+    if (!navigator.locks) return done();   // no locks in this browser: as before, without the protection
+    // a reload lets go of the lock a moment after the new page asks for it: wait briefly before concluding
+    // that another window has it
+    const opts = window.AbortSignal && AbortSignal.timeout ? {signal: AbortSignal.timeout(2000)} : {ifAvailable: true};
+    navigator.locks.request("miformulas-writer", opts, lock => {
+      if (!lock){ lockedOut(); done(); return; }   // ifAvailable, and taken
+      done();
+      return new Promise(() => {});   // held until this page goes
+    }).catch(e => {
+      if (e && (e.name === "TimeoutError" || e.name === "AbortError")) lockedOut();   // anything else: no protection, as before
+      done();
+    });
+  });
+}
+function lockedOut(){
+  LOCKED = true; document.body.classList.add("locked");
+  // in line for the lock: when the other window closes, start again here as the one that writes, on the same place
+  navigator.locks.request("miformulas-writer", () => {
+    try{ sessionStorage.setItem("mfTakeover", "1"); }catch(e){}
+    DIRTY = false;   // nothing from this window could be written anyway: no "leave this page?" in the way
+    location.reload();
+    return new Promise(() => {});
+  }).catch(() => {});
+}
 let RESTORE = null;
 async function tryRestore(){
   if (FALLBACK) return false;
@@ -1005,8 +1046,11 @@ async function loadFromHandle(h){
   const d = await readDataFile(await h.getFile());
   if (!d) return false;
   DATA = d;
-  HANDLE = h; await idb.set("fileHandle", h);
-  await idb.set("demoData", null);   // the file is the data now; a browser copy would only go stale
+  HANDLE = h;
+  if (!LOCKED){   // a second window reads the file the first one keeps, and writes nothing into the shared storage
+    await idb.set("fileHandle", h);
+    await idb.set("demoData", null);   // the file is the data now; a browser copy would only go stale
+  }
   return true;
 }
 function askDilution(){   // a dilution is a percentage: between 0 and 100, and nothing else
@@ -1045,13 +1089,14 @@ $("#fileFallback").addEventListener("change", async e => {
   const d = migrateSafe(parsed); if (!d) return;
   DATA = d;
   if (REMOTE){ boot(true); markDirty(); return; }   // the server holds nothing yet: the first save puts this file there
-  if (DEMO) idb.set("demoData", text); else idb.set("cachedData", {json: text, when: Date.now(), name: f.name});   // fast path for next visit (iOS)
+  if (LOCKED){}   // the start screen of a second window offers no Open data file…; nothing of this may reach the shared storage
+  else if (DEMO) idb.set("demoData", text); else idb.set("cachedData", {json: text, when: Date.now(), name: f.name});   // fast path for next visit (iOS)
   boot();
 });
 /* One place that writes the header state. A short line stays on the row and carries the whole story in its
    tooltip; the storage mode is a span the CSS hides on a narrow window; a warning is long, so it may wrap. */
 const STATE_SHORT = {"Connected to server":"Server", "Data kept in this browser":"Browser",
-  "Unsaved changes":"Unsaved", "Loaded (read-only fallback \u2013 use Backup to save)":"Read-only"};
+  "Unsaved changes":"Unsaved", "Loaded (read-only fallback \u2013 use Backup to save)":"Read-only", [LOCKED_MSG]:"Read-only"};
 function setState(main, where, dirty){
   const el = $("#saveState");
   el.innerHTML = `<span id="stMain">${esc(main)}</span>` + (where ? `<span id="stWhere"> \u00b7 ${esc(where)}</span>` : "");
@@ -1129,6 +1174,24 @@ async function remoteLoad(){
     return true;
   }catch(e){ alert("Server not reachable: " + e.message); return false; }
 }
+// A 409 is not always another device. When the answer to a write goes missing (the connection drops after the
+// server wrote), the browser may send the same PUT again by itself, and that second one meets our own write; or a
+// write this window counted as failed did land after all. So a 409 first looks at what the server holds.
+let UNHEARD = [];   // fingerprints of the bodies sent without an answer coming back: one of them may have landed
+function fingerprint(s){   // 53 bits of a text, to recognise one of our own bodies without keeping megabytes of them
+  let h1 = 0xdeadbeef ^ s.length, h2 = 0x41c6ce57 ^ s.length;
+  for (let i = 0; i < s.length; i++){ const c = s.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return s.length + ":" + (4294967296 * (2097151 & h2) + (h1 >>> 0));
+}
+async function serverNow(){   // what the server holds at this moment, or null when that cannot be read
+  try{
+    const g = await fetch(API, {headers: {"X-Token": TOKEN || ""}, cache: "no-store"});
+    return g.ok ? {etag: g.headers.get("ETag"), text: await g.text()} : null;
+  }catch(e){ return null; }
+}
+const putData = s => fetch(API, {method: "PUT", headers: {"Content-Type": "application/json", "X-Token": TOKEN || "", "If-Match": ETAG || ""}, body: s});
 async function remoteSave(){
   const gen = SAVEGEN, s = serialize();
   try{
@@ -1144,25 +1207,35 @@ async function remoteSave(){
         return;
       } else if (g.status !== 401){ setState(`Save failed (server ${g.status}) – use Backup`, "", true); return; }
     }
-    const r = await fetch(API, {method: "PUT", headers: {"Content-Type": "application/json", "X-Token": TOKEN || "", "If-Match": ETAG || ""}, body: s});
+    let r = await putData(s), etag = null;
     if (r.status === 409){
+      const now = await serverNow();
+      if (now && now.text === s) etag = now.etag || "";   // the server holds this very save: only its answer went missing
+      else if (now && UNHEARD.includes(fingerprint(now.text))){ ETAG = now.etag; r = await putData(s); }   // an earlier save of ours: go on from there
+    }
+    if (etag === null && r.status === 409){
       setState("⚠ Conflict: changed on another device – reload (F5) before editing", "", true);
       if (!remoteSave._warned){ remoteSave._warned = true; alert("The data was changed on another device since you loaded it.\n\nUse Backup to keep your current work, then reload (F5) and redo the change."); }
       return;
     }
-    if (r.status === 401){ TOKEN = null; await idb.set("token", null);
-      setState("Token rejected: use Backup, then reload to enter it again", "", true); return; }
-    if (!r.ok){ setState(`Save failed (server ${r.status}) – use Backup`, "", true); return; }
-    // the new etag travels in the header and in the answer body; keeping the old one would make every later PUT
-    // send a stale If-Match and collect a 409 that is not a conflict at all
-    let ans = null; try{ ans = await r.json(); }catch(e){}
-    ETAG = r.headers.get("ETag") || (ans && ans.etag) || null;
+    if (etag === null){
+      if (r.status === 401){ TOKEN = null; await idb.set("token", null);
+        setState("Token rejected: use Backup, then reload to enter it again", "", true); return; }
+      if (!r.ok){ setState(`Save failed (server ${r.status}) – use Backup`, "", true); return; }
+      // the new etag travels in the header and in the answer body; keeping the old one would make every later PUT
+      // send a stale If-Match and collect a 409 that is not a conflict at all
+      let ans = null; try{ ans = await r.json(); }catch(e){}
+      etag = r.headers.get("ETag") || (ans && ans.etag) || null;
+    }
+    ETAG = etag || null;
     if (!ETAG) warnNoEtag();
+    UNHEARD = [];   // the server holds what this window has: nothing of ours is still in doubt
     LOADED = true;
     remoteSave._warned = false;
     finishSave(gen, "server");
     return true;
   }catch(e){
+    UNHEARD.push(fingerprint(s)); if (UNHEARD.length > 50) UNHEARD.shift();   // sent perhaps, never answered: it may be there
     setState("Server not reachable: changes kept in memory, use Backup", "", true);
     if (!remoteSave._retry){        // try again by itself as soon as the connection is back
       remoteSave._retry = true;
@@ -1188,6 +1261,7 @@ async function saveData(){          // the gate: one write at a time, and a manu
   return SAVING;
 }
 async function saveNow(){   // true when written
+  if (LOCKED){ setState(LOCKED_MSG, "", false); return false; }   // another window writes; nothing from here may reach the storage
   if (REMOTE) return remoteSave();
   if (HANDLE){
     try{
@@ -1289,12 +1363,20 @@ function redo(){
   invalidateMats(); clampView();
   buildUsage(); markDirty(); setTabs(); render();
 }
-window.addEventListener("beforeunload", e => { if (DIRTY){ e.preventDefault(); e.returnValue = ""; }});
+// a note or a weight still in hand has not fired its change event yet: let go of it first, as Ctrl+S does, so that
+// what you typed is a change the browser asks about and the write takes along (build 260922g)
+const letGo = () => { const a = document.activeElement; if (a && a !== document.body) a.blur(); };
+window.addEventListener("beforeunload", e => { letGo(); if (DIRTY && !LOCKED){ e.preventDefault(); e.returnValue = ""; }});
 // A phone does not close a page, it hides it, and a hidden page may be thrown away without a word:
 // beforeunload never comes there. So the moment the page steps aside the 2.5 s wait is cut short and
 // the write starts. This is the pair the browsers themselves point to for exactly this.
-const saveOnHide = () => { if (DIRTY) saveData(); };
-document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") saveOnHide(); });
+const saveOnHide = () => { letGo(); if (DIRTY) saveData(); };
+let HIDFOCUS = null;   // the field that had the focus when the page stepped aside: it gets it back on return
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden"){ HIDFOCUS = document.activeElement; saveOnHide(); return; }
+  const el = HIDFOCUS; HIDFOCUS = null;
+  if (el && el !== document.body && el.isConnected && document.activeElement === document.body) el.focus();
+});
 window.addEventListener("pagehide", saveOnHide);
 
 /* ---------- lookups & calculations ---------- */
@@ -2621,6 +2703,10 @@ function mergeImport(pkg){
 async function checkPendingImport(){   // left by formulair-import.html ("Add to miFormulas")
   let txt; try{ txt = await idb.get("pendingImport"); }catch(e){ return; }
   if (!txt) return;
+  if (LOCKED){   // it waits for the window that saves: taken in here, it would be lost with this read-only copy
+    alert("An import from Formulair is waiting.\n\nmiFormulas is open in another window or tab of this browser, and only that one saves. Close it, and this window takes over and adds the import; or reload that window, and it adds the import there.");
+    return;
+  }
   await idb.set("pendingImport", null);   // once, even if the merge fails
   let pkg; try{ pkg = JSON.parse(txt); }catch(e){ alert("The Formulair import could not be read; run the importer again."); return; }
   if (!pkg || !Array.isArray(pkg.formulas) || !Array.isArray(pkg.materials)){ alert("The Formulair import is not a miFormulas data file."); return; }
@@ -4409,7 +4495,7 @@ function renderMaterial(m){
 
 /* ---------- create ---------- */
 $("#btnNew").addEventListener("click", () => {
-  if (!DATA) return;
+  if (!DATA || readOnly()) return;
 
   openDialog(`<h3 style="margin:0 0 .3rem">New formula</h3>
     <div class="fieldGrid" style="margin-top:.7rem">
@@ -4431,7 +4517,7 @@ $("#btnNew").addEventListener("click", () => {
   bindNewCat(); $("#nfName").focus();
 });
 $("#btnNewMat").addEventListener("click", () => {
-  if (!DATA) return;
+  if (!DATA || readOnly()) return;
   const list = listMaterials();
   openDialog(`<h3 style="margin:0 0 .3rem">New material</h3>
     <div class="fieldGrid" style="margin-top:.7rem">
@@ -4617,7 +4703,7 @@ $("#storageHintClose").addEventListener("click", () => {   // closed once is clo
 });
 // browser storage -> a data file of the user's own (Chrome/Edge): explain, pick the location, write, remember
 function saveToDataFile(){
-  if (!DATA || !window.showSaveFilePicker) return;
+  if (!DATA || !window.showSaveFilePicker || LOCKED) return;
   openDialog(`<h3 style="margin-top:0">Where to keep your data file</h3>
     <p>Your formulas and materials will be saved as your data file, <b>miformulas-data.json</b>, and the app keeps saving to it from now on; the next time you open the app it offers to reopen it.</p>
     <p>In the next window, choose a folder of your own, for instance <b>Documents\\miFormulas</b>, and keep that file name. Make a subfolder <b>backups</b> there for Backup copies.</p>`,
@@ -4646,21 +4732,24 @@ async function openSettings(){
   const loc = (await idb.get("locale")) || "", url = (await idb.get("serverUrl")) || "", tok = (await idb.get("token")) || "";
   let remembered = null; try{ remembered = FALLBACK ? null : await idb.get("fileHandle"); }catch(e){}
   const web = /^https?:$/.test(location.protocol);   // the downloaded app never reads a server endpoint: see the start-up below
+  const srv = web && !LOCKED;   // where the data lives is changed in the window that saves it
   const locales = [["","Browser default"],["nl-BE","1.234,56  (nl-BE)"],["de-DE","1.234,56  (de-DE)"],["fr-FR","1 234,56  (fr-FR)"],["en-GB","1,234.56  (en-GB)"],["en-US","1,234.56  (en-US)"]];
   openDialog(`<h3 style="margin-top:0">Settings</h3>
     <div class="fieldGrid">
       <label for="setLocale">Number format</label><select id="setLocale">${locales.map(([v,l]) => `<option value="${v}"${v===loc?" selected":""}>${l}</option>`).join("")}</select>
       <label for="setOpenLast">Open where you left off</label><div><input type="checkbox" id="setOpenLast"${OPENLAST?" checked":""}> <span class="hint">start on the formula or material you had open, and its version</span></div>
-      ${web ? `<label for="setServer">Server endpoint</label><input id="setServer" value="${esc(url)}" placeholder="empty = no server">
+      ${srv ? `<label for="setServer">Server endpoint</label><input id="setServer" value="${esc(url)}" placeholder="empty = no server">
       <label for="setToken">Access token</label><input id="setToken" type="password" value="${esc(tok)}" autocomplete="off">` : ""}
     </div>
-    <div class="hint" style="margin-top:.6rem">${web
+    <div class="hint" style="margin-top:.6rem">${LOCKED
+      ? "This window only shows your data: miFormulas is open in another window or tab of this browser, and that one saves it. Where your data lives is changed there."
+      : web
       ? `A server is optional: without one the data lives in a local file or in this browser. Give <code>data.php</code> for the endpoint next to the app, or a full URL. Changing the server reloads the app.${HANDLE ? " Filling one in makes the app use that server from the next start on, instead of your data file; empty it to come back to the file." : ""} Manual section 7 walks through both ways; for step-by-step help in your own situation the AI prompts have one for a free <a href="${PROMPTS}#s5-setting-up-a-free-cloudflare-worker" target="_blank" rel="noopener">Cloudflare Worker</a> and one for <a href="${PROMPTS}#s4-setting-up-your-own-server" target="_blank" rel="noopener">your own PHP server</a>.`
       : "This copy of miFormulas keeps its data in the data file next to it, so it has no server settings. A server is set up on the site, in the Settings there."}</div>
     ${INSTALL_EVT && !window.matchMedia("(display-mode: standalone)").matches ? `<div style="margin-top:.8rem"><button class="small primary" id="setInstall">Install as an app</button> <span class="hint">own window and icon in the taskbar or Start menu; the browser does the installing</span></div>` : ""}
-    ${DEMO && !HANDLE && DATA && window.showSaveFilePicker ? `<div style="margin-top:.8rem"><button class="small primary" id="setToFile">Save to a data file…</button> <span class="hint">keep your data in a file of your own instead of in this browser</span></div>` : ""}
-    ${DEMO && !HANDLE ? `<div style="margin-top:.8rem"><button class="small" id="setReset">Delete the data kept in this browser</button></div>` : ""}
-    ${remembered ? `<div style="margin-top:.5rem"><button class="small" id="setForget">Forget the remembered data file \u201c${esc(remembered.name)}\u201d</button></div>` : ""}
+    ${DEMO && !HANDLE && DATA && window.showSaveFilePicker && !LOCKED ? `<div style="margin-top:.8rem"><button class="small primary" id="setToFile">Save to a data file…</button> <span class="hint">keep your data in a file of your own instead of in this browser</span></div>` : ""}
+    ${DEMO && !HANDLE && !LOCKED ? `<div style="margin-top:.8rem"><button class="small" id="setReset">Delete the data kept in this browser</button></div>` : ""}
+    ${remembered && !LOCKED ? `<div style="margin-top:.5rem"><button class="small" id="setForget">Forget the remembered data file \u201c${esc(remembered.name)}\u201d</button></div>` : ""}
     ${DATA ? `<div class="hint" style="margin-top:.9rem">${DATA.materialList
       ? `Materials library: <b>${esc(DATA.materialList.name)}</b>${DATA.materialList.version ? " " + esc(DATA.materialList.version) : ""}, ${nMats(DATA.materialList.materials.length)}${DATA.materialList.licence ? " · " + esc(DATA.materialList.licence) : ""}`
       : "No materials library loaded. A library fills in the facts when you add a material; it does not change the materials you own."}</div>
@@ -4669,12 +4758,12 @@ async function openSettings(){
     <div style="margin-top:.3rem"><button class="small" id="setListImp"${readOnly() ? " disabled" : ""}>Import materials library…</button>${
       DATA.materialList ? ` <button class="small" id="setListDel"${readOnly() ? " disabled" : ""}>Remove the library</button>` : ""}${
       LIST_URL ? ` <button class="small" id="setListGet"${readOnly() ? " disabled" : ""}>Get the latest library</button>` : ""}${
-      readOnly() ? ` <span class="hint">read-only here: there is nowhere to save a library to</span>` : ""}</div>` : ""}`,
+      readOnly() ? ` <span class="hint">${LOCKED ? "read-only here: another window saves your data" : "read-only here: there is nowhere to save a library to"}</span>` : ""}</div>` : ""}`,
   "Apply", () => {
     const nl = $("#setLocale").value || null;
-    const ns = web ? ($("#setServer").value.trim() || null) : null, nt = web ? ($("#setToken").value.trim() || null) : null;
+    const ns = srv ? ($("#setServer").value.trim() || null) : null, nt = srv ? ($("#setToken").value.trim() || null) : null;
     const nlast = !!$("#setOpenLast").checked;
-    const serverChanged = web && ((ns||"") !== (url||"") || (nt||"") !== (tok||""));
+    const serverChanged = srv && ((ns||"") !== (url||"") || (nt||"") !== (tok||""));
     (async () => {
       // saveData() says whether it worked, and changing the server reloads the app: throwing that answer away is
       // how the change you just made disappears. Ask first, and apply nothing at all when the answer is to stay.
@@ -4683,7 +4772,7 @@ async function openSettings(){
             + "Changing the server reloads the app, and what is not saved is lost. Cancel changes nothing and keeps you "
             + "here, so you can use Backup first.\n\nChange the server and reload anyway?")) return;
       await idb.set("locale", nl);
-      if (web){ await idb.set("serverUrl", ns); await idb.set("token", nt); }   // no server fields in the downloaded app: leave what is stored alone
+      if (srv){ await idb.set("serverUrl", ns); await idb.set("token", nt); }   // no server fields in the downloaded app or a second window: leave what is stored alone
       if (nlast !== OPENLAST){ OPENLAST = nlast; await idb.set("openLast", nlast); if (!nlast) await idb.set("lastView", null); }
       LOCALE = nl || undefined;
       if (serverChanged) location.reload();
@@ -4739,7 +4828,7 @@ window.addEventListener("beforeinstallprompt", e => {
 window.addEventListener("appinstalled", () => {
   INSTALL_EVT = null; $("#btnInstall").style.display = "none";
   // say where the app went and that this tab can be closed: it works on the same data
-  const msg = "miFormulas now sits with your other apps, in the Start menu, the Applications folder or the app list. On a phone or tablet, press and hold its icon there to put it on the Home screen. Open it and carry on; you can close this tab, and the app works on the same data as this one.";
+  const msg = "miFormulas now sits with your other apps, in the Start menu, the Applications folder or the app list. On a phone or tablet, press and hold its icon there to put it on the Home screen. Close this tab and carry on in the app: it works on the same data, and one window at a time saves it, so the app takes over as soon as this tab is closed.";
   openDialog(`<h3 style="margin-top:0">Installed</h3><p>${msg}</p>`, "OK", () => { $("#landingHint").textContent = msg; }, "26rem");
 });
 // Safari on macOS never fires beforeinstallprompt: point to File > Add to Dock instead
@@ -4790,7 +4879,7 @@ function offerReopen(onGone){
       if (await RESTORE.requestPermission({mode:"readwrite"}) !== "granted") return;
       if (await loadFromHandle(RESTORE)) boot();
     }catch(e){   // the file is gone (moved, renamed, deleted): forget it and let the caller offer a fresh start
-      b.style.display = "none"; RESTORE = null; await idb.set("fileHandle", null);
+      b.style.display = "none"; RESTORE = null; if (!LOCKED) await idb.set("fileHandle", null);
       onGone();
     }
   });
@@ -4803,7 +4892,7 @@ function lockInputs(){
     "btnImpCancel"]);   // getting out of an import is a read-only action; exporting sits in the Import/Export window, outside #content
   $("#content").querySelectorAll("input,select,textarea,button").forEach(el => { if (!keep.has(el.id)) el.disabled = true; });
 }
-const readOnly = () => isMobile() && !canSave();   // one rule for CSS (body.ro), disabled inputs and hidden buttons
+const readOnly = () => LOCKED || (isMobile() && !canSave());   // one rule for CSS (body.ro), disabled inputs and hidden buttons
 /* ---------- help: the manual, embedded from docs/manual.md by tools/bouw-docs.py ---------- */
 function renderHelp(){
   const c = $("#content"), t = $("#manualTpl");
@@ -4874,7 +4963,7 @@ function render(){
         ${DATA.formulas.length ? '<button class="small" id="homeNewF">+ New formula\u2026</button>' : ""}
         <button class="small" id="homeNewM">+ New material\u2026</button>
         <span class="hint">${DATA.formulas.length ? (isMobile() ? "or pick one from the list behind \u2039 Formulas" : "or pick one from the list on the left") : `your list is empty: this is where a formula begins, or bring one in from a photo with the <a href="${PROMPTS}#s1-photo-pdf-or-spreadsheet-to-import-file" target="_blank" rel="noopener">AI prompts</a>`}</span></div></div>
-    <p class="hint" id="whereData">Your data: ${REMOTE ? "on the server" : HANDLE ? `in <b>${esc(HANDLE.name)}</b>` : DEMO ? "kept in this browser" : "loaded read-only"}.${DEMO && !HANDLE && !FALLBACK && window.showSaveFilePicker ? ` <button class="small" id="homeToFile" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file\u2026</button>` : ""}</p>
+    <p class="hint" id="whereData">Your data: ${REMOTE ? "on the server" : HANDLE ? `in <b>${esc(HANDLE.name)}</b>` : DEMO ? "kept in this browser" : "loaded read-only"}.${LOCKED ? " <b>Read-only here:</b> miFormulas is open in another window or tab of this browser, and that one saves. This window takes over by itself as soon as that one is closed." : ""}${DEMO && !HANDLE && !FALLBACK && window.showSaveFilePicker && !LOCKED ? ` <button class="small" id="homeToFile" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file\u2026</button>` : ""}</p>
     ${showRecent ? `<div class="panelBox"><h3>Recently edited formulas</h3>${recent(DATA.formulas, "gof")}</div>
     <div class="panelBox"><h3>Recently edited materials</h3>${recent(DATA.materials, "gom")}</div>` : ""}
     <div class="panelBox"><h3>Import & export</h3>
@@ -5009,7 +5098,7 @@ window.addEventListener("popstate", e => {
 });
 async function dailySnapshot(){   // once a day: the state as it was when you opened the app, before the first change
   const day = today();
-  if (LASTBAK === day) return;
+  if (LASTBAK === day || LOCKED) return;   // a second window writes nothing, not even the snapshot
   const prev = await idb.get("dailyBak");
   LASTBAK = day;
   if (!prev || prev.date !== day) idb.set("dailyBak", {date: day, json: serialize()});
@@ -5045,18 +5134,20 @@ function boot(fresh){   // fresh = the app starts from the starter set, from not
   $("header").inert = false; $("#main").inert = false;   // released only now: before this there is no DATA to work on
   if (isMobile()) HOMEVIEW = true;      // phones start on the welcome screen, not on an empty list
   NAVFIRST = true; NAVI = 0; NAVMAX = 0;
-  let hs = null; try{ hs = OPENLAST ? history.state : null; }catch(e){}
+  let hs = null; try{ hs = OPENLAST || TAKEOVER ? history.state : null; }catch(e){}   // a takeover (see lockedOut) stays where it was
   if (hs && hs.mf) goPlace(hs);          // with "open where you left off" a reload lands back on the entry you were on
   else applyLastView();                  // Settings: open where you left off, if that place still exists
   if (STANDALONE){ $("#btnNavPrev").hidden = false; $("#btnNavNext").hidden = false; }
   buildUsage();
-  setState(REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback – use Backup to save)", "", false);
+  setState(LOCKED ? LOCKED_MSG : REMOTE ? "Connected to server" : HANDLE ? "Loaded" : DEMO ? "Data kept in this browser" : "Loaded (read-only fallback – use Backup to save)", "", false);
   setTabs(); render();
   if (STANDALONE && DEMO && !HANDLE){ saveNow._persistAsked = true; requestPersistence(); }   // installed app: granted silently, so the bar never flashes
   else updateStorageHint();
   if (!fresh) dailySnapshot();   // a start from the starter set would otherwise overwrite the snapshot that is offered on that very screen
   checkPendingImport();
 }
+let TAKEOVER = false;   // this start is a second window taking over from the first (see lockedOut)
+try{ TAKEOVER = sessionStorage.getItem("mfTakeover") === "1"; sessionStorage.removeItem("mfTakeover"); }catch(e){}
 (async () => {
   try{
   await idb.open();
@@ -5092,6 +5183,7 @@ function boot(fresh){   // fresh = the app starts from the starter set, from not
       return;
     }
     // no server: the browser keeps the data, unless a data file was opened here before (then that file is used)
+    await claimWriter();
     DEMO = true;
     if (await tryRestore()){ boot(); return; }
     const BROWSER_MSG = "Your data stays in this browser. Use Backup to download it, and Settings to connect a server of your own."
@@ -5099,7 +5191,7 @@ function boot(fresh){   // fresh = the app starts from the starter set, from not
     const demoStart = async (hint) => {
     $("#landingHint").textContent = hint;
     const demo = await idb.get("demoData");
-    if (!demo){   // nothing here yet, but a Formulair import waiting: that becomes the data
+    if (!demo && !LOCKED){   // nothing here yet, but a Formulair import waiting: that becomes the data (in the window that saves)
       const pend = await idb.get("pendingImport");
       if (pend){ await idb.set("pendingImport", null); try{ DATA = migrate(JSON.parse(pend)); boot(true); markDirty(); return; }catch(e){ alert("The Formulair import could not be read; run the importer again."); } }
     }
@@ -5157,6 +5249,7 @@ function boot(fresh){   // fresh = the app starts from the starter set, from not
     await offerSnapshot();   // this branch keeps a daily snapshot like the others, and used to be the only one not offering it
     return;
   }
+  await claimWriter();   // the downloaded app in Chrome or Edge writes its data file: one window at a time
   if (await tryRestore()){ boot(); return; }
   await offerSnapshot();
   const FRESH_MSG = "You are running the app from your own computer. Keep miFormulas.html in a folder of its own, for instance Documents\\miFormulas, with your data file next to it and a subfolder \u201cbackups\u201d for Backup copies. Made a data file earlier? Use Open data file\u2026; the starter set would create a new one.";

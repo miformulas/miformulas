@@ -155,15 +155,15 @@ with sync_playwright() as p:
     page.evaluate("""() => { DATA.formulas.find(x => x.id === "f-v").name = "Gewijzigd"; markDirty(); }""")
     page.wait_for_timeout(3200)
     page.evaluate("""() => idb.set("demoData", null)""")
-    pg2 = ctx.new_page(); pg2.on("dialog", lambda d: d.accept())
-    pg2.route("**/data.php*", lambda r: r.fulfill(status=404, body="no"))
-    pg2.goto(URL); pg2.wait_for_timeout(1500)
-    check("the start screen offers the snapshot", pg2.locator("#btnSnap").is_visible()
-          and "Restore daily snapshot" in pg2.locator("#btnSnap").inner_text())
-    pg2.click("#btnSnap"); pg2.wait_for_timeout(1200)
+    # een herstart van hetzelfde venster: sinds 260922g bewaart in één browser één venster, en een tweede
+    # venster naast dit zou alleen lezen en geen startscherm met herstelknoppen tonen
+    page.reload(); page.wait_for_timeout(1500)
+    check("the start screen offers the snapshot", page.locator("#btnSnap").is_visible()
+          and "Restore daily snapshot" in page.locator("#btnSnap").inner_text())
+    page.click("#btnSnap"); page.wait_for_timeout(1200)
     check("which brings back the state you opened with, not the changed one",
-          pg2.evaluate("DATA.formulas.length") == 16
-          and pg2.evaluate("""!DATA.formulas.some(f => f.name === "Gewijzigd")"""))
+          page.evaluate("DATA.formulas.length") == 16
+          and page.evaluate("""!DATA.formulas.some(f => f.name === "Gewijzigd")"""))
 
     # ---------- 7. the snapshot survives the other two ways in (build 260920a) ----------
     # Starting from the starter set or from nothing used to run dailySnapshot() over the snapshot that

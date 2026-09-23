@@ -123,7 +123,7 @@ with sync_playwright() as p:
           any(e.get("isSolvent") for e in pkg["materials"] if e["name"] == "Ethanol"))
 
     # ---------- the way back in: a colleague imports the file ----------
-    page2 = ctx.new_page()
+    page2 = b.new_context(viewport={"width": 1280, "height": 900}, accept_downloads=True).new_page()   # een collega: een eigen browser (sinds 260922g bewaart in één browser één venster; een tweede leest alleen)
     page2.on("pageerror", lambda e: errs.append(str(e)))
     msgs2 = []
     page2.on("dialog", lambda d: (msgs2.append(d.message), d.accept()))

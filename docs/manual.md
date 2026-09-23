@@ -8,7 +8,7 @@ There is nothing to install, no account, and your data stays in a file that you 
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 260922f. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
+This manual describes build 260922g. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.
 
 ## Contents
 
@@ -75,6 +75,8 @@ Two buttons on the start screen belong to particular situations. With a server c
 ![Next time, the start screen offers Reopen for the remembered data file.](img/app-start-reopen.png)
 
 **On a server.** If you have a web server with PHP (a NAS at home, a small hosting account), put the app and the endpoint `server/data.php` on it and every device with the token shares the same data. The server refuses to overwrite changes made from another device in the meantime and keeps a daily snapshot. Section 7 explains the setup.
+
+**One window at a time.** In one browser, one window saves your data: the first one you open. Open miFormulas a second time, in another tab or as the installed app beside a tab, and that second window shows your data read-only; the header says "Read-only: open in another window" and the Welcome page says why. As soon as the first window is closed, the second one reloads by itself and takes over, on the place where you were. Without this, two windows would each write their own copy over the other's. With a server the rule does not apply: there the server itself refuses a save from a window that did not see the latest data, with the conflict warning above.
 
 Whichever mode you use, **Backup** in the header writes a copy of the data file with a date and time in its name (Chrome and Edge ask where; the other browsers put it in your downloads folder), and **Open data file…** on the start screen opens any such file. Moving between modes is nothing more than a Backup on one side and an Open on the other.
 
@@ -154,7 +156,7 @@ If you want miFormulas to feel like a program of its own rather than a tab, inst
 
 Browsers only offer this for pages served over https, so it works with miformulas.com and with your own server if that has an https address. A downloaded `miFormulas.html` cannot be installed this way; the last part of this section shows a shortcut that comes close.
 
-**The one-click way (Chrome and Edge, Windows and Mac).** Open https://miformulas.com. When the browser can install the site, the start screen shows the link **Install as an app**, and the same button appears in **Settings** (⚙), under the fields, once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data and its updates with the site in a normal tab. Want your data in a file of your own? Click **Save to a data file…** on the Welcome page, in the storage bar or under the tiles (also in Settings): the app creates `miformulas-data.json` where you choose and remembers it. Chrome and Edge keep the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without questions. In Safari on a Mac the start screen shows **Add to Dock…** instead, which explains the File › Add to Dock route.
+**The one-click way (Chrome and Edge, Windows and Mac).** Open https://miformulas.com. When the browser can install the site, the start screen shows the link **Install as an app**, and the same button appears in **Settings** (⚙), under the fields, once you are working. Click it, and the browser's own install dialog appears with the name and icon; confirm, and the app opens in its own window. Close the tab you installed it from: one window at a time saves your data (section 2), and the app takes over as soon as the tab is closed. Nothing is downloaded and nothing else is installed: the browser does the work, and the installed app shares its data and its updates with the site in a normal tab. Want your data in a file of your own? Click **Save to a data file…** on the Welcome page, in the storage bar or under the tiles (also in Settings): the app creates `miformulas-data.json` where you choose and remembers it. Chrome and Edge keep the permission to write to that file for an installed app, so from then on the app opens straight into your formulas, without questions. In Safari on a Mac the start screen shows **Add to Dock…** instead, which explains the File › Add to Dock route.
 
 ![The Install as an app link on the start screen.](img/edge-install-link.png)
 
@@ -218,7 +220,7 @@ Save it as miFormulas in your Applications folder and drag it to the Dock. To gi
 
 ### Android
 
-**Chrome** (version 132 or later, January 2025, which is when Chrome on Android learned to write to files). Open https://miformulas.com and tap **Install as an app** on the start screen; confirm Chrome's **Install app** window. The app is installed with your other apps, so look for it in the app list and press and hold its icon there to add it to the Home screen. It opens without an address bar and works on the same data as the Chrome tab, which is why anything you tried in the tab is still there.
+**Chrome** (version 132 or later, January 2025, which is when Chrome on Android learned to write to files). Open https://miformulas.com and tap **Install as an app** on the start screen; confirm Chrome's **Install app** window. The app is installed with your other apps, so look for it in the app list and press and hold its icon there to add it to the Home screen. It opens without an address bar and works on the same data as the Chrome tab, which is why anything you tried in the tab is still there. Close that tab once the app is open: one window at a time saves your data (section 2), and the app takes over as soon as the tab is closed.
 
 **Save to a data file…** works here as well. The Android file window opens in Downloads; browse to another folder if you prefer, for instance Documents, where the folder icon with a + makes a new folder. Keep the name miformulas-data.json and tap Save.
 
