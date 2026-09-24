@@ -97,15 +97,14 @@ with sync_playwright() as p:
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
     page.fill("#searchBox", ""); page.wait_for_timeout(300)
 
-    # ---------- 3. the IFRA dosage belongs to one formula ----------
+    # ---------- 3. build 260922i: the IFRA check has no dosage field any more ----------
+    # it used to belong to one formula at a time; diluting a concentrate now happens in the formula itself
     page.fill("#searchBox", ""); page.click("#tabF"); page.wait_for_timeout(400)
     items = page.locator("#list .item")
     items.nth(0).click(); page.wait_for_timeout(500)
     page.click("#ifraBox summary"); page.wait_for_timeout(300)
-    page.fill("#ifraDose", "5"); page.locator("#ifraDose").press("Tab"); page.wait_for_timeout(500)
-    check("the dosage is taken over", page.evaluate("IDOSE") == 5)
-    items.nth(1).click(); page.wait_for_timeout(600)
-    check("another formula starts from its own concentration", page.evaluate("IDOSE") is None)
+    check("the IFRA check has no dosage field", page.locator("#ifraDose").count() == 0)
+    check("and no dosage state behind it", page.evaluate("typeof IDOSE") == "undefined")
 
     # ---------- 4. Ctrl+Z does not run under an open dialog ----------
     items.nth(0).click(); page.wait_for_timeout(500)

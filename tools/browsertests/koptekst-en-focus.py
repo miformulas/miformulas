@@ -189,10 +189,9 @@ with sync_playwright() as p:
     zicht = page.evaluate("""() => {
         const z = id => { const e = document.querySelector(id); return e ? !!e.offsetParent && !e.disabled : null; };
         return {sheet: z("#btnSheet"), csv: z("#btnCsv"), share: z("#btnShare"), print: z("#btnPrint"),
-                dose: z("#ifraDose"), move: z("#btnMoveF"), addline: z("#btnAddLine")}; }""")
+                move: z("#btnMoveF"), addline: z("#btnAddLine")}; }""")
     check(f"alleen-lezen: printen, uitvoeren en delen blijven bruikbaar ({zicht})",
           zicht["sheet"] and zicht["csv"] and zicht["share"] and zicht["print"])
-    check(f"alleen-lezen: het dosisveld van de IFRA-controle ook ({zicht['dose']})", zicht["dose"] is not False)
     check(f"alleen-lezen: Move into… en Add line zijn weg ({zicht['move']}, {zicht['addline']})",
           not zicht["move"] and not zicht["addline"])
     page.evaluate("() => { DEMO = true; render(); }")

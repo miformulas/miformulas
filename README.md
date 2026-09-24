@@ -102,7 +102,7 @@ lab. **Export my inventory as a library…** does the same for the materials you
 tick: your facts and your own descriptions, without stock, price or supplier.
 
 **Also there.** Batch scaling on a factor, a target weight or a target
-concentration; an IFRA check with adjustable dosage; a comparison view between
+concentration; an IFRA check; a comparison view between
 versions; an olfactive pyramid; printable weighing sheets; Excel/CSV export; Undo
 to 50 steps.
 

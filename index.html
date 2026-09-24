@@ -362,7 +362,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922h</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922i</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -430,7 +430,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260922h. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260922i. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -660,7 +660,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Accents and ligatures do not matter: "haiti" finds Vetiver Haïti and "coeur" finds Patchouli cœur, and the same folding decides whether an import lands on a material you already have. Each tab keeps its own term, so the name of a material does not stay behind in the formula list when you switch. Typing "starter" lists the starter set. When nothing in your inventory matches and a materials library is loaded (section <a href="#s20-import-and-export">20</a>), the panel says "Not in your inventory" and shows what the library does know, with a <strong>+ Add</strong> button that puts the material in your inventory with its facts.</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-the-screen">The list panel on the left and a formula page on the right.</a></p>
-<p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. Read-only takes away what would change something, in the windows as well: a materials library cannot be imported or fetched there, and <strong>Import from Formulair…</strong> is not offered, because there would be nowhere to save the result. Printing, the Excel export, <strong>Share this version</strong> and the dosage field of the IFRA check stay where they are, because none of them touches your data. The header leaves out ☰, <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself. The formula table drops the columns <strong>Abs %</strong> and <strong>Cost</strong> there, to leave room for the dilution picker; swipe the table sideways to see the rest. The order list drops <strong>Note</strong>, <strong>Price €</strong>, <strong>Product URL</strong> and <strong>Added</strong>, so that the material, the amount and the three buttons fit on the screen without swiping: in a shop you work from that list, you do not fill it in.</p>
+<p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. Read-only takes away what would change something, in the windows as well: a materials library cannot be imported or fetched there, and <strong>Import from Formulair…</strong> is not offered, because there would be nowhere to save the result. Printing, the Excel export and <strong>Share this version</strong> stay where they are, because none of them touches your data. The header leaves out ☰, <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself. The formula table drops the columns <strong>Abs %</strong> and <strong>Cost</strong> there, to leave room for the dilution picker; swipe the table sideways to see the rest. The order list drops <strong>Note</strong>, <strong>Price €</strong>, <strong>Product URL</strong> and <strong>Added</strong>, so that the material, the amount and the three buttons fit on the screen without swiping: in a shop you work from that list, you do not fill it in.</p>
 <h2 id="s9-materials">9. Materials</h2>
 <p>The <strong>Materials</strong> tab is your inventory: the materials you own or have on order. A <strong>materials library</strong> is something else, a reference file of facts that you import (section <a href="#s20-import-and-export">20</a>); it never changes what you own.</p>
 <p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own predilutions. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (the categories that come with the starter set and with a Formulair import carry a colour, used for the dots and the pyramid; beside the picker sits a small colour square that sets the colour of the chosen category, so a category you make yourself does not have to stay grey, and <strong>+ New category</strong> makes one without leaving the page), supplier, the amount purchased (free text, so an imported “2 × 50 ml” stays exactly as it was), cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), IFRA limit, whether it is a solvent, where it is stored (cupboard, fridge, freezer), and its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?). Below that come the dilutions, the optional stock ledger (which also holds the date you bought it and the density in g/ml that section <a href="#s19-stock-orders-and-deliveries">19</a> uses to read a volume as a weight), a free description, and the list of every formula the material appears in; click a name there to jump to it. The heading counts them all and the list shows the first sixty, with "and N more" underneath when there are more. A material always keeps at least one dilution, so the last one cannot be deleted: add the other one first.</p>
@@ -734,8 +734,8 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p><strong>Compare</strong> (shown as soon as a formula has two versions) puts two versions side by side, aggregated per material: weight and dilutions in A, weight and dilutions in B, rel % in each, and the difference in rel %. Lines only in B are green, lines only in A red, changed lines yellow; the default order puts the largest changes first, and the totals show the weight and the concentration of both. A is the older of the two and B the newer, so the difference reads as what changed since A; opening Compare on the very first version puts that one in A and the next in B. Change A and B with the two lists and close with <strong>Close compare</strong>, which puts you back where you came from, the bench view included. Two versions side by side is not a sheet, so printing is done from one version: close the comparison first.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s17-comparing-versions">Compare: two versions side by side, aggregated per material, largest change first.</a></p>
 <h2 id="s18-ifra-check-and-category-panel">18. IFRA check and category panel</h2>
-<p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. An IFRA limit is a percentage of the <strong>finished product</strong>, and the finished product is everything in the bottle, so the check works from each material's share of the whole weight of this version, solvent lines included, and not from its rel %, which stands on the non-solvent content alone. That share is multiplied by the figure in the box, <strong>the percentage of the finished product this formula is</strong>, and compared with the material's limit. The box starts at 100 %: the formula as it stands, with whatever solvents it holds, is what ends up on skin. Write a formula that is a concentrate to be diluted later and you type the figure it goes in at, 12 or 20, and the panel reads as the finished product would.</p>
-<p>The heading says at once whether the formula is within limits or how many materials are over; the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. It stops at eight rows, or at however many are over their limit, so nothing over a limit is ever left out; a line under the table says how many further materials stayed below theirs. A material you ticked as a <strong>solvent</strong> stands in that table like any other, with its own share: IFRA counts it as part of the finished product whatever role it has in your formula. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. A line whose material you have since deleted is named separately: it still counts in the weights, but there is nothing left to check it against. <strong>A predilution switches the check off.</strong> Its materials live as text in the description of the predilution material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the predilution, and you check the version from before the predilution was made, or the predilution itself under Predilutions, where its materials are lines again. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
+<p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. An IFRA limit is a percentage of the <strong>finished product</strong>, and the finished product is everything in the bottle, so the check works from each material's share of the whole weight of this version, solvent lines included, and not from its rel %, which stands on the non-solvent content alone. That share is compared with the material's limit: the version as it stands, with whatever solvents it holds, is what ends up on skin. A concentrate therefore reads high here; to check it at the strength you will use, dilute it in a new version (Set EtOH, section <a href="#s14-batch-scaling-and-predilutions">14</a>) and look at that one.</p>
+<p>The heading says at once whether the formula is within limits or how many materials are over (a share exactly on its limit is within it); the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. It stops at eight rows, or at however many are over their limit, so nothing over a limit is ever left out; a line under the table says how many further materials stayed below theirs. A material you ticked as a <strong>solvent</strong> stands in that table like any other, with its own share: IFRA counts it as part of the finished product whatever role it has in your formula. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. A line whose material you have since deleted is named separately: it still counts in the weights, but there is nothing left to check it against. <strong>A predilution switches the check off.</strong> Its materials live as text in the description of the predilution material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the predilution, and you check the version from before the predilution was made, or the predilution itself under Predilutions, where its materials are lines again. The check is a help, not an IFRA certificate: it knows only what you entered, and only for the product category you had in mind when you entered it.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The IFRA check panel: materials over their limit come first.</a></p>
 <p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table works per pyramid level, over the material that carries one: a line whose material still has no level (?) is left out, so those percentages are shares of what is classified, not of the whole concentrate.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The Categories panel.</a></p>
@@ -943,6 +943,17 @@ function migrate(d){
   // Such a field becomes text here, once (build 260922h): a list of text its lines, a number its digits.
   const text = (o, keys, dflt = {}) => { for (const k of keys){ const x = o[k];
     if (x != null && typeof x !== "string"){ const t = toText(x, k === "notes" || k === "description" ? "\n" : "; "); o[k] = t || dflt[k] || ""; } } };
+  // A number written as text ("2,5", "10", "") read right in the formula table only: Compare, Export all my formulas,
+  // Apply factor, the IFRA check and the cost read it as 0, as NaN or as "not allowed" (build 260922i). It becomes a
+  // number here, once, by the rule of the import; what is no number at all reads as empty, and the app says so once.
+  let notNum = 0;
+  const numOr = (x, empty, unit) => {
+    if (typeof x !== "string") return x;
+    if (!x.trim()) return empty;
+    const n = impNum(x, unit);
+    if (!isFinite(n)){ notNum++; return empty; }
+    return n;
+  };
   for (const f of d.formulas || []){
     freshId(f, "f-");
     text(f, ["name", "category"], {category: "Uncategorised"});
@@ -952,6 +963,8 @@ function migrate(d){
     for (const v of f.versions){
       v.lines = rows(v.lines);
       text(v, ["name", "notes", "date"]);
+      for (const l of v.lines){ if (typeof l.weightG === "string") l.weightG = numOr(l.weightG, 0, "g");
+        if (typeof l.dilutionPct === "string") l.dilutionPct = numOr(l.dilutionPct, 100, "%"); }
       if (typeof v.v !== "number" || !isFinite(v.v)) v.v = vmax + 1;   // a missing number gave versions "vundefined" and "vNaN"
       vmax = Math.max(vmax, v.v);
       // a bench group used to hold material|dilution|ordinal, and that ordinal shifted as soon as one of two
@@ -994,6 +1007,8 @@ function migrate(d){
     text(m, ["name", "cas", "category", "supplier", "inventory", "purchaseDate", "description"], {category: "Uncategorised"});
     m.name ||= "Unnamed material";
     m.dilutions = rows(m.dilutions);   // the calculation reads d.pct on every render: an empty slot there would stop it
+    m.dilutions = m.dilutions.filter(x => { if (typeof x.pct !== "string") return true; x.pct = numOr(x.pct, null, "%"); return x.pct != null; });
+    for (const k of ["costPerGram", "ifraLimit", "density"]) if (typeof m[k] === "string") m[k] = numOr(m[k], null);
     if (!m.dilutions.length) m.dilutions = [{pct: 100, isBase: true, date: today(), notes: ""}];
     else if (!m.dilutions.some(d => d.isBase))    // without one basePct reads 100 %, a strength the material does not have
       m.dilutions.reduce((a,x) => !a || x.pct > a.pct ? x : a, null).isBase = true;
@@ -1004,6 +1019,10 @@ function migrate(d){
       m.aliases = m.aliases.filter(a => typeof a === "string").map(a => a.trim()).filter(Boolean).join("; ");
     else if (m.aliases != null && typeof m.aliases !== "string") m.aliases = "";
     delete m._descHit;   // transient search flag that once leaked into the file
+  }
+  if (notNum && !migrate._numWarned){
+    migrate._numWarned = true;
+    alert(`This data file holds ${notNum} value(s) where a number belongs that are not a number: a weight, a dilution, a price, an IFRA limit or a density. They now read as empty: a weight as 0 g, a dilution as 100 %.`);
   }
   d.orderList = rows(d.orderList);
   for (const o of d.orderList){            // old free-text amounts → number + unit
@@ -1781,7 +1800,7 @@ function renderFormula(f){
   const c = $("#content");
   let sub = VIEW.sub || {type:"v", idx: f.versions.length-1};
   const stamp = f.id + "|" + sub.type + "|" + sub.idx;
-  if (stamp !== renderFormula._last){ renderFormula._last = stamp; NOTESOPEN = null; IDOSE = null; }   // new formula/version: follow content again
+  if (stamp !== renderFormula._last){ renderFormula._last = stamp; NOTESOPEN = null; }   // new formula/version: follow content again
   if (sub.type === "cmp"){ renderCompare(f, sub); return; }
   if (!f.versions[sub.idx]) sub = {type:"v", idx:f.versions.length-1};
   VIEW.sub = sub;
@@ -1963,11 +1982,6 @@ function renderFormula(f){
   $("#btnSheet")?.addEventListener("click", ()=> formulaSheetPrint(f, item, lines, K));
   $("#btnCsv")?.addEventListener("click", ()=> csvDownload(f, item, lines, K));
   $("#btnShare")?.addEventListener("click", ()=> shareVersion(f, item, K));
-  $("#ifraDose")?.addEventListener("change", e => {
-    const v = parseNum(e.target.value);
-    if (v != null && !(v > 0 && isFinite(v))){ alert("A dosage is a percentage above 0."); IDOSE = null; }   // 0 or below read every material as within limits, and 1e999 is not a percentage
-    else IDOSE = v;
-    IFRAOPEN = true; render(); });
   $("#ifraBox")?.addEventListener("toggle", e => { IFRAOPEN = e.target.open; });
   $("#scaleBox")?.addEventListener("toggle", e => { SCALEOPEN = e.target.open; });
   $("#catsBox")?.addEventListener("toggle", e => { CATSOPEN = e.target.open; });
@@ -2968,20 +2982,22 @@ function evLabel(e){
   return s;
 }
 function markPrepared(f, item, lines){
-  const ded = [], other = [], untracked = [];
+  // one deduction per material: two lines of Hedione read "2 tracked material(s)" (build 260922i)
+  const per = new Map(), other = [], untracked = new Set();
   for (const l of lines || []){
     const m = matById(l.materialId); if (!m || !(l.weightG > 0)) continue;
     const base = (m.dilutions||[]).find(d => d.isBase);
     const basePct = base ? base.pct : 100;
     if ((l.dilutionPct ?? 100) !== basePct){ other.push(m.name); continue; }
-    if (!stockCalc(m).tracked){ untracked.push(m.name); continue; }
-    ded.push({m, g: l.weightG});
+    if (!stockCalc(m).tracked){ untracked.add(m.id); continue; }
+    const d = per.get(m.id) || {m, g: 0}; d.g += l.weightG; per.set(m.id, d);
   }
+  const ded = [...per.values()];
   const label = vName(item);
   const msg = `Mark ${f.name} ${label} as prepared on ${today()}?\n\n` +
     (ded.length ? `Stock will decrease for ${ded.length} tracked material(s):\n${ded.slice(0,12).map(d=>`  − ${fmt(d.g)} g ${d.m.name}`).join("\n")}${ded.length>12?"\n  …":""}\n\n` : "No tracked base-dilution lines – nothing will be deducted.\n\n") +
     (other.length ? `${other.length} line(s) at other dilutions are untouched (their base was deducted when the dilution was made).\n` : "") +
-    (untracked.length ? `${untracked.length} material(s) not tracked.\n` : "") +
+    (untracked.size ? `${untracked.size} material(s) not tracked.\n` : "") +
     `\nThis can be done once per version.`;
   if (!confirm(msg)) return;
   const fClone = structuredClone(f);
@@ -3529,7 +3545,7 @@ function formulaSheetPrint(f, item, lines, K){
   <div>Printed ${today()}${item.date ? " · created " + item.date : ""} · miFormulas</div>
   <table class="sheet"><colgroup><col class="matc"><col class="wc"><col class="rc"><col class="rc">${anyCost?'<col class="rc">':""}</colgroup>
   <thead><tr><th>Formula entry</th><th class="num">Rel %</th><th class="num">Abs %</th><th class="num">Weight (g)</th>${anyCost?'<th class="num">Cost €</th>':""}</tr></thead><tbody>
-  ${sortRows(K.rows).map(r => `<tr><td>${esc(r.m.name)}${r.m.isSolvent ? " (solvent)" : ` (${fmtS(r.dil)}%)`}</td>
+  ${sortRows(K.rows).map(r => `<tr><td>${esc(r.m.name || "(deleted material)")}${r.m.isSolvent ? " (solvent)" : ` (${fmtS(r.dil)}%)`}</td>
     <td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td><td class="num">${fmt(r.absPct,2)}</td>
     <td class="num">${fmt(r.w)}</td>${anyCost?`<td class="num">${fmt(r.cost,2)}</td>`:""}</tr>`).join("")}
   </tbody><tfoot><tr><td><b>Total</b></td><td class="num"><b>${K.content > 0 ? fmt(100,2) : "–"}</b></td><td class="num"><b>${fmt(K.totalAbsPct,2)}</b></td>
@@ -3538,13 +3554,13 @@ function formulaSheetPrint(f, item, lines, K){
   ${(item.trials||[]).length ? `<h3>Trial log</h3>${item.trials.map(t=>`<div>${esc(t.date||"")} · ${esc(t.text)}</div>`).join("")}` : ""}`;
   window.print();
 }
-let IDOSE = null, IFRAOPEN = false, SCALEOPEN = false, NOTESOPEN = null, CATSOPEN = false;   // NOTESOPEN null = follow content
+let IFRAOPEN = false, SCALEOPEN = false, NOTESOPEN = null, CATSOPEN = false;   // NOTESOPEN null = follow content
 function catPanel(K){
   const agg = new Map();
   let tot = 0;
   for (const r of K.rows){
     if (r.m.isSolvent || r.rel == null) continue;
-    const c = r.m.category || "Uncategorised";
+    const c = !r.m.name ? "(deleted material)" : r.m.category || "Uncategorised";   // not "Uncategorised": it has no material left
     const e = agg.get(c) || {rel: 0, n: 0};
     e.rel += r.rel; e.n++; agg.set(c, e); tot += r.rel;
   }
@@ -3581,36 +3597,38 @@ function ifraPanel(f, item, K, editable){
     const e = agg.get(r.m.id) || {m: r.m, abs: 0};
     e.abs += r.absPct || 0; agg.set(r.m.id, e);
   }
-  const dose = IDOSE ?? 100;   // this formula as it stands is the finished product, unless you say it goes in at less
+  // The version as it stands is the finished product. The field that multiplied the shares by a dosage went in build
+  // 260922i: diluting a concentrate belongs in the formula itself, a version with the solvent in it.
   const restricted = [], unknown = [];
   for (const e of agg.values()){
     const lim = e.m.ifraLimit;
     if (lim == null || lim < 0){ unknown.push(e.m.name); continue; }   // below zero is not a limit: treat it as not yet checked
     if (lim >= 99) continue;                       // verified: no restriction
-    const finalPct = e.abs * dose / 100;
+    const finalPct = e.abs;
     restricted.push({m: e.m, finalPct, lim, ratio: lim > 0 ? finalPct/lim : Infinity});
   }
   restricted.sort((a,b) => b.ratio - a.ratio);
-  const over = restricted.filter(r => r.ratio > 1);
+  // A limit is a maximum, so a share exactly on it is within it. The sums above can come out one ulp high (0,45 g in
+  // 100 g gives 0.45000000000000007), and without a margin that read as over the limit (build 260922i).
+  const isOver = r => r.ratio > 1 + 1e-9;
+  const over = restricted.filter(isOver);
   const nMat = agg.size, nUnknown = unknown.length;
   const verdict = over.length ? `⚠ ${over.length} over limit`
     : restricted.length ? "✓ within limits"
     : nUnknown === nMat && nMat ? `nothing verified yet (${nMat})`   // not a clearance: no limit was ever filled in
     : "no restricted materials";
   let h = `<details class="panelBox" id="ifraBox"${IFRAOPEN?" open":""}>
-    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:${over.length?"var(--danger)":"var(--accent-ink)"}">IFRA check – ${verdict}</summary>
-    <div class="toolRow" style="margin-top:.5rem">At <input type="text" id="ifraDose" aria-label="Percentage of the finished product this formula is" style="width:5rem;text-align:right" inputmode="decimal" value="${fmtIn(dose,2)}"> % of the finished product
-      <span class="hint">(default = this formula, solvents included, is the finished product)</span></div>`;
+    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:${over.length?"var(--danger)":"var(--accent-ink)"}">IFRA check – ${verdict}</summary>`;
   if (!restricted.length){
-    h += `<div class="hint">${nUnknown === nMat && nMat
+    h += `<div class="hint" style="margin-top:.5rem">${nUnknown === nMat && nMat
       ? "None of the materials here carries an IFRA limit yet, so nothing was checked against one."
       : "No restricted materials present."}</div>`;
   } else {
     // The table stops at eight, or at however many are over their limit, so nothing over a limit is ever hidden.
     // What used to disappear in silence was the rest of the restricted list; it says so now, like the usage list.
     const toon = restricted.slice(0, over.length > 8 ? over.length : 8), rest = restricted.length - toon.length;
-    h += `<table class="lines"><thead><tr><th>Material</th><th class="num">In product %</th><th class="num">IFRA limit %</th><th class="num">Used</th></tr></thead><tbody>
-    ${toon.map(r => `<tr${r.ratio>1?' style="color:var(--danger);font-weight:600"':''}>
+    h += `<table class="lines" style="margin-top:.5rem"><thead><tr><th>Material</th><th class="num">In product %</th><th class="num">IFRA limit %</th><th class="num">Used</th></tr></thead><tbody>
+    ${toon.map(r => `<tr${isOver(r)?' style="color:var(--danger);font-weight:600"':''}>
       <td>${esc(r.m.name)}</td><td class="num">${fmt(r.finalPct,3)}</td><td class="num">${r.lim === 0 ? "prohibited" : fmt(r.lim,3)}</td>
       <td class="num">${r.lim>0?fmt(r.ratio*100,0)+"%":"not allowed"}</td></tr>`).join("")}
     </tbody></table>${rest > 0 ? `<div class="hint" id="ifraMore">and ${rest} more restricted material(s), all further below their limit.</div>` : ""}`;
@@ -3813,7 +3831,7 @@ function benchPrint(f, item, lines, K){
     <table class="bench"><colgroup><col class="cbc"><col class="pyc"><col class="matc"><col class="dilc"><col class="wc"><col class="rc"></colgroup>
     <thead><tr><th></th><th></th><th>Material</th><th>Dilution</th><th class="num">Weight (g)</th><th class="num">Rel %</th></tr></thead><tbody>
     ${ks.map(k => { const r = K.rows[k.i];
-      return `<tr><td><span class="cb"></span></td><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}</td><td>${esc(r.m.name)}${fridgeMark(r.m, r.dil)}</td><td>${fmtS(r.dil)}%</td>
+      return `<tr><td><span class="cb"></span></td><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}</td><td>${esc(r.m.name || "(deleted material)")}${fridgeMark(r.m, r.dil)}</td><td>${fmtS(r.dil)}%</td>
         <td class="num">${fmt(r.w)}</td><td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td></tr>`; }).join("")}
     </tbody></table>`;
   };
@@ -4780,7 +4798,7 @@ function sheetHtml(f, item, lines){
   <table class="bench"><colgroup><col class="cbc"><col class="pyc"><col class="matc"><col class="dilc"><col class="wc"><col class="rc"></colgroup>
   <thead><tr><th></th><th></th><th>Material</th><th>Dilution</th><th class="num">Weight (g)</th><th class="num">Rel %</th></tr></thead><tbody>
   ${sortRows(K.rows).map(r =>
-    `<tr><td><span class="cb"></span></td><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}</td><td>${esc(r.m.name)}${fridgeMark(r.m, r.dil)}${r.m.wishlist ? " (to order)" : ""}</td><td>${fmtS(r.dil)}%</td>
+    `<tr><td><span class="cb"></span></td><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}</td><td>${esc(r.m.name || "(deleted material)")}${fridgeMark(r.m, r.dil)}${r.m.wishlist ? " (to order)" : ""}</td><td>${fmtS(r.dil)}%</td>
       <td class="num">${fmt(r.w)}</td><td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td></tr>`).join("")}
   </tbody></table>`;
 }
@@ -5038,7 +5056,7 @@ function offerReopen(onGone){
 const canSave = () => REMOTE || DEMO || !!HANDLE;   // server, browser storage or a writable local file → editing on a phone is safe
 function lockInputs(){
   const keep = new Set(["searchBox","verSel","sortSel","cmpA","cmpB","cmpSortSel","bSortSel",
-    "btnPrint","btnSheet","btnCsv","btnShare","ifraDose",   // printing, exporting and the IFRA dosage change nothing
+    "btnPrint","btnSheet","btnCsv","btnShare",   // printing and exporting change nothing
     "btnBenchPrint","btnBenchToggle","btnBenchClose","btnCmp","btnCmpClose",
     "btnImpCancel"]);   // getting out of an import is a read-only action; exporting sits in the Import/Export window, outside #content
   $("#content").querySelectorAll("input,select,textarea,button").forEach(el => { if (!keep.has(el.id)) el.disabled = true; });

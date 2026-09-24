@@ -330,6 +330,51 @@ with sync_playwright() as p:
         pg6.click("#btnExpM")
     check(f"C8: Export all materials (Excel) schrijft ({e6[:1]})", bool(d7.value.suggested_filename) and not e6)
     ctx6.close()
+
+    # ---------- 12. B2 (bouw 260922i): een getal als tekst in het databestand zelf ----------
+    # "2,5" las alleen de formuletabel goed: Compare en Export all my formulas zetten 0, Apply factor maakte er NaN
+    # van (null na opslaan), een IFRA-limiet "0,5" las als "not allowed" en een prijs "0,5" gaf een kost NaN.
+    ctx7 = b.new_context(viewport={"width": 1280, "height": 900}, accept_downloads=True)
+    pg7 = ctx7.new_page(); e7 = []; m7 = []
+    pg7.on("pageerror", lambda e: e7.append(str(e)))
+    pg7.on("dialog", lambda d: (m7.append(d.message), d.accept()))
+    pg7.goto(URL); pg7.wait_for_timeout(900)
+    pg7.click("#btnStarter"); pg7.wait_for_timeout(1400)
+    ids = pg7.evaluate("""async () => { const d = JSON.parse(serialize());
+        const f = d.formulas.find(x => x.versions[0].lines.length >= 3), v = f.versions[0];
+        const m0 = d.materials.find(m => m.id === v.lines[0].materialId);
+        v.lines[0].weightG = "2,5"; v.lines[1].weightG = "7,5"; v.lines[1].dilutionPct = "10"; v.lines[2].weightG = "abc";
+        m0.ifraLimit = "0,5"; m0.costPerGram = "0,5"; m0.density = "0,9"; m0.dilutions.push({pct: "7,5", isBase: false, date: "", notes: ""});
+        await idb.set("demoData", JSON.stringify(d)); return {f: f.id, m: m0.id}; }""")
+    pg7.reload(); pg7.wait_for_timeout(1800)
+    getal = pg7.evaluate("""(ids) => { const f = DATA.formulas.find(x => x.id === ids.f), L = f.versions[0].lines, m = DATA.materials.find(x => x.id === ids.m);
+        return {w: L.slice(0, 3).map(l => l.weightG), d: L[1].dilutionPct, lim: m.ifraLimit, cost: m.costPerGram, dens: m.density,
+                dils: m.dilutions.map(x => x.pct)}; }""", ids)
+    check(f"B2: gewichten, dilutie, limiet, prijs en dichtheid zijn getallen, en \"abc\" leest als 0 g ({getal})",
+          getal["w"] == [2.5, 7.5, 0] and getal["d"] == 10 and getal["lim"] == 0.5 and getal["cost"] == 0.5
+          and getal["dens"] == 0.9 and 7.5 in getal["dils"])
+    check(f"B2: de app zegt één keer wat geen getal was ({[x[:70] for x in m7]})",
+          len([x for x in m7 if "not a number" in x]) == 1 and any("1 value(s)" in x for x in m7))
+    zelfde = pg7.evaluate("""(id) => { const L = DATA.formulas.find(x => x.id === id).versions[0].lines, K = calc(L), A = aggLines(L);
+        return [K.totalW, A.tw, +K.totalAbsPct.toFixed(9), +A.abs.toFixed(9), isFinite(K.totalCost)]; }""", ids["f"])
+    check(f"B2: Compare rekent hetzelfde als de tabel, en de kost is een getal ({zelfde})",
+          zelfde[0] == zelfde[1] and zelfde[2] == zelfde[3] and zelfde[4])
+    pg7.evaluate("""(id) => { SCALEOPEN = true; switchTab("F", id, {type: "v", idx: 0}); }""", ids["f"]); pg7.wait_for_timeout(600)
+    pg7.fill("#scaleF", "2"); pg7.click("#btnApplyFactor"); pg7.wait_for_timeout(500)
+    na = pg7.evaluate("""(id) => DATA.formulas.find(x => x.id === id).versions[0].lines.slice(0, 2).map(l => l.weightG)""", ids["f"])
+    check(f"B2: Apply factor 2 geeft 5 en 15 g, geen NaN ({na})", na == [5, 15])
+    ifra = pg7.evaluate("""(id) => { IFRAOPEN = true; render(); return document.querySelector("#ifraBox").textContent; }""", ids["f"])
+    check("B2: de IFRA-limiet 0,5 leest als limiet, niet als \"not allowed\"", "not allowed" not in ifra)
+    pg7.click("#btnIO"); pg7.wait_for_timeout(400)
+    with pg7.expect_download() as d8:
+        pg7.click("#btnExpJ")
+    pad8 = os.path.join(tempfile.mkdtemp(), "formules.json"); d8.value.save_as(pad8)
+    uit = json.load(open(pad8, encoding="utf-8"))
+    naam = pg7.evaluate("""(id) => DATA.formulas.find(x => x.id === id).name""", ids["f"])
+    w8 = [L["weightG"] for L in next(f for f in uit["formulas"] if f["name"] == naam)["versions"][0]["lines"][:2]]
+    check(f"B2: Export all my formulas schrijft de gewichten, niet 0 ({w8})", w8 == [5, 15])
+    check(f"geen paginafouten in deel 12 ({e7[:1]})", not e7)
+    ctx7.close()
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")

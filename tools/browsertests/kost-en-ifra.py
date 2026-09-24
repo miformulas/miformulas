@@ -96,7 +96,7 @@ with sync_playwright() as p:
     page.evaluate("""() => {
       const a = DATA.materials.find(m => m.id === "m-a"), bm = DATA.materials.find(m => m.id === "m-b");
       a.ifraLimit = 0; bm.ifraLimit = -1;
-      IDOSE = null; IFRAOPEN = true; markDirty(); render(); }""")
+      IFRAOPEN = true; markDirty(); render(); }""")
     page.wait_for_timeout(600)
     panel = page.text_content("#ifraBox")
     check(f"a limit of 0 reads as prohibited", "prohibited" in panel and "not allowed" in panel)
@@ -116,7 +116,7 @@ with sync_playwright() as p:
       a.ifraLimit = 99; bm.ifraLimit = 99;                       // nagekeken, geen beperking
       const e = DATA.materials.find(m => m.id === "m-e");
       e.ifraLimit = 0.681; e.name = "Benzylbenzoaat (drager)";   // een solvent met een echte limiet
-      invalidateMats(); IDOSE = null; IFRAOPEN = true; markDirty(); render(); }""")
+      invalidateMats(); IFRAOPEN = true; markDirty(); render(); }""")
     page.wait_for_timeout(600)
     panel = page.text_content("#ifraBox")
     kop = page.text_content("#ifraBox summary")
@@ -129,27 +129,20 @@ with sync_playwright() as p:
     check(f"met 89,99 % van het eindproduct, zijn gewichtsaandeel ({rij})",
           rij and rij[1].replace(",", ".").startswith("89.99"))
     check(f"en het kopje telt het mee ({kop!r})", "1 over limit" in kop)
-    veld = page.evaluate("""() => document.querySelector("#ifraDose").value""")
-    check(f"de dosering staat standaard op 100 % ({veld!r})", veld.replace(",", ".").startswith("100"))
-    check("met de uitleg dat deze formule zelf het eindproduct is",
-          "solvents included, is the finished product" in panel)
+    # bouw 260922i (B5): het doseringsveld is weg, en er komt geen zin in de plaats (keuze van Mathieu)
+    check(f"260922i: geen doseringsveld meer ({page.locator('#ifraDose').count()})", page.locator("#ifraDose").count() == 0)
+    check("260922i: en geen uitlegzin in de plaats", "finished product" not in panel)
 
-    # de rekening: abs % maal de dosering, niet rel %
+    # de rekening: abs %, niet rel %
     page.evaluate("""() => { const a = DATA.materials.find(m => m.id === "m-a"); a.ifraLimit = 5;
-      IDOSE = null; markDirty(); render(); }""")
+      markDirty(); render(); }""")
     page.wait_for_timeout(500)
     rijA = page.evaluate("""() => { const tr = [...document.querySelectorAll("#ifraBox table tbody tr")]
         .find(t => t.cells[0].textContent.includes("Kost A"));
       return tr ? [...tr.cells].map(td => td.textContent.trim()) : null; }""")
     check(f"Kost A staat op 10 g van 100 g, dus 10 % van het eindproduct ({rijA})",
           rijA and rijA[1].replace(",", ".").startswith("10.0"))
-    page.fill("#ifraDose", "50"); page.dispatch_event("#ifraDose", "change"); page.wait_for_timeout(500)
-    rijA2 = page.evaluate("""() => { const tr = [...document.querySelectorAll("#ifraBox table tbody tr")]
-        .find(t => t.cells[0].textContent.includes("Kost A"));
-      return tr ? [...tr.cells].map(td => td.textContent.trim()) : null; }""")
-    check(f"gaat de hele formule voor 50 % in het product, dan is dat 5 % ({rijA2})",
-          rijA2 and rijA2[1].replace(",", ".").startswith("5.0"))
-    page.evaluate("""() => { IDOSE = null; const a = DATA.materials.find(m => m.id === "m-a"); a.ifraLimit = 99;
+    page.evaluate("""() => { const a = DATA.materials.find(m => m.id === "m-a"); a.ifraLimit = 99;
       const e = DATA.materials.find(m => m.id === "m-e"); e.ifraLimit = null; e.name = "Ethanol kost";
       invalidateMats(); markDirty(); render(); }""")
     page.wait_for_timeout(500)
@@ -178,9 +171,73 @@ with sync_playwright() as p:
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
       f.versions.pop(); markDirty(); switchTab("F", "f-k", {type:"v", idx:0}); }""")
     page.wait_for_timeout(500)
+    # bouw 260922i (staart 11): op de afdrukken en in Categories heet zo'n regel "(deleted material)" in plaats van niets
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
-      f.versions[0].lines = f.versions[0].lines.filter(l => l.id !== "l-weg"); markDirty(); render(); }""")
+      f.versions[0].lines.push({id:"l-weg2", materialId:"m-bestaat-niet", dilutionPct:100, weightG:1, remark:1}); markDirty(); }""")
+    druk = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k"), v = f.versions[0], K = calc(v.lines);
+        const oud = window.print; window.print = () => {};
+        const weeg = sheetHtml(f, v, v.lines);
+        formulaSheetPrint(f, v, v.lines, K); const vol = $("#printArea").innerHTML;
+        v.bench = {groups: [{id: "gw", title: "Alles", keys: v.lines.map(l => l.id)}], byId: true};
+        benchPrint(f, v, v.lines, K); const bank = $("#printArea").innerHTML;
+        delete v.bench; window.print = oud; $("#printArea").innerHTML = "";
+        return {weeg: weeg.includes("(deleted material)"), vol: vol.includes("(deleted material)"), bank: bank.includes("(deleted material)"),
+                cat: catPanel(K).includes("(deleted material)")}; }""")
+    check(f"260922i: weegblad, volledige afdruk, bench-blad en Categories noemen de regel ({druk})", all(druk.values()))
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
+      f.versions[0].lines = f.versions[0].lines.filter(l => l.id !== "l-weg" && l.id !== "l-weg2"); markDirty(); render(); }""")
     page.wait_for_timeout(400)
+
+    # ---------- bouw 260922i (B1): precies op de limiet is binnen de limiet ----------
+    # 0,45 g in 100 g gaf 0.45000000000000007 en "⚠ 1 over limit", met een rode rij "0.450 · 0.450 · 100%".
+    page.evaluate("""() => {
+      const mk = (id, n, lim, sol) => ({id, name: n, category: "Uncategorised", ifraLimit: lim, isSolvent: !!sol,
+                                       dilutions: [{pct: 100, isBase: true}, {pct: 10, isBase: false}], aliases: "", cas: ""});
+      DATA.materials.push(mk("m-g1", "Grens A", 0.45), mk("m-g2", "Grens X", 0.03), mk("m-g3", "Grens EtOH", 99, true));
+      invalidateMats();
+      const L = (a, b) => a.map(([id, m, d, w]) => ({id, materialId: m, dilutionPct: d, weightG: w, remark: 1}));
+      DATA.formulas.push({id: "f-g", name: "Grens", category: "Uncategorised", versions: [
+        {v: 1, date: today(), lines: L([["g1", "m-g1", 100, 0.45], ["g2", "m-g3", 100, 99.55]])},
+        {v: 2, date: today(), lines: L([["g3", "m-g2", 10, 0.03], ["g4", "m-g3", 100, 9.97]])},
+        {v: 3, date: today(), lines: L([["g5", "m-g1", 100, 0.46], ["g6", "m-g3", 100, 99.54]])}]});
+      IFRAOPEN = true; buildUsage(); markDirty(); }""")
+    grens = []
+    for i in range(3):
+        page.evaluate(f"""() => switchTab("F", "f-g", {{type: "v", idx: {i}}})"""); page.wait_for_timeout(500)
+        rood = page.evaluate("""() => [...document.querySelectorAll("#ifraBox table tbody tr")].some(t => (t.getAttribute("style") || "").includes("danger"))""")
+        grens.append((page.text_content("#ifraBox summary"), rood))
+    check(f"B1: 0,45 g in 100 g bij een limiet van 0,45 is binnen de limiet, zonder rode rij ({grens[0]})",
+          "within limits" in grens[0][0] and not grens[0][1])
+    check(f"B1: 0,03 g van de 10 %-dilutie in 10 g bij een limiet van 0,03 ook ({grens[1]})",
+          "within limits" in grens[1][0] and not grens[1][1])
+    check(f"B1: 0,46 g blijft erover ({grens[2]})", "1 over limit" in grens[2][0] and grens[2][1])
+
+    # ---------- bouw 260922i (staart 9): Mark as prepared telt materialen, geen regels ----------
+    page.evaluate("""() => {
+      const m = DATA.materials.find(x => x.id === "m-g1");
+      m.stockEvents = [{t: "take", date: today(), g: 100}];
+      const f = DATA.formulas.find(x => x.id === "f-g");
+      f.versions.push({v: 4, date: today(), lines: [
+        {id: "p1", materialId: "m-g1", dilutionPct: 100, weightG: 3, remark: 1},
+        {id: "p2", materialId: "m-g1", dilutionPct: 100, weightG: 2, remark: 1},
+        {id: "p3", materialId: "m-g3", dilutionPct: 100, weightG: 95, remark: 1}]});
+      markDirty(); switchTab("F", "f-g", {type: "v", idx: 3}); }""")
+    page.wait_for_timeout(600)
+    msgs.clear()
+    page.click("#btnPrep"); page.wait_for_timeout(600)
+    vraag = next((m for m in msgs if "as prepared" in m), "")
+    check(f"staart 9: de vraag spreekt van één materiaal, met 5 g ({vraag[40:120]!r})",
+          "for 1 tracked material(s)" in vraag and "5.000 g Grens A" in vraag.replace(",", "."))
+    na = page.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-g1"), f = DATA.formulas.find(x => x.id === "f-g");
+        return {ev: m.stockEvents.filter(e => e.t === "prep").map(e => e.g), badge: f.versions[3].prepared, qty: stockCalc(m).qty}; }""")
+    check(f"staart 9: één boeking van 5 g, en het boek staat op 95 g ({na})",
+          na["ev"] == [5] and abs(na["qty"] - 95) < 1e-9 and na["badge"]["materials"] == 1)
+    check("staart 9: de badge zegt ook één materiaal", "1 tracked material(s)" in page.text_content("#content"))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-g");
+        DATA.materials = DATA.materials.filter(x => !["m-g1", "m-g2", "m-g3"].includes(x.id)); invalidateMats(); buildUsage();
+        switchTab("F", "f-k", {type: "v", idx: 0}); }""")
+    page.wait_for_timeout(500)
 
     # ---------- 3c. niets nagekeken is geen vrijgave ----------
     page.evaluate("""() => { for (const m of DATA.materials) m.ifraLimit = null;
@@ -333,18 +390,9 @@ with sync_playwright() as p:
     pg.wait_for_timeout(700)
     head = pg.text_content("#ifraBox summary")
     check(f"without a predilution the check runs ({head!r})", "over limit" in head)
-    # a dosage of 0 or below used to read every material as within limits (build 260920b)
-    # mini-audit C7: the guard was !(v > 0), and 1e999 is Infinity, which is above 0. Every other number
-    # field got an isFinite in 260920b; the field read ∞ afterwards, and so did the columns.
-    for bad in ("0", "-5", "1e999"):
-        pg.fill("#ifraDose", bad); pg.locator("#ifraDose").press("Tab"); pg.wait_for_timeout(600)
-        head = pg.text_content("#ifraBox summary")
-        check(f"a dosage of {bad} is refused and the verdict stands ({head!r})", "over limit" in head)
-        check(f"and no ∞ is left behind ({bad})",
-              "∞" not in pg.text_content("#ifraBox") and pg.evaluate("() => IDOSE") is None)
-    pg.fill("#ifraDose", "20"); pg.locator("#ifraDose").press("Tab"); pg.wait_for_timeout(600)
-    head = pg.text_content("#ifraBox summary")
-    check(f"a dosage above 0 is still taken ({head!r})", "over limit" in head or "within limits" in head)
+    # build 260922i (B5): the dosage field is gone, so there is nothing to refuse either: the version is the finished product
+    check(f"260922i: no dosage field ({pg.locator('#ifraDose').count()}) and no dosage state behind it",
+          pg.locator("#ifraDose").count() == 0 and pg.evaluate("typeof IDOSE") == "undefined")
     pg.evaluate("""() => { document.querySelectorAll("#content input[type=checkbox][data-i]").forEach(cb => {
         if (+cb.dataset.i <= 1){ cb.checked = true; cb.dispatchEvent(new Event("change", {bubbles:true})); } }); }""")
     pg.wait_for_timeout(400)

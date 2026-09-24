@@ -8,8 +8,11 @@
  * Zonder derde argument draait de referentiecontrole:
  *   Bewonder 45gr        = 46,256 g / 85,12 %
  *   CC Blonde Amber v3   = 89,503 g / 20,10 %
- * Met "inventaris" wordt elke versie en variatie van elke formule doorgerekend
- * en gerapporteerd, zodat een databestand in zijn geheel getoetst wordt.
+ * Een referentieformule die niet in het bestand staat (de starterset heeft ze niet), wordt als "niet in dit
+ * bestand" gemeld zonder fout; staat ze er wel, dan moet ze kloppen.
+ * Met "inventaris" wordt elke versie van elke formule doorgerekend en gerapporteerd, zodat een databestand
+ * in zijn geheel getoetst wordt, en rekent Compare (aggLines) elke versie na: gewicht, abs % en rel % per
+ * materiaal moeten gelijk zijn aan wat de formuletabel (calc) zegt.
  */
 "use strict";
 const fs = require("fs");
@@ -64,6 +67,7 @@ try {
   // eslint-disable-next-line no-new-func
   new Function("__out", src + `
     ;try{__out.calc=calc}catch(e){}
+    ;try{__out.aggLines=aggLines}catch(e){}
     ;try{__out.migrate=migrate}catch(e){}
     ;try{__out.matById=matById}catch(e){}
     ;try{__out.invalidateMats=invalidateMats}catch(e){}
@@ -94,9 +98,11 @@ if (mode === "referentie") {
     { formule: "Bewonder", item: "45gr", src: "Bewonder v09 45gr", g: 46.256, pct: 85.12 },   // tot 260915b een variatie; nu de versie met die naam of die Formulair-bron
     { formule: "CC Blonde Amber", item: "v3", g: 89.503, pct: 20.10 },
   ];
+  let gevonden = 0;
   for (const c of cases) {
     const f = data.formulas.find(x => x.name === c.formule);
-    if (!f) { console.log(`ONTBREEKT  ${c.formule}`); fouten++; continue; }
+    if (!f) { console.log(`NIET IN DIT BESTAND  ${c.formule}`); continue; }   // de starterset heeft ze niet: geen fout
+    gevonden++;
     const it = (f.versions || []).find(v => "v" + v.v === c.item || (v.name || "") === c.item || (c.src && (v.sourceName || "").trim() === c.src));
     if (!it) { console.log(`ONTBREEKT  ${c.formule} / ${c.item}`); fouten++; continue; }
     const K = sandbox.calc(linesOf(f, it));
@@ -107,8 +113,10 @@ if (mode === "referentie") {
       + `${fmt(K.totalAbsPct, 2).padStart(6)} % (verwacht ${fmt(c.pct, 2)})`);
     if (!(okG && okP)) fouten++;
   }
+  if (!gevonden) console.log("geen van de referentieformules staat in dit bestand: hier zegt alleen \"inventaris\" iets");
 } else {
-  let nF = 0, nI = 0, leeg = 0;
+  let nF = 0, nI = 0, leeg = 0, nC = 0;
+  const zelfde = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b));
   for (const f of data.formulas) {
     nF++;
     for (const it of f.versions || []) {
@@ -123,6 +131,18 @@ if (mode === "referentie") {
       const okW = K.totalW > 0 && isFinite(K.totalW);
       const okA = isFinite(K.totalAbsPct) && K.totalAbsPct >= 0 && K.totalAbsPct <= 100.001;
       const onbekend = L.filter(l => !sandbox.matById(l.materialId)).length;
+      if (sandbox.aggLines) {   // Compare rekent apart; bij B2 van de review van 22/09 liepen de twee uiteen
+        const A = sandbox.aggLines(L), perM = new Map();
+        for (const r of K.rows) if (r.rel != null) perM.set(r.l.materialId, (perM.get(r.l.materialId) || 0) + r.rel);
+        let okC = zelfde(A.tw, K.totalW) && zelfde(A.abs, K.totalAbsPct);
+        for (const [id, e] of A.map) if (e.rel != null && !zelfde(e.rel, perM.get(id) || 0)) okC = false;
+        if (okC) nC++;
+        else {
+          fouten++;
+          console.log(`VERSCHIL ${f.name.padEnd(22)} ${("v" + it.v).padEnd(8)} tabel ${fmt(K.totalW, 3)} g / ${fmt(K.totalAbsPct, 2)} %,`
+            + ` Compare ${fmt(A.tw, 3)} g / ${fmt(A.abs, 2)} %`);
+        }
+      }
       if (!okRel || !okW || !okA || onbekend) {
         fouten++;
         console.log(`FOUT ${f.name.padEnd(22)} ${("v" + it.v).padEnd(8)} `
@@ -131,7 +151,7 @@ if (mode === "referentie") {
       }
     }
   }
-  console.log(`${nF} formules, ${nI} versies doorgerekend, ${leeg} zonder regels`);
+  console.log(`${nF} formules, ${nI} versies doorgerekend, ${leeg} zonder regels; Compare gelijk op ${nC}`);
   // overzicht per formule
   console.log("");
   console.log(`${"formule".padEnd(24)} ${"item".padEnd(8)} ${"gewicht g".padStart(10)} ${"abs %".padStart(8)} ${"regels".padStart(7)}`);
