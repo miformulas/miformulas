@@ -2,9 +2,11 @@
 # Server test for server/data.php: the endpoint for a shared folder on a web server of your own.
 # Needs php and curl, and nothing else: the script copies data.php into a temporary folder, serves it
 # with php -S on localhost and walks the whole endpoint with curl. What it walks: the guard on an
-# unedited token, a missing data folder, the preflight and the CORS headers, the token, ?ping=1 with
-# its report on the data folder, reading, the gate in front of a write, the byte count, the conflict
-# guard with a weak etag, and the daily snapshots with their trimming.
+# unedited token (also after Replace all in an editor, and an empty one), a missing data folder, the
+# preflight and the CORS headers, the token, ?ping=1 with its report on the data folder (a link to a
+# folder elsewhere included), reading, the gate in front of a write, the byte count, the conflict
+# guard with a weak etag, the daily snapshots with their trimming, a data file that is a link, and a
+# daily snapshot that does not fit (a limit on the size of a file stands in for a full disk).
 #
 #     bash data-php.sh [path to data.php]
 #
@@ -19,8 +21,8 @@ command -v curl >/dev/null || { echo "curl is not installed"; exit 2; }
 TOKEN="a-long-random-token-for-the-test"
 TMP="$(mktemp -d)"
 OUT="$TMP/outside"          # a data folder outside the web root, for the report of ?ping=1
-PHPPID=""
-cleanup() { [ -n "$PHPPID" ] && kill "$PHPPID" 2>/dev/null; rm -rf "$TMP"; }
+PHPPID=""; PHP2=""
+cleanup() { [ -n "$PHPPID" ] && kill "$PHPPID" 2>/dev/null; [ -n "$PHP2" ] && kill "$PHP2" 2>/dev/null; rm -rf "$TMP"; }
 trap cleanup EXIT
 
 mkdir -p "$TMP/web/data" "$OUT"
@@ -31,6 +33,11 @@ sed "s#^\$DATA_DIR = .*#\$DATA_DIR = '$TMP/gone';#" "$TMP/web/data.php" > "$TMP/
 mkdir -p "$TMP/web-data"                                           # beside the web root, and its path starts with it
 sed "s#^\$DATA_DIR = .*#\$DATA_DIR = '$TMP/web-data';#" "$TMP/web/data.php" > "$TMP/web/sibling.php"
 sed "s#^\$DATA_DIR = .*#\$DATA_DIR = '$TMP/web';#"      "$TMP/web/data.php" > "$TMP/web/root.php"
+sed "s/change-me-to-a-long-random-token/$TOKEN/g" "$SRC" > "$TMP/web/replaced.php"   # Replace all in an editor
+sed "s/^\$TOKEN    = '.*';/\$TOKEN    = '';/" "$SRC" > "$TMP/web/empty.php"
+mkdir -p "$TMP/elsewhere" && ln -s "$TMP/elsewhere" "$TMP/web/linked"                # a data folder that is a link
+sed "s#^\$DATA_DIR = .*#\$DATA_DIR = __DIR__ . '/linked';#"      "$TMP/web/data.php" > "$TMP/web/linked.php"
+sed "s#^\$DATA_DIR = .*#\$DATA_DIR = __DIR__ . '/../outside';#"  "$TMP/web/data.php" > "$TMP/web/dotdot.php"
 grep -q "^\$TOKEN    = '$TOKEN';" "$TMP/web/data.php" || { echo "could not set the token in the copy"; exit 2; }
 
 # A port can already be taken by something else, and php -S then fails to bind while the probe still
@@ -85,6 +92,14 @@ is   "the preflight is answered even with an unedited token" "204" "$CODE"
 req GET "/nodir.php" -H "X-Token: $TOKEN"
 is   "a missing data folder is 500" "500" "$CODE"
 has  "and it names the folder it looked for" "data directory missing" "$BODY"
+# the default token stood twice in the file, the second time in the check itself: whoever replaced it everywhere
+# replaced the check as well, and the endpoint refused the real token for good (build 260922k)
+req GET /replaced.php -H "X-Token: $TOKEN"
+hasnt "a token set with Replace all is not taken for the default one" 'set $TOKEN first' "$BODY"
+is   "and the endpoint answers (no data file yet)" "404" "$CODE"
+req GET /empty.php
+is   "an empty token is refused, not taken for no token needed" "500" "$CODE"
+has  "with the same message" 'set $TOKEN first' "$BODY"
 
 # ---------- 2. the preflight and the CORS headers ----------
 req OPTIONS /data.php
@@ -119,6 +134,12 @@ req GET "/sibling.php?ping=1" -H "X-Token: $TOKEN"
 has  "a folder beside the web root is not read as inside it" '"dataDirInWebRoot":false' "$BODY"
 req GET "/root.php?ping=1" -H "X-Token: $TOKEN"
 has  "and the web root itself still counts as inside" '"dataDirInWebRoot":true' "$BODY"
+# realpath() alone followed the link out of the web root and called the folder safe, while the web server follows the
+# same link and hands the file out (build 260922k)
+req GET "/linked.php?ping=1" -H "X-Token: $TOKEN"
+has  "a data folder that is a link in the web root counts as inside it" '"dataDirInWebRoot":true' "$BODY"
+req GET "/dotdot.php?ping=1" -H "X-Token: $TOKEN"
+has  "a folder outside the web root written with .. does not" '"dataDirInWebRoot":false' "$BODY"
 rm -f "$TMP/web/.htaccess"
 
 # ---------- 5. the gate in front of a write ----------
@@ -172,7 +193,58 @@ is   "trimming keeps fourteen daily files" "14" "$N"
 [ -f "$SNAP/2026-01-04.json" ] && pass "and the fourth is not" || flop "and the fourth is not"
 [ -f "$SNAP/my own backup.json" ] && pass "a backup you put there by hand survives" || flop "a backup you put there by hand survives"
 
-# ---------- 9. anything else ----------
+# ---------- 9. a data file that is a link ----------
+# rename() put a file of its own in the place of the link, and a synced copy stood still from then on (build 260922k)
+SYNC="$TMP/synced"; mkdir -p "$SYNC" "$TMP/web/ldata"
+printf '%s' "$DATA" > "$SYNC/miformulas-data.json"
+ln -s "$SYNC/miformulas-data.json" "$TMP/web/ldata/miformulas-data.json"
+sed "s#^\$DATA_DIR = .*#\$DATA_DIR = __DIR__ . '/ldata';#" "$TMP/web/data.php" > "$TMP/web/ldata.php"
+req PUT /ldata.php -H "X-Token: $TOKEN" --data-binary "@$TMP/data2.json"
+is   "a data file that is a link takes a write" "200" "$CODE"
+[ -L "$TMP/web/ldata/miformulas-data.json" ] && pass "and it is still a link" || flop "and it is still a link"
+cmp -s "$TMP/data2.json" "$SYNC/miformulas-data.json" && pass "the file it leads to holds the new data" || flop "the file it leads to holds the new data"
+if ls "$SYNC" "$TMP/web/ldata" | grep -q '\.tmp$'; then flop "no temporary file is left"; else pass "no temporary file is left"; fi
+
+# ---------- 10. a daily snapshot that does not fit ----------
+# A full disk cannot be made without root, but a limit on the size of one file does the same to a write: the ulimit of
+# the shell passes it on to a second php -S, with SIGXFSZ ignored so that the write fails and not the server. Half a
+# snapshot used to stay for the rest of the day, and the write went on without one (build 260922k).
+if ( ulimit -f 64 ) 2>/dev/null; then
+  LIM="$TMP/web/lim"; mkdir -p "$LIM"
+  sed "s#^\$DATA_DIR = .*#\$DATA_DIR = __DIR__ . '/lim';#" "$TMP/web/data.php" > "$TMP/web/lim.php"
+  php -r 'echo json_encode(["materials" => array_fill(0, 3000, ["name" => "A material with a name that is long enough"]), "formulas" => []]);' > "$TMP/big.json"
+  cp "$TMP/big.json" "$LIM/miformulas-data.json"
+  for p in $(seq 8810 8820); do
+    ( trap '' XFSZ; ulimit -f 64; exec php -S "127.0.0.1:$p" -t "$TMP/web" >"$TMP/php2.log" 2>&1 ) &
+    PHP2=$!
+    sleep 1
+    if kill -0 "$PHP2" 2>/dev/null &&
+       [ "$(curl -sS --noproxy '*' "http://127.0.0.1:$p/marker.txt" 2>/dev/null)" = "$MARKER" ]; then PORT2="$p"; break; fi
+    kill "$PHP2" 2>/dev/null; PHP2=""
+  done
+  if [ -n "${PORT2:-}" ]; then
+    req GET /lim.php -H "X-Token: $TOKEN"; TAGL=$(etag)
+    CODE=$(curl -sS --noproxy '*' -X PUT -H 'Expect:' -H "X-Token: $TOKEN" -H "If-Match: $TAGL" -o "$TMP/body" -w '%{http_code}' \
+           --data-binary "@$TMP/data.json" "http://127.0.0.1:$PORT2/lim.php" 2>/dev/null); BODY=$(cat "$TMP/body")
+    is   "a write whose daily snapshot does not fit is refused" "500" "$CODE"
+    has  "and it says why" "daily snapshot" "$BODY"
+    cmp -s "$TMP/big.json" "$LIM/miformulas-data.json" && pass "the data file is left as it was" || flop "the data file is left as it was"
+    is   "no half snapshot is left behind, and no temporary one" "0" "$(ls -A "$LIM/snapshots" 2>/dev/null | wc -l | tr -d ' ')"
+    if ls "$LIM" | grep -q '\.tmp$'; then flop "no temporary data file is left"; else pass "no temporary data file is left"; fi
+    req PUT /lim.php -H "X-Token: $TOKEN" -H "If-Match: $TAGL" --data-binary "@$TMP/data.json"
+    is   "with room again, the same day, the write goes through" "200" "$CODE"
+    SL=$(ls "$LIM/snapshots" 2>/dev/null | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}\.json$' | tail -1)
+    cmp -s "$TMP/big.json" "$LIM/snapshots/$SL" 2>/dev/null && pass "and the snapshot of the day is whole: the state before today" \
+      || flop "and the snapshot of the day is whole: the state before today" "$SL"
+    kill "$PHP2" 2>/dev/null; PHP2=""
+  else
+    flop "a second php -S with a limit on the file size" "could not start it (see $TMP/php2.log)"
+  fi
+else
+  echo "SKIP a daily snapshot that does not fit: this shell cannot limit the size of a file"
+fi
+
+# ---------- 11. anything else ----------
 req DELETE /data.php -H "X-Token: $TOKEN"
 is   "a method the endpoint does not know is 405" "405" "$CODE"
 

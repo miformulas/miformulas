@@ -171,7 +171,8 @@ with sync_playwright() as pw:
     page.click("#btnIO"); page.wait_for_timeout(400)
     volgorde = page.evaluate("() => [...document.querySelectorAll('#dlg button, #dlg a.btn')].map(b => b.id).filter(id => !id.startsWith('dlg'))")
     check(f"het venster heeft de knoppen in de afgesproken volgorde ({volgorde})",
-          volgorde == ["ioFormulair", "ioCsv", "btnImpL", "btnImpF", "btnExpL", "btnExpJ", "btnExpF", "btnExpM"])
+          volgorde[:9] == ["ioFormulair", "ioCsv", "btnImpL", "btnImpF", "btnExpL", "btnExpJ", "btnExpF", "btnExpM", "ioRestore"]
+          and volgorde[9:] in ([], ["ioSnap"]))   # sinds 260922k de twee wegen terug onderaan, de dagsnapshot alleen als er een is
     check("Cancel is verborgen, want een menu heeft niets te annuleren",
           page.evaluate("() => getComputedStyle(document.querySelector('#dlgCancel')).display") == "none")
     blok = page.text_content("#dlg")

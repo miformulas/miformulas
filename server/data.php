@@ -4,7 +4,7 @@
 
    GET  data.php            -> JSON body, header ETag
    PUT  data.php            -> body = JSON, headers X-Token, If-Match (ETag from load); 409 on conflict
-   GET  data.php?ping=1     -> {"ok":true,"etag":...}
+   GET  data.php?ping=1     -> {"ok":true,"etag":...,"bytes":...,"dataDirInWebRoot":...,"htaccess":...}
 
    Setup: put this file next to index.html, create a folder "data" beside it that the web server
    may write to, and put your miformulas-data.json in it. Choose a long random token below; the app
@@ -14,8 +14,9 @@ $TOKEN    = 'change-me-to-a-long-random-token';
 // The web server serves this folder as well: a browser that asks for data/miformulas-data.json gets the whole
 // file, token or no token, because the token only guards this script. Safest is a folder OUTSIDE the web root,
 // for instance dirname(__DIR__) . '/miformulas-data'; the default below keeps older setups working and is
-// protected with an .htaccess (Apache only), written on the first save when none is there. ?ping=1 tells you
-// which of the two you have.
+// protected with an .htaccess, written on the first save when none is there, which only Apache reads. ?ping=1
+// says whether the folder has a web address; opening data/miformulas-data.json in a browser shows whether your
+// web server hands it out.
 $DATA_DIR = __DIR__ . '/data';
 $FILE     = $DATA_DIR . '/miformulas-data.json';
 $SNAPDIR  = $DATA_DIR . '/snapshots';
@@ -56,15 +57,28 @@ function guard_dir($dir) {
     . "<IfModule mod_authz_core.c>\n  Require all denied\n</IfModule>\n"
     . "<IfModule !mod_authz_core.c>\n  Order allow,deny\n  Deny from all\n</IfModule>\n");
 }
+function tidy($p) {   // a path as it is written, with . and .. worked out on the text alone: a link in it stays a link
+  $out = [];
+  foreach (explode('/', str_replace('\\', '/', $p)) as $i => $s) {
+    if (($s === '' && $i > 0) || $s === '.') continue;
+    if ($s === '..') { if (count($out) > 1) array_pop($out); continue; }
+    $out[] = $s;
+  }
+  return implode('/', $out);
+}
 function in_web_root($dir) {
-  $root = isset($_SERVER['DOCUMENT_ROOT']) ? realpath($_SERVER['DOCUMENT_ROOT']) : '';
-  $d = realpath($dir);
-  if ($root === '' || $root === false || $d === false) return false;
-  // A bare prefix reads /var/www/html-data as "inside /var/www/html": compare on the folder boundary.
-  $root = rtrim($root, '/\\');
-  if ($root === '') return true;                                     // the web root is the root of the file system
-  $sep = strpos($d, '\\') !== false ? '\\' : '/';
-  return $d === $root || strncmp($d, $root . $sep, strlen($root) + 1) === 0;
+  // A folder has a web address through a link as well, because the web server follows it: the path as written counts
+  // next to the path it leads to, each against the web root as written and as it leads. With realpath() alone a link
+  // named data in the web root read as safe, while the web served the whole file (build 260922k).
+  $doc = isset($_SERVER['DOCUMENT_ROOT']) ? (string)$_SERVER['DOCUMENT_ROOT'] : '';
+  if ($doc === '') return false;
+  foreach ([tidy($doc), realpath($doc)] as $root) foreach ([tidy($dir), realpath($dir)] as $d) {
+    if ($root === false || $d === false) continue;
+    // A bare prefix reads /var/www/html-data as "inside /var/www/html": compare on the folder boundary.
+    $r = rtrim(str_replace('\\', '/', $root), '/'); $p = rtrim(str_replace('\\', '/', $d), '/');
+    if ($r === '' || $p === $r || strncmp($p, $r . '/', strlen($r) + 1) === 0) return true;   // '' is the root of the file system
+  }
+  return false;
 }
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -72,7 +86,10 @@ $method = $_SERVER['REQUEST_METHOD'];
 if ($method === 'OPTIONS') { http_response_code(204); exit; }
 // The same order as server/worker.js: the preflight first, then this guard, so the CORS headers above are
 // already sent and the app can read the message from another address instead of a bare CORS error.
-if ($TOKEN === 'change-me-to-a-long-random-token') fail(500, 'data.php: set $TOKEN first');
+// A prefix and not the whole default text: whoever replaced that text everywhere in the editor replaced this check as
+// well, and the endpoint then refused the real token for good with this very message (build 260922k). An empty token
+// would let in a request without one.
+if ($TOKEN === '' || strncmp($TOKEN, 'change-me', 9) === 0) fail(500, 'data.php: set $TOKEN first');
 if (!hash_equals($TOKEN, hdr('X-Token'))) fail(401, 'invalid token');   // constant time, so the token cannot be guessed by the clock
 
 if (!is_dir($DATA_DIR)) fail(500, 'data directory missing: ' . $DATA_DIR);
@@ -114,12 +131,19 @@ if ($method === 'PUT' || $method === 'POST') {
     fail(409, 'conflict: the data changed on another device – reload before saving', ['etag' => $curTag]);
   }
 
-  // daily snapshot of the previous content (first write of the day)
+  // daily snapshot of the previous content (first write of the day). It is written aside and put in place only whole,
+  // and a day that cannot have one gets no write either: a full disk used to leave half a snapshot that stood for the
+  // rest of the day, and deleting that half would free just the room for the new data, with the state before today
+  // gone and no snapshot of it (build 260922k)
   if ($cur !== '') {
     if (!is_dir($SNAPDIR)) @mkdir($SNAPDIR, 0775, true);
     $snap = $SNAPDIR . '/' . date('Y-m-d') . '.json';
     if (!file_exists($snap)) {
-      @file_put_contents($snap, $cur);
+      $part = $snap . '.tmp';
+      if (@file_put_contents($part, $cur) !== strlen($cur) || !@rename($part, $snap)) {
+        @unlink($part); flock($fh, LOCK_UN); fclose($fh);
+        fail(500, 'could not write the daily snapshot, so nothing was saved: is the disk full, or is ' . $SNAPDIR . ' not writable?');
+      }
       // only the daily files count: a backup you put in this folder by hand used to eat a day, or be deleted first
       $files = array_values(array_filter((array)glob($SNAPDIR . '/*.json'),
         function ($f) { return preg_match('/^\d{4}-\d{2}-\d{2}\.json$/', basename($f)); }));
@@ -127,9 +151,16 @@ if ($method === 'PUT' || $method === 'POST') {
     }
   }
 
-  $tmp = $FILE . '.tmp';
-  if (file_put_contents($tmp, $body) === false) { flock($fh, LOCK_UN); fclose($fh); fail(500, 'write failed'); }
-  if (!rename($tmp, $FILE)) { @unlink($tmp); flock($fh, LOCK_UN); fclose($fh); fail(500, 'rename failed'); }
+  // A data file that is a link (into a synced folder, say) is written where the link leads: rename() put a file of its
+  // own in the link's place, and the synced copy stood still from then on without a word (build 260922k)
+  $target = $FILE;
+  if (is_link($FILE) && ($real = realpath($FILE)) !== false) $target = $real;
+  $tmp = $target . '.tmp';
+  if (file_put_contents($tmp, $body) !== strlen($body)) {
+    @unlink($tmp); flock($fh, LOCK_UN); fclose($fh);
+    fail(500, 'write failed: disk full, or no right to write in ' . dirname($target));
+  }
+  if (!rename($tmp, $target)) { @unlink($tmp); flock($fh, LOCK_UN); fclose($fh); fail(500, 'rename failed'); }
   flock($fh, LOCK_UN); fclose($fh);
 
   $newTag = etag_of($body);
