@@ -290,6 +290,15 @@ with sync_playwright() as p:
     check("en de zijbalk vindt je eigen materiaal met accent op dezelfde manier",
           page.locator("#list .item").count() == 1)
     page.fill("#searchBox", ""); page.wait_for_timeout(300)
+    # B12 (bouw 260922j): Browse the library… vouwt de zoekterm zoals de namen; "Vetiver Haïti" typen vond niets
+    page.evaluate("() => browseList()"); page.wait_for_timeout(500)
+    tel = {}
+    for q in ["Vetiver Haïti", "haiti", "cœur", "coeur", "woody"]:
+        page.fill("#brQ", q); page.wait_for_timeout(250)
+        tel[q] = page.text_content("#brCount")
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    check(f"Browse the library… vindt een naam met of zonder accent, en de categorie ({tel})",
+          all("1 of 2 shown" in tel[q] for q in ["Vetiver Haïti", "haiti", "cœur", "coeur"]) and "2 of 2 shown" in tel["woody"])
 
     # ---------- staart 32 (bouw 260920m): een bibliotheek woont in je databestand ----------
     # elke wijziging herschrijft dat bestand in zijn geheel, dus de maat telt en er is een plafond

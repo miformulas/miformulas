@@ -362,7 +362,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922i</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922j</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -430,7 +430,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a Ryan Parfums-style bench sheet does, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install, no account, and your data stays in a file that you own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260922i. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
+<p>This manual describes build 260922j. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -683,7 +683,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>Another presentation of the same recipe is a version too: the formula at 20 % instead of 15 %, with the costly material taken from the 10 % dilution instead of the pure one (make a new version and change the dilutions with <strong>Preserve rel % and exchange solvent</strong>, section <a href="#s13-changing-dilutions">13</a>), or made up as a 44 g batch instead of 100 g (Batch scaling, section <a href="#s14-batch-scaling-and-predilutions">14</a>). Give such a version a label with the <strong>pencil</strong> ("20%", "soap", "44gr") so the list tells them apart. Earlier builds had a separate notion of "variations" for this; it went in build 260915b, because versions do the same with less to learn. A data file that still holds variations loads with a warning: they are left in the file untouched, but not shown.</p>
 <p>Formulas imported from Formulair are frozen too (section <a href="#s6-coming-from-formulair">6</a>): you read them, compare them and copy them, but to work on one you make a new version.</p>
 <p>Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with the <strong>pencil</strong>, write notes, add trial-log entries, set colour marks, arrange the bench view and use <strong>Mark as prepared</strong> on a frozen version: those are your annotations about it, not the recipe itself. In the version list a <strong>🔒</strong> marks a version that came in from an import, and the name it carried there is shown after the version number as a reference; the window behind the <strong>pencil</strong> has a tick box <strong>show the import reference</strong> to hide that name in the list once the grouping is done. It only hides it: the reference stays in the file, so a second Formulair import still recognises the formula.</p>
-<p><strong>Move into…</strong> appears on any formula that still has one version, whatever it came from: a formula from the Formulair import, one you brought in with Import formula…, or one you typed yourself. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along; an import keeps its import name as a reference and stays frozen, a formula of your own arrives as an ordinary version that keeps its name as the version label, so nothing of it is lost from the list. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s6-coming-from-formulair">6</a>). When other single-version formulas share the name, the dialog lists them under <strong>Move together</strong>: those whose name carries a version number ("Aura v04", "Aura v05 20%") come ticked and go into the target in the same go, as versions numbered by that number and then by name. Untick what should stay, and add any other single-version formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
+<p><strong>Move into…</strong> appears on any formula that still has one version, whatever it came from: a formula from the Formulair import, one you brought in with Import formula…, or one you typed yourself. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along; an import keeps its import name as a reference and stays frozen, a formula of your own arrives as an ordinary version that keeps its name as the version label, so nothing of it is lost from the list. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s6-coming-from-formulair">6</a>). When other single-version formulas share the name, the dialog lists them under <strong>Move together</strong>: those whose name carries a version number straight after the shared name ("Aura v04", "Aura v05 20%"; "Aura blanche 2" is another formula) come ticked and go into the target in the same go, as versions numbered by that number and then by name. Untick what should stay, and add any other single-version formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s10-formulas-and-versions">Move into…: three imported formulas about to become one formula with its own history.</a></p>
 <p><strong>Copy to new formula…</strong> takes the version you are looking at as v1 of a new formula, with its lines, bench arrangement, notes and trial log; the notes open with a line saying which formula and version it was copied from. <strong>Rename…</strong> and <strong>Change category…</strong> do what they say; categories are shared between formulas and get a colour dot, which the colour square beside the category picker sets. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
 <p><strong>Delete version</strong> asks first and names the formula and the version it is about. When it is the only version it says so: the formula then stays in your list without lines, and <strong>Delete formula</strong> is what removes the formula itself. Undo (Ctrl+Z) brings a deleted version back during the session.</p>
@@ -720,7 +720,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the <strong>tick bar</strong>: mark them red, green, blue or yellow, unmark them, or clear every mark in the version at once, which asks first and says how many go. Marks are per version, and they carry over into new versions and copies, and into a formula you move into another with <strong>Move into…</strong>. They stay inside the app: a shared file, the Excel exports and <strong>Export all my formulas</strong> carry the recipe, not your marks, because a colour means something to you and nothing to the person you send it to. Use them as you like: what changed, what to smell for, what to check.</p>
 <p><strong>Notes</strong> is a free text per version, shown on the formula sheet. The <strong>Trial log</strong> is a dated list of short entries ("day 3, macerated, top too sharp") that also prints on the formula sheet.</p>
 <h2 id="s16-bench-view-and-printing">16. Bench view and printing</h2>
-<p>The arrangement belongs to the version and hangs on the lines themselves, so changing a dilution or deleting one of two identical lines leaves the other where you put it. <strong>Bench view</strong> (the button next to the formula name, which reads <strong>Table view</strong> while the bench is open, with <strong>Close bench</strong> underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column on the left; drag them into named groups on the right, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong> makes as many more as your batch needs, and you can rename, reorder (the ⠿ handle, or ↑ and ↓) and delete groups as you like; <strong>⇤</strong> empties one back into Unsorted without deleting it. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version. The groups stand beside the Unsorted column on a wide screen and below it on a narrower one, so the group buttons are always within reach. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them.</p>
+<p>The arrangement belongs to the version and hangs on the lines themselves, so changing a dilution or deleting one of two identical lines leaves the other where you put it. <strong>Bench view</strong> (the button next to the formula name, which reads <strong>Table view</strong> while the bench is open, with <strong>Close bench</strong> underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column on the left; drag them into named groups on the right, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong> makes as many more as your batch needs, and you can rename, reorder (the ⠿ handle, or ↑ and ↓) and delete groups as you like; <strong>⇤</strong> empties one back into Unsorted without deleting it. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version from the first thing you move; opening the bench view changes nothing. The groups stand beside the Unsorted column on a wide screen and below it on a narrower one, so the group buttons are always within reach. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them; like the weighing sheet, it marks a material you do not own yet "(to order)".</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s16-bench-view-and-printing">Bench view: the Unsorted column with its own sort order on the left, the groups you build the batch with on the right.</a></p>
 <p>From the table view, four buttons under the lines, in this order: <strong>Print full formula</strong>, <strong>Excel export</strong>, <strong>Share this version</strong> and <strong>Print weighing sheet</strong>. The line under them says what each is for. The two prints are not the same sheet: the full formula is the record of the version, the weighing sheet is what you work from at the bench. <strong>Ctrl+P</strong> or File › Print without one of these buttons prints that same weighing sheet of the version you are looking at, in bench view as well; outside a formula it prints a line saying so, so what goes to the printer is never a sheet left over from earlier.</p>
 <ul>
@@ -741,7 +741,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s18-ifra-check-and-category-panel">The Categories panel.</a></p>
 <h2 id="s19-stock-orders-and-deliveries">19. Stock, orders and deliveries</h2>
 <p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking. From then on purchases add, and two things deduct: <strong>Dilution made</strong>, the row with the percentage, the total and the button <strong>Deduct base</strong> (you made 50 g of a 10 % dilution out of a base at 100 %, so 5 g of base left the bottle; with a base at 10 % it would be 50 g, and a dilution stronger than your base is refused) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one.</p>
-<p><strong>To order</strong> is the shopping list. Add a material from the list itself (existing or new), with <strong>Add to order list</strong> on a material page, or automatically when a formula or an import mentions a material you do not have. Each entry has a note, an amount and unit, a price and a product link; <strong>Search my shops</strong> opens a Google search limited to the web shops you listed under <strong>Edit shop list</strong> (add the shops you buy from, one domain per line). The list starts empty, and as long as it is, the button says <strong>Search the web</strong> instead, because that is what it would do. <strong>Delivered…</strong> closes an entry: you type the <strong>amount purchased</strong> as a number and pick its unit (g or ml, gram to start with), which is what lets the purchase and the ledger below it count with each other. For a material whose stock you track, the window asks one more thing: <strong>was the old stock used up?</strong> Leave the box off and the purchase is added to what the app still counts, which is the ordinary case of a second bottle beside the first. Tick it and the ledger starts again from this purchase, with a stocktake of 0 g on the purchase date, so a bottle you finished long ago does not keep counting. It records that amount and the purchase date on the material, computes <strong>Cost € / g</strong> from the price and the amount (divided by the base dilution, because that field is the price of a gram of pure material), adds to the stock ledger if the material is tracked, creates the material if it was new, and removes the "to order" label. What counts as new is decided by the same folding as everywhere else, alternative names included: type "Vertofix coeur" while you have "Vertofix cœur" and the entry is that material, not a second one, and the window says which material it is about to update; when several of your materials answer to the name, it asks which one first (section <a href="#s9-materials">9</a>). Millilitres need the density of the material: if it has none, the window shows a density field there and then and keeps what you type, because without it neither the cost per gram nor the stock can be worked out. The price itself is not kept on the material: it is only there to work out the cost per gram.</p>
+<p><strong>To order</strong> is the shopping list. Add a material from the list itself (existing or new), with <strong>Add to order list</strong> on a material page, or automatically when a formula or an import mentions a material you do not have. An entry you added before the material existed belongs to that material once you create it, so the list does not get a second entry for it, and an entry under the old name follows when you rename the material. Each entry has a note, an amount and unit, a price and a product link; <strong>Search my shops</strong> opens a Google search limited to the web shops you listed under <strong>Edit shop list</strong> (add the shops you buy from, one domain per line). The list starts empty, and as long as it is, the button says <strong>Search the web</strong> instead, because that is what it would do. <strong>Delivered…</strong> closes an entry: you type the <strong>amount purchased</strong> as a number and pick its unit (g or ml, gram to start with), which is what lets the purchase and the ledger below it count with each other. For a material whose stock you track, the window asks one more thing: <strong>was the old stock used up?</strong> Leave the box off and the purchase is added to what the app still counts, which is the ordinary case of a second bottle beside the first. Tick it and the ledger starts again from this purchase, with a stocktake of 0 g on the purchase date, so a bottle you finished long ago does not keep counting. It records that amount and the purchase date on the material, computes <strong>Cost € / g</strong> from the price and the amount (divided by the base dilution, because that field is the price of a gram of pure material), adds to the stock ledger if the material is tracked, creates the material if it was new, and removes the "to order" label. Every entry of that material goes, and you stay on the list, because a delivery rarely comes alone. A material that still carries the label while it is no longer on the list shows <strong>Mark as owned</strong> beside the label on its page. What counts as new is decided by the same folding as everywhere else, alternative names included: type "Vertofix coeur" while you have "Vertofix cœur" and the entry is that material, not a second one, and the window says which material it is about to update; when several of your materials answer to the name, it asks which one first (section <a href="#s9-materials">9</a>). Millilitres need the density of the material: if it has none, the window shows a density field there and then and keeps what you type, because without it neither the cost per gram nor the stock can be worked out. The price itself is not kept on the material: it is only there to work out the cost per gram.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s19-stock-orders-and-deliveries">The order list.</a></p>
 <h2 id="s20-import-and-export">20. Import and export</h2>
 <p>The ⇅ button in the header opens <strong>Import &amp; export</strong>, a window with everything that comes in and goes out. The Welcome page keeps the two ways in that a new inventory starts with, and points at that window for the rest. <strong>Import from Formulair…</strong> opens the importer described in section <a href="#s6-coming-from-formulair">6</a>.</p>
@@ -759,8 +759,8 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case) and <strong>Open where you left off</strong>. That last one is off by default; with it on, the app starts on the formula or material you had open, and on the version you were looking at, as long as it is still there, instead of on the list. It is a setting of the device you set it on and not part of your data, so each computer and phone has its own, and switching it off forgets the place again. On the site there is also the <strong>server endpoint</strong> and its token; the app you downloaded has neither, because it always works on the data file next to it, and a server is set up in the Settings on the site. Then a few buttons that depend on the situation: <strong>Install as an app</strong> when the browser offers it, <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser</strong> in browser-storage mode, and <strong>Forget the remembered data file</strong> when a file is remembered. At the bottom sits the materials library (section <a href="#s20-import-and-export">20</a>): the name, size and licence of the one that is loaded, its attribution and source when it carries them, and the buttons <strong>Import materials library…</strong>, <strong>Remove the library</strong> and <strong>Get the latest library</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s21-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
 <p>The <strong>theme</strong> button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.</p>
-<p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. While the cursor is in a text field, Ctrl+Z is the browser's own undo for that field, not the app's; click outside it first to take back the change itself. In the list panel a row takes focus with Tab and opens with Enter, and the same goes for material names, sort headers and colour swatches. In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add) and <strong>Escape</strong> closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.</p>
-<p><strong>Back and forward.</strong> Every place you open is a step: a formula and the version you were looking at, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the <strong>back and forward buttons of your mouse</strong> work, and so do the browser's own two buttons, <strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. Switching to another version of the same formula is a step of its own, so back returns you to the version you were reading. A step whose formula or material has been deleted since is skipped and lands you on the list. Reloading the page lands you back on the step you were on when <strong>Open where you left off</strong> is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends, and also when the browser has run out of steps to give, because a browser keeps only the last fifty or so. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.</p>
+<p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. Once you have typed in a text field, Ctrl+Z there first takes back your typing, as anywhere else; in a field you have not typed in, such as the one the cursor goes back to after <strong>Add line</strong> or a weight, it is the app's undo. In the list panel a row takes focus with Tab and opens with Enter, and the same goes for material names, sort headers and colour swatches. In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add) and <strong>Escape</strong> closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.</p>
+<p><strong>Back and forward.</strong> Every place you open is a step: a formula and the version you were looking at, with the comparison or the bench view you had open, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the <strong>back and forward buttons of your mouse</strong> work, and so do the browser's own two buttons, <strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. Switching to another version of the same formula is a step of its own, so back returns you to the version you were reading. A step whose formula or material has been deleted since is skipped and lands you on the list. Reloading the page lands you back on the step you were on when <strong>Open where you left off</strong> is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends, and also when the browser has run out of steps to give, because a browser keeps only the last fifty or so. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.</p>
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header writes the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>); Chrome and Edge ask where it should go and remember that folder. Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
 <p>The app also keeps one <strong>daily snapshot</strong> in the browser: the state as it was the first time you opened the app that day, so before your first change. A start from the starter set, an empty start and a restored snapshot do not replace it, so what is offered is the state of the last day you really worked. Whenever the start screen appears without your data (the file is gone, the browser copy could not be read, the server holds nothing yet or cannot be reached, or the browser cannot write to files at all), it offers <strong>Restore daily snapshot</strong> with its date; load it and use Backup to write it to a file. When the browser copy is the thing that could not be read, the start screen says so and points at your last Backup, because starting again there would write over what is left of it. Restored while the server was unreachable, the snapshot is not written to the server: before its first save the app reads the server, and if data is there it refuses to overwrite it; use Backup, or reload (F5) once the server is back.</p>
@@ -969,11 +969,13 @@ function migrate(d){
       vmax = Math.max(vmax, v.v);
       // a bench group used to hold material|dilution|ordinal, and that ordinal shifted as soon as one of two
       // equal lines was deleted, so the group took over the wrong line. Lines carry an id of their own now.
-      const old = new Map(), seen = new Map();
+      const old = new Map(), seen = new Map(), lineIds = new Set();
       for (const l of v.lines){
         const base = l.materialId + "|" + (l.dilutionPct ?? 100);
         const n = seen.get(base) || 0; seen.set(base, n + 1);
-        if (!l.id) l.id = uid("l-");
+        // two lines with one id (a foreign file): the bench view and its sheet showed one of them (build 260922j)
+        if (!l.id || lineIds.has(l.id)) l.id = uid("l-");
+        lineIds.add(l.id);
         old.set(base + "|" + n, l.id);
       }
       // bench was the one structure migrate left alone, and it is the one with opaque key lists that a hand or a
@@ -1338,6 +1340,12 @@ async function backup(){
     a.download = name; a.click(); URL.revokeObjectURL(a.href);
   }
 }
+// A field keeps its own Ctrl+Z once you have typed in it: that takes back your typing, as anywhere else. A field that is
+// still as the app drew it has nothing of its own to take back, and after Add line and after a weight the app puts the
+// cursor in exactly such a field, so there Ctrl+Z did nothing at all; a ticked box held it back the same way (build 260922j).
+const TYPED = new WeakSet();   // the fields typed in since the app drew them
+document.addEventListener("input", e => TYPED.add(e.target), true);
+const NOTTEXT = /^(checkbox|radio|color|range|button|submit|reset|file|image|hidden)$/i;
 window.addEventListener("keydown", e => {
   if ($("#dlg").open) return;                    // a dialog holds its own copy of the data: no undo/redo underneath it
   if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase() === "s"){ e.preventDefault();
@@ -1347,8 +1355,8 @@ window.addEventListener("keydown", e => {
     saveData(); }
   else if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase() === "b"){ e.preventDefault(); document.body.classList.toggle("hidebar"); }
   else if ((e.ctrlKey||e.metaKey) && (e.key.toLowerCase() === "z" || e.key.toLowerCase() === "y")){
-    const t = e.target.tagName;
-    if (t === "INPUT" || t === "TEXTAREA") return;   // native text undo/redo
+    const el = e.target, text = el.tagName === "TEXTAREA" || (el.tagName === "INPUT" && !NOTTEXT.test(el.type || "text"));
+    if (text && (el.value !== el.defaultValue || TYPED.has(el))) return;   // the field's own undo and redo, for what you typed
     e.preventDefault();
     if (e.key.toLowerCase() === "y" || (e.key.toLowerCase() === "z" && e.shiftKey)) redo(); else undo();
   }
@@ -1371,13 +1379,15 @@ function clampView(){
   if (VIEW.tab === "F" && VIEW.sub){
     const f = DATA.formulas.find(x => x.id === VIEW.id);
     if (!f) VIEW.sub = null;
-    else if (!f.versions[VIEW.sub.idx]) VIEW.sub = null;
+    // a comparison has no index of its own: its two versions are checked where it is drawn (build 260922j)
+    else if (VIEW.sub.type === "cmp" ? f.versions.length < 2 : !f.versions[VIEW.sub.idx]) VIEW.sub = null;
   }
 }
 function undo(){
   const step = UNDO.pop(); if (!step) return;
-  // Redo keeps ten steps: one copy of the whole data each, which is 7 MB for a large library
-  try{ REDO.push({json: serialize(), view: structuredClone(VIEW)}); if (REDO.length > 10) REDO.shift(); $("#btnRedo").disabled = false; }catch(e){}
+  // Redo keeps ten steps: one copy of the whole data each, which is 7 MB for a large library. It goes to where the change
+  // was made, as Undo does: it went back to where Undo was pressed, so the change came back out of sight (build 260922j)
+  try{ REDO.push({json: serialize(), view: structuredClone(step.view || VIEW)}); if (REDO.length > 10) REDO.shift(); $("#btnRedo").disabled = false; }catch(e){}
   step.fn(); invalidateMats();
   if (!UNDO.length) $("#btnUndo").disabled = true;
   const v = step.view;   // back to the formula or material the change was on, unless it no longer exists
@@ -1387,12 +1397,13 @@ function undo(){
 }
 function redo(){
   const step = REDO.pop(); if (!step) return;
-  const cur = serialize(), view = structuredClone(VIEW);
+  const cur = serialize();
+  if (step.view) VIEW = structuredClone(step.view);   // back to where the change was made, and the Undo this Redo leaves goes there too
+  const view = structuredClone(VIEW);
   REDOING = true;
   pushUndo(() => { DATA = migrate(JSON.parse(cur)); VIEW = view; });
   REDOING = false;
   DATA = migrate(JSON.parse(step.json));
-  if (step.view) VIEW = step.view;               // back to where the change was made
   if (!REDO.length) $("#btnRedo").disabled = true;
   invalidateMats(); clampView();
   buildUsage(); markDirty(); setTabs(); render();
@@ -1537,13 +1548,16 @@ const allFormulaCats = () => [...new Set([...DATA.formulaCategories, ...DATA.for
 // <select id="catSel"> + "New category" button, shared by New formula / Change category / Copy
 const catPickerHtml = (cur, w = "13rem") => `<select id="catSel" style="min-width:${w}">${allFormulaCats().map(x => `<option${x===cur?" selected":""}>${esc(x)}</option>`).join("")}${cur && !allFormulaCats().includes(cur) ? `<option selected>${esc(cur)}</option>` : ""}</select>
   <button class="small" id="btnNewCat" type="button">+ New category</button> ${catColourInput(cur)}`;
+// A name you already have in other capitals or accents is that category: "musks" next to your "Musks" made a second one
+// for the same thing (build 260922j). The same comparison as a category from the library (addFromList).
+const sameCatOpt = (sel, nm) => [...sel.options].find(o => o.value.localeCompare(nm, undefined, {sensitivity: "base"}) === 0);
 function bindNewCat(){
   const sel = $("#catSel"), col = $("#catCol");
   const syncCol = () => { if (col){ col.value = catColourHex(sel.value); col.disabled = !sel.value; } };
   $("#btnNewCat")?.addEventListener("click", () => {
     const n = prompt("New category name:"); if (!n || !n.trim()) return;
-    const nm = n.trim();
-    if (![...sel.options].some(o => o.value === nm)){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
+    const hit = sameCatOpt(sel, n.trim()), nm = hit ? hit.value : n.trim();
+    if (!hit){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
     sel.value = nm; syncCol();
   });
   sel?.addEventListener("change", syncCol);
@@ -1711,7 +1725,7 @@ function renderSidebar(){
     for (const o of DATA.orderList || []){
       if (q && !fold(o.name).includes(q)) continue;
       // only a line that leads somewhere is a button: the others were announced as one and did nothing
-      const opens = !!o.materialId;
+      const opens = !!orderMat(o);
       html += `<div class="item${opens ? "" : " flat"}" data-id="${o.id}"${opens ? ' tabindex="0" role="button"' : ""}><span>${esc(o.name)}</span><span class="sub">${esc(o.added||"")}</span></div>`;
     }
     if (!html && !q) html = `<div class="hint" style="padding:.8rem">Nothing to order.</div>`;   // with a term it is the general "nothing matches" below
@@ -1734,8 +1748,8 @@ $("#list").addEventListener("click", e => {
   const it = e.target.closest(".item"); if (!it) return;
   HOMEVIEW = false; HELPVIEW = false; IMPORTP = null;
   if (VIEW.tab === "T"){
-    const o = (DATA.orderList||[]).find(x => x.id === it.dataset.id);
-    if (o && o.materialId) switchTab("M", o.materialId, null);
+    const o = (DATA.orderList||[]).find(x => x.id === it.dataset.id), om = o && orderMat(o);
+    if (om) switchTab("M", om.id, null);
     return;
   }
   VIEW.id = it.dataset.id; VIEW.sub = null; render();
@@ -1772,9 +1786,10 @@ function metaActionsHtml(f, withCopy){
 }
 function bindFormulaMeta(f, sub){
   $("#btnRenameF")?.addEventListener("click", () => {
-    const n = prompt("Formula name:", f.name); if (!n || n.trim() === f.name) return;
-    if (DATA.formulas.some(x => x !== f && normName(x.name) === normName(n))){ alert(`Another formula is already called “${n.trim()}”.`); return; }
-    snapF(f); f.name = n.trim(); buildUsage(); markDirty(); render();
+    const n = (prompt("Formula name:", f.name) ?? "").trim();   // spaces alone left the formula without a name (build 260922j)
+    if (!n || n === f.name) return;
+    if (DATA.formulas.some(x => x !== f && normName(x.name) === normName(n))){ alert(`Another formula is already called “${n}”.`); return; }
+    snapF(f); f.name = n; buildUsage(); markDirty(); render();
   });
   $("#btnCopyF")?.addEventListener("click", () => copyFormula(f, sub));
   $("#btnMoveF")?.addEventListener("click", () => moveInto(f));
@@ -1892,17 +1907,8 @@ function renderFormula(f){
     }
   }
   c.innerHTML = h;
-  $("#btnBenchToggle")?.addEventListener("click", () => {
-    if (!sub.bench && item && !(item.bench && Array.isArray(item.bench.groups)) && !readOnly()){
-      // first bench open: create the 5 default groups, explicitly saved. A bench field without a list of groups
-      // (a foreign file, a hand edit) is repaired here in the same breath, so + Add group has something to push into
-      // (not in the read-only mode: a change there can never be written)
-      snapF(f);
-      item.bench = {groups: Array.from({length:5}, (_,i) => ({id: uid("g"), title: "Group " + (i+1), keys: []})), byId: true};
-      markDirty();
-    }
-    VIEW.sub = {...sub, bench: !sub.bench}; render();
-  });
+  // opening the bench view changes nothing: the arrangement is stored by the first thing you do in it (build 260922j)
+  $("#btnBenchToggle")?.addEventListener("click", () => { VIEW.sub = {...sub, bench: !sub.bench}; render(); notePlace(); });
   if (item && sub.bench) bindBench(f, item, lines, K);
   bindFormulaMeta(f, sub);
   // the bench belongs to the way you are looking, not to the version: switching version keeps it open
@@ -1920,7 +1926,9 @@ function renderFormula(f){
     $("#dlgCancel").addEventListener("click", () => dlg.close());
     $("#dlgOk").addEventListener("click", () => {
       const n = $("#vnName").value.trim(), keep = $("#vnSrc") ? $("#vnSrc").checked : true;
-      dlg.close(); snapF(f);
+      dlg.close();
+      if (n === (item.name || "") && keep === !item.hideSource) return;   // nothing changed: no undo step, no new date (build 260922j)
+      snapF(f);
       item.name = n;
       if (item.sourceName && !keep){   // only hidden: a second Formulair import still recognises it by sourceName
         // the line goes in once, never again: this window is used to set a label, and every Apply used to add it anew
@@ -2156,7 +2164,8 @@ function bindLineEditors(f, item){
       const oc = structuredClone(DATA.orderList);
       const r = newMaterialFrom(name, 100, {wishlist: true});
       DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats();
-      DATA.orderList.push({id: uid("o-"), materialId: r.m.id, name, note: `needed for ${f.name}`, price:"", added: today()});
+      if (!orderLink(r.m, `needed for ${f.name}`))
+        DATA.orderList.push({id: uid("o-"), materialId: r.m.id, name, note: `needed for ${f.name}`, price:"", added: today()});
       addLineWith(f, item, r.m, r.m.id, r.newCat, oc);
     };
     if (wijd.length){ pickMaterial(wijd, name, m => addLineWith(f, item, m, null, null, null),
@@ -2243,7 +2252,7 @@ function replaceMaterial(f, item, i){
   $("#dlgCancel").addEventListener("click", () => dlg.close());
   const doReplace = nm => {
     if (nm.id === l.materialId){ dlg.close(); return; }
-    const oldId = l.materialId;
+    const oldId = l.materialId, redoWas = REDO.slice(), modWas = f.modified;
     snapF(f);
     l.materialId = nm.id;                      // dilution & weight carried over
     markDirty();
@@ -2255,7 +2264,10 @@ function replaceMaterial(f, item, i){
       // replacing and changing the dilution is one undo step; cancelling puts the old material back and drops the step.
       // the dialog stays open and changeDilution takes it over: close() followed by showModal()
       // lets the queued close event land on the new listener, which would cancel at once
-      changeDilution(f, item, i, nearest, () => { l.materialId = oldId; popUndo(); markDirty(); render(); }, true);
+      // cancelling gives back the Redo steps and the date of the formula as well: it cost you your Redo and moved the
+      // formula up in Recently edited (build 260922j)
+      changeDilution(f, item, i, nearest, () => { l.materialId = oldId; popUndo(); f.modified = modWas;
+        REDO.push(...redoWas); $("#btnRedo").disabled = !REDO.length; markDirty(); render(); }, true);
     } else {
       dlg.close();
       render();
@@ -2516,8 +2528,9 @@ function browseList(){   // pick several materials from the library in one go
   };
   const draw = () => {
     lastPos = null;   // the positions shift with the filter, so a range starts afresh
-    const t = $("#brQ").value.trim().toLowerCase();
-    const sel = all.filter(e => !t || listHit(e, t) || (e.category || "").toLowerCase().includes(t) || (e.cas || "").toLowerCase().includes(t));
+    // the term is folded like the names it is held against: "Vetiver Haïti", the name exactly, found nothing (build 260922j)
+    const t = fold($("#brQ").value).trim();
+    const sel = all.filter(e => !t || listHit(e, t) || fold(e.category).includes(t) || fold(e.cas).includes(t));
     shown = sel.length;
     $("#brRows").innerHTML = sel.length ? sel.map(e => {
       const own = mine(e);
@@ -2566,9 +2579,9 @@ function exportInventoryLibrary(){   // your own materials as a library file: th
   };
   const draw = () => {
     lastPos = null;   // the positions shift with the filter, so a range starts afresh
-    const t = $("#exQ").value.trim().toLowerCase();
-    const sel = all.filter(m => !t || m.name.toLowerCase().includes(t) || (m.aliases || "").toLowerCase().includes(t)
-      || (m.category || "").toLowerCase().includes(t) || (m.cas || "").toLowerCase().includes(t));
+    const t = fold($("#exQ").value).trim();   // folded as in Materials: "vertofix coeur" finds Vertofix cœur (build 260922j)
+    const sel = all.filter(m => !t || fold(m.name).includes(t) || fold(m.aliases).includes(t)
+      || fold(m.category).includes(t) || fold(m.cas).includes(t));
     shown = sel.length;
     $("#exRows").innerHTML = sel.length ? sel.map(m => {
       const facts = [m.category, m.pyramid != null && m.pyramid < 5 ? PYR[m.pyramid] : "", m.cas,
@@ -2782,7 +2795,11 @@ function moveInto(f){
   // move together: other single-version formulas with the same stem AND a version number in the name come pre-ticked
   // (without that second condition a stem like "Rose" would tick every rose you ever made); any other can be added by hand
   const movables = others.filter(canMoveInto);
-  const companions = movables.filter(x => (nameStem(x.name)[0] === stem || normName(x.name).startsWith(stem + " ")) && hasVersionMark(x));   // "Aura v04", and also "Aura v05 20%"
+  // "Aura v04", and also "Aura v05 20%": the number comes straight after the name. "Rose de Mai 68" is not version 68
+  // of "Rose" (build 260922j): other words in between make it another formula, which you can still add by hand.
+  const stemN = normName(stem), rest = x => normName(x.name).slice(stemN.length + 1);
+  const companions = movables.filter(x => (nameStem(x.name)[0] === stem
+    || (normName(x.name).startsWith(stemN + " ") && /^(v ?\d+|\d+)\b/.test(rest(x)))) && hasVersionMark(x));
   // the formula opened has the lowest number: it stays, and the others move into it
   const suggested = lowest && companions.length && num < (nameStem(lowest.name)[1] ?? -1) ? f : lowest;
   const togRow = x => `<label style="display:block"><input type="checkbox" class="mvTog" data-id="${x.id}" checked> ${esc(x.name)}</label>`;
@@ -2909,6 +2926,7 @@ function createPredilution(f, sub, item, dispLines){
     const costT = picks.reduce((s,l) => { const m = matById(l.materialId); return s + l.weightG*k*((m||{}).costPerGram||0)*(l.dilutionPct??100)/100; }, 0);
     const fClone = structuredClone(f);
     const newMatCat = !DATA.materialCategories.includes("Predils"), newFCat = !DATA.formulaCategories.includes("Predilutions");
+    const newCol = !(DATA.categoryColours && DATA.categoryColours["Predils"]);   // Undo takes back the colour it sets as well (build 260922j)
     if (newMatCat){ DATA.materialCategories.push("Predils"); DATA.materialCategories.sort((a,b)=>a.localeCompare(b)); }
     (DATA.categoryColours ||= {})["Predils"] ||= "#7A5EA8";
     const pm = {id: uid("m-"), name, cas: "", category: "Predils", supplier: "", modified: now(),
@@ -2927,12 +2945,16 @@ function createPredilution(f, sub, item, dispLines){
     newLines.push({id: uid("l-"), materialId: pm.id, dilutionPct: conc, weightG: replW, remark: 1});
     const nv = {v: Math.max(...f.versions.map(x => x.v)) + 1, date: today(),
       notes: `Predilution «${name}» replaces ${pickIdx.length} lines of v${cur.v}.`, lines: newLines};
+    // the arrangement comes along, as with + New version: the lines keep their ids, and the predil line starts in
+    // Unsorted (build 260922j)
+    if (hasBench(cur)) nv.bench = structuredClone(cur.bench);
     DATA.materials.push(pm); DATA.materials.sort((a,b) => a.name.localeCompare(b.name)); invalidateMats();
     if (!DATA.formulaCategories.includes("Predilutions")) DATA.formulaCategories.push("Predilutions");
     DATA.formulas.push(pf);
     f.versions.push(nv); f.frozenImport = false; f.modified = now();
     pushUndo(() => {
       if (newMatCat) DATA.materialCategories = DATA.materialCategories.filter(x => x !== "Predils");
+      if (newCol && DATA.categoryColours) delete DATA.categoryColours["Predils"];
       if (newFCat) DATA.formulaCategories = DATA.formulaCategories.filter(x => x !== "Predilutions");
       const i = DATA.formulas.findIndex(x => x.id === f.id); if (i >= 0) DATA.formulas[i] = fClone;
       DATA.formulas = DATA.formulas.filter(x => x.id !== pf.id);
@@ -3643,9 +3665,18 @@ function ifraPanel(f, item, K, editable){
 }
 
 /* ---------- bench view (free ordering & grouping) ---------- */
-// reading never creates it: the first bench open does, explicitly. A bench without a list of groups reads as none,
-// so a damaged field costs you the arrangement, not the whole view.
-const benchOf = item => (item.bench && Array.isArray(item.bench.groups)) ? item.bench : {groups: []};
+// Reading never creates it. A version without an arrangement shows five empty groups, and the first change you make in
+// the bench view stores them, inside that change's own undo step (build 260922j). Opening the view used to store them at
+// once, as an undo step of its own, and a version reached with the view open (the version picker, + New version, Delete
+// version) had none at all, so + Add group and Move ticked to… stopped on an error. A bench without a list of groups
+// reads as none, so a damaged field costs you the arrangement, not the whole view.
+const hasBench = item => !!(item.bench && Array.isArray(item.bench.groups));
+const BENCHNEW = Object.freeze({groups: Object.freeze([1, 2, 3, 4, 5].map(i => Object.freeze({title: "Group " + i, keys: Object.freeze([])})))});
+const benchOf = item => hasBench(item) ? item.bench : BENCHNEW;
+function benchFor(item){   // the arrangement to write to; the caller has taken its snapshot
+  if (!hasBench(item)) item.bench = {groups: BENCHNEW.groups.map(g => ({id: uid("g"), title: g.title, keys: []})), byId: true};
+  return item.bench;
+}
 let BDRAG = null, BSORT = "orig";
 function benchPoolSort(pool, K){
   if (BSORT === "orig") return pool;
@@ -3675,7 +3706,7 @@ function renderBench(f, item, lines, K){
   const drag = readOnly() ? "false" : "true";
   const row = k => { const r = K.rows[k.i]; return `<div class="brow" draggable="${drag}" data-key="${k.key}">
     <input type="checkbox" class="bsel" data-key="${k.key}" aria-label="Select ${esc(r.m.name || "this line")} ${fmtS(r.dil)}%"><span class="bgrip">⠿</span>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}
-    <span class="bname">${esc(r.m.name)}${fridgeMark(r.m, r.dil)}${r.m.isSolvent?" (solvent)":""}</span><span class="bdil">${fmtS(r.dil)}%</span>
+    <span class="bname">${esc(r.m.name)}${fridgeMark(r.m, r.dil)}${r.m.wishlist?" (to order)":""}${r.m.isSolvent?" (solvent)":""}</span><span class="bdil">${fmtS(r.dil)}%</span>
     <span class="bw">${fmt(r.w)} g</span><span class="bp">${r.rel==null?"–":fmt(r.rel,2)}%</span></div>`; };
   const stats = keys => { let w = 0, rel = 0, cont = 0;
     keys.forEach(key => { const k = BD.byKey.get(key); if (k){ const r = K.rows[k.i]; w += r.w; rel += r.rel || 0; cont += r.cont || 0; } });
@@ -3720,10 +3751,15 @@ function renderBench(f, item, lines, K){
 }
 function benchMove(f, item, keys, target, beforeKey){
   if (readOnly()) return;   // nothing here may be written, so nothing here takes an undo step
+  // a group that is not there, or lines sent to Unsorted that are there already: nothing to do, so no undo step and
+  // no new date either (build 260922j)
+  const inGroup = benchOf(item).groups.some(g => g.keys.some(k => keys.includes(k)));
+  if (target === "pool" ? !inGroup : !benchOf(item).groups[+target]){ render(); return; }
   snapF(f);
-  for (const g of item.bench.groups) g.keys = g.keys.filter(k => !keys.includes(k));
+  const groups = benchFor(item).groups;
+  for (const g of groups) g.keys = g.keys.filter(k => !keys.includes(k));
   if (target !== "pool"){
-    const g = item.bench.groups[+target]; if (!g) return;
+    const g = groups[+target];
     let idx = beforeKey ? g.keys.indexOf(beforeKey) : -1;
     if (idx < 0) idx = g.keys.length;
     g.keys.splice(idx, 0, ...keys);
@@ -3732,9 +3768,8 @@ function benchMove(f, item, keys, target, beforeKey){
 }
 function bindBench(f, item, lines, K){
   const c = $("#content");
-  // benchOf keeps a damaged field from stopping the view; every handler below writes to item.bench.groups itself,
-  // so repair it here as well. Quietly: there was nothing in it to lose, and migrate does the same on the next load.
-  if (item.bench && !Array.isArray(item.bench.groups)) item.bench.groups = [];
+  // every handler below that writes goes through benchFor, after its own snapshot: the five groups you see on a version
+  // without an arrangement, or in place of a damaged field, are stored by the first change and go with its Undo
   c.querySelectorAll(".brow").forEach(r => {
     r.addEventListener("dragstart", e => {
       const key = r.dataset.key;
@@ -3777,22 +3812,22 @@ function bindBench(f, item, lines, K){
     benchMove(f, item, keys, v, null);
   });
   $("#btnAddGroup")?.addEventListener("click", () => {
-    snapF(f); item.bench.groups.push({id: uid("g"), title: "Group " + (item.bench.groups.length+1), keys: []});
+    snapF(f); const groups = benchFor(item).groups; groups.push({id: uid("g"), title: "Group " + (groups.length+1), keys: []});
     markDirty(); render();
   });
   c.querySelectorAll(".btitle").forEach(inp => inp.addEventListener("change", e => {
-    snapF(f); item.bench.groups[+inp.dataset.bg].title = e.target.value; markDirty();
+    snapF(f); benchFor(item).groups[+inp.dataset.bg].title = e.target.value; markDirty();
   }));
   const gact = (attr, fn, ask) => c.querySelectorAll(`[data-${attr}]`).forEach(b => b.addEventListener("click", () => {
     if (ask && !confirm(ask)) return;
     snapF(f); fn(+b.dataset[attr]); markDirty(); render();
   }));
-  gact("bup", gi => { const g = item.bench.groups; [g[gi-1], g[gi]] = [g[gi], g[gi-1]]; });
-  gact("bdown", gi => { const g = item.bench.groups; [g[gi], g[gi+1]] = [g[gi+1], g[gi]]; });
-  gact("bempty", gi => { item.bench.groups[gi].keys = []; });
-  gact("bdel", gi => { item.bench.groups.splice(gi, 1); }, "Delete this bench group? Its lines go back to Unsorted.\n\nUndo (Ctrl+Z) brings it back.");
+  gact("bup", gi => { const g = benchFor(item).groups; [g[gi-1], g[gi]] = [g[gi], g[gi-1]]; });
+  gact("bdown", gi => { const g = benchFor(item).groups; [g[gi], g[gi+1]] = [g[gi+1], g[gi]]; });
+  gact("bempty", gi => { benchFor(item).groups[gi].keys = []; });
+  gact("bdel", gi => { benchFor(item).groups.splice(gi, 1); }, "Delete this bench group? Its lines go back to Unsorted.\n\nUndo (Ctrl+Z) brings it back.");
   $("#btnBenchPrint")?.addEventListener("click", () => benchPrint(f, item, lines, K));
-  $("#btnBenchClose")?.addEventListener("click", () => { VIEW.sub = {...VIEW.sub, bench: false}; render(); });
+  $("#btnBenchClose")?.addEventListener("click", () => { VIEW.sub = {...VIEW.sub, bench: false}; render(); notePlace(); });
   $("#bSortSel")?.addEventListener("change", e => { BSORT = e.target.value; render(); });
   let GDRAG = null;
   c.querySelectorAll("[data-bgdrag]").forEach(hd => {
@@ -3813,7 +3848,7 @@ function bindBench(f, item, lines, K){
       const to = +p.dataset.bgi, from = GDRAG; GDRAG = null;
       if (to === from || readOnly()) { render(); return; }   // as in benchMove: a state that cannot save takes no undo step
       snapF(f);
-      const g = item.bench.groups, [moved] = g.splice(from, 1);
+      const g = benchFor(item).groups, [moved] = g.splice(from, 1);
       g.splice(to > from ? to - 1 : to, 0, moved);
       markDirty(); render();
     });
@@ -3831,7 +3866,7 @@ function benchPrint(f, item, lines, K){
     <table class="bench"><colgroup><col class="cbc"><col class="pyc"><col class="matc"><col class="dilc"><col class="wc"><col class="rc"></colgroup>
     <thead><tr><th></th><th></th><th>Material</th><th>Dilution</th><th class="num">Weight (g)</th><th class="num">Rel %</th></tr></thead><tbody>
     ${ks.map(k => { const r = K.rows[k.i];
-      return `<tr><td><span class="cb"></span></td><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}</td><td>${esc(r.m.name || "(deleted material)")}${fridgeMark(r.m, r.dil)}</td><td>${fmtS(r.dil)}%</td>
+      return `<tr><td><span class="cb"></span></td><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}</td><td>${esc(r.m.name || "(deleted material)")}${fridgeMark(r.m, r.dil)}${r.m.wishlist ? " (to order)" : ""}</td><td>${fmtS(r.dil)}%</td>
         <td class="num">${fmt(r.w)}</td><td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td></tr>`; }).join("")}
     </tbody></table>`;
   };
@@ -3924,8 +3959,8 @@ function renderCompare(f, sub){
   </tbody><tfoot><tr><td>Total</td><td class="num">${fmt(A.tw)} g</td><td class="num">abs ${fmt(A.abs,2)}%</td>
     <td class="num">${fmt(B.tw)} g</td><td class="num">abs ${fmt(B.abs,2)}%</td><td></td></tr></tfoot></table>
   <div class="legend">Differences: <i style="background:var(--hl4)"></i>only in B <i style="background:var(--hl2)"></i>only in A <i style="background:var(--hl3)"></i>changed – sorted by size of change; rel % compares per material (dilutions aggregated)</div>`;
-  $("#cmpA").addEventListener("change", e => { sub.a = e.target.value; render(); });
-  $("#cmpB").addEventListener("change", e => { sub.b = e.target.value; render(); });
+  $("#cmpA").addEventListener("change", e => { sub.a = e.target.value; render(); notePlace(); });
+  $("#cmpB").addEventListener("change", e => { sub.b = e.target.value; render(); notePlace(); });
   $("#btnCmpClose").addEventListener("click", () => { CSORT = null; VIEW.sub = sub.from || {type:"v", idx:f.versions.length-1}; render(); });
   c.querySelectorAll("[data-csort]").forEach(el => el.addEventListener("click", () => {
     const k = el.dataset.csort;
@@ -4144,6 +4179,8 @@ function renderImport(){
   const shared = /^shared from miformulas/i.test(p.source || "");   // a file from another miFormulas: the round-number hint means nothing there
   const twin = DATA.formulas.find(x => normName(x.name) === normName(p.name));
   const pick = p.targetFormula ? DATA.formulas.find(x => normName(x.name) === normName(p.targetFormula)) : twin;
+  // the name of the formula comes first, so that typing in the open list goes to it, as in Move into… (build 260922j)
+  const nextV = x => Math.max(0, ...x.versions.map(v => v.v)) + 1;
   c.innerHTML = `<h2>Import formula – ${esc(p.name || "Imported formula")}</h2>
   <div class="metaLine">${esc(p.category||"Uncategorised")}${p.source?` · ${esc(p.source)}`:""}</div>
   <div class="panelBox"><h3>Check before confirming</h3>
@@ -4151,7 +4188,7 @@ function renderImport(){
       <select id="impTarget" style="min-width:18rem">
         <option value="">– a new formula –</option>
         ${[...DATA.formulas].sort((a,b)=>a.name.localeCompare(b.name)).map(x =>
-          `<option value="${x.id}"${pick && x.id === pick.id ? " selected" : ""}>new version of: ${esc(x.name)} (now v${currentVersion(x)?currentVersion(x).v:0})</option>`).join("")}
+          `<option value="${x.id}"${pick && x.id === pick.id ? " selected" : ""}>${esc(x.name)} – new version v${nextV(x)}</option>`).join("")}
       </select>
       <span class="hint">a new version keeps the notes and the history</span></div>
     ${twin ? `<div class="hint" id="impTwin">You already have a formula called “${esc(twin.name)}”, so a new version is preselected; as a new formula it would arrive as “${esc(twin.name)} (import)”.</div>` : ""}
@@ -4202,7 +4239,9 @@ function applyImport(){
       if (L.solvent) m.isSolvent = true;         // a shared file says which of its lines are solvent
       if (r.newCat) createdCats.push(r.newCat);
       createdIds.push(m.id); made.set(normName(L.material), m); alsoKnownAs(m, made);
-      DATA.orderList.push({id: uid("o-"), materialId: m.id, name: m.name, note: `needed for ${impName}`, price: "", added: today()});
+      invalidateMats();   // the name index has to know the new material before a line on the list can find it
+      if (!orderLink(m, `needed for ${impName}`))
+        DATA.orderList.push({id: uid("o-"), materialId: m.id, name: m.name, note: `needed for ${impName}`, price: "", added: today()});
     }
     lines.push({id: uid("l-"), materialId: m.id, dilutionPct: dil, weightG: w, remark: 1});
   }
@@ -4251,6 +4290,24 @@ function applyImport(){
 
 /* ---------- to order ---------- */
 function snapO(){ const c = structuredClone(DATA.orderList); pushUndo(() => { DATA.orderList = c; }); }
+// The material an order line is about: the one it is linked to, or, for a line added before that material existed (or
+// linked to one that is gone), the one its name finds. Such a line kept saying "new"; Add line and Import formula… then
+// put a second line on the list for the material they made, and Delivered on the first left the second one ordering
+// what had just arrived (build 260922j).
+function orderMat(o){
+  const m = o.materialId && matById(o.materialId);
+  if (m) return m;
+  const c = matsByName(o.name);
+  return c.length === 1 ? c[0] : null;
+}
+// a path that puts m on the list links a line that already names it, instead of adding a second one; the caller has
+// taken the copy of the list that its Undo puts back
+function orderLink(m, note){
+  const o = DATA.orderList.find(x => orderMat(x) === m);
+  if (!o) return false;
+  o.materialId = m.id; if (!o.note && note) o.note = note;
+  return true;
+}
 function shopSearchUrl(name){
   const sites = (DATA.shopSites || SHOP_DEFAULTS).map(s => "site:" + s).join(" OR ");
   return "https://www.google.com/search?q=" + encodeURIComponent(`"${name}" ${sites}`);
@@ -4266,8 +4323,8 @@ function renderOrders(){
     <button class="primary small" id="btnOrdAdd">Add</button>
     <button class="small" id="btnShops" style="margin-left:auto">Edit shop list (${(DATA.shopSites||[]).length})…</button></div>
   ${items.length ? `<div class="tblwrap"><table class="lines ord"><thead><tr><th>Material</th><th class="deskcol">Note</th><th>Amount</th><th class="deskcol">Price €</th><th class="deskcol">Product URL</th><th class="deskcol">Added</th><th></th></tr></thead><tbody>
-    ${items.map((o,i) => `<tr>
-      <td>${o.materialId ? `<a class="matlink" data-mat="${o.materialId}">${esc(o.name)}</a>` : `${esc(o.name)} <span class="badge">new</span>`}</td>
+    ${items.map((o,i) => { const om = orderMat(o); return `<tr>
+      <td>${om ? `<a class="matlink" data-mat="${om.id}">${esc(o.name)}</a>` : `${esc(o.name)}${matsByName(o.name).length ? "" : ' <span class="badge">new</span>'}`}</td>
       <td class="deskcol"><input data-onote="${i}" value="${esc(o.note||"")}" aria-label="Note for ${esc(o.name)}" style="width:10rem"></td>
       <td class="nowrap"><input data-oamt="${i}" value="${o.amount!=null?fmtSIn(o.amount):""}" placeholder="10" aria-label="Amount for ${esc(o.name)}" style="width:3.6rem;text-align:right">
         <select data-ounit="${i}" aria-label="Unit for ${esc(o.name)}"><option${(o.unit||"g")==="g"?" selected":""}>g</option><option${o.unit==="ml"?" selected":""}>ml</option></select></td>
@@ -4277,7 +4334,7 @@ function renderOrders(){
       <td class="hint deskcol">${esc(o.added||"")}</td>
       <td class="nowrap"><button class="small" data-osearch="${i}" title="${shops.length ? `Google search across your ${shops.length} shop(s)` : "No shops in your list yet: this searches the whole web. Edit shop list makes it your own shops."}">${shops.length ? "Search my shops" : "Search the web"}</button>
         <button class="small" data-odeliv="${i}">Delivered…</button>
-        <button class="ghost small" data-odel="${i}" title="Remove">✕</button></td></tr>`).join("")}
+        <button class="ghost small" data-odel="${i}" title="Remove">✕</button></td></tr>`; }).join("")}
   </tbody></table></div>` : `<p class="hint">Nothing to order. Add a material above, or use “Add to order list” on a material page.</p>`}`;
   $("#btnOrdAdd").addEventListener("click", () => {
     const name = $("#ordName").value.trim(); if (!name) return;
@@ -4289,7 +4346,7 @@ function renderOrders(){
     // already on the list, so an alternative name, a ligature or a hit on a supplier or CAS number slipped past and
     // the list carried the same material twice; Delivered then closed one row and left the others ordering it still.
     const zet = (m, eigenNaam) => {
-      if (m ? items.some(o => o.materialId === m.id) : items.some(o => normName(o.name) === normName(name))){
+      if (m ? items.some(o => orderMat(o) === m) : items.some(o => normName(o.name) === normName(name))){
         alert("That material is already on the order list."); return;
       }
       snapO(); items.push({id: uid("o-"), materialId: m ? m.id : null,
@@ -4340,11 +4397,12 @@ function deliveredDialog(idx, chosen){
   const o = DATA.orderList[idx];
   // the folding decides here as well: an accent, a ligature or an alternative name used to leave you with a second,
   // empty material that answered to the name of the first one from then on
-  if (!chosen && !o.materialId){
+  // a line linked to a material that is gone looks the name up as well: it created a second material (build 260922j)
+  if (!chosen && !(o.materialId && matById(o.materialId))){
     const cands = matsByName(o.name);
     if (cands.length > 1){ pickMaterial(asHits(cands), o.name, m2 => deliveredDialog(idx, m2)); return; }
   }
-  const m = chosen || (o.materialId ? matById(o.materialId) : ownFind(o.name));
+  const m = chosen || orderMat(o);
   const st = m ? stockCalc(m) : {tracked: false, qty: null};
   const tracked = st.tracked;
   const dlg = $("#dlg");
@@ -4411,8 +4469,10 @@ function deliveredDialog(idx, chosen){
       if ($("#dvFresh")?.checked) (m.stockEvents ||= []).push({t:"take", date, g: 0, note: "old stock used up"});
       if (g){ const grams = unit === "g" ? g : (m.density ? g * m.density : null);
         (m.stockEvents ||= []).push({t:"buy", date, amount: g, unit, g: grams, note: "delivered (order list)"}); }
-      DATA.orderList.splice(idx, 1);
-      markDirty(); switchTab("M", m.id, null);
+      // every line of this material goes, and you stay on the list: a delivery rarely comes alone, and the page of the
+      // material, on a phone above all, was one step back and one tab away from the next line (build 260922j)
+      DATA.orderList = DATA.orderList.filter((x, j) => j !== idx && orderMat(x) !== m);
+      markDirty(); render();
     } else {
       const cg = costPerGram(null, 100);   // a new material starts at 100 %
       const r = newMaterialFrom(o.name, 100, {costPerGram: cg ? +cg.toFixed(4) : null, inventory: amt, purchaseDate: date,
@@ -4423,8 +4483,8 @@ function deliveredDialog(idx, chosen){
         if (newCat) DATA.materialCategories = DATA.materialCategories.filter(x => x !== newCat);
         if (VIEW.id === nm.id) VIEW.id = null; });
       DATA.materials.sort((a,b) => a.name.localeCompare(b.name)); invalidateMats();
-      DATA.orderList.splice(idx, 1);
-      markDirty(); switchTab("M", nm.id, null);
+      DATA.orderList = DATA.orderList.filter((x, j) => j !== idx && orderMat(x) !== nm);
+      markDirty(); render();
     }
   });
 }
@@ -4455,7 +4515,8 @@ function renderMaterial(m){
   };
   c.innerHTML = `<h2>${pyrIcon(m.pyramid, catColour(m), 20)}${esc(m.name)}</h2>
   <div class="metaLine">${esc(m.cas||"no CAS")} · ${esc(m.category||"")}${m.aliases?` · <span title="Alternative names">also ${esc(m.aliases)}</span>`:""}
-    ${m.wishlist?'<span class="badge" style="background:var(--amber-soft);color:var(--amber-ink)">to order – not yet owned</span>':""}
+    ${m.wishlist?`<span class="badge" style="background:var(--amber-soft);color:var(--amber-ink)">to order – not yet owned</span>${
+      DATA.orderList.some(o => orderMat(o) === m) ? "" : ' <button class="small" id="btnOwned" title="Not on the order list: remove the to-order label">Mark as owned</button>'}`:""}
     ${m.starter?'<span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other material.">starter set</span>':""}
     ${lookupLinks(m)}</div>
   <div class="fieldGrid">
@@ -4551,7 +4612,12 @@ function renderMaterial(m){
       if (opAlias.length && !confirm(`${noem(opAlias)} already answer${opAlias.length === 1 ? "s" : ""} to one of these names.\n\n`
           + `Keep it anyway? Adding a line or importing one under that name then asks which of them you mean, instead of picking one.`)){ render(); return; }
     }
+    // an order line under the old name follows a rename: it kept a name that is nowhere any more, and Search my shops
+    // looked for that (build 260922j); a line under an alternative name keeps it, that is the name you order it by
+    const follow = k === "name" ? DATA.orderList.filter(o => orderMat(o) === m && normName(o.name) === normName(m.name)) : [];
+    const listWas = follow.length ? structuredClone(DATA.orderList) : null;
     snapM(m); m[k] = v; markDirty();
+    if (follow.length){ for (const o of follow){ o.name = v; o.materialId = m.id; } alsoUndo(() => { DATA.orderList = listWas; }); }
     if (k === "category" && v && !DATA.materialCategories.includes(v)){   // a name typed with + New category
       DATA.materialCategories.push(v); DATA.materialCategories.sort((a,b) => a.localeCompare(b));
       alsoUndo(() => { DATA.materialCategories = DATA.materialCategories.filter(x => x !== v); });
@@ -4562,8 +4628,9 @@ function renderMaterial(m){
   }));
   $("#btnNewMatCat")?.addEventListener("click", () => {
     const n = prompt("New category name:"); if (!n || !n.trim()) return;
-    const nm = n.trim(), sel = c.querySelector('[data-f="category"]');
-    if (![...sel.options].some(o => o.value === nm)){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
+    const sel = c.querySelector('[data-f="category"]'), hit = sameCatOpt(sel, n.trim()), nm = hit ? hit.value : n.trim();
+    if (hit && hit.value === sel.value) return;   // the category it already has: nothing changes
+    if (!hit){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
     sel.value = nm; sel.dispatchEvent(new Event("change", {bubbles: true}));   // the field handler stores it and adds the category
   });
   $("#matCatCol")?.addEventListener("change", e => setCatColour(m.category, e.target.value));
@@ -4631,8 +4698,10 @@ function renderMaterial(m){
   c.querySelectorAll("[data-go]").forEach(a => a.addEventListener("click", () => {
     switchTab("F", a.dataset.go, null);
   }));
+  // the label stayed for good once the line was off the list: Delivered was the only way to lose it (build 260922j)
+  $("#btnOwned")?.addEventListener("click", () => { snapM(m); delete m.wishlist; markDirty(); render(); });
   $("#btnToOrder")?.addEventListener("click", () => {
-    if (DATA.orderList.some(o => o.materialId === m.id)){ alert("Already on the order list."); switchTab("T"); return; }
+    if (DATA.orderList.some(o => orderMat(o) === m)){ alert("Already on the order list."); switchTab("T"); return; }
     snapO(); DATA.orderList.push({id: uid("o-"), materialId: m.id, name: m.name, note: "restock", price: "", added: today()});
     markDirty(); switchTab("T");
   });
@@ -4652,12 +4721,12 @@ function renderMaterial(m){
         + (oud ? `\n\nIn ${oud} formula(s) it only sits in an older or frozen version, which cannot be edited. Delete version removes such a version, also a frozen one; or leave the material where it is, since one you do not use costs you nothing.` : ""));
       return;
     }
-    const onOrder = DATA.orderList.filter(o => o.materialId === m.id).length;
+    const ofM = new Set(DATA.orderList.filter(o => orderMat(o) === m)), onOrder = ofM.size;   // before the name index loses it
     if (!confirm(`Delete material “${m.name}”? It is not used in any formula.${onOrder ? `\n\nIts ${onOrder} entry(ies) on the order list will be removed too.` : ""}\n\nUndo (Ctrl+Z) brings it back.`)) return;
     const idx = DATA.materials.findIndex(x => x.id === m.id), copy = m, oc = structuredClone(DATA.orderList);
     pushUndo(() => { DATA.materials.splice(idx, 0, copy); DATA.orderList = oc; invalidateMats(); });
     DATA.materials.splice(idx, 1); invalidateMats();
-    DATA.orderList = DATA.orderList.filter(o => o.materialId !== m.id);
+    DATA.orderList = DATA.orderList.filter(o => !ofM.has(o));
     VIEW.id = null; markDirty(); render();
   });
 }
@@ -4734,8 +4803,8 @@ $("#btnNewMat").addEventListener("click", () => {
   };
   $("#btnNewNmCat")?.addEventListener("click", () => {
     const n = prompt("New category name:"); if (!n || !n.trim()) return;
-    const nm = n.trim(), sel = $("#nmCat");
-    if (![...sel.options].some(o => o.value === nm)){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
+    const sel = $("#nmCat"), hit = sameCatOpt(sel, n.trim()), nm = hit ? hit.value : n.trim();
+    if (!hit){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
     sel.value = nm; $("#nmCatCol").value = catColourHex(nm); $("#nmCatCol").disabled = false;
   });
   $("#nmCat").addEventListener("change", () => { $("#nmCatCol").value = catColourHex($("#nmCat").value); });
@@ -5182,7 +5251,7 @@ function rememberView(){          // where you are, per device; a debounce keeps
   if (!OPENLAST || !DATA) return;
   clearTimeout(VIEWSAVE);
   VIEWSAVE = setTimeout(() => idb.set("lastView", {tab: VIEW.tab, id: VIEW.id,
-    sub: VIEW.sub ? {type: VIEW.sub.type, idx: VIEW.sub.idx} : null, home: HOMEVIEW}), 1000);
+    sub: VIEW.sub ? structuredClone(VIEW.sub) : null, home: HOMEVIEW}), 1000);
 }
 function goPlace(s){              // put the app on the place s describes, as far as it still exists; no render
   const there = !s.id ? true
@@ -5202,10 +5271,14 @@ function applyLastView(){         // Settings "Open where you left off", at star
 
 /* ---------- back and forward: one history entry per place, so the mouse, the browser,
    Alt+Left and the Android back button all work without a line of their own ---------- */
+// The whole view of a formula goes along: a comparison with its two versions, and the bench view. Only the type and the
+// index did, so back to a comparison landed on the table of the latest version, and back to the bench on the table.
+// Switching the bench view on or off is no step of its own, but the step you are on remembers it (build 260922j).
 function navState(){
   return {mf: 1, i: NAVI, tab: VIEW.tab, id: VIEW.id,
-          sub: VIEW.sub ? {type: VIEW.sub.type, idx: VIEW.sub.idx} : null, home: HOMEVIEW, help: HELPVIEW};
+          sub: VIEW.sub ? structuredClone(VIEW.sub) : null, home: HOMEVIEW, help: HELPVIEW};
 }
+function notePlace(){ if (!NAVBACK) try{ history.replaceState(navState(), ""); }catch(e){} }
 function pushPlace(){
   if (NAVBACK) return;            // a popstate put us here, so its entry exists already
   try{

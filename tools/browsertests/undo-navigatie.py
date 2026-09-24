@@ -1,7 +1,11 @@
 """Undo, Redo and where you land (build 260914g): a new category goes back with the action that made
 it, a predilution takes its two categories back, Replace plus a dilution change is one step, Redo
 returns to the place the change was made, Copy from an older version takes that version, and a new
-version keeps the bench arrangement. Needs the local web server on port 8765 (see README)."""
+version keeps the bench arrangement. Build 260922j: Ctrl+Z in a field you have not typed in is the app's undo (B6),
+Redo lands where the change was made (B7), the bench view stores its groups at the first change and works on a version
+without an arrangement (B8, C-a 6), Cancel in Replace keeps Redo (C-a 3), no name of spaces and no empty step from Name
+version (C-a 4, C-a 5), and a predilution keeps the arrangement and takes its colour back on Undo (C-a 1, P2).
+Needs the local web server on port 8765 (see README)."""
 from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/index.html"
@@ -148,9 +152,24 @@ with sync_playwright() as p:
     page.wait_for_timeout(500)
     before = page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-u").versions[0].bench === undefined)()""")
     check("a version without a bench keeps it that way while rendering", before)
+    # bouw 260922j (B8, C-a 6): openen schrijft niets en is geen undo-stap; de eerste handeling bewaart de vijf
+    # groepen, binnen haar eigen undo-stap
+    u0 = page.evaluate("UNDO.length")
     page.click("#btnBenchToggle"); page.wait_for_timeout(700)
-    check("opening the bench view creates the groups",
-          page.evaluate("""(() => (DATA.formulas.find(x => x.id === "f-u").versions[0].bench||{groups:[]}).groups.length)()""") == 5)
+    check(f"opening the bench view shows five groups, writes nothing and takes no undo step ({page.evaluate('UNDO.length') - u0})",
+          page.locator("[data-bgi]").count() == 5
+          and page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-u").versions[0].bench === undefined)()""")
+          and page.evaluate("UNDO.length") == u0)
+    page.locator(".bsel").first.check(); page.select_option("#bMoveSel", "1"); page.wait_for_timeout(700)
+    eerste = page.evaluate("""(() => { const b = DATA.formulas.find(x => x.id === "f-u").versions[0].bench;
+        return b ? b.groups.map(g => g.keys.length).join(",") + "|" + b.byId : null; })()""")
+    check(f"the first move stores the five groups, the line in group 2, in one undo step ({eerste})",
+          eerste == "0,1,0,0,0|true" and page.evaluate("UNDO.length") == u0 + 1)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check("and its Undo takes the whole arrangement back, while the view stays the bench",
+          page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-u").versions[0].bench === undefined)()""")
+          and page.locator("[data-bgi]").count() == 5)
+    page.keyboard.press("Control+y"); page.wait_for_timeout(700)
     page.click("#btnBenchClose"); page.wait_for_timeout(500)
     page.click("#btnNewV"); page.wait_for_timeout(700)
     check("and a new version takes the arrangement along",
@@ -188,7 +207,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(700)
     page.click("#btnBenchToggle"); page.wait_for_timeout(800)
     page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-b").versions[0];
-        v.bench.groups[0].keys = ["l-1"]; markDirty(); render(); }""")   # de regel van 5 g in de eerste groep
+        (typeof benchFor === "function" ? benchFor(v) : v.bench).groups[0].keys = ["l-1"]; markDirty(); render(); }""")   # de regel van 5 g in de eerste groep
     page.wait_for_timeout(600)
     eerst = page.evaluate("""() => { const g = [...document.querySelectorAll("[data-bgi]")][0];
         return [...g.querySelectorAll(".brow")].map(r => r.innerText.replace(/\\s+/g, " ")); }""")
@@ -224,9 +243,9 @@ with sync_playwright() as p:
           {id:"l-r2", materialId:"m-u2", dilutionPct:100, weightG:95, remark:1}]}]});
       buildUsage(); markDirty(); switchTab("F", "f-r", {type:"v", idx:0}); }""")
     page.wait_for_timeout(700)
-    page.click("#btnBenchToggle"); page.wait_for_timeout(800)   # de eerste keer: de app maakt de bench zelf aan
+    page.click("#btnBenchToggle"); page.wait_for_timeout(800)   # sinds 260922j maakt pas de eerste handeling de bench aan
     page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-r").versions[0];
-        v.bench.groups[0].keys = ["l-r1", "l-r2"]; markDirty(); render(); }""")
+        (typeof benchFor === "function" ? benchFor(v) : v.bench).groups[0].keys = ["l-r1", "l-r2"]; markDirty(); render(); }""")
     page.wait_for_timeout(300)
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-r"); snapF(f); f.name = "Reloadtest 2"; markDirty(); render(); }""")
     page.wait_for_timeout(300)
@@ -289,6 +308,146 @@ with sync_playwright() as p:
     page.wait_for_timeout(600)
     check("een bevroren versie heeft geen Batch scaling meer", page.locator("#scaleBox").count() == 0)
     check("en dus ook geen doelgewichtveld", page.locator("#scaleW").count() == 0)
+
+    # ---------- 10. B6 (bouw 260922j): Ctrl+Z in een veld waarin je niets typte, is de undo van de app ----------
+    # Na Add line en na een gewicht zet de app de cursor terug in een veld, en Ctrl+Z ging dan naar dat veld, dat niets
+    # terug te nemen had. Een veld waarin je typt, houdt zijn eigen Ctrl+Z, ook nadat je het typwerk terugnam.
+    page.evaluate("""() => { const ms = DATA.materials.filter(m => !m.isSolvent && m.id !== "m-u1").slice(0, 3);
+        DATA.formulas.push({id:"f-z", name:"Ctrlztest", category:"Uncategorised", created:today(), versions:[
+          {v:1, date:today(), lines: ms.map((m, i) => ({id:"z" + i, materialId:m.id, dilutionPct:(m.dilutions.find(d => d.isBase) || m.dilutions[0]).pct,
+            weightG:1 + i, remark:1}))}]});
+        buildUsage(); markDirty(); switchTab("F", "f-z", {type:"v", idx:0}); }""")
+    page.wait_for_timeout(700)
+    zl = lambda: page.evaluate("""() => DATA.formulas.find(x => x.id === "f-z").versions[0].lines.length""")
+    zw = lambda: page.evaluate("""() => DATA.formulas.find(x => x.id === "f-z").versions[0].lines[0].weightG""")
+    n0 = zl()
+    page.fill("#addMat", "Hedione"); page.keyboard.press("Enter"); page.wait_for_timeout(700)
+    n1 = zl(); foc = page.evaluate("() => document.activeElement.id")
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check(f"Add line, then Ctrl+Z with the cursor back in the box: the line goes ({n0} → {n1} → {zl()}, cursor in {foc})",
+          n1 == n0 + 1 and zl() == n0 and foc == "addMat")
+    page.locator("input.w").first.fill("7"); page.keyboard.press("Enter"); page.wait_for_timeout(600)
+    w1 = zw(); foc = page.evaluate("() => document.activeElement.className")
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check(f"a weight with Enter, then Ctrl+Z in that field: the weight goes back ({w1} → {zw()}, cursor in {foc})",
+          w1 == 7 and zw() == 1 and foc == "w")
+    page.locator("input.w").first.fill("8"); page.keyboard.press("Tab"); page.wait_for_timeout(600)
+    foc = page.evaluate("() => { const a = document.activeElement; return a.className + ':' + a.dataset.i; }")
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check(f"a weight with Tab, then Ctrl+Z in the next weight: the weight goes back ({zw()}, cursor in {foc})",
+          zw() == 1 and foc == "w:1")
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-z"); snapF(f); f.name = "Ctrlztest hernoemd"; markDirty(); render(); }""")
+    page.wait_for_timeout(500)
+    page.locator("input.selCb").first.check(); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check("a ticked box does not hold Ctrl+Z back",
+          page.evaluate("""() => DATA.formulas.find(x => x.id === "f-z").name""") == "Ctrlztest")
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-z"); snapF(f); f.name = "Ctrlztest 2"; markDirty(); render(); }""")
+    page.wait_for_timeout(500)
+    u1 = page.evaluate("UNDO.length")
+    page.locator("input.w").first.click(); page.keyboard.press("End"); page.keyboard.type("5")
+    for _ in range(3):
+        page.keyboard.press("Control+z"); page.wait_for_timeout(250)
+    check(f"typing in a weight and pressing Ctrl+Z three times takes back the typing, never a change of the app ({u1} → {page.evaluate('UNDO.length')})",
+          page.evaluate("UNDO.length") == u1 and zw() == 1
+          and page.evaluate("""() => DATA.formulas.find(x => x.id === "f-z").name""") == "Ctrlztest 2")
+    page.click("#addMat"); page.keyboard.type("Hed")
+    for _ in range(2):
+        page.keyboard.press("Control+z"); page.wait_for_timeout(250)
+    check("and the same in the box under the table", page.evaluate("UNDO.length") == u1)
+    page.click("#content h2"); page.wait_for_timeout(200)
+    page.locator("input.w").first.fill("9"); page.keyboard.press("Enter"); page.wait_for_timeout(600)
+    page.click("#btnUndo"); page.wait_for_timeout(600)
+    page.click("#addMat"); page.keyboard.press("Control+y"); page.wait_for_timeout(700)
+    check(f"Ctrl+Y in a field you have not typed in is the app's redo ({zw()})", zw() == 9)
+
+    # ---------- 11. B7 (bouw 260922j): Redo gaat naar de plek van de wijziging, niet naar waar je Undo drukte ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-z"); snapF(f); f.name = "Redoplek"; markDirty(); render(); }""")
+    page.wait_for_timeout(400)
+    page.evaluate("""() => switchTab("M", DATA.materials[5].id, null)"""); page.wait_for_timeout(500)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    na_undo = page.evaluate("() => [VIEW.tab, VIEW.id]")
+    page.evaluate("""() => switchTab("M", DATA.materials[6].id, null)"""); page.wait_for_timeout(500)
+    page.click("#content h2"); page.keyboard.press("Control+y"); page.wait_for_timeout(700)
+    na_redo = page.evaluate("""() => [VIEW.tab, VIEW.id, DATA.formulas.find(x => x.id === "f-z").name]""")
+    check(f"Undo goes to the formula ({na_undo}), and so does Redo, wherever you press it ({na_redo})",
+          na_undo == ["F", "f-z"] and na_redo == ["F", "f-z", "Redoplek"])
+    page.evaluate("""() => switchTab("M", DATA.materials[6].id, null)"""); page.wait_for_timeout(500)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check("and the Undo that Redo leaves behind goes there as well",
+          page.evaluate("""() => [VIEW.tab, VIEW.id, DATA.formulas.find(x => x.id === "f-z").name]""") == ["F", "f-z", "Ctrlztest 2"])
+
+    # ---------- 12. B8 (bouw 260922j): een versie zonder schikking, bereikt met de bench view open ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-z");
+        f.versions.push({v:2, date:today(), lines: structuredClone(f.versions[0].lines),
+          bench: {groups:[{id:"gz", title:"Kern", keys:["z0"]}], byId:true}});
+        buildUsage(); markDirty(); switchTab("F", "f-z", {type:"v", idx:1, bench:true}); }""")
+    page.wait_for_timeout(700)
+    page.select_option("#verSel", "0"); page.wait_for_timeout(700)
+    fouten = len(errs); u2 = page.evaluate("UNDO.length")
+    groepen = page.locator("[data-bgi]").count()
+    page.locator(".bsel").first.check(); page.select_option("#bMoveSel", "pool"); page.wait_for_timeout(500)
+    check(f"v1 without an arrangement shows five groups ({groepen}), and sending to Unsorted what is there already takes no step",
+          groepen == 5 and page.evaluate("UNDO.length") == u2 and len(errs) == fouten)
+    page.click("#btnAddGroup"); page.wait_for_timeout(600)
+    n = page.evaluate("""() => (DATA.formulas.find(x => x.id === "f-z").versions[0].bench || {groups:[]}).groups.length""")
+    check(f"+ Add group works there, without an error, in one undo step ({n} groups, {errs[fouten:][:1]})",
+          n == 6 and len(errs) == fouten and page.evaluate("UNDO.length") == u2 + 1)
+    if page.locator("#bMoveSel option[value='2']").count():   # op 260922i stond hier geen enkele groep
+        page.locator(".bsel").first.check(); page.select_option("#bMoveSel", "2"); page.wait_for_timeout(600)
+    check("and so does Move ticked to…", len(errs) == fouten
+          and page.evaluate("""() => ((DATA.formulas.find(x => x.id === "f-z").versions[0].bench || {groups: []}).groups[2] || {keys: []}).keys.length""") == 1)
+    page.click("#btnBenchClose"); page.wait_for_timeout(400)
+
+    # ---------- 13. C-a 3 (bouw 260922j): Cancel in ⇄ Replace met het dilutievenster laat Redo en de datum staan ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u"); f.versions[0].lines[0].dilutionPct = 10;
+        switchTab("F", "f-u", {type:"v", idx: f.versions.length - 1}); }""")
+    page.wait_for_timeout(600)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u"); snapF(f); f.versions[0].lines[1].weightG = 90; markDirty(); render(); }""")
+    page.wait_for_timeout(300)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    page.evaluate("""() => { DATA.formulas.find(x => x.id === "f-u").modified = "2020-01-01 00:00"; }""")
+    r0 = page.evaluate("REDO.length")
+    page.click("[data-repl='0']"); page.wait_for_timeout(400)
+    page.fill("#rmNew", "Hedione"); page.click("#dlgOk"); page.wait_for_timeout(500)
+    venster = page.locator("#dlg").is_visible() and "Change dilution" in page.locator("#dlg").inner_text()
+    page.click("#dlgCancel"); page.wait_for_timeout(500)
+    na = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u");
+        return {redo: REDO.length, knopUit: $("#btnRedo").disabled, mod: f.modified, m: (matById(f.versions[0].lines[0].materialId)||{}).name}; }""")
+    check(f"Cancel in the dilution window of ⇄ Replace keeps the Redo step and the date of the formula ({venster}, {r0} → {na})",
+          venster and r0 == 1 and na["redo"] == 1 and not na["knopUit"] and na["mod"] == "2020-01-01 00:00" and na["m"] == "Undo stof")
+    page.click("#content h2"); page.keyboard.press("Control+y"); page.wait_for_timeout(600)
+    check("and that Redo still works",
+          page.evaluate("""() => DATA.formulas.find(x => x.id === "f-u").versions[0].lines[1].weightG""") == 90)
+
+    # ---------- 14. C-a 4 en C-a 5 (bouw 260922j): geen naam van spaties, en Apply zonder wijziging is geen stap ----------
+    page.evaluate("""() => { window.prompt = () => "   "; }""")
+    u3 = page.evaluate("UNDO.length")
+    page.click("#btnRenameF"); page.wait_for_timeout(400)
+    check("Rename refuses a name of spaces alone",
+          page.evaluate("""() => DATA.formulas.find(x => x.id === "f-u").name""") == "Undotest" and page.evaluate("UNDO.length") == u3)
+    page.click("#btnNameV"); page.wait_for_timeout(400); page.click("#dlgOk"); page.wait_for_timeout(400)
+    check(f"Name version with Apply and nothing changed takes no undo step ({u3} → {page.evaluate('UNDO.length')})",
+          page.evaluate("UNDO.length") == u3)
+    page.click("#btnNameV"); page.wait_for_timeout(400); page.fill("#vnName", "met label"); page.click("#dlgOk"); page.wait_for_timeout(400)
+    check("with a change it does",
+          page.evaluate("UNDO.length") == u3 + 1
+          and page.evaluate("""() => DATA.formulas.find(x => x.id === "f-u").versions[0].name""") == "met label")
+
+    # ---------- 15. C-a 1 en P2 (bouw 260922j): Create predilution neemt de schikking mee, en Undo ook de kleur ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-z"), v = f.versions[f.versions.length - 1];
+        v.bench = {groups:[{id:"gk", title:"Kern", keys:[v.lines[1].id, v.lines[2].id]}], byId:true};
+        DATA.materialCategories = DATA.materialCategories.filter(c => c !== "Predils");
+        DATA.formulaCategories = DATA.formulaCategories.filter(c => c !== "Predilutions");
+        delete DATA.categoryColours["Predils"]; markDirty(); switchTab("F", "f-z", {type:"v", idx: f.versions.length - 1}); }""")
+    page.wait_for_timeout(700)
+    page.check('input.selCb[data-i="0"]'); page.click("#btnPredil"); page.wait_for_timeout(500)
+    page.click("#dlgOk"); page.wait_for_timeout(800)
+    pd = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-z"), v = f.versions[f.versions.length - 1];
+        return {versies: f.versions.length, groep: v.bench ? v.bench.groups[0].keys.length : null, kleur: DATA.categoryColours["Predils"] || null}; }""")
+    check(f"the predilution version keeps the arrangement ({pd})", pd["versies"] == 3 and pd["groep"] == 2 and pd["kleur"])
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(700)
+    check("and its Undo takes the colour of Predils back with the category",
+          page.evaluate("""() => !DATA.materialCategories.includes("Predils") && !("Predils" in DATA.categoryColours)"""))
 
     check("no page errors", not errs)
     b.close()

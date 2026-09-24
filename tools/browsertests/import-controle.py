@@ -106,6 +106,10 @@ with sync_playwright() as p:
     page.set_input_files("#impFile", zelfde); page.wait_for_timeout(900)
     check("de gelijknamige formule staat voorgekozen",
           page.evaluate("() => document.querySelector('#impTarget').value") != "")
+    # P1 (bouw 260922j): de naam van de formule staat vooraan, zodat typen in de open lijst ernaartoe springt
+    opt = page.evaluate("() => { const s = document.querySelector('#impTarget'); return s.options[s.selectedIndex].textContent; }")
+    check(f"de keuze begint met de naam van de formule en zegt welke versie ze wordt ({opt!r})",
+          opt.startswith(bestaand) and " – new version v" in opt)
     page.select_option("#impTarget", "")   # toch als nieuwe formule
     page.wait_for_timeout(200)
     page.click("#btnImpOk"); page.wait_for_timeout(900)

@@ -77,6 +77,12 @@ with sync_playwright() as p:
     check("the row shows that it has a description", "description" in page.text_content("#exRows"))
     page.fill("#exQ", "zzzgeenenkele"); page.wait_for_timeout(300)
     check("a search without a match says so", "Nothing in your inventory matches" in page.text_content("#exRows"))
+    # C-b 19 (bouw 260922j): the search folds like the one in Materials, so "vertofix coeur" finds Vertofix cœur
+    gevonden = {}
+    for q in ["Vertofix cœur", "vertofix coeur", "COEUR"]:
+        page.fill("#exQ", q); page.wait_for_timeout(250)
+        gevonden[q] = page.locator("#exRows input[data-i]").count()
+    check(f"the search finds a name with or without its accent or ligature ({gevonden})", all(v == 1 for v in gevonden.values()))
     page.fill("#exQ", ""); page.wait_for_timeout(300)
 
     # shift-click unticks a range and ticks it back

@@ -127,6 +127,18 @@ with sync_playwright() as p:
     page.wait_for_timeout(600)
     check(f"de tweede formule met hetzelfde id is bereikbaar ({errs[:1]})",
           page.locator("#content h2").count() == 1 and not errs)
+    # C-a 8 (bouw 260922j): twee regels met één id in één versie. De bench view en haar blad toonden er één van;
+    # migrate geeft de tweede een eigen id, zodat ze in Unsorted staat, terwijl de eerste in haar groep blijft.
+    tweeling = {"formulas": [{"id": "f-tw", "name": "Tweeling", "versions": [{"v": 1,
+                    "lines": [{"id": "l-tw", "materialId": "m-tw", "weightG": 1}, {"id": "l-tw", "materialId": "m-tw", "weightG": 2}],
+                    "bench": {"groups": [{"id": "g1", "title": "Eerst", "keys": ["l-tw"]}], "byId": True}}]}],
+                "materials": [{"id": "m-tw", "name": "Tweelingstof", "dilutions": [{"pct": 100, "isBase": True}]}]}
+    page.evaluate("(t) => { DATA = migrate(JSON.parse(t)); boot(); switchTab('F', 'f-tw', {type:'v', idx:0, bench:true}); }", json.dumps(tweeling))
+    page.wait_for_timeout(800)
+    tw = page.evaluate("""() => ({ids: DATA.formulas[0].versions[0].lines.map(l => l.id), rijen: document.querySelectorAll(".brow").length,
+        groep: document.querySelectorAll("[data-bgi] .brow").length})""")
+    check(f"C-a 8: twee regels met één id krijgen er elk een, en de bench view toont ze allebei ({tw})",
+          len(set(tw["ids"])) == 2 and tw["ids"][0] == "l-tw" and tw["rijen"] == 2 and tw["groep"] == 1)
     # ---------- 6b. bouw 260918a: een bestand met regels die geen regel zijn ----------
     rommel = {"formulas": [{"id": "f-1", "name": "Goed", "versions": [{"v": 1, "lines": []}]},
                            None, 42, "een formule als tekst",

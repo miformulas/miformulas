@@ -1,5 +1,6 @@
 """Move into…: an imported (flat) formula becomes a version of another formula.
-Uses the starter set; two formulas are marked as imported the way the Formulair importer does.
+Uses the starter set; two formulas are marked as imported the way the Formulair importer does. Since 260922j Move
+together ticks a formula only when its number comes straight after the name (B10).
 Needs the local web server on port 8765 (see README)."""
 from playwright.sync_api import sync_playwright
 
@@ -234,6 +235,24 @@ with sync_playwright() as p:
         return {versies: t.versions.length, frozen: !!nv.frozen, velden: document.querySelectorAll("input.w").length}; }""")
     check(f"een bevroren versie die geen import is blijft bevroren ({r})",
           r["versies"] == 2 and r["frozen"] is True and r["velden"] == 0)
+
+    # ---------- B10 (bouw 260922j): Move together vinkt alleen aan wat het nummer meteen na de naam draagt ----------
+    # "Rose de Mai 68" naast "Rose 1", "Rose 2" en "Rose 3" stond aangevinkt als versie 68 van Rose: een basis uit een
+    # Formulair-verzameling schoof zo mee in de groepering. "Rose v4 zacht" hoort er wel bij, zoals "Aura v05 20%".
+    page.evaluate("""() => { const m = DATA.materials[0];
+        const mk = (id, n) => ({id, name: n, category: "Uncategorised", created: today(), frozenImport: false,
+          versions: [{v: 1, date: today(), lines: [{id: id + "l", materialId: m.id, dilutionPct: 100, weightG: 1, remark: 1}]}]});
+        DATA.formulas.find(x => x.name === "Rose de Mai 68").versions.length = 1;
+        DATA.formulas.push(mk("f-r1", "Rose 1"), mk("f-r2", "Rose 2"), mk("f-r3", "Rose 3"), mk("f-r4", "Rose v4 zacht"));
+        buildUsage(); switchTab("F", "f-r2", {type: "v", idx: 0}); }""")
+    page.wait_for_timeout(600)
+    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked])")
+    check(f"Rose 3 en Rose v4 zacht staan aangevinkt, Rose de Mai 68 niet ({rows})",
+          sorted(r[0] for r in rows if r[1]) == ["Rose 3", "Rose v4 zacht"] and not any("Rose de Mai" in r[0] for r in rows))
+    check("maar die staat in de zoeklijst eronder, om met de hand toe te voegen",
+          page.evaluate("[...document.querySelectorAll('#mvAddList option')].some(o => o.value === 'Rose de Mai 68')"))
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
 
     check("no page errors", not errs)
     b.close()

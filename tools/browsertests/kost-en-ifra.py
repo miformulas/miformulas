@@ -187,6 +187,19 @@ with sync_playwright() as p:
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
       f.versions[0].lines = f.versions[0].lines.filter(l => l.id !== "l-weg" && l.id !== "l-weg2"); markDirty(); render(); }""")
     page.wait_for_timeout(400)
+    # bouw 260922j (C-a 13): het bench-blad en de bench view zetten "(to order)" achter een materiaal dat je nog niet
+    # hebt, zoals het weegblad; wie vanuit de bench weegt, miste die waarschuwing
+    bestel = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k"), v = f.versions[0], K = calc(v.lines);
+        const m = matById(v.lines[0].materialId); m.wishlist = true;
+        const oud = window.print; window.print = () => {};
+        const weeg = sheetHtml(f, v, v.lines).includes("(to order)");
+        benchPrint(f, v, v.lines, K); const bank = $("#printArea").innerHTML.includes("(to order)");
+        window.print = oud; $("#printArea").innerHTML = "";
+        switchTab("F", "f-k", {type:"v", idx:0, bench:true});
+        const zicht = [...document.querySelectorAll(".brow .bname")].some(x => x.textContent.includes("(to order)"));
+        delete m.wishlist; VIEW.sub = {type:"v", idx:0}; render();
+        return {weeg, bank, zicht}; }""")
+    check(f"260922j: weegblad, bench-blad en bench view zeggen (to order) ({bestel})", all(bestel.values()))
 
     # ---------- bouw 260922i (B1): precies op de limiet is binnen de limiet ----------
     # 0,45 g in 100 g gaf 0.45000000000000007 en "⚠ 1 over limit", met een rode rij "0.450 · 0.450 · 100%".

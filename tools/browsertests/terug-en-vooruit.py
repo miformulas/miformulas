@@ -1,7 +1,8 @@
 """Terug en vooruit door de geschiedenis van de browser (bouw 260915m): elke plaats is een stap, zodat de
 zijknoppen van de muis, de browserknoppen, Alt+Links en de Android-terugknop werken. Playwright kan de
 zijknoppen van een muis niet sturen (alleen links, rechts en midden); go_back() en go_forward() doen wat die
-knoppen in de browser doen, dus dat is wat hier getest wordt.
+knoppen in de browser doen, dus dat is wat hier getest wordt. Sinds 260922j neemt een stap ook de vergelijking en de
+bench view mee (C-a 7).
 Vereist de lokale webserver op poort 8765, zie README."""
 from playwright.sync_api import sync_playwright
 
@@ -84,6 +85,33 @@ with sync_playwright() as b0:
     page.go_back(); page.wait_for_timeout(800)
     nu = page.evaluate("document.querySelector('#content').scrollTop")
     check(f"terug naar de formule begint bovenaan ({nu}, je stond op {diep})", nu == 0)
+
+    # bouw 260922j (C-a 7): terug naar een vergelijking of naar de bench view landt daar weer, niet op de tabel
+    # van de laatste versie; de stap onthoudt ook wat je er nadien koos (B in Compare, de bench aan of uit)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.length === 1 && !x.frozenImport);
+        while (f.versions.length < 3) f.versions.push({v: f.versions.length + 1, date: today(), lines: f.versions[0].lines.map(l => ({...l}))});
+        buildUsage(); switchTab("F", f.id, {type: "v", idx: 1}); }""")
+    page.wait_for_timeout(700)
+    page.click("#btnCmp"); page.wait_for_timeout(600)
+    page.select_option("#cmpB", "v2"); page.wait_for_timeout(500)
+    voor = page.evaluate("() => JSON.stringify(VIEW.sub)")
+    page.evaluate("id => switchTab('M', id, null)", mid); page.wait_for_timeout(600)
+    page.go_back(); page.wait_for_timeout(800)
+    na = page.evaluate("() => ({sub: VIEW.sub, cmp: !!document.querySelector('#btnCmpClose')})")
+    check(f"terug naar een vergelijking geeft die vergelijking ({voor} → {na})",
+          na["cmp"] and (na["sub"] or {}).get("type") == "cmp" and (na["sub"] or {}).get("b") == "v2")
+    if page.locator("#btnCmpClose").count():
+        page.click("#btnCmpClose"); page.wait_for_timeout(600)
+    check(f"en Close compare brengt je terug waar je ze opende ({plek(page)})", plek(page)["sub"] == 1)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(600)
+    page.evaluate("id => switchTab('M', id, null)", mid); page.wait_for_timeout(600)
+    page.go_back(); page.wait_for_timeout(800)
+    na = page.evaluate("() => ({sub: VIEW.sub, bench: !!document.querySelector('.benchArea')})")
+    check(f"terug naar de bench view geeft de bench view ({na})",
+          na["bench"] and (na["sub"] or {}).get("idx") == 1 and (na["sub"] or {}).get("bench") is True)
+    if page.locator("#btnBenchClose").count():
+        page.click("#btnBenchClose"); page.wait_for_timeout(500)
+    check(f"zonder paginafout ({errs[:2]})", not errs)
 
     # een herlaadbeurt volgt de instelling "Open where you left off"
     page.evaluate("id => switchTab('M', id, null)", mid); page.wait_for_timeout(700)

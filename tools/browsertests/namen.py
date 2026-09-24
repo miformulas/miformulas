@@ -1,7 +1,10 @@
 """Names and the library in every path that creates a material (build 260914e): Add line, a formula
 import and Delivered bring the facts of the library along, a category is not duplicated by its
 capitals, an alternative name you already own is flagged, and renaming cannot make two things with
-the same name. Needs the local web server on port 8765 (see README)."""
+the same name. Build 260922j: an order line added before its material belongs to it (B11, C-b 18), Delivered closes
+every line of that material and stays on the list (C-b 20), a line under the old name follows a rename (C-b 16), Mark as
+owned (C-b 17), and + New category picks the category you have in other capitals (C-b 14).
+Needs the local web server on port 8765 (see README)."""
 import json
 from playwright.sync_api import sync_playwright
 
@@ -542,6 +545,131 @@ with sync_playwright() as p:
         page.click("#dlgOk"); page.wait_for_timeout(700)
     lijst2 = page.evaluate("(DATA.orderList||[]).map(o => o.name)")
     check(f"ook niet via de bredere zoekopdracht op de leverancier ({lijst2})", len(lijst2) == 1)
+
+    # ---------- B11 (bouw 260922j): een bestelregel van vóór het materiaal hoort bij dat materiaal ----------
+    # Bestellen vóór je het materiaal aanmaakt is de gewone volgorde. Add line en Import formula… zetten dan een
+    # tweede regel met id, de eerste bleef "new", en Delivered op de eerste liet de tweede bestellen wat geleverd was.
+    lijstjs = """() => DATA.orderList.map(o => [o.name, o.materialId ? (matById(o.materialId) || {}).name || "?" : null, o.note || ""])"""
+    page.evaluate("""() => { DATA.orderList = []; DATA.formulas.push({id:"f-b11", name:"Besteltest", category:"Uncategorised",
+        created:today(), versions:[{v:1, date:today(), lines:[]}]}); buildUsage(); markDirty();
+        VIEW = {tab:"T", id:null, sub:null}; HOMEVIEW = false; setTabs(); render(); }""")
+    page.wait_for_timeout(500)
+    page.fill("#ordName", "Voorbesteld Spul"); page.fill("#ordNote", "voor proef"); page.click("#btnOrdAdd"); page.wait_for_timeout(600)
+    check("een naam die je nog niet hebt, komt op de lijst als new",
+          page.evaluate(lijstjs) == [["Voorbesteld Spul", None, "voor proef"]]
+          and "new" in page.text_content("#content table.ord tbody"))
+    page.evaluate("""() => switchTab("F", "f-b11", {type:"v", idx:0})"""); page.wait_for_timeout(500)
+    page.fill("#addMat", "Voorbesteld Spul"); page.click("#btnAddLine"); page.wait_for_timeout(800)
+    lijst = page.evaluate(lijstjs)
+    check(f"Add line maakt het materiaal en koppelt die regel, zonder een tweede ({lijst})",
+          lijst == [["Voorbesteld Spul", "Voorbesteld Spul", "voor proef"]])
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    terug = page.evaluate("""() => ({m: DATA.materials.some(x => x.name === "Voorbesteld Spul"),
+        o: DATA.orderList.map(x => [x.name, x.materialId || null])})""")
+    check(f"en één Undo zet materiaal en regel terug zoals ze waren ({terug})",
+          not terug["m"] and terug["o"] == [["Voorbesteld Spul", None]])
+    imp = {"type": "miformulas-import", "name": "Importbesteltest", "lines": [{"material": "Voorbesteld Spul", "weightG": 2}]}
+    page.evaluate("""pkg => { IMPORTP = pkg; VIEW = {tab:"F", id:null, sub:null}; HOMEVIEW = false; render(); }""", imp)
+    page.wait_for_timeout(600); page.click("#btnImpOk"); page.wait_for_timeout(800)
+    lijst = page.evaluate(lijstjs)
+    check(f"Import formula… doet hetzelfde ({lijst})", lijst == [["Voorbesteld Spul", "Voorbesteld Spul", "voor proef"]])
+    page.evaluate("() => switchTab('T')"); page.wait_for_timeout(500)
+    rij = page.evaluate("""() => { const td = document.querySelector("#content table.ord tbody td");
+        return {link: !!td.querySelector("a.matlink"), nieuw: /\\bnew\\b/.test(td.textContent)}; }""")
+    check(f"de regel toont geen new meer en opent het materiaal ({rij})", rij["link"] and not rij["nieuw"])
+    page.evaluate("""() => { DATA.orderList = [{id:"o-r", materialId:null, name:"voorbesteld spul", added:today()}];
+        switchTab("M", DATA.materials.find(x => x.name === "Voorbesteld Spul").id, null); }""")
+    page.wait_for_timeout(500)
+    n4 = len(msgs)
+    page.click("#btnToOrder"); page.wait_for_timeout(500)
+    check(f"Add to order list ziet een losse regel onder een andere schrijfwijze ({msgs[n4:][:1]})",
+          page.evaluate("DATA.orderList.length") == 1 and any("Already on the order list" in m for m in msgs[n4:]))
+    # twee regels voor één stof (oude data): Delivered sluit ze allebei, en je blijft op To order (C-b 20)
+    page.evaluate("""() => { const m = DATA.materials.find(x => x.name === "Voorbesteld Spul");
+        DATA.orderList = [{id:"o-a", materialId:null, name:"voorbesteld spul", added:today()},
+                          {id:"o-b", materialId:m.id, name:m.name, note:"needed for X", added:today()},
+                          {id:"o-c", materialId:null, name:"Nog Iets Anders", added:today()}];
+        switchTab("T"); }""")
+    page.wait_for_timeout(500)
+    page.click("[data-odeliv='0']"); page.wait_for_timeout(500); page.click("#dlgOk"); page.wait_for_timeout(700)
+    na = page.evaluate("""() => ({lijst: DATA.orderList.map(o => o.name), tab: VIEW.tab,
+        wish: !!DATA.materials.find(x => x.name === "Voorbesteld Spul").wishlist})""")
+    check(f"Delivered sluit elke regel van dat materiaal, en je blijft op To order ({na})",
+          na["lijst"] == ["Nog Iets Anders"] and na["tab"] == "T" and not na["wish"])
+
+    # ---------- C-b 18 (bouw 260922j): een regel die naar een verdwenen materiaal wijst, zoekt op zijn naam ----------
+    page.evaluate("""() => { DATA.orderList = [{id:"o-g", materialId:"m-weg", name:"Voorbesteld Spul", added:today()}]; switchTab("T"); }""")
+    page.wait_for_timeout(500)
+    n0m = page.evaluate("DATA.materials.length")
+    page.click("[data-odeliv='0']"); page.wait_for_timeout(500)
+    hint = page.evaluate("() => document.querySelector('#dlg .hint').textContent")
+    page.click("#dlgOk"); page.wait_for_timeout(700)
+    check(f"een regel naar een verdwenen materiaal werkt het materiaal met die naam bij ({hint!r})",
+          "Updates" in hint and page.evaluate("DATA.materials.length") == n0m)
+
+    # ---------- C-b 16 (bouw 260922j): een bestelregel onder de oude naam volgt een hernoeming ----------
+    page.evaluate("""() => { const a = DATA.materials.find(x => x.name === "Voorbesteld Spul");
+        const h = {id:"m-hs", name:"Hedi Stof", aliases:"Hedi Test", category:"Test", pyramid:3, isSolvent:false, dilutions:[{pct:100,isBase:true}]};
+        DATA.materials.push(h); invalidateMats();
+        DATA.orderList = [{id:"o-1", materialId:a.id, name:"Voorbesteld Spul", added:today()},
+                          {id:"o-2", materialId:h.id, name:"Hedi Test", added:today()}];
+        switchTab("M", a.id, null); }""")
+    page.wait_for_timeout(500)
+    page.fill("[data-f='name']", "Voorbesteld Spul Nieuw"); page.locator("[data-f='name']").press("Tab"); page.wait_for_timeout(600)
+    page.evaluate("""() => switchTab("M", "m-hs", null)"""); page.wait_for_timeout(500)
+    page.fill("[data-f='name']", "Hedi Stof Proef"); page.locator("[data-f='name']").press("Tab"); page.wait_for_timeout(600)
+    regels = page.evaluate("() => DATA.orderList.map(o => o.name)")
+    check(f"een regel onder de oude naam volgt, een regel onder een alternatieve naam niet ({regels})",
+          regels == ["Voorbesteld Spul Nieuw", "Hedi Test"])
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check("en Undo zet de naam op de regel mee terug",
+          page.evaluate("() => DATA.orderList.map(o => o.name)") == ["Voorbesteld Spul", "Hedi Test"]
+          and page.evaluate("() => DATA.materials.some(x => x.name === 'Voorbesteld Spul') && DATA.materials.some(x => x.name === 'Hedi Stof')"))
+
+    # ---------- C-b 17 (bouw 260922j): Mark as owned, voor een label "to order" zonder regel op de lijst ----------
+    page.evaluate("""() => { const a = DATA.materials.find(x => x.name === "Voorbesteld Spul"); a.wishlist = true;
+        DATA.orderList = [{id:"o-1", materialId:a.id, name:a.name, added:today()}]; switchTab("M", a.id, null); }""")
+    page.wait_for_timeout(500)
+    check("zolang het materiaal op de bestellijst staat, is er geen Mark as owned", page.locator("#btnOwned").count() == 0)
+    page.evaluate("""() => { DATA.orderList = []; render(); }"""); page.wait_for_timeout(400)
+    check("zonder regel op de lijst wel", page.locator("#btnOwned").count() == 1)
+    if page.locator("#btnOwned").count():   # op 260922i bestond de knop niet
+        page.click("#btnOwned"); page.wait_for_timeout(500)
+    check("en die haalt het label weg",
+          not page.evaluate("() => !!DATA.materials.find(x => x.name === 'Voorbesteld Spul').wishlist")
+          and page.locator("#btnOwned").count() == 0)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    check("met Undo", page.evaluate("() => !!DATA.materials.find(x => x.name === 'Voorbesteld Spul').wishlist"))
+
+    # Delete material neemt ook een losse regel mee die zijn naam draagt
+    page.evaluate("""() => { DATA.materials.push({id:"m-weg1", name:"Wegstof", category:"Test", pyramid:3, isSolvent:false,
+        dilutions:[{pct:100,isBase:true}]}); invalidateMats(); buildUsage();
+        DATA.orderList = [{id:"o-w", materialId:null, name:"wegstof", added:today()}]; switchTab("M", "m-weg1", null); }""")
+    page.wait_for_timeout(500)
+    n5 = len(msgs)
+    page.click("#btnDelMat"); page.wait_for_timeout(600)
+    check(f"Delete material noemt en wist ook een regel onder een andere schrijfwijze ({msgs[n5:][:1]})",
+          any("1 entry(ies) on the order list" in m for m in msgs[n5:]) and page.evaluate("DATA.orderList.length") == 0)
+
+    # ---------- C-b 14 (bouw 260922j): + New category kiest de categorie die je in andere hoofdletters hebt ----------
+    page.evaluate("""() => { window.prompt = () => "musks"; switchTab("M", "m-b2a", null); }"""); page.wait_for_timeout(500)
+    page.click("#btnNewMatCat"); page.wait_for_timeout(600)
+    cats = page.evaluate("""() => [DATA.materials.find(x => x.id === "m-b2a").category, DATA.materialCategories.filter(c => c.toLowerCase() === "musks")]""")
+    check(f"op de materiaalpagina ({cats})", cats == ["Musks", ["Musks"]])
+    page.evaluate("""() => { window.prompt = () => "UNCATEGORISED"; }""")
+    page.click("#btnNew"); page.wait_for_timeout(400); page.click("#btnNewCat"); page.wait_for_timeout(300)
+    kies = page.evaluate("""() => { const s = document.querySelector("#catSel");
+        return [s.value, [...s.options].filter(o => o.value.toLowerCase() === "uncategorised").length]; }""")
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    check(f"en in het venster van een nieuwe formule ({kies})", kies == ["Uncategorised", 1])
+    page.click("#btnNewMat"); page.wait_for_timeout(400)
+    page.evaluate("""() => { window.prompt = () => "MUSKS"; }""")
+    page.click("#btnNewNmCat"); page.wait_for_timeout(300)
+    kies2 = page.evaluate("""() => { const s = document.querySelector("#nmCat");
+        return [s.value, [...s.options].filter(o => o.value.toLowerCase() === "musks").length]; }""")
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    check(f"en in het venster van een nieuw materiaal ({kies2})", kies2 == ["Musks", 1])
 
     check("no page errors", not errs)
     b.close()
