@@ -18,9 +18,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>miFormulas · import from Formulair</title>
+<script>/* the theme chosen in the app (◐, ●, ○ in its header): the app keeps a copy of that choice here (build 260922l) */
+try{ const t = localStorage.getItem("miformulas-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; }catch(e){}</script>
 <style>
-:root{--ground:#FBFCFD;--surface:#FFFFFF;--panel:#EDF1F5;--ink:#212A33;--muted:#6C7A88;--line:#DCE3EA;--accent:#A2277E;--accent-ink:#7E1B62;--accent-soft:#F9E3F1;--amber:#DD8500;--amber-soft:#FFEFD2;--danger:#C42F1F;--ok:#2E7D4F;--ok-soft:#E3F3E9}
-@media (prefers-color-scheme: dark){:root{--ground:#14101A;--surface:#1E1826;--panel:#2A2233;--ink:#EDE6F0;--muted:#A597AE;--line:#453050;--accent:#E667B0;--accent-ink:#F08CC5;--accent-soft:#3A1F38;--amber:#FFB454;--amber-soft:#3B2A12;--ok:#7ED39E;--ok-soft:#1E3A2A}}
+:root{--ground:#FBFCFD;--surface:#FFFFFF;--panel:#EDF1F5;--ink:#212A33;--muted:#5A6773;--line:#DCE3EA;--accent:#A2277E;--accent-ink:#7E1B62;--accent-soft:#F9E3F1;--amber:#DD8500;--amber-soft:#FFEFD2;--danger:#C42F1F;--ok:#2E7D4F;--ok-soft:#E3F3E9;--btn-grad:linear-gradient(115deg,#A2277E,#AE4F0C)}
+/* the colours of the app, in both themes (build 260922l): the grey here was 4,28:1, and in the dark the link 2,0:1 and the button 3,0:1 */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--ground:#1C1122;--surface:#2A1833;--panel:#241430;--ink:#F2E6F2;--muted:#B292BC;--line:#453050;--accent:#E667B0;--accent-ink:#F08CC5;--accent-soft:#3A1F38;--amber:#FFB454;--amber-soft:#3B2A12;--danger:#F08A75;--ok:#7ED39E;--ok-soft:#1E3A2A;--btn-grad:linear-gradient(115deg,#C0388F,#B65611)}}
+:root[data-theme="dark"]{color-scheme:dark;--ground:#1C1122;--surface:#2A1833;--panel:#241430;--ink:#F2E6F2;--muted:#B292BC;--line:#453050;--accent:#E667B0;--accent-ink:#F08CC5;--accent-soft:#3A1F38;--amber:#FFB454;--amber-soft:#3B2A12;--danger:#F08A75;--ok:#7ED39E;--ok-soft:#1E3A2A;--btn-grad:linear-gradient(115deg,#C0388F,#B65611)}
+a{color:var(--accent-ink)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif}
 main{max-width:46rem;margin:0 auto;padding:2rem 1.2rem 4rem}
@@ -32,7 +37,7 @@ code{background:var(--panel);padding:.05rem .35rem;border-radius:4px;font-size:.
 .drop{margin:1rem 0;padding:1.6rem;border:2px dashed var(--line);border-radius:10px;text-align:center;background:var(--surface);cursor:pointer}
 .drop.over{border-color:var(--accent);background:var(--accent-soft)}
 button{font:inherit;padding:.45rem .9rem;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer}
-button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.primary{background:var(--btn-grad);border-color:transparent;color:#fff}
 a.btn{float:right;font:inherit;font-size:.9rem;padding:.35rem .8rem;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-decoration:none}
 button:disabled{opacity:.5;cursor:default}
 .box{border:1px solid var(--line);border-radius:8px;padding:.9rem 1.1rem;background:var(--surface);margin:.8rem 0}

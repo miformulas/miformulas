@@ -60,6 +60,7 @@ globalThis.alert = () => {};
 globalThis.prompt = () => null;
 globalThis.confirm = () => false;
 globalThis.structuredClone = globalThis.structuredClone || (x => JSON.parse(JSON.stringify(x)));
+globalThis.MutationObserver = globalThis.MutationObserver || class { observe() {} disconnect() {} };   // the app names its dialogs with one (260922l)
 
 /* ---------- 4. uitvoeren ---------- */
 const sandbox = { calc: null, migrate: null, matById: null, buildUsage: null };

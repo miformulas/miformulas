@@ -19,9 +19,11 @@ def lum(c):
         x /= 255
         return x/12.92 if x <= 0.03928 else ((x+0.055)/1.055) ** 2.4
     return 0.2126*f(v[0]) + 0.7152*f(v[1]) + 0.0722*f(v[2])
+class Ratio(float):   # compared exactly, shown with two decimals: rounding first called 4,495:1 "4,5" (C-e 35 of 22/09, build 260922l)
+    def __format__(self, spec): return format(round(float(self), 2), spec)
 def ratio(a, b):
     la, lb = lum(a), lum(b)
-    return round((max(la, lb) + 0.05) / (min(la, lb) + 0.05), 2)
+    return Ratio((max(la, lb) + 0.05) / (min(la, lb) + 0.05))
 
 with sync_playwright() as p:
     b = p.chromium.launch()
@@ -149,8 +151,8 @@ with sync_playwright() as p:
       const g = n => cs.getPropertyValue(n).trim();
       return {muted: g("--muted"), surface: g("--surface"), ground: g("--ground"),
               panel: g("--panel"), soft: g("--accent-soft"), amber: g("--amber-soft"),
-              frozen: g("--frozen-soft"), danger: g("--danger-soft")}; }""")
-    for vlak in ("surface", "ground", "panel", "soft", "amber", "frozen", "danger"):
+              frozen: g("--frozen-soft"), danger: g("--danger-soft"), bench: g("--bench"), bench2: g("--bench2")}; }""")
+    for vlak in ("surface", "ground", "panel", "soft", "amber", "frozen", "danger", "bench", "bench2"):   # the bench too, since 260922l
         r = ratio(kleuren["muted"], kleuren[vlak])
         check(f"licht thema: --muted haalt AA op --{vlak} ({r}:1)", r >= 4.5)
 
@@ -239,8 +241,9 @@ with sync_playwright() as p:
         wr.scrollLeft = 9999; const kopNa = document.querySelector("#content h2").getBoundingClientRect().left;
         wr.scrollLeft = voor;
         return {tabelSchuift: na, paneelSchuift: c.scrollWidth - c.clientWidth, kop, kopNa}; }""")
-    check(f"1280 px: de tabel schuift in haar eigen wrapper, niet het paneel ({br})",
-          br["tabelSchuift"] > 0 and br["paneelSchuift"] == 0 and br["kop"] == br["kopNa"])
+    # tot 260922k schoof de tabel op 1280 px in haar eigen wrapper; sinds de knoppen onder elkaar mogen (C-e 34) past ze
+    check(f"1280 px: de tabel past, en het paneel schuift niet ({br})",
+          br["tabelSchuift"] == 0 and br["paneelSchuift"] == 0 and br["kop"] == br["kopNa"])
 
     # de sleepgreep van een bench-regel is zichtbaar zonder hover (staart 20)
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 2);

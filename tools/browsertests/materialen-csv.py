@@ -200,7 +200,7 @@ with sync_playwright() as pw:
     check(f"de teller belooft er drie, want de aliasrij landt op de stof die hier gemaakt wordt ({tel})",
           "3 material(s) will be created" in tel)
     check(f"en zegt hoeveel namen de bibliotheek kent ({tel})", "knows 2 of them" in tel)
-    check("de Welcome-pagina achter het venster is bijgewerkt", "Import/Export" in page.text_content("#content .panelBox:last-of-type"))
+    check("de Welcome-pagina achter het venster is bijgewerkt", "Import & export" in page.text_content("#content .panelBox:last-of-type"))
     msgs3.clear(); page.click("#dlgOk"); page.wait_for_timeout(1000)
     iso = mat(page, "Iso E Super"); hed = mat(page, "Hedione"); mdj = mat(page, "Methyl dihydrojasmonate")
     check(f"de bibliotheek vult aan wat het blad niet had ({iso['cas']}, {iso['cat']}, {iso['pyr']})", iso["cas"] == "54464-57-2" and iso["cat"] == "Woody" and iso["pyr"] == 4)
