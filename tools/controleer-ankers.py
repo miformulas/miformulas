@@ -20,7 +20,9 @@ C. The bare mentions. Files that name a chapter without linking to it (server/wo
 
 D. The numbers the documentation copies out of the code. The build stamp in "This manual describes build
    ..." and the Worker's VERSION in `{"worker":N}` are written by hand into the texts, and both have
-   already travelled wrong into a release. Every mention has to match what the code says.
+   already travelled wrong into a release. Every mention has to match what the code says. So does the
+   number of fetch( calls that section 3 counts for whoever wants to check what the app does on the
+   network: build 260922g added one and the sentence stayed at six.
 
 Run it after every renumbering of the manual and before a release. Exit code 1 when A, B or D find
 something; pass C never fails the run.
@@ -200,6 +202,31 @@ if wv:
     vergelijk(wv, r'"worker":\s*(\d+)', "het versienummer van de Worker",
               ["docs/manual.md", "docs/manual.html", "index.html", "server/worker.js", "README.md",
                "docs/ai-prompts.md", "docs/ai-prompts.html"])
+
+# §3 telt de fetch( van de code in woorden ("There are seven in the code", "the eighth hit is this sentence"): de
+# handleiding zit zelf in index.html, dus die ene treffer telt er één bij
+TAL = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"]
+RANG = ["zeroth", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
+        "eleventh", "twelfth", "thirteenth"]
+nf = zonder_handleiding("index.html", lees("index.html") or "").count("fetch(")
+if not nf:
+    fouten.append("index.html: geen enkele fetch( gevonden, dus niets om §3 tegen te houden")
+else:
+    n = 0
+    for rel in ["docs/manual.md", "docs/manual.html", "index.html"]:
+        s = lees(rel)
+        if s is None:
+            continue
+        for patroon, lijst, moet, wat in [(r"There are (\w+) in the code", TAL, nf, "het aantal"),
+                                          (r"the (\w+) hit is this sentence", RANG, nf + 1, "de treffer van de zin zelf")]:
+            for m in re.finditer(patroon, s):
+                n += 1
+                if m.group(1) not in lijst or lijst.index(m.group(1)) != moet:
+                    regel = s[:m.start()].count("\n") + 1
+                    fouten.append(f"{rel}:{regel}: §3 zegt '{m.group(1)}' voor {wat}, de code heeft {nf} fetch(")
+    print(f"   het aantal fetch( in de code: {nf}, {n} vermelding(en) in de teksten")
+    if not n:
+        fouten.append("docs/manual.md: de telling van fetch( in §3 niet gevonden")
 
 print()
 for f in fouten:

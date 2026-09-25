@@ -1,8 +1,8 @@
 # miFormulas
 
 A perfume formulation app that runs as a single HTML file in your browser.
-No installation, no account, no server required. Your data stays in a JSON file
-that you own.
+No installation, no account, no server required. Your data stays with you: in
+your browser, in a JSON file of your own, or on a server of your own.
 It will keep working, too: one file, no server, data in plain JSON, and free
 software under the GPL, so your copy runs as it is whatever happens to the site or
 the author, and anyone can take it further.
@@ -19,7 +19,7 @@ with its own icon and your formulas in a file on your own computer:
    already there and works exactly the same.
 2. Click *Install as an app* on the start screen and confirm. The app opens in
    its own window with its own icon.
-3. Click *Start with the starter set*, or *Import from Formulair*.
+3. Click *Start with the starter set*, or *Import from Formulair…*.
 4. On the Welcome page click *Save to a data file…* and choose a folder of your
    own, for instance `Documents\miFormulas`; keep the name `miformulas-data.json`.
    From now on the app saves to that file, opens straight into it, and updates
@@ -39,7 +39,8 @@ The other ways in:
   to it. Next time the app offers *Reopen*. Updating: download the new file and
   replace the old one; your data file stays untouched.
 - **Coming from Formulair?** Open https://miformulas.com/formulair-import.html or
-  click *Import from Formulair* in the app; see *Coming from Formulair* below.
+  click *Import from Formulair…* in the app on the site; see *Coming from Formulair*
+  below.
 - **Everything at once.** On this GitHub page click the green **Code** button,
   then **Download ZIP**: the app, the Formulair importer, the starter data, the
   server endpoint and the tools.
@@ -95,7 +96,7 @@ materials library of facts can be loaded as a reference: adding a material then
 fills in its CAS, category, pyramid level, IFRA limit and a few lines of odour
 facts, and **Browse the library…** ticks a dozen at once.
 
-**Sharing a formula.** **Share this version…** writes the version you are looking
+**Sharing a formula.** **Share this version** writes the version you are looking
 at as a small JSON file another miFormulas user imports in one action, with the
 material names, dilutions, weights, CAS numbers and notes, and nothing of your own
 lab. **Export my inventory as a library…** does the same for the materials you
@@ -116,7 +117,7 @@ free Cloudflare Worker if you do not. See below.
    nearly two hundred materials to explore, marked "starter" so you can tell them from
    your own.
 2. Or choose **Open data file…** for a file of your own, or **Import from
-   Formulair** if that is where you come from.
+   Formulair…** if that is where you come from.
 3. Add materials, then formulas. Ctrl+Z undoes any change.
 
 Which browser: Chrome or Edge (Windows or Mac) give you everything, a data file of
@@ -153,8 +154,8 @@ than the app does, so the app asks for it when you do.
 Questions, problems and ideas: open an issue at
 https://github.com/miformulas/miformulas/issues, or write to info@miformulas.com
 if you would rather not use GitHub. Mention your browser, the build number shown
-next to the name in the app's header (or in the Help bar, which is where a phone
-shows it), and what you did.
+next to the name in the app's header (or in the Help bar when the header leaves it
+out), and what you did.
 
 ## Three ways to keep your data
 
@@ -170,7 +171,9 @@ shows it), and what you did.
   bucket as `DATA`, set a secret `TOKEN`, and you have an https endpoint on their
   free tier without a server or a domain of your own. `server/data.php` is for a
   web server with PHP: put it next to `index.html`, create a writable `data`
-  folder beside them and set a token in it. Either way you give that token in
+  folder beside them and set a token in it; on a web server other than Apache, put
+  that `data` folder outside the web root, or the server hands your data file to
+  anyone who asks (section 7 of the manual). Either way you give that token in
   Settings on each device. Both return the JSON with an ETag on GET and refuse a
   PUT whose `If-Match` is stale, so two devices cannot overwrite each other as
   long as the ETag reaches the browser (the app says so once when it does not),
@@ -180,10 +183,11 @@ shows it), and what you did.
 
 Nobody but you sees your formulas. The app runs entirely in your browser and your
 data lives where you put it: the browser's storage, a file on your disk, or a server
-you own. It never uploads anything, sends no telemetry and loads no scripts from
-elsewhere; it contacts miformulas.com only for two files you ask for yourself, the
-starter set and the published materials library, and apart from those clicks it
-makes no network request at all. You can check this in the code: the whole app is this one readable file, and the
+you own. It sends your data nowhere but to a server you set up yourself, sends no
+telemetry and loads no scripts from elsewhere; it contacts miformulas.com only for
+two files you ask for yourself, the starter set and the published materials
+library, and on the site once to see whether a `data.php` server sits next to it;
+apart from that it makes no network request at all. You can check this in the code: the whole app is this one readable file, and the
 manual (section 3) lists every network call it contains and how to verify them.
 
 ## Coming from Formulair

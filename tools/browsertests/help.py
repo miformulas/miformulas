@@ -1,5 +1,7 @@
 """Help button: the manual embedded in the app (template#manualTpl), shown in the page pane, and
 (build 260920j) the manual naming every button exactly as the app labels it, ellipsis included.
+(build 260922m) The README and the AI prompts page name buttons too, and a name can go wrong both ways:
+"Import from Formulair" without the ellipsis the link carries, "Share this version…" with one the button lacks.
 Needs the local web server on port 8765 (see README)."""
 import os, re
 from playwright.sync_api import sync_playwright
@@ -39,6 +41,29 @@ with sync_playwright() as p:
     check(f"the manual names all {len(BUTTONS)} buttons as the app labels them ({miss})", not miss)
     check(f"and it names the links in the Help bar ({[x for x in BARLINKS if x not in MAN]})",
           all(x in MAN for x in BARLINKS))
+    # every button and link of the app with the text it shows; a count in it ("Edit shop list (3)…") is not part of the name
+    CODE = (SRC.split("MANUAL:BEGIN")[0] + SRC.split("MANUAL:END")[1]).replace(chr(92) + "u2026", "…")
+    LABS = set()
+    for m in re.finditer(r"<(button|a)\b[^>]*>([^<>]{2,70})</\1>", CODE):
+        t = re.sub(r"\s*\(\$\{[^}]*\}[^)]*\)", "", m.group(2)).strip()
+        if "${" not in t:
+            LABS.add(t)
+    ELL = {l[:-1].rstrip() for l in LABS if l.endswith("…")}
+    PLAIN = {l for l in LABS if not l.endswith("…")}
+    SAME = {"Settings"}   # the ⚙ button and its window are Settings; only the start screen's button reads "Settings…"
+    bare, extra = [], []
+    for rel in ("docs/manual.md", "README.md", "docs/ai-prompts.md"):
+        d = open(os.path.join(PUB, rel), encoding="utf-8").read()
+        # **bold** in the manual and the prompts, *italic* in the README; a name may wrap onto the next line there
+        for m in re.finditer(r"(\*\*|(?<![*\w])\*(?![*\s]))((?:(?!\n\s*\n)[^*]){2,80}?)\1", d):
+            nm, line = re.sub(r"\s+", " ", m.group(2)).strip(), d[:m.start()].count("\n") + 1
+            if nm in ELL and nm not in PLAIN and nm not in SAME:
+                bare.append(f"{rel}:{line} {nm}")
+            if nm.endswith("…") and nm[:-1].rstrip() in PLAIN and nm[:-1].rstrip() not in ELL:
+                extra.append(f"{rel}:{line} {nm}")
+    check(f"the {len(ELL)} names with an ellipsis were found in the app", len(ELL) >= 15)
+    check(f"manual, README and prompts never drop the ellipsis a button carries ({bare})", not bare)
+    check(f"and never add one that a button does not carry ({extra})", not extra)
     check("help button does nothing before data is loaded", page.evaluate("(() => { document.querySelector('#btnHelp').click(); return document.querySelector('#content').innerHTML === ''; })()"))
 
     page.click("#btnStarter"); page.wait_for_timeout(1200)

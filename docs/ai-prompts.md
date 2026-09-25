@@ -74,7 +74,7 @@ Keep the table plain (no merged cells) so that I can copy it into a spreadsheet.
 
 The Formulair importer keeps every Formulair formula as a separate frozen formula, because Formulair is flat: "Aura v04" and "Aura v05" are two formulas there. In miFormulas they belong together as versions of one formula, "Aura v05 20%" included, with the "20%" as its label. An assistant can propose that grouping from the names, for you to review; the app does the moving itself with **Move into…** and **Move together**. Give it the names: the export **Export all formulas (Excel)** (⇅ in the header) has them in the first column, or copy them from the list on the left.
 
-Applying the proposal goes through **Move into…**: open the formula that should carry the history (the lowest number of the series), and the window lists the other imported formulas with the same name stem, already ticked, under **Move together**. Each of them becomes a version of the one you opened, in a single step that one Undo takes back. **Copy to new formula** remains for the cases the names do not cover. Frozen imports stay as they are, so nothing is lost while you regroup.
+Applying the proposal goes through **Move into…**: open the formula that should carry the history (the lowest number of the series), and the window lists the other imported formulas with the same name stem, already ticked, under **Move together**. Each of them becomes a version of the one you opened, in a single step that one Undo takes back. **Copy to new formula…** remains for the cases the names do not cover. Frozen imports stay as they are, so nothing is lost while you regroup.
 
 ---
 

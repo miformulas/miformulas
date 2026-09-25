@@ -2,10 +2,11 @@
    for anyone who wants the same data on a computer, a laptop and a phone without owning a server.
 
    Paste this file into the editor of a Worker on dash.cloudflare.com and deploy it. It needs two
-   things, both set under the Worker's Settings:
+   things, both on the Worker's own page rather than in the editor:
 
-     Bindings              an R2 bucket, with the variable name exactly  DATA
-     Variables and Secrets a secret named exactly  TOKEN , holding a long random string of your own
+     tab Bindings                           an R2 bucket, with the variable name exactly  DATA
+     tab Settings, Runtime variables and    a secret named exactly  TOKEN , holding a long random
+     secrets                                string of your own
 
    The same token goes into the app once per device, in Settings (the gear), together with the
    address of this Worker (https://<name>.<account>.workers.dev). Section 7 of the manual walks
@@ -13,7 +14,7 @@
 
    Opening the address in a browser is the check that it works: it answers
    {"error":"invalid token","worker":5}, because a browser sends no token. Anything else names the
-   step that was missed.
+   step that was missed; a plain "Hello World!" means this code has not been deployed yet.
 
    In the bucket: miformulas-data.json, and snapshots/YYYY-MM-DD.json, the state before the first
    save of each day, the last fourteen days. And, only if you put one there yourself, a published
@@ -22,7 +23,7 @@
 
    GET  /            -> JSON body, header ETag
    PUT  /            -> body = JSON, headers X-Token, If-Match (ETag from load); 409 on conflict
-   GET  /?ping=1     -> {"ok":true,"etag":...,"bytes":...}
+   GET  /?ping=1     -> {"ok":true,"worker":5,"etag":...,"bytes":...}
    GET  /miformulas-materials.json -> that public library, read-only and without a token; 404 when
                         the bucket holds no such file, which is the ordinary set-up
    OPTIONS           -> CORS preflight (the app on miformulas.com calls this from another origin)
