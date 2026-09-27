@@ -392,7 +392,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922m</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922n</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -461,7 +461,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260922m. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 260922n. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -719,7 +719,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p><strong>Copy to new formula…</strong> takes the version you are looking at as v1 of a new formula, with its lines, bench arrangement, notes and trial log; the notes open with a line saying which formula and version it was copied from. <strong>Rename…</strong> and <strong>Change category…</strong> do what they say; categories are shared between formulas and get a colour dot, which the colour square beside the category picker sets. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
 <p><strong>Delete version</strong> asks first and names the formula and the version it is about. When it is the only version it says so: the formula then stays in your list without lines, and <strong>Delete formula</strong> is what removes the formula itself. Undo (Ctrl+Z) brings a deleted version back during the session.</p>
 <h2 id="s11-editing-a-formula">11. Editing a formula</h2>
-<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one (a trace dilution keeps the decimals it needs, so 0,001 % and 0,01 % do not both read as 0 %), or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s13-changing-dilutions">13</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice, and the suggestion list shows each material with its alternative names beside it, so typing one of those names brings up the materials that carry it. When nothing of yours carries the name you typed, the app does not go straight to creating one: it runs the same search as the list panel in section <a href="#s8-the-screen">8</a> (name, alternative names, CAS number, supplier, and the description) and shows what that finds, with what it matched on, so that you can pick the material you meant. <strong>None of these</strong> goes on to create it. Adding a material the version already holds at that same dilution asks first, and says what a second line would mean: the weighing sheet lists it twice, while Compare adds the two together. Say yes and an amber line keeps warning about those <strong>duplicate lines</strong>, in the table and in the bench view alike, because it is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in.</p>
+<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one (a trace dilution keeps the decimals it needs, so 0,001 % and 0,01 % do not both read as 0 %), or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s13-changing-dilutions">13</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice, and the suggestion list shows each material with its alternative names beside it, so typing one of those names brings up the materials that carry it. When nothing of yours carries the name you typed, the app does not go straight to creating one: it runs the same search as the list panel in section <a href="#s8-the-screen">8</a> (name, alternative names, CAS number, supplier, and the description) and shows what that finds, with what it matched on, so that you can pick the material you meant. <strong>None of these</strong> goes on to create it. Adding a material the version already holds at that same dilution asks first, and says what a second line would mean: the weighing sheet lists it twice, while Compare adds the two together. Say yes and an amber line keeps warning about those <strong>duplicate lines</strong>, in the table and in the bench view alike, because it is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in. Step away in the middle of a number, to another tab or another program, and the field keeps what you typed with the cursor where it was: you type on when you come back.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s11-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
 <p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s20-import-and-export">20</a>) it arrives with the facts the library holds, exactly as <strong>+ New material…</strong> does; the same goes for a formula import and for <strong>Delivered…</strong> on the order list.</p>
 <p>The table can be ordered by original entry, by category or by pyramid level (top to base), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
@@ -1430,9 +1430,10 @@ window.addEventListener("keydown", e => {
 
 /* ---------- undo / redo ---------- */
 const UNDO = [], REDO = [];
-let REDOING = false;
+let REDOING = false, MERGE = false;
 const popUndo = () => { UNDO.pop(); if (!UNDO.length) $("#btnUndo").disabled = true; };
 function pushUndo(fn){
+  if (MERGE){ MERGE = false; return; }   // the rest of a field you were typing in when you stepped away: its step is already there (A1)
   if (!REDOING && REDO.length){ REDO.length = 0; $("#btnRedo").disabled = true; }
   UNDO.push({fn, view: structuredClone(VIEW)});   // where the change was made, so Undo goes back there like Redo
   if (UNDO.length > 50) UNDO.shift();
@@ -1474,9 +1475,47 @@ function redo(){
   invalidateMats(); clampView();
   buildUsage(); markDirty(); setTabs(); render();
 }
+// A field committed while you are away. Chrome sends change the moment its window loses the focus (another tab,
+// another program beside it or over it), and the app lets go of the field itself when the page steps aside or before
+// the question on closing (B9). The redraw that follows put a new field in its place, and the weight column selected
+// its whole value there: 12 typed, away, 5 added, and the line said 5 g (A1 of the mini-audit on 260922m, there since
+// 260915e). Such a field now gets back what you typed and the cursor where it stood, and what you type on in it belongs
+// to the same Undo step. Enter, Tab and a click go on as before.
+let LEAVING = false, KEEP = null, HELD = null;
+const fieldKey = el => el.tagName.toLowerCase() + (el.id ? "#" + CSS.escape(el.id) : "") + [...el.classList].map(c => "." + CSS.escape(c)).join("")
+  + [...el.attributes].filter(a => a.name.startsWith("data-")).map(a => `[${a.name}="${CSS.escape(a.value)}"]`).join("");
+document.addEventListener("change", e => {   // before the field's own handler
+  const t = e.target, top = UNDO[UNDO.length - 1];
+  MERGE = !!HELD && HELD.el === t && HELD.step === top;   // the same field, and nothing else changed since you came back
+  HELD = null;
+  const text = t.tagName === "TEXTAREA" || (t.tagName === "INPUT" && !NOTTEXT.test(t.type || "text"));
+  KEEP = text && !t.closest("dialog") && (LEAVING || document.visibilityState === "hidden" || !document.hasFocus())
+    ? {el: t, key: fieldKey(t), value: t.value, from: t.selectionStart, to: t.selectionEnd, top, merge: MERGE} : null;
+}, true);
+document.addEventListener("change", () => {   // after it, and after the redraw it did
+  const k = KEEP; KEEP = null; MERGE = false;
+  if (!k) return;
+  let el = k.el;
+  if (!el.isConnected){
+    const hit = document.querySelectorAll(k.key);
+    if (hit.length !== 1) return;
+    el = hit[0];
+    el.defaultValue = el.value = k.value;   // what it holds is in the data now, so Ctrl+Z goes to the app
+    el.focus({preventScroll: true});
+    try{ el.setSelectionRange(k.from, k.to); }catch(_){}
+  }
+  const top = UNDO[UNDO.length - 1];
+  if (top !== k.top || k.merge) HELD = {el, step: top};
+});
 // a note or a weight still in hand has not fired its change event yet: let go of it first, as Ctrl+S does, so that
-// what you typed is a change the browser asks about and the write takes along (build 260922g)
-const letGo = () => { const a = document.activeElement; if (a && a !== document.body) a.blur(); };
+// what you typed is a change the browser asks about and the write takes along (build 260922g); then take it back in
+// hand, with the cursor where it was
+const letGo = () => {
+  const a = document.activeElement; if (!a || a === document.body) return;
+  let from = null, to = null; try{ from = a.selectionStart; to = a.selectionEnd; }catch(_){}
+  LEAVING = true; try{ a.blur(); } finally { LEAVING = false; }
+  if (a.isConnected && document.activeElement === document.body){ a.focus({preventScroll: true}); try{ a.setSelectionRange(from, to); }catch(_){} }
+};
 window.addEventListener("beforeunload", e => { letGo(); if (DIRTY && !LOCKED){ e.preventDefault(); e.returnValue = ""; }});
 // A phone does not close a page, it hides it, and a hidden page may be thrown away without a word:
 // beforeunload never comes there. So the moment the page steps aside the 2.5 s wait is cut short and

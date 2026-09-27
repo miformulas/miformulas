@@ -5,6 +5,9 @@ Build 260915: a daily snapshot restored while the server is unreachable is not w
 server's data, and a data file whose first write fails leaves the browser copy in place.
 Build 260922g: a field still in hand is let go of before the page goes or steps aside (B9), and in one
 browser one window saves: a second one only reads, and takes over by itself when the first closes (A2).
+Build 260922n (A1 of the mini-audit on 260922m): a field committed while you are away (the window in the background,
+the page stepped aside, or the question on closing) keeps what you typed and the cursor where it was, and what you type
+on in it belongs to the same Undo step; echte-focus.py does the same with a real window.
 Uses a fake server inside the page (fetch is replaced before the app boots), so no webserver of its
 own is needed beyond the one serving the app on port 8765 (see README)."""
 import json, time
@@ -558,6 +561,88 @@ with sync_playwright() as p:
           pg.evaluate("document.activeElement && document.activeElement.id") == "notesEd")
     pg.evaluate("__release()"); pg.wait_for_timeout(400)
     check(f"geen paginafouten ({b9fout[:2]})", not b9fout)
+    ctx.close()
+
+    # ---------- 11b. A1 (mini-audit op 260922m): een veld dat vastgelegd wordt terwijl je weg bent ----------
+    # Chrome stuurt change zodra zijn venster naar de achtergrond gaat (een ander tabblad, een ander programma ervoor), en
+    # de app laat het veld zelf los als de pagina aan de kant stapt of vóór de vraag bij het sluiten (B9). De hertekening
+    # die volgde zette een nieuw veld in de plaats met de hele waarde geselecteerd: "12" getypt, weg, "5" erbij, en de
+    # regel zei 5 g. Hier nagebootst, want Playwright houdt elk venster vooraan; echte-focus.py doet het met een echt venster.
+    WEG = {
+        "een ander programma ervoor": ("() => { document.hasFocus = () => false; document.activeElement.blur(); }",
+                                       "() => { delete document.hasFocus; }"),
+        "de pagina stapt aan de kant": ("""() => { Object.defineProperty(document, "visibilityState", {get: () => "hidden", configurable: true});
+                                          document.dispatchEvent(new Event("visibilitychange")); }""",
+                                        """() => { Object.defineProperty(document, "visibilityState", {get: () => "visible", configurable: true});
+                                          document.dispatchEvent(new Event("visibilitychange")); }"""),
+        "sluiten, en blijven op de vraag": ("""() => { const e = new Event("beforeunload", {cancelable: true}); window.dispatchEvent(e);
+                                              window.__vraag = e.defaultPrevented; }""", "() => {}"),
+    }
+    ctx = b.new_context(viewport={"width": 1280, "height": 900})
+    pg = ctx.new_page(); a1fout = []
+    pg.on("pageerror", lambda e: a1fout.append(str(e)))
+    pg.on("dialog", lambda d: d.accept())
+    pg.goto(URL); pg.wait_for_timeout(800)
+    pg.click("#btnStarter"); pg.wait_for_timeout(1400)
+    OPEN = """() => { const f = DATA.formulas.find(x => !x.frozenImport && x.versions.length
+                && !x.versions[x.versions.length - 1].frozen && x.versions[x.versions.length - 1].lines.length > 2);
+        switchTab("F", f.id, {type: "v", idx: f.versions.length - 1}); }"""
+    GEW = """() => { const f = DATA.formulas.find(x => x.id === VIEW.id), v = f.versions[f.versions.length - 1];
+        return v.lines[+document.querySelectorAll("input.w")[1].dataset.i].weightG; }"""
+    HIER = "() => { const a = document.activeElement; return [a.className, a.value, a.selectionStart, a.selectionEnd]; }"
+
+    def begin(tekst):
+        pg.evaluate(OPEN); pg.wait_for_timeout(300)
+        voor, n0 = pg.evaluate(GEW), pg.evaluate("UNDO.length")
+        pg.locator("input.w").nth(1).click(); pg.keyboard.press("Control+a"); pg.keyboard.type(tekst)
+        return voor, n0
+
+    def weg_en_terug(naam):
+        pg.evaluate(WEG[naam][0]); pg.wait_for_timeout(200); pg.evaluate(WEG[naam][1]); pg.wait_for_timeout(200)
+
+    for naam in WEG:
+        voor, n0 = begin("12")
+        weg_en_terug(naam)
+        st = pg.evaluate(HIER)
+        check(f"A1, {naam}: terug staat er wat je typte, met de cursor achteraan en niets geselecteerd ({st})",
+              st == ["w", "12", 2, 2])
+        pg.keyboard.type("5"); pg.keyboard.press("Enter"); pg.wait_for_timeout(300)
+        na, n1 = pg.evaluate(GEW), pg.evaluate("UNDO.length")
+        check(f"A1, {naam}: '5' en Enter maken 125 g, in één Undo-stap ({na} g, {n1 - n0} stap)", na == 125 and n1 - n0 == 1)
+        pg.evaluate("undo()"); pg.wait_for_timeout(300)
+        check(f"A1, {naam}: één Undo zet het oude gewicht terug ({pg.evaluate(GEW)} tegenover {voor})", pg.evaluate(GEW) == voor)
+    check("A1: bij het sluiten vraagt de browser nog altijd eerst", pg.evaluate("window.__vraag") is True)
+
+    # twee keer weg in één getal, en Ctrl+Z meteen na de terugkeer
+    voor, n0 = begin("1")
+    weg_en_terug("de pagina stapt aan de kant"); pg.keyboard.type("2")
+    weg_en_terug("een ander programma ervoor"); pg.keyboard.type("5"); pg.keyboard.press("Enter"); pg.wait_for_timeout(300)
+    na, n1 = pg.evaluate(GEW), pg.evaluate("UNDO.length")
+    check(f"A1: twee keer weg in één getal geeft 125 g in één stap ({na} g, {n1 - n0} stap)", na == 125 and n1 - n0 == 1)
+    voor, n0 = begin("12")
+    weg_en_terug("een ander programma ervoor")
+    tussen = pg.evaluate(GEW)
+    pg.keyboard.press("Control+z"); pg.wait_for_timeout(300)
+    check(f"A1: Ctrl+Z meteen na de terugkeer neemt terug wat je typte ({tussen} g, na Ctrl+Z {pg.evaluate(GEW)} g, eerst {voor} g)",
+          tussen == 12 and pg.evaluate(GEW) == voor)
+
+    # de naam van een materiaal: die tekent de pagina opnieuw
+    pg.evaluate("""() => { const m = DATA.materials.find(x => /^Ambrox/.test(x.name)) || DATA.materials[3];
+        window.__mid = m.id; window.__mnaam = m.name; switchTab("M", m.id); }""")
+    pg.wait_for_timeout(300)
+    NAAM = "() => DATA.materials.find(x => x.id === window.__mid).name"
+    n0 = pg.evaluate("UNDO.length")
+    pg.locator('[data-f="name"]').click(); pg.keyboard.press("End"); pg.keyboard.type(" Su")
+    weg_en_terug("een ander programma ervoor")
+    st = pg.evaluate("() => { const a = document.activeElement, v = a.value || ''; return [(a.dataset && a.dataset.f) || a.tagName, v.slice(-3), a.selectionStart === v.length]; }")
+    check(f"A1: de naam van een materiaal houdt de cursor na de terugkeer ({st})", st == ["name", " Su", True])
+    pg.keyboard.type("per"); pg.keyboard.press("Enter"); pg.wait_for_timeout(300)
+    naam, n1 = pg.evaluate(NAAM), pg.evaluate("UNDO.length")
+    check(f"A1: en typt verder tot de naam die je bedoelde, in één stap ({naam!r}, {n1 - n0} stap)",
+          naam == pg.evaluate("window.__mnaam") + " Super" and n1 - n0 == 1)
+    pg.evaluate("undo()"); pg.wait_for_timeout(300)
+    check(f"A1: één Undo zet de oude naam terug ({pg.evaluate(NAAM)!r})", pg.evaluate(NAAM) == pg.evaluate("window.__mnaam"))
+    check(f"A1: geen paginafouten ({a1fout[:2]})", not a1fout)
     ctx.close()
 
     # ---------- 12. A2 (bouw 260922g): in één browser bewaart één venster ----------

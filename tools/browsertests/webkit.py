@@ -145,6 +145,43 @@ def chromium_run():
     return uit
 
 
+# A1 (bouw 260922n): een veld dat vastgelegd wordt terwijl je weg bent, houdt wat je typte en de cursor. Geen pariteit
+# maar een uitkomst in WebKit zelf, met dezelfde drie nagebootste wegen als opslagvolgorde.py §11b.
+A1_WEG = {
+    "een ander programma ervoor": ("document.hasFocus = () => false; document.activeElement.blur();", "delete document.hasFocus;"),
+    "de pagina stapt aan de kant": ("""Object.defineProperty(document, "visibilityState", {get: () => "hidden", configurable: true});
+        document.dispatchEvent(new Event("visibilitychange"));""",
+        """Object.defineProperty(document, "visibilityState", {get: () => "visible", configurable: true});
+        document.dispatchEvent(new Event("visibilitychange"));"""),
+    "sluiten, en blijven op de vraag": ("window.dispatchEvent(new Event('beforeunload', {cancelable: true}));", ""),
+}
+
+
+def a1_webkit(d):
+    """"12" getypt, even weg, terug, "5" en Enter: 125 g in één Undo-stap, en één Undo zet het oude gewicht terug."""
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.common.keys import Keys
+    gew = """const f = DATA.formulas.find(x => x.id === VIEW.id), v = f.versions[f.versions.length - 1];
+        return v.lines[+document.querySelectorAll("input.w")[1].dataset.i].weightG;"""
+    uit = {}
+    for naam, (weg, terug) in A1_WEG.items():
+        d.execute_script("""const f = DATA.formulas.find(x => !x.frozenImport && x.versions.length
+            && !x.versions[x.versions.length - 1].frozen && x.versions[x.versions.length - 1].lines.length > 2);
+            switchTab("F", f.id, {type: "v", idx: f.versions.length - 1});"""); time.sleep(0.4)
+        voor, n0 = d.execute_script(gew), d.execute_script("return UNDO.length")
+        w = d.find_elements(By.CSS_SELECTOR, "input.w")[1]
+        w.click(); d.execute_script("document.querySelectorAll('input.w')[1].select()"); w.send_keys("12"); time.sleep(0.2)
+        d.execute_script(weg); time.sleep(0.3)
+        if terug:
+            d.execute_script(terug); time.sleep(0.3)
+        st = d.execute_script("const a = document.activeElement; return [a.className, a.value, a.selectionStart, a.selectionEnd];")
+        a = d.switch_to.active_element; a.send_keys("5"); a.send_keys(Keys.ENTER); time.sleep(0.4)
+        na, n1 = d.execute_script(gew), d.execute_script("return UNDO.length")
+        d.execute_script("undo()"); time.sleep(0.3)
+        uit[naam] = [st, na, n1 - n0, d.execute_script(gew) == voor]
+    return uit
+
+
 def webkit_run():
     from selenium import webdriver
     from selenium.webdriver.common.by import By
@@ -170,6 +207,8 @@ def webkit_run():
         uit["__fouten"] = d.execute_script("return window.__err")
         # eigen proeven die niet over pariteit gaan maar over Safari zelf
         uit["__idb"] = d.execute_script("return !!idb.db")
+        try: uit["__a1"] = a1_webkit(d)
+        except Exception as e: uit["__a1"] = {"de proef liep niet tot het einde": str(e)[:150]}
         d.execute_script("DATA.formulas[0].name = 'WebKit round trip'; markDirty(); saveData();")
         time.sleep(1.5)
         d.get(URL); time.sleep(3)
@@ -237,6 +276,12 @@ def main():
     check("een wijziging overleeft een herlaadbeurt in WebKit",
           isinstance(w.get("__naherladen"), int) and w["__naherladen"] >= 0,
           "index na herladen = %r" % w.get("__naherladen"))
+
+    a1 = w.get("__a1") or {"geen uitkomst": None}
+    for naam, r in a1.items():
+        goed = isinstance(r, list) and r[0] == ["w", "12", 2, 2] and r[1] == 125 and r[2] == 1 and r[3] is True
+        check("A1 in WebKit, " + naam + ": terug staat er wat je typte, en '5' en Enter maken 125 g in één stap", goed,
+              "terug %r, dan %r g in %r stap, Undo terug: %r" % tuple(r) if isinstance(r, list) else repr(r))
 
     print("\n%d OK, %d FAIL" % (ok, fail))
     print("volledige uitslag: " + uitslag)
