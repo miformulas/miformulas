@@ -3,7 +3,8 @@ formulair-import.html is merged at the next start, in browser-storage mode here.
 Checks: materials matched by name (dilutions added, empty fields filled), new materials and
 formulas added, categories and colours merged, a formula imported before is skipped, the
 message, one Undo, a pending import with no data yet becomes the data, the Welcome page
-"Your data" line. Needs the local webserver (cd public && python -m http.server 8765)."""
+"Your data" line. Since 260922o the message names a name that now belongs to more than one of your materials (B6).
+Needs the local webserver (cd public && python -m http.server 8765)."""
 import json
 from playwright.sync_api import sync_playwright
 URL = "http://localhost:8765/"
@@ -134,6 +135,9 @@ with sync_playwright() as p:
     check(f"B13: twee gelijke titels binnen Formulair blijven zoals ze waren ({r['tabak']})", r["tabak"] == ["first tabak", "second tabak"])
     check(f"de melding telt het ({[m[:160] for m in msgs][-1:]})",
           any("Materials: 5 added, 1 matched by name" in m and "with “(Formulair)” behind the name" in m for m in msgs))
+    # B6 (bouw 260922o): een naam die nu meer dan één materiaal draagt, wordt genoemd, zodat je er één hernoemt
+    check(f"B6: de melding noemt de namen die nu meer dan één materiaal dragen ({[m[m.find('name(s)') - 2:][:150] for m in msgs if 'name(s)' in m]})",
+          any("3 name(s) now belong to more than one of your materials: Vetiver Oil, Unnamed material, Rose Oxide Special. Rename one of each" in m for m in msgs))
     na1 = r["n"]
     msgs.clear()
     pg.click("#btnSave"); pg.wait_for_timeout(500)
@@ -141,6 +145,7 @@ with sync_playwright() as p:
     r2 = pg.evaluate(BEELD)
     check(f"A4: een tweede invoer legt elk materiaal waar de eerste het zette, niets erbij ({na1} -> {r2['n']})",
           r2["n"] == na1 and any("Materials: 0 added, 6 matched by name" in m and "4 already present" in m for m in msgs))
+    check("B6: een tweede invoer voegt geen naam toe, dus de melding zwijgt erover", not any("now belong to" in m for m in msgs))
     check(f"A4: en de twee Vetiver Oils zijn niets van elkaar kwijt ({r2['vet']})", ["Supplier B", 2.0, [10, 100]] in r2["vet"] and len(r2["vet"]) == 2)
     check("no JavaScript errors", not errs)
     ctx.close()

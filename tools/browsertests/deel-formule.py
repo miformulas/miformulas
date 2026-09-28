@@ -1,4 +1,5 @@
-"""Share this version: what the file holds, and the way back in at the other end.
+"""Share this version: what the file holds, and the way back in at the other end. Since 260922o every line says whether
+it is a solvent, so a concentrate without a solvent line is compared too (B3).
 Needs the local web server on port 8765 (see README)."""
 import json, os, tempfile
 from playwright.sync_api import sync_playwright
@@ -187,6 +188,26 @@ with sync_playwright() as p:
     check(f"de gelijknamige formule staat voorgekozen ({sel['tekst']})",
           sel["waarde"] and naam in sel["tekst"])
     check("met een regel die het uitlegt", page2.locator("#impTwin").count() == 1)
+    page2.click("#btnImpCancel"); page2.wait_for_timeout(300)
+
+    # ---------- B3 (bouw 260922o): een concentraat zonder solventregel zegt ook wat een solvent is ----------
+    # De vlag stond alleen op solventregels. Een bestand zonder solventregel gold daardoor als een bestand dat niets over
+    # solventen zegt, en wie een van zijn materialen als solvent telt, rekende zwijgend andere percentages, zonder de
+    # melding die een bestand met een solventregel wel geeft.
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68"); switchTab("F", f.id, {type: "v", idx: f.versions.length - 1}); }""")
+    page.wait_for_timeout(500)
+    with page.expect_download() as dl3:
+        page.click("#btnShare")
+    conc = os.path.join(tempfile.mkdtemp(), dl3.value.suggested_filename); dl3.value.save_as(conc)
+    cpkg = json.load(open(conc, encoding="utf-8"))
+    check(f"B3: elke regel van een concentraat zegt dat ze geen solvent is ({[L.get('solvent') for L in cpkg['lines']][:3]}…)",
+          cpkg["lines"] and all(L.get("solvent") is False for L in cpkg["lines"]))
+    eerste = cpkg["lines"][0]["material"]
+    page2.evaluate("n => { DATA.materials.find(x => x.name === n).isSolvent = true; }", eerste)
+    page2.click("#btnHome"); page2.wait_for_timeout(400)
+    page2.set_input_files("#impFile", conc); page2.wait_for_timeout(900)
+    solv = page2.evaluate("() => { const e = document.querySelector('#impSolv'); return e ? e.textContent : ''; }")
+    check(f"B3: wie {eerste} als solvent telt, krijgt de melding ({solv[:50]!r})", solv.startswith("1 line(s) the sender counts as a solvent"))
     page2.click("#btnImpCancel"); page2.wait_for_timeout(300)
 
     check(f"geen paginafouten ({errs[:2]})", not errs)

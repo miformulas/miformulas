@@ -1,8 +1,10 @@
 """Formules invoeren uit een CSV (bouw 260916e): de rondgang van Export all formulas (Excel) met de elfde kolom Notes,
 een blad zonder Formula-kolom, een vreemd blad met ; en decimale komma, de Total-regel als gewichtscontrole,
-een onleesbaar gewicht dat Confirm blokkeert en een materialenblad dat netjes geweigerd wordt.
+een onleesbaar gewicht dat Confirm blokkeert en een materialenblad dat netjes geweigerd wordt. Sinds 260922o blijft een
+gesorteerd blad of een regel onder de Total-rij bij zijn versie (B2), en zegt een eigen blad zonder solventregel dat
+geen van zijn regels een solvent is (B3).
 Vereist de lokale webserver op poort 8765, zie README."""
-import csv, os, tempfile
+import csv, io, os, tempfile
 from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/"
@@ -377,6 +379,92 @@ with sync_playwright() as pw:
     check(f"B13: en ze komen aan als Angel (import) en Angel (import) (import) ({terug})", len(terug) == 2 and len(set(t.split("=")[1] for t in terug)) == 2)
     check(f"geen paginafouten in 260922h ({errs4[:2]})", not errs4)
     ctx4.close()
+
+    # ---------------- B2 en B3 (bouw 260922o): een gesorteerd blad, een regel onder Total, en de solventvlag ----------------
+    # B2: de Total-rij sloot een versie af en elke rij daarna begon een tweede formule. Op Material gesorteerd kwam de
+    # Excel export van Angel terug als twee formules "(import)", Export all formulas (Excel) gesorteerd als 30 formules
+    # in plaats van 16. B3: een eigen blad zonder solventregel zei niets over solventen, dus wie een van zijn materialen
+    # als solvent telt, rekende zwijgend andere percentages.
+    ctx5 = b.new_context(viewport={"width": 1400, "height": 900}, accept_downloads=True)
+    pg5 = ctx5.new_page(); errs5 = []; msgs5 = []
+    pg5.on("pageerror", lambda e: errs5.append(str(e)))
+    pg5.on("dialog", lambda d: (msgs5.append(d.message), d.accept()))
+    pg5.goto(URL); pg5.wait_for_timeout(800)
+    pg5.click("#btnStarter"); pg5.wait_for_timeout(1400)
+    def lees_csv(pad):
+        ruw = open(pad, encoding="utf-8-sig", newline="").read()
+        sep = ";" if ruw.splitlines()[-1].count(";") > 2 else ","
+        return sep, list(csv.reader(io.StringIO(ruw, newline=""), delimiter=sep))
+    def schrijf_csv(pad, sep, rijen):
+        with open(pad, "w", encoding="utf-8", newline="") as fh:
+            csv.writer(fh, delimiter=sep, lineterminator="\r\n").writerows(rijen)
+        return pad
+    def een_versie(naam):
+        info = pg5.evaluate("""n => { const f = DATA.formulas.find(x => x.name === n); switchTab("F", f.id, {type: "v", idx: f.versions.length - 1});
+            return {id: f.id, lines: f.versions[f.versions.length - 1].lines.length}; }""", naam)
+        pg5.wait_for_timeout(600)
+        with pg5.expect_download() as d:
+            pg5.click("#btnCsv")
+        pad = os.path.join(tmp, "b2-" + d.value.suggested_filename); d.value.save_as(pad)
+        return info, pad
+    def voorbeeld(pad):
+        pg5.click("#btnHome"); pg5.wait_for_timeout(300)
+        pg5.set_input_files("#impFile", pad); pg5.wait_for_timeout(900)
+        pg5.click("#dlgOk"); pg5.wait_for_timeout(1100)
+        return pg5.evaluate("""() => ({doel: $("#impTarget") ? $("#impTarget").value : null,
+            n: IMPORTP && IMPORTP.lines ? IMPORTP.lines.length : -1,
+            check: document.querySelector("#impCheck") ? document.querySelector("#impCheck").textContent : "",
+            solv: document.querySelector("#impSolv") ? document.querySelector("#impSolv").textContent : ""})""")
+    info, pad = een_versie("Angel")
+    sep, rijen = lees_csv(pad)
+    gesorteerd = rijen[:2] + sorted(rijen[2:], key=lambda r: r[0].lower())
+    check(f"B2: gesorteerd staat Total tussen de regels ({[r[0] for r in gesorteerd].index('Total')} van {len(gesorteerd)})",
+          gesorteerd[-1][0] != "Total")
+    v = voorbeeld(schrijf_csv(os.path.join(tmp, "b2-gesorteerd.csv"), sep, gesorteerd))
+    check(f"B2: het gesorteerde blad blijft één versie van Angel ({v['n']} van {info['lines']} regels)",
+          v["doel"] == info["id"] and v["n"] == info["lines"])
+    check(f"B2: en de som klopt nog, dus geen waarschuwing ({v['check'][:60]!r})", not v["check"])
+    pg5.click("#btnImpCancel"); pg5.wait_for_timeout(400)
+    onder = rijen + [["Hedione", "100", "2", "", "", ""]]
+    v = voorbeeld(schrijf_csv(os.path.join(tmp, "b2-onder.csv"), sep, onder))
+    check(f"B2: een regel onder de Total-rij hoort bij de versie erboven ({v['n']} regels)",
+          v["doel"] == info["id"] and v["n"] == info["lines"] + 1)
+    check(f"B2: en de controle zegt dat de som verschoof ({v['check'][:70]!r})", "Angel" in v["check"])
+    pg5.click("#btnImpCancel"); pg5.wait_for_timeout(400)
+    pg5.click("#btnHome"); pg5.wait_for_timeout(300)
+    pg5.click("#homeIO"); pg5.wait_for_timeout(400)
+    with pg5.expect_download() as d52:
+        pg5.click("#btnExpF")
+    alle5 = os.path.join(tmp, "b2-alle.csv"); d52.value.save_as(alle5); pg5.wait_for_timeout(300)
+    if pg5.locator("#dlg").is_visible(): pg5.keyboard.press("Escape"); pg5.wait_for_timeout(300)
+    sep, rijen = lees_csv(alle5)
+    mi = rijen[0].index("Material")
+    tekst = io.StringIO(newline="")
+    csv.writer(tekst, delimiter=sep, lineterminator="\r\n").writerows(rijen[:1] + sorted(rijen[1:], key=lambda r: r[mi].lower()))
+    telling = pg5.evaluate("""t => { const parsed = csvTitle(parseCsv(t)); const p = csvToImport(parsed, csvAutoMap(parsed.header, FCSV_FIELDS), "alle.csv");
+        const fs = p.formulas || [p];
+        return {blad: [fs.length, fs.reduce((s, f) => s + (f.versions || [f]).length, 0), fs.reduce((s, f) => s + (f.versions || [f]).reduce((t, v) => t + v.lines.length, 0), 0)],
+                app: [DATA.formulas.length, DATA.formulas.reduce((s, f) => s + f.versions.length, 0), DATA.formulas.reduce((s, f) => s + f.versions.reduce((t, v) => t + v.lines.length, 0), 0)],
+                note: p.checkNote || ""}; }""", tekst.getvalue())
+    check(f"B2: Export all formulas (Excel), op Material gesorteerd, geeft dezelfde formules, versies en regels ({telling['blad']} tegenover {telling['app']})",
+          telling["blad"] == telling["app"])
+    check(f"B2: zonder Total-melding ({telling['note'][:60]!r})", not telling["note"])
+    # B3: een concentraat zonder solventregel, en een ontvanger die een van zijn materialen als solvent telt
+    info, pad = een_versie("Rose de Mai 68")
+    sep, rijen = lees_csv(pad)
+    eerste = rijen[2][0]
+    check(f"B3: de export van een concentraat heeft geen solventregel ({eerste})", not any("(solvent)" in r[0] for r in rijen))
+    pg5.evaluate("n => { const m = DATA.materials.find(x => x.name === n); m.isSolvent = true; }", eerste)
+    v = voorbeeld(pad)
+    check(f"B3: het eigen blad zegt dat {eerste} voor de afzender geen solvent is ({v['solv'][:60]!r})",
+          v["solv"].startswith("1 line(s) the sender counts as a solvent"))
+    pg5.click("#btnImpCancel"); pg5.wait_for_timeout(400)
+    vreemd5 = schrijf_csv(os.path.join(tmp, "b3-vreemd.csv"), ",", [["Material", "Weight g"]] + [[r[0], r[2]] for r in rijen[2:] if r[0] != "Total"])
+    v = voorbeeld(vreemd5)
+    check(f"B3: een vreemd blad zegt niets over solventen, dus geen melding ({v['solv'][:40]!r})", not v["solv"] and v["n"] > 0)
+    pg5.click("#btnImpCancel"); pg5.wait_for_timeout(300)
+    check(f"geen paginafouten in 260922o ({errs5[:2]})", not errs5)
+    ctx5.close()
 
     check(f"geen paginafouten in de uitvoer ({errs[:2]})", not errs)
     check(f"geen paginafouten in de invoer ({errs2[:2]})", not errs2)

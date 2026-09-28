@@ -1,6 +1,7 @@
 """Move into…: an imported (flat) formula becomes a version of another formula.
 Uses the starter set; two formulas are marked as imported the way the Formulair importer does. Since 260922j Move
-together ticks a formula only when its number comes straight after the name (B10).
+together ticks a formula only when its number comes straight after the name (B10); since 260922o every way of writing a
+version number counts ("v.5", "versie 6", "version 10", "v07 20%"), whichever formula you open (B1 and B14).
 Needs the local web server on port 8765 (see README)."""
 from playwright.sync_api import sync_playwright
 
@@ -253,6 +254,60 @@ with sync_playwright() as p:
     check("maar die staat in de zoeklijst eronder, om met de hand toe te voegen",
           page.evaluate("[...document.querySelectorAll('#mvAddList option')].some(o => o.value === 'Rose de Mai 68')"))
     page.click("#dlgCancel"); page.wait_for_timeout(300)
+
+    # ---------- B1 en B14 (bouw 260922o): één lezing van een versienaam, welke formule je ook opent ----------
+    # Sinds 260922j vinkte Move together alleen "v05", "v 5" of "5" aan, niet "Aura v.5", "Aura versie 6" of "Aura
+    # version 10", die prompt 3 van ai-prompts.md uitdrukkelijk versies noemt (B1). De geopende formule kende alleen een
+    # nummer helemaal achteraan: op "Nautica Voyage v04 ZS" of "Bewonder v09 45gr" stelde het venster niets voor en vinkte
+    # het niets aan, en "Aura v.5" kreeg de stam "aura v" (B14).
+    LUMEN = ["Lumen v04", "Lumen v.5", "Lumen versie 6", "Lumen v07 20%", "Lumen v-9", "Lumen version 10", "Lumen V11",
+             "Lumen ver. 12", "Lumen - v13 conc", "Lumen – v14", "Lumen_v15", "Lumen v16 x2"]
+    ANDERS = ["Lumen de Nuit 3", "Lumenal 2"]
+    ECHT = ["Nautica Voyage v03", "Nautica Voyage v04 ZS", "Bewonder v08", "Bewonder v09 45gr"]
+    page.evaluate("""names => { const m = DATA.materials[0];
+        const mk = (id, n) => ({id, name: n, category: "Uncategorised", created: today(), frozenImport: false,
+          versions: [{v: 1, date: today(), lines: [{id: id + "l", materialId: m.id, dilutionPct: 100, weightG: 1, remark: 1}]}]});
+        names.forEach((n, i) => DATA.formulas.push(mk("f-b1-" + i, n)));
+        buildUsage(); render(); }""", LUMEN + ANDERS + ECHT)
+    page.wait_for_timeout(400)
+    def open_move(naam):
+        page.evaluate("n => switchTab('F', DATA.formulas.find(x => x.name === n).id, {type: 'v', idx: 0})", naam)
+        page.wait_for_timeout(500)
+        page.click("#btnMoveF"); page.wait_for_timeout(400)
+        doel = page.locator("#mvTarget").evaluate("s => s.selectedIndex > 0 ? s.options[s.selectedIndex].textContent : ''")
+        rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked, cb.disabled])")
+        return doel, rows
+    for naam in ("Lumen v.5", "Lumen versie 6", "Lumen v07 20%", "Lumen - v13 conc"):
+        doel, rows = open_move(naam)
+        check(f"B14: op {naam} stelt het venster Lumen v04 voor ({doel!r})", doel.startswith("Lumen v04"))
+        aan = sorted(r[0] for r in rows if r[1])
+        check(f"B1: op {naam} staan de andere {len(LUMEN) - 2} Lumen-versies aangevinkt ({len(aan)})",
+              aan == sorted(x for x in LUMEN if x not in ("Lumen v04", naam)))
+        check(f"op {naam}: Lumen de Nuit 3 en Lumenal 2 staan er niet bij ({[r[0] for r in rows if r[0] in ANDERS]})",
+              not any(r[0] in ANDERS for r in rows))
+        if naam == "Lumen v.5":
+            check("de hint zegt waarom", "Suggested: the same name with the lowest version number." in dlg.inner_text())
+        page.click("#dlgCancel"); page.wait_for_timeout(300)
+    for naam, lager in (("Nautica Voyage v04 ZS", "Nautica Voyage v03"), ("Bewonder v09 45gr", "Bewonder v08")):
+        doel, rows = open_move(naam)
+        check(f"B14: op {naam} stelt het venster {lager} voor ({doel!r})", doel.startswith(lager))
+        page.click("#dlgCancel"); page.wait_for_timeout(300)
+    doel, rows = open_move("Nautica Voyage v03")
+    check(f"B14: op Nautica Voyage v03 staat Nautica Voyage v04 ZS aangevinkt ({rows})",
+          doel.startswith("this formula") and [r[0] for r in rows if r[1]] == ["Nautica Voyage v04 ZS"])
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    n0 = page.evaluate("DATA.formulas.length")
+    doel, rows = open_move("Lumen v04")
+    check(f"B1: op Lumen v04 is het deze formule, met de {len(LUMEN) - 1} andere aangevinkt ({doel!r}, {sum(r[1] for r in rows)})",
+          doel.startswith("this formula") and sorted(r[0] for r in rows if r[1]) == sorted(LUMEN[1:]))
+    page.click("#dlgOk"); page.wait_for_timeout(800)
+    lu = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Lumen v04");
+        return {n: f.versions.map(v => v.v), labels: f.versions.slice(1).map(v => v.name)}; }""")
+    check(f"B1: ze worden de versies 2 tot {len(LUMEN)}, in de volgorde van hun nummer ({lu['labels']})",
+          lu["n"] == list(range(1, len(LUMEN) + 1)) and lu["labels"] == LUMEN[1:])
+    check(f"en die {len(LUMEN) - 1} staan niet meer in de lijst", page.evaluate("DATA.formulas.length") == n0 - (len(LUMEN) - 1))
+    page.keyboard.press("Control+z"); page.wait_for_timeout(600)
+    check("één Undo zet ze terug", page.evaluate("DATA.formulas.length") == n0)
 
     check("no page errors", not errs)
     b.close()

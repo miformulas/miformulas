@@ -7,6 +7,8 @@ buiten beeld (bestellijst, formuletabel naast de lijst). 35: --muted haalt 4,5:1
 label. 38: Delivered toont "Density g/ml" alleen bij ml. 39: de koptekst blijft op één rij (bestandsnaam, AM/PM,
 geïnstalleerde app). 40: Ctrl+P vanuit de handleiding. 41: de Formulair-importer in de kleuren en het thema van de app.
 42: kleinigheden (–% in de bench, ✕, links in vensters, veldnamen, kleurstalen, het tabblad To order, Import & export).
+B5 (bouw 260922o): naast de lijst, van 701 tot 1000 px, past elke dilutie in haar keuze, houdt de naam plaats in de tabel
+en in de bench view, en valt Delete formula niet meer buiten beeld.
 Vereist een webserver met de inhoud van public\\ op poort 8765 (cd public && python -m http.server 8765)."""
 import json
 from playwright.sync_api import sync_playwright
@@ -128,6 +130,40 @@ with sync_playwright() as p:
             pg.keyboard.press("Control+b"); pg.wait_for_timeout(500)
             full = pg.evaluate("() => [...document.querySelectorAll('#content table.lines thead th')].filter(x => x.offsetParent).map(x => x.textContent.trim())")
             check(f"850 px zonder de lijst: de volle tabel, met Abs % en Cost ({full})", any("Abs" in x for x in full) and any("Cost" in x for x in full))
+        pg.context.close()
+
+    # ---------- B5 (bouw 260922o): beside the list, from 701 to 1000 px, the letter of the phone ----------
+    # The compact block gave the columns the widths of the phone but kept the letter of the desktop: the dilution picker
+    # showed 0.001 % as "0.00" and 100 % as "100°", the name kept 31 px on 701, the bench view left the names 0 px on 701,
+    # 45 px on 760 and 85 px on 800, and Delete formula stood off the screen on 701 and 720.
+    PREP = """() => { const f = DATA.formulas.find(x => x.name === "Angel");
+      const v = f.versions[f.versions.length - 1], want = [100, 12.5, 0.05, 0.001, 3];
+      v.lines.slice(0, 5).forEach((l, i) => { const m = DATA.materials.find(x => x.id === l.materialId);
+        if (m && !m.dilutions.some(d => d.pct === want[i])) m.dilutions.push({pct: want[i], isBase: false, date: "", notes: ""});
+        l.dilutionPct = want[i]; });
+      invalidateMats(); switchTab("F", f.id, {type: "v", idx: f.versions.length - 1}); }"""
+    PAST = """() => { const t = document.querySelector("#content table.ftable"), c = document.querySelector("#content");
+      const sel = [...t.querySelectorAll("select.d")].slice(0, 5).map(s => {   // the picker beside a copy that holds only its text
+        const k = s.cloneNode(true); k.style.cssText = "width:auto;min-width:0;max-width:none;position:absolute;visibility:hidden";
+        [...k.options].forEach((o, i) => { if (i !== s.selectedIndex) o.remove(); });
+        s.parentElement.append(k); const need = k.getBoundingClientRect().width; k.remove();
+        return [s.options[s.selectedIndex].text, Math.round(s.getBoundingClientRect().width * 10) / 10, Math.round(need * 10) / 10]; });
+      const th = [...t.querySelectorAll("thead th")].find(x => x.querySelector('[data-sort="name"]'));
+      return {sel, name: Math.round(th.getBoundingClientRect().width), scroll: c.scrollWidth - c.clientWidth}; }"""
+    BANK = """() => { const c = document.querySelector("#content");
+      return {names: [...document.querySelectorAll(".brow .bname")].slice(0, 6).map(x => Math.round(x.getBoundingClientRect().width)),
+              scroll: c.scrollWidth - c.clientWidth}; }"""
+    for W in (701, 720, 760, 850, 1000):
+        pg = start(W)
+        pg.evaluate(PREP); pg.wait_for_timeout(600)
+        t = pg.evaluate(PAST)
+        kort = [s for s in t["sel"] if s[1] + 0.5 < s[2]]
+        check(f"B5 {W} px: elke dilutie staat heel in haar keuze ({kort or t['sel'][3]})", t["sel"] and not kort)
+        check(f"B5 {W} px: de naamkolom houdt minstens 50 px ({t['name']} px), en niets schuift ({t['scroll']} px)", t["name"] >= 50 and t["scroll"] == 0)
+        pg.locator(".benchBtn").first.click(); pg.wait_for_timeout(600)
+        bk = pg.evaluate(BANK)
+        check(f"B5 {W} px: in de bench view houdt de naam minstens 80 px ({bk['names'][:1]}), en niets schuift ({bk['scroll']} px)",
+              bk["names"] and min(bk["names"]) >= 80 and bk["scroll"] == 0)
         pg.context.close()
 
     # ---------- C-e 35 to 38, 40 and 42 on one desktop page ----------
