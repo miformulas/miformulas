@@ -6,7 +6,7 @@ Run against a local web server with the contents of public/ on port 8765:
 Chromium headless, light theme, 1280x800 at 2x, PNGs reduced to a 256-colour palette (Pillow). Nothing is written to the data file:
 the starter set lives in the browser storage of a throw-away profile.
 """
-import json, os, sys
+import json, math, os, sys
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -55,9 +55,12 @@ IMPORT = {
 def shot(page, name, selector=None, clip=None, full=False):
     path = os.path.join(OUT, name)
     if selector:
-        page.locator(selector).screenshot(path=path)
-    else:
-        page.screenshot(path=path, clip=clip, full_page=full)
+        # an element is cut on whole pixels, each edge rounded to the nearest one: an element shot rounds a fractional edge
+        # outwards and left a strip of the page behind under three of the windows (v1.7)
+        el = page.locator(selector); el.scroll_into_view_if_needed(); b = el.bounding_box()
+        x, y = round(b["x"]), round(b["y"])
+        clip = {"x": x, "y": y, "width": round(b["x"] + b["width"]) - x, "height": round(b["y"] + b["height"]) - y}
+    page.screenshot(path=path, clip=clip, full_page=full)
     print("wrote", name)
 
 def settle(page, ms=3200):
