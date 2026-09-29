@@ -312,3 +312,4 @@ with sync_playwright() as p:
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")
+raise SystemExit(1 if fail else 0)   # a run that goes by the exit code sees a failure too (C31)

@@ -5,6 +5,8 @@ version keeps the bench arrangement. Build 260922j: Ctrl+Z in a field you have n
 Redo lands where the change was made (B7), the bench view stores its groups at the first change and works on a version
 without an arrangement (B8, C-a 6), Cancel in Replace keeps Redo (C-a 3), no name of spaces and no empty step from Name
 version (C-a 4, C-a 5), and a predilution keeps the arrangement and takes its colour back on Undo (C-a 1, P2).
+Build 260922p (the tail of the mini-audit on 260922m): a group counts the lines it shows (C1), a line let go on itself
+stays where it is (C3), and migrate keeps a bench without byId whose keys are line ids (C26).
 Needs the local web server on port 8765 (see README)."""
 from playwright.sync_api import sync_playwright
 
@@ -225,6 +227,8 @@ with sync_playwright() as p:
                 keys: v.bench.groups[0].keys}; }""")
     check(f"de groep neemt de regel van 20 g niet over ({na['keys']}, {na['groep']})",
           "l-2" not in na["keys"] and not na["groep"])
+    kop = page.evaluate("""() => [...document.querySelectorAll("[data-bgi]")][0].querySelector(".bhead .hint").textContent.trim()""")
+    check(f"260922p (C1): en haar kop telt de gewiste regel niet meer ({kop!r})", kop.startswith("0 ·"))
     check(f"en die regel staat nog gewoon in de pool ({na['pool']})",
           any("20.000 g" in r.replace(",", ".") for r in na["pool"]))
     page.click("#btnBenchClose"); page.wait_for_timeout(400)
@@ -261,6 +265,16 @@ with sync_playwright() as p:
     page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-r");
         buildUsage(); markDirty(); switchTab("F", "f-u", {type:"v", idx:0}); }""")
     page.wait_for_timeout(500)
+
+    # ---------- 7c. 260922p (C26): de tak van migrate zelf ----------
+    # 7b maakt haar bench in de app, dus met byId, en doorloopt die tak nooit: een bench uit 260918d tot 260922e zonder de
+    # vlag, met regel-id's als sleutels, werd zonder die tak bij het laden leeggemaakt, en de reeks zag het niet.
+    mig = page.evaluate("""() => migrate({materials: [{id: "m-x", name: "Stof X", dilutions: [{pct: 100, isBase: true}, {pct: 10}]}],
+        formulas: [{id: "f-oud", name: "Oude bench", versions: [{v: 1, lines: [{id: "l-a", materialId: "m-x", dilutionPct: 100, weightG: 1},
+          {id: "l-b", materialId: "m-x", dilutionPct: 10, weightG: 2}], bench: {groups: [{id: "g1", title: "Kern", keys: ["l-b", "l-a"]}]}}]}]})
+        .formulas[0].versions[0].bench""")
+    check(f"260922p (C26): een bench zonder byId met regel-id's als sleutels houdt haar regels bij het laden ({mig})",
+          mig["byId"] is True and mig["groups"][0]["keys"] == ["l-b", "l-a"])
 
     # ---------- 8. Ctrl+P zonder printknop drukt af wat op het scherm staat ----------
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u");
@@ -449,7 +463,41 @@ with sync_playwright() as p:
     check("and its Undo takes the colour of Predils back with the category",
           page.evaluate("""() => !DATA.materialCategories.includes("Predils") && !("Predils" in DATA.categoryColours)"""))
 
+    # ---------- 16. 260922p (C3 en C1): slepen op zichzelf, en de telling na Create predilution ----------
+    page.evaluate("""() => { const ms = DATA.materials.filter(m => !m.isSolvent).slice(0, 4), et = DATA.materials.find(m => m.isSolvent);
+        DATA.formulas.push({id: "f-bt", name: "Benchproef", category: "Uncategorised", created: today(), versions: [{v: 1, date: today(),
+          lines: [...ms.map((m, i) => ({id: "b" + i, materialId: m.id, dilutionPct: (m.dilutions.find(d => d.isBase) || m.dilutions[0]).pct, weightG: 2 + i, remark: 1})),
+            {id: "bs", materialId: et.id, dilutionPct: 100, weightG: 80, remark: 1}]}]});
+        buildUsage(); markDirty(); switchTab("F", "f-bt", {type: "v", idx: 0}); }""")
+    page.wait_for_timeout(600)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(600)
+    for k in ("b0", "b1", "b2"): page.locator(f".bsel[data-key='{k}']").check()
+    page.select_option("#bMoveSel", "0"); page.wait_for_timeout(500)
+    def sleep_op(van, naar):   # a real mouse drag, as a hand does it: down, a few small moves, up
+        a = page.locator(f"[data-bgi='0'] .brow[data-key='{van}'] .bname").bounding_box()
+        z = page.locator(f"[data-bgi='0'] .brow[data-key='{naar}'] .bname").bounding_box()
+        x, y = a["x"] + 20, a["y"] + a["height"] / 2
+        page.mouse.move(x, y); page.mouse.down(); page.mouse.move(x + 6, y + 2, steps=4)
+        page.mouse.move(z["x"] + 32, z["y"] + z["height"] / 2 + 1, steps=6); page.mouse.up(); page.wait_for_timeout(500)
+    rij = lambda: page.evaluate("""[...document.querySelectorAll("[data-bgi='0'] .brow")].map(r => r.dataset.key)""")
+    u0 = page.evaluate("UNDO.length")
+    sleep_op("b0", "b0")
+    check(f"260922p (C3): a line let go on itself stays where it is, without an undo step ({rij()}, {u0} → {page.evaluate('UNDO.length')})",
+          rij() == ["b0", "b1", "b2"] and page.evaluate("UNDO.length") == u0)
+    sleep_op("b2", "b0")
+    check(f"while a line let go on another one still goes before it ({rij()})", rij() == ["b2", "b0", "b1"] and page.evaluate("UNDO.length") == u0 + 1)
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    page.click("#btnBenchClose"); page.wait_for_timeout(400)
+    page.check("input.selCb[data-i='0']"); page.check("input.selCb[data-i='1']")
+    page.click("#btnPredil"); page.wait_for_timeout(400); page.click("#dlgOk"); page.wait_for_timeout(800)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(600)
+    g1 = page.evaluate("""() => { const p = document.querySelector("[data-bgi='0']");
+        return {kop: p.querySelector(".bhead .hint").textContent.trim(), rijen: p.querySelectorAll(".brow").length}; }""")
+    check(f"260922p (C1): after Create predilution a group counts the lines it shows, not the two in the predilution ({g1})",
+          g1["rijen"] == 1 and g1["kop"].startswith("1 ·"))
+
     check("no page errors", not errs)
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")
+raise SystemExit(1 if fail else 0)

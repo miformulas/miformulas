@@ -2,6 +2,10 @@
 (build 260920j) the manual naming every button exactly as the app labels it, ellipsis included.
 (build 260922m) The README and the AI prompts page name buttons too, and a name can go wrong both ways:
 "Import from Formulair" without the ellipsis the link carries, "Share this version…" with one the button lacks.
+(build 260922p, the tail of the mini-audit on 260922m) Three plain dots where the app shows "…" are wrong too (C31); the
+manual calls the close button of the amber bar what the app shows, ✕, and does not assume the bar was ever there (C24);
+the online manual and the prompts page keep their grey at 4.5:1 or better, as the app does (C25). The script ends with
+exit code 1 when a check fails.
 Needs the local web server on port 8765 (see README)."""
 import os, re
 from playwright.sync_api import sync_playwright
@@ -51,7 +55,7 @@ with sync_playwright() as p:
     ELL = {l[:-1].rstrip() for l in LABS if l.endswith("…")}
     PLAIN = {l for l in LABS if not l.endswith("…")}
     SAME = {"Settings"}   # the ⚙ button and its window are Settings; only the start screen's button reads "Settings…"
-    bare, extra = [], []
+    bare, extra, dots = [], [], []
     for rel in ("docs/manual.md", "README.md", "docs/ai-prompts.md"):
         d = open(os.path.join(PUB, rel), encoding="utf-8").read()
         # **bold** in the manual and the prompts, *italic* in the README; a name may wrap onto the next line there
@@ -61,9 +65,27 @@ with sync_playwright() as p:
                 bare.append(f"{rel}:{line} {nm}")
             if nm.endswith("…") and nm[:-1].rstrip() in PLAIN and nm[:-1].rstrip() not in ELL:
                 extra.append(f"{rel}:{line} {nm}")
+            if nm.endswith("...") and nm[:-3].rstrip() in ELL | PLAIN:   # "Import from Formulair..." looks right and is not
+                dots.append(f"{rel}:{line} {nm}")
     check(f"the {len(ELL)} names with an ellipsis were found in the app", len(ELL) >= 15)
     check(f"manual, README and prompts never drop the ellipsis a button carries ({bare})", not bare)
     check(f"and never add one that a button does not carry ({extra})", not extra)
+    check(f"and never write three dots where the app shows … ({dots})", not dots)
+    md = open(os.path.join(PUB, "docs", "manual.md"), encoding="utf-8").read()
+    kruis = re.search(r'id="storageHintClose"[^>]*>([^<]*)<', SRC).group(1).strip()
+    check(f"the manual calls the close button of the amber bar what the app shows ({kruis}), and does not assume the bar was there",
+          f"the {kruis} closes it" in md and "once that bar is closed" not in md)
+    def lum(h):
+        c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+        c = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    grijs = {}
+    for rel in ("docs/manual.html", "docs/ai-prompts.html"):
+        root = re.search(r":root\{([^}]*)\}", open(os.path.join(PUB, rel), encoding="utf-8").read()).group(1)
+        v = dict(re.findall(r"--([a-z-]+):(#[0-9A-Fa-f]{6})", root))
+        la, lb = sorted([lum(v["muted"]), lum(v["ground"])], reverse=True)
+        grijs[rel] = round((la + 0.05) / (lb + 0.05), 2)
+    check(f"the grey of the online manual and the prompts page reads at 4.5:1 or better on its ground ({grijs})", min(grijs.values()) >= 4.5)
     check("help button does nothing before data is loaded", page.evaluate("(() => { document.querySelector('#btnHelp').click(); return document.querySelector('#content').innerHTML === ''; })()"))
 
     page.click("#btnStarter"); page.wait_for_timeout(1200)
@@ -102,3 +124,4 @@ with sync_playwright() as p:
     check("no page errors", not errs)
     b.close()
 print(f"\n{ok} OK, {fail} FAIL")
+raise SystemExit(1 if fail else 0)

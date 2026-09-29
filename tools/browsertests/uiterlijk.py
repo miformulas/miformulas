@@ -29,9 +29,17 @@ with sync_playwright() as p:
           page.evaluate("""(() => { LOCALE = "nl-BE"; return [csvSep(), nBE("1.5")]; })()""") == [";", "1,5"])
     check("English: comma and a point",
           page.evaluate("""(() => { LOCALE = "en-GB"; return [csvSep(), nBE("1.5")]; })()""") == [",", "1.5"])
-    check("no setting: the browser decides",
-          page.evaluate("""(() => { LOCALE = undefined; return csvSep(); })()""")
-          == ("," if page.evaluate("navigator.language").lower().startswith("en") else ";"))
+    # no setting: the language of the browser decides. The check used to expect "a comma for English, else a semicolon",
+    # the rule before 260922h, and passed only because the test machine is en-US (C29 of the mini-audit on 260922m)
+    zonder = {}
+    for loc in ("en-US", "ja-JP", "de-CH", "nl-BE"):
+        c2 = b.new_context(locale=loc); p2 = c2.new_page()
+        p2.route("**/data.php*", lambda r: r.fulfill(status=404, body="no"))
+        p2.goto(URL); p2.wait_for_timeout(500)
+        zonder[loc] = p2.evaluate("(() => { LOCALE = undefined; return [navigator.language, csvSep()]; })()")
+        c2.close()
+    check(f"no setting: the browser decides, whatever the language of this machine ({zonder})",
+          zonder == {"en-US": ["en-US", ","], "ja-JP": ["ja-JP", ","], "de-CH": ["de-CH", ";"], "nl-BE": ["nl-BE", ";"]})
     # build 260922h (C-c 26): the separators follow the number format itself, not "English or not". Swiss German writes
     # a decimal point and Excel there takes the semicolon; Japanese writes a point and a comma, as English does.
     loc = page.evaluate("""(() => { const out = {};
@@ -243,3 +251,4 @@ with sync_playwright() as p:
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")
+raise SystemExit(1 if fail else 0)

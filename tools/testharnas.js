@@ -8,11 +8,13 @@
  * Zonder derde argument draait de referentiecontrole:
  *   Bewonder 45gr        = 46,256 g / 85,12 %
  *   CC Blonde Amber v3   = 89,503 g / 20,10 %
- * Een referentieformule die niet in het bestand staat (de starterset heeft ze niet), wordt als "niet in dit
- * bestand" gemeld zonder fout; staat ze er wel, dan moet ze kloppen.
+ * Een referentieformule die niet in de starterset staat (elke formule draagt daar starter: true), wordt als "niet
+ * in dit bestand" gemeld zonder fout; in elk ander bestand is dat een fout, want een hernoemde of verloren Bewonder
+ * liet de controle op de eigen data anders slagen zonder iets te toetsen (C28 van de mini-audit op 260922m). Staat ze
+ * er wel, dan moet ze kloppen.
  * Met "inventaris" wordt elke versie van elke formule doorgerekend en gerapporteerd, zodat een databestand
- * in zijn geheel getoetst wordt, en rekent Compare (aggLines) elke versie na: gewicht, abs % en rel % per
- * materiaal moeten gelijk zijn aan wat de formuletabel (calc) zegt.
+ * in zijn geheel getoetst wordt, en rekent Compare (aggLines) elke versie na: het gewicht en de rel % per materiaal,
+ * en het totaalgewicht en de abs % van de versie, moeten gelijk zijn aan wat de formuletabel (calc) zegt.
  */
 "use strict";
 const fs = require("fs");
@@ -100,9 +102,14 @@ if (mode === "referentie") {
     { formule: "CC Blonde Amber", item: "v3", g: 89.503, pct: 20.10 },
   ];
   let gevonden = 0;
+  const starterset = (data.formulas || []).length > 0 && data.formulas.every(f => f.starter);
   for (const c of cases) {
     const f = data.formulas.find(x => x.name === c.formule);
-    if (!f) { console.log(`NIET IN DIT BESTAND  ${c.formule}`); continue; }   // de starterset heeft ze niet: geen fout
+    if (!f) {   // de starterset heeft ze niet: geen fout; een eigen databestand wel
+      console.log(`${starterset ? "NIET IN DIT BESTAND" : "FOUT: ONTBREEKT"}  ${c.formule}`);
+      if (!starterset) fouten++;
+      continue;
+    }
     gevonden++;
     const it = (f.versions || []).find(v => "v" + v.v === c.item || (v.name || "") === c.item || (c.src && (v.sourceName || "").trim() === c.src));
     if (!it) { console.log(`ONTBREEKT  ${c.formule} / ${c.item}`); fouten++; continue; }
@@ -114,7 +121,7 @@ if (mode === "referentie") {
       + `${fmt(K.totalAbsPct, 2).padStart(6)} % (verwacht ${fmt(c.pct, 2)})`);
     if (!(okG && okP)) fouten++;
   }
-  if (!gevonden) console.log("geen van de referentieformules staat in dit bestand: hier zegt alleen \"inventaris\" iets");
+  if (!gevonden && starterset) console.log("geen van de referentieformules staat in dit bestand: hier zegt alleen \"inventaris\" iets");
 } else {
   let nF = 0, nI = 0, leeg = 0, nC = 0;
   const zelfde = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b));
@@ -133,10 +140,16 @@ if (mode === "referentie") {
       const okA = isFinite(K.totalAbsPct) && K.totalAbsPct >= 0 && K.totalAbsPct <= 100.001;
       const onbekend = L.filter(l => !sandbox.matById(l.materialId)).length;
       if (sandbox.aggLines) {   // Compare rekent apart; bij B2 van de review van 22/09 liepen de twee uiteen
-        const A = sandbox.aggLines(L), perM = new Map();
-        for (const r of K.rows) if (r.rel != null) perM.set(r.l.materialId, (perM.get(r.l.materialId) || 0) + r.rel);
+        const A = sandbox.aggLines(L), perM = new Map(), perW = new Map();
+        for (const r of K.rows) {
+          if (r.rel != null) perM.set(r.l.materialId, (perM.get(r.l.materialId) || 0) + r.rel);
+          perW.set(r.l.materialId, (perW.get(r.l.materialId) || 0) + r.w);
+        }
         let okC = zelfde(A.tw, K.totalW) && zelfde(A.abs, K.totalAbsPct);
-        for (const [id, e] of A.map) if (e.rel != null && !zelfde(e.rel, perM.get(id) || 0)) okC = false;
+        for (const [id, e] of A.map) {   // het gewicht per materiaal ook: een fout in die kolom van Compare bleef onopgemerkt
+          if (e.rel != null && !zelfde(e.rel, perM.get(id) || 0)) okC = false;
+          if (!zelfde(e.w, perW.get(id) || 0)) okC = false;
+        }
         if (okC) nC++;
         else {
           fouten++;

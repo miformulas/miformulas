@@ -77,4 +77,5 @@ async def main():
         check(not errs, "geen JavaScript-fouten"+("" if not errs else ": "+errs[0][:150]))
         await b.close()
     print("\n"+("%d probleem(en)"%len(fouten) if fouten else "alles in orde"))
-asyncio.run(main())
+    return len(fouten)
+raise SystemExit(1 if asyncio.run(main()) else 0)   # the exit code tells a run what happened (C31)

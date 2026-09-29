@@ -21,7 +21,7 @@ PUB = os.path.abspath(os.path.join(HERE, ".."))
 DOCS = os.path.join(PUB, "docs")
 
 CSS = """
-:root{--ground:#FBFCFD;--surface:#FFFFFF;--panel:#EDF1F5;--ink:#212A33;--muted:#6C7A88;--line:#DCE3EA;
+:root{--ground:#FBFCFD;--surface:#FFFFFF;--panel:#EDF1F5;--ink:#212A33;--muted:#5A6773;--line:#DCE3EA;
   --accent:#A2277E;--accent-ink:#7E1B62;--accent-soft:#F9E3F1;--amber:#DD8500;--amber-soft:#FFEFD2}
 @media (prefers-color-scheme: dark){:root{--ground:#1C1122;--surface:#2A1833;--panel:#241430;--ink:#F2E6F2;--muted:#B292BC;
   --line:#453050;--accent:#E667B0;--accent-ink:#F08CC5;--accent-soft:#3A1F38;--amber:#FFB454;--amber-soft:#3B2A12}}

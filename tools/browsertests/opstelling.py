@@ -5,7 +5,8 @@ als gevonden; geen antwoord of een vreemde fout wordt de volgende start opnieuw 
 die de server meestuurt, bij laden en bij bewaren. C-d 32: een adres dat een webpagina teruggeeft (ook een 404-pagina)
 zegt dat, in plaats van een ETag-waarschuwing en "restore a backup". C-d 28: een schrijfbeurt zonder antwoord geeft het op,
 en Settings wacht er zichtbaar op. B22: de server leegmaken neemt je data mee naar deze browser, ook als de laatste
-wijziging de server niet meer haalt, en vergeet een onthouden databestand.
+wijziging de server niet meer haalt, en vergeet een onthouden databestand. Bouw 260922p (C19 van de mini-audit op
+260922m): ook het "Hello World!" van een Worker zonder de code is een verkeerd adres, en een afgebroken databestand niet.
 Vereist een webserver met de inhoud van public\\ op poort 8765 (cd public && python -m http.server 8765)."""
 import http.server, json, threading
 from playwright.sync_api import sync_playwright
@@ -156,6 +157,17 @@ with sync_playwright() as p:
     check(f"een adres dat een 404-pagina geeft: dezelfde melding ({[m[:60] for m in msgs]})", len(msgs) == 1 and "web page" in msgs[0])
     check("en het startscherm doet niet alsof een lege server wacht op de starterset",
           pg.evaluate("SERVER_EMPTY") is False and not pg.locator("#btnStarter").is_visible())
+    pg.context.close()
+    # 260922p (C19): the "Hello World!" of a Worker whose code was never deployed (section 7, step 3 skipped)
+    pg, msgs = browser("**/api*", lambda r: answer(r, 200, "Hello World!", ctype="text/plain"))
+    to_server(pg, API)
+    check(f"260922p (C19): 'Hello World!' is een verkeerd adres, niet 'restore a backup' ({[m[:70] for m in msgs]})",
+          len(msgs) == 1 and "does not lead to a miFormulas endpoint" in msgs[0] and "could not be read" not in msgs[0])
+    pg.context.close()
+    pg, msgs = browser("**/api*", lambda r: answer(r, 200, '{"materials": [{"name": "Iso E Su', '"e1"'))
+    to_server(pg, API)
+    check(f"maar een databestand dat afbreekt, blijft een beschadigd databestand ({[m[:50] for m in msgs]})",
+          len(msgs) == 1 and "could not be read" in msgs[0])
     pg.context.close()
     def empty(route):   # the real "no data file yet" of both endpoints
         answer(route, 404, '{"error":"no data file yet"}')

@@ -9,6 +9,9 @@ geïnstalleerde app). 40: Ctrl+P vanuit de handleiding. 41: de Formulair-importe
 42: kleinigheden (–% in de bench, ✕, links in vensters, veldnamen, kleurstalen, het tabblad To order, Import & export).
 B5 (bouw 260922o): naast de lijst, van 701 tot 1000 px, past elke dilutie in haar keuze, houdt de naam plaats in de tabel
 en in de bench view, en valt Delete formula niet meer buiten beeld.
+Bouw 260922p (C21 en C22 van de mini-audit op 260922m): in de bestellijst blijven Delivered… en ✕ in beeld van 701 tot
+1500 px, ook waar de tabel breder is dan het venster en eronder schuift (C-e 34 hield dat alleen op 1280 en 1366); en
+op de telefoon noemt de keuzelijst Order de kolom en de richting, want de pijl in de kop valt daar weg.
 Vereist een webserver met de inhoud van public\\ op poort 8765 (cd public && python -m http.server 8765)."""
 import json
 from playwright.sync_api import sync_playwright
@@ -119,6 +122,23 @@ with sync_playwright() as p:
             return {scroll: w.scrollWidth - w.clientWidth, dv: dv.getBoundingClientRect().right <= r.right + 0.5, x: x.getBoundingClientRect().right <= r.right + 0.5}; }""")
         check(f"{W} px: in de bestellijst staan Delivered… en ✕ in beeld ({o})", o["dv"] and o["x"] and o["scroll"] == 0)
         pg.context.close()
+    # 260922p (C21): over the whole range, with a long name and a note: the buttons stay at the right edge of the table,
+    # even where it is wider than the window and scrolls beneath them
+    pg = start(1600)
+    pg.evaluate("""() => { DATA.orderList.push({name: "Iso E Super", note: "for the vetiver accord, 2 bottles", amount: "100", unit: "g", price: "18.50",
+        url: "https://www.example-shop.com/products/iso-e-super-100g", added: "2026-09-20"});
+      DATA.orderList.push({name: "Hydroxycitronellal extra pure", note: "", amount: "25", unit: "ml", price: "7", url: "", added: "2026-09-22"});
+      markDirty(); switchTab('T'); }""")
+    pg.wait_for_timeout(700)
+    buiten = []
+    for W in list(range(701, 1521, 20)) + [1000, 1001, 1024, 1180, 1280, 1400, 1401, 1440, 1455]:
+        pg.set_viewport_size({"width": W, "height": 900}); pg.wait_for_timeout(120)
+        o = pg.evaluate("""() => { const w = document.querySelector('#content .tblwrap'), r = w.getBoundingClientRect();
+            const knop = [...document.querySelectorAll('[data-odeliv],[data-odel]')].map(x => x.getBoundingClientRect());
+            return {uit: knop.some(k => k.right > r.right + 0.5 || k.left < r.left - 0.5), pagina: document.querySelector('#content').scrollWidth - document.querySelector('#content').clientWidth}; }""")
+        if o["uit"] or o["pagina"]: buiten.append(W)
+    check(f"260922p (C21): van 701 tot 1520 px staan Delivered… en ✕ in beeld, en de pagina schuift niet opzij (buiten beeld op {buiten})", not buiten)
+    pg.context.close()
     for W in (760, 850):
         pg = start(W)
         pg.evaluate(f"() => {{ DATA.materials.forEach((m, i) => {{ if (i % 3 === 0) m.costPerGram = 0.5; }}); markDirty(); switchTab('F', {FIRST5}.id, null); }}")
@@ -131,6 +151,19 @@ with sync_playwright() as p:
             full = pg.evaluate("() => [...document.querySelectorAll('#content table.lines thead th')].filter(x => x.offsetParent).map(x => x.textContent.trim())")
             check(f"850 px zonder de lijst: de volle tabel, met Abs % en Cost ({full})", any("Abs" in x for x in full) and any("Cost" in x for x in full))
         pg.context.close()
+
+    # ---------- 260922p (C22): on the phone the list Order names the column and the direction ----------
+    pg = start(360, 800, phone=True)
+    open_formula(pg)
+    pg.click('[data-sort="weight"]'); pg.wait_for_timeout(500)
+    o = pg.evaluate("""() => { const s = document.querySelector('#sortSel'); return {tekst: s.selectedOptions[0].textContent.trim(),
+        past: s.scrollWidth <= s.clientWidth + 1, kop: document.querySelector('[data-sort="weight"]').textContent.trim()}; }""")
+    check(f"260922p (C22): gesorteerd op gewicht zegt de keuzelijst welke kolom en welke richting ({o})",
+          o["tekst"] in ("Weight ▲", "Weight ▼") and o["tekst"][-1] == o["kop"][-1])
+    pg.click('[data-sort="weight"]'); pg.wait_for_timeout(500)
+    o2 = pg.evaluate("document.querySelector('#sortSel').selectedOptions[0].textContent.trim()")
+    check(f"en de andere richting na een tweede tik ({o2})", o2.startswith("Weight") and o2[-1] != o["tekst"][-1])
+    pg.context.close()
 
     # ---------- B5 (bouw 260922o): beside the list, from 701 to 1000 px, the letter of the phone ----------
     # The compact block gave the columns the widths of the phone but kept the letter of the desktop: the dilution picker

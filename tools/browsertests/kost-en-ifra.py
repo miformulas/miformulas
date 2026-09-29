@@ -184,6 +184,31 @@ with sync_playwright() as p:
         return {weeg: weeg.includes("(deleted material)"), vol: vol.includes("(deleted material)"), bank: bank.includes("(deleted material)"),
                 cat: catPanel(K).includes("(deleted material)")}; }""")
     check(f"260922i: weegblad, volledige afdruk, bench-blad en Categories noemen de regel ({druk})", all(druk.values()))
+    # bouw 260922p (C17): op het scherm ook, en niet "?" of niets: de formuletabel, de bench view, Compare, de vraag bij ✕
+    # en het venster van ⇄ Replace
+    page.evaluate("""() => switchTab("F", "f-k", {type: "v", idx: 0})"""); page.wait_for_timeout(500)
+    scherm = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k"), uit = {};
+        uit.tabel = [...document.querySelectorAll("#content table.ftable a.matlink")].map(a => a.textContent.trim());
+        let vraag = null; const oud = window.confirm; window.confirm = m => { vraag = m; return false; };
+        document.querySelector(`[data-del="${f.versions[0].lines.findIndex(l => l.id === "l-weg2")}"]`).click(); window.confirm = oud;
+        uit.vraag = vraag;
+        VIEW.sub = {...VIEW.sub, bench: true}; render();
+        uit.bench = [...document.querySelectorAll(".brow .bname")].map(x => x.textContent.trim());
+        VIEW.sub = {...VIEW.sub, bench: false};
+        f.versions.push({...structuredClone(f.versions[0]), v: 2});
+        VIEW.sub = {type: "cmp", a: "v0", b: "v1", from: {type: "v", idx: 0}}; render();
+        uit.cmp = [...document.querySelectorAll("#content table.lines tbody tr td:first-child")].map(x => x.textContent.trim());
+        f.versions.pop(); switchTab("F", "f-k", {type: "v", idx: 0});
+        document.querySelector(`[data-repl="${f.versions[0].lines.findIndex(l => l.id === "l-weg2")}"]`).click();
+        uit.replace = document.querySelector("#dlg").open ? document.querySelector("#dlg").innerText : "";
+        document.querySelector("#dlg").close(); render();
+        return uit; }""")
+    weg = "(deleted material)"
+    check(f"260922p (C17): de formuletabel noemt de regel zo ({scherm['tabel']})", weg in scherm["tabel"] and "?" not in scherm["tabel"])
+    check(f"de bench view ook, waar de naam leeg was ({scherm['bench']})", weg in scherm["bench"] and "" not in scherm["bench"])
+    check(f"Compare ook ({scherm['cmp']})", any(x.startswith(weg) for x in scherm["cmp"]) and "?" not in scherm["cmp"])
+    check(f"de vraag bij ✕ ook ({scherm['vraag']!r})", weg in (scherm["vraag"] or ""))
+    check(f"en het venster van ⇄ Replace ({scherm['replace'][:90]!r})", weg in scherm["replace"])
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-k");
       f.versions[0].lines = f.versions[0].lines.filter(l => l.id !== "l-weg" && l.id !== "l-weg2"); markDirty(); render(); }""")
     page.wait_for_timeout(400)
@@ -533,3 +558,4 @@ with sync_playwright() as p:
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")
+raise SystemExit(1 if fail else 0)   # a run that goes by the exit code sees a failure too (C31)

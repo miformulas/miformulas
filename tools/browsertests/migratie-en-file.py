@@ -3,6 +3,11 @@ from playwright.async_api import async_playwright
 URL="http://localhost:8765/"
 # De gedownloade app is het index.html van de repo zelf, twee mappen hoger; zo test dit altijd wat er nu staat.
 APP = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "index.html"))
+FOUTEN = []
+def meld(regel):   # print, and count what failed, so that the exit code says it (C31)
+    print(regel)
+    if regel.startswith("FOUT"): FOUTEN.append(regel)
+
 async def main():
     async with async_playwright() as p:
         b=await p.chromium.launch(); ctx=await b.new_context(); page=await ctx.new_page()
@@ -14,10 +19,10 @@ async def main():
         await page.evaluate("new Promise(r=>{const t=idb.db.transaction('kv','readwrite').objectStore('kv').delete('serverUrl'); t.onsuccess=r; t.onerror=r;})")
         await page.goto(URL); await page.wait_for_timeout(1200)
         rem=await page.evaluate("(async()=>[REMOTE, API, await idb.get('serverUrl')])()")
-        print(("OK   " if rem[0] and rem[1]=="data.php" and rem[2]=="data.php" else "FOUT ")+"bestaand token zonder serverUrl -> REMOTE met data.php, en onthouden: %s"%rem)
+        meld(("OK   " if rem[0] and rem[1]=="data.php" and rem[2]=="data.php" else "FOUT ")+"bestaand token zonder serverUrl -> REMOTE met data.php, en onthouden: %s"%rem)
         # B. token mag nooit in de HTML zitten
         html=open(APP,encoding='utf-8').read()
-        print(("OK   " if 'kMpd' not in html else "FOUT ")+"geen token in het HTML-bestand")
+        meld(("OK   " if 'kMpd' not in html else "FOUT ")+"geen token in het HTML-bestand")
         await b.close()
         # C. file:// -> bestandsmodus, starterknop (maakt het databestand aan, sinds 260907b), geen probe
         b=await p.chromium.launch(); ctx=await b.new_context(); page=await ctx.new_page()
@@ -25,8 +30,8 @@ async def main():
         await page.goto("file://" + APP); await page.wait_for_timeout(800)
         st=await page.is_visible("#btnStarter"); op=await page.text_content("#btnOpen")
         modes=await page.evaluate("[DEMO, REMOTE]")
-        print(("OK   " if (st and "Open data file" in op and modes==[False,False]) else "FOUT ")+"file://: bestandsmodus, starterknop, 'Open data file…', DEMO=REMOTE=false (%s, starterknop %s)"%(modes, st))
-        print(("OK   " if not errs else "FOUT ")+"file://: geen JavaScript-fouten"+("" if not errs else ": "+errs[0][:200]))
+        meld(("OK   " if (st and "Open data file" in op and modes==[False,False]) else "FOUT ")+"file://: bestandsmodus, starterknop, 'Open data file…', DEMO=REMOTE=false (%s, starterknop %s)"%(modes, st))
+        meld(("OK   " if not errs else "FOUT ")+"file://: geen JavaScript-fouten"+("" if not errs else ": "+errs[0][:200]))
         await b.close()
         # D. bouw 260918a: zonder IndexedDB (privevenster, geblokkeerde opslag) moet data.php nog altijd gezocht worden
         DATAFILE = '{"formulas": [], "materials": [], "meta": {"schema": 1}}'
@@ -36,6 +41,7 @@ async def main():
         await page.route("**/data.php*", lambda r: asyncio.ensure_future(r.fulfill(status=200, content_type="application/json", body=DATAFILE)))
         await page.goto(URL); await page.wait_for_timeout(1500)
         st=await page.evaluate("[!!idb.db, REMOTE, API]")
-        print(("OK   " if st==[False, True, "data.php"] else "FOUT ")+"zonder IndexedDB wordt data.php toch gezocht en gevonden: %s"%st)
+        meld(("OK   " if st==[False, True, "data.php"] else "FOUT ")+"zonder IndexedDB wordt data.php toch gezocht en gevonden: %s"%st)
         await b.close()
 asyncio.run(main())
+raise SystemExit(1 if FOUTEN else 0)

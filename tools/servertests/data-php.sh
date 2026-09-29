@@ -5,8 +5,9 @@
 # unedited token (also after Replace all in an editor, and an empty one), a missing data folder, the
 # preflight and the CORS headers, the token, ?ping=1 with its report on the data folder (a link to a
 # folder elsewhere included), reading, the gate in front of a write, the byte count, the conflict
-# guard with a weak etag, the daily snapshots with their trimming, a data file that is a link, and a
-# daily snapshot that does not fit (a limit on the size of a file stands in for a full disk).
+# guard with a weak etag, the daily snapshots with their trimming, a data file that is a link, a
+# daily snapshot that does not fit and a data file that does not fit while its snapshot does (a limit on
+# the size of a file stands in for a full disk).
 #
 #     bash data-php.sh [path to data.php]
 #
@@ -242,6 +243,41 @@ if ( ulimit -f 64 ) 2>/dev/null; then
   fi
 else
   echo "SKIP a daily snapshot that does not fit: this shell cannot limit the size of a file"
+fi
+
+# ---------- 10b. the data file does not fit, while its snapshot does ----------
+# Section 10 stops at the snapshot, so its "no temporary data file" never met a write of the data itself: a data.php
+# that left the .tmp behind passed it (C30 of the mini-audit on 260922m). Here the data file is small, so its snapshot
+# fits, and the body is about 12 kB against a limit of 8 kB; PHP keeps a body under 16 kB in memory, so the limit hits
+# only the new data file.
+if ( ulimit -f 8 ) 2>/dev/null; then
+  SM="$TMP/web/sm"; mkdir -p "$SM"
+  sed "s#^\$DATA_DIR = .*#\$DATA_DIR = __DIR__ . '/sm';#" "$TMP/web/data.php" > "$TMP/web/sm.php"
+  SMALL='{"materials":[],"formulas":[{"name":"small"}]}'
+  printf '%s' "$SMALL" > "$SM/miformulas-data.json"
+  php -r 'echo json_encode(["materials" => array_map(fn($i) => ["name" => sprintf("Material %03d with a name", $i)], range(0, 299)), "formulas" => []]);' > "$TMP/body12k.json"
+  PORT3=""
+  for p in $(seq 8821 8831); do
+    ( trap '' XFSZ; ulimit -f 8; exec php -S "127.0.0.1:$p" -t "$TMP/web" >"$TMP/php3.log" 2>&1 ) &
+    PHP2=$!
+    sleep 1
+    if kill -0 "$PHP2" 2>/dev/null &&
+       [ "$(curl -sS --noproxy '*' "http://127.0.0.1:$p/marker.txt" 2>/dev/null)" = "$MARKER" ]; then PORT3="$p"; break; fi
+    kill "$PHP2" 2>/dev/null; PHP2=""
+  done
+  if [ -n "$PORT3" ]; then
+    CODE=$(curl -sS --noproxy '*' -X PUT -H 'Expect:' -H "X-Token: $TOKEN" -o "$TMP/body" -w '%{http_code}' \
+           --data-binary "@$TMP/body12k.json" "http://127.0.0.1:$PORT3/sm.php" 2>/dev/null); BODY=$(cat "$TMP/body")
+    is   "a write whose data file does not fit is refused" "500" "$CODE"
+    has  "and it says why" "write failed" "$BODY"
+    [ "$(cat "$SM/miformulas-data.json")" = "$SMALL" ] && pass "the data file is left as it was" || flop "the data file is left as it was"
+    if ls -A "$SM" | grep -q '\.tmp$'; then flop "no temporary data file is left" "$(ls -A "$SM" | tr '\n' ' ')"; else pass "no temporary data file is left"; fi
+    kill "$PHP2" 2>/dev/null; PHP2=""
+  else
+    flop "a third php -S with a limit on the file size" "could not start it (see $TMP/php3.log)"
+  fi
+else
+  echo "SKIP a data file that does not fit: this shell cannot limit the size of a file"
 fi
 
 # ---------- 11. anything else ----------

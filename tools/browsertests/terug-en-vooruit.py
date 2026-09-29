@@ -2,7 +2,8 @@
 zijknoppen van de muis, de browserknoppen, Alt+Links en de Android-terugknop werken. Playwright kan de
 zijknoppen van een muis niet sturen (alleen links, rechts en midden); go_back() en go_forward() doen wat die
 knoppen in de browser doen, dus dat is wat hier getest wordt. Sinds 260922j neemt een stap ook de vergelijking en de
-bench view mee (C-a 7).
+bench view mee (C-a 7). Sinds 260922p is een formule die je uit de lijst opent meteen de plaats met haar versie, zodat
+Bench view of een gewicht daarna geen tweede stap is en één keer terug de formule verlaat (C5 van de mini-audit op 260922m).
 Vereist de lokale webserver op poort 8765, zie README."""
 from playwright.sync_api import sync_playwright
 
@@ -112,6 +113,21 @@ with sync_playwright() as b0:
     if page.locator("#btnBenchClose").count():
         page.click("#btnBenchClose"); page.wait_for_timeout(500)
     check(f"zonder paginafout ({errs[:2]})", not errs)
+
+    # 260922p (C5): uit de lijst geopend, dan Bench view en een gewicht: dat is één plaats, en één keer terug verlaat ze
+    page.evaluate("id => switchTab('M', id, null)", mid); page.wait_for_timeout(600)
+    page.evaluate("() => switchTab('F', null, null)"); page.wait_for_timeout(600)
+    page.click("#list .item >> nth=1"); page.wait_for_timeout(700)
+    fid, n0 = page.evaluate("VIEW.id"), page.evaluate("NAVI")
+    page.click("#btnBenchToggle"); page.wait_for_timeout(600)
+    page.click("#btnBenchClose"); page.wait_for_timeout(500)
+    page.fill("input.w >> nth=0", "7"); page.keyboard.press("Tab"); page.wait_for_timeout(600)
+    n1 = page.evaluate("NAVI")
+    check(f"260922p (C5): uit de lijst geopend, dan Bench view en een gewicht: geen extra stap ({n0} → {n1})", n1 == n0)
+    page.go_back(); page.wait_for_timeout(800)
+    check(f"en één keer terug verlaat de formule ({plek(page)})", plek(page)["id"] != fid)
+    page.go_forward(); page.wait_for_timeout(800)
+    check(f"vooruit geeft haar weer, op de versie die je las ({plek(page)})", plek(page)["id"] == fid and plek(page)["sub"] is not None)
 
     # een herlaadbeurt volgt de instelling "Open where you left off"
     page.evaluate("id => switchTab('M', id, null)", mid); page.wait_for_timeout(700)

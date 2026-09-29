@@ -161,5 +161,6 @@ async def main():
         await b.close()
     print()
     print("%d probleem(en)" % len(fouten) if fouten else "alles in orde")
+    return len(fouten)
 
-asyncio.run(main())
+raise SystemExit(1 if asyncio.run(main()) else 0)   # the exit code tells a run what happened (C31)

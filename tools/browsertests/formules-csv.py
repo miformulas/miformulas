@@ -335,8 +335,10 @@ with sync_playwright() as pw:
     check("B17: een nieuwe versie van Angel staat voorgeselecteerd", doel == info["id"])
     check(f"B17: alle regels zijn er ({n4} van {info['lines']})", n4 == info["lines"])
     pg4.click("#btnImpOk"); pg4.wait_for_timeout(1100)
+    # the same lines: material, dilution and weight of each, in any order; the number of lines alone let any weight pass (C29)
     na = pg4.evaluate("""id => { const f = DATA.formulas.find(x => x.id === id); const a = f.versions[f.versions.length - 2], z = f.versions[f.versions.length - 1];
-        return [f.versions.length, a.lines.map(l => l.weightG).join("|") === z.lines.map(l => l.weightG).join("|") || a.lines.length === z.lines.length]; }""", info["id"])
+        const regels = v => v.lines.map(l => [l.materialId, l.dilutionPct ?? 100, l.weightG].join(":")).sort().join("|");
+        return [f.versions.length, regels(a) === regels(z), a.lines.length]; }""", info["id"])
     check(f"B17: Angel heeft een versie meer, met dezelfde regels ({na})", na[0] == info["n"] + 1 and na[1])
     met_label = schrijf(os.path.join(tmp, "260923 Rose de Mai 68 v2 45gr.csv"),
         '"Rose de Mai 68 – v2 45gr";"";"";"";"";""\r\n"Material";"Dilution %";"Weight g";"Rel %";"Abs %";"Cost EUR"\r\n'
