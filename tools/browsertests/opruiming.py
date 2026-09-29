@@ -345,6 +345,20 @@ with sync_playwright() as p:
     page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:1})"""); page.wait_for_timeout(400)
     page.click("#btnCmp"); page.wait_for_timeout(500)
 
+    # 260922q: een versie zonder datum heette "(?)" in de keuzelijsten van Compare en "(no date)" in de versiekiezer
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-staart");
+        f.versions.push({v:3, date:"", lines:[{id:"l-5", materialId:f.versions[0].lines[0].materialId, dilutionPct:100, weightG:1}]});
+        switchTab("F", "f-staart", {type:"v", idx:2}); }""")
+    page.wait_for_timeout(500)
+    vs = page.evaluate("() => [...document.querySelectorAll('#verSel option')].map(o => o.textContent)")[2]
+    page.click("#btnCmp"); page.wait_for_timeout(500)
+    ca = page.evaluate("() => [...document.querySelectorAll('#cmpA option')].map(o => o.textContent)")[2]
+    check(f"een versie zonder datum heet in Compare zoals in de versiekiezer ({vs!r}, {ca!r})",
+          "(no date)" in vs and "(no date)" in ca and "?" not in ca)
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-staart"); f.versions.pop();
+        switchTab("F", "f-staart", {type:"v", idx:1}); }"""); page.wait_for_timeout(400)
+    page.click("#btnCmp"); page.wait_for_timeout(500)
+
     # 14: Ctrl+P in Compare zegt wat er aan de hand is, met een formule open
     page.evaluate("""() => { document.querySelector("#printArea").innerHTML = "";
         window.dispatchEvent(new Event("beforeprint")); }""")
