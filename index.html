@@ -170,6 +170,7 @@ table.lines select.d{max-width:7rem}
 #content details.panelBox{border-top-color:var(--frozen)}
 .panelBox h3{margin:0 0 .5rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink)}
 .toolRow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.6rem 0}
+.outBtns{margin-left:auto;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:flex-end}   /* the four ways out of a version wrap as one group (C12) */
 .tickBar{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;align-items:center;margin:.2rem 0 .8rem;padding:.45rem .8rem;
   background:var(--panel);border-radius:8px;border:1px solid var(--line)}
 .tickGrp{display:inline-flex;gap:.35rem;align-items:center}
@@ -403,7 +404,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260922q</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">260930a</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -472,7 +473,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s6-coming-from-formulair">6</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a predilution (sections <a href="#s13-changing-dilutions">13</a> to <a href="#s15-colour-marks-notes-and-the-trial-log">15</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s20-import-and-export">20</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s16-bench-view-and-printing">16</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s5-install-as-an-app-with-its-own-icon">5</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 260922q. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 260930a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-where-your-data-lives-browser-file-or-server">Where your data lives: browser, file or server</a></li><li><a href="#s3-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s4-recommended-setup-and-the-other-ways-in">Recommended setup, and the other ways in</a></li><li><a href="#s5-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s6-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s7-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s8-the-screen">The screen</a></li><li><a href="#s9-materials">Materials</a></li><li><a href="#s10-formulas-and-versions">Formulas and versions</a></li><li><a href="#s11-editing-a-formula">Editing a formula</a></li><li><a href="#s12-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s13-changing-dilutions">Changing dilutions</a></li><li><a href="#s14-batch-scaling-and-predilutions">Batch scaling and predilutions</a></li><li><a href="#s15-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s16-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s17-comparing-versions">Comparing versions</a></li><li><a href="#s18-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s19-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s20-import-and-export">Import and export</a></li><li><a href="#s21-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s22-backups-and-recovery">Backups and recovery</a></li><li><a href="#s23-questions-and-answers">Questions and answers</a></li><li><a href="#s24-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -488,7 +489,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>The bottom line of the start screen has <strong>Settings…</strong>, <strong>Manual</strong> (this text, with its screenshots, on the site), <strong>Feedback</strong>, and, where they apply, <strong>Download the app</strong>, <strong>Install as an app</strong> and <strong>Import from Formulair…</strong>.</p>
 <p>Whichever way in you take, you land on the Welcome page: four tiles (formulas, versions, materials, to order), a block <strong>Start here</strong> with the three things you usually come for (open a formula, <strong>+ New formula…</strong>, <strong>+ New material…</strong>), a line saying where your data lives, the recently edited items once you have edited something of your own, and the ways in for materials and formulas that come from elsewhere (section <a href="#s20-import-and-export">20</a>; the downloaded app leaves out the Formulair line, which needs the site). Pick a formula or material in the list on the left, or create a new one with <strong>+ New formula…</strong> and <strong>+ New material…</strong> in the header.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The Welcome page after loading the starter set, with the amber storage bar.</a></p>
-<p>Every change is saved automatically a few seconds after you make it, and straight away when you switch away from the page or it goes out of sight, so a phone that puts the app aside keeps your last change. Close the page while something is still unsaved and the browser asks first; <strong>Ctrl+Z</strong> undoes a change. Deleting a line, a version or a formula always asks for confirmation, and a material that is still used in a formula is not deleted at all: the app says which formulas hold it (section <a href="#s9-materials">9</a>).</p>
+<p>Every change is saved automatically a few seconds after you make it, and straight away when you switch away from the page or it goes out of sight, so a phone that puts the app aside keeps your last change. Close or reload the page within those few seconds and the browser asks first: answer Leave and that last change may be lost, so press <strong>Save</strong> (or <strong>Ctrl+S</strong>) before you close when you want to be sure. <strong>Ctrl+Z</strong> undoes a change. Deleting a line, a version or a formula always asks for confirmation, and a material that is still used in a formula is not deleted at all: the app says which formulas hold it (section <a href="#s9-materials">9</a>).</p>
 <h2 id="s2-where-your-data-lives-browser-file-or-server">2. Where your data lives: browser, file or server</h2>
 <p>miFormulas stores everything in one JSON file, <code>miformulas-data.json</code>. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server"). When the header would otherwise need a second row (a long file name, a clock with AM and PM, or a window narrower than about 1300 pixels), only the time is shown; the place is then in the tooltip. Between a change and the save that follows it a second or two later, the header says "Unsaved changes" in colour; that colour is the app telling you it still has something to write, and it disappears by itself. A warning is always given in full: "Server not reachable: changes kept in memory, use Backup", "⚠ Conflict: changed on another device – reload (F5) before editing", "⚠ The server holds data that was not loaded here", "Token rejected: use Backup, then reload to enter it again" and "Save failed – use Backup". Each of them names the same way out, because a warning about your data is only useful with one. Two other states belong to particular situations: "Loaded (read-only fallback – use Backup to save)" in a browser that cannot write files (see "In a file" below), and "Cached copy – reload the file for the latest data" when the app started from the copy it kept while the file itself was not read yet. When the network comes back after "Server not reachable", the app saves again by itself.</p>
 <p>Two buttons on the start screen belong to particular situations. With a server configured, <strong>Open data file…</strong> reads <strong>Connect to server</strong> instead, and asks for the token if the server wants one. In the read-only fallback (the downloaded app in Firefox or Safari, see "In a file" below) the start screen offers <strong>Continue with data from …</strong> with the date and time of the copy the app kept in the browser, so you do not have to pick the file again. In server mode a save that could not reach the server does not use that button: the status says "Server not reachable: changes kept in memory, use Backup", and after a reload the start screen offers <strong>Connect to server</strong> and, if there is one, the daily snapshot (section <a href="#s22-backups-and-recovery">22</a>).</p>
@@ -730,7 +731,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p><strong>Copy to new formula…</strong> takes the version you are looking at as v1 of a new formula, with its lines, bench arrangement, notes and trial log; the notes open with a line saying which formula and version it was copied from. <strong>Rename…</strong> and <strong>Change category…</strong> do what they say; categories are shared between formulas and get a colour dot, which the colour square beside the category picker sets. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
 <p><strong>Delete version</strong> asks first and names the formula and the version it is about. When it is the only version it says so: the formula then stays in your list without lines, and <strong>Delete formula</strong> is what removes the formula itself. Undo (Ctrl+Z) brings a deleted version back during the session.</p>
 <h2 id="s11-editing-a-formula">11. Editing a formula</h2>
-<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one (a trace dilution keeps the decimals it needs, so 0,001 % and 0,01 % do not both read as 0 %), or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s13-changing-dilutions">13</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice, and the suggestion list shows each material with its alternative names beside it, so typing one of those names brings up the materials that carry it. When nothing of yours carries the name you typed, the app does not go straight to creating one: it runs the same search as the list panel in section <a href="#s8-the-screen">8</a> (name, alternative names, CAS number, supplier, and the description) and shows what that finds, with what it matched on, so that you can pick the material you meant. <strong>None of these</strong> goes on to create it. Adding a material the version already holds at that same dilution asks first, and says what a second line would mean: the weighing sheet lists it twice, while Compare adds the two together. Say yes and an amber line keeps warning about those <strong>duplicate lines</strong>, in the table and in the bench view alike, because it is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one, Shift+Tab to the previous, and Enter keeps you in the field you are in. Step away in the middle of a number, to another tab or another program, and the field keeps what you typed with the cursor where it was: you type on when you come back.</p>
+<p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one (a trace dilution keeps the decimals it needs, so 0,001 % and 0,01 % do not both read as 0 %), or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s13-changing-dilutions">13</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own ("Ambroxan" finds your "Ambroxide"), so you do not create the same material twice, and the suggestion list shows each material with its alternative names beside it, so typing one of those names brings up the materials that carry it. When nothing of yours carries the name you typed, the app does not go straight to creating one: it runs the same search as the list panel in section <a href="#s8-the-screen">8</a> (name, alternative names, CAS number, supplier, and the description) and shows what that finds, with what it matched on, so that you can pick the material you meant. <strong>None of these</strong> goes on to create it. Adding a material the version already holds at that same dilution asks first, and says what a second line would mean: the weighing sheet lists it twice, while Compare adds the two together. Say yes and an amber line keeps warning about those <strong>duplicate lines</strong>, in the table and in the bench view alike, because it is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight and moves to the next one (after the last, to <strong>Add material…</strong>), Shift+Tab to the previous, and Enter keeps you in the field you are in. Step away in the middle of a number, to another tab or another program, and the field keeps what you typed with the cursor where it was: you type on when you come back.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s11-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
 <p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s20-import-and-export">20</a>) it arrives with the facts the library holds, exactly as <strong>+ New material…</strong> does; the same goes for a formula import and for <strong>Delivered…</strong> on the order list.</p>
 <p>The table can be ordered by original entry, by category or by pyramid level (top to base), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
@@ -749,20 +750,21 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <li><strong>Preserve rel % only.</strong> The weight of the line changes, nothing else; the total weight and the abs % shift.</li>
 <li><strong>Preserve weight.</strong> The grams stay as they are, so the material content and the rel % change. Use this when the weighing is the fact and the dilution was wrong.</li>
 </ul>
+<p>On a line you have just added with <strong>Add line</strong>, Preserve weight is chosen to start with: you are copying a recipe, and the grams on paper are the grams of that dilution.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s13-changing-dilutions">Changing a dilution: the three ways to proceed, with the effect on weight and solvent.</a></p>
 <p>When you replace a material with <strong>⇄</strong> by one that does not offer the line's dilution, the same question comes up, for the nearest dilution the new material does have; <strong>Cancel</strong> keeps the old material.</p>
 <p><strong>Lower</strong> and <strong>Higher</strong> in the tick bar shift all ticked lines to the next lower or higher dilution that the material offers, preserving rel % and exchanging the solvent in one go (so the formula needs a solvent line); lines already at their lowest or highest are skipped and reported, and so is a ticked solvent line, because the solvent is what takes up the difference.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s13-changing-dilutions">Ticked lines and the tick bar: marks, Lower and Higher, Create predilution…</a></p>
 <p>Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent".</p>
 <h2 id="s14-batch-scaling-and-predilutions">14. Batch scaling and predilutions</h2>
-<p><strong>Batch scaling</strong> sits under the table. <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). <strong>Target total</strong> rescales the whole formula to a given weight. <strong>Set EtOH for target abs %</strong> changes only the ethanol line so that the concentrate reaches the percentage you type, adding an ethanol line if there is none (ethanol is a material ticked as a solvent with Ethanol or EtOH in its name, so an "Alcohol 96 %" is not taken for it); the hint shows the maximum reachable with no ethanol at all. Batch scaling is there on the editable version only, and the printed weighing sheet always shows the weights as they are stored. To weigh another quantity, make a new version and scale that one: the batch on your bench then carries a version number that points back into the app, which a rescaled print would not.</p>
+<p><strong>Batch scaling</strong> sits under the table, in the order you use it. <strong>Concentration (abs %)</strong> with <strong>Set EtOH</strong> changes only the ethanol line so that the formula reaches the concentration you type, adding an ethanol line if there is none (ethanol is a material ticked as a solvent with Ethanol or EtOH in its name, so an "Alcohol 96 %" is not taken for it); the hint shows the maximum reachable with no ethanol at all. <strong>Target total</strong> then rescales the whole formula to a given weight, and <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). For 50 g at 20 %, set the concentration first and the total after it: the other way round, the ethanol comes on top of the 50 g. Batch scaling is there on the editable version only, and the printed weighing sheet always shows the weights as they are stored. To weigh another quantity, make a new version and scale that one: the batch on your bench then carries a version number that points back into the app, which a rescaled print would not.</p>
 <p><strong>Create predilution…</strong> bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed, lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line you will have to weigh, in grams like every other weight in the app, so you can see at a glance which factor makes it weighable), then creates three things at once: a frozen predilution formula in the category "Predilutions", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s14-batch-scaling-and-predilutions">Create predilution: name, batch factor and a preview of the mix.</a></p>
 <h2 id="s15-colour-marks-notes-and-the-trial-log">15. Colour marks, notes and the trial log</h2>
 <p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the <strong>tick bar</strong>: mark them red, green, blue or yellow, unmark them, or clear every mark in the version at once, which asks first and says how many go. Marks are per version, and they carry over into new versions and copies, and into a formula you move into another with <strong>Move into…</strong>. They stay inside the app: a shared file, the Excel exports and <strong>Export all my formulas</strong> carry the recipe, not your marks, because a colour means something to you and nothing to the person you send it to. Use them as you like: what changed, what to smell for, what to check.</p>
 <p><strong>Notes</strong> is a free text per version, shown on the formula sheet. The <strong>Trial log</strong> is a dated list of short entries ("day 3, macerated, top too sharp") that also prints on the formula sheet.</p>
 <h2 id="s16-bench-view-and-printing">16. Bench view and printing</h2>
-<p><strong>Bench view</strong> (the button next to the formula name, which reads <strong>Table view</strong> while the bench is open, with <strong>Close bench</strong> underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column; drag them into named groups, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong> makes as many more as your batch needs, and you can rename, reorder (the ⠿ handle, or ↑ and ↓) and delete groups as you like; <strong>⇤</strong> empties one back into Unsorted without deleting it. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version from the first thing you move, and it hangs on the lines themselves, so changing a dilution or deleting one of two identical lines leaves the other where you put it; opening the bench view changes nothing. The groups stand beside the Unsorted column on a wide screen and below it on a narrower one, so the group buttons are always within reach. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them; like the weighing sheet, it marks a material you do not own yet "(to order)".</p>
+<p><strong>Bench view</strong> (the button next to the formula name, which reads <strong>Table view</strong> while the bench is open, with <strong>Close bench</strong> underneath it) is something you will not find in other formulation apps. It is inspired by the way Ryan Parfums builds his batches in his YouTube videos: start with the core materials, smell, then add the next group of materials step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column; drag them into named groups, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong> makes as many more as your batch needs, and you can rename, reorder (the ⠿ handle, or ↑ and ↓) and delete groups as you like; <strong>⇤</strong> empties one back into Unsorted without deleting it. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version from the first thing you move, and it hangs on the lines themselves, so changing a dilution or deleting one of two identical lines leaves the other where you put it; opening the bench view changes nothing, and arranging it does not change the date of the formula. Weights are changed in Table view; the bench view shows them. The groups stand beside the Unsorted column on a wide screen and below it on a narrower one, so the group buttons are always within reach. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them; like the weighing sheet, it marks a material you do not own yet "(to order)".</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s16-bench-view-and-printing">Bench view: the Unsorted column with its own sort order, and the groups you build the batch with underneath it (beside it on a wide screen).</a></p>
 <p>From the table view, four buttons under the lines, in this order: <strong>Print full formula</strong>, <strong>Excel export</strong>, <strong>Share this version</strong> and <strong>Print weighing sheet</strong>. The line under them says what each is for. The two prints are not the same sheet: the full formula is the record of the version, the weighing sheet is what you work from at the bench. <strong>Ctrl+P</strong> or File › Print without one of these buttons prints that same weighing sheet of the version you are looking at, in bench view as well; outside a formula it prints a line saying so, and from this manual a line that points at the version to print online, so what goes to the printer is never a sheet left over from earlier.</p>
 <ul>
@@ -801,7 +803,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case) and <strong>Open where you left off</strong>. That last one is off by default; with it on, the app starts on the formula or material you had open, and on the version you were looking at, as long as it is still there, instead of on the list. It is a setting of the device you set it on and not part of your data, so each computer and phone has its own, and switching it off forgets the place again. On the site there is also the <strong>server endpoint</strong> and its token; the app you downloaded has neither, because it always works on the data file next to it, and a server is set up in the Settings on the site. Emptying the server endpoint takes your data, as it is at that moment, along into this browser, where the app keeps it from then on; the server keeps its copy, and a data file you used before the server is no longer opened by itself. Then a few buttons that depend on the situation: <strong>Install as an app</strong> when the browser offers it, <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser</strong> in browser-storage mode, and <strong>Forget the remembered data file</strong> when a file is remembered. At the bottom sits the materials library (section <a href="#s20-import-and-export">20</a>): the name, size and licence of the one that is loaded, its attribution and source when it carries them, and the buttons <strong>Import materials library…</strong>, <strong>Remove the library</strong> and <strong>Get the latest library</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s21-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
 <p>The <strong>theme</strong> button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.</p>
-<p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. Once you have typed in a text field, Ctrl+Z there first takes back your typing, as anywhere else; in a field you have not typed in, such as the one the cursor goes back to after <strong>Add line</strong> or a weight, it is the app's undo. In the list panel a row takes focus with Tab and opens with Enter, and the same goes for material names, sort headers and colour swatches. In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add) and <strong>Escape</strong> closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.</p>
+<p>Shortcuts: <strong>Ctrl+Z</strong> undo, <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> redo (the last ten of them), <strong>Ctrl+S</strong> save now, <strong>Ctrl+B</strong> hide or show the list panel, <strong>Shift-click</strong> on a checkbox ticks a range. On a Mac use Cmd instead of Ctrl. Once you have typed in a text field, Ctrl+Z there first takes back your typing, as anywhere else; in a field you have not typed in, such as the one the cursor goes back to after <strong>Add line</strong> or a weight, it is the app's undo. In the list panel a row takes focus with Tab and opens with Enter, and the same goes for material names, sort headers and colour swatches. <strong>Enter</strong> in a small field with a button of its own presses that button: a trial-log note, the Batch scaling fields, a new dilution, a stocktake or a purchase, a material on the order list. In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add) and <strong>Escape</strong> closes it. Undo and redo both take you back to the formula or the material the change was on, so you see what came back.</p>
 <p><strong>Back and forward.</strong> Every place you open is a step: a formula and the version you were looking at, with the comparison or the bench view you had open, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the <strong>back and forward buttons of your mouse</strong> work, and so do the browser's own two buttons, <strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. Switching to another version of the same formula is a step of its own, so back returns you to the version you were reading. A step whose formula or material has been deleted since is skipped and lands you on the list. Reloading the page lands you back on the step you were on when <strong>Open where you left off</strong> is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends, and also when the browser has run out of steps to give, because a browser keeps only the last fifty or so. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.</p>
 <h2 id="s22-backups-and-recovery">22. Backups and recovery</h2>
 <p><strong>Backup</strong> in the header writes the complete data file, named with date and time (<code>260907_1402_miformulas-data.json</code>); Chrome and Edge ask where it should go and remember that folder. Make one before anything you are not sure about, and regularly in browser-storage mode; keep them in a <code>backups</code> folder.</p>
@@ -1151,7 +1153,7 @@ async function openFile(){
   if (!h) return;
   if (REMOTE){   // a server that holds nothing yet: read the file here, and the first save puts it there.
     const d = await readDataFile(await h.getFile());   // no HANDLE: the server is where this data lives now
-    if (d){ DATA = d; boot(true); markDirty(); }
+    if (d){ DATA = d; boot(true); markDirty(true); }
     return;
   }
   if (await loadFromHandle(h)) boot();
@@ -1166,7 +1168,7 @@ $("#fileFallback").addEventListener("change", async e => {
   if (!looksLikeData(parsed)){ alert(NOT_DATA_MSG); return; }
   const d = migrateSafe(parsed); if (!d) return;
   DATA = d;
-  if (REMOTE){ boot(true); markDirty(); return; }   // the server holds nothing yet: the first save puts this file there
+  if (REMOTE){ boot(true); markDirty(true); return; }   // the server holds nothing yet: the first save puts this file there
   if (LOCKED){}   // the start screen of a second window offers no Open data file…; nothing of this may reach the shared storage
   else if (DEMO) idb.set("demoData", text); else idb.set("cachedData", {json: text, when: Date.now(), name: f.name});   // fast path for next visit (iOS)
   boot();
@@ -1193,8 +1195,11 @@ function fitHeader(){
 }
 window.addEventListener("resize", fitHeader);
 let saveTimer = null, SAVEGEN = 0, SAVING = null, SAVEAGAIN = false;
-function markDirty(){
+function markDirty(fresh){
   DIRTY = true; SAVEGEN++;   // every change gets a number, so a write can tell whether it is still current
+  // a fresh start (the starter set, nothing, a file on an empty server, a Formulair import) is written at once: there is
+  // nothing the user did, so "Unsaved changes" only told him to press Save (B21 of the audit v2)
+  if (fresh){ saveData(); return; }
   setState("Unsaved changes", "", true);
   clearTimeout(saveTimer); saveTimer = setTimeout(saveData, 2500);
 }
@@ -1223,7 +1228,7 @@ function emptyData(){   // the third way in: nothing at all, rather than deletin
 $("#btnEmpty").addEventListener("click", () => {
   if (!confirm("Start with nothing: no formulas and no materials.\n\nSettings can clear this data again later, which brings this start screen back."
     + (SNAPOFFER ? `\n\nThe daily snapshot of ${SNAPOFFER} above stays where it is, but this screen does not come back on its own: restore it first if you want it.` : ""))) return;
-  DATA = emptyData(); boot(true); markDirty();
+  DATA = emptyData(); boot(true); markDirty(true);
 });
 let ETAG = null, TOKEN = null, SERVER_EMPTY = false, ETAGWARNED = false;
 function warnNoEtag(){   // said once per session, whether the load or the save is the one that cannot see it
@@ -1453,7 +1458,8 @@ function pushUndo(fn){
   $("#btnUndo").disabled = false;
 }
 const now = () => { const d = new Date(); return `${today()} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`; };   // local time
-function snapF(f){ const c = structuredClone(f); pushUndo(() => { const i = DATA.formulas.findIndex(x => x.id === c.id); if (i >= 0) DATA.formulas[i] = c; }); f.modified = now(); }
+// keepDate: arranging the bench view is no change to the recipe, so the formula does not move up in Recently edited (B8)
+function snapF(f, keepDate){ const c = structuredClone(f); pushUndo(() => { const i = DATA.formulas.findIndex(x => x.id === c.id); if (i >= 0) DATA.formulas[i] = c; }); if (!keepDate) f.modified = now(); }
 function snapM(m){ const c = structuredClone(m); pushUndo(() => { const i = DATA.materials.findIndex(x => x.id === c.id); if (i >= 0) DATA.materials[i] = c; }); m.modified = now(); }
 function clampView(){
   if (VIEW.tab === "F" && VIEW.sub){
@@ -1722,6 +1728,10 @@ function pickMaterial(hits, name, onPick, onNone){
     setTimeout(() => onPick(h.m), 0);
   });
 }
+// Enter in a small field with a button of its own presses that button, as Add material… does (B2 of the audit v2)
+const enterPresses = pairs => pairs.forEach(([field, btn]) => $(field)?.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.isComposing){ e.preventDefault(); $(btn)?.click(); }
+}));
 function openDialog(bodyHtml, okLabel = "Apply", onOk, minW = "24rem"){
   const dlg = $("#dlg");
   dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;min-width:min(${minW},90vw)">${bodyHtml}
@@ -2002,12 +2012,12 @@ function renderFormula(f){
     if (editable) h += `<details class="panelBox" id="scaleBox"${SCALEOPEN?" open":""}>
       <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Batch scaling</summary>
       <div class="scaleGrid" style="margin-top:.6rem">
-      <span>Apply factor</span><span><input type="text" id="scaleF" inputmode="decimal" placeholder="2.5" aria-label="Apply factor"> ×</span>
-        <button class="small" id="btnApplyFactor">Apply</button><span></span>
+      <span>Concentration (abs %)</span><span><input type="text" id="targetAbs" inputmode="decimal" value="${fmtIn(K.totalAbsPct,2)}" aria-label="Concentration in abs %, reached with the ethanol line"> %</span>
+        <button class="small" id="btnSetAbs">Set EtOH</button><span class="hint">max ${fmt(maxAbs,2)} % (EtOH at 0 g)</span>
       <span>Target total</span><span><input type="text" id="scaleW" inputmode="decimal" value="${fmtIn(K.totalW)}" aria-label="Target total in grams"> g</span>
       <button class="small" id="btnApplyScale">Apply</button><span></span>
-      <span>Set EtOH for target abs %</span><span><input type="text" id="targetAbs" inputmode="decimal" value="${fmtIn(K.totalAbsPct,2)}" aria-label="Target abs % to set the ethanol to"> %</span>
-        <button class="small" id="btnSetAbs">Apply</button><span class="hint">max ${fmt(maxAbs,2)} % (EtOH at 0 g)</span>
+      <span>Apply factor</span><span><input type="text" id="scaleF" inputmode="decimal" placeholder="2.5" aria-label="Apply factor"> ×</span>
+        <button class="small" id="btnApplyFactor">Apply</button><span></span>
     </div>
     </details>`;
     const hasNotes = !!(item.notes || "").trim();
@@ -2125,6 +2135,7 @@ function renderFormula(f){
     markDirty(); render();
   });
   $("#notesEd")?.addEventListener("change", e => { snapF(f); item.notes = e.target.value; markDirty(); });
+  enterPresses([["#trialText", "#btnAddTrial"], ["#targetAbs", "#btnSetAbs"], ["#scaleW", "#btnApplyScale"], ["#scaleF", "#btnApplyFactor"]]);
   $("#btnAddTrial")?.addEventListener("click", () => {
     const txt = $("#trialText").value.trim(); if (!txt){ alert("Write a trial note first."); return; }
     snapF(f); (item.trials ||= []).push({date: $("#trialDate").value || today(), text: txt});
@@ -2214,16 +2225,16 @@ function renderLines(f, item, lines, K, editable){
     h += `<div class="toolRow"><input id="addMat" list="matList" aria-label="Material to add as a line" placeholder="Add material…" style="min-width:16rem">
       <datalist id="matList">${matListHtml()}</datalist>
       <button class="small" id="btnAddLine">Add line</button>
-      <button class="small" id="btnSheet" style="margin-left:auto">Print full formula</button>
+      <span class="outBtns"><button class="small" id="btnSheet">Print full formula</button>
       <button class="small" id="btnCsv">Excel export</button>
       <button class="small" id="btnShare">Share this version</button>
-      <button class="primary" id="btnPrint">Print weighing sheet</button></div>
+      <button class="primary" id="btnPrint">Print weighing sheet</button></span></div>
       <div class="hint" style="text-align:right;margin:-.2rem 0 .5rem">Print full formula for the record · Excel export for someone without miFormulas · Share for someone with it · the weighing sheet for the bench</div>`;
   } else {
-    h += `<div class="toolRow"><button class="small" id="btnSheet" style="margin-left:auto">Print full formula</button>
+    h += `<div class="toolRow"><span class="outBtns"><button class="small" id="btnSheet">Print full formula</button>
       <button class="small" id="btnCsv">Excel export</button>
       <button class="small" id="btnShare">Share this version</button>
-      <button class="primary" id="btnPrint">Print weighing sheet</button></div>
+      <button class="primary" id="btnPrint">Print weighing sheet</button></span></div>
       <div class="hint" style="text-align:right;margin:-.2rem 0 .5rem">Print full formula for the record · Excel export for someone without miFormulas · Share for someone with it · the weighing sheet for the bench</div>`;
   }
   return h;
@@ -2244,7 +2255,7 @@ function bindLineEditors(f, item){
   const refocus = (i, step) => {
     const all = [...document.querySelectorAll("input.w")];
     const at = all.findIndex(x => +x.dataset.i === i);
-    const t = at < 0 ? null : (all[at + step] || all[at]);
+    const t = at < 0 ? null : (all[at + step] || (step > 0 && $("#addMat")) || all[at]);   // past the last weight: on to Add material… (B3)
     if (t){ t.focus(); t.select(); }
   };
   c.querySelectorAll("input.w").forEach(inp => {
@@ -2298,6 +2309,8 @@ function bindLineEditors(f, item){
   });
 }
 // the line itself, once it is settled which material it is about
+// lines added with Add line since the app was opened: copying a recipe, so a dilution chosen afterwards keeps the grams (B6)
+const NEWLINES = new Set();
 function addLineWith(f, item, m, created, newCat, oc){
     const dils = m.dilutions||[];
     const base = dils.find(d=>d.isBase) || dils.reduce((a,b)=>!a||b.pct>a.pct?b:a, null);
@@ -2305,7 +2318,8 @@ function addLineWith(f, item, m, created, newCat, oc){
     if ((item.lines || []).some(l => l.materialId === m.id && (l.dilutionPct ?? 100) === bp)   // the same stuff at another dilution is fine
         && !confirm(`“${m.name}” is already in this version at ${fmtS(bp)}%.\n\nAdd a second line at the same dilution? The weighing sheet then lists it twice, while Compare adds the two together.`)) return;
     const fClone = structuredClone(f);
-    item.lines.push({id: uid("l-"), materialId:m.id, dilutionPct: bp, weightG:0, remark:1});
+    const lid = uid("l-"); NEWLINES.add(lid);
+    item.lines.push({id: lid, materialId:m.id, dilutionPct: bp, weightG:0, remark:1});
     f.modified = now();
     pushUndo(() => {          // line, material, order line and category go back in one step
       const i = DATA.formulas.findIndex(x => x.id === f.id); if (i >= 0) DATA.formulas[i] = fClone;
@@ -2345,7 +2359,7 @@ function bulkDilShift(f, item, dir){   // dir -1 = next lower % (more diluted), 
   }
   const sj = solventIdx(src);
   const solv = sj >= 0 ? {j: sj, mm: matById(src[sj].materialId)||{}, w: src[sj].weightG||0} : null;
-  if (!solv){ alert("No solvent line in this formula – add ethanol first (e.g. via “Set EtOH for target abs %”) so the total weight can stay constant."); return; }
+  if (!solv){ alert("No solvent line in this formula – add ethanol first (Set EtOH under Batch scaling) so the total weight can stay constant."); return; }
   if (delta > solv.w + 1e-9){
     alert(`Not possible: ${solv.mm.name} holds only ${fmt(solv.w)} g, but ${fmt(delta)} g must be taken out.\n\nAdd at least ${fmt(delta - solv.w)} g of solvent to the formula first.`);
     return;
@@ -2435,18 +2449,18 @@ function changeDilution(f, item, i, d2, onCancel, noSnap){
   const sj = solventIdx(item.lines, i);
   const solv = sj >= 0 ? {j: sj, mm: matById(item.lines[sj].materialId)||{}, w: item.lines[sj].weightG||0} : null;
   const short = solv ? delta - solv.w : null;   // > 0 → not enough solvent to give back
-  const canEx = solv && short <= 0;
+  const canEx = solv && short <= 0, fresh = NEWLINES.has(l.id);
   const exLabel = !solv ? `<span class="hint">no solvent line in this formula</span>`
     : canEx ? `${esc(solv.mm.name)}: ${fmt(solv.w)} → ${fmt(solv.w - delta)} g – total weight unchanged`
     : `<span style="color:var(--danger)">not possible: ${esc(solv.mm.name)} holds only ${fmt(solv.w)} g, ${fmt(delta)} g must be taken out (short ${fmt(short)} g)</span>`;
   dlg.innerHTML = `<div style="padding:1.2rem 1.4rem;max-width:32rem">
     <h3 style="margin:0 0 .3rem">Change dilution – ${esc(m.name)}</h3>
     <div class="hint" style="margin-bottom:.8rem">${fmtS(d1)}% → ${fmtS(d2)}%</div>
-    <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="exchange" ${canEx?"checked":"disabled"}>
+    <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="exchange" ${canEx?(fresh?"":"checked"):"disabled"}>
       <b>Preserve rel % and exchange solvent</b><br><span style="margin-left:1.4rem">weight ${fmt(w1)} → ${fmt(w2)} g · ${exLabel}</span></label>
-    <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="keeprel" ${canEx?"":"checked"}>
+    <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="keeprel" ${canEx||fresh?"":"checked"}>
       <b>Preserve rel % only</b><br><span style="margin-left:1.4rem">weight ${fmt(w1)} → ${fmt(w2)} g · total weight ${delta>=0?"+":""}${fmt(delta)} g, abs% shifts</span></label>
-    <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="keepw">
+    <label style="display:block;margin:.45rem 0"><input type="radio" name="dm" value="keepw" ${fresh?"checked":""}>
       <b>Preserve weight</b><br><span style="margin-left:1.4rem">${fmt(w1)} g stays; RM content and rel% change</span></label>
     <div class="toolRow" style="justify-content:flex-end;margin-top:1rem;position:sticky;bottom:0;background:var(--surface);padding-top:.6rem">
       <button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Apply</button></div></div>`;
@@ -2999,6 +3013,7 @@ function moveInto(f){
       ? `The formulas ticked under Move together become part of “${esc(f.name)}” and disappear from the list. Their lines, notes, date, colour marks and trial log come along; an import keeps its import name as a reference, a formula of your own keeps its name as the version label. Undo (Ctrl+Z) reverses all of it.`
       : `“${esc(f.name)}” becomes part of another formula and disappears from the list. Its lines, notes, date, colour marks and trial log come along; ${f.frozenImport || f.versions[0].imported ? "the import name stays on it as a reference" : "its name stays on the version as its label"}. Undo (Ctrl+Z) reverses all of it.`;
     $("#mvVno").textContent = t ? `(v${t.versions.length ? Math.max(...t.versions.map(x => x.v)) + 1 : 1})` : "";
+    $("#dlgOk").disabled = !t;   // no target yet: Move waits, instead of an alert on top of the window (B7)
     document.querySelectorAll("#mvTogether input.mvTog").forEach(cb => { const isT = t && cb.dataset.id === t.id; cb.disabled = isT; if (isT) cb.checked = false; });   // the target cannot move into itself
   };
   $("#mvTarget").addEventListener("change", fillBase); fillBase();
@@ -3932,7 +3947,7 @@ function benchMove(f, item, keys, target, beforeKey){
   // no new date either (build 260922j)
   const inGroup = benchOf(item).groups.some(g => g.keys.some(k => keys.includes(k)));
   if (target === "pool" ? !inGroup : !benchOf(item).groups[+target]){ render(); return; }
-  snapF(f);
+  snapF(f, true);
   const groups = benchFor(item).groups;
   for (const g of groups) g.keys = g.keys.filter(k => !keys.includes(k));
   if (target !== "pool"){
@@ -3990,15 +4005,15 @@ function bindBench(f, item, lines, K){
     benchMove(f, item, keys, v, null);
   });
   $("#btnAddGroup")?.addEventListener("click", () => {
-    snapF(f); const groups = benchFor(item).groups; groups.push({id: uid("g"), title: "Group " + (groups.length+1), keys: []});
+    snapF(f, true); const groups = benchFor(item).groups; groups.push({id: uid("g"), title: "Group " + (groups.length+1), keys: []});
     markDirty(); render();
   });
   c.querySelectorAll(".btitle").forEach(inp => inp.addEventListener("change", e => {
-    snapF(f); benchFor(item).groups[+inp.dataset.bg].title = e.target.value; markDirty();
+    snapF(f, true); benchFor(item).groups[+inp.dataset.bg].title = e.target.value; markDirty();
   }));
   const gact = (attr, fn, ask) => c.querySelectorAll(`[data-${attr}]`).forEach(b => b.addEventListener("click", () => {
     if (ask && !confirm(ask)) return;
-    snapF(f); fn(+b.dataset[attr]); markDirty(); render();
+    snapF(f, true); fn(+b.dataset[attr]); markDirty(); render();
   }));
   gact("bup", gi => { const g = benchFor(item).groups; [g[gi-1], g[gi]] = [g[gi], g[gi-1]]; });
   gact("bdown", gi => { const g = benchFor(item).groups; [g[gi], g[gi+1]] = [g[gi+1], g[gi]]; });
@@ -4025,7 +4040,7 @@ function bindBench(f, item, lines, K){
       e.preventDefault(); e.stopPropagation();
       const to = +p.dataset.bgi, from = GDRAG; GDRAG = null;
       if (to === from || readOnly()) { render(); return; }   // as in benchMove: a state that cannot save takes no undo step
-      snapF(f);
+      snapF(f, true);
       const g = benchFor(item).groups, [moved] = g.splice(from, 1);
       g.splice(to > from ? to - 1 : to, 0, moved);
       markDirty(); render();
@@ -4516,6 +4531,7 @@ function renderOrders(){
         <button class="small" data-odeliv="${i}">Delivered…</button>
         <button class="ghost small" data-odel="${i}" title="Remove">✕</button></td></tr>`; }).join("")}
   </tbody></table></div>` : `<p class="hint">Nothing to order. Add a material above, or use “Add to order list” on a material page.</p>`}`;
+  enterPresses([["#ordName", "#btnOrdAdd"], ["#ordNote", "#btnOrdAdd"]]);
   $("#btnOrdAdd").addEventListener("click", () => {
     const name = $("#ordName").value.trim(); if (!name) return;
     // the same folding as everywhere else: "Vertofix coeur" is the Vertofix cœur you already own, not a new material
@@ -4819,6 +4835,8 @@ function renderMaterial(m){
   c.querySelectorAll("[data-loc]").forEach(cb => cb.addEventListener("change", () => {
     snapM(m); (m.locations ||= {})[cb.dataset.loc] = cb.checked; markDirty();
   }));
+  enterPresses([["#newDil", "#btnAddDil"], ["#newDilNote", "#btnAddDil"], ["#stTake", "#btnTake"], ["#stBuyAmt", "#btnBuy"],
+    ["#stBuyNote", "#btnBuy"], ["#stDilPct", "#btnDil"], ["#stDilG", "#btnDil"]]);
   $("#btnTake")?.addEventListener("click", () => {
     const g = parseNum($("#stTake").value); if (g == null || g < 0){ alert("Enter the estimated grams currently in the bottle."); return; }
     snapM(m); (m.stockEvents ||= []).push({t:"take", date: today(), g}); markDirty(); render();
@@ -5611,7 +5629,7 @@ try{ TAKEOVER = sessionStorage.getItem("mfTakeover") === "1"; sessionStorage.rem
         // needed: moving to a server begins with the Backup you made before you started.
         const bl = $("#btnLandOpen"); bl.style.display = "";
         bl.addEventListener("click", () => { if (snapStillThere()) openFile(); });
-        bs.addEventListener("click", async () => { if (!snapStillThere()) return; const d = await loadStarter(); if (!d) return; DATA = d; boot(true); markDirty(); });
+        bs.addEventListener("click", async () => { if (!snapStillThere()) return; const d = await loadStarter(); if (!d) return; DATA = d; boot(true); markDirty(true); });
       }
       return;
     }
@@ -5626,7 +5644,7 @@ try{ TAKEOVER = sessionStorage.getItem("mfTakeover") === "1"; sessionStorage.rem
     const demo = await idb.get("demoData");
     if (!demo && !LOCKED){   // nothing here yet, but a Formulair import waiting: that becomes the data (in the window that saves)
       const pend = await idb.get("pendingImport");
-      if (pend){ await idb.set("pendingImport", null); try{ DATA = migrate(JSON.parse(pend)); boot(true); markDirty(); return; }catch(e){ alert("The Formulair import could not be read; run the importer again."); } }
+      if (pend){ await idb.set("pendingImport", null); try{ DATA = migrate(JSON.parse(pend)); boot(true); markDirty(true); return; }catch(e){ alert("The Formulair import could not be read; run the importer again."); } }
     }
     let demoBroken = false;
     if (demo){
@@ -5645,7 +5663,7 @@ try{ TAKEOVER = sessionStorage.getItem("mfTakeover") === "1"; sessionStorage.rem
     bs.addEventListener("click", async () => {
       if (!snapStillThere()) return;
       const d = await loadStarter(); if (!d) return;
-      DATA = d; boot(true); markDirty();
+      DATA = d; boot(true); markDirty(true);
     });
     const DL_MSG = "miFormulas.html is now in your Downloads folder. Move it to a folder of its own, for instance Documents\\miFormulas, and open it there in Chrome or Edge; it then keeps your data in a file next to it. If you already made formulas here, click Backup first and open that file in the downloaded app.";
     $("#btnDownload").addEventListener("click", e => {
