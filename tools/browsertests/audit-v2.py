@@ -4,7 +4,12 @@ material…; B4 Batch scaling in de volgorde van gebruik (concentratie, totaal, 
 volgorde; B6 Preserve weight vooraf op een regel die net met Add line kwam; B7 Move in Move into… grijs zonder doel;
 B8 schikken in de bench view zet de datum van de formule niet; B21 een verse start zegt geen "Unsaved changes" en staat
 meteen in de browseropslag; C12 de vier uitvoerknoppen onder de tabel blijven samen op 1280 px met de lijst open.
+Ronde 3 (bouw 260930b): B9 Supplier stelt je eigen leveranciers voor; B10 Usage in formulas één regel per formule met de
+versies (v1–v3), de kop telt formules; B11 Delivered… leest "€ 15"; B12 geen cijfers als voorbeeld in Amount en Price;
+en tegen de echte worker.js (worker-server.mjs): B16 de data van deze browser naar een lege server, B17 Connect to
+server op een lege server zegt het, B18 een geweigerd token wordt zo genoemd, B19 een mislukte verbinding zegt het.
 Vereist een webserver met de inhoud van public\\ op poort 8765 (cd public && python -m http.server 8765)."""
+import json, os, subprocess, sys, urllib.request
 from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/"
@@ -148,8 +153,98 @@ with sync_playwright() as p:
     check(f"B2: Enter in het bestelveld zet het materiaal op de lijst ({no} → {page.evaluate('DATA.orderList.length')})",
           page.evaluate("DATA.orderList.length") == no + 1)
 
+    # ================= ronde 3 (bouw 260930b) =================
+    # ---------- B9: Supplier stelt de leveranciers van je eigen materialen voor
+    page.evaluate("() => { const m = DATA.materials.find(x => x.name === 'Geraniol'); switchTab('M', m.id); }"); page.wait_for_timeout(400)
+    page.fill("#mf_supplier", "Hekserij Testhuis"); page.press("#mf_supplier", "Tab"); page.wait_for_timeout(300)
+    page.evaluate("() => { const m = DATA.materials.find(x => x.name === 'Linalool'); switchTab('M', m.id); }"); page.wait_for_timeout(400)
+    sup = page.evaluate("() => [...document.querySelectorAll('#supList option')].map(o => o.value)")
+    check(f"B9: een leverancier die je zelf typte, wordt bij een ander materiaal voorgesteld ({len(sup)} in de lijst)", "Hekserij Testhuis" in sup)
+
+    # ---------- B10: één regel per formule, met de versies ernaast
+    uses = page.evaluate("""() => { const m = DATA.materials.find(x => x.name === 'Linalool');
+        const line = id => ({id, materialId: m.id, dilutionPct: 100, weightG: 1, remark: 1});
+        DATA.formulas.push({id: "f-use1", name: "Gebruik drie", category: "Uncategorised", created: today(),
+          versions: [1, 2, 3].map(v => ({v, date: today(), lines: [line("a" + v)]}))});
+        DATA.formulas.push({id: "f-use2", name: "Gebruik gat", category: "Uncategorised", created: today(),
+          versions: [{v: 1, date: today(), lines: [line("b1")]}, {v: 2, date: today(), lines: []}, {v: 3, date: today(), lines: [line("b3")]}]});
+        buildUsage(); switchTab('M', m.id);
+        const box = document.querySelector('.panelBox.usage');
+        const rows = [...box.querySelectorAll('[data-go]')].map(a => a.closest('div').innerText.replace(/\s+/g, ' ').trim());
+        const nF = new Set(USAGE[m.id].map(u => u.fid)).size;
+        return {kop: box.querySelector('h3').textContent, rows, nF}; }""")
+    drie = [r for r in uses["rows"] if r.startswith("Gebruik drie")]
+    gat = [r for r in uses["rows"] if r.startswith("Gebruik gat")]
+    check(f"B10: één regel per formule, met de versies als reeks ({drie}, {gat})",
+          drie == ["Gebruik drie v1–v3"] and gat == ["Gebruik gat v1, v3"])
+    check(f"B10: de kop telt formules ({uses['kop']!r}, {uses['nF']} formules)", uses["kop"].endswith(f"({uses['nF']})") and len(uses["rows"]) == min(uses["nF"], 60))
+    page.click(".panelBox.usage a[data-go='f-use1']"); page.wait_for_timeout(400)
+    check("B10: de link opent de laatste versie", page.evaluate("() => VIEW.id === 'f-use1' && VIEW.sub && VIEW.sub.idx === 2"))
+    page.evaluate("() => { DATA.formulas = DATA.formulas.filter(f => !/^f-use/.test(f.id)); buildUsage(); }")
+
+    # ---------- B12 en B11: de bestellijst en Delivered…
+    page.evaluate("() => switchTab('T')"); page.wait_for_timeout(400)
+    ph = page.evaluate("() => [...document.querySelectorAll('[data-oamt], [data-oprice]')].map(i => i.placeholder)")
+    check(f"B12: Amount en Price op de bestellijst tonen geen cijfers als voorbeeld ({ph})", ph and all(x == "" for x in ph))
+    i = page.evaluate("() => DATA.orderList.findIndex(o => /hedione/i.test(o.name))")
+    page.click(f"[data-odeliv='{i}']"); page.wait_for_timeout(400)
+    ph2 = page.evaluate("() => [document.getElementById('dvAmt').placeholder, document.getElementById('dvPrice').placeholder]")
+    check(f"B12: ook in Delivered… niet ({ph2})", ph2 == ["", ""])
+    page.fill("#dvAmt", "10"); page.fill("#dvPrice", "€ 15"); page.click("#dlgOk"); page.wait_for_timeout(500)
+    cg = page.evaluate("() => (DATA.materials.find(x => /^hedione$/i.test(x.name)) || {}).costPerGram")
+    check(f"B11: een prijs '€ 15' voor 10 g geeft 1,50 per gram ({cg})", cg is not None and abs(cg - 1.5 / (page.evaluate("() => basePct(DATA.materials.find(x => /^hedione$/i.test(x.name)))") / 100)) < 1e-4)
+
     check(f"no page errors ({errs[:2]})", not errs)
-    ctx.close(); b.close()
+    ctx.close()
+
+    # ================= ronde 3 tegen de echte worker.js =================
+    HERE = os.path.dirname(os.path.abspath(__file__)); PORT = 8797; BASE = f"http://127.0.0.1:{PORT}"
+    def ctl(q="", body=None):
+        req = urllib.request.Request(BASE + "/__ctl?" + q, data=body.encode() if body else None, method="POST" if body else "GET")
+        return json.loads(urllib.request.urlopen(req).read())
+    srv = subprocess.Popen(["node", os.path.join(HERE, "worker-server.mjs"), str(PORT)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    try:
+        if "listening" not in srv.stdout.readline():
+            check("worker-server.mjs start", False)
+        else:
+            ctl("clear=1")
+            ctx = b.new_context(viewport={"width": 1280, "height": 900}); pg = ctx.new_page(); m2 = []; e2 = []
+            pg.on("dialog", lambda d: (m2.append(d.message), d.accept("") if d.type == "prompt" else d.accept()))
+            pg.on("pageerror", lambda e: e2.append(str(e)))
+            pg.goto(BASE + "/index.html"); pg.wait_for_timeout(800)
+            # eerst in de browser gewerkt: de starterset en een eigen formule
+            pg.click("#btnStarter"); pg.wait_for_timeout(1200)
+            pg.evaluate("""() => { DATA.formulas.push({id: "f-eigen", name: "Mijn eigen werk", category: "Uncategorised", created: today(),
+                versions: [{v: 1, date: today(), lines: []}]}); markDirty(true); }"""); pg.wait_for_timeout(800)
+            pg.evaluate(f"""async () => {{ await idb.set('serverUrl', {json.dumps(BASE + '/api')}); await idb.set('token', 'tok-test'); }}""")
+            pg.reload(); pg.wait_for_timeout(1500)
+            # B17: Connect to server op een lege server
+            n0 = len(m2); pg.click("#btnOpen"); pg.wait_for_timeout(600)
+            check(f"B17: Connect to server op een lege server zegt het ({m2[n0:]})", any("no data file yet" in x for x in m2[n0:]))
+            # B16: de data van deze browser naar de server
+            vis = pg.evaluate("() => { const e = document.getElementById('btnLandBrowser'); return !!e && getComputedStyle(e).display !== 'none'; }")
+            check("B16: het lege serverscherm biedt de data van deze browser aan", vis)
+            if vis: pg.click("#btnLandBrowser"); pg.wait_for_timeout(1500)
+            onsrv = '"Mijn eigen werk"' in (ctl()["data"] or "")
+            check(f"B16: een klik zet ze op de server ({pg.locator('#saveState').inner_text()!r})", onsrv and pg.evaluate("REMOTE && !DIRTY"))
+            ctx.close()
+            # B18 en B19: een verkeerd token, op een server die data heeft
+            ctx = b.new_context(viewport={"width": 1280, "height": 900}); pg = ctx.new_page(); m3 = []; asked = []
+            def dlg3(d):
+                m3.append(d.message)
+                if d.type == "prompt": asked.append(d.message); d.dismiss()
+                else: d.accept()
+            pg.on("dialog", dlg3)
+            pg.goto(BASE + "/index.html"); pg.wait_for_timeout(800)
+            pg.evaluate(f"""async () => {{ await idb.set('serverUrl', {json.dumps(BASE + '/api')}); await idb.set('token', 'tok-fout'); }}""")
+            pg.reload(); pg.wait_for_timeout(1500)
+            check(f"B18: een geweigerd token wordt zo genoemd ({asked})", asked and "refused" in asked[0])
+            hint = pg.text_content("#landingHint") or ""
+            check(f"B19: daarna zegt het startscherm wat er mis is ({hint[:70]!r})", "did not answer as expected" in hint and "Saving is automatic" not in hint)
+            ctx.close()
+    finally:
+        srv.terminate()
+    b.close()
 
 print(f"\n{ok} ok, {fail} fail")
 raise SystemExit(1 if fail else 0)
