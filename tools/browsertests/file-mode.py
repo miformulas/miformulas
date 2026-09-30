@@ -96,7 +96,7 @@ with sync_playwright() as p:
     check("restart: Reopen button visible", pr.locator("#btnReopen").is_visible() and "miformulas-data.json" in pr.locator("#btnReopen").inner_text())
     check("restart: starter button hidden", not pr.locator("#btnStarter").is_visible())
     hr = pr.locator("#landingHint").inner_text()
-    check("restart: hint says file is remembered", "is remembered" in hr and "miformulas-data.json" in hr)
+    check("restart: hint says Reopen continues with the file", "Reopen continues with" in hr and "miformulas-data.json" in hr)
     pr.click("#btnReopen"); pr.wait_for_timeout(1200)
     check("restart: reopened, landing gone", not pr.locator("#landing").is_visible())
     check("restart: 16 formulas loaded", pr.evaluate("DATA.formulas.length") == 16)

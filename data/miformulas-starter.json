@@ -5202,7 +5202,7 @@
    "name": "1881 for men",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -5517,6 +5517,326 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "10%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 1.317,
+       "remark": null
+      },
+      {
+       "materialId": "m2",
+       "dilutionPct": 100.0,
+       "weightG": 1.317,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 1.013,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.81,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.608,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.608,
+       "remark": null
+      },
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 0.608,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.304,
+       "remark": null
+      },
+      {
+       "materialId": "m9",
+       "dilutionPct": 100.0,
+       "weightG": 0.304,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.203,
+       "remark": null
+      },
+      {
+       "materialId": "m11",
+       "dilutionPct": 100.0,
+       "weightG": 0.203,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.203,
+       "remark": null
+      },
+      {
+       "materialId": "m13",
+       "dilutionPct": 100.0,
+       "weightG": 0.203,
+       "remark": null
+      },
+      {
+       "materialId": "m14",
+       "dilutionPct": 100.0,
+       "weightG": 0.203,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.203,
+       "remark": null
+      },
+      {
+       "materialId": "m16",
+       "dilutionPct": 100.0,
+       "weightG": 0.203,
+       "remark": null
+      },
+      {
+       "materialId": "m17",
+       "dilutionPct": 100.0,
+       "weightG": 0.152,
+       "remark": null
+      },
+      {
+       "materialId": "m18",
+       "dilutionPct": 100.0,
+       "weightG": 0.101,
+       "remark": null
+      },
+      {
+       "materialId": "m19",
+       "dilutionPct": 100.0,
+       "weightG": 0.101,
+       "remark": null
+      },
+      {
+       "materialId": "m20",
+       "dilutionPct": 100.0,
+       "weightG": 0.101,
+       "remark": null
+      },
+      {
+       "materialId": "m21",
+       "dilutionPct": 1.0,
+       "weightG": 0.101,
+       "remark": null
+      },
+      {
+       "materialId": "m22",
+       "dilutionPct": 100.0,
+       "weightG": 0.101,
+       "remark": null
+      },
+      {
+       "materialId": "m23",
+       "dilutionPct": 100.0,
+       "weightG": 0.101,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.101,
+       "remark": null
+      },
+      {
+       "materialId": "m25",
+       "dilutionPct": 100.0,
+       "weightG": 0.071,
+       "remark": null
+      },
+      {
+       "materialId": "m26",
+       "dilutionPct": 100.0,
+       "weightG": 0.061,
+       "remark": null
+      },
+      {
+       "materialId": "m27",
+       "dilutionPct": 10.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m28",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m29",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m31",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m35",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m36",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m38",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m39",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m40",
+       "dilutionPct": 100.0,
+       "weightG": 0.051,
+       "remark": null
+      },
+      {
+       "materialId": "m41",
+       "dilutionPct": 100.0,
+       "weightG": 0.041,
+       "remark": null
+      },
+      {
+       "materialId": "m42",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m43",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m44",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m45",
+       "dilutionPct": 10.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m46",
+       "dilutionPct": 100.0,
+       "weightG": 0.02,
+       "remark": null
+      },
+      {
+       "materialId": "m47",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m48",
+       "dilutionPct": 10.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m49",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m50",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.952,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 88.852,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -5526,7 +5846,7 @@
    "name": "T. Girl",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -5793,6 +6113,278 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "12%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 2.336,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 1.107,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.922,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.775,
+       "remark": null
+      },
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 0.738,
+       "remark": null
+      },
+      {
+       "materialId": "m53",
+       "dilutionPct": 100.0,
+       "weightG": 0.615,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 100.0,
+       "weightG": 0.615,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.615,
+       "remark": null
+      },
+      {
+       "materialId": "m54",
+       "dilutionPct": 100.0,
+       "weightG": 0.553,
+       "remark": null
+      },
+      {
+       "materialId": "m55",
+       "dilutionPct": 100.0,
+       "weightG": 0.529,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.492,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.492,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.492,
+       "remark": null
+      },
+      {
+       "materialId": "m57",
+       "dilutionPct": 100.0,
+       "weightG": 0.492,
+       "remark": null
+      },
+      {
+       "materialId": "m58",
+       "dilutionPct": 10.0,
+       "weightG": 0.369,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 10.0,
+       "weightG": 0.307,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.307,
+       "remark": null
+      },
+      {
+       "materialId": "m60",
+       "dilutionPct": 100.0,
+       "weightG": 0.307,
+       "remark": null
+      },
+      {
+       "materialId": "m61",
+       "dilutionPct": 10.0,
+       "weightG": 0.246,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.197,
+       "remark": null
+      },
+      {
+       "materialId": "m62",
+       "dilutionPct": 10.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m63",
+       "dilutionPct": 10.0,
+       "weightG": 0.16,
+       "remark": null
+      },
+      {
+       "materialId": "m64",
+       "dilutionPct": 10.0,
+       "weightG": 0.16,
+       "remark": null
+      },
+      {
+       "materialId": "m65",
+       "dilutionPct": 10.0,
+       "weightG": 0.148,
+       "remark": null
+      },
+      {
+       "materialId": "m66",
+       "dilutionPct": 10.0,
+       "weightG": 0.123,
+       "remark": null
+      },
+      {
+       "materialId": "m67",
+       "dilutionPct": 10.0,
+       "weightG": 0.123,
+       "remark": null
+      },
+      {
+       "materialId": "m68",
+       "dilutionPct": 10.0,
+       "weightG": 0.123,
+       "remark": null
+      },
+      {
+       "materialId": "m69",
+       "dilutionPct": 100.0,
+       "weightG": 0.123,
+       "remark": null
+      },
+      {
+       "materialId": "m70",
+       "dilutionPct": 100.0,
+       "weightG": 0.123,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.123,
+       "remark": null
+      },
+      {
+       "materialId": "m71",
+       "dilutionPct": 100.0,
+       "weightG": 0.123,
+       "remark": null
+      },
+      {
+       "materialId": "m72",
+       "dilutionPct": 10.0,
+       "weightG": 0.086,
+       "remark": null
+      },
+      {
+       "materialId": "m73",
+       "dilutionPct": 100.0,
+       "weightG": 0.086,
+       "remark": null
+      },
+      {
+       "materialId": "m74",
+       "dilutionPct": 10.0,
+       "weightG": 0.074,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 100.0,
+       "weightG": 0.074,
+       "remark": null
+      },
+      {
+       "materialId": "m75",
+       "dilutionPct": 10.0,
+       "weightG": 0.061,
+       "remark": null
+      },
+      {
+       "materialId": "m76",
+       "dilutionPct": 100.0,
+       "weightG": 0.061,
+       "remark": null
+      },
+      {
+       "materialId": "m77",
+       "dilutionPct": 100.0,
+       "weightG": 0.061,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.061,
+       "remark": null
+      },
+      {
+       "materialId": "m78",
+       "dilutionPct": 100.0,
+       "weightG": 0.061,
+       "remark": null
+      },
+      {
+       "materialId": "m79",
+       "dilutionPct": 10.0,
+       "weightG": 0.037,
+       "remark": null
+      },
+      {
+       "materialId": "m80",
+       "dilutionPct": 100.0,
+       "weightG": 0.037,
+       "remark": null
+      },
+      {
+       "materialId": "m81",
+       "dilutionPct": 100.0,
+       "weightG": 0.037,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 85.245,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -5802,7 +6394,7 @@
    "name": "Rose de Mai 68",
    "category": "Bases & Accords",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -5859,6 +6451,68 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "50%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 22.936,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 4.587,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 100.0,
+       "weightG": 2.294,
+       "remark": null
+      },
+      {
+       "materialId": "m82",
+       "dilutionPct": 100.0,
+       "weightG": 4.587,
+       "remark": null
+      },
+      {
+       "materialId": "m83",
+       "dilutionPct": 100.0,
+       "weightG": 11.468,
+       "remark": null
+      },
+      {
+       "materialId": "m16",
+       "dilutionPct": 100.0,
+       "weightG": 2.294,
+       "remark": null
+      },
+      {
+       "materialId": "m84",
+       "dilutionPct": 50.0,
+       "weightG": 0.917,
+       "remark": null
+      },
+      {
+       "materialId": "m85",
+       "dilutionPct": 100.0,
+       "weightG": 1.376,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 49.541,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -5868,7 +6522,7 @@
    "name": "Ho Hang",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -6027,6 +6681,170 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "15%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m86",
+       "dilutionPct": 100.0,
+       "weightG": 2.907,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 1.453,
+       "remark": null
+      },
+      {
+       "materialId": "m88",
+       "dilutionPct": 100.0,
+       "weightG": 1.453,
+       "remark": null
+      },
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 1.308,
+       "remark": null
+      },
+      {
+       "materialId": "m89",
+       "dilutionPct": 100.0,
+       "weightG": 0.872,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.727,
+       "remark": null
+      },
+      {
+       "materialId": "m90",
+       "dilutionPct": 100.0,
+       "weightG": 0.727,
+       "remark": null
+      },
+      {
+       "materialId": "m91",
+       "dilutionPct": 100.0,
+       "weightG": 0.727,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.727,
+       "remark": null
+      },
+      {
+       "materialId": "m92",
+       "dilutionPct": 100.0,
+       "weightG": 0.727,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.727,
+       "remark": null
+      },
+      {
+       "materialId": "m2",
+       "dilutionPct": 100.0,
+       "weightG": 0.581,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.436,
+       "remark": null
+      },
+      {
+       "materialId": "m93",
+       "dilutionPct": 100.0,
+       "weightG": 0.363,
+       "remark": null
+      },
+      {
+       "materialId": "m94",
+       "dilutionPct": 100.0,
+       "weightG": 0.291,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.291,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.291,
+       "remark": null
+      },
+      {
+       "materialId": "m95",
+       "dilutionPct": 100.0,
+       "weightG": 0.291,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.218,
+       "remark": null
+      },
+      {
+       "materialId": "m96",
+       "dilutionPct": 100.0,
+       "weightG": 0.145,
+       "remark": null
+      },
+      {
+       "materialId": "m35",
+       "dilutionPct": 100.0,
+       "weightG": 0.145,
+       "remark": null
+      },
+      {
+       "materialId": "m97",
+       "dilutionPct": 100.0,
+       "weightG": 0.145,
+       "remark": null
+      },
+      {
+       "materialId": "m86",
+       "dilutionPct": 100.0,
+       "weightG": 0.145,
+       "remark": null
+      },
+      {
+       "materialId": "m98",
+       "dilutionPct": 10.0,
+       "weightG": 0.145,
+       "remark": null
+      },
+      {
+       "materialId": "m99",
+       "dilutionPct": 10.0,
+       "weightG": 0.145,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 84.013,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -6036,7 +6854,7 @@
    "name": "Bv for men",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -6171,6 +6989,146 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "12%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 4.608,
+       "remark": null
+      },
+      {
+       "materialId": "m55",
+       "dilutionPct": 100.0,
+       "weightG": 3.687,
+       "remark": null
+      },
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 2.949,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 1.843,
+       "remark": null
+      },
+      {
+       "materialId": "m101",
+       "dilutionPct": 100.0,
+       "weightG": 1.106,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.553,
+       "remark": null
+      },
+      {
+       "materialId": "m102",
+       "dilutionPct": 100.0,
+       "weightG": 0.553,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.553,
+       "remark": null
+      },
+      {
+       "materialId": "m103",
+       "dilutionPct": 1.0,
+       "weightG": 0.369,
+       "remark": null
+      },
+      {
+       "materialId": "m104",
+       "dilutionPct": 1.0,
+       "weightG": 0.369,
+       "remark": null
+      },
+      {
+       "materialId": "m105",
+       "dilutionPct": 10.0,
+       "weightG": 0.276,
+       "remark": null
+      },
+      {
+       "materialId": "m43",
+       "dilutionPct": 10.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m106",
+       "dilutionPct": 10.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m107",
+       "dilutionPct": 1.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m50",
+       "dilutionPct": 10.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m108",
+       "dilutionPct": 10.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.092,
+       "remark": null
+      },
+      {
+       "materialId": "m109",
+       "dilutionPct": 100.0,
+       "weightG": 0.092,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.092,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 81.57,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -6180,7 +7138,7 @@
    "name": "Cool Water for men",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -6345,6 +7303,176 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "10%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 2.01,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 1.407,
+       "remark": null
+      },
+      {
+       "materialId": "m110",
+       "dilutionPct": 100.0,
+       "weightG": 1.005,
+       "remark": null
+      },
+      {
+       "materialId": "m2",
+       "dilutionPct": 100.0,
+       "weightG": 1.005,
+       "remark": null
+      },
+      {
+       "materialId": "m17",
+       "dilutionPct": 100.0,
+       "weightG": 0.804,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.603,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.502,
+       "remark": null
+      },
+      {
+       "materialId": "m89",
+       "dilutionPct": 100.0,
+       "weightG": 0.422,
+       "remark": null
+      },
+      {
+       "materialId": "m111",
+       "dilutionPct": 100.0,
+       "weightG": 0.402,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.301,
+       "remark": null
+      },
+      {
+       "materialId": "m14",
+       "dilutionPct": 100.0,
+       "weightG": 0.251,
+       "remark": null
+      },
+      {
+       "materialId": "m112",
+       "dilutionPct": 100.0,
+       "weightG": 0.201,
+       "remark": null
+      },
+      {
+       "materialId": "m26",
+       "dilutionPct": 100.0,
+       "weightG": 0.171,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 0.171,
+       "remark": null
+      },
+      {
+       "materialId": "m12",
+       "dilutionPct": 100.0,
+       "weightG": 0.151,
+       "remark": null
+      },
+      {
+       "materialId": "m113",
+       "dilutionPct": 100.0,
+       "weightG": 0.151,
+       "remark": null
+      },
+      {
+       "materialId": "m80",
+       "dilutionPct": 100.0,
+       "weightG": 0.121,
+       "remark": null
+      },
+      {
+       "materialId": "m114",
+       "dilutionPct": 100.0,
+       "weightG": 0.06,
+       "remark": null
+      },
+      {
+       "materialId": "m115",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m116",
+       "dilutionPct": 1.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m13",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m117",
+       "dilutionPct": 100.0,
+       "weightG": 0.05,
+       "remark": null
+      },
+      {
+       "materialId": "m104",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m118",
+       "dilutionPct": 100.0,
+       "weightG": 0.025,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.01,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 89.952,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -6354,7 +7482,7 @@
    "name": "A Men",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -6519,6 +7647,176 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "15%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 3.737,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 3.426,
+       "remark": null
+      },
+      {
+       "materialId": "m17",
+       "dilutionPct": 100.0,
+       "weightG": 2.284,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 1.246,
+       "remark": null
+      },
+      {
+       "materialId": "m119",
+       "dilutionPct": 100.0,
+       "weightG": 1.142,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 1.038,
+       "remark": null
+      },
+      {
+       "materialId": "m120",
+       "dilutionPct": 100.0,
+       "weightG": 0.934,
+       "remark": null
+      },
+      {
+       "materialId": "m86",
+       "dilutionPct": 100.0,
+       "weightG": 0.934,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 10.0,
+       "weightG": 0.727,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.727,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.623,
+       "remark": null
+      },
+      {
+       "materialId": "m121",
+       "dilutionPct": 100.0,
+       "weightG": 0.519,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 10.0,
+       "weightG": 0.415,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 10.0,
+       "weightG": 0.415,
+       "remark": null
+      },
+      {
+       "materialId": "m60",
+       "dilutionPct": 10.0,
+       "weightG": 0.415,
+       "remark": null
+      },
+      {
+       "materialId": "m122",
+       "dilutionPct": 10.0,
+       "weightG": 0.311,
+       "remark": null
+      },
+      {
+       "materialId": "m123",
+       "dilutionPct": 10.0,
+       "weightG": 0.311,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.311,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.311,
+       "remark": null
+      },
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 0.208,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.208,
+       "remark": null
+      },
+      {
+       "materialId": "m124",
+       "dilutionPct": 100.0,
+       "weightG": 0.104,
+       "remark": null
+      },
+      {
+       "materialId": "m125",
+       "dilutionPct": 100.0,
+       "weightG": 0.104,
+       "remark": null
+      },
+      {
+       "materialId": "m38",
+       "dilutionPct": 100.0,
+       "weightG": 0.104,
+       "remark": null
+      },
+      {
+       "materialId": "m54",
+       "dilutionPct": 100.0,
+       "weightG": 0.104,
+       "remark": null
+      },
+      {
+       "materialId": "m126",
+       "dilutionPct": 100.0,
+       "weightG": 0.104,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 79.238,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -6528,7 +7826,7 @@
    "name": "Chrome",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -6783,6 +8081,266 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "15%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 2.291,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 1.68,
+       "remark": null
+      },
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 1.68,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 1.527,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 1.298,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 1.069,
+       "remark": null
+      },
+      {
+       "materialId": "m26",
+       "dilutionPct": 10.0,
+       "weightG": 1.069,
+       "remark": null
+      },
+      {
+       "materialId": "m127",
+       "dilutionPct": 10.0,
+       "weightG": 0.916,
+       "remark": null
+      },
+      {
+       "materialId": "m17",
+       "dilutionPct": 100.0,
+       "weightG": 0.916,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.84,
+       "remark": null
+      },
+      {
+       "materialId": "m111",
+       "dilutionPct": 100.0,
+       "weightG": 0.611,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.611,
+       "remark": null
+      },
+      {
+       "materialId": "m128",
+       "dilutionPct": 10.0,
+       "weightG": 0.611,
+       "remark": null
+      },
+      {
+       "materialId": "m129",
+       "dilutionPct": 10.0,
+       "weightG": 0.534,
+       "remark": null
+      },
+      {
+       "materialId": "m61",
+       "dilutionPct": 10.0,
+       "weightG": 0.458,
+       "remark": null
+      },
+      {
+       "materialId": "m130",
+       "dilutionPct": 10.0,
+       "weightG": 0.458,
+       "remark": null
+      },
+      {
+       "materialId": "m131",
+       "dilutionPct": 1.0,
+       "weightG": 0.305,
+       "remark": null
+      },
+      {
+       "materialId": "m132",
+       "dilutionPct": 10.0,
+       "weightG": 0.305,
+       "remark": null
+      },
+      {
+       "materialId": "m133",
+       "dilutionPct": 100.0,
+       "weightG": 0.305,
+       "remark": null
+      },
+      {
+       "materialId": "m73",
+       "dilutionPct": 100.0,
+       "weightG": 0.305,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.305,
+       "remark": null
+      },
+      {
+       "materialId": "m113",
+       "dilutionPct": 100.0,
+       "weightG": 0.305,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.229,
+       "remark": null
+      },
+      {
+       "materialId": "m54",
+       "dilutionPct": 100.0,
+       "weightG": 0.229,
+       "remark": null
+      },
+      {
+       "materialId": "m134",
+       "dilutionPct": 100.0,
+       "weightG": 0.229,
+       "remark": null
+      },
+      {
+       "materialId": "m107",
+       "dilutionPct": 10.0,
+       "weightG": 0.229,
+       "remark": null
+      },
+      {
+       "materialId": "m58",
+       "dilutionPct": 10.0,
+       "weightG": 0.229,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 10.0,
+       "weightG": 0.229,
+       "remark": null
+      },
+      {
+       "materialId": "m135",
+       "dilutionPct": 1.0,
+       "weightG": 0.153,
+       "remark": null
+      },
+      {
+       "materialId": "m136",
+       "dilutionPct": 10.0,
+       "weightG": 0.153,
+       "remark": null
+      },
+      {
+       "materialId": "m48",
+       "dilutionPct": 10.0,
+       "weightG": 0.153,
+       "remark": null
+      },
+      {
+       "materialId": "m67",
+       "dilutionPct": 10.0,
+       "weightG": 0.153,
+       "remark": null
+      },
+      {
+       "materialId": "m68",
+       "dilutionPct": 10.0,
+       "weightG": 0.153,
+       "remark": null
+      },
+      {
+       "materialId": "m89",
+       "dilutionPct": 100.0,
+       "weightG": 0.153,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.153,
+       "remark": null
+      },
+      {
+       "materialId": "m80",
+       "dilutionPct": 100.0,
+       "weightG": 0.153,
+       "remark": null
+      },
+      {
+       "materialId": "m43",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m117",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m137",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 78.623,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -6792,7 +8350,7 @@
    "name": "Oeillet 35",
    "category": "Bases & Accords",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -6861,6 +8419,80 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "50%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m36",
+       "dilutionPct": 100.0,
+       "weightG": 20.747,
+       "remark": null
+      },
+      {
+       "materialId": "m11",
+       "dilutionPct": 100.0,
+       "weightG": 9.751,
+       "remark": null
+      },
+      {
+       "materialId": "m79",
+       "dilutionPct": 100.0,
+       "weightG": 8.299,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 4.149,
+       "remark": null
+      },
+      {
+       "materialId": "m138",
+       "dilutionPct": 10.0,
+       "weightG": 2.075,
+       "remark": null
+      },
+      {
+       "materialId": "m124",
+       "dilutionPct": 100.0,
+       "weightG": 2.075,
+       "remark": null
+      },
+      {
+       "materialId": "m139",
+       "dilutionPct": 100.0,
+       "weightG": 1.66,
+       "remark": null
+      },
+      {
+       "materialId": "m140",
+       "dilutionPct": 100.0,
+       "weightG": 1.245,
+       "remark": null
+      },
+      {
+       "materialId": "m141",
+       "dilutionPct": 100.0,
+       "weightG": 1.037,
+       "remark": null
+      },
+      {
+       "materialId": "m142",
+       "dilutionPct": 100.0,
+       "weightG": 0.83,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 48.132,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -6870,7 +8502,7 @@
    "name": "Brut",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -7011,6 +8643,152 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "10%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m143",
+       "dilutionPct": 100.0,
+       "weightG": 1.481,
+       "remark": null
+      },
+      {
+       "materialId": "m144",
+       "dilutionPct": 100.0,
+       "weightG": 1.058,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 1.005,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.952,
+       "remark": null
+      },
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 0.582,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.582,
+       "remark": null
+      },
+      {
+       "materialId": "m145",
+       "dilutionPct": 100.0,
+       "weightG": 0.582,
+       "remark": null
+      },
+      {
+       "materialId": "m146",
+       "dilutionPct": 100.0,
+       "weightG": 0.582,
+       "remark": null
+      },
+      {
+       "materialId": "m147",
+       "dilutionPct": 100.0,
+       "weightG": 0.529,
+       "remark": null
+      },
+      {
+       "materialId": "m89",
+       "dilutionPct": 100.0,
+       "weightG": 0.529,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.529,
+       "remark": null
+      },
+      {
+       "materialId": "m11",
+       "dilutionPct": 100.0,
+       "weightG": 0.476,
+       "remark": null
+      },
+      {
+       "materialId": "m148",
+       "dilutionPct": 100.0,
+       "weightG": 0.37,
+       "remark": null
+      },
+      {
+       "materialId": "m141",
+       "dilutionPct": 100.0,
+       "weightG": 0.317,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.212,
+       "remark": null
+      },
+      {
+       "materialId": "m92",
+       "dilutionPct": 100.0,
+       "weightG": 0.212,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.159,
+       "remark": null
+      },
+      {
+       "materialId": "m149",
+       "dilutionPct": 100.0,
+       "weightG": 0.106,
+       "remark": null
+      },
+      {
+       "materialId": "m150",
+       "dilutionPct": 50.0,
+       "weightG": 0.106,
+       "remark": null
+      },
+      {
+       "materialId": "m119",
+       "dilutionPct": 100.0,
+       "weightG": 0.106,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.053,
+       "remark": null
+      },
+      {
+       "materialId": "m101",
+       "dilutionPct": 100.0,
+       "weightG": 0.053,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 89.419,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -7020,7 +8798,7 @@
    "name": "Angel",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -7185,6 +8963,176 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "15%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 4.51,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 3.493,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 2.734,
+       "remark": null
+      },
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 1.898,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 1.215,
+       "remark": null
+      },
+      {
+       "materialId": "m151",
+       "dilutionPct": 100.0,
+       "weightG": 1.215,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.759,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.759,
+       "remark": null
+      },
+      {
+       "materialId": "m119",
+       "dilutionPct": 100.0,
+       "weightG": 0.683,
+       "remark": null
+      },
+      {
+       "materialId": "m152",
+       "dilutionPct": 100.0,
+       "weightG": 0.456,
+       "remark": null
+      },
+      {
+       "materialId": "m77",
+       "dilutionPct": 100.0,
+       "weightG": 0.425,
+       "remark": null
+      },
+      {
+       "materialId": "m153",
+       "dilutionPct": 100.0,
+       "weightG": 0.304,
+       "remark": null
+      },
+      {
+       "materialId": "m69",
+       "dilutionPct": 100.0,
+       "weightG": 0.304,
+       "remark": null
+      },
+      {
+       "materialId": "m134",
+       "dilutionPct": 100.0,
+       "weightG": 0.152,
+       "remark": null
+      },
+      {
+       "materialId": "m54",
+       "dilutionPct": 100.0,
+       "weightG": 0.152,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m84",
+       "dilutionPct": 10.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m26",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m114",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m126",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m154",
+       "dilutionPct": 10.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m92",
+       "dilutionPct": 100.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m117",
+       "dilutionPct": 10.0,
+       "weightG": 0.076,
+       "remark": null
+      },
+      {
+       "materialId": "m21",
+       "dilutionPct": 10.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m48",
+       "dilutionPct": 100.0,
+       "weightG": 0.03,
+       "remark": null
+      },
+      {
+       "materialId": "m155",
+       "dilutionPct": 100.0,
+       "weightG": 0.015,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 80.258,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -7194,7 +9142,7 @@
    "name": "Althenol",
    "category": "Bases & Accords",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -7275,6 +9223,92 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "50%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m156",
+       "dilutionPct": 100.0,
+       "weightG": 10.87,
+       "remark": null
+      },
+      {
+       "materialId": "m157",
+       "dilutionPct": 100.0,
+       "weightG": 10.145,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 7.246,
+       "remark": null
+      },
+      {
+       "materialId": "m158",
+       "dilutionPct": 100.0,
+       "weightG": 7.246,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 4.348,
+       "remark": null
+      },
+      {
+       "materialId": "m159",
+       "dilutionPct": 100.0,
+       "weightG": 2.174,
+       "remark": null
+      },
+      {
+       "materialId": "m160",
+       "dilutionPct": 100.0,
+       "weightG": 2.174,
+       "remark": null
+      },
+      {
+       "materialId": "m143",
+       "dilutionPct": 100.0,
+       "weightG": 1.449,
+       "remark": null
+      },
+      {
+       "materialId": "m18",
+       "dilutionPct": 100.0,
+       "weightG": 1.449,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 1.449,
+       "remark": null
+      },
+      {
+       "materialId": "m161",
+       "dilutionPct": 100.0,
+       "weightG": 0.725,
+       "remark": null
+      },
+      {
+       "materialId": "m162",
+       "dilutionPct": 100.0,
+       "weightG": 0.725,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 50.0,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -7284,7 +9318,7 @@
    "name": "Acqua di Gio for men",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -7521,6 +9555,248 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "12%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 3.3,
+       "remark": null
+      },
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 1.532,
+       "remark": null
+      },
+      {
+       "materialId": "m163",
+       "dilutionPct": 100.0,
+       "weightG": 0.825,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 0.825,
+       "remark": null
+      },
+      {
+       "materialId": "m77",
+       "dilutionPct": 100.0,
+       "weightG": 0.707,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.589,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 0.589,
+       "remark": null
+      },
+      {
+       "materialId": "m2",
+       "dilutionPct": 100.0,
+       "weightG": 0.471,
+       "remark": null
+      },
+      {
+       "materialId": "m69",
+       "dilutionPct": 100.0,
+       "weightG": 0.412,
+       "remark": null
+      },
+      {
+       "materialId": "m129",
+       "dilutionPct": 10.0,
+       "weightG": 0.354,
+       "remark": null
+      },
+      {
+       "materialId": "m110",
+       "dilutionPct": 10.0,
+       "weightG": 0.354,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 0.354,
+       "remark": null
+      },
+      {
+       "materialId": "m56",
+       "dilutionPct": 100.0,
+       "weightG": 0.354,
+       "remark": null
+      },
+      {
+       "materialId": "m4",
+       "dilutionPct": 100.0,
+       "weightG": 0.354,
+       "remark": null
+      },
+      {
+       "materialId": "m151",
+       "dilutionPct": 100.0,
+       "weightG": 0.295,
+       "remark": null
+      },
+      {
+       "materialId": "m153",
+       "dilutionPct": 10.0,
+       "weightG": 0.236,
+       "remark": null
+      },
+      {
+       "materialId": "m94",
+       "dilutionPct": 10.0,
+       "weightG": 0.236,
+       "remark": null
+      },
+      {
+       "materialId": "m164",
+       "dilutionPct": 100.0,
+       "weightG": 0.236,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.212,
+       "remark": null
+      },
+      {
+       "materialId": "m61",
+       "dilutionPct": 10.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m9",
+       "dilutionPct": 100.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m55",
+       "dilutionPct": 100.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m165",
+       "dilutionPct": 10.0,
+       "weightG": 0.118,
+       "remark": null
+      },
+      {
+       "materialId": "m166",
+       "dilutionPct": 10.0,
+       "weightG": 0.118,
+       "remark": null
+      },
+      {
+       "materialId": "m167",
+       "dilutionPct": 10.0,
+       "weightG": 0.118,
+       "remark": null
+      },
+      {
+       "materialId": "m115",
+       "dilutionPct": 10.0,
+       "weightG": 0.118,
+       "remark": null
+      },
+      {
+       "materialId": "m97",
+       "dilutionPct": 100.0,
+       "weightG": 0.118,
+       "remark": null
+      },
+      {
+       "materialId": "m107",
+       "dilutionPct": 100.0,
+       "weightG": 0.118,
+       "remark": null
+      },
+      {
+       "materialId": "m33",
+       "dilutionPct": 10.0,
+       "weightG": 0.059,
+       "remark": null
+      },
+      {
+       "materialId": "m168",
+       "dilutionPct": 10.0,
+       "weightG": 0.059,
+       "remark": null
+      },
+      {
+       "materialId": "m68",
+       "dilutionPct": 10.0,
+       "weightG": 0.059,
+       "remark": null
+      },
+      {
+       "materialId": "m53",
+       "dilutionPct": 10.0,
+       "weightG": 0.059,
+       "remark": null
+      },
+      {
+       "materialId": "m58",
+       "dilutionPct": 10.0,
+       "weightG": 0.059,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.059,
+       "remark": null
+      },
+      {
+       "materialId": "m13",
+       "dilutionPct": 100.0,
+       "weightG": 0.059,
+       "remark": null
+      },
+      {
+       "materialId": "m11",
+       "dilutionPct": 100.0,
+       "weightG": 0.059,
+       "remark": null
+      },
+      {
+       "materialId": "m169",
+       "dilutionPct": 10.0,
+       "weightG": 0.024,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 85.853,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -7530,7 +9806,7 @@
    "name": "Egoiste",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -7743,6 +10019,224 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "15%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 2.659,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 1.773,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 1.773,
+       "remark": null
+      },
+      {
+       "materialId": "m170",
+       "dilutionPct": 100.0,
+       "weightG": 1.418,
+       "remark": null
+      },
+      {
+       "materialId": "m16",
+       "dilutionPct": 100.0,
+       "weightG": 0.886,
+       "remark": null
+      },
+      {
+       "materialId": "m37",
+       "dilutionPct": 100.0,
+       "weightG": 0.886,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.798,
+       "remark": null
+      },
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 0.709,
+       "remark": null
+      },
+      {
+       "materialId": "m171",
+       "dilutionPct": 100.0,
+       "weightG": 0.532,
+       "remark": null
+      },
+      {
+       "materialId": "m172",
+       "dilutionPct": 100.0,
+       "weightG": 0.532,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 0.355,
+       "remark": null
+      },
+      {
+       "materialId": "m173",
+       "dilutionPct": 10.0,
+       "weightG": 0.355,
+       "remark": null
+      },
+      {
+       "materialId": "m174",
+       "dilutionPct": 100.0,
+       "weightG": 0.355,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 100.0,
+       "weightG": 0.355,
+       "remark": null
+      },
+      {
+       "materialId": "m5",
+       "dilutionPct": 100.0,
+       "weightG": 0.355,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 0.355,
+       "remark": null
+      },
+      {
+       "materialId": "m3",
+       "dilutionPct": 100.0,
+       "weightG": 0.355,
+       "remark": null
+      },
+      {
+       "materialId": "m52",
+       "dilutionPct": 100.0,
+       "weightG": 0.355,
+       "remark": null
+      },
+      {
+       "materialId": "m50",
+       "dilutionPct": 10.0,
+       "weightG": 0.266,
+       "remark": null
+      },
+      {
+       "materialId": "m31",
+       "dilutionPct": 100.0,
+       "weightG": 0.266,
+       "remark": null
+      },
+      {
+       "materialId": "m34",
+       "dilutionPct": 100.0,
+       "weightG": 0.266,
+       "remark": null
+      },
+      {
+       "materialId": "m80",
+       "dilutionPct": 10.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m21",
+       "dilutionPct": 10.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m123",
+       "dilutionPct": 10.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m48",
+       "dilutionPct": 10.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m175",
+       "dilutionPct": 10.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m125",
+       "dilutionPct": 10.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m176",
+       "dilutionPct": 10.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m116",
+       "dilutionPct": 1.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m9",
+       "dilutionPct": 100.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m19",
+       "dilutionPct": 100.0,
+       "weightG": 0.177,
+       "remark": null
+      },
+      {
+       "materialId": "m104",
+       "dilutionPct": 10.0,
+       "weightG": 0.089,
+       "remark": null
+      },
+      {
+       "materialId": "m177",
+       "dilutionPct": 100.0,
+       "weightG": 0.089,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 82.271,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -7752,7 +10246,7 @@
    "name": "Jasmin 231",
    "category": "Bases & Accords",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -7875,6 +10369,134 @@
        "remark": null
       }
      ]
+    },
+    {
+     "v": 2,
+     "name": "50%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 12.89,
+       "remark": null
+      },
+      {
+       "materialId": "m32",
+       "dilutionPct": 100.0,
+       "weightG": 11.969,
+       "remark": null
+      },
+      {
+       "materialId": "m24",
+       "dilutionPct": 100.0,
+       "weightG": 11.325,
+       "remark": null
+      },
+      {
+       "materialId": "m8",
+       "dilutionPct": 100.0,
+       "weightG": 4.051,
+       "remark": null
+      },
+      {
+       "materialId": "m139",
+       "dilutionPct": 100.0,
+       "weightG": 3.13,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 2.21,
+       "remark": null
+      },
+      {
+       "materialId": "m178",
+       "dilutionPct": 50.0,
+       "weightG": 2.026,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 1.602,
+       "remark": null
+      },
+      {
+       "materialId": "m179",
+       "dilutionPct": 10.0,
+       "weightG": 1.473,
+       "remark": null
+      },
+      {
+       "materialId": "m71",
+       "dilutionPct": 100.0,
+       "weightG": 1.105,
+       "remark": null
+      },
+      {
+       "materialId": "m180",
+       "dilutionPct": 10.0,
+       "weightG": 0.737,
+       "remark": null
+      },
+      {
+       "materialId": "m181",
+       "dilutionPct": 100.0,
+       "weightG": 0.737,
+       "remark": null
+      },
+      {
+       "materialId": "m182",
+       "dilutionPct": 100.0,
+       "weightG": 0.368,
+       "remark": null
+      },
+      {
+       "materialId": "m183",
+       "dilutionPct": 10.0,
+       "weightG": 0.368,
+       "remark": null
+      },
+      {
+       "materialId": "m184",
+       "dilutionPct": 100.0,
+       "weightG": 0.368,
+       "remark": null
+      },
+      {
+       "materialId": "m1",
+       "dilutionPct": 100.0,
+       "weightG": 0.276,
+       "remark": null
+      },
+      {
+       "materialId": "m173",
+       "dilutionPct": 10.0,
+       "weightG": 0.239,
+       "remark": null
+      },
+      {
+       "materialId": "m185",
+       "dilutionPct": 50.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m186",
+       "dilutionPct": 100.0,
+       "weightG": 0.184,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 44.758,
+       "remark": null
+      }
+     ]
     }
    ],
    "starter": true
@@ -7884,7 +10506,7 @@
    "name": "Vetiver de C",
    "category": "Uncategorised",
    "created": "2026-09-07",
-   "modified": "2026-09-07",
+   "modified": "2026-09-30",
    "versions": [
     {
      "v": 1,
@@ -8070,6 +10692,200 @@
        "materialId": "m194",
        "dilutionPct": 10.0,
        "weightG": 0.01,
+       "remark": null
+      }
+     ]
+    },
+    {
+     "v": 2,
+     "name": "15%",
+     "date": "2026-09-30",
+     "notes": "",
+     "lines": [
+      {
+       "materialId": "m7",
+       "dilutionPct": 100.0,
+       "weightG": 2.291,
+       "remark": null
+      },
+      {
+       "materialId": "m90",
+       "dilutionPct": 100.0,
+       "weightG": 1.763,
+       "remark": null
+      },
+      {
+       "materialId": "m187",
+       "dilutionPct": 100.0,
+       "weightG": 1.763,
+       "remark": null
+      },
+      {
+       "materialId": "m87",
+       "dilutionPct": 100.0,
+       "weightG": 1.234,
+       "remark": null
+      },
+      {
+       "materialId": "m15",
+       "dilutionPct": 100.0,
+       "weightG": 1.058,
+       "remark": null
+      },
+      {
+       "materialId": "m188",
+       "dilutionPct": 100.0,
+       "weightG": 1.058,
+       "remark": null
+      },
+      {
+       "materialId": "m51",
+       "dilutionPct": 100.0,
+       "weightG": 0.881,
+       "remark": null
+      },
+      {
+       "materialId": "m28",
+       "dilutionPct": 10.0,
+       "weightG": 0.705,
+       "remark": null
+      },
+      {
+       "materialId": "m10",
+       "dilutionPct": 100.0,
+       "weightG": 0.705,
+       "remark": null
+      },
+      {
+       "materialId": "m150",
+       "dilutionPct": 100.0,
+       "weightG": 0.705,
+       "remark": null
+      },
+      {
+       "materialId": "m6",
+       "dilutionPct": 100.0,
+       "weightG": 0.705,
+       "remark": null
+      },
+      {
+       "materialId": "m23",
+       "dilutionPct": 40.0,
+       "weightG": 0.529,
+       "remark": null
+      },
+      {
+       "materialId": "m189",
+       "dilutionPct": 100.0,
+       "weightG": 0.353,
+       "remark": null
+      },
+      {
+       "materialId": "m59",
+       "dilutionPct": 100.0,
+       "weightG": 0.353,
+       "remark": null
+      },
+      {
+       "materialId": "m30",
+       "dilutionPct": 100.0,
+       "weightG": 0.353,
+       "remark": null
+      },
+      {
+       "materialId": "m50",
+       "dilutionPct": 10.0,
+       "weightG": 0.353,
+       "remark": null
+      },
+      {
+       "materialId": "m190",
+       "dilutionPct": 100.0,
+       "weightG": 0.353,
+       "remark": null
+      },
+      {
+       "materialId": "m185",
+       "dilutionPct": 100.0,
+       "weightG": 0.353,
+       "remark": null
+      },
+      {
+       "materialId": "m191",
+       "dilutionPct": 100.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m29",
+       "dilutionPct": 10.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m92",
+       "dilutionPct": 100.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m18",
+       "dilutionPct": 100.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m143",
+       "dilutionPct": 100.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m100",
+       "dilutionPct": 100.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m97",
+       "dilutionPct": 100.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m192",
+       "dilutionPct": 10.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m146",
+       "dilutionPct": 100.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m193",
+       "dilutionPct": 100.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m79",
+       "dilutionPct": 100.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m194",
+       "dilutionPct": 10.0,
+       "weightG": 0.176,
+       "remark": null
+      },
+      {
+       "materialId": "m195",
+       "dilutionPct": 100.0,
+       "weightG": 82.373,
        "remark": null
       }
      ]

@@ -166,7 +166,7 @@ with sync_playwright() as p:
         print("bench grouping skipped:", e)
     settle(page)
     shot(page, "app-bench-view.png")
-    page.click("#btnBenchClose"); page.wait_for_timeout(300)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(300)
 
     # ---- 9. a second version and Compare ----
     page.click("#btnNewV"); page.wait_for_timeout(400)

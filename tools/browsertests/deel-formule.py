@@ -59,9 +59,10 @@ with sync_playwright() as p:
           page.text_content("#btnSheet").strip() == "Print full formula"
           and page.text_content("#btnPrint").strip() == "Print weighing sheet")
     check("de uitvoer naar Excel heet Excel export", page.text_content("#btnCsv").strip() == "Excel export")
-    check("de hint zegt welke voor wie is",
-          "Excel export for someone without miFormulas" in page.text_content("#content")
-          and "the weighing sheet for the bench" in page.text_content("#content"))
+    check("de tooltips zeggen welke voor wie is (E4 van de audit v2)",
+          page.get_attribute("#btnCsv", "title") == "For someone without miFormulas"
+          and page.get_attribute("#btnPrint", "title") == "For the bench"
+          and "for the bench" not in page.text_content("#content"))
 
     # ---------- uitvoeren ----------
     with page.expect_download() as dl:
@@ -194,7 +195,7 @@ with sync_playwright() as p:
     # De vlag stond alleen op solventregels. Een bestand zonder solventregel gold daardoor als een bestand dat niets over
     # solventen zegt, en wie een van zijn materialen als solvent telt, rekende zwijgend andere percentages, zonder de
     # melding die een bestand met een solventregel wel geeft.
-    page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68"); switchTab("F", f.id, {type: "v", idx: f.versions.length - 1}); }""")
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68"); switchTab("F", f.id, {type: "v", idx: 0}); }""")   # v1, het concentraat
     page.wait_for_timeout(500)
     with page.expect_download() as dl3:
         page.click("#btnShare")

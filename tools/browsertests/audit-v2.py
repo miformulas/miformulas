@@ -121,8 +121,9 @@ with sync_playwright() as p:
     page.evaluate("() => { VIEW.sub.bench = false; render(); }"); page.wait_for_timeout(300)
 
     # ---------- B7: Move into… zonder doel: Move grijs
-    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.length === 1 && x.id !== VIEW.id);
-        switchTab('F', f.id, {type:'v', idx:0}); }"""); page.wait_for_timeout(400)
+    page.evaluate("""() => { const src = DATA.formulas.find(x => x.id !== VIEW.id);   // de starterformules hebben twee versies
+        const f = {...structuredClone(src), id: "f-b7", name: "B7 single", versions: [structuredClone(src.versions[0])]};
+        DATA.formulas.push(f); switchTab('F', f.id, {type:'v', idx:0}); }"""); page.wait_for_timeout(400)
     page.click("#btnMoveF"); page.wait_for_timeout(300)
     page.select_option("#mvTarget", ""); page.dispatch_event("#mvTarget", "change"); page.wait_for_timeout(100)
     dis = page.evaluate("() => document.getElementById('dlgOk').disabled")
@@ -193,6 +194,55 @@ with sync_playwright() as p:
     page.fill("#dvAmt", "10"); page.fill("#dvPrice", "€ 15"); page.click("#dlgOk"); page.wait_for_timeout(500)
     cg = page.evaluate("() => (DATA.materials.find(x => /^hedione$/i.test(x.name)) || {}).costPerGram")
     check(f"B11: een prijs '€ 15' voor 10 g geeft 1,50 per gram ({cg})", cg is not None and abs(cg - 1.5 / (page.evaluate("() => basePct(DATA.materials.find(x => /^hedione$/i.test(x.name)))") / 100)) < 1e-4)
+
+    # ================= ronde 4: minder woorden, en de volgorde van de menu's (bouw 260930c) =================
+    page.evaluate("() => { VIEW.sub = null; switchTab('F', null, null); }"); page.wait_for_timeout(300)
+    # B20: elke starterformule heeft een verdunde v2 op 100 g (in het bestand zelf: de test heeft er intussen aan gewerkt)
+    b20 = page.evaluate("""async () => (await (await fetch("data/miformulas-starter.json")).json()).formulas.map(f => { const v = f.versions.at(-1), K = calc(v.lines);
+        return [f.name, f.versions.length, v.name, Math.round(K.totalW * 1000) / 1000, Math.round(K.totalAbsPct * 100) / 100]; })""")
+    check(f"B20: elke starterformule heeft twee versies, de tweede op 100 g en op het percentage van haar label ({b20[:2]}…)",
+          len(b20) == 16 and all(n == 2 and w == 100 and abs(a - float(lbl.rstrip('%'))) < 0.01 for _, n, lbl, w, a in b20))
+    # E1 en F1: Import & export, eerst import, dan export, dan de wegen terug; korte hints
+    page.click("#btnIO"); page.wait_for_timeout(400)
+    ids = page.evaluate("() => [...document.querySelectorAll('#dlg button, #dlg a.btn')].map(b => b.id).filter(id => !id.startsWith('dlg'))")
+    check(f"F1: het venster begint met Import formula… en eindigt met de wegen terug ({ids})",
+          ids[:4] == ["btnImpF", "ioCsv", "btnImpL", "ioFormulair"] and ids[4:8] == ["btnExpF", "btnExpM", "btnExpJ", "btnExpL"] and ids[8] == "ioRestore")
+    hints = page.evaluate("() => [...document.querySelectorAll('#dlg .toolRow .hint')].map(h => h.textContent.trim().length)")
+    check(f"E1: elke hint in het venster is kort ({max(hints)} tekens op zijn langst)", hints and max(hints) <= 130)
+    check("F1: Import from Formulair… is een gewone knop, niet de oranje", "accent" not in (page.get_attribute("#ioFormulair", "class") or ""))
+    page.keyboard.press("Escape"); page.wait_for_timeout(300)
+    # E2 en F3: Settings, de library vóór de server
+    page.click("#btnSettings"); page.wait_for_timeout(400)
+    volg = page.evaluate("() => { const a = document.getElementById('setListImp'), b = document.getElementById('setServer'); return !!(a && b && (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING)); }")
+    check("F3: in Settings staat de library vóór de server", volg)
+    tekst = page.text_content("#dlg")
+    check(f"E2: Settings is korter ({len(tekst)} tekens)", "A server is optional" not in tekst and len(tekst) < 900)
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    # E3: de amberen balk in één regel
+    bar = page.text_content("#storageHintText") or ""
+    check(f"E3: de balk is één korte regel ({bar!r})", bar == "Your data lives in this browser – keep a Backup.")
+    # E4: tooltips in plaats van de uitlegregel onder de vier knoppen
+    page.evaluate("() => { const f = DATA.formulas.find(x => x.starter); switchTab('F', f.id, {type:'v', idx: f.versions.length - 1}); }"); page.wait_for_timeout(500)
+    tips = page.evaluate("() => ['btnSheet', 'btnCsv', 'btnShare', 'btnPrint'].map(i => document.getElementById(i)?.title)")
+    check(f"E4: de vier uitvoerknoppen zeggen in hun tooltip voor wie ze zijn ({tips})", all(tips) and "for someone with it" not in page.text_content("#content"))
+    check("E4: Mark as prepared legt uit in zijn tooltip", "stock" in (page.get_attribute("#btnPrep", "title") or ""))
+    # F4: + Add group vooraan, en geen Close bench meer
+    page.click("#btnBenchToggle"); page.wait_for_timeout(500)
+    rij = page.evaluate("() => [...document.querySelectorAll('.benchArea .toolRow:first-child button, .benchArea .toolRow:first-child select')].map(e => e.id)")
+    check(f"F4: + Add group staat vooraan, Close bench is weg ({rij})", rij[:2] == ["btnAddGroup", "bMoveSel"] and "btnBenchClose" not in rij)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(400)
+    check("F4: Table view sluit de bench", page.locator(".benchArea").count() == 0 and page.locator("input.w").count() > 0)
+    # F2: wat het materiaal is (piramide, solvent, IFRA) vóór wat je ervan kocht
+    page.evaluate("() => switchTab('M', DATA.materials.find(m => m.starter && !m.isSolvent).id)"); page.wait_for_timeout(400)
+    lab = page.evaluate("() => [...document.querySelectorAll('#content label, #content .flabel')].map(l => l.textContent.trim())")
+    pos = {k: next((i for i, t in enumerate(lab) if t.startswith(k)), -1) for k in ("Pyramid", "Solvent", "IFRA", "Supplier", "Amount", "Cost", "Storage")}
+    check(f"F2: Pyramid, Solvent, IFRA, dan Supplier, Amount, Cost, Storage ({pos})",
+          -1 not in pos.values() and list(pos.values()) == sorted(pos.values()))
+    # E6: Welcome met eigen werk: één regel naar Import & export
+    page.evaluate("() => { DATA.formulas[0].starter = false; DATA.formulas[0].modified = now(); }"); page.click("#btnHome"); page.wait_for_timeout(500)
+    check("E6: met eigen werk wijst Welcome in één regel naar Import & export",
+          page.locator("#homeIO").count() == 1 and page.locator("#btnImpCsv").count() == 0)
+    check(f"geen paginafouten in ronde 4 ({errs[:1]})", not errs)
 
     check(f"no page errors ({errs[:2]})", not errs)
     ctx.close()

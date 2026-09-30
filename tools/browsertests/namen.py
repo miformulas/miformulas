@@ -44,7 +44,7 @@ with sync_playwright() as p:
     page.fill("#addMat", "Testolide"); msgs.clear()
     page.click("#btnAddLine"); page.wait_for_timeout(700)
     check(f"the question says the library knows the name ({msgs})",
-          any("materials library knows this name" in m for m in msgs))
+          any("The materials library knows it." in m for m in msgs))
     m1 = page.evaluate("""(() => { const m = DATA.materials.find(x => x.name === "Testolide");
       return m && {cas: m.cas, cat: m.category, pyr: m.pyramid, ifra: m.ifraLimit, wish: !!m.wishlist, al: m.aliases}; })()""")
     check(f"the new to-order material carries them ({m1})",

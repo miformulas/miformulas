@@ -32,7 +32,7 @@ with sync_playwright() as pw:
     # een tweede versie met een label, notities en een spoorregel van 0,0004 g
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68");
         const v1 = f.versions[0];
-        const nv = {v: 2, date: "2026-03-04", name: "45gr", notes: "Eerste regel.\\nTweede regel met ; en \\" erin.",
+        const nv = {v: f.versions.length + 1, date: "2026-03-04", name: "45gr", notes: "Eerste regel.\\nTweede regel met ; en \\" erin.",
                     lines: v1.lines.map(l => ({...l}))};
         nv.lines[0].weightG = 0.0004;                       // een spoorregel mag niet naar 0 afronden
         nv.lines[1].weightG = 0.0025;                       // drie decimalen zouden hier 0,003 van maken (bouw 260920b)
@@ -55,8 +55,8 @@ with sync_playwright() as pw:
     kop = regels[0]
     check(f"de uitvoer heeft elf kolommen ({len(kop)})", len(kop) == 11)
     check(f"de elfde heet Notes ({kop[-1]!r})", kop[-1] == "Notes")
-    rose = [r for r in regels[1:] if r[0] == "Rose de Mai 68" and r[2] == "v2 45gr"]
-    check(f"de tweede versie staat er met haar label ({len(rose)} rijen)", len(rose) == 10)   # 9 regels en de Total
+    rose = [r for r in regels[1:] if r[0] == "Rose de Mai 68" and r[2] == "v3 45gr"]
+    check(f"de nieuwe versie staat er met haar label ({len(rose)} rijen)", len(rose) == 10)   # 9 regels en de Total
     check("de notities staan alleen op de eerste regel van de versie",
           rose[0][10].startswith("Eerste regel.") and not any(r[10] for r in rose[1:]))
     check("de notities houden hun regeleinde", "\n" in rose[0][10])
@@ -93,7 +93,7 @@ with sync_playwright() as pw:
         l: DATA.formulas.reduce((s, f) => s + f.versions.reduce((t, v) => t + v.lines.length, 0), 0)})""")
     check(f"alles is binnen ({na})", na == telling)
     r = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68");
-        const v = f.versions[1], m = id => DATA.materials.find(x => x.id === id);
+        const v = f.versions.at(-1), m = id => DATA.materials.find(x => x.id === id);
         return {cat: f.category, n: v.name, d: v.date, notes: v.notes, w0: v.lines[0].weightG, w1: v.lines[1].weightG,
                 eth: !!m(v.lines[v.lines.length-1].materialId)?.isSolvent, ethw: v.lines[v.lines.length-1].weightG,
                 nums: f.versions.map(x => x.v)}; }""")
@@ -103,7 +103,7 @@ with sync_playwright() as pw:
     check(f"de spoorregel overleeft de rondgang ({r['w0']})", abs(r["w0"] - 0.0004) < 1e-9)
     check(f"en 0,0025 g komt niet als 0,003 terug ({r['w1']})", abs(r["w1"] - 0.0025) < 1e-9)
     check(f"de solventvlag komt mee ({r['eth']}, {r['ethw']} g)", r["eth"] is True and abs(r["ethw"] - 12.5) < 1e-9)
-    check(f"de versies zijn hernummerd ({r['nums']})", r["nums"] == [1, 2])
+    check(f"de versies zijn hernummerd ({r['nums']})", r["nums"] == [1, 2, 3])
     page.keyboard.press("Control+z"); page.wait_for_timeout(1200)
     check("één undo neemt de hele invoer terug",
           page.evaluate("DATA.formulas.length") == 0 and page.evaluate("DATA.materials.length") == 0)
@@ -401,9 +401,9 @@ with sync_playwright() as pw:
         with open(pad, "w", encoding="utf-8", newline="") as fh:
             csv.writer(fh, delimiter=sep, lineterminator="\r\n").writerows(rijen)
         return pad
-    def een_versie(naam):
-        info = pg5.evaluate("""n => { const f = DATA.formulas.find(x => x.name === n); switchTab("F", f.id, {type: "v", idx: f.versions.length - 1});
-            return {id: f.id, lines: f.versions[f.versions.length - 1].lines.length}; }""", naam)
+    def een_versie(naam, idx=None):   # idx: de versie, anders de laatste
+        info = pg5.evaluate("""([n, i]) => { const f = DATA.formulas.find(x => x.name === n); const k = i == null ? f.versions.length - 1 : i;
+            switchTab("F", f.id, {type: "v", idx: k}); return {id: f.id, lines: f.versions[k].lines.length}; }""", [naam, idx])
         pg5.wait_for_timeout(600)
         with pg5.expect_download() as d:
             pg5.click("#btnCsv")
@@ -452,7 +452,7 @@ with sync_playwright() as pw:
           telling["blad"] == telling["app"])
     check(f"B2: zonder Total-melding ({telling['note'][:60]!r})", not telling["note"])
     # B3: een concentraat zonder solventregel, en een ontvanger die een van zijn materialen als solvent telt
-    info, pad = een_versie("Rose de Mai 68")
+    info, pad = een_versie("Rose de Mai 68", 0)   # v1, het concentraat van de starterset
     sep, rijen = lees_csv(pad)
     eerste = rijen[2][0]
     check(f"B3: de export van een concentraat heeft geen solventregel ({eerste})", not any("(solvent)" in r[0] for r in rijen))

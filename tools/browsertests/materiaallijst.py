@@ -46,12 +46,12 @@ with sync_playwright() as p:
     msgs.clear()
     page.set_input_files("#impList", f); page.wait_for_timeout(600)
     check(f"import reports name, version and count ({msgs})", any("Materials library loaded: Test material list 2026-09-13, 5 materials" in m for m in msgs))
-    check("the message says nothing was added to your inventory", any("Nothing was added to your own inventory" in m for m in msgs))
+    check("the message says your inventory is unchanged", any("your inventory is unchanged" in m for m in msgs))
     check("your own materials are untouched", page.evaluate("DATA.materials.length") == 199)
     check("the list sits in the data", page.evaluate("DATA.materialList && DATA.materialList.materials.length") == 5)
     page.click("#btnIO"); page.wait_for_timeout(400)
     check("Import/Export names the loaded list", "Test material list" in page.text_content("#dlg"))
-    check("and says the materials you already have stay untouched", "the materials already in your inventory are untouched" in page.text_content("#dlg"))
+    check("and says the materials you already have stay untouched", "your inventory is untouched" in page.text_content("#dlg"))
     page.click("#dlgOk"); page.wait_for_timeout(300)
 
     # Settings shows it with Remove
@@ -60,7 +60,7 @@ with sync_playwright() as p:
     check("Settings names the list, its size and licence", "Test material list" in dlg and "5 materials" in dlg and "CC BY 4.0" in dlg)
     check("Settings offers Import and Remove", page.locator("#setListImp").is_visible() and page.locator("#setListDel").is_visible())
     check("Settings offers Get the latest list", page.locator("#setListGet").is_visible())
-    check("Settings says the library is a reference", "the materials you own are not part of it" in dlg)
+    check("Settings names it in one line", "Materials library: Test material list" in dlg)
     page.click("#dlgCancel"); page.wait_for_timeout(200)
 
     # Get the latest list: the published address, answered here by a stand-in

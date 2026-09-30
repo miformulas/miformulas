@@ -36,8 +36,8 @@ with sync_playwright() as p:
     page.click("#btnStarter"); page.wait_for_timeout(1300)
 
     # ---------- 1. de focus blijft in de gewichtskolom (B11) ----------
-    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 3);
-        switchTab("F", f.id, {type:"v", idx:0}); }""")
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.at(-1).lines.length > 3);
+        switchTab("F", f.id, {type:"v", idx: f.versions.length - 1}); }""")
     page.wait_for_timeout(500)
     inp = page.locator("input.w").first
     inp.click(); page.keyboard.type("12"); page.keyboard.press("Enter"); page.wait_for_timeout(400)
@@ -50,8 +50,8 @@ with sync_playwright() as p:
     page.keyboard.type("14"); page.keyboard.press("Shift+Tab"); page.wait_for_timeout(400)
     na = page.evaluate("""() => { const a = document.activeElement; return {cls: a.className, i: a.dataset ? a.dataset.i : null}; }""")
     check(f"Shift+Tab gaat een gewicht terug ({na})", na["cls"] == "w" and na["i"] == "0")
-    gew = page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 3);
-        return f.versions[0].lines.slice(0,2).map(l => l.weightG); }""")
+    gew = page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.at(-1).lines.length > 3);
+        return f.versions.at(-1).lines.slice(0,2).map(l => l.weightG); }""")
     check(f"en de drie ingaven zijn bewaard ({gew})", gew[0] == 13 and gew[1] == 14)
     msgs.clear()
     page.evaluate("""() => { const i = document.querySelector("input.w"); i.focus(); i.value = "-5";
@@ -76,7 +76,7 @@ with sync_playwright() as p:
     bw2 = page.evaluate("""(() => getComputedStyle(document.querySelector(".benchWrap")).gridTemplateColumns.split(" ").length)()""")
     check(f"vanaf 1500 px weer twee kolommen ({bw2})", bw2 == 2)
     page.set_viewport_size({"width": 1280, "height": 950}); page.wait_for_timeout(300)
-    page.click("#btnBenchClose"); page.wait_for_timeout(400)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(400)
 
     # ---------- 3. de telefoon: ☰ weg, To order heeft een uitweg (B13) ----------
     page.set_viewport_size({"width": 390, "height": 844}); page.wait_for_timeout(500)

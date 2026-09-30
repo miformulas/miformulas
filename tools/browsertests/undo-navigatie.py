@@ -41,7 +41,7 @@ with sync_playwright() as p:
           page.evaluate("""!DATA.formulaCategories.includes("Proefcategorie")"""))
 
     # ---------- 1b. a category change that creates a category goes back in one step (alsoUndo, build 260917c) ----------
-    page.evaluate('''() => { const f = DATA.formulas.find(x => x.versions.length === 1);
+    page.evaluate('''() => { const f = DATA.formulas.find(x => !x.frozenImport);
       switchTab("F", f.id, {type:"v", idx:0}); }''')
     page.wait_for_timeout(500)
     oud = page.evaluate("() => DATA.formulas.find(x => x.id === VIEW.id).category")
@@ -172,7 +172,7 @@ with sync_playwright() as p:
           page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-u").versions[0].bench === undefined)()""")
           and page.locator("[data-bgi]").count() == 5)
     page.keyboard.press("Control+y"); page.wait_for_timeout(700)
-    page.click("#btnBenchClose"); page.wait_for_timeout(500)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(500)
     page.click("#btnNewV"); page.wait_for_timeout(700)
     check("and a new version takes the arrangement along",
           page.evaluate("""(() => { const f = DATA.formulas.find(x => x.id === "f-u");
@@ -215,7 +215,7 @@ with sync_playwright() as p:
         return [...g.querySelectorAll(".brow")].map(r => r.innerText.replace(/\\s+/g, " ")); }""")
     check(f"de groep toont de regel van 5 g ({eerst})",
           len(eerst) == 1 and "5.000 g" in eerst[0].replace(",", "."))
-    page.click("#btnBenchClose"); page.wait_for_timeout(500)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(500)
     page.evaluate("""() => { const v = DATA.formulas.find(x => x.id === "f-b").versions[0];
         v.lines = v.lines.filter(l => l.id !== "l-1"); markDirty(); render(); }""")   # de regel van 5 g gewist
     page.wait_for_timeout(500)
@@ -231,7 +231,7 @@ with sync_playwright() as p:
     check(f"260922p (C1): en haar kop telt de gewiste regel niet meer ({kop!r})", kop.startswith("0 ·"))
     check(f"en die regel staat nog gewoon in de pool ({na['pool']})",
           any("20.000 g" in r.replace(",", ".") for r in na["pool"]))
-    page.click("#btnBenchClose"); page.wait_for_timeout(400)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(400)
     page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-b");
         buildUsage(); markDirty(); switchTab("F", "f-u", {type:"v", idx:0}); }""")
     page.wait_for_timeout(500)
@@ -410,7 +410,7 @@ with sync_playwright() as p:
         page.locator(".bsel").first.check(); page.select_option("#bMoveSel", "2"); page.wait_for_timeout(600)
     check("and so does Move ticked to…", len(errs) == fouten
           and page.evaluate("""() => ((DATA.formulas.find(x => x.id === "f-z").versions[0].bench || {groups: []}).groups[2] || {keys: []}).keys.length""") == 1)
-    page.click("#btnBenchClose"); page.wait_for_timeout(400)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(400)
 
     # ---------- 13. C-a 3 (bouw 260922j): Cancel in ⇄ Replace met het dilutievenster laat Redo en de datum staan ----------
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u"); f.versions[0].lines[0].dilutionPct = 10;
@@ -487,7 +487,7 @@ with sync_playwright() as p:
     sleep_op("b2", "b0")
     check(f"while a line let go on another one still goes before it ({rij()})", rij() == ["b2", "b0", "b1"] and page.evaluate("UNDO.length") == u0 + 1)
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(500)
-    page.click("#btnBenchClose"); page.wait_for_timeout(400)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(400)
     page.check("input.selCb[data-i='0']"); page.check("input.selCb[data-i='1']")
     page.click("#btnPredil"); page.wait_for_timeout(400); page.click("#dlgOk"); page.wait_for_timeout(800)
     page.click("#btnBenchToggle"); page.wait_for_timeout(600)

@@ -47,7 +47,7 @@ with sync_playwright() as p:
     # 2b. storage bar in a Safari tab: "browser's storage", stays between sessions, comes back every start
     pg.click("#btnStarter"); pg.wait_for_timeout(1200)
     bar = pg.text_content("#storageHintText")
-    check("Safari tab: bar says the data stays between sessions and names Chrome or Edge", "stays there between sessions" in bar and "Chrome or Edge" in bar and not pg.evaluate("document.getElementById('storageHint').hidden"))
+    check("Safari tab: the one-line bar, shown", "keep a Backup" in bar and not pg.evaluate("document.getElementById('storageHint').hidden"))
     check("Safari tab: no Save to a data file button", not pg.locator("#storageHintSave").is_visible())
     check("Safari tab: Welcome page offers Import from Formulair…", pg.locator("#btnImpFormulair").is_visible() and pg.get_attribute("#btnImpFormulair", "href") == "formulair-import.html")
     check("Safari tab: no Cowork mention on the Welcome page", "Cowork" not in pg.text_content("#content"))
@@ -67,7 +67,7 @@ with sync_playwright() as p:
     check("Dock app: no Add to Dock link when already installed", not pg.locator("#btnInstall").is_visible())
     pg.click("#btnStarter"); pg.wait_for_timeout(1200)
     bar = pg.text_content("#storageHintText")
-    check("Dock app: bar says app's storage and Backup now and then", "this app's storage" in bar and "Backup" in bar and not pg.evaluate("document.getElementById('storageHint').hidden"))
+    check("Dock app: the one-line bar, shown", "keep a Backup" in bar and not pg.evaluate("document.getElementById('storageHint').hidden"))
     pg.wait_for_timeout(3500)   # first autosave asks for persistence and re-evaluates the bar
     check("Dock app: bar still there after the first save", not pg.evaluate("document.getElementById('storageHint').hidden"))
     pg.click("#btnSave"); pg.wait_for_timeout(600)
@@ -99,10 +99,10 @@ with sync_playwright() as p:
     # after installing: a message saying where the app went and that this tab can be closed
     pg.evaluate("window.dispatchEvent(new Event('appinstalled'))"); pg.wait_for_timeout(300)
     dlg = pg.text_content("#dlg")
-    check("Chrome: a message after installing", pg.evaluate("document.getElementById('dlg').open") and "sits with your other apps" in dlg)
-    check("Chrome: the message names the Home screen route and the shared data", "press and hold its icon" in dlg and "same data" in dlg)
+    check("Chrome: a message after installing", pg.evaluate("document.getElementById('dlg').open") and "miFormulas is installed" in dlg)
+    check("Chrome: the message says to carry on in the app, on the same data", "Close this tab" in dlg and "same data" in dlg)
     pg.click("#dlgOk"); pg.wait_for_timeout(200)
-    check("Chrome: the same text stays on the start screen", "sits with your other apps" in pg.text_content("#landingHint"))
+    check("Chrome: the same text stays on the start screen", "miFormulas is installed" in pg.text_content("#landingHint"))
     ctx.close()
 
     # 4. file:// without file access (Safari, Firefox): read-only message with a link to the site

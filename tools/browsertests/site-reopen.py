@@ -64,7 +64,7 @@ with sync_playwright() as p:
     ps.click("#btnStarter"); ps.wait_for_timeout(1500)
     check("starter in browser storage: app boots", not ps.locator("#landing").is_visible())
     check("starter in browser storage: amber bar with Save button", (not ps.locator("#storageHint").evaluate("e => e.hidden")) and ps.locator("#storageHintSave").is_visible())
-    check("starter in browser storage: bar text offers a data file", "Save it to a data file" in ps.locator("#storageHintText").inner_text())
+    check("starter in browser storage: the bar says to keep a Backup, its button offers a data file", "keep a Backup" in ps.locator("#storageHintText").inner_text())
     ps.click("#storageHintSave"); ps.wait_for_timeout(500)
     check("save to file: dialog explains", ps.locator("#dlg").evaluate("d => d.open") and "miformulas-data.json" in ps.locator("#dlg").inner_text())
     ps.click("#dlgCancel"); ps.wait_for_timeout(300)
@@ -99,7 +99,7 @@ with sync_playwright() as p:
     pr.goto(URL); pr.wait_for_timeout(1200)
     check("restart: Reopen offered", pr.locator("#btnReopen").is_visible() and "mydata.json" in pr.locator("#btnReopen").inner_text())
     check("restart: starter hidden", not pr.locator("#btnStarter").is_visible())
-    check("restart: hint says remembered", "is remembered" in pr.locator("#landingHint").inner_text())
+    check("restart: hint says Reopen continues with the file", "Reopen continues with" in pr.locator("#landingHint").inner_text())
     pr.click("#btnReopen"); pr.wait_for_timeout(1200)
     check("restart: reopened with the edited data", not pr.locator("#landing").is_visible() and pr.evaluate("DATA.formulas[0].name") == "Renamed on site")
 

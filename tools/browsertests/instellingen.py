@@ -39,7 +39,7 @@ with sync_playwright() as p:
     check("op de site staat het serverveld er", page.locator("#setServer").count() == 1)
     check("op de site staat het tokenveld er", page.locator("#setToken").count() == 1)
     dlg = page.text_content("#dlg")
-    check("de hint legt de server uit", "A server is optional" in dlg)
+    check("de hint legt de server uit", "Optional: data.php next to the app" in dlg)
     check("zonder databestand geen zin over het databestand", "instead of your data file" not in dlg)
     check("het vinkje staat er", page.locator("#setOpenLast").count() == 1)
     check("het vinkje staat standaard uit", not page.locator("#setOpenLast").is_checked())
@@ -58,13 +58,12 @@ with sync_playwright() as p:
     check("de instelling staat standaard uit", not page.evaluate("idb.get('openLast')"))
     check("er is nog niets onthouden", not page.evaluate("idb.get('lastView')"))
 
-    # de starterset heeft alleen formules met één versie: er eerst een tweede bij maken,
-    # anders zegt "de versie waar je stond" niets
+    # een versie bij maken, zodat "de versie waar je stond" (v2, niet de laatste) iets zegt
     page.click("#list .item >> nth=0"); page.wait_for_timeout(500)
     page.click("#btnNewV"); page.wait_for_timeout(700)
     fid = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === VIEW.id);
         return {id: f.id, name: f.name, n: f.versions.length}; }""")
-    check(f"de proefformule heeft nu twee versies ({fid['n']})", fid["n"] == 2)
+    check(f"de proefformule heeft nu drie versies ({fid['n']})", fid["n"] == 3)
     idx = 1
     page.evaluate("a => switchTab('F', a.id, {type:'v', idx:a.idx})", {"id": fid["id"], "idx": idx})
     page.wait_for_timeout(1400)

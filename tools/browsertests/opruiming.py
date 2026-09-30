@@ -30,6 +30,8 @@ with sync_playwright() as p:
     page.on("dialog", on_dialog)
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnStarter"); page.wait_for_timeout(1200)
+    # deze test werkt op de concentraten: de verdunde v2 van de starterformules (B20 van de audit v2) gaat eruit
+    page.evaluate("() => { for (const f of DATA.formulas) f.versions.length = 1; buildUsage(); render(); }")
 
     # ---------- ellipsis on the buttons that open a window ----------
     check("+ New formula…", page.text_content("#btnNew").strip() == "+ New formula…")
@@ -438,7 +440,7 @@ with sync_playwright() as p:
     check("en bij een korte lijst blijft die zin weg",
           "more" not in page.evaluate("""() => document.querySelector(".panelBox.usage").innerText"""))
 
-    # ---------- staart 42 (bouw 260920n): Clear all vraagt, en de bevestigingen noemen dezelfde weg terug ----------
+    # ---------- staart 42 (bouw 260920n): Clear all vraagt, en Ctrl+Z haalt ze terug ----------
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 1);
         window.__cid = f.id; f.versions[0].lines.forEach((l, i) => l.remark = i < 2 ? 2 : 1);
         markDirty(); switchTab("F", f.id, {type:"v", idx:0}); }""")
@@ -448,14 +450,14 @@ with sync_playwright() as p:
     gemerkt = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__cid);
         return f.versions[0].lines.filter(l => (l.remark ?? 1) !== 1).length; }""")
     check(f"Clear all vraagt eerst, en Cancel laat de merktekens staan ({[m[:60] for m in msgs]})",
-          any("colour mark" in m and "Ctrl+Z" in m for m in msgs) and gemerkt == 2)
+          any("colour mark" in m for m in msgs) and gemerkt == 2)   # sinds 260930c zonder Undo-zin (E10 van de audit v2)
     mode["v"] = "accept"; msgs.clear()
     page.click("#btnClearMarks"); page.wait_for_timeout(600)
     check("en na ja zijn ze weg",
           page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__cid);
             return f.versions[0].lines.every(l => (l.remark ?? 1) === 1); }"""))
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
-    check("Ctrl+Z brengt ze terug, zoals de vraag belooft",
+    check("Ctrl+Z brengt ze terug",
           page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__cid);
             return f.versions[0].lines.filter(l => (l.remark ?? 1) !== 1).length; }""") == 2)
     msgs.clear(); page.click("#btnClearMarks"); page.wait_for_timeout(500)

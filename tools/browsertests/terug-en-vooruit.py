@@ -32,11 +32,11 @@ with sync_playwright() as b0:
     check("de twee knoppen zijn verborgen in een tabblad",
           page.locator("#btnNavPrev").count() == 1 and not page.locator("#btnNavPrev").is_visible())
 
-    # een formule met twee versies, dan een materiaal, dan To order
+    # een formule met een nieuwe versie (de starterformules hebben er al twee), dan een materiaal, dan To order
     page.click("#list .item >> nth=0"); page.wait_for_timeout(500)
     page.click("#btnNewV"); page.wait_for_timeout(700)
     f = plek(page)
-    check(f"de formule staat open op versie 2 ({f})", f["tab"] == "F" and f["id"] and f["sub"] == 1)
+    check(f"de formule staat open op versie 3 ({f})", f["tab"] == "F" and f["id"] and f["sub"] == 2)
 
     mid = page.evaluate("DATA.materials[5].id")
     page.evaluate("id => switchTab('M', id, null)", mid); page.wait_for_timeout(600)
@@ -49,7 +49,7 @@ with sync_playwright() as b0:
     page.go_back(); page.wait_for_timeout(700)
     p2 = plek(page)
     check(f"nog eens terug geeft de formule ({p2})", p2["tab"] == "F" and p2["id"] == f["id"])
-    check("en de versie waar je stond", p2["sub"] == 1)
+    check("en de versie waar je stond", p2["sub"] == 2)
 
     page.go_forward(); page.wait_for_timeout(700)
     check("vooruit geeft het materiaal weer", plek(page)["id"] == mid)
@@ -89,7 +89,7 @@ with sync_playwright() as b0:
 
     # bouw 260922j (C-a 7): terug naar een vergelijking of naar de bench view landt daar weer, niet op de tabel
     # van de laatste versie; de stap onthoudt ook wat je er nadien koos (B in Compare, de bench aan of uit)
-    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.length === 1 && !x.frozenImport);
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.length < 3 && !x.frozenImport);
         while (f.versions.length < 3) f.versions.push({v: f.versions.length + 1, date: today(), lines: f.versions[0].lines.map(l => ({...l}))});
         buildUsage(); switchTab("F", f.id, {type: "v", idx: 1}); }""")
     page.wait_for_timeout(700)
@@ -110,8 +110,8 @@ with sync_playwright() as b0:
     na = page.evaluate("() => ({sub: VIEW.sub, bench: !!document.querySelector('.benchArea')})")
     check(f"terug naar de bench view geeft de bench view ({na})",
           na["bench"] and (na["sub"] or {}).get("idx") == 1 and (na["sub"] or {}).get("bench") is True)
-    if page.locator("#btnBenchClose").count():
-        page.click("#btnBenchClose"); page.wait_for_timeout(500)
+    if page.locator(".benchArea").count():
+        page.click("#btnBenchToggle"); page.wait_for_timeout(500)
     check(f"zonder paginafout ({errs[:2]})", not errs)
 
     # 260922p (C5): uit de lijst geopend, dan Bench view en een gewicht: dat is één plaats, en één keer terug verlaat ze
@@ -120,7 +120,7 @@ with sync_playwright() as b0:
     page.click("#list .item >> nth=1"); page.wait_for_timeout(700)
     fid, n0 = page.evaluate("VIEW.id"), page.evaluate("NAVI")
     page.click("#btnBenchToggle"); page.wait_for_timeout(600)
-    page.click("#btnBenchClose"); page.wait_for_timeout(500)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(500)
     page.fill("input.w >> nth=0", "7"); page.keyboard.press("Tab"); page.wait_for_timeout(600)
     n1 = page.evaluate("NAVI")
     check(f"260922p (C5): uit de lijst geopend, dan Bench view en een gewicht: geen extra stap ({n0} → {n1})", n1 == n0)

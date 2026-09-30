@@ -135,7 +135,8 @@ with sync_playwright() as pw:
 
     # ---------------- 4. het sjabloon ----------------
     with page.expect_download() as dl:
-        page.click("#btnHome"); page.wait_for_timeout(500); page.click("#btnCsvTpl")
+        # met eigen werk heeft Welcome alleen nog één regel (E6 van de audit v2): het sjabloon komt uit Import & export
+        page.click("#btnIO"); page.wait_for_timeout(400); page.click("#ioTpl")
     tpl = os.path.join(tmp, "sjabloon.csv"); dl.value.save_as(tpl)
     check(f"het sjabloon heet miformulas-materials-template.csv ({dl.value.suggested_filename})", dl.value.suggested_filename == "miformulas-materials-template.csv")
     kop2 = open(tpl, encoding="utf-8-sig").readline()
@@ -171,14 +172,14 @@ with sync_playwright() as pw:
     page.click("#btnIO"); page.wait_for_timeout(400)
     volgorde = page.evaluate("() => [...document.querySelectorAll('#dlg button, #dlg a.btn')].map(b => b.id).filter(id => !id.startsWith('dlg'))")
     check(f"het venster heeft de knoppen in de afgesproken volgorde ({volgorde})",
-          volgorde[:9] == ["ioFormulair", "ioCsv", "btnImpL", "btnImpF", "btnExpL", "btnExpJ", "btnExpF", "btnExpM", "ioRestore"]
-          and volgorde[9:] in ([], ["ioSnap"]))   # sinds 260922k de twee wegen terug onderaan, de dagsnapshot alleen als er een is
+          volgorde[:9] == ["btnImpF", "ioCsv", "btnImpL", "ioFormulair", "btnExpF", "btnExpM", "btnExpJ", "btnExpL", "ioRestore"]
+          and volgorde[9:] in ([], ["ioSnap"]))   # sinds 260930c eerst import, dan export, elk in volgorde van gebruik (F1)
     check("Cancel is verborgen, want een menu heeft niets te annuleren",
           page.evaluate("() => getComputedStyle(document.querySelector('#dlgCancel')).display") == "none")
     blok = page.text_content("#dlg")
-    check("de hint van Export all my formulas… somt op wat niet meegaat", "No price, supplier, stock or trial log goes along" in blok)
-    check("en die van Import formula… noemt ook de uitvoer van een andere miFormulas", "all the formulas exported from another miFormulas" in blok)
-    check("die van de bibliotheek zegt dat de eigen materialen onaangeroerd blijven", "does not change the materials already in your inventory" in blok)
+    check("de hint van Export all my formulas… somt op wat niet meegaat", "no price, supplier, stock or trial log goes along" in blok)
+    check("en die van Import formula… noemt ook de uitvoer van een andere miFormulas", "from another miFormulas" in blok)
+    check("die van de bibliotheek zegt dat de eigen materialen onaangeroerd blijven", "your inventory is untouched" in blok)
     check("de prompts zijn een link naar de juiste prompt",
           page.locator('#dlg a[href$="ai-prompts.html#s1-photo-pdf-or-spreadsheet-to-import-file"]').count() == 1
           and page.locator('#dlg a[href$="ai-prompts.html#s2-checking-and-completing-your-materials"]').count() == 1)

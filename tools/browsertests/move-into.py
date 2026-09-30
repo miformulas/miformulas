@@ -22,6 +22,8 @@ with sync_playwright() as p:
     page.on("dialog", lambda d: (msgs.append(d.message), d.accept()))
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnStarter"); page.wait_for_timeout(1200)
+    # deze test werkt op de concentraten: de verdunde v2 van de starterformules (B20 van de audit v2) gaat eruit
+    page.evaluate("() => { for (const f of DATA.formulas) f.versions.length = 1; buildUsage(); render(); }")
 
     # since 260915d every formula that is still one version can move, not only an import
     page.locator("#list").get_by_text("Rose de Mai 68", exact=True).click(); page.wait_for_timeout(400)
@@ -122,7 +124,7 @@ with sync_playwright() as p:
     sel_name = page.locator("#mvTarget").evaluate("s => s.options[s.selectedIndex].textContent")
     check(f"opened on Aura v04: 'this formula' is suggested ({sel_name})", sel_name == "this formula (Aura v04)")
     check("hint says the others move into it", "this formula has the lowest number" in dlg.inner_text())
-    check("intro speaks of the ticked formulas", "ticked under Move together become part of" in page.locator("#mvIntro").inner_text())
+    check("intro speaks of the ticked formulas", "ticked under Move together become versions of" in page.locator("#mvIntro").inner_text())
     rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked, cb.disabled])")
     check(f"companions v05, v05 20%, v06 ticked and enabled ({rows})", sorted(r[0] for r in rows) == ["Aura v05", "Aura v05 20%", "Aura v06"] and all(r[1] and not r[2] for r in rows))
     check("next version number announced", page.locator("#mvVno").inner_text().strip() == "(v2)")
@@ -158,7 +160,7 @@ with sync_playwright() as p:
     check("Move into… is offered on it", page.locator("#btnMoveF").count() == 1)
     page.click("#btnMoveF"); page.wait_for_timeout(400)
     check("the intro says its name stays as the version label",
-          "its name stays on the version as its label" in page.locator("#mvIntro").inner_text())
+          "its name as the version label" in page.locator("#mvIntro").inner_text())
     check("nothing is pre-ticked under Move together, because no name matches",
           page.evaluate("document.querySelectorAll('#mvTogether input.mvTog').length") == 0)
     page.select_option("#mvTarget", label="Rose de Mai 68 (1 version)"); page.wait_for_timeout(200)
@@ -200,7 +202,7 @@ with sync_playwright() as p:
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
 
     # ---------- B11 en B12 (bouw 260920d): wat bevroren was blijft bevroren, wat van jou is blijft bewerkbaar ----------
-    # Het venster belooft "its name stays on the version as its label", dus een gewone versie; de formulevlag
+    # Het venster belooft "its name as the version label", dus een gewone versie; de formulevlag
     # frozenImport gold over elke versie heen en maakte die binnengekomen versie alsnog alleen-lezen.
     page.evaluate("""() => { const m = DATA.materials[0];
         DATA.formulas.push({id:"f-imp2", name:"Aura import", category:"Uncategorised", created:today(), frozenImport:true,

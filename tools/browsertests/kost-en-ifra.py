@@ -393,7 +393,7 @@ with sync_playwright() as p:
     pg.evaluate("""() => idb.set("serverUrl", "data.php")""")
     pg.goto(URL); pg.wait_for_timeout(1500)
     check("the app is in server mode", pg.evaluate("[REMOTE, SERVER_EMPTY]") == [True, True])
-    check("the landing says the server is still empty", "has no data file yet" in pg.text_content("#landingHint"))
+    check("the landing says the server is still empty", "holds no data yet" in pg.text_content("#landingHint"))
     check("and offers the starter set", pg.locator("#btnStarter").is_visible())
     pg.click("#btnStarter"); pg.wait_for_timeout(3400)
     check("which starts the app and writes it to the server",
@@ -439,7 +439,7 @@ with sync_playwright() as p:
     head = pg.text_content("#ifraBox summary"); body = pg.text_content("#ifraBox")
     check(f"with a predilution in the version the check is off and says so ({head!r})", "off (predilution" in head)
     check("the panel names the predilution and the way to check it anyway",
-          "does not look inside" in body and "Predilutions" in body)
+          "cannot see" in body and "Predilutions" in body)
     check("no verdict and no dosage field while it is off",
           "no restricted materials" not in body and "within limits" not in body and pg.locator("#ifraDose").count() == 0)
     check("the predilution material carries the marker",
