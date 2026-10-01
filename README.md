@@ -139,8 +139,9 @@ number, category, pyramid level, IFRA limit, alternative names and a few lines o
 odour facts already filled in, all of it editable, and the materials you own are
 never touched. The library published by miFormulas holds several hundred
 materials under CC BY 4.0; **Get the latest library** in Settings fetches the
-current one. It is not in the repository or in the ZIP: it changes more often
-than the app does, so the app asks for it when you do.
+current one. Its IFRA limits are a help, not a substitute for the current IFRA
+Standards (section 12 of the manual). It is not in the repository or in the ZIP:
+it changes more often than the app does, so the app asks for it when you do.
 
 ## Feedback
 

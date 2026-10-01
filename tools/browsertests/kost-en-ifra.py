@@ -1,6 +1,7 @@
 """Cost per gram of pure material, the IFRA panel with 0 and with a figure below zero, a file that
 is not a data file, a materials library with rubbish in it, and a server without a data file
-(build 260914d). Needs the local web server on port 8765 (see README)."""
+(build 260914d). Under every check a line says it is a help and not an IFRA certificate (build 261001b).
+Needs the local web server on port 8765 (see README)."""
 import json
 from playwright.sync_api import sync_playwright
 
@@ -102,6 +103,12 @@ with sync_playwright() as p:
     check(f"a limit of 0 reads as prohibited", "prohibited" in panel and "not allowed" in panel)
     check("a figure below zero counts as not yet verified",
           "Not yet verified" in panel and "Kost B" in panel.split("Not yet verified")[1])
+    # build 261001b: under every check, a help and not an IFRA certificate, and the library's limits can be wrong too
+    nota = page.text_content("#ifraBox #ifraNote") if page.query_selector("#ifraBox #ifraNote") else ""
+    check(f"261001b: under the check it says it is no IFRA certificate ({nota!r})",
+          "not an IFRA certificate" in nota and "materials library" in nota and "current IFRA Standards" in nota)
+    check("261001b: as the last line of the panel",
+          page.evaluate("() => document.querySelector('#ifraBox').lastElementChild.id === 'ifraNote'"))
     check("and it is not counted as over limit",
           page.evaluate("""(() => { const f = DATA.formulas.find(x => x.id === "f-k"), v = f.versions[0];
             const K = calc(v.lines); const agg = new Map();
@@ -285,6 +292,7 @@ with sync_playwright() as p:
     check(f"het dichtgeklapte kopje zegt dat er niets nagekeken is ({kop!r})", "nothing verified yet" in kop)
     check("en binnenin staat dezelfde zin, niet 'no restricted materials'",
           "carries an IFRA limit yet" in page.text_content("#ifraBox") and "No restricted materials present" not in page.text_content("#ifraBox"))
+    check("261001b: ook zonder één nagekeken grens staat de disclaimer eronder", page.query_selector("#ifraBox #ifraNote") is not None)
     page.evaluate("""() => { const a = DATA.materials.find(m => m.id === "m-a"); a.ifraLimit = 99;
       invalidateMats(); markDirty(); render(); }""")
     page.wait_for_timeout(500)
@@ -442,6 +450,7 @@ with sync_playwright() as p:
           "cannot see" in body and "Predilutions" in body)
     check("no verdict and no dosage field while it is off",
           "no restricted materials" not in body and "within limits" not in body and pg.locator("#ifraDose").count() == 0)
+    check("261001b: and no disclaimer while it is off, because there is no check to qualify", pg.locator("#ifraNote").count() == 0)
     check("the predilution material carries the marker",
           pg.evaluate("""() => { const m = DATA.materials.find(x => x.isPredil); return !!m && m.category === "Predils"; }"""))
     pg.evaluate("""() => { const pf = DATA.formulas.find(f => f.category === "Predilutions");
