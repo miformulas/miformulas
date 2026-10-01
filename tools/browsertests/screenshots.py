@@ -243,7 +243,7 @@ with sync_playwright() as p:
     page.fill("#setServer", "https://miformulas-data.yourname.workers.dev/")
     page.fill("#setToken", "k7QwPz2mR4xL9vB3tNdY")     # not a real token: the field shows dots
     page.evaluate("""() => {        // step 9 is about the two fields and Apply: the rest of the window only makes the figure tall
-        const box = document.querySelector("#dlg > div"), grid = box.querySelector(".fieldGrid");
+        const box = document.querySelector("#dlg > div"), grid = document.querySelector("#setServer").closest(".fieldGrid");   // since 260930c the second grid
         const keep = new Set([box.querySelector("h3"), grid, grid.nextElementSibling,
                               [...box.querySelectorAll(".toolRow")].pop()]);
         for (const k of [...box.children]) if (!keep.has(k)) k.remove();
