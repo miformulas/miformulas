@@ -177,9 +177,10 @@ out), and what you did.
 Nobody but you sees your formulas. The app runs entirely in your browser and your
 data lives where you put it: the browser's storage, a file on your disk, or a server
 you own. It sends your data nowhere but to a server you set up yourself, sends no
-telemetry and loads no scripts from elsewhere; it contacts miformulas.com only for
-two files you ask for yourself, the starter set and the published materials
-library, and on the site once to see whether a `data.php` server sits next to it;
+telemetry and loads no scripts from elsewhere; it contacts miformulas.com and
+data.miformulas.com only for two files you ask for yourself, the starter set and the
+published materials library, and on the site once to see whether a `data.php`
+server sits next to it;
 apart from that it makes no network request at all. You can check this in the code: the whole app is this one readable file, and the
 manual (section 21) lists every network call it contains and how to verify them.
 
