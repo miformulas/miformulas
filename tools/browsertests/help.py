@@ -93,15 +93,15 @@ with sync_playwright() as p:
     check("the Help bar really carries those links",
           all(x in page.text_content("#content .helpbar") for x in BARLINKS))
     check("help view renders the manual", page.locator("#content .help h1").inner_text().strip() == "miFormulas manual")
-    check("contents list is linked", page.locator("#content .help ol.toc a").count() == 24)
+    check("contents list is linked", page.locator("#content .help ol.toc a").count() == 23)
     check("figures became links to the online manual", page.locator("#content .help .helpfig a").count() >= 40
           and page.locator("#content .help img").count() == 0)
     check("external links open in a new tab", page.evaluate("[...document.querySelectorAll('#content .help a[href^=\"http\"]')].every(a => a.target === '_blank')"))
     # a contents link scrolls to the section instead of changing the URL
     before = page.evaluate("location.href")
     page.locator("#content .help ol.toc a", has_text="Bench view and printing").click(); page.wait_for_timeout(300)
-    top = page.evaluate("(() => { const c = document.querySelector('#content'), h = c.querySelector('#s16-bench-view-and-printing'); return h.getBoundingClientRect().top - c.getBoundingClientRect().top; })()")
-    check("contents link scrolls to section 16 inside the pane", -5 <= top <= 60)
+    top = page.evaluate("(() => { const c = document.querySelector('#content'), h = c.querySelector('#s10-bench-view-and-printing'); return h.getBoundingClientRect().top - c.getBoundingClientRect().top; })()")
+    check("contents link scrolls to section 10 inside the pane", -5 <= top <= 60)
     check("URL unchanged by the contents link", page.evaluate("location.href") == before)
     page.click("#helpTop"); page.wait_for_timeout(300)
     check("Contents button scrolls back up", page.evaluate("document.querySelector('#content').scrollTop") < 1200)

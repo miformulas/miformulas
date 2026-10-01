@@ -281,9 +281,28 @@ with sync_playwright() as p:
 try:
     from PIL import Image
     import glob
+    # Median cut gives a colour that covers only a few pixels no palette entry of its own and merges it into its
+    # neighbour: the green of "only in B" in app-compare.png came out grey (D-F1 of the audit v2). So median cut
+    # chooses 240 colours, and up to 16 colours that it moved by more than 40 on a channel, on at least 40 pixels,
+    # get an entry of their own; every other pixel keeps what median cut gave it.
+    import numpy as np
+    def reduce(im, extra_max=16, drift=40, min_px=40):
+        q = im.quantize(colors=256 - extra_max, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+        a = np.asarray(im, dtype=np.int16); idx = np.array(q)
+        pal = np.array(q.getpalette()[:3 * 256], dtype=np.int16).reshape(-1, 3)
+        far = np.abs(a - pal[idx]).max(axis=2) > drift
+        cols, counts = np.unique(a[far].reshape(-1, 3), axis=0, return_counts=True)
+        extra = [tuple(int(v) for v in cols[i]) for i in np.argsort(-counts)[:extra_max] if counts[i] >= min_px]
+        used = int(idx.max()) + 1
+        flat = q.getpalette()[:3 * used]
+        for k, c in enumerate(extra):
+            idx[far & np.all(a == c, axis=2)] = used + k
+            flat += list(c)
+        out = Image.fromarray(idx.astype(np.uint8), "P")
+        out.putpalette(flat + [0] * (768 - len(flat)))
+        return out
     for f in glob.glob(os.path.join(OUT, "app-*.png")) + glob.glob(os.path.join(OUT, "cloudflare-09-*.png")):
-        im = Image.open(f).convert("RGB")
-        im.quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE).save(f, optimize=True)
+        reduce(Image.open(f).convert("RGB")).save(f, optimize=True)
     print("palette-reduced")
 except ImportError:
     print("Pillow not installed: PNGs left at full size")

@@ -20,8 +20,9 @@ with its own icon and your formulas in a file on your own computer:
 2. Click *Install as an app* on the start screen and confirm. The app opens in
    its own window with its own icon.
 3. Click *Start with the starter set*, or *Import from Formulair…*.
-4. On the Welcome page click *Save to a data file…* and choose a folder of your
-   own, for instance `Documents\miFormulas`; keep the name `miformulas-data.json`.
+4. Click *Save to a data file…* (in the amber bar under the header, or on the
+   Welcome page once that bar is closed) and choose a folder of your own, for
+   instance `Documents\miFormulas`; keep the name `miformulas-data.json`.
    From now on the app saves to that file, opens straight into it, and updates
    by itself.
 
@@ -30,6 +31,8 @@ The other ways in:
 - **Safari on a Mac.** *File › Add to Dock* gives the same app in the Dock; Safari
   cannot write to a data file, so the data lives in the app's storage and
   *Backup* is your safety net.
+- **Firefox** runs the app but keeps the data in the browser only and may clear it
+  when it closes: fine for a look, not for daily work.
 - **Just try it.** Open https://miformulas.com and start; your work stays in the
   browser's storage on that computer. *Backup* writes a copy (Chrome and Edge ask
   where; the others put it in your downloads folder).
@@ -111,21 +114,11 @@ to 50 steps.
 a server with a conflict check and daily snapshots: your own if you have one, or a
 free Cloudflare Worker if you do not. See below.
 
-## Getting started
+## The manual, your materials and the library
 
-1. Open the app and choose **Start with the starter set**: sixteen formulas and
-   nearly two hundred materials to explore, marked "starter" so you can tell them from
-   your own.
-2. Or choose **Open data file…** for a file of your own, or **Import from
-   Formulair…** if that is where you come from.
-3. Add materials, then formulas. Ctrl+Z undoes any change.
-
-Which browser: Chrome or Edge (Windows or Mac) give you everything, a data file of
-your own and the app installed with its own icon. Safari on a Mac works as a Dock
-app with the data in the app's storage. Firefox runs the app but keeps the data in
-the browser only and may clear it when it closes: fine for a look, not for daily work.
-
-The manual is at https://miformulas.com/docs/manual.html (also as a PDF:
+The starter set holds sixteen formulas, each as a concentrate and diluted to 100 g,
+and nearly two hundred materials, marked "starter" so you can tell them from your
+own. The manual is at https://miformulas.com/docs/manual.html (also as a PDF:
 https://miformulas.com/docs/miFormulas-manual.pdf), and ready-made prompts for an
 AI assistant at https://miformulas.com/docs/ai-prompts.html; the Markdown sources
 are in `docs/`.
@@ -173,11 +166,11 @@ out), and what you did.
   web server with PHP: put it next to `index.html`, create a writable `data`
   folder beside them and set a token in it; on a web server other than Apache, put
   that `data` folder outside the web root, or the server hands your data file to
-  anyone who asks (section 7 of the manual). Either way you give that token in
+  anyone who asks (section 18 of the manual). Either way you give that token in
   Settings on each device. Both return the JSON with an ETag on GET and refuse a
   PUT whose `If-Match` is stale, so two devices cannot overwrite each other as
   long as the ETag reaches the browser (the app says so once when it does not),
-  and both keep daily snapshots. Section 7 of the manual walks through both.
+  and both keep daily snapshots. Section 18 of the manual walks through both.
 
 ## Privacy
 
@@ -188,7 +181,7 @@ telemetry and loads no scripts from elsewhere; it contacts miformulas.com only f
 two files you ask for yourself, the starter set and the published materials
 library, and on the site once to see whether a `data.php` server sits next to it;
 apart from that it makes no network request at all. You can check this in the code: the whole app is this one readable file, and the
-manual (section 3) lists every network call it contains and how to verify them.
+manual (section 21) lists every network call it contains and how to verify them.
 
 ## Coming from Formulair
 

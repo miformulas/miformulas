@@ -9,7 +9,7 @@
      secrets                                string of your own
 
    The same token goes into the app once per device, in Settings (the gear), together with the
-   address of this Worker (https://<name>.<account>.workers.dev). Section 7 of the manual walks
+   address of this Worker (https://<name>.<account>.workers.dev). Section 18 of the manual walks
    through the whole set-up with screenshots; https://miformulas.com/docs/manual.html
 
    Opening the address in a browser is the check that it works: it answers
@@ -161,7 +161,7 @@ export default {
       }
       if (!put) return fail(500, "write failed");
       // put.size is what R2 stored: body.length counts characters, so every accent made the number too low,
-      // while ?ping=1 and data.php report real bytes and section 7 holds them against your last Backup
+      // while ?ping=1 and data.php report real bytes and section 18 holds them against your last Backup
       return json(200, { ok: true, etag: put.httpEtag, bytes: put.size ?? body.length, saved: new Date().toISOString() }, { ETag: put.httpEtag });
     }
 

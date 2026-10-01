@@ -45,7 +45,9 @@ Optional fields: `targetFormula` (the exact name of an existing formula; the imp
 
 ## 2. Checking and completing your materials
 
-The export **Export all materials (Excel)** (⇅ in the header) is a CSV with one row per material: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g (tracked), Dilutions % and Description. An assistant can propose the missing CAS numbers, IFRA limits, pyramid levels, categories and one-line odour descriptions, and point out likely duplicates. A corrected sheet goes back in with **Import materials inventory from CSV…**, which creates the materials you do not have yet; a name you already have is never overwritten by an import, so corrections to those you enter by hand on the material pages. Do that for the materials you added recently rather than for your whole inventory at once. A larger batch can go the other way round: attach a file from **Export my inventory as a library…** as the example of the format, and have the assistant write the same kind of `miformulas-materials` file for the new materials, with the pyramid as a number from 0 (Top) to 4 (Base) or the word, and the IFRA limit as a number (99 for no restriction). Import it as a materials library and tick what you want in **Browse the library…**. One library is loaded at a time, so this file takes the place of the miFormulas library; **Get the latest library** in Settings brings that one back afterwards.
+The export **Export all materials (Excel)** (⇅ in the header) is a CSV with one row per material: Name, CAS, Alternative names, Category, Supplier, Amount purchased, Purchase date, Cost EUR/g, IFRA limit %, Pyramid, Solvent, Cupboard, Fridge, Freezer, Density g/ml, Stock g (tracked), Dilutions % and Description. An assistant can propose the missing CAS numbers, IFRA limits, pyramid levels, categories and one-line odour descriptions, and point out likely duplicates. A corrected sheet goes back in with **Import materials inventory from CSV…**, which creates the materials you do not have yet; a name you already have is never overwritten by an import, so corrections to those you enter by hand on the material pages. Do that for the materials you added recently rather than for your whole inventory at once.
+
+A larger batch can go the other way round: attach a file from **Export my inventory as a library…** as the example of the format, and have the assistant write the same kind of `miformulas-materials` file for the new materials, with the pyramid as a number from 0 (Top) to 4 (Base) or the word, and the IFRA limit as a number (99 for no restriction). Import it as a materials library and tick what you want in **Browse the library…**. One library is loaded at a time, so this file takes the place of the miFormulas library; **Get the latest library** in Settings brings that one back afterwards.
 
 The IFRA figures deserve the most scepticism. The source that counts is the standards library on ifrafragrance.org; the prompt asks the assistant to name the amendment it took a limit from and to say "unknown" rather than guess, and you look up every value you enter. In the app, 99 means "checked, no restriction" and an empty field means "not yet checked".
 
@@ -97,11 +99,11 @@ Here are the names:
 
 ## 4. Setting up your own server
 
-Way B of section 7: the app and `server/data.php` on a web server with PHP, a writable `data` folder next to them, a token, and the app connecting to it. An assistant can turn that into step-by-step instructions for your own device, if you give it the two files it needs and tell it what you have. Never give it your token; you choose that yourself and type it into `data.php` and into the app. Have no server of your own? Then way A is yours, and prompt 5 below goes with it.
+Way B of section 18: the app and `server/data.php` on a web server with PHP, a writable `data` folder next to them, a token, and the app connecting to it. An assistant can turn that into step-by-step instructions for your own device, if you give it the two files it needs and tell it what you have. Never give it your token; you choose that yourself and type it into `data.php` and into the app. Have no server of your own? Then way A is yours, and prompt 5 below goes with it.
 
 ---
 
-I want to run the miFormulas app on my own web server so that all my devices share one data file. Attached are the server endpoint `data.php` from the miFormulas repository and section 7 of its manual, whose part B, "Your own web server with PHP", is the one I am following. Read both first.
+I want to run the miFormulas app on my own web server so that all my devices share one data file. Attached are the server endpoint `data.php` from the miFormulas repository and section 18 of its manual, whose part B, "Your own web server with PHP", is the one I am following. Read both first.
 
 My situation: (describe your device and what you know, for example: a Synology DS220+ with DSM 7.2, Web Station is installed but I have never used it; or: a Raspberry Pi 4 with Raspberry Pi OS; or: shared hosting at provider X with PHP 8.2 and FTP access. Say whether you can already reach the device by name or address in a browser, and whether you want to reach it from outside your home.)
 
@@ -111,18 +113,18 @@ Guide me step by step. Ask me what you need to know before each step rather than
 
 ## 5. Setting up a free Cloudflare Worker
 
-Way A of section 7 puts your data on a Cloudflare Worker with an R2 bucket: no server of your own, no domain, nothing installed, and free. Section 7 walks through the dashboard with screenshots, and those screenshots are the authority: an assistant knows the miFormulas side of this well and the Cloudflare dashboard badly, because that dashboard changes and no assistant has seen the current one. Use this prompt for the parts that are about you, and the manual for the buttons. Never give an assistant your token; you choose it yourself and type it into Cloudflare and into the app.
+Way A of section 18 puts your data on a Cloudflare Worker with an R2 bucket: no server of your own, no domain, nothing installed, and free. Section 18 walks through the dashboard with screenshots, and those screenshots are the authority: an assistant knows the miFormulas side of this well and the Cloudflare dashboard badly, because that dashboard changes and no assistant has seen the current one. Use this prompt for the parts that are about you, and the manual for the buttons. Never give an assistant your token; you choose it yourself and type it into Cloudflare and into the app.
 
 ---
 
-I am setting up the perfume app miFormulas so that my computer, my laptop and my phone work on the same data. I am following way A of section 7 of its manual: a Cloudflare Worker with an R2 bucket. Attached are `server/worker.js` from the miFormulas repository and section 7 of the manual. Read both first, and follow the manual where it and you disagree about the Cloudflare dashboard: it was written from the dashboard as it is, and you have not seen it.
+I am setting up the perfume app miFormulas so that my computer, my laptop and my phone work on the same data. I am following way A of section 18 of its manual: a Cloudflare Worker with an R2 bucket. Attached are `server/worker.js` from the miFormulas repository and section 18 of the manual. Read both first, and follow the manual where it and you disagree about the Cloudflare dashboard: it was written from the dashboard as it is, and you have not seen it.
 
 Help me with these, one at a time, and ask what you need to know before each:
 
 1. A token. Give me one long random string of about twenty characters, letters and digits only, and tell me where it goes and where it must never go. Do not ask me what I chose afterwards.
 2. What the Worker does, in plain words, so that I understand what I am pasting: what it stores, what the token protects, what the ETag check prevents and what the daily snapshots are for. Answer from `worker.js`, not from memory.
 3. Reading the check of step 8 in the manual. I will tell you what the browser answered at the Worker's address; tell me what it means and which step to go back to.
-4. Anything that goes wrong afterwards: I will paste the exact message the app or the browser shows, and you tell me where it comes from, using `worker.js` and section 7.
+4. Anything that goes wrong afterwards: I will paste the exact message the app or the browser shows, and you tell me where it comes from, using `worker.js` and section 18.
 
 What I would like you not to do: describe Cloudflare screens from memory, invent button names, or suggest the paid plan. If I ask something the manual answers, point me to the step in it.
 
