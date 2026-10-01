@@ -103,7 +103,7 @@ with sync_playwright() as p:
 
     # ---------- 3b. the same through the dilution dialog (build 260915): still one step, and Undo brings the old material back ----------
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u");
-      f.versions[0].lines[0].dilutionPct = 10; markDirty(); render(); }""")      # a dilution Hedione does not have, so Replace opens the dialog
+      f.versions[0].lines[0].dilutionPct = 1; markDirty(); render(); }""")      # a dilution Hedione does not have (it has 100 and 10 % since 1/10), so Replace opens the dialog
     page.wait_for_timeout(400)
     steps = page.evaluate("UNDO.length")
     page.click("[data-repl='0']"); page.wait_for_timeout(400)
@@ -112,12 +112,12 @@ with sync_playwright() as p:
     page.click("#dlgOk"); page.wait_for_timeout(600)
     line = page.evaluate("""(() => { const l = DATA.formulas.find(x => x.id === "f-u").versions[0].lines[0];
       return {m: (matById(l.materialId)||{}).name, dil: l.dilutionPct}; })()""")
-    check(f"replaced and moved to a dilution Hedione has ({line})", line["m"] == "Hedione" and line["dil"] == 100)
+    check(f"replaced and moved to the nearest dilution Hedione has ({line})", line["m"] == "Hedione" and line["dil"] == 10)
     check(f"in a single undo step ({steps} → {page.evaluate('UNDO.length')})", page.evaluate("UNDO.length") == steps + 1)
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(600)
     line = page.evaluate("""(() => { const l = DATA.formulas.find(x => x.id === "f-u").versions[0].lines[0];
       return {m: (matById(l.materialId)||{}).name, dil: l.dilutionPct}; })()""")
-    check(f"and Undo brings the old material back on its old dilution ({line})", line["m"] == "Undo stof" and line["dil"] == 10)
+    check(f"and Undo brings the old material back on its old dilution ({line})", line["m"] == "Undo stof" and line["dil"] == 1)
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u"); f.versions[0].lines[0].dilutionPct = 100; markDirty(); render(); }""")
     page.wait_for_timeout(300)
 
@@ -413,8 +413,8 @@ with sync_playwright() as p:
     page.click("#btnBenchToggle"); page.wait_for_timeout(400)
 
     # ---------- 13. C-a 3 (bouw 260922j): Cancel in ⇄ Replace met het dilutievenster laat Redo en de datum staan ----------
-    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u"); f.versions[0].lines[0].dilutionPct = 10;
-        switchTab("F", "f-u", {type:"v", idx: f.versions.length - 1}); }""")
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u"); f.versions[0].lines[0].dilutionPct = 1;
+        switchTab("F", "f-u", {type:"v", idx: f.versions.length - 1}); }""")   # 1 %: Hedione has 100 and 10 %
     page.wait_for_timeout(600)
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u"); snapF(f); f.versions[0].lines[1].weightG = 90; markDirty(); render(); }""")
     page.wait_for_timeout(300)

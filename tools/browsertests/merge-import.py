@@ -20,14 +20,14 @@ PKG = {
   "materials": [
     {"id": "m-f1", "name": "hedione ", "cas": "24851-98-7", "aliases": "methyl dihydrojasmonate", "category": "Test category", "supplier": "Test Supplier",
      "costPerGram": 0.5, "ifraLimit": None, "inventory": "12 g", "pyramid": 2, "isSolvent": False, "description": "from Formulair",
-     "dilutions": [{"pct": 100, "isBase": True, "date": "", "notes": ""}, {"pct": 10, "isBase": False, "date": "", "notes": "test"}], "locations": {}, "density": None, "modified": "2026-09-09"},
+     "dilutions": [{"pct": 100, "isBase": True, "date": "", "notes": ""}, {"pct": 1, "isBase": False, "date": "", "notes": "test"}], "locations": {}, "density": None, "modified": "2026-09-09"},
     {"id": "m-f2", "name": "Brand New Material", "cas": "", "aliases": "BNM; brand new", "category": "Test category", "supplier": "", "costPerGram": None,
      "ifraLimit": None, "inventory": None, "pyramid": 1, "isSolvent": False, "description": "", "dilutions": [{"pct": 100, "isBase": True, "date": "", "notes": ""}], "locations": {}, "density": None, "modified": "2026-09-09"},
   ],
   "formulas": [
     {"id": "f-f1", "name": "Test Import v01", "category": "Tests", "created": "2026-09-09", "modified": "2026-09-09 10:00", "frozenImport": True,
      "versions": [{"v": 1, "name": "", "date": "2026-09-09", "notes": "hello", "lines": [
-        {"materialId": "m-f1", "dilutionPct": 10, "weightG": 1.5, "remark": None},
+        {"materialId": "m-f1", "dilutionPct": 1, "weightG": 1.5, "remark": None},   # 1 %: the starter Hedione has a 10 % since 1/10
         {"materialId": "m-f2", "dilutionPct": 100, "weightG": 0.5, "remark": 2}], "sourceName": "Test Import v01", "imported": True, "frozen": True}]},
   ],
   "shopSites": [], "orderList": [],
@@ -98,7 +98,7 @@ with sync_playwright() as p:
     check(f"after the restart: one formula and one material added: {after}", after == [17, 200])
     check("message names the counts", any("Formulas: 1 added" in m and "1 added, 1 matched by name" in m and "1 dilutions added" in m for m in msgs))
     hed = pg.evaluate("(() => { const m = DATA.materials.find(x => x.name === 'Hedione'); return m && {dils: m.dilutions.map(d => d.pct), base: m.dilutions.filter(d => d.isBase).length, cas: m.cas, inv: m.inventory, cat: m.category, desc: m.description, cost: m.costPerGram}; })()")
-    check(f"Hedione matched by name (case and spaces ignored): 10 % dilution added, one base: {hed and hed['dils']}", hed and 10 in hed["dils"] and hed["base"] == 1)
+    check(f"Hedione matched by name (case and spaces ignored): 1 % dilution added, one base: {hed and hed['dils']}", hed and 1 in hed["dils"] and hed["base"] == 1)
     check("Hedione: empty fields filled, existing kept", hed and hed["inv"] == "12 g" and hed["cost"] == 0.5 and hed["cat"] != "Test category" and hed["cas"] == "24851-98-7")
     al = pg.evaluate("[DATA.materials.find(x => x.name === 'Hedione').aliases, DATA.materials.find(x => x.name === 'Brand New Material').aliases]")
     check(f"alternative names: filled in on the matched material, kept on the new one ({al})", al == ["methyl dihydrojasmonate", "BNM; brand new"])
@@ -111,7 +111,7 @@ with sync_playwright() as p:
     # one Undo
     pg.keyboard.press("Control+z"); pg.wait_for_timeout(400)
     undone = pg.evaluate("[DATA.formulas.length, DATA.materials.length, DATA.materials.find(x => x.name === 'Hedione').dilutions.length]")
-    check(f"Undo takes the whole import back: {undone}", undone == [16, 199, 1])
+    check(f"Undo takes the whole import back: {undone}", undone == [16, 199, 2])   # the starter Hedione: 100 and 10 %
     pg.keyboard.press("Control+y"); pg.wait_for_timeout(400)
     check("Redo brings it back", pg.evaluate("DATA.formulas.length") == 17)
     # a second import of the same package: formula skipped, nothing doubled
