@@ -228,12 +228,12 @@ with sync_playwright() as p:
     kol = page.evaluate("""() => [...document.querySelectorAll("table.lines.ord thead th")]
         .map(th => getComputedStyle(th).display === "none" ? null : th.textContent.trim()).filter(x => x !== null)""")
     check(f"700 px: alleen materiaal, hoeveelheid en de knoppen ({kol})",
-          "Material" in kol and "Amount" in kol and not any(k in kol for k in ("Note", "Price €", "Product URL", "Added")))
+          "Material" in kol and "Amount" in kol and not any(k in kol for k in ("Note", "Price €", "Product")))
     page.set_viewport_size({"width": 1280, "height": 950}); page.wait_for_timeout(450)
     kol = page.evaluate("""() => [...document.querySelectorAll("table.lines.ord thead th")]
         .map(th => getComputedStyle(th).display === "none" ? null : th.textContent.trim()).filter(x => x !== null)""")
     check(f"1280 px: de bureaukolommen staan er weer ({kol})",
-          all(k in kol for k in ("Material", "Note", "Amount", "Price €", "Product URL", "Added")))
+          all(k in kol for k in ("Material", "Note", "Amount", "Price €", "Product")))   # Product URL heet sinds 261002c Product, Added staat in de tooltip van de naam
     br = page.evaluate("""() => { const c = document.querySelector("#content"), wr = c.querySelector(".tblwrap");
         if (!wr) return {tabelSchuift: 0, paneelSchuift: c.scrollWidth - c.clientWidth, kop: 0, kopNa: 0, wrapper_ontbreekt: true};
         const voor = wr.scrollLeft; wr.scrollLeft = 9999; const na = wr.scrollLeft; wr.scrollLeft = voor;

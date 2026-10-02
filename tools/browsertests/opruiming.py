@@ -271,20 +271,23 @@ with sync_playwright() as p:
         invalidateMats(); buildUsage(); markDirty(); switchTab("T", null, null); }""")
     page.wait_for_timeout(500)
 
-    # de knop naast een bestelregel belooft niets wat ze niet kan waarmaken
+    # de knop naast een bestelregel belooft niets wat ze niet kan waarmaken; sinds 261002c een vergrootglas, dus zeggen
+    # de naam voor een schermlezer en de tooltip het
     page.evaluate("""() => { DATA.orderList = [{id:"o-1", materialId:null, name:"Iets te zoeken", added:today()}];
         markDirty(); render(); }""")
     page.wait_for_timeout(500)
     knop = page.evaluate("""() => { const b = document.querySelector("[data-osearch='0']");
-        return b && {tekst: b.textContent.trim(), titel: b.getAttribute("title"), winkels: (DATA.shopSites||[]).length}; }""")
+        return b && {naam: b.getAttribute("aria-label") || "", titel: b.getAttribute("title") || "", winkels: (DATA.shopSites||[]).length}; }""")
     check(f"de starterset begint zonder winkels, dus zegt de knop dat ze het hele web doorzoekt ({knop})",
-          knop and knop["winkels"] == 0 and knop["tekst"] == "Search the web" and "whole web" in (knop["titel"] or ""))
+          knop and knop["winkels"] == 0 and knop["naam"].startswith("Search the web") and knop["titel"].startswith("Search the web")
+          and "whole web" in knop["titel"])
     page.evaluate("""() => { DATA.shopSites = ["perfumersapprentice.com", "hermitageoils.com"]; markDirty(); render(); }""")
     page.wait_for_timeout(500)
     knop2 = page.evaluate("""() => { const b = document.querySelector("[data-osearch='0']");
-        return b && {tekst: b.textContent.trim(), titel: b.getAttribute("title")}; }""")
+        return b && {naam: b.getAttribute("aria-label") || "", titel: b.getAttribute("title") || ""}; }""")
     check(f"zodra je er zelf toevoegt, zoekt ze in je winkels ({knop2})",
-          knop2 and knop2["tekst"] == "Search my shops" and "2 shop(s)" in (knop2["titel"] or ""))
+          knop2 and knop2["naam"].startswith("Search my shops") and knop2["titel"].startswith("Search my shops")
+          and "2 shop(s)" in knop2["titel"])
     page.evaluate("""() => { DATA.shopSites = []; DATA.orderList = []; markDirty(); render(); }""")
     page.wait_for_timeout(400)
 

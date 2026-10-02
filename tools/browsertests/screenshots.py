@@ -233,12 +233,12 @@ with sync_playwright() as p:
     # ---- 10. order list ----
     page.click("#tabT"); page.wait_for_timeout(300)
     page.fill("#ordName", "Iris Butter"); page.fill("#ordNote", "running low"); page.click("#btnOrdAdd"); page.wait_for_timeout(300)
-    page.fill("#ordName", "Orris Absolute"); page.fill("#ordNote", "for the iris trial"); page.click("#btnOrdAdd"); settle(page)
-    # Since 260920c the table scrolls inside its wrapper, so nothing is out of reach at 1280 px, but the
-    # row is 1029 px wide in a 919 px wrapper there and a figure would show "De" cut in half. One wide shot.
-    page.set_viewport_size({"width": 1440, "height": 800}); page.wait_for_timeout(400)
+    page.fill("#ordName", "Orris Absolute"); page.fill("#ordNote", "for the iris trial"); page.click("#btnOrdAdd"); page.wait_for_timeout(300)
+    # Since 261002c a product link shows as its shop with ↗ and the three buttons stay on one line, so the list fits
+    # beside the list at 1280 px (the shot was 1440 px wide before). One entry has a link, the other the empty field.
+    link = page.locator("#content tr", has_text="Orris Absolute").locator("input[data-ourl]")
+    link.fill("https://www.example.com/orris-absolute"); link.press("Enter"); settle(page)
     shot(page, "app-order-list.png")
-    page.set_viewport_size({"width": 1280, "height": 800}); page.wait_for_timeout(400)
 
     # ---- 10b. the materials library: import it, then Browse ----
     page.click("#btnHome"); page.wait_for_timeout(300)
