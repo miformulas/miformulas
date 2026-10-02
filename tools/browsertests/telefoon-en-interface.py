@@ -97,7 +97,7 @@ with sync_playwright() as p:
         js(pg, ".replBtn"); measure("Replace")
         pg.evaluate("() => { [...document.querySelectorAll('.selCb')].slice(0, 2).forEach(c => { c.checked = true; c.dispatchEvent(new Event('change', {bubbles: true})); }); }")
         pg.wait_for_timeout(300)
-        js(pg, "#btnPredil"); measure("Create predilution")
+        js(pg, "#btnPredil"); measure("Create premix")
         pg.evaluate("""() => { DATA.orderList.push({name: "Iso E Super", note: "", amount: "", unit: "g", price: "", url: ""}); markDirty(); switchTab('T'); }""")
         pg.wait_for_timeout(700)
         js(pg, "#btnShops"); measure("shop list")

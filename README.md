@@ -53,15 +53,15 @@ The other ways in:
 The idea behind it: **less clicking, more smelling.** Time at the screen is time
 away from the materials. So everything the app makes you do between two trials
 should be one action, not a dozen edits: shift a handful of materials to another
-dilution, bundle the traces into a predilution, start the next version, print the
+dilution, bundle the traces into a premix, start the next version, print the
 weighing sheet.
 
 **Tick lines, act on all of them at once.** Tick any number of lines in a formula
 (Shift-click ticks a range) and the tick bar does the rest. **Lower** and
 **Higher** shift every ticked line to the next dilution that material offers,
 keeping the relative percentages and exchanging the solvent in one go. **Create
-predilution…** turns the ticked lines into a weighable premix, a material and a
-new version of the formula that uses it, in one step and one Undo. Colour marks
+premix…** turns the ticked lines into a weighable premix, a material and a new
+version of the formula that uses it, in one step and one Undo. Colour marks
 and bench groups work the same way. We have not seen this in any other
 formulation app.
 
@@ -139,9 +139,10 @@ number, category, pyramid level, IFRA limit, alternative names and a few lines o
 odour facts already filled in, all of it editable, and the materials you own are
 never touched. The library published by miFormulas holds several hundred
 materials under CC BY 4.0; **Get the latest library** in Settings fetches the
-current one. Its IFRA limits are a help, not a substitute for the current IFRA
-Standards (section 12 of the manual). It is not in the repository or in the ZIP:
-it changes more often than the app does, so the app asks for it when you do.
+current one. Its IFRA limits can be wrong or out of date: check them against
+the current IFRA Standards (section 12 of the manual). It is not in the
+repository or in the ZIP: it changes more often than the app does, so the app
+asks for it when you do.
 
 ## Feedback
 

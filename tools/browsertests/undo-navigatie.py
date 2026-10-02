@@ -65,8 +65,8 @@ with sync_playwright() as p:
         {id:"m-u1", name:"Undo stof", category:"Test", pyramid:2, isSolvent:false, costPerGram:1, dilutions:[{pct:100,isBase:true},{pct:10}]},
         {id:"m-u2", name:"Undo solvent", category:"Solvents", pyramid:5, isSolvent:true, dilutions:[{pct:100,isBase:true}]});
       invalidateMats();
-      DATA.materialCategories = DATA.materialCategories.filter(c => c !== "Predils");
-      DATA.formulaCategories = DATA.formulaCategories.filter(c => c !== "Predilutions");
+      DATA.materialCategories = DATA.materialCategories.filter(c => c !== "Premixes");
+      DATA.formulaCategories = DATA.formulaCategories.filter(c => c !== "Premixes");
       DATA.formulas.push({id:"f-u", name:"Undotest", category:"Uncategorised", created:today(), versions:[
         {v:1, date:today(), lines:[{materialId:"m-u1", dilutionPct:100, weightG:2, remark:1},
                                    {materialId:"m-u2", dilutionPct:100, weightG:98, remark:1}]}]});
@@ -76,15 +76,15 @@ with sync_playwright() as p:
     page.click("#btnPredil"); page.wait_for_timeout(500)
     page.click("#dlgOk"); page.wait_for_timeout(800)
     check("the predilution made its categories",
-          page.evaluate("""DATA.materialCategories.includes("Predils") && DATA.formulaCategories.includes("Predilutions")"""))
+          page.evaluate("""DATA.materialCategories.includes("Premixes") && DATA.formulaCategories.includes("Premixes")"""))
     # bouw 260922f: de regels van de predilutieformule dragen een id, zoals elke regel (anders past een bench erop niet na herladen)
-    pids = page.evaluate("""() => { const pf = DATA.formulas.find(x => x.category === "Predilutions");
+    pids = page.evaluate("""() => { const pf = DATA.formulas.find(x => x.category === "Premixes");
         return pf ? pf.versions[0].lines.map(l => typeof l.id === "string" && l.id.startsWith("l-")) : null; }""")
     check(f"en de regels van de predilutieformule dragen een id ({pids})", bool(pids) and all(pids))
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(700)
     check("and one Undo takes formula, material and both categories back",
           page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-u").versions.length)()""") == 1
-          and page.evaluate("""!DATA.materialCategories.includes("Predils") && !DATA.formulaCategories.includes("Predilutions")"""))
+          and page.evaluate("""!DATA.materialCategories.includes("Premixes") && !DATA.formulaCategories.includes("Premixes")"""))
 
     # ---------- 3. Replace plus a dilution change is one step ----------
     steps = page.evaluate("UNDO.length")
@@ -450,18 +450,18 @@ with sync_playwright() as p:
     # ---------- 15. C-a 1 en P2 (bouw 260922j): Create predilution neemt de schikking mee, en Undo ook de kleur ----------
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-z"), v = f.versions[f.versions.length - 1];
         v.bench = {groups:[{id:"gk", title:"Kern", keys:[v.lines[1].id, v.lines[2].id]}], byId:true};
-        DATA.materialCategories = DATA.materialCategories.filter(c => c !== "Predils");
-        DATA.formulaCategories = DATA.formulaCategories.filter(c => c !== "Predilutions");
-        delete DATA.categoryColours["Predils"]; markDirty(); switchTab("F", "f-z", {type:"v", idx: f.versions.length - 1}); }""")
+        DATA.materialCategories = DATA.materialCategories.filter(c => c !== "Premixes");
+        DATA.formulaCategories = DATA.formulaCategories.filter(c => c !== "Premixes");
+        delete DATA.categoryColours["Premixes"]; markDirty(); switchTab("F", "f-z", {type:"v", idx: f.versions.length - 1}); }""")
     page.wait_for_timeout(700)
     page.check('input.selCb[data-i="0"]'); page.click("#btnPredil"); page.wait_for_timeout(500)
     page.click("#dlgOk"); page.wait_for_timeout(800)
     pd = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-z"), v = f.versions[f.versions.length - 1];
-        return {versies: f.versions.length, groep: v.bench ? v.bench.groups[0].keys.length : null, kleur: DATA.categoryColours["Predils"] || null}; }""")
+        return {versies: f.versions.length, groep: v.bench ? v.bench.groups[0].keys.length : null, kleur: DATA.categoryColours["Premixes"] || null}; }""")
     check(f"the predilution version keeps the arrangement ({pd})", pd["versies"] == 3 and pd["groep"] == 2 and pd["kleur"])
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(700)
-    check("and its Undo takes the colour of Predils back with the category",
-          page.evaluate("""() => !DATA.materialCategories.includes("Predils") && !("Predils" in DATA.categoryColours)"""))
+    check("and its Undo takes the colour of Premixes back with the category",
+          page.evaluate("""() => !DATA.materialCategories.includes("Premixes") && !("Premixes" in DATA.categoryColours)"""))
 
     # ---------- 16. 260922p (C3 en C1): slepen op zichzelf, en de telling na Create predilution ----------
     page.evaluate("""() => { const ms = DATA.materials.filter(m => !m.isSolvent).slice(0, 4), et = DATA.materials.find(m => m.isSolvent);

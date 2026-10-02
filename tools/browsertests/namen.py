@@ -168,11 +168,11 @@ with sync_playwright() as p:
     page.click("#btnNew"); page.wait_for_timeout(500)
     check(f"een nieuwe formule vertrekt van Uncategorised ({page.locator('#catSel').input_value()!r})",
           page.locator("#catSel").input_value() == "Uncategorised")
-    page.fill("#nfName", "Kleurtest A"); page.select_option("#catSel", "Predilutions")
+    page.fill("#nfName", "Kleurtest A"); page.select_option("#catSel", "Bases & Accords")
     page.click("#dlgOk"); page.wait_for_timeout(800)
     check("die in de gekozen categorie landt",
           page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Kleurtest A"); return f && f.category; }""")
-          == "Predilutions")
+          == "Bases & Accords")
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Kleurtest A");
         switchTab("F", f.id, {type:"v", idx:0}); }"""); page.wait_for_timeout(600)
     page.evaluate("""() => switchTab("F", null, null)"""); page.wait_for_timeout(500)
@@ -185,34 +185,34 @@ with sync_playwright() as p:
     kleur0 = page.locator("#catCol").input_value()
     uncat = page.evaluate("""() => ((DATA.categoryColours||{})["Uncategorised"] || "").toLowerCase()""")
     check(f"die de kleur van die categorie toont ({kleur0!r})", kleur0 == uncat)
-    page.select_option("#catSel", "Predilutions"); page.wait_for_timeout(400)
+    page.select_option("#catSel", "Bases & Accords"); page.wait_for_timeout(400)
     zonder = page.locator("#catCol").input_value()
-    check(f"en meewisselt met de keuzelijst ({zonder!r} voor Predilutions, dat er nog geen heeft)",
+    check(f"en meewisselt met de keuzelijst ({zonder!r} voor Bases & Accords, dat er nog geen heeft)",
           zonder != uncat)
     page.evaluate("""() => { const c = document.querySelector("#catCol");
         c.value = "#3366cc"; c.dispatchEvent(new Event("change")); }""")
     page.wait_for_timeout(500)
     check("een kleur blijft bij de categorie, niet bij de formule",
-          page.evaluate("""() => (DATA.categoryColours||{})["Predilutions"]""") == "#3366cc")
+          page.evaluate("""() => (DATA.categoryColours||{})["Bases & Accords"]""") == "#3366cc")
     page.select_option("#catSel", "Uncategorised"); page.wait_for_timeout(300)
     check(f"en de kiezer volgt terug ({page.locator('#catCol').input_value()!r})",
           page.locator("#catCol").input_value() == uncat)
-    page.select_option("#catSel", "Predilutions"); page.wait_for_timeout(300)
+    page.select_option("#catSel", "Bases & Accords"); page.wait_for_timeout(300)
     check("naar de zopas gekozen kleur", page.locator("#catCol").input_value() == "#3366cc")
     # staart 25 (bouw 260920l): de lijsten lezen #FFFFFF als "geen kleur" en tekenen grijs; de kiezer toonde wit
-    page.evaluate("""() => { (DATA.categoryColours ||= {})["Predilutions"] = "#FFFFFF"; render(); }""")
+    page.evaluate("""() => { (DATA.categoryColours ||= {})["Bases & Accords"] = "#FFFFFF"; render(); }""")
     page.wait_for_timeout(300)
     page.click("#dlgCancel"); page.wait_for_timeout(300)
     page.click("#btnNew"); page.wait_for_timeout(500)
-    page.select_option("#catSel", "Predilutions"); page.wait_for_timeout(400)
+    page.select_option("#catSel", "Bases & Accords"); page.wait_for_timeout(400)
     wit = page.locator("#catCol").input_value()
-    lijst = page.evaluate("""() => catColourByName("Predilutions")""")
+    lijst = page.evaluate("""() => catColourByName("Bases & Accords")""")
     check(f"een categorie op #FFFFFF: de kiezer toont dezelfde grijs als de lijsten ({wit!r} naast {lijst!r})",
           wit.lower() == "#9aa6b2" and lijst == "var(--muted)")
-    page.evaluate("""() => { delete DATA.categoryColours["Predilutions"]; }""")
+    page.evaluate("""() => { delete DATA.categoryColours["Bases & Accords"]; }""")
     page.click("#dlgCancel"); page.wait_for_timeout(400)
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
-    terug = page.evaluate("""() => (DATA.categoryColours||{})["Predilutions"]""")
+    terug = page.evaluate("""() => (DATA.categoryColours||{})["Bases & Accords"]""")
     check(f"Ctrl+Z neemt de kleur terug ({terug!r})", terug in (None, ""))
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)      # en de testformule
     check("en daarna de formule zelf",

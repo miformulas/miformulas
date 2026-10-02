@@ -224,10 +224,10 @@ with sync_playwright() as p:
     check("en de oudere import blijft bevroren op haar eigen vlag",
           page.evaluate("""() => !!DATA.formulas.find(x => x.id === "f-imp2").versions[0].frozen""") is True)
     page.evaluate("""() => { const m = DATA.materials[1];
-        DATA.formulas.push({id:"f-pre2", name:"Predil Y 10%", category:"Predilutions", created:today(), frozenImport:false,
+        DATA.formulas.push({id:"f-pre2", name:"Predil Y 10%", category:"Premixes", created:today(), frozenImport:false,
           versions:[{v:1, date:today(), frozen:true,
                      lines:[{id:"m3", materialId:m.id, dilutionPct:100, weightG:1, remark:1}]}]});
-        DATA.formulas.push({id:"f-doel2", name:"Predils bundel", category:"Predilutions", created:today(), frozenImport:false,
+        DATA.formulas.push({id:"f-doel2", name:"Predils bundel", category:"Premixes", created:today(), frozenImport:false,
           versions:[{v:1, date:today(), lines:[{id:"m4", materialId:m.id, dilutionPct:100, weightG:2, remark:1}]}]});
         buildUsage(); switchTab("F", "f-pre2", {type:"v", idx:0}); }""")
     page.wait_for_timeout(600)

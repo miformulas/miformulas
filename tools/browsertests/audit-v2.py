@@ -226,10 +226,13 @@ with sync_playwright() as p:
     tips = page.evaluate("() => ['btnSheet', 'btnCsv', 'btnShare', 'btnPrint'].map(i => document.getElementById(i)?.title)")
     check(f"E4: de vier uitvoerknoppen zeggen in hun tooltip voor wie ze zijn ({tips})", all(tips) and "for someone with it" not in page.text_content("#content"))
     check("E4: Mark as prepared legt uit in zijn tooltip", "stock" in (page.get_attribute("#btnPrep", "title") or ""))
-    # F4: + Add group vooraan, en geen Close bench meer
+    # F4: geen Close bench meer; + Add group stond vooraan in de werkbalk en staat sinds 261002b boven de groepen
+    # (premixes-en-interface.py kijkt waar precies)
     page.click("#btnBenchToggle"); page.wait_for_timeout(500)
-    rij = page.evaluate("() => [...document.querySelectorAll('.benchArea .toolRow:first-child button, .benchArea .toolRow:first-child select')].map(e => e.id)")
-    check(f"F4: + Add group staat vooraan, Close bench is weg ({rij})", rij[:2] == ["btnAddGroup", "bMoveSel"] and "btnBenchClose" not in rij)
+    rij = page.evaluate("() => [...document.querySelectorAll('.benchArea > .toolRow button, .benchArea > .toolRow select')].map(e => e.id)")
+    check(f"F4: de werkbalk begint met Move ticked to…, Close bench is weg, + Add group staat boven de groepen ({rij})",
+          rij[:1] == ["bMoveSel"] and "btnBenchClose" not in rij and "btnAddGroup" not in rij
+          and page.locator(".benchWrap #btnAddGroup").count() == 1)
     page.click("#btnBenchToggle"); page.wait_for_timeout(400)
     check("F4: Table view sluit de bench", page.locator(".benchArea").count() == 0 and page.locator("input.w").count() > 0)
     # F2: wat het materiaal is (piramide, solvent, IFRA) vóór wat je ervan kocht

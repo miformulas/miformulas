@@ -134,7 +134,7 @@ with sync_playwright() as p:
     shot(page, "app-dilution-dialog.png", "#dlg")
     page.click("#dlgCancel"); page.wait_for_timeout(300)
 
-    # ---- 6. tick bar with three ticked lines (the predilution has a window of its own, 6b) ----
+    # ---- 6. tick bar with three ticked lines (the premix has a window of its own, 6b) ----
     open_formula(page, "Ho Hang")
     cbs = page.locator("table.lines input.selCb")
     n = cbs.count()
@@ -147,10 +147,10 @@ with sync_playwright() as p:
     top = first["y"] - 12
     shot(page, "app-tick-bar.png", clip={"x": table["x"] - 4, "y": top, "width": table["width"] + 8, "height": tb["y"] + tb["height"] - top + 4})
 
-    # ---- 6b. predilutions (manual section 8), in a window of its own: a predilution adds a formula, a material and two
+    # ---- 6b. premixes (manual section 8), in a window of its own: a premix adds a formula, a material and two
     # versions, and the other shots should not see them. Acqua di Gio for men scaled to 20 g has fifteen lines under
     # 25 mg; Lower takes the five at 100 % to their 10 % dilution, and the ten that were at 10 % already go into a
-    # predilution with a factor of 10, which makes the smallest 48 mg (build 261002a, on the starter set at 10 %) ----
+    # premix with a factor of 10, which makes the smallest 48 mg (build 261002a, on the starter set at 10 %) ----
     ctx_p = new_context(b)
     pp = ctx_p.new_page(); pp.on("dialog", lambda d: d.accept())                    # Lower reports the ten it skipped
     pp.goto(URL); pp.wait_for_timeout(800)
@@ -178,14 +178,14 @@ with sync_playwright() as p:
     pp.fill("#pdK", "10"); pp.locator("#pdK").dispatch_event("input"); pp.wait_for_timeout(300)
     shot(pp, "app-predilution.png", "#dlg")
     pp.click("#dlgOk"); pp.wait_for_timeout(900)
-    pp.select_option("#sortSel", "orig"); pp.wait_for_timeout(500)                  # the predilution line is the last one
+    pp.select_option("#sortSel", "orig"); pp.wait_for_timeout(500)                  # the premix line is the last one
     rows = pp.locator("table.ftable tbody tr"); n = rows.count()
     first = rows.nth(n - 4); first.scroll_into_view_if_needed(); pp.mouse.move(5, 5); pp.wait_for_timeout(300)
     a = first.bounding_box(); tbl = pp.locator("table.ftable").first.bounding_box(); foot = pp.locator("table.ftable tfoot").first.bounding_box()
     y0 = round(a["y"]) - 4
     shot(pp, "app-predil-version.png", clip={"x": round(tbl["x"]) - 4, "y": y0, "width": round(tbl["width"]) + 8,
                                              "height": round(foot["y"] + foot["height"]) + 4 - y0})
-    open_formula(pp, "Acqua di Gio for men - v3 - PREDIL")
+    open_formula(pp, "Acqua di Gio for men - v3 - PREMIX")
     pp.mouse.move(5, 5)
     shot(pp, "app-predil-mix.png", "table.ftable")
     ctx_p.close()

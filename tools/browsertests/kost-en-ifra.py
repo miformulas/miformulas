@@ -1,6 +1,7 @@
 """Cost per gram of pure material, the IFRA panel with 0 and with a figure below zero, a file that
 is not a data file, a materials library with rubbish in it, and a server without a data file
-(build 260914d). Under every check a line says it is a help and not an IFRA certificate (build 261001b).
+(build 260914d). Under every check a line says that IFRA limits can be wrong or out of date (build 261001b, without
+"IFRA certificate" since 261002b), and a premix is what a predilution was (build 261002b).
 Needs the local web server on port 8765 (see README)."""
 import json
 from playwright.sync_api import sync_playwright
@@ -46,7 +47,7 @@ with sync_playwright() as p:
     cost = page.evaluate("""(() => calc([{materialId:"m-dil", dilutionPct:10, weightG:2}]).totalCost)()""")
     check(f"so two grams of that dilution cost € 1 ({cost})", abs(cost - 1) < 0.0001)
 
-    # ---------- 2. a predilution does not change what the formula costs ----------
+    # ---------- 2. a premix does not change what the formula costs ----------
     page.evaluate("""() => {
       DATA.materials.push(
         {id:"m-a", name:"Kost A", category:"Test", pyramid:2, isSolvent:false, costPerGram:1, dilutions:[{pct:100,isBase:true}]},
@@ -67,11 +68,11 @@ with sync_playwright() as p:
     page.fill("#pdK", "100"); page.wait_for_timeout(300)
     page.click("#dlgOk"); page.wait_for_timeout(900)
     after = page.evaluate("""(() => { const f = DATA.formulas.find(x => x.id === "f-k"), v = f.versions[f.versions.length-1];
-      const pm = DATA.materials.find(m => m.category === "Predils");
+      const pm = DATA.materials.find(m => m.isPredil);
       return {n: f.versions.length, cost: +calc(v.lines).totalCost.toFixed(4), pmCost: pm && pm.costPerGram, dil: pm && pm.dilutions[0].pct,
               inv: pm && pm.inventory, ifra: pm && ("ifraLimit" in pm)}; })()""")
     check(f"the new version costs the same as the old one ({c1} → {after['cost']})", abs(after["cost"] - c1) < 0.0005)
-    check(f"the predilution material is priced per gram of pure material ({after['pmCost']} €/g at {after['dil']} %)",
+    check(f"the premix material is priced per gram of pure material ({after['pmCost']} €/g at {after['dil']} %)",
           after["pmCost"] is not None and abs(after["pmCost"] - 10.0) < 0.5)
     check(f"and records the amount made and an empty IFRA limit (build 260915; inventory {after['inv']!r})",
           isinstance(after["inv"], str) and after["inv"].endswith(" g") and after["ifra"])
@@ -103,10 +104,10 @@ with sync_playwright() as p:
     check(f"a limit of 0 reads as prohibited", "prohibited" in panel and "not allowed" in panel)
     check("a figure below zero counts as not yet verified",
           "Not yet verified" in panel and "Kost B" in panel.split("Not yet verified")[1])
-    # build 261001b: under every check, a help and not an IFRA certificate, and the library's limits can be wrong too
+    # build 261001b: under every check a line that the limits can be wrong; 261002b made it short, without "certificate"
     nota = page.text_content("#ifraBox #ifraNote") if page.query_selector("#ifraBox #ifraNote") else ""
-    check(f"261001b: under the check it says it is no IFRA certificate ({nota!r})",
-          "not an IFRA certificate" in nota and "materials library" in nota and "current IFRA Standards" in nota)
+    check(f"261002b: under the check: IFRA limits can be wrong or out of date ({nota!r})",
+          nota.strip() == "IFRA limits can be wrong or out of date. Check them against the current IFRA Standards.")
     check("261001b: as the last line of the panel",
           page.evaluate("() => document.querySelector('#ifraBox').lastElementChild.id === 'ifraNote'"))
     check("and it is not counted as over limit",
@@ -410,7 +411,7 @@ with sync_playwright() as p:
     check("no page errors", not errs3)
     ctx.close()
 
-    # ---------- 7. a predilution switches the IFRA check off (build 260920a) ----------
+    # ---------- 7. a premix (until 261002b a predilution) switches the IFRA check off (build 260920a) ----------
     # The app cannot look inside a predilution: its materials are text in the description, not lines. Before
     # 260920a the panel simply stopped counting them, so a formula three times over the limit read "no
     # restricted materials" right after Create predilution…
@@ -435,7 +436,7 @@ with sync_playwright() as p:
         VIEW = {tab:"F", id:"f-q", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     pg.wait_for_timeout(700)
     head = pg.text_content("#ifraBox summary")
-    check(f"without a predilution the check runs ({head!r})", "over limit" in head)
+    check(f"without a premix the check runs ({head!r})", "over limit" in head)
     # build 260922i (B5): the dosage field is gone, so there is nothing to refuse either: the version is the finished product
     check(f"260922i: no dosage field ({pg.locator('#ifraDose').count()}) and no dosage state behind it",
           pg.locator("#ifraDose").count() == 0 and pg.evaluate("typeof IDOSE") == "undefined")
@@ -445,19 +446,19 @@ with sync_playwright() as p:
     pg.click("#btnPredil"); pg.wait_for_timeout(700)
     pg.click("#dlgOk"); pg.wait_for_timeout(1400)
     head = pg.text_content("#ifraBox summary"); body = pg.text_content("#ifraBox")
-    check(f"with a predilution in the version the check is off and says so ({head!r})", "off (predilution" in head)
-    check("the panel names the predilution and the way to check it anyway",
-          "cannot see" in body and "Predilutions" in body)
+    check(f"with a premix in the version the check is off and says so ({head!r})", "off (premix in this version)" in head)
+    check("the panel names the premix and the way to check it anyway",
+          "cannot see" in body and "under Premixes" in body)
     check("no verdict and no dosage field while it is off",
           "no restricted materials" not in body and "within limits" not in body and pg.locator("#ifraDose").count() == 0)
     check("261001b: and no disclaimer while it is off, because there is no check to qualify", pg.locator("#ifraNote").count() == 0)
-    check("the predilution material carries the marker",
-          pg.evaluate("""() => { const m = DATA.materials.find(x => x.isPredil); return !!m && m.category === "Predils"; }"""))
-    pg.evaluate("""() => { const pf = DATA.formulas.find(f => f.category === "Predilutions");
+    check("the premix material carries the marker",
+          pg.evaluate("""() => { const m = DATA.materials.find(x => x.isPredil); return !!m && m.category === "Premixes"; }"""))
+    pg.evaluate("""() => { const pf = DATA.formulas.find(f => f.category === "Premixes");
         VIEW = {tab:"F", id:pf.id, sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     pg.wait_for_timeout(600)
     head = pg.text_content("#ifraBox summary")
-    check(f"the predilution formula itself is still checked ({head!r})", "over limit" in head)
+    check(f"the premix formula itself is still checked ({head!r})", "over limit" in head)
     # ---------- staart 6 (bouw 260920l): Delivered vraagt of de oude voorraad op is ----------
     pg.evaluate("""() => {
       DATA.materials.push({id:"m-vrd", name:"Voorraadtest", category:"Test", pyramid:3, isSolvent:false,

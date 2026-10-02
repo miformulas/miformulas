@@ -24,7 +24,6 @@
   "Moss",
   "Musks",
   "Phenolic",
-  "Predils",
   "Solvents",
   "Spices",
   "Uncategorised",
@@ -35,7 +34,6 @@
  ],
  "formulaCategories": [
   "Bases & Accords",
-  "Predilutions",
   "Uncategorised"
  ],
  "suppliers": [],
@@ -11645,8 +11643,7 @@
   "Flowers - red": "#E22400",
   "Citrus": "#F5EC00",
   "Bases & replacers": "#FFFFFF",
-  "Additives": "#48484A",
-  "Predils": "#7A5EA8"
+  "Additives": "#48484A"
  },
  "shopSites": [],
  "orderList": []
