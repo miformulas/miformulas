@@ -6,6 +6,9 @@ Run against a local web server with the contents of public/ on port 8765:
     python tools/browsertests/screenshots.py app-predilution.png …   # only these are written (and reduced)
 Chromium headless, light theme, 1280x800 at 2x, PNGs reduced to a 256-colour palette (Pillow). Nothing is written to the data file:
 the starter set lives in the browser storage of a throw-away profile.
+Since build 261002d it also makes five figures that were captures of an older app, under their own names: edge-install-link,
+safari-start-add-to-dock (Chromium with the user agent of Safari, so not in Safari's font), edge-save-to-file, edge-settings
+and formulair-import (that one needs MIF_SQLITE, the Formulair database, as formulair-import.py does).
 """
 import json, math, os, sys
 from playwright.sync_api import sync_playwright
@@ -19,6 +22,11 @@ STARTER = open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="u
 # the published materials library lives outside the repository (miformulas.com serves it from R2).
 # Put a copy next to public/ to get the real thing in the shots; without it a small stand-in is used.
 LIBRARY = os.path.abspath(os.path.join(PUB, "..", "miformulas-materials.json"))
+# the start screen as Safari on a Mac gets it (as in safari-hints.py): its user agent, without the File System Access API
+SAFARI_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
+NO_FS = "delete window.showOpenFilePicker; delete window.showSaveFilePicker;"
+# the Formulair database for the importer figure (as in formulair-import.py); without it that figure is left as it is
+SQ = os.environ.get("MIF_SQLITE", "")
 os.makedirs(OUT, exist_ok=True)
 # names on the command line: only those shots are written, so one figure can be made again without touching the others
 # (build 261002a); the palette reduction at the end takes only what this run wrote
@@ -50,7 +58,7 @@ IMPORT = {
         {"material": "Geraniol", "dilutionPct": 100, "weightG": 0.8},
         {"material": "Rhodinol Bourbon", "dilutionPct": 100, "weightG": 1.0},
         {"material": "Geranyl Acetate", "dilutionPct": 100, "weightG": 2.5},
-        {"material": "Citronellol", "dilutionPct": 10, "weightG": 0.5, "comment": "written as 10 %"},
+        {"material": "Citronellol", "dilutionPct": 20, "weightG": 0.5, "comment": "written as 20 %"},   # the starter set has 100 and 10 % since 1/10
         {"material": "Phenylacetic Aldehyde", "dilutionPct": 50, "weightG": 0.2},
         {"material": "Rose Absolute Turkey", "dilutionPct": 10, "weightG": 0.1},
         {"material": "Oeillet 35", "dilutionPct": 100, "weightG": 0.3},
@@ -98,6 +106,10 @@ with sync_playwright() as p:
     page.evaluate("window.dispatchEvent(Object.assign(new Event('beforeinstallprompt'), {preventDefault(){}, prompt: async()=>{}}))")
     page.wait_for_timeout(200)
     shot(page, "app-start-browser.png", "#landing .card")
+    # section 15: the row of links with Install as an app, cut out of the card (since 261002d; a capture of an older start screen before)
+    card = page.locator("#landing .card").bounding_box(); row = page.locator("#btnInstall").locator("xpath=..").bounding_box()
+    shot(page, "edge-install-link.png", clip={"x": round(card["x"]), "y": round(row["y"] - 14),
+                                             "width": round(card["width"]), "height": round(row["height"] + 28)})
 
     # ---- 2. welcome page with the amber storage bar ----
     page.click("#btnStarter"); settle(page)
@@ -321,6 +333,48 @@ with sync_playwright() as p:
     page.reload(); page.wait_for_timeout(1000)
     shot(page, "app-start-reopen.png", "#landing .card")
     ctx.close()
+
+    # ---- 14. the start screen as Safari on a Mac gets it: Add to Dock… instead of Install as an app (since 261002d) ----
+    ctx = b.new_context(viewport={"width": 1280, "height": 800}, device_scale_factor=2, color_scheme="light",
+                        locale="en-GB", timezone_id="Europe/Brussels", user_agent=SAFARI_UA)
+    ctx.add_init_script(NO_FS)
+    page = ctx.new_page()
+    page.goto(URL); page.wait_for_timeout(800)
+    shot(page, "safari-start-add-to-dock.png", "#landing .card")
+    ctx.close()
+
+    # ---- 15. the site with a data file of its own (Chrome and Edge): the amber bar, then Settings that remembers the file ----
+    ctx = new_context(b, fake_fs=True, height=1150)
+    page = ctx.new_page()
+    page.on("dialog", lambda d: d.accept())
+    page.goto(URL); page.wait_for_timeout(800)
+    page.click("#btnStarter"); settle(page)
+    page.set_viewport_size({"width": 1440, "height": 1150}); page.wait_for_timeout(400)   # the wide header names the place
+    sb = page.locator("#storageHint").bounding_box()
+    shot(page, "edge-save-to-file.png", clip={"x": 0, "y": 0, "width": 1440, "height": round(sb["y"] + sb["height"])})
+    page.set_viewport_size({"width": 1280, "height": 1150}); page.wait_for_timeout(400)
+    page.click("#storageHintSave"); page.wait_for_timeout(400)
+    page.click("#dlgOk"); page.wait_for_timeout(1200); settle(page)
+    page.click("#btnSettings"); page.wait_for_timeout(500)
+    shot(page, "edge-settings.png", "#dlg")
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
+    ctx.close()
+
+    # ---- 16. the Formulair importer after reading the database (needs MIF_SQLITE; reading takes a minute) ----
+    if not ONLY or "formulair-import.png" in ONLY:
+        if SQ and os.path.exists(SQ):
+            ctx = b.new_context(viewport={"width": 1000, "height": 2000}, device_scale_factor=2, color_scheme="light",
+                                locale="en-GB", timezone_id="Europe/Brussels")
+            page = ctx.new_page()
+            page.goto(URL + "formulair-import.html"); page.wait_for_timeout(800)
+            page.set_input_files("#file", SQ)
+            page.wait_for_selector("#btnDl", timeout=240000); page.wait_for_timeout(500)
+            m = page.locator("main").bounding_box(); lg = page.locator("#log").bounding_box()   # up to the log, as before
+            shot(page, "formulair-import.png", clip={"x": round(m["x"]), "y": round(m["y"]), "width": round(m["width"]),
+                                                    "height": round(lg["y"] + lg["height"] + 24 - m["y"])})
+            ctx.close()
+        else:
+            print("formulair-import.png left as it is: set MIF_SQLITE to the Formulair database (see formulair-import.py)")
     b.close()
 
 # 256-colour palette: a third of the size, no visible loss on UI screenshots

@@ -8,7 +8,7 @@ There is nothing to install and no account, and your data stays with you: in you
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 261002c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
+This manual describes build 261002d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
 
 ## Contents
 
@@ -632,9 +632,9 @@ These checks also tell you whether a copy of the app that reached you by another
 
 **I want the site to forget my data file.** Settings (⚙) has **Forget the remembered data file “miformulas-data.json”**, with the name of the file, so you see which one it is about; the file itself is not touched.
 
-**Where do I report a problem or suggest something?** On GitHub, at https://github.com/miformulas/miformulas/issues (the **Feedback** link on the start screen goes there; writing there needs a free GitHub account). If you would rather not use GitHub, write to info@miformulas.com. The bar above the Help pages has both at hand, next to **Close** and **Contents**: **Read online, with screenshots** opens this manual on the site with its pictures, **Report a problem** opens that issues page, and **Or write an e-mail** opens a message to that address. Say which browser you use and the build number (next to the name in the header, or in the Help bar when the header leaves it out), and what you did; a Backup of a data file that shows the problem helps most, if you are willing to share it.
-
 ![Settings with a remembered data file: Forget the remembered data file](img/edge-settings.png)
+
+**Where do I report a problem or suggest something?** On GitHub, at https://github.com/miformulas/miformulas/issues (the **Feedback** link on the start screen goes there; writing there needs a free GitHub account). If you would rather not use GitHub, write to info@miformulas.com. The bar above the Help pages has both at hand, next to **Close** and **Contents**: **Read online, with screenshots** opens this manual on the site with its pictures, **Report a problem** opens that issues page, and **Or write an e-mail** opens a message to that address. Say which browser you use and the build number (next to the name in the header, or in the Help bar when the header leaves it out), and what you did; a Backup of a data file that shows the problem helps most, if you are willing to share it.
 
 ## 23. Licence
 
