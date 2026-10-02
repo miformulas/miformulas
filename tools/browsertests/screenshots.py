@@ -3,6 +3,7 @@
 Run against a local web server with the contents of public/ on port 8765:
     cd public && python -m http.server 8765
     python tools/browsertests/screenshots.py
+    python tools/browsertests/screenshots.py app-predilution.png …   # only these are written (and reduced)
 Chromium headless, light theme, 1280x800 at 2x, PNGs reduced to a 256-colour palette (Pillow). Nothing is written to the data file:
 the starter set lives in the browser storage of a throw-away profile.
 """
@@ -19,6 +20,10 @@ STARTER = open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="u
 # Put a copy next to public/ to get the real thing in the shots; without it a small stand-in is used.
 LIBRARY = os.path.abspath(os.path.join(PUB, "..", "miformulas-materials.json"))
 os.makedirs(OUT, exist_ok=True)
+# names on the command line: only those shots are written, so one figure can be made again without touching the others
+# (build 261002a); the palette reduction at the end takes only what this run wrote
+ONLY = set(sys.argv[1:])
+WRITTEN = []
 
 # fake File System Access API (as in file-mode.py), so that Save to a data file and Reopen can be shown
 FAKE_FS = """
@@ -53,6 +58,8 @@ IMPORT = {
 }
 
 def shot(page, name, selector=None, clip=None, full=False):
+    if ONLY and name not in ONLY:
+        return
     path = os.path.join(OUT, name)
     if selector:
         # an element is cut on whole pixels, each edge rounded to the nearest one: an element shot rounds a fractional edge
@@ -61,6 +68,7 @@ def shot(page, name, selector=None, clip=None, full=False):
         x, y = round(b["x"]), round(b["y"])
         clip = {"x": x, "y": y, "width": round(b["x"] + b["width"]) - x, "height": round(b["y"] + b["height"]) - y}
     page.screenshot(path=path, clip=clip, full_page=full)
+    WRITTEN.append(path)
     print("wrote", name)
 
 def settle(page, ms=3200):
@@ -126,7 +134,7 @@ with sync_playwright() as p:
     shot(page, "app-dilution-dialog.png", "#dlg")
     page.click("#dlgCancel"); page.wait_for_timeout(300)
 
-    # ---- 6. tick bar with three ticked lines, and the predilution dialog ----
+    # ---- 6. tick bar with three ticked lines (the predilution has a window of its own, 6b) ----
     open_formula(page, "Ho Hang")
     cbs = page.locator("table.lines input.selCb")
     n = cbs.count()
@@ -138,11 +146,49 @@ with sync_playwright() as p:
     first = page.locator("table.lines tbody tr").nth(n - 3).bounding_box()
     top = first["y"] - 12
     shot(page, "app-tick-bar.png", clip={"x": table["x"] - 4, "y": top, "width": table["width"] + 8, "height": tb["y"] + tb["height"] - top + 4})
-    page.click("#btnPredil"); page.wait_for_timeout(500)
-    page.fill("#pdName", "Ho Hang trace mix")
-    page.fill("#pdK", "100"); page.locator("#pdK").dispatch_event("input"); page.wait_for_timeout(400)
-    shot(page, "app-predilution.png", "#dlg")
-    page.click("#dlgCancel"); page.wait_for_timeout(300)
+
+    # ---- 6b. predilutions (manual section 8), in a window of its own: a predilution adds a formula, a material and two
+    # versions, and the other shots should not see them. Acqua di Gio for men scaled to 20 g has fifteen lines under
+    # 25 mg; Lower takes the five at 100 % to their 10 % dilution, and the ten that were at 10 % already go into a
+    # predilution with a factor of 10, which makes the smallest 48 mg (build 261002a, on the starter set at 10 %) ----
+    ctx_p = new_context(b)
+    pp = ctx_p.new_page(); pp.on("dialog", lambda d: d.accept())                    # Lower reports the ten it skipped
+    pp.goto(URL); pp.wait_for_timeout(800)
+    pp.click("#btnStarter"); settle(pp, 1500)
+    pp.add_style_tag(content="#storageHint{display:none!important}")
+    open_formula(pp, "Acqua di Gio for men")
+    pp.click("#btnNewV"); pp.wait_for_timeout(600)                                 # v3: the version you scale
+    pp.evaluate("SCALEOPEN = true; render()"); pp.wait_for_timeout(300)
+    pp.fill("#scaleW", "20"); pp.click("#btnApplyScale"); pp.wait_for_timeout(600)
+    pp.locator("span.sortable[data-sort='weight']").first.click(); pp.wait_for_timeout(500)
+    cbs = pp.locator("table.ftable input.selCb")
+    cbs.nth(0).click(); pp.keyboard.down("Shift"); cbs.nth(14).click(); pp.keyboard.up("Shift"); pp.wait_for_timeout(300)
+    pp.click("#btnDilDown"); pp.wait_for_timeout(800)                              # the fifteen under 25 mg: Lower
+    cbs = pp.locator("table.ftable input.selCb")                                   # the ten still under 25 mg
+    cbs.nth(0).click(); pp.keyboard.down("Shift"); cbs.nth(9).click(); pp.keyboard.up("Shift"); pp.wait_for_timeout(300)
+    pp.mouse.move(5, 5); pp.evaluate("document.activeElement.blur()")             # no focus ring on the last tick
+    pp.evaluate("document.querySelector('#sortSel').scrollIntoView({block: 'start'}); window.scrollBy(0, -70)"); pp.wait_for_timeout(300)
+    top = pp.locator("#sortSel").bounding_box(); tbl = pp.locator("table.ftable").first.bounding_box()
+    last = pp.locator("table.ftable tbody tr").nth(11).bounding_box()                 # the ten ticked and the two after them
+    hb = pp.locator("header").first.bounding_box()
+    y0 = max(round(top["y"]) - 6, round(hb["y"] + hb["height"]) + 2)                 # never the edge of the header
+    shot(pp, "app-predil-ticked.png", clip={"x": round(tbl["x"]) - 4, "y": y0, "width": round(tbl["width"]) + 8,
+                                            "height": round(last["y"] + last["height"]) - y0})
+    pp.click("#btnPredil"); pp.wait_for_timeout(500)
+    pp.fill("#pdK", "10"); pp.locator("#pdK").dispatch_event("input"); pp.wait_for_timeout(300)
+    shot(pp, "app-predilution.png", "#dlg")
+    pp.click("#dlgOk"); pp.wait_for_timeout(900)
+    pp.select_option("#sortSel", "orig"); pp.wait_for_timeout(500)                  # the predilution line is the last one
+    rows = pp.locator("table.ftable tbody tr"); n = rows.count()
+    first = rows.nth(n - 4); first.scroll_into_view_if_needed(); pp.mouse.move(5, 5); pp.wait_for_timeout(300)
+    a = first.bounding_box(); tbl = pp.locator("table.ftable").first.bounding_box(); foot = pp.locator("table.ftable tfoot").first.bounding_box()
+    y0 = round(a["y"]) - 4
+    shot(pp, "app-predil-version.png", clip={"x": round(tbl["x"]) - 4, "y": y0, "width": round(tbl["width"]) + 8,
+                                             "height": round(foot["y"] + foot["height"]) + 4 - y0})
+    open_formula(pp, "Acqua di Gio for men - v3 - PREDIL")
+    pp.mouse.move(5, 5)
+    shot(pp, "app-predil-mix.png", "table.ftable")
+    ctx_p.close()
 
     # ---- 7. IFRA check and categories panel ----
     page.evaluate("IFRAOPEN = true; CATSOPEN = true")
@@ -301,7 +347,7 @@ try:
         out = Image.fromarray(idx.astype(np.uint8), "P")
         out.putpalette(flat + [0] * (768 - len(flat)))
         return out
-    for f in glob.glob(os.path.join(OUT, "app-*.png")) + glob.glob(os.path.join(OUT, "cloudflare-09-*.png")):
+    for f in WRITTEN:
         reduce(Image.open(f).convert("RGB")).save(f, optimize=True)
     print("palette-reduced")
 except ImportError:

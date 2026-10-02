@@ -8,7 +8,7 @@ There is nothing to install and no account, and your data stays with you: in you
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 261001b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
+This manual describes build 261002a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
 
 ## Contents
 
@@ -188,11 +188,29 @@ Lines with a dilution you do not stock are marked ⚠, typically after an import
 
 ## 8. Batch scaling and predilutions
 
-**Batch scaling** sits under the table, in the order you use it. **Concentration (abs %)** with **Set EtOH** changes only the ethanol line so that the formula reaches the concentration you type, adding an ethanol line if there is none (ethanol is a material ticked as a solvent with Ethanol or EtOH in its name, so an "Alcohol 96 %" is not taken for it, and without such a material the button says so); the hint shows the maximum reachable with no ethanol at all. **Target total** then rescales the whole formula to a given weight, and **Apply factor** multiplies every weight (2.5 turns a 40 g trial into 100 g). For 50 g at 20 %, set the concentration first and the total after it: the other way round, the ethanol comes on top of the 50 g. Batch scaling is there on the editable version only, and the printed weighing sheet always shows the weights as they are stored. To weigh another quantity, make a new version and scale that one: the batch on your bench then carries a version number that points back into the app, which a rescaled print would not.
+**Batch scaling** sits under the table, in the order you use it. **Concentration (abs %)** with **Set EtOH** changes only the ethanol line so that the formula reaches the concentration you type, adding an ethanol line if there is none (ethanol is a material ticked as a solvent with Ethanol or EtOH in its name, so an "Alcohol 96 %" is not taken for it, and without such a material the button says so); the hint shows the maximum reachable with no ethanol at all. **Target total** then rescales the whole formula to a given weight, and **Apply factor** multiplies every weight (2.5 turns a 40 g trial into 100 g). Scaling far down loses nothing in the arithmetic: the app keeps every weight to six decimals and shows three. For 50 g at 20 %, set the concentration first and the total after it: the other way round, the ethanol comes on top of the 50 g. Batch scaling is there on the editable version only, and the printed weighing sheet always shows the weights as they are stored. To weigh another quantity, make a new version and scale that one: the batch on your bench then carries a version number that points back into the app, which a rescaled print would not.
 
-**Create predilution…** bundles ticked lines into a separate, weighable mix. Perfumers do this for the trace materials: instead of weighing 4 mg of five things, you weigh 4 g of each once into a premix and dose 0.4 g of that. The app takes the ticked lines as displayed (a ticked solvent line, or a line of 0 g, is left out: neither belongs in a premix), lets you name the predilution and choose a batch factor (the preview shows the mix weight, its aromatic strength and the smallest line you will have to weigh, in grams like every other weight in the app, so you can see at a glance which factor makes it weighable), then creates three things at once: a frozen predilution formula in the category "Predilutions", a material in the category "Predils" with the aromatic concentration as its dilution and the cost per gram computed, and a new version of your formula in which the ticked lines are replaced by one line of the predilution at the same content. Everything is one Undo step.
+**Predilutions.** You scale a formula to the weight you intend to make, and that nearly always leaves lines too small to weigh. The limit is the drop: you cannot weigh out less than one drop of a liquid. Let's say that 25 mg is a practical minimum. **Create predilution…** groups the lines you ticked into a premix, the predilution, which you can scale up by a factor until even the smallest line can be weighed. A new version of the formula is automatically created in which one line of the premix takes the place of the materials you selected.
 
-![Create predilution: name, batch factor and a preview of the mix.](img/app-predilution.png)
+An example from the starter set: *Acqua di Gio for men*, its v2 at 12 %, taken into a new version and scaled to 20 g with **Target total**. Click the **Weight (g)** heading to sort the lines by weight: fifteen lines stand under 25 mg, from 0.005 g to 0.024 g. The first remedy is the 10 % dilution that you keep of most materials: tick the fifteen (a click on the first, a Shift-click on the last) and choose **Lower** in the bar under the table (section 7). The five that were at 100 % move to their 10 % dilution and weigh ten times as much: Patchouli Oil, Rosemary CT camphor EO and Benzyl Salicylate go from 0.012 g to 0.118 g, Clary Sage Oil and Calone from 0.024 g to 0.236 g, and the ethanol line gives up the 0.743 g they gained, so the total stays at 20 g. The other ten were at 10 % already, the lowest dilution they have, and the app reports them as skipped. From Allyl Cyclohexyl Propionate at 0.005 g to Evernyl at 0.024 g, together 0.158 g, they are still too small: tick those ten and choose **Create predilution…**.
+
+![Acqua di Gio for men at 20 g after Lower, sorted by weight: the ten lines at 10 % that are still under 25 mg, ticked.](img/app-predil-ticked.png)
+
+The window proposes a name and asks for a **batch factor**. Its preview shows what you will weigh: the weight of the mix, its aromatic strength and its smallest line, in grams like every other weight in the app. Raise the factor until that smallest line is well above 25 mg: a factor of 10 makes the 4.8 mg of Allyl Cyclohexyl Propionate (0.005 g on the screen) into 48 mg, and the mix 1.582 g.
+
+![Create predilution: a factor of 10 makes the smallest line 0.048 g.](img/app-predilution.png)
+
+**Create** then makes three things at once, in one Undo step:
+
+- the predilution, as a frozen formula in the category "Predilutions": the weighing sheet of the mix, ten times each of the ten lines;
+- a material in the category "Predils" with the aromatic strength of the mix as its dilution (10 % here, because all ten lines are 10 % dilutions) and, when your materials carry a price, its cost per gram;
+- a new version of your formula in which the ticked lines are replaced by one line of that material with the same content, so rel % does not move: 0.158 g of the predilution, which holds what the ten lines held.
+
+![The new version: one line of the predilution, 0.158 g, in place of ten.](img/app-predil-version.png)
+
+![The predilution itself: from 0.048 g of Allyl Cyclohexyl Propionate to 0.236 g of Evernyl, 1.582 g in all.](img/app-predil-mix.png)
+
+You weigh the mix once and then 0.158 g of it into the batch: one weighing instead of ten, and the 1.424 g that is left will do for nine more. A ticked solvent line, or a line of 0 g, is left out, because neither belongs in a premix. The IFRA check cannot look inside a predilution, so it switches off on a version that holds one (section 12).
 
 ## 9. Colour marks, notes and the trial log
 
