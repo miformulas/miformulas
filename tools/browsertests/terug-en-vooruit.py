@@ -4,6 +4,9 @@ zijknoppen van een muis niet sturen (alleen links, rechts en midden); go_back() 
 knoppen in de browser doen, dus dat is wat hier getest wordt. Sinds 260922j neemt een stap ook de vergelijking en de
 bench view mee (C-a 7). Sinds 260922p is een formule die je uit de lijst opent meteen de plaats met haar versie, zodat
 Bench view of een gewicht daarna geen tweede stap is en één keer terug de formule verlaat (C5 van de mini-audit op 260922m).
+Sinds 261004a onthoudt een stap ook hoe ver de pagina naar beneden stond toen je wegklikte, zodat terug in een lange formule
+op dezelfde regel landt en niet bovenaan; alleen een klik schrijft die positie (keuze A van Mathieu), dus een pagina die je met
+terug verliet, begint bij vooruit bovenaan.
 Vereist de lokale webserver op poort 8765, zie README."""
 from playwright.sync_api import sync_playwright
 
@@ -74,7 +77,7 @@ with sync_playwright() as b0:
     check(f"terug naar een verwijderde formule geeft de lijst ({p3})", p3["tab"] == "F" and p3["id"] is None)
     check(f"zonder paginafout ({errs[:2]})", not errs)
 
-    # de schuifpositie volgt de plaats ook bij terug
+    # de schuifpositie volgt de plaats ook bij terug: sinds 261004a de positie waar je wegklikte (tot dan bovenaan)
     page.evaluate("""() => { const f = [...DATA.formulas].sort((a,b) =>
         b.versions[b.versions.length-1].lines.length - a.versions[a.versions.length-1].lines.length)[0];
         switchTab('F', f.id, {type:'v', idx: f.versions.length - 1}); }""")
@@ -85,7 +88,7 @@ with sync_playwright() as b0:
     page.evaluate("id => switchTab('M', id, null)", mid); page.wait_for_timeout(700)
     page.go_back(); page.wait_for_timeout(800)
     nu = page.evaluate("document.querySelector('#content').scrollTop")
-    check(f"terug naar de formule begint bovenaan ({nu}, je stond op {diep})", nu == 0)
+    check(f"terug naar de formule landt waar je stond ({nu}, je stond op {diep})", diep > 0 and nu == diep)
 
     # bouw 260922j (C-a 7): terug naar een vergelijking of naar de bench view landt daar weer, niet op de tabel
     # van de laatste versie; de stap onthoudt ook wat je er nadien koos (B in Compare, de bench aan of uit)
@@ -265,6 +268,63 @@ with sync_playwright() as b0:
     pg6.go_back(); pg6.wait_for_timeout(900)
     herl = stand(pg6)
     check(f"na een herlaadbeurt blijft vooruit mogelijk na één stap terug ({herl})", herl["vooruit"] is False)
+
+    # ---------------- terug landt waar je was op de pagina (bouw 261004a, keuze A) ----------------
+    Y = "document.getElementById('content').scrollTop"
+    def klik_materiaal(pg):
+        return pg.evaluate("""() => { const c = document.getElementById('content'), r = c.getBoundingClientRect();
+            const a = [...c.querySelectorAll('table.lines a.matlink')].find(a => { const q = a.getBoundingClientRect();
+                return q.top > r.top + 40 && q.bottom < r.bottom - 40; });
+            if (!a) return null; a.click(); return a.textContent; }""")
+    def open_f(pg, naam, idx=None):
+        pg.evaluate("""([n, i]) => { const f = DATA.formulas.find(x => x.name === n);
+            switchTab('F', f.id, i == null ? null : {type: 'v', idx: i}); }""", [naam, idx])
+        pg.wait_for_timeout(500)
+    def schuif(pg, y):
+        pg.evaluate("y => { document.getElementById('content').scrollTop = y; }", y)
+    ctx7 = b.new_context(viewport={"width": 1280, "height": 800})
+    pg7 = ctx7.new_page(); errs7 = []
+    pg7.on("pageerror", lambda e: errs7.append(str(e))); pg7.on("dialog", lambda d: d.accept())
+    pg7.goto(URL); pg7.wait_for_timeout(800); pg7.click("#btnStarter"); pg7.wait_for_timeout(1200)
+    open_f(pg7, "1881 for men"); schuif(pg7, 900); pg7.wait_for_timeout(300)
+    m = klik_materiaal(pg7); pg7.wait_for_timeout(500)
+    st = pg7.evaluate(f"[VIEW.tab, {Y}]")
+    check(f"een materiaal uit een lange formule opent bovenaan ({m}, {st})", m and st == ["M", 0])
+    pg7.go_back(); pg7.wait_for_timeout(600)
+    st = pg7.evaluate(f"[VIEW.tab, {Y}]")
+    check(f"terug landt op de plaats in de formule, niet bovenaan ({st})", st == ["F", 900])
+    pg7.go_forward(); pg7.wait_for_timeout(600)
+    st = pg7.evaluate(f"[VIEW.tab, {Y}]")
+    check(f"vooruit naar het materiaal begint bovenaan, want je verliet het met terug ({st})", st == ["M", 0])
+    pg7.go_back(); pg7.wait_for_timeout(600)
+    st = pg7.evaluate(Y)
+    check(f"en terug staat de formule nog op dezelfde plaats ({st})", st == 900)
+    schuif(pg7, 700); m = klik_materiaal(pg7); pg7.wait_for_timeout(500)    # meteen klikken, zonder te wachten
+    pg7.go_back(); pg7.wait_for_timeout(600)
+    st = pg7.evaluate(Y)
+    check(f"ook als je meteen na het schuiven klikt ({m}, {st})", st == 700)
+    open_f(pg7, "1881 for men"); schuif(pg7, 1200); open_f(pg7, "1881 for men", 0)
+    v1 = pg7.evaluate(f"[VIEW.sub && VIEW.sub.idx, {Y}]")
+    pg7.go_back(); pg7.wait_for_timeout(600)
+    v2 = pg7.evaluate(f"[VIEW.sub && VIEW.sub.idx, {Y}]")
+    check(f"een andere versie opent bovenaan, terug staat de vorige versie waar je was ({v1} → {v2})",
+          v1 == [0, 0] and v2 == [1, 1200])
+    klik_materiaal(pg7); pg7.wait_for_timeout(500)
+    pg7.evaluate("navStep(-1)"); pg7.wait_for_timeout(700)                  # de pijl terug van de geïnstalleerde app
+    st = pg7.evaluate(Y)
+    check(f"de pijl terug van de geïnstalleerde app landt ook waar je was ({st})", st == 1200)
+    check(f"geen paginafouten ({errs7[:2]})", not errs7)
+    ctx7.close()
+    ctx8 = b.new_context(viewport={"width": 390, "height": 844})               # een telefoon: hetzelfde paneel schuift
+    pg8 = ctx8.new_page()
+    pg8.on("dialog", lambda d: d.accept())
+    pg8.goto(URL); pg8.wait_for_timeout(800); pg8.click("#btnStarter"); pg8.wait_for_timeout(1200)
+    open_f(pg8, "1881 for men"); schuif(pg8, 1500); pg8.wait_for_timeout(300)
+    y8 = pg8.evaluate(Y); klik_materiaal(pg8); pg8.wait_for_timeout(500)
+    pg8.go_back(); pg8.wait_for_timeout(600)
+    st = pg8.evaluate(Y)
+    check(f"op een telefoon landt terug ook waar je was ({y8} → {st})", y8 > 1000 and st == y8)
+    ctx8.close()
 
     print("\n%d OK, %d FAIL" % (ok, fail))
     b.close()
