@@ -8,7 +8,7 @@ There is nothing to install and no account, and your data stays with you: in you
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 261004a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
+This manual describes build 261004b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
 
 ## Contents
 
@@ -186,7 +186,7 @@ When you replace a material with **⇄** by one that does not offer the line's d
 
 ![Ticked lines and the tick bar: marks, Lower and Higher, Create premix…](img/app-tick-bar.png)
 
-Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent".
+Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; when you next make a version, convert them to a dilution you have with "preserve rel % and exchange solvent". Only the version you can still edit shows the mark; a new version made from an older or frozen one shows it again.
 
 ## 8. Batch scaling and premixes
 
@@ -489,7 +489,7 @@ The screens below are how the Cloudflare dashboard looked in September 2026. Clo
 
     ![Creating the R2 bucket that will hold your data file.](img/cloudflare-04-r2-bucket.png)
 
-5. **Connect the two.** Back on the Worker's own page, not in the code editor, open its **Bindings** tab and press **Add binding +**, then choose **R2 bucket**. The variable name must be exactly `DATA`, and the bucket is the one you just made. That name is what the code looks for; finish with **Deploy**.
+5. **Connect the two.** Back on the Worker's own page, not in the code editor, open its **Settings** tab and press **Add binding** in the **Bindings** block. Choose **R2 bucket** and press **Add Binding**; in the form that follows, the variable name must be exactly `DATA`, and the bucket is the one you just made. That name is what the code looks for; finish with **Deploy**. A notice about a Wrangler configuration may appear: it is meant for those who deploy from their own computer, and you can close it.
 
     ![The R2 bucket binding: the variable name must be exactly DATA.](img/cloudflare-05-binding.png)
 

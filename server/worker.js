@@ -4,7 +4,7 @@
    Paste this file into the editor of a Worker on dash.cloudflare.com and deploy it. It needs two
    things, both on the Worker's own page rather than in the editor:
 
-     tab Bindings                           an R2 bucket, with the variable name exactly  DATA
+     tab Settings, block Bindings           an R2 bucket, with the variable name exactly  DATA
      tab Settings, Runtime variables and    a secret named exactly  TOKEN , holding a long random
      secrets                                string of your own
 
