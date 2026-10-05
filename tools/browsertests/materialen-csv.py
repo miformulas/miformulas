@@ -337,7 +337,8 @@ with sync_playwright() as pw:
           any("1 purchase date(s) could not be read" in m for m in msgs3))
     page.evaluate("""() => switchTab("M", DATA.materials.find(x => x.name === "Datum Kort").id, null)""")
     page.wait_for_timeout(500)
-    veld = page.evaluate("""() => { const e = [...document.querySelectorAll('#content input[type=date]')][0]; return e ? e.value : null; }""")
+    # het veld Purchase date zelf: sinds bouw 261005a heeft ook elke dilutie een datumveld
+    veld = page.evaluate("""() => { const e = document.querySelector('#mPurchDate'); return e ? e.value : null; }""")
     check(f"23: en het datumveld toont ze ({veld})", veld == "2025-02-03")
     page.evaluate("LOCALE = undefined")
     check(f"geen paginafouten in deel 7 ({errs3[:2]})", not errs3)

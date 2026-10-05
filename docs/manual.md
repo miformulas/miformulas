@@ -8,7 +8,7 @@ There is nothing to install and no account, and your data stays with you: in you
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 261004b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
+This manual describes build 261005a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
 
 ## Contents
 
@@ -98,7 +98,7 @@ A material is anything you weigh: a raw material, a natural, a base, a solvent, 
 
 ![A material page: its fields and dilutions.](img/app-material.png)
 
-**Dilutions.** A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. Add one with **Add dilution** (a percentage and an optional note) and make it the base with **Set base**; **✕** removes one, and the highest remaining dilution becomes the base if you remove that one. One of them is the **base** dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, it only disappears from the pick list.
+**Dilutions.** A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. Add one with **Add dilution** (a percentage and an optional note) and make it the base with **Set base**; **✕** removes one, and the highest remaining dilution becomes the base if you remove that one. One of them is the **base** dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, it only disappears from the pick list. The date and the note of a dilution can be changed in the table.
 
 **Ethanol is the diluent.** The app takes every dilution to be in ethanol, so a dilution needs no note to say so, and the tools work that way: **Preserve rel % and exchange solvent**, **Lower** and **Higher** exchange against the ethanol line (another solvent only when there is none, section 7), and **Set EtOH** works with ethanol only (section 8). A dilution in DPG or DEP computes the same, because the app only uses its percentage; write the solvent in the dilution's note if you want to remember it.
 

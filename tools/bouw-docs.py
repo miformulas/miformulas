@@ -7,7 +7,7 @@
 
 The Help button of the app shows the same manual: the script writes it, without the images, into
 <template id="manualTpl"> between the MANUAL:BEGIN / MANUAL:END markers of the app file. Copy the
-app file to deploy/index.html and public/index.html afterwards, as after any change to the app.
+app file to public/index.html afterwards, as after any change to the app.
 
 Requires the "markdown" package (pip install markdown). The Markdown files stay the source:
 edit docs/manual.md or docs/ai-prompts.md and run this script again. The pages embed their
