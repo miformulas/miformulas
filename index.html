@@ -410,7 +410,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261005a</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261005b</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -480,7 +480,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s17-coming-from-formulair">17</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a premix (sections <a href="#s7-changing-dilutions">7</a> to <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s16-import-export-and-sharing">16</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s10-bench-view-and-printing">10</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261005a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261005b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -909,15 +909,26 @@ const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({"&":"&amp;","<":"
 const uid = p => p + Math.random().toString(36).slice(2,8);
 let LOCALE = undefined;   // number format for display; undefined = browser default, set in Settings
 const noNegZero = (x,d) => Math.abs(x) < 0.5/10**d ? 0 : x;   // -0.0000001 must not print as "-0.000"
-const fmt = (x,d=3) => x==null||isNaN(x) ? "–" : noNegZero(x,d).toLocaleString(LOCALE,{minimumFractionDigits:d,maximumFractionDigits:d});
+// toLocaleString with options builds a new formatter on every call, which made the number format the largest part of
+// drawing a formula page; one Intl.NumberFormat per notation is kept instead, with the same result (build 261005b)
+const NUMFMT = new Map();
+function nfmt(x, min, max, group = true){
+  const o = group ? {minimumFractionDigits:min, maximumFractionDigits:max} : {minimumFractionDigits:min, maximumFractionDigits:max, useGrouping:false};
+  if (typeof x !== "number") return x.toLocaleString(LOCALE, o);   // anything else as before
+  const k = `${LOCALE ?? ""}|${min}|${max}|${group}`;
+  let f = NUMFMT.get(k);
+  if (!f) NUMFMT.set(k, f = new Intl.NumberFormat(LOCALE, o));
+  return f.format(x);
+}
+const fmt = (x,d=3) => x==null||isNaN(x) ? "–" : nfmt(noNegZero(x,d), d, d);
 // a number that would round away to "0" keeps the decimals it needs: a dilution of 0,001 % and one of
 // 0,01 % read the same otherwise, in the table, in the pick list and on the weighing sheet alike
 const fmtS = (x,d=2) => x==null||isNaN(x) ? "–"
-  : (+x > 0 && noNegZero(x,d) === 0 ? (+x).toLocaleString(LOCALE,{minimumFractionDigits:0,maximumFractionDigits:8})   // positive only: a tiny negative is rounding noise, and noNegZero is there for it
-                                      : noNegZero(x,d).toLocaleString(LOCALE,{minimumFractionDigits:0,maximumFractionDigits:d}));
+  : (+x > 0 && noNegZero(x,d) === 0 ? nfmt(+x, 0, 8)   // positive only: a tiny negative is rounding noise, and noNegZero is there for it
+                                      : nfmt(noNegZero(x,d), 0, d));
 /* input fields are filled without a thousands separator: "1500.000" reads back as 1500 in every locale */
-const fmtIn  = (x,d=3) => x==null||isNaN(x) ? "" : noNegZero(x,d).toLocaleString(LOCALE,{minimumFractionDigits:d,maximumFractionDigits:d,useGrouping:false});
-const fmtSIn = (x,d=2) => x==null||isNaN(x) ? "" : noNegZero(x,d).toLocaleString(LOCALE,{minimumFractionDigits:0,maximumFractionDigits:d,useGrouping:false});
+const fmtIn  = (x,d=3) => x==null||isNaN(x) ? "" : nfmt(noNegZero(x,d), d, d, false);
+const fmtSIn = (x,d=2) => x==null||isNaN(x) ? "" : nfmt(noNegZero(x,d), 0, d, false);
 const parseNum = s => {
   if (typeof s === "number") return s;
   s = (s||"").toString().trim().replace(/[\s\u00A0\u202F]/g,"");          // thousands spaces (fr-FR, NBSP)
@@ -1850,6 +1861,7 @@ function sortRows(rows){
 
 /* ---------- sidebar ---------- */
 let PREMIXOPEN = false;   // the closed group of premixes at the bottom of Materials (build 261002b)
+let LISTHTML = null;      // what the list holds now: an unchanged list is not read in again (build 261005b)
 function renderSidebar(){
   const box = $("#searchBox");   // each list keeps its own term; the input handler writes it, so typing is never touched
   if (box.value !== (QBY[VIEW.tab] || "")) box.value = QBY[VIEW.tab] || "";
@@ -1915,7 +1927,9 @@ function renderSidebar(){
       ? `<div class="hint" style="padding:.8rem">Nothing here matches “${esc(box.value.trim())}”.${
           VIEW.tab === "M" ? " Materials are searched by name, alternative name, CAS number and supplier, and from three characters also in their description." : ""}</div>`
       : `<div class="hint" style="padding:.8rem">${VIEW.tab === "F" ? "No formulas yet." : "No materials yet."}</div>`;
-  $("#list").innerHTML = html;
+  // 710 rows with their pyramids took most of a redraw of a material page, while an edit there leaves them as they
+  // were; the clicks on the list are handled on #list itself, so the rows may stay
+  if (html !== LISTHTML){ $("#list").innerHTML = html; LISTHTML = html; }
 }
 $("#list").addEventListener("keydown", e => {          // Enter or space opens the row under the cursor
   if (e.key !== "Enter" && e.key !== " ") return;
