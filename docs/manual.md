@@ -8,7 +8,7 @@ There is nothing to install and no account, and your data stays with you: in you
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 261005b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
+This manual describes build 261006a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
 
 ## Contents
 
@@ -469,7 +469,7 @@ Cloudflare runs small pieces of code, called Workers, and offers storage for fil
 
 What you end up with is an address like `https://miformulas-data.yourname.workers.dev`, a token you choose yourself, and your data in a bucket only you can read. It is https from the start, so **Install as an app** (section 15) works on every device.
 
-The screens below are how the Cloudflare dashboard looked in September 2026. Cloudflare moves its buttons from time to time; when a name does not match, their own documentation at https://developers.cloudflare.com/workers/ is the place to look.
+The screens below are how the Cloudflare dashboard looked in October 2026. Cloudflare moves its buttons from time to time; when a name does not match, their own documentation at https://developers.cloudflare.com/workers/ is the place to look.
 
 **Before you start.** Have your data ready: click **Backup** in the app and keep that `.json` file at hand. And choose a token now, a long random string of some twenty characters. You will paste it into two places and nowhere else.
 
@@ -481,7 +481,7 @@ The screens below are how the Cloudflare dashboard looked in September 2026. Clo
 
     ![Creating the Worker: start from Hello World.](img/cloudflare-02-create-worker.png)
 
-3. **Paste the code.** Open the Worker's editor, select everything that is in it, and paste `server/worker.js` from the miFormulas repository over it (https://github.com/miformulas/miformulas/blob/main/server/worker.js, the **Copy raw file** button). Deploy again.
+3. **Paste the code.** Open the Worker's editor, select everything that is in it, and paste `server/worker.js` from the miFormulas repository over it (https://github.com/miformulas/miformulas/blob/main/server/worker.js, the **Copy raw file** button, the icon right of **Raw**). Deploy again.
 
     ![The Worker's code editor with worker.js pasted over the example.](img/cloudflare-03-edit-code.png)
 
