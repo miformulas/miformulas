@@ -1,7 +1,7 @@
 """Builds the HTML pages of the documentation from the Markdown sources, and optionally the PDF.
 
     python tools/bouw-docs.py          # docs/manual.html, docs/ai-prompts.html, and the Help text in the app
-    python tools/bouw-docs.py --pdf    # also docs/miFormulas-manual.pdf (needs Playwright with Chromium)
+    python tools/bouw-docs.py --pdf    # also docs/miFormulas-manual.pdf (needs Playwright 1.42 or later with Chromium)
     python tools/bouw-docs.py --app PATH   # the app file to update (default: ../miFormulas.html next to
                                            # the repo if it exists, else index.html); --no-app skips it
 
@@ -14,6 +14,7 @@ edit docs/manual.md or docs/ai-prompts.md and run this script again. The pages e
 CSS and a few lines of script (the copy buttons); images stay in docs/img.
 """
 import html, os, re, sys
+from urllib.parse import urljoin
 import markdown
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -68,7 +69,8 @@ hr{border:0;border-top:1px solid var(--line);margin:1.6rem 0}
   a{color:#000;text-decoration:none}
   ol.toc{columns:2;font-size:.88rem;padding-left:1.6rem}   /* small enough to stay on the title page */
   ol.toc li{padding:0}
-  pre{white-space:pre-wrap;word-break:break-all}
+  pre{white-space:pre-wrap;overflow-wrap:anywhere}
+  pre .w{white-space:nowrap}
   .prompt{break-inside:avoid;border-color:#bbb}
   .prompt button{display:none}
 }
@@ -161,6 +163,10 @@ def build_manual():
     h = figures(h, DOCS)
     h = h.replace("<code>docs/ai-prompts.md</code>", '<a href="ai-prompts.html"><code>docs/ai-prompts.md</code></a>')
     h = autolink(h)
+    # printed, a code block wraps, and then only between words: a browser would also break after a hyphen ("--app",
+    # "miformulas-data"), which reads as a word split in two; on screen a code block scrolls and the spans do nothing
+    h = re.sub(r"(<pre><code[^>]*>)(.*?)(</code></pre>)",
+               lambda m: m.group(1) + re.sub(r"[^\s<>]+", r'<span class="w">\g<0></span>', m.group(2)) + m.group(3), h, flags=re.S)
     m = re.search(r"describes build (\w+)", src)
     desc = "User manual of miFormulas, the perfume formulation app" + (f" (build {m.group(1)})" if m else "")
     out = page("miFormulas manual", h, nav("manual.html"), desc)
@@ -230,7 +236,10 @@ def build_pdf():
     # web pages, and as PNG at full size the PDF would be six times larger
     import shutil, tempfile
     tmp = tempfile.mkdtemp(prefix="miformulas-pdf-")
-    shutil.copy(os.path.join(DOCS, "manual.html"), tmp)
+    # a relative link (ai-prompts.html) would point into that temporary folder: in the PDF it goes to the site
+    page = open(os.path.join(DOCS, "manual.html"), encoding="utf-8").read()
+    page = re.sub(r'<a href="(?!https?:|mailto:|#)([^"]+)"', lambda m: '<a href="' + urljoin(ONLINE, m.group(1)) + '"', page)
+    open(os.path.join(tmp, "manual.html"), "w", encoding="utf-8", newline="\n").write(page)
     os.makedirs(os.path.join(tmp, "img"))
     try:
         from PIL import Image
@@ -255,7 +264,8 @@ def build_pdf():
         pg.wait_for_function("[...document.images].every(i => i.complete)")
         pg.wait_for_timeout(500)
         pg.emulate_media(media="print")
-        pg.pdf(path=os.path.join(DOCS, "miFormulas-manual.pdf"), format="A4", print_background=True,
+        # outline: the headings as bookmarks; Chromium makes them only in a tagged PDF
+        pg.pdf(path=os.path.join(DOCS, "miFormulas-manual.pdf"), format="A4", print_background=True, outline=True, tagged=True,
                margin={"top": "18mm", "bottom": "16mm", "left": "17mm", "right": "17mm"},
                display_header_footer=True,
                header_template='<div style="font-size:8pt;color:#777;width:100%;padding:0 17mm;display:flex;justify-content:space-between"><span>miFormulas manual</span><span>miformulas.com</span></div>',
