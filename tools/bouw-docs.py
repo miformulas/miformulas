@@ -98,7 +98,7 @@ def figures(h, base):
         path = os.path.join(base, src.replace("/", os.sep))
         if not os.path.exists(path):
             print("  warning: image not found:", src)
-        cls = ' class="small"' if re.search(r"(dialog|prompt|settings|start-|dock|icon|predilution|new-variation|go-to-folder)", src) else ""
+        cls = ' class="small"' if re.search(r"(dialog|prompt|settings|start-|dock|icon|predilution|new-variation|go-to-folder|phone)", src) else ""
         cap = f"<figcaption>{alt}</figcaption>" if alt else ""
         return f'<figure{cls}><img src="{src}" alt="{alt}" loading="lazy">{cap}</figure>'
     return re.sub(r'<p>\s*<img alt="(?P<alt>[^"]*)" src="(?P<src>[^"]+)"\s*/?>\s*</p>', rep, h)

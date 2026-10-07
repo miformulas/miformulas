@@ -9,6 +9,7 @@ the starter set lives in the browser storage of a throw-away profile.
 Since build 261002d it also makes five figures that were captures of an older app, under their own names: edge-install-link,
 safari-start-add-to-dock (Chromium with the user agent of Safari, so not in Safari's font), edge-save-to-file, edge-settings
 and formulair-import (that one needs MIF_SQLITE, the Formulair database, as formulair-import.py does).
+Since release v2.2 also app-phone.png: a formula on a phone at the width of an iPhone (430 px at 2x, Safari's user agent).
 """
 import json, math, os, sys
 from playwright.sync_api import sync_playwright
@@ -25,6 +26,9 @@ LIBRARY = os.path.abspath(os.path.join(PUB, "..", "miformulas-materials.json"))
 # the start screen as Safari on a Mac gets it (as in safari-hints.py): its user agent, without the File System Access API
 SAFARI_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
 NO_FS = "delete window.showOpenFilePicker; delete window.showSaveFilePicker;"
+# a phone: the width and the user agent of an iPhone (Safari), for app-phone.png
+IPHONE_UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 "
+             "Mobile/15E148 Safari/604.1")
 # the Formulair database for the importer figure (as in formulair-import.py); without it that figure is left as it is
 SQ = os.environ.get("MIF_SQLITE", "")
 os.makedirs(OUT, exist_ok=True)
@@ -375,6 +379,21 @@ with sync_playwright() as p:
             ctx.close()
         else:
             print("formulair-import.png left as it is: set MIF_SQLITE to the Formulair database (see formulair-import.py)")
+
+    # ---- 17. a formula on a phone at the width of an iPhone (release v2.2): the page, with the list behind ‹ Formulas;
+    # the storage bar closed, so that the screen shows what a phone keeps showing ----
+    ctx = b.new_context(viewport={"width": 430, "height": 932}, device_scale_factor=2, is_mobile=True, has_touch=True,
+                        color_scheme="light", locale="en-GB", timezone_id="Europe/Brussels", user_agent=IPHONE_UA)
+    page = ctx.new_page()
+    page.goto(URL); page.wait_for_timeout(800)
+    page.click("#btnStarter"); page.wait_for_timeout(900)
+    if page.locator("#storageHintClose").is_visible():
+        page.click("#storageHintClose")
+    page.locator('.tile[data-tile="F"]').first.click(); page.wait_for_timeout(400)
+    page.locator("#list").get_by_text("1881 for men", exact=True).click(); page.wait_for_timeout(600)
+    settle(page)
+    shot(page, "app-phone.png", clip={"x": 0, "y": 0, "width": 430, "height": 720})
+    ctx.close()
     b.close()
 
 # 256-colour palette: a third of the size, no visible loss on UI screenshots

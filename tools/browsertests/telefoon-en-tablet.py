@@ -1,4 +1,5 @@
-"""Five points from the test rounds on an iPhone and two Android tablets of 6 and 7 October 2026 (build 261007a).
+"""Points from the test rounds on an iPhone and two Android tablets of 6 and 7 October 2026 (build 261007a, and the
+release build of v2.2 for 6 and 7).
 
 1. The import page is a page: on a phone the list and the page take turns, and the import page did not count, so
    Import formula… chosen while the list was showing left the list on the screen and the import page hidden behind it
@@ -15,6 +16,9 @@
 5. The browser does not translate the app or the Formulair importer (translate="no" and the notranslate meta of
    Google): Chrome in Dutch made "Redden" of Save and "formulier" of Formulair, and renamed formulas and materials on
    the screen. The manual and the AI prompts on the site can still be translated, and section 2 says so.
+6. The theme button draws its icon (an SVG, the size of ⇅ and ↻) instead of a character, which Android drew from a symbol
+   font at half the size: a half, a full or an empty circle, with the state in the tooltip and in aria-label.
+7. The manual shows a phone: app-phone.png in section 2, a formula at the width of an iPhone.
 Chromium plays the iPhone through its size, touch and user agent. Needs the local webserver
 (cd public && python -m http.server 8765). The script ends with exit code 1 when a check fails."""
 import os, sys, tempfile
@@ -211,6 +215,43 @@ with sync_playwright() as p, tempfile.TemporaryDirectory() as tmp:
     page.locator("#btnHelp").click(); page.wait_for_timeout(500)
     check("section 2 of the Help says that the app stays in English and the manual on the site can be translated",
           "The app stays in English" in page.inner_text("#content"))
+    page.close()
+
+    # ---- 6. the theme icon is drawn, not a character
+    page = b.new_page(viewport={"width": 1280, "height": 800}); page.on("dialog", lambda d: d.accept())
+    page.goto(URL); page.wait_for_timeout(600)
+    page.locator("#btnStarter").click(); page.wait_for_timeout(900)
+    icon = """() => { const b = document.querySelector('#btnTheme'), s = b.querySelector('svg'), io = document.querySelector('#btnIO svg');
+        const r = s && s.getBoundingClientRect(), q = io.getBoundingClientRect();
+        const filled = s ? [...s.querySelectorAll('circle,path')].map(e => (e.getAttribute('fill') || 'none') + ':' + e.tagName).join(' ') : '';
+        return {svg: !!s, text: b.textContent.trim(), size: s ? [Math.round(r.width), Math.round(r.height)] : null,
+                io: [Math.round(q.width), Math.round(q.height)], filled, label: b.getAttribute('aria-label') || '', title: b.title,
+                theme: document.documentElement.dataset.theme || 'auto'}; }"""
+    seen = []
+    for _ in range(3):
+        seen.append(page.evaluate(icon))
+        page.locator("#btnTheme").click(); page.wait_for_timeout(200)
+    seen.append(page.evaluate(icon))
+    a, d, l, back = seen
+    check(f"the theme button draws its icon, the size of the icon of ⇅, without a character ({a['size']} against {a['io']}, {a['text']!r})",
+          a["svg"] and not a["text"] and a["size"] == a["io"])
+    check(f"auto: a circle with its left half filled; dark: a full circle; light: an empty one ({a['filled']} | {d['filled']} | {l['filled']})",
+          a["theme"] == "auto" and "currentColor:path" in a["filled"] and "none:circle" in a["filled"]
+          and d["theme"] == "dark" and d["filled"] == "currentColor:circle" and l["theme"] == "light" and l["filled"] == "none:circle")
+    check(f"each state is named in the tooltip and in aria-label, and a fourth click is auto again ({d['label']!r}, {back['theme']})",
+          a["label"].startswith("Theme: auto") and d["label"] == "Theme: dark" and l["label"] == "Theme: light"
+          and all(x["title"].startswith(x["label"]) for x in (a, d, l)) and back["theme"] == "auto")
+    page.close()
+
+    # ---- 7. a phone in the manual
+    page = b.new_page()
+    page.goto(URL + "docs/manual.html"); page.wait_for_timeout(500)
+    page.evaluate("() => document.querySelector('img[src=\"img/app-phone.png\"]')?.scrollIntoView()"); page.wait_for_timeout(800)
+    fig = page.evaluate("""() => { const i = document.querySelector('img[src="img/app-phone.png"]'); if (!i) return null;
+        const f = i.closest('figure'), h = [...document.querySelectorAll('h2')].filter(x => x.compareDocumentPosition(i) & 4).pop();
+        return {w: i.naturalWidth, small: f.classList.contains('small'), section: h ? h.textContent : ''}; }""")
+    check(f"section 2 of the manual shows a phone: app-phone.png, 860 px wide (430 at 2x), as a small figure ({fig})",
+          fig and fig["w"] == 860 and fig["small"] and fig["section"].startswith("2."))
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")
