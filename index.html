@@ -15,9 +15,13 @@
   FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
   more details: https://www.gnu.org/licenses/
 -->
-<html lang="en">
+<html lang="en" translate="no">
 <head>
 <meta charset="utf-8">
+<!-- not translated by the browser: Chrome made "Redden" of Save and "formulier" of Formulair, and renamed formulas
+     and materials on the screen ("Cool Water for men" became "Koel water voor mannen"), so that a name was no longer
+     the name in your data (the Android test round of 261007); the manual on the site can still be translated -->
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>miFormulas</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -300,6 +304,7 @@ header.noplace #stWhere{display:none}   /* set by fitHeader() */
   body:not(.hidebar) table.ftable th{text-transform:none;letter-spacing:0}
   body:not(.hidebar) table.ftable th.cbcol{width:1.9rem} body:not(.hidebar) table.ftable th.dilcol{width:5.5rem}
   body:not(.hidebar) table.ftable th.wcol{width:5.1rem} body:not(.hidebar) table.ftable th.relcol{width:3.3rem} body:not(.hidebar) table.ftable th.xcol{width:2rem}
+  body:not(.hidebar) table.ftable td.xcell{text-overflow:clip}
   body:not(.hidebar) table.ftable input.w,body:not(.hidebar) table.ftable select.d{width:100%;max-width:none;min-width:0}
   body:not(.hidebar) table.ftable select.d{padding-left:.3rem;padding-right:.1rem}
   body:not(.hidebar) .bp{display:none} body:not(.hidebar) .bdil{width:3rem} body:not(.hidebar) .bw{width:4.4rem} body:not(.hidebar) .bhead{flex-wrap:wrap}
@@ -331,6 +336,9 @@ table.ord tbody tr:hover td.acts{background:var(--accent-soft)}
      width of their own and the name the rest, and a long name breaks instead of being cut off (build 260922l) */
   table.lines th.cbcol{width:1.9rem} table.lines th.dilcol{width:4.6rem} table.lines th.wcol{width:5.1rem}
   table.lines th.relcol{width:3.3rem} table.lines th.xcol{width:2rem} table.lines th.datecol{width:8.4rem}
+  /* the ✕ is a little wider than the room its column leaves it, and Safari drew an ellipsis after it: a dot at the
+     end of every line on an iPhone (the test round of 261006). The cell clips instead */
+  table.lines td.xcell{text-overflow:clip}
   table.lines input.w,table.lines select.d{width:100%;max-width:none;min-width:0}
   table.lines select.d{padding-left:.3rem;padding-right:.1rem}
   table.lines th{text-transform:none;letter-spacing:0}
@@ -410,7 +418,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261006b</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261007a</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -480,7 +488,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s17-coming-from-formulair">17</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a premix (sections <a href="#s7-changing-dilutions">7</a> to <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s16-import-export-and-sharing">16</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s10-bench-view-and-printing">10</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261006b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261007a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
@@ -514,6 +522,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s2-the-screen">The header.</a></p>
 <p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. The search box filters the list: formulas by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description (those hits are marked with ✎). Accents and ligatures do not matter: "haiti" finds Vetiver Haïti and "coeur" finds Patchouli cœur, and the same folding decides whether an import lands on a material you already have. Each tab keeps its own term, so the name of a material does not stay behind in the formula list when you switch. Typing "starter" lists the starter set. With a materials library loaded, the Materials tab also lists what the library knows and you do not have, with <strong>+ Add</strong> (section <a href="#s3-materials">3</a>).</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
+<p>The app stays in English: a browser that translates pages leaves it alone, because a translation also renames your formulas and materials on the screen. The manual on the site can still be translated by the browser.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s2-the-screen">The list panel on the left and a formula page on the right.</a></p>
 <p>On a phone the list and the page take turns; the app is read-only there unless it can save (server, browser storage or a writable file), so that a tap cannot lose anything. Read-only takes away what would change something, in the windows as well: a materials library cannot be imported or fetched there, and <strong>Import from Formulair…</strong> is not offered, because there would be nowhere to save the result. Printing, the Excel export and <strong>Share this version</strong> stay where they are, because none of them touches your data. The header leaves out ☰, <strong>+ New formula…</strong>, <strong>+ New material…</strong>, <strong>Redo</strong> and <strong>Save</strong> on a phone: the list is the main screen there, creating is desktop work, and saving happens by itself. Instead of ☰ it shows <strong>‹ Formulas</strong> or <strong>‹ Materials</strong>, which takes you back to the list. The formula table drops the columns <strong>Abs %</strong> and <strong>Cost</strong> there and gives the room to the material names, so the whole table fits without swiping; the bench view drops <strong>Rel %</strong>, so the weight you are putting on the scale stays in sight. Beside the list on a screen between 701 and 1000 pixels wide, a tablet held upright for instance, the formula table takes the same compact form; hide the list with ☰ (Ctrl+B) for the full table. The order list drops <strong>Note</strong>, <strong>Price €</strong> and <strong>Product</strong>, so that the material, the amount and the three buttons fit on the screen without swiping: in a shop you work from that list, you do not fill it in.</p>
 <p><strong>Back and forward.</strong> Every place you open is a step: a formula and the version you were looking at, with the comparison or the bench view you had open, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the <strong>back and forward buttons of your mouse</strong> work, and so do the browser's own two buttons, <strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. Switching to another version of the same formula is a step of its own, so back returns you to the version you were reading. Each step also remembers how far down its page you were when you clicked away, so back to a long formula lands on the line you left it at, not at its top. A step whose formula or material has been deleted since is skipped and lands you on the list. Reloading the page lands you back on the step you were on when <strong>Open where you left off</strong> is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends, and also when the browser has run out of steps to give, because a browser keeps only the last fifty or so. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.</p>
@@ -869,7 +878,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s22-questions-and-answers">Settings with a remembered data file: Forget the remembered data file</a></p>
 <p><strong>Where do I report a problem or suggest something?</strong> On GitHub, at <a href="https://github.com/miformulas/miformulas/issues">https://github.com/miformulas/miformulas/issues</a> (the <strong>Feedback</strong> link on the start screen goes there; writing there needs a free GitHub account). If you would rather not use GitHub, write to info@miformulas.com. The bar above the Help pages has both at hand, next to <strong>Close</strong> and <strong>Contents</strong>: <strong>Read online, with screenshots</strong> opens this manual on the site with its pictures, <strong>Report a problem</strong> opens that issues page, and <strong>Or write an e-mail</strong> opens a message to that address. Say which browser you use and the build number (next to the name in the header, or in the Help bar when the header leaves it out), and what you did; a Backup of a data file that shows the problem helps most, if you are willing to share it.</p>
 <h2 id="s23-licence">23. Licence</h2>
-<p>miFormulas is free software under the GNU General Public License version 3, with two additional terms under section 7 of the GPL: the name miFormulas is reserved, and every copy must carry the attribution "Based on miFormulas by Mathieu Isenbaert, https://miformulas.com". The full text is in the files LICENSE and NOTICE in the repository at <a href="https://github.com/miformulas/miformulas">https://github.com/miformulas/miformulas</a>.</p></template>
+<p>miFormulas is free software under the GNU General Public License version 3, with two additional terms under section 7 of the GPL: the name miFormulas is reserved, and every copy must carry the attribution to the author that the file NOTICE gives. The full text is in the files LICENSE and NOTICE in the repository at <a href="https://github.com/miformulas/miformulas">https://github.com/miformulas/miformulas</a>.</p></template>
 <!-- MANUAL:END -->
 <div id="printArea"></div>
 <script>
@@ -1843,6 +1852,11 @@ function pyrBar(K){
 }
 let SORT = {key:"orig", dir:1};
 let TABSTEP = 0;   // -1, 0 or +1: a Tab or Shift+Tab that triggered the change event of a weight
+// Enter, or the ✓ of the keyboard on the screen, in a weight on a phone or a tablet: the weight goes in and the field
+// is let go, so that the keyboard closes and nothing stays selected (the Android test round of 261006). With a mouse
+// the field stays in hand, its figure selected for the next one, as before
+let LETGO = false;
+const TOUCHONLY = () => window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 function sortRows(rows){
   rows.forEach((r,i) => r.idx = i);
   const by = {
@@ -2283,7 +2297,7 @@ function renderLines(f, item, lines, K, editable){
       h += `<td>${fmtS(r.dil)}%${dilWarn}</td><td class="num">${fmt(r.w)}</td>`;
     }
     h += `<td class="num">${r.rel==null?"–":fmt(r.rel,2)}</td><td class="num abscol">${fmt(r.absPct,2)}</td>${anyCost?`<td class="num costcol">${fmt(r.cost,2)}</td>`:""}`;
-    if (editable) h += `<td><button class="ghost small" data-del="${i}" title="Remove line">✕</button></td>`;
+    if (editable) h += `<td class="xcell"><button class="ghost small" data-del="${i}" title="Remove line">✕</button></td>`;
     h += `</tr>`;
   });
   h += `</tbody><tfoot><tr>${canMark?"<td></td>":""}<td>Total</td><td></td><td class="num">${fmt(K.totalW)}</td><td class="num">${K.content > 0 ? "100" : "–"}</td>
@@ -2318,6 +2332,7 @@ function bindLineEditors(f, item){
   // render() rebuilds the table, so the focus would land on <body> after every weight: put it back, and
   // let a Tab that caused the change carry on to the next weight, so a column can be typed without the mouse
   const refocus = (i, step) => {
+    if (LETGO) return;                                       // Enter on a touch screen: let go
     const all = [...document.querySelectorAll("input.w")];
     const at = all.findIndex(x => +x.dataset.i === i);
     const t = at < 0 ? null : (all[at + step] || (step > 0 && $("#addMat")) || all[at]);   // past the last weight: on to Add material… (B3)
@@ -2325,7 +2340,10 @@ function bindLineEditors(f, item){
   };
   c.querySelectorAll("input.w").forEach(inp => {
     inp.addEventListener("focus", () => { TABSTEP = 0; });
-    inp.addEventListener("keydown", e => { if (e.key === "Tab") TABSTEP = e.shiftKey ? -1 : 1; });
+    inp.addEventListener("keydown", e => {
+      if (e.key === "Tab") TABSTEP = e.shiftKey ? -1 : 1;
+      if (e.key === "Enter" && !e.isComposing && TOUCHONLY()){ e.preventDefault(); LETGO = true; try{ inp.blur(); } finally { LETGO = false; } }
+    });
     inp.addEventListener("change", e => {
       const i = +e.target.dataset.i, step = TABSTEP; TABSTEP = 0;
       const v = parseNum(e.target.value);
@@ -4829,7 +4847,7 @@ function renderMaterial(m){
     ${(m.dilutions||[]).map((d,i)=>`<tr><td>${fmtS(d.pct)}%${d.isBase?' <span class="badge">base</span>':` <button class="small" data-setbase="${i}" title="Make this the default concentration for new formula lines">Set base</button>`}</td>
       <td><input type="date" data-dildate="${i}" value="${esc(d.date||"")}" aria-label="Date of the ${fmtS(d.pct)}% dilution" style="width:9.5rem;max-width:100%"></td>
       <td><input data-dilnote="${i}" value="${esc(d.notes||"")}" aria-label="Note with the ${fmtS(d.pct)}% dilution" style="width:100%;min-width:0"></td>
-      <td><button class="ghost small" data-deldil="${i}" title="Delete this dilution" aria-label="Delete this dilution">✕</button></td></tr>`).join("")}
+      <td class="xcell"><button class="ghost small" data-deldil="${i}" title="Delete this dilution" aria-label="Delete this dilution">✕</button></td></tr>`).join("")}
     </tbody></table>
     <div class="toolRow"><input id="newDil" type="text" inputmode="decimal" placeholder="%" aria-label="New dilution in percent" style="width:5rem">
       <input id="newDilNote" placeholder="notes" aria-label="Note with the new dilution" style="min-width:14rem"><button class="small" id="btnAddDil">Add dilution</button></div>
@@ -5197,6 +5215,11 @@ window.addEventListener("beforeprint", () => {
 const FIREFOX = /Firefox\//.test(navigator.userAgent);
 // iOS (an iPad in desktop mode says Macintosh, but has touch points): no install prompt, and no browser there can write to a file
 const IOS = (/iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1)) && !/CriOS|FxiOS|EdgiOS|OPiOS/.test(navigator.userAgent);
+// Safari zooms in on a field whose text is smaller than 16 px and stays zoomed in after it: a weight in the table, the
+// amount in Delivered, whose window then ran off the screen (the iPhone test round of 261006). A maximum scale of 1
+// stops that zoom, and pinching still zooms, because Safari lets your fingers past the limit (iOS 10 and later). Only
+// in Safari and the Home Screen app: whether Chrome, Firefox or Edge on iOS let the fingers past it too is not certain
+if (IOS) document.querySelector('meta[name="viewport"]')?.setAttribute("content", "width=device-width, initial-scale=1, maximum-scale=1");
 async function requestPersistence(){
   if (FIREFOX){ updateStorageHint(); return; }
   try{ if (navigator.storage && navigator.storage.persist) await navigator.storage.persist(); }catch(e){}
@@ -5447,7 +5470,9 @@ function render(){
   $("#printArea").innerHTML = "";                // never keep yesterday's sheet ready for the printer
   rememberView();
   buildUsage();                                  // keep the usage index in step with every edit
-  document.body.classList.toggle("detail", !!VIEW.id || VIEW.tab === "T" || HOMEVIEW || HELPVIEW);
+  // the import page is a page as well: on a phone it stayed hidden behind the list when you imported from the list
+  // (the iPhone test round of 261006: standing, the list; turned sideways, both side by side)
+  document.body.classList.toggle("detail", !!VIEW.id || VIEW.tab === "T" || HOMEVIEW || HELPVIEW || !!IMPORTP);
   document.body.classList.toggle("ro", readOnly());
   renderSidebar();
   $("#btnBack").textContent = "\u2039 " + (VIEW.tab === "T" ? (PREVTAB === "M" ? "Materials" : "Formulas") : VIEW.tab === "M" ? "Materials" : "Formulas");
@@ -5538,6 +5563,9 @@ function render(){
   if (readOnly()) lockInputs();
 }
 $("#btnBack").addEventListener("click", () => {
+  // on the import page back is Cancel: nothing is imported, and you are back on the list or the page you came from
+  // (the back button of a phone already cancelled it, and lands on Welcome there)
+  if (IMPORTP && !HELPVIEW){ IMPORTP = null; render(); return; }
   if (VIEW.tab === "T" && !HOMEVIEW && !HELPVIEW){ switchTab(PREVTAB); return; }   // To order fills the pane itself: back means another tab
   VIEW.id = null; VIEW.sub = null; HOMEVIEW = false; HELPVIEW = false; render();
 });
