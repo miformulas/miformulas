@@ -8,7 +8,7 @@ There is nothing to install and no account, and your data stays with you: in you
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 261010b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
+This manual describes build 261010c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
 
 ## Contents
 
@@ -316,7 +316,7 @@ Two things about the downloaded app that surprise people:
 
 If you already made formulas on miformulas.com before downloading the app, click **Backup** there first; the downloaded app's start screen has **Open data file…** to continue with that file.
 
-**Updating the downloaded app.** The site and the installed app update by themselves; a copy on your own computer does not. In Chrome and Edge, Settings (⚙) in that copy has **Check for updates**, with the build of your copy beside it. It fetches the app from miformulas.com, only when you click it, and compares the builds. If there is a newer one, **Update…** opens a save window in the folder of your data file: choose your `miFormulas.html` and let it be replaced. The app first saves what is not saved yet, writes the new version over the file and reloads, and then says which build it is. Your data file is a separate file and stays untouched. A copy from before build 261010b has no such button: download the app once more and put the new `miFormulas.html` in place of the old one.
+**Updating the downloaded app.** The site and the installed app update by themselves; a copy on your own computer does not. In Chrome and Edge, Settings (⚙) in that copy has **Check for updates**, with the build of your copy beside it. It fetches the app from miformulas.com, only when you click it, and compares the builds. If there is a newer one, **Update…** opens a save window in the folder of your data file: choose your `miFormulas.html` and confirm when the window asks whether to replace it. The app first saves what is not saved yet, writes the new version over the file and reloads, and then says which build it is. Your data file is a separate file and stays untouched. A copy from before build 261010b has no such button: download the app once more and put the new `miFormulas.html` in place of the old one.
 
 ## 15. Install as an app with its own icon
 

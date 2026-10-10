@@ -141,7 +141,9 @@ with sync_playwright() as p:
         tekst = page.text_content("#dlg") if dlg_open(page) else ""
         check("nieuwere bouw: het venster Update miFormulas", "Update miFormulas" in tekst)
         check(f"met beide stempels ({LATER}, {BUILD})", f"Build {LATER} is available; this copy is build {BUILD}." in tekst)
-        check("met de naam van dit bestand", "choose this app file, index.html," in tekst)
+        check("met de naam van dit bestand", "choose this app file, index.html." in tekst)
+        check("en vooraf de vraag om het te vervangen, met wat je dan doet (bouw 261010c)",
+              "When asked whether to replace it, confirm: the new version takes its place." in tekst)
         check("en dat het databestand blijft", "your data file is not touched" in tekst)
         check("de knop heet Update…", dlg_open(page) and page.locator("#dlgOk").inner_text().strip() == "Update…")
 
