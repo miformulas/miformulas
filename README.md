@@ -39,8 +39,9 @@ The other ways in:
 - **The app file on your own computer.** Click *Download the app* on the start
   screen and save `miFormulas.html` in a folder of its own; open it in Chrome or
   Edge, choose *Start with the starter set* and keep `miformulas-data.json` next
-  to it. Next time the app offers *Reopen*. Updating: download the new file and
-  replace the old one; your data file stays untouched.
+  to it. Next time the app offers *Reopen*. Updating: *Check for updates* in
+  Settings fetches the new version and puts it in place of the old file; your
+  data file stays untouched.
 - **Coming from Formulair?** Open https://miformulas.com/formulair-import.html or
   click *Import from Formulair…* in the app on the site; see *Coming from Formulair*
   below.
