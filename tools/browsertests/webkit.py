@@ -76,6 +76,11 @@ PROEVEN = {
         ? [0.12, 0.96, 1/3, 1234.5, 0].map(x => String(nBE(x))).join("|") : "geen nBE")()""",
     "csv_scheiding": """(() => [typeof CSVSEP === "undefined" ? "?" : CSVSEP,
         (1.5).toLocaleString(LOCALE), (1234.5).toLocaleString(LOCALE)].join("|"))()""",
+    # het piramide-icoontje (bouw 261011c): één span met een masker als vorm, even groot in beide motoren
+    "piramide_icoon": """(() => { const d = document.createElement("div"); d.innerHTML = pyrIcon(2, "#336699", 12);
+        document.body.append(d); const i = d.firstElementChild, s = getComputedStyle(i), r = i.getBoundingClientRect();
+        const uit = [i.tagName, (s.webkitMaskImage || s.maskImage || "geen").slice(0, 30), r.width, r.height].join("|");
+        d.remove(); return uit; })()""",
 }
 
 # Wat de motor wel of niet heeft. Hier staat de uitkomst van Chromium er niet naast: dit zijn

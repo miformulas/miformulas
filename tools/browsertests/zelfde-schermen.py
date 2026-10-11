@@ -1,15 +1,18 @@
 """Bouw 261011a (opruiming en de index van de library, bouw 2 van de analyse van 10/10): niets dat je ziet verandert.
-Twee browsers naast elkaar: de referentie REF uit git (eerst 261010d, sinds 261011b bouw 261011a) en de bouw van de repo, met dezelfde data, dezelfde
+Twee browsers naast elkaar: de referentie REF uit git (eerst 261010d, sinds 261011b bouw 261011a, sinds 261011c bouw
+261011b) en de bouw van de repo, met dezelfde data, dezelfde
 klok en hetzelfde toeval (de ids). Na elke stap is de HTML van de pagina byte voor byte gelijk (kop, lijst, pagina,
 open venster en afdrukgebied; zonder het script, de ingebedde handleiding als sjabloon en de bewaarmelding, en met de
 bouwstempel weggelaten), net als serialize() en de meldingen. Wat een bouw bewust toevoegt, staat in NIEUW en telt niet
 mee (261011b: de links naar de eerste vijf minuten); in Help telt alleen de balk, want de tekst van de handleiding
-verandert met de handleiding en help.py test ze.
+verandert met de handleiding en help.py test ze. Het piramide-icoontje telt als zijn niveau, maat en kleur: sinds 261011c
+is het één span met een masker in plaats van een svg (geselecteerde-rij-en-icoon.py test hoe het eruitziet).
 De stappen: Welcome, Settings en Help; elke versie en de bench view van elke formule; alle sorteringen van de tabel,
 de bench en Compare; elk materiaal; zoeken in beide lijsten; To order; Browse the library…, + New material… en Add
 line met een naam uit de library; de kleurmerken, Lower en Create premix…; Import materials inventory from CSV…
 met dubbels en alternatieve namen; Import formula… (één formule, meerdere, een blad van formules); Undo; alleen-lezen
-en een telefoon. Staat miformulas-data.json naast public (de proef), dan ook elke versie en elk materiaal daarvan;
+en een telefoon; rijen in de lijst aangeklikt met de muis. Staat miformulas-data.json naast public (de proef), dan ook
+elke versie en elk materiaal daarvan;
 staat de gepubliceerde library er, dan is zij de library, anders een kleine eigen.
 Daarna wat bouw 261011a zelf veranderde, en dat faalt op 261010d: geen icoon van 512 px, geen ownFind, de cache van
 listIndex ook zonder library, listFind, csvPlan en de CSV-import via de index, en de melding na Restore daily
@@ -19,14 +22,14 @@ Vereist de lokale webserver op poort 8765 (zie README) en git met de geschiedeni
 import json, os, subprocess, tempfile, time
 from playwright.sync_api import sync_playwright
 
-REF, REF_BOUW = "c78b4c2", "261011a"
+REF, REF_BOUW = "cb29227", "261011b"
 URL = "http://localhost:8765/"
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
-NIEUW = ["#firstFive", "#firstFiveHome"]   # bewust toegevoegd sinds REF (261011b: de links naar de eerste vijf minuten)
+NIEUW = []   # bewust toegevoegd sinds REF (261011b: de links naar de eerste vijf minuten, nu ook in REF)
 TMP = tempfile.mkdtemp()
 ok = fail = 0
 def check(naam, cond):
@@ -61,6 +64,12 @@ CAP = """async ({hash, repl, nieuw}) => {
   if (s){ s.textContent = ""; for (const a of ["class", "title", "data-short"]) s.removeAttribute(a); }
   let h = (document.body.className + "\\n" + b.innerHTML).split(">" + BUILD + "<").join(">@B@<").split("build " + BUILD).join("build @B@");
   for (const [x, y] of repl) h = h.split(x).join(y);
+  // het piramide-icoontje als niveau, maat en kleur: een svg tot 261011b, één span met een masker sinds 261011c
+  h = h.replace(/<svg class="pyricon" width="(\\d+)" height="\\d+" viewBox="0 0 14 14" aria-hidden="true">(.*?)<\\/svg>/g, (_, z, binnen) => {
+      const lv = [...binnen.matchAll(/fill="([^"]*)"/g)].findIndex(m => m[1] !== "none");
+      return `[pyr ${lv < 0 ? "x" : lv} ${z} ${(binnen.match(/stroke="([^"]*)"/) || [])[1]}]`; })
+    .replace(/<span class="pyricon lv(\\w)" style="width:(\\d+)px;height:\\d+px;background:([^"]*)" aria-hidden="true"><\\/span>/g,
+      (_, lv, z, k) => `[pyr ${lv} ${z} ${k}]`);
   if (!hash) return h;
   const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(h));
   return [...new Uint8Array(d)].map(x => x.toString(16).padStart(2, "0")).join("");
@@ -144,8 +153,8 @@ with sync_playwright() as pw:
         stap("Welcome, Settings en Help", klik("#btnSettings"), wacht=300)
         stap("Welcome, Settings en Help", lambda p: p.keyboard.press("Escape"), wacht=200)
         stap("Welcome, Settings en Help", klik("#btnHelp"), wacht=300)
-        check("het bewust nieuwe staat er in deze bouw, niet in de referentie (de link op het startscherm)",
-              A.locator("#firstFive").count() == 1 and R.locator("#firstFive").count() == 0)
+        check("de link naar de eerste vijf minuten staat nu in beide (de referentie is 261011b)",
+              A.locator("#firstFive").count() == 1 and R.locator("#firstFive").count() == 1)
         stap("Welcome, Settings en Help", klik("#helpClose"), wacht=200)
 
         F = A.evaluate("DATA.formulas.map(f => ({id: f.id, n: f.versions.length}))")
@@ -172,6 +181,15 @@ with sync_playwright() as pw:
         verslag()
 
         M = A.evaluate("DATA.materials.map(m => m.id)")
+        stap("elk materiaal", ev(VIEW, {"tab": "M", "id": None, "sub": None}))
+        iconen = [p.evaluate("() => [document.querySelectorAll('#list svg.pyricon').length, document.querySelectorAll('#list span.pyricon').length]") for p in (R, A)]
+        check(f"de referentie tekent het icoontje als svg, deze bouw als één span; de vergelijking telt niveau, maat en kleur ({iconen})",
+              iconen[0][0] > 100 and iconen[0][1] == 0 and iconen[1][0] == 0 and iconen[1][1] == iconen[0][0])
+        for k in (3, 10, 11, 40, 3):
+            stap("rijen in de lijst aanklikken", klik(f"#list .item >> nth={k}"), wacht=50)
+        stap("rijen in de lijst aanklikken", ev(VIEW, {"tab": "F", "id": None, "sub": None}))
+        for k in (0, 7, 2):
+            stap("rijen in de lijst aanklikken", klik(f"#list .item >> nth={k}"), wacht=50)
         stap("elk materiaal", ev(VIEW, {"tab": "M", "id": None, "sub": None}))
         for m in M:
             stap("elk materiaal", ev(VIEW, {"tab": "M", "id": m, "sub": None}))

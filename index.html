@@ -222,7 +222,17 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 .swatch:focus-visible,.sortable:focus-visible,.matlink:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
 .swatch:hover{outline:2px solid var(--accent)}
 .catdot{display:inline-block;width:.55rem;height:.55rem;border-radius:50%;flex:none;box-shadow:0 0 0 2px var(--panel),0 0 0 3px currentColor;color:var(--line)}
-.pyricon{vertical-align:-2px;margin-right:.35rem;flex:none}
+.pyricon{vertical-align:-2px;margin-right:.35rem;flex:none;display:inline-block;
+  -webkit-mask:var(--pyr) 0 0/100% 100% no-repeat;mask:var(--pyr) 0 0/100% 100% no-repeat;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}   /* a background, kept on paper (build 261011c) */
+/* the pyramid icon is one element: its shape a mask per level, the five bands it always had (lvx: no level), and its
+   colour the background (build 261011c) */
+.pyricon.lvx{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
+.pyricon.lv0{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon fill='black' points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
+.pyricon.lv1{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon fill='black' points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
+.pyricon.lv2{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon fill='black' points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
+.pyricon.lv3{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon fill='black' points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
+.pyricon.lv4{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon fill='black' points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
 #verSel{max-width:26rem}
 .sortable{cursor:pointer;user-select:none;white-space:nowrap}
 .sortable:hover{color:var(--accent)}
@@ -418,7 +428,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261011b</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261011c</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -488,7 +498,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s17-coming-from-formulair">17</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a premix (sections <a href="#s7-changing-dilutions">7</a> to <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s16-import-export-and-sharing">16</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s10-bench-view-and-printing">10</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261011b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261011c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
@@ -1683,20 +1693,12 @@ function setCatColour(name, col){   // the colour belongs to the category, not t
   markDirty(); render();
 }
 const catColour = m => catColourByName(m.category);
-// one string per level, size and colour: the list draws one icon per row on every render (build 261011a)
-const PYRSVG = new Map();
-function pyrIcon(level, colour, size = 14){
-  const key = `${[0, 1, 2, 3, 4].indexOf(level)} ${size} ${colour}`;   // what the drawing depends on, the colour last
-  let s = PYRSVG.get(key);
-  if (s) return s;
-  s = `<svg class="pyricon" width="${size}" height="${size}" viewBox="0 0 14 14" aria-hidden="true">`;
-  for (let i = 0; i < 5; i++){
-    const y1 = 1 + 12*i/5, y2 = 1 + 12*(i+1)/5, hw = y => (y-1)/12*6;
-    s += `<polygon points="${(7-hw(y1)).toFixed(2)},${y1.toFixed(2)} ${(7+hw(y1)).toFixed(2)},${y1.toFixed(2)} ${(7+hw(y2)).toFixed(2)},${y2.toFixed(2)} ${(7-hw(y2)).toFixed(2)},${y2.toFixed(2)}" fill="${i===level?colour:"none"}" stroke="${colour}" stroke-width="0.7"/>`;
-  }
-  PYRSVG.set(key, s += "</svg>");
-  return s;
-}
+// the pyramid icon is one element: its shape a mask per level in the CSS, its colour the background. A list of 710 rows
+// held six elements per icon before (build 261011c).
+const pyrIcon = (level, colour, size = 14) => {
+  const lv = [0, 1, 2, 3, 4].indexOf(level);   // anything else, an unknown level included, is the outline alone
+  return `<span class="pyricon lv${lv < 0 ? "x" : lv}" style="width:${size}px;height:${size}px;background:${colour}" aria-hidden="true"></span>`;
+};
 function buildUsage(){
   USAGE = {};
   for (const f of DATA.formulas){
@@ -1896,7 +1898,7 @@ function renderSidebar(){
     for (const cat of Object.keys(groups).sort((a,b)=>a.localeCompare(b))){
       html += `<div class="cat"><span class="catdot" style="background:${catColourByName(cat)}"></span>${esc(cat)} <span class="hint" style="font-weight:400">${groups[cat].length}</span></div>`;
       for (const f of groups[cat].sort((a,b)=>a.name.localeCompare(b.name)))
-        html += `<div class="item${f.id===VIEW.id?" sel":""}" data-id="${f.id}" tabindex="0" role="button"><span>${esc(f.name)}</span><span class="sub">${f.versions.length} version${f.versions.length === 1 ? "" : "s"}${f.starter ? ' \u00b7 <span title="part of the starter set">starter</span>' : ""}</span></div>`;
+        html += `<div class="item" data-id="${f.id}" tabindex="0" role="button"><span>${esc(f.name)}</span><span class="sub">${f.versions.length} version${f.versions.length === 1 ? "" : "s"}${f.starter ? ' \u00b7 <span title="part of the starter set">starter</span>' : ""}</span></div>`;
     }
   } else if (VIEW.tab === "M"){
     const groups = {};
@@ -1912,7 +1914,7 @@ function renderSidebar(){
     }
     for (const g of Object.values(groups)) g.sort((a,b) => a.name.localeCompare(b.name));
     if (descHits.size) html += `<div class="hint" style="padding:.5rem .8rem 0">${descHits.size} match(es) in descriptions ✎</div>`;
-    const item = m => `<div class="item${m.id===VIEW.id?" sel":""}" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber-ink);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${m.wishlist?'<b style="color:var(--amber-ink)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':""))}</span></div>`;
+    const item = m => `<div class="item" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber-ink);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${m.wishlist?'<b style="color:var(--amber-ink)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':""))}</span></div>`;
     for (const cat of Object.keys(groups).sort((a,b)=>a.localeCompare(b))){
       html += `<div class="cat"><span class="catdot" style="background:${catColourByName(cat)}"></span>${esc(cat)} <span class="hint" style="font-weight:400">${groups[cat].length}</span></div>`;
       for (const m of groups[cat]) html += item(m);
@@ -1950,6 +1952,11 @@ function renderSidebar(){
   // 710 rows with their pyramids took most of a redraw of a material page, while an edit there leaves them as they
   // were; the clicks on the list are handled on #list itself, so the rows may stay
   if (html !== LISTHTML){ $("#list").innerHTML = html; LISTHTML = html; }
+  // the open item is marked on its own row, so that opening another one leaves the rows as well, and the row you
+  // clicked keeps the focus (build 261011c); To order marks none, as before
+  const list = $("#list"), open = VIEW.tab === "T" ? null : VIEW.id;
+  for (const el of list.querySelectorAll(".item.sel")) if (el.dataset.id !== open) el.classList.remove("sel");
+  if (open) list.querySelector(`.item[data-id="${CSS.escape(open)}"]`)?.classList.add("sel");
 }
 $("#list").addEventListener("keydown", e => {          // Enter or space opens the row under the cursor
   if (e.key !== "Enter" && e.key !== " ") return;
