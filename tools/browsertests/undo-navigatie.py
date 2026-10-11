@@ -45,10 +45,8 @@ with sync_playwright() as p:
       switchTab("F", f.id, {type:"v", idx:0}); }''')
     page.wait_for_timeout(500)
     oud = page.evaluate("() => DATA.formulas.find(x => x.id === VIEW.id).category")
-    page.click("#btnCatF"); page.wait_for_timeout(400)
     page.evaluate('''() => { window.prompt = () => "Catproef"; }''')
-    page.click("#btnNewCat"); page.wait_for_timeout(300)
-    page.click("#dlgOk"); page.wait_for_timeout(700)
+    page.click("#btnNewFCat"); page.wait_for_timeout(700)   # sinds 261011e op de pagina, boven de versie
     check("the formula moved to a category that did not exist yet",
           page.evaluate("() => DATA.formulas.find(x => x.id === VIEW.id).category") == "Catproef"
           and page.evaluate('''DATA.formulaCategories.includes("Catproef")'''))
@@ -184,15 +182,10 @@ with sync_playwright() as p:
       VIEW = {tab:"F", id:"f-u", sub:{type:"v", idx:f.versions.length-1, bench:true}}; setTabs(); render(); }""")
     page.wait_for_timeout(600)
     check("de bench view staat open", page.locator(".brow").count() > 0)
-    page.click("#btnNewV"); page.wait_for_timeout(800)
-    check(f"+ New version laat je in de bench view ({page.evaluate('() => !!(VIEW.sub && VIEW.sub.bench)')})",
-          page.evaluate("() => !!(VIEW.sub && VIEW.sub.bench)") and page.locator(".brow").count() > 0)
-    check("en op de nieuwe versie",
-          page.evaluate("""() => VIEW.sub.idx === DATA.formulas.find(x => x.id === "f-u").versions.length - 1"""))
-    msgs.clear()
-    page.click("#btnDelV"); page.wait_for_timeout(800)
-    check(f"Delete version ook ({page.evaluate('() => !!(VIEW.sub && VIEW.sub.bench)')}, {[m[:40] for m in msgs]})",
-          page.evaluate("() => !!(VIEW.sub && VIEW.sub.bench)") and page.locator(".brow").count() > 0)
+    # sinds 261011e toont de bench view de regel van Version niet meer (Mathieu: "dat is niet de plaats om daarmee bezig
+    # te zijn"): + New version en Delete version horen bij de tabel
+    check("in de bench view staan + New version en Delete version niet (sinds 261011e)",
+          page.locator("#btnNewV").count() == 0 and page.locator("#btnDelV").count() == 0)
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === "f-u");
       while (f.versions.length > 1) f.versions.pop();
       VIEW = {tab:"F", id:"f-u", sub:{type:"v", idx:0}}; setTabs(); render(); }""")
@@ -396,7 +389,10 @@ with sync_playwright() as p:
           bench: {groups:[{id:"gz", title:"Kern", keys:["z0"]}], byId:true}});
         buildUsage(); markDirty(); switchTab("F", "f-z", {type:"v", idx:1, bench:true}); }""")
     page.wait_for_timeout(700)
-    page.select_option("#verSel", "0"); page.wait_for_timeout(700)
+    # sinds 261011e kies je de versie in de tabel: Table view, v1, en weer Bench view
+    page.click("#btnBenchToggle"); page.wait_for_timeout(400)
+    page.select_option("#verSel", "0"); page.wait_for_timeout(500)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(700)
     fouten = len(errs); u2 = page.evaluate("UNDO.length")
     groepen = page.locator("[data-bgi]").count()
     page.locator(".bsel").first.check(); page.select_option("#bMoveSel", "pool"); page.wait_for_timeout(500)

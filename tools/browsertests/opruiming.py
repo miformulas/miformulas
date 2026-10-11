@@ -42,7 +42,8 @@ with sync_playwright() as p:
     page.wait_for_timeout(500)
     check("Rename…", page.text_content("#btnRenameF").strip() == "Rename…")
     check("Copy to new formula…", page.text_content("#btnCopyF").strip() == "Copy to new formula…")
-    check("Change category…", page.text_content("#btnCatF").strip() == "Change category…")
+    check("de categorie staat boven de versie, met + New category (sinds 261011e, in plaats van Change category…)",
+          page.text_content("#btnNewFCat").strip() == "+ New category" and page.locator("#btnCatF").count() == 0)
     check("the pencil says so in its tooltip", page.get_attribute("#btnNameV", "title") == "Name this version…")
     check("the replace arrows say so in their tooltip",
           (page.get_attribute("[data-repl]", "title") or "").endswith("…"))
@@ -298,10 +299,10 @@ with sync_playwright() as p:
         created:today(), frozenImport:false, versions:[]});
         buildUsage(); markDirty(); switchTab("F", "f-leeg", null); }""")
     page.wait_for_timeout(700)
-    aanwezig = page.evaluate("""() => ["btnRenameF","btnCatF","btnDelF","btnNewV","btnCopyF"]
+    aanwezig = page.evaluate("""() => ["btnRenameF","fCat","btnDelF","btnNewV","btnCopyF"]
         .filter(id => !!document.getElementById(id))""")
-    check(f"een formule zonder versies houdt Rename, Change category en Delete formula ({aanwezig})",
-          all(k in aanwezig for k in ("btnRenameF", "btnCatF", "btnDelF", "btnNewV")))
+    check(f"een formule zonder versies houdt Rename, de categorie en Delete formula ({aanwezig})",
+          all(k in aanwezig for k in ("btnRenameF", "fCat", "btnDelF", "btnNewV")))
     check("en geen Copy to new formula, want er is geen versie om te kopiëren", "btnCopyF" not in aanwezig)
     check("de uitleg staat er nog",
           "Empty formula" in page.evaluate("""() => document.querySelector("#content").innerText"""))
@@ -371,17 +372,15 @@ with sync_playwright() as p:
     check(f"Ctrl+P in Compare noemt Close compare in plaats van “open a formula” ({pa[:60]!r})",
           "Close compare" in pa and "Open a formula" not in pa)
 
-    # 13: Close compare brengt je terug in de bench view waar je vandaan kwam
+    # 13: sinds 261011e toont de bench view Category en Version niet meer, dus ook Compare en de versiekiezer niet:
+    # die horen bij de tabel, waar de knop Table view naar terugbrengt
     page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:0, bench:true})"""); page.wait_for_timeout(500)
     check("de bench view staat open", page.locator(".brow").count() > 0)
-    page.click("#btnCmp"); page.wait_for_timeout(500)
-    page.click("#btnCmpClose"); page.wait_for_timeout(500)
-    check(f"Close compare komt terug in de bench view ({page.evaluate('() => VIEW.sub')})",
-          page.evaluate("""() => !!VIEW.sub.bench""") and page.locator(".brow").count() > 0)
-    # en van versie wisselen houdt de bench view vast
-    page.select_option("#verSel", "1"); page.wait_for_timeout(500)
-    check("van versie wisselen houdt de bench view vast",
-          page.evaluate("""() => VIEW.sub.idx === 1 && !!VIEW.sub.bench""") and page.locator(".brow").count() > 0)
+    check("zonder versiekiezer en zonder Compare",
+          page.locator("#verSel").count() == 0 and page.locator("#btnCmp").count() == 0)
+    page.click("#btnBenchToggle"); page.wait_for_timeout(500)
+    check("Table view brengt ze terug, op dezelfde versie",
+          page.locator("#verSel").count() == 1 and page.locator("#btnCmp").count() == 1 and page.evaluate("() => VIEW.sub.idx === 0 && !VIEW.sub.bench"))
 
     # 18: de waarschuwing over dubbele regels blijft staan in de bench view
     page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:0, bench:true})"""); page.wait_for_timeout(500)

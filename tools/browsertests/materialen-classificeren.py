@@ -1,6 +1,7 @@
 """Bouw 261011d: Classify several…, een categorie of een piramideniveau voor veel materialen tegelijk.
-- De knop staat op de materiaalpagina naast + New category en het kleurvakje (het raster schuift niet op), niet op de
-  pagina van een premix, en is uitgeschakeld als alleen lezen kan.
+- Sinds 261011e staat de knop boven het zoekvak van de lijst Materials, naast + New material… (dat het venster van de
+  kop opent), niet meer op de materiaalpagina; die heeft keuzelijst, kleurvakje en + New category op één regel, met
+  Pyramid eronder. Alleen lezen: geen knoppen boven het zoekvak. Met een premix open is niets aangevinkt.
 - Het venster: het materiaal van de pagina al aangevinkt en in beeld, een lijst zo hoog als het scherm toelaat zonder
   dat het venster scrolt (ook op een laag laptopscherm) en die niet verspringt, de telling en de knop Apply to N; zoeken
   op naam, categorie en
@@ -41,27 +42,41 @@ with sync_playwright() as pw:
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnStarter"); page.wait_for_timeout(1500)
 
-    # ---- de knop ----
+    # ---- de knoppen boven het zoekvak, en de categorie op de pagina ----
     open_mat(page, "Ionone Beta")
-    knop = page.locator("#btnClassify")
-    check("op de materiaalpagina staat Classify several…", knop.count() == 1 and knop.inner_text().strip() == "Classify several…")
-    rij = page.evaluate("""() => { const k = document.querySelector('#btnClassify'), n = document.querySelector('#btnNewMatCat'),
-        kl = document.querySelector('#matCatCol'), p = document.querySelector('#content .pyr');
+    knoppen = page.evaluate("""() => { const t = document.querySelector('#listTools'), z = document.querySelector('#searchBox').getBoundingClientRect();
+      const r = t.getBoundingClientRect(); return [[...t.querySelectorAll('button')].map(b => b.textContent.trim()), r.bottom <= z.top, r.width <= z.width + 1,
+        [...t.querySelectorAll('button')].every(b => Math.abs(b.getBoundingClientRect().top - r.top) < 4)]; }""")
+    check(f"boven het zoekvak van Materials: + New material… en Classify several…, op één regel ({knoppen})",
+          knoppen[0] == ["+ New material…", "Classify several…"] and all(knoppen[1:]))
+    check("op de materiaalpagina zelf staat geen Classify several… meer", page.locator("#btnClassify").count() == 0
+          and page.locator("#content button", has_text="Classify several").count() == 0)
+    rij = page.evaluate("""() => { const s = document.querySelector('#mf_category'), kl = document.querySelector('#matCatCol'),
+        n = document.querySelector('#btnNewMatCat'), p = document.querySelector('#content .pyr'), l = document.querySelector('label[for="mf_category"]');
       const r = x => x.getBoundingClientRect();
-      return [Math.abs(r(k).top - r(n).top) < 6, r(k).left > r(kl).right, k.parentElement === kl.parentElement, r(p).top > r(k).bottom - 2]; }""")
-    check(f"naast + New category en het kleurvakje, op dezelfde rij, met Pyramid eronder: het raster schuift niet op ({rij})", all(rij))
+      return [Math.abs(r(s).top - r(n).top) < 8, r(kl).left > r(s).right - 1, r(n).left > r(kl).right - 1, r(p).top > r(s).bottom - 2, !!l]; }""")
+    check(f"de categorie: keuzelijst, kleurvakje en + New category op één regel, Pyramid eronder, het label wijst naar de keuzelijst ({rij})", all(rij))
+    page.click("#ltNew"); page.wait_for_timeout(300)
+    check("+ New material… boven het zoekvak opent het venster van de kop", page.locator("#nmName").is_visible())
+    page.click("#dlgCancel"); page.wait_for_timeout(200)
     page.evaluate("() => { LOCKED = true; render(); }"); page.wait_for_timeout(200)
-    check("alleen lezen: de knop is uitgeschakeld", page.locator("#btnClassify").is_disabled())
+    check("alleen lezen: geen knoppen boven het zoekvak", not page.locator("#listTools").is_visible())
     page.evaluate("() => { LOCKED = false; render(); }"); page.wait_for_timeout(200)
+    page.click("#tabT"); page.wait_for_timeout(300)
+    check("To order heeft geen knoppen boven het zoekvak", not page.locator("#listTools").is_visible())
+    page.click("#tabM"); page.wait_for_timeout(300)
     page.evaluate("() => { DATA.materials.find(m => m.name === 'BHT').isPredil = true; }")
     open_mat(page, "BHT")
-    check("op de pagina van een premix staat de knop niet", page.locator("#btnClassify").count() == 0)
+    page.click("#ltClassify"); page.wait_for_timeout(300)
+    check("met een premix open is niets aangevinkt: een premix staat niet in het venster",
+          page.inner_text("#clCount").startswith("0 materials ticked"))
+    page.click("#dlgCancel"); page.wait_for_timeout(200)
 
     # ---- het venster ----
     open_mat(page, "Ionone Beta")
     voor = page.evaluate("serialize()")
     n_eigen = page.evaluate("DATA.materials.filter(m => !isPredil(m)).length")
-    page.click("#btnClassify"); page.wait_for_timeout(300)
+    page.click("#ltClassify"); page.wait_for_timeout(300)
     check("het venster heet Classify materials", page.locator("#dlg h3").inner_text() == "Classify materials")
     telling = page.inner_text("#clCount")
     check(f"het materiaal van de pagina is al aangevinkt, en de premix staat er niet in ({telling!r})",
@@ -133,25 +148,25 @@ with sync_playwright() as pw:
 
     # ---- alleen de piramide, "?", en wat het al had ----
     open_mat(page, "Exaltolide")
-    page.click("#btnClassify"); page.wait_for_timeout(300)
+    page.click("#ltClassify"); page.wait_for_timeout(300)
     page.fill("#clQ", "lide"); page.click("#clAll"); page.select_option("#clPyr", "2")
     msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(300)
     lide = page.evaluate("() => DATA.materials.filter(m => /lide$/.test(m.name)).map(m => [m.category, m.pyramid])")
     check(f"alleen de piramide: Heart, de categorie blijft ({lide}, {msgs})",
           len(lide) == 6 and all(x == ["Musks", 2] for x in lide) and msgs == ["6 materials classified."])
-    page.click("#btnClassify"); page.wait_for_timeout(300)
+    page.click("#ltClassify"); page.wait_for_timeout(300)
     page.fill("#clQ", "lide"); page.click("#clAll"); page.select_option("#clPyr", "2")
     undo_voor = page.evaluate("UNDO.length")
     msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(300)
     check(f"niets te veranderen: een melding en geen Undo-stap ({msgs})",
           msgs == ["Nothing to change: the 6 materials you ticked already have that."] and page.evaluate("UNDO.length") == undo_voor)
-    page.click("#btnClassify"); page.wait_for_timeout(300)
+    page.click("#ltClassify"); page.wait_for_timeout(300)
     page.fill("#clQ", "musk"); page.click("#clAll"); page.select_option("#clPyr", "5")
     n_musk = page.locator("#clRows input:checked").count()
     msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(300)
     check(f"\"?\" kan ook ({msgs})", page.evaluate("DATA.materials.find(m => m.name === 'Tonalid').pyramid") == 5
           and msgs == [f"{n_musk} materials classified."])
-    page.click("#btnClassify"); page.wait_for_timeout(300)
+    page.click("#ltClassify"); page.wait_for_timeout(300)
     page.click("#clNone"); page.select_option("#clPyr", "4")
     msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(200)
     check(f"zonder vinkje een melding, en het venster blijft open ({msgs})",
@@ -171,8 +186,12 @@ with sync_playwright() as pw:
     page.on("pageerror", lambda e: errs.append(str(e))); page.on("dialog", lambda d: d.accept())
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnStarter"); page.wait_for_timeout(1500)
-    open_mat(page, "Ionone Beta")
-    page.locator("#btnClassify").click(); page.wait_for_timeout(300)
+    page.evaluate("() => { HOMEVIEW = false; switchTab('M', null, null); }"); page.wait_for_timeout(400)
+    tel = page.evaluate("""() => { const t = document.querySelector('#listTools'), bs = [...t.querySelectorAll('button')];
+      return [bs.length, bs.every(b => b.getBoundingClientRect().right <= innerWidth && b.scrollWidth <= b.clientWidth + 1),
+              Math.abs(bs[0].getBoundingClientRect().top - bs[1].getBoundingClientRect().top) < 4]; }""")
+    check(f"op een telefoon staan de twee knoppen boven de lijst, naast elkaar en volledig leesbaar ({tel})", tel[0] == 2 and tel[1] and tel[2])
+    page.locator("#ltClassify").click(); page.wait_for_timeout(300)
     vak = page.evaluate("() => { const d = document.querySelector('#dlg'), r = d.getBoundingClientRect(), o = document.querySelector('#dlgOk').getBoundingClientRect(); return [r.left >= 0, r.right <= innerWidth, o.bottom <= innerHeight, d.scrollHeight <= d.clientHeight + 1, Math.round(document.querySelector('#clRows').getBoundingClientRect().height)]; }")
     check(f"op een telefoon past het venster in het scherm zonder te scrollen, Apply in beeld ({vak})", all(vak[:4]) and vak[4] >= 300)
     check(f"geen fouten in de pagina op een telefoon ({errs[:2]})", not errs)
@@ -184,7 +203,7 @@ with sync_playwright() as pw:
     page.goto(URL); page.wait_for_timeout(800)
     page.click("#btnStarter"); page.wait_for_timeout(1500)
     open_mat(page, "Ionone Beta")
-    page.click("#btnClassify"); page.wait_for_timeout(300)
+    page.click("#ltClassify"); page.wait_for_timeout(300)
     laag = page.evaluate("""() => { const d = document.querySelector('#dlg'), p = document.querySelector('#clPyr').getBoundingClientRect(),
         o = document.querySelector('#dlgOk').getBoundingClientRect(), l = document.querySelector('#clRows').getBoundingClientRect();
       return [d.scrollHeight <= d.clientHeight + 1, p.bottom <= o.top, Math.round(l.height)]; }""")

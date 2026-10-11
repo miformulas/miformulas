@@ -15,7 +15,7 @@ PUB = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "
 SRC = open(os.path.join(PUB, "index.html"), encoding="utf-8").read()
 MAN = SRC.split("MANUAL:BEGIN")[1].split("MANUAL:END")[0]
 # a button the manual names should carry the name the user reads on it; the ellipsis says "this opens a window"
-BUTTONS = ["btnNew", "btnNewMat", "btnRenameF", "btnCopyF", "btnCatF", "btnDil", "btnOpen", "btnPrint",
+BUTTONS = ["btnNew", "btnNewMat", "btnRenameF", "btnCopyF", "btnNewFCat", "ltClassify", "btnDil", "btnOpen", "btnPrint",
            "btnSheet", "btnShare", "btnCsv", "btnPrep", "btnImpCsv", "btnExpF", "btnExpM", "btnStarter", "btnEmpty"]
 BARLINKS = ["Read online, with screenshots", "Report a problem", "Or write an e-mail"]
 ok = fail = 0

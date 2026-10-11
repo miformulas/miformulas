@@ -242,7 +242,7 @@ with sync_playwright() as p:
     row = page.locator("table.lines tbody tr").filter(has_text="Rose Oxide").first
     w = row.locator("input[type=text], input:not([type])").first
     w.fill("0.1"); w.press("Enter"); settle(page)
-    shot(page, "app-versions.png", clip={"x": 310, "y": 100, "width": 970, "height": 200})
+    shot(page, "app-versions.png", clip={"x": 310, "y": 106, "width": 970, "height": 190})   # since 261011e with the category above
     page.click("#btnCmp"); page.wait_for_timeout(500)
     shot(page, "app-compare.png")
     page.click("#btnCmpClose"); page.wait_for_timeout(300)
@@ -450,7 +450,7 @@ with sync_playwright() as p:
             page.click("#storageHintClose")
         page.evaluate("() => { HOMEVIEW = false; switchTab('M', DATA.materials.find(m => m.name === 'Ionone Beta').id, null); }")
         page.wait_for_timeout(400)
-        page.click("#btnClassify"); page.wait_for_timeout(400)
+        page.click("#ltClassify"); page.wait_for_timeout(400)
         page.fill("#clQ", "ionone"); page.wait_for_timeout(300)
         page.click("#clAll"); page.click("#clNewCat"); page.wait_for_timeout(300)
         page.click("#dlg h3"); settle(page)
