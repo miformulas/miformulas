@@ -1,5 +1,5 @@
 """Build 260915: the tail of the review of 260913g. Search, confirmations, ellipsis,
-the library credit and the alias list, and read-only on a phone.
+the library credit and the alias list, and read-only on a phone. Since build 261011a also the colour marks.
 Needs the local web server on port 8765 (see README)."""
 import json, os, tempfile
 from playwright.sync_api import sync_playwright
@@ -473,6 +473,36 @@ with sync_playwright() as p:
     check(f"en die noemt de voorwaarde ({(page.get_attribute('#btnDelMat', 'title') or '')[:40]!r})",
           "no version uses it" in (page.get_attribute("#btnDelMat", "title") or "")
           or "undo" in (page.get_attribute("#btnDelMat", "title") or "").lower())
+
+    # ---------- bouw 261011a: de kleurmerken in de vinkbalk, vóór de opruiming van renderLines ----------
+    page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions.length > 1 && x.versions.at(-1).lines.length > 5);
+        window.__kid = f.id; for (const v of f.versions) v.lines.forEach(l => delete l.remark);
+        SORT = {key: "orig", dir: 1}; switchTab("F", f.id, {type: "v", idx: f.versions.length - 1}); }""")
+    page.wait_for_timeout(600)
+    merk = lambda v=-1: page.evaluate("v => DATA.formulas.find(x => x.id === window.__kid).versions.at(v).lines.map(l => l.remark ?? 1)", v)
+    def kleur(regels, code):
+        for i in regels: page.check(f'#content input.selCb[data-i="{i}"]')
+        page.click(f'#content [data-mark="{code}"]'); page.wait_for_timeout(400)
+    msgs.clear(); kleur([], 2)
+    check(f"een kleur zonder aangevinkte regel vraagt eerst een vinkje ({[m[:40] for m in msgs]})",
+          any("Tick one or more lines first" in m for m in msgs) and set(merk()) == {1})
+    kleur([0, 1], 2); kleur([2], 4); kleur([3], 0); kleur([4], 3)
+    check(f"rood, groen, blauw en geel komen op de aangevinkte regels ({merk()[:6]})", merk()[:6] == [2, 2, 4, 0, 3, 1])
+    rijen = page.evaluate("""() => [...document.querySelectorAll("#content table.lines tbody tr")].slice(0, 6).map(tr =>
+        [tr.className.split(" ").filter(k => /^hl/.test(k)).join(" "), getComputedStyle(tr.querySelector("td")).borderTopColor])""")
+    check(f"elke rij draagt de klasse van haar kleur ({[r[0] for r in rijen]})", [r[0] for r in rijen] == ["hl2", "hl2", "hl4", "hl0", "hl3", ""])
+    check(f"met de rand in die kleur ({[r[1] for r in rijen[:5]]})", [r[1] for r in rijen[:5]] ==
+          ["rgb(192, 74, 50)", "rgb(192, 74, 50)", "rgb(76, 138, 70)", "rgb(59, 111, 160)", "rgb(177, 143, 34)"])
+    kleur([0], 1)
+    check(f"Unmark haalt het merkteken weg ({merk()[:2]})", merk()[:2] == [1, 2])
+    page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(500)
+    check(f"Ctrl+Z zet het terug ({merk()[:2]})", merk()[:2] == [2, 2])
+    check("de merktekens gaan mee in de data", '"remark": 4' in page.evaluate("serialize()"))
+    page.evaluate("() => switchTab('F', window.__kid, {type: 'v', idx: 0})"); page.wait_for_timeout(500)
+    check("een oudere versie heeft de kleuren ook, maar niet Lower, Higher en Create premix…",
+          page.locator('#content [data-mark="4"]').count() == 1 and page.locator("#btnDilDown, #btnDilUp, #btnPredil").count() == 0)
+    kleur([1], 4)
+    check(f"en een merkteken daar blijft op die versie ({merk(0)[:3]}, de laatste {merk()[:2]})", merk(0)[:3] == [1, 4, 1] and merk()[:2] == [2, 2])
 
     check(f"no page errors ({errs[:2]})", not errs)
     ctx.close(); b.close()

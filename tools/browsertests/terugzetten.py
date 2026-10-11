@@ -3,7 +3,9 @@ daily snapshot in het venster Import & export, en niet op de Welcome-pagina. Wat
 ze staat (browseropslag, een databestand, een server), na een vraag met wat beide bevatten, en is één stap voor Undo;
 het Backup-bestand zelf blijft ongemoeid; Cancel verandert niets; een bestand dat geen data is of geen JSON, zegt dat;
 de dagsnapshot staat er alleen voor de data waarvan ze genomen is, en een snapshot gelijk aan je data zegt dat er niets
-terug te zetten is; in een tweede venster (alleen-lezen) staan beide knoppen uit.
+terug te zetten is; in een tweede venster (alleen-lezen) staan beide knoppen uit. Sinds bouw 261011a ook Backup: het
+bestand JJMMDD_UUMM_miformulas-data.json met al je data, het venster in de map van de vorige Backup, Cancel en een fout,
+en zonder opslagvenster een download die Restore a Backup… weer inleest.
 Vereist een webserver met de inhoud van public\\ op poort 8765 (cd public && python -m http.server 8765)."""
 import hashlib, json, os, tempfile
 from playwright.sync_api import sync_playwright
@@ -185,6 +187,61 @@ with sync_playwright() as p:
     pg.wait_for_timeout(3500)
     check("en de Backup komt in dat databestand, niet in de Backup", bool(got) and "Uit de Backup" in (pg.evaluate("localStorage.getItem('fakefile')") or "")
           and md5(BACKUP) == BACKUP_MD5)
+    pg.context.close()
+
+    # ---------- 5. Backup (bouw 261011a: de knop had nog geen test) ----------
+    BK = """
+      window.__bk = []; window.__bkOpts = []; window.__bkFail = null;
+      function BkHandle(name){ this.name = name; this.kind = 'file'; }
+      BkHandle.prototype.createWritable = async function(){ const h = this; let t = '';
+        return { write: async s => { t += String(s); }, close: async () => { window.__bk.push({name: h.name, text: t}); } }; };
+      window.showSaveFilePicker = async opts => {
+        window.__bkOpts.push({id: opts.id, name: opts.suggestedName, startIn: opts.startIn ? opts.startIn.name : null,
+                              accept: Object.keys(((opts.types || [])[0] || {}).accept || {})});
+        if (window.__bkFail) throw window.__bkFail;
+        return new BkHandle(opts.suggestedName); };
+    """
+    NAAM = """() => { const d = new Date(), p = n => String(n).padStart(2, "0");
+        return `${String(d.getFullYear()).slice(2)}${p(d.getMonth() + 1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}_miformulas-data.json`; }"""
+    pg = page(init=BK)
+    pg.goto(URL); pg.wait_for_timeout(900)
+    pg.click("#btnStarter"); pg.wait_for_timeout(3500)
+    st = lambda: pg.evaluate("() => [$('#saveState').textContent, $('#saveState').className]")
+    pg.evaluate("() => { DATA.formulas[0].name = 'Nog niet bewaard'; markDirty(); }")
+    voor = pg.evaluate(NAAM); pg.click("#btnBackup"); pg.wait_for_timeout(500); na = pg.evaluate(NAAM)
+    bk, opts, s1 = pg.evaluate("window.__bk"), pg.evaluate("window.__bkOpts"), st()
+    check(f"Backup schrijft één bestand JJMMDD_UUMM_miformulas-data.json ({[x['name'] for x in bk]})", len(bk) == 1 and bk[0]["name"] in (voor, na))
+    check("met al je data, ook wat nog niet bewaard was",
+          len(bk) == 1 and bk[0]["text"] == pg.evaluate("serialize()") and json.loads(bk[0]["text"])["formulas"][0]["name"] == "Nog niet bewaard")
+    check(f"het venster vraagt een .json, met een eigen id ({opts[:1]})",
+          len(opts) == 1 and opts[0]["id"] == "miformulas-backup" and opts[0]["accept"] == ["application/json"] and opts[0]["startIn"] is None)
+    check(f"de kop zegt Backup saved, met de naam ({s1})", "Backup saved" in s1[0] and bool(bk) and bk[0]["name"] in s1[0])
+    pg.wait_for_timeout(3000)   # de autosave van de wijziging hierboven
+    pg.click("#btnBackup"); pg.wait_for_timeout(500)
+    opts = pg.evaluate("window.__bkOpts")
+    check(f"de tweede keer opent het venster waar de vorige Backup staat ({opts[-1]['startIn'] if opts else None})",
+          len(opts) == 2 and opts[1]["startIn"] == bk[0]["name"])
+    pg.evaluate("() => { window.__bkFail = new DOMException('The user aborted a request.', 'AbortError'); }")
+    s0 = st(); pg.click("#btnBackup"); pg.wait_for_timeout(500)
+    check("Cancel in het venster schrijft niets en zegt niets", len(pg.evaluate("window.__bk")) == 2 and st() == s0)
+    pg.evaluate("() => { window.__bkFail = new Error('the disk is full'); }")
+    pg.click("#btnBackup"); pg.wait_for_timeout(500)
+    check(f"een andere fout zegt Backup failed, met de reden ({st()})", "Backup failed: the disk is full" in st()[0] and "dirty" in st()[1])
+    pg.context.close()
+
+    pg = page(init="window.showSaveFilePicker = undefined;")   # Firefox en Safari: een download
+    pg.goto(URL); pg.wait_for_timeout(900)
+    pg.click("#btnStarter"); pg.wait_for_timeout(3500)
+    pg.evaluate("() => { DATA.formulas[0].name = 'Uit de download'; markDirty(); }")
+    voor = pg.evaluate(NAAM)
+    with pg.expect_download() as dl: pg.click("#btnBackup")
+    na = pg.evaluate(NAAM)
+    pad = os.path.join(TMP, dl.value.suggested_filename); dl.value.save_as(pad)
+    check(f"zonder opslagvenster een download met dezelfde naam ({dl.value.suggested_filename})", dl.value.suggested_filename in (voor, na))
+    check("met dezelfde inhoud", open(pad, encoding="utf-8").read() == pg.evaluate("serialize()"))
+    pg.evaluate("() => { DATA.formulas[0].name = 'Later veranderd'; markDirty(); }")
+    got = restore_backup(pg, pad)
+    check(f"en die Backup komt terug met Restore a Backup… ({names(pg)[:1]})", bool(got) and names(pg)[0] == "Uit de download" and len(names(pg)) == N)
     pg.context.close()
     b.close()
 
