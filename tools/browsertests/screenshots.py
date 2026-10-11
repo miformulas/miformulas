@@ -438,6 +438,24 @@ with sync_playwright() as p:
         page.click("#content h2"); settle(page)
         shot(page, "first-compare.png")
         ctx.close()
+
+    # ---- 19. Classify several… (build 261011d): the ionones of the starter set on their way to a category of their own ----
+    if not ONLY or "app-classify.png" in ONLY:
+        ctx = new_context(b)
+        page = ctx.new_page()
+        page.on("dialog", lambda d: d.accept("Violet") if d.type == "prompt" else d.accept())
+        page.goto(URL); page.wait_for_timeout(800)
+        page.click("#btnStarter"); page.wait_for_timeout(1200)
+        if page.locator("#storageHintClose").is_visible():
+            page.click("#storageHintClose")
+        page.evaluate("() => { HOMEVIEW = false; switchTab('M', DATA.materials.find(m => m.name === 'Ionone Beta').id, null); }")
+        page.wait_for_timeout(400)
+        page.click("#btnClassify"); page.wait_for_timeout(400)
+        page.fill("#clQ", "ionone"); page.wait_for_timeout(300)
+        page.click("#clAll"); page.click("#clNewCat"); page.wait_for_timeout(300)
+        page.click("#dlg h3"); settle(page)
+        shot(page, "app-classify.png", "#dlg")
+        ctx.close()
     b.close()
 
 # 256-colour palette: a third of the size, no visible loss on UI screenshots

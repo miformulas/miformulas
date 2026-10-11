@@ -1,10 +1,11 @@
 """Bouw 261011a (opruiming en de index van de library, bouw 2 van de analyse van 10/10): niets dat je ziet verandert.
 Twee browsers naast elkaar: de referentie REF uit git (eerst 261010d, sinds 261011b bouw 261011a, sinds 261011c bouw
-261011b) en de bouw van de repo, met dezelfde data, dezelfde
+261011b, sinds 261011d bouw 261011c) en de bouw van de repo, met dezelfde data, dezelfde
 klok en hetzelfde toeval (de ids). Na elke stap is de HTML van de pagina byte voor byte gelijk (kop, lijst, pagina,
 open venster en afdrukgebied; zonder het script, de ingebedde handleiding als sjabloon en de bewaarmelding, en met de
 bouwstempel weggelaten), net als serialize() en de meldingen. Wat een bouw bewust toevoegt, staat in NIEUW en telt niet
-mee (261011b: de links naar de eerste vijf minuten); in Help telt alleen de balk, want de tekst van de handleiding
+mee (261011b: de links naar de eerste vijf minuten), en wat een bouw bewust in de HTML omzet, staat in REPL (261011d:
+de knop Classify several… naast het kleurvakje van de categorie); in Help telt alleen de balk, want de tekst van de handleiding
 verandert met de handleiding en help.py test ze. Het piramide-icoontje telt als zijn niveau, maat en kleur: sinds 261011c
 is het één span met een masker in plaats van een svg (geselecteerde-rij-en-icoon.py test hoe het eruitziet).
 De stappen: Welcome, Settings en Help; elke versie en de bench view van elke formule; alle sorteringen van de tabel,
@@ -22,7 +23,7 @@ Vereist de lokale webserver op poort 8765 (zie README) en git met de geschiedeni
 import json, os, subprocess, tempfile, time
 from playwright.sync_api import sync_playwright
 
-REF, REF_BOUW = "cb29227", "261011b"
+REF, REF_BOUW = "b568ad5", "261011c"
 URL = "http://localhost:8765/"
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -30,6 +31,11 @@ EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
 NIEUW = []   # bewust toegevoegd sinds REF (261011b: de links naar de eerste vijf minuten, nu ook in REF)
+# bewust omgezet sinds REF, als [in deze bouw, zoals in REF]: 261011d zet het kleurvakje van de categorie op de
+# materiaalpagina samen met Classify several… in één cel
+REPL = [['<span id="matCatTools" style="display:flex;gap:.6rem;align-items:center">', ""],
+        ['<button class="small" id="btnClassify" type="button" title="Give several materials a category or a pyramid level at once">Classify several…</button></span>', ""],
+        ['<button class="small" id="btnClassify" type="button" title="Give several materials a category or a pyramid level at once" disabled="">Classify several…</button></span>', ""]]   # alleen lezen
 TMP = tempfile.mkdtemp()
 ok = fail = 0
 def check(naam, cond):
@@ -59,7 +65,9 @@ SEED = """(() => { let a = 20261011; Math.random = () => { a |= 0; a = a + 0x6D2
   t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; })();"""
 CAP = """async ({hash, repl, nieuw}) => {
   const b = document.body.cloneNode(true);
-  b.querySelectorAll(["script", "template", ".help > :not(.helpbar)", ...nieuw].join(", ")).forEach(x => x.remove());
+  b.querySelectorAll(["script", "template", ...nieuw].join(", ")).forEach(x => x.remove());
+  // in Help telt alleen de balk: de handleiding verandert met de handleiding, ook haar alinea's en de regeleinden ertussen
+  b.querySelectorAll(".help").forEach(h => [...h.childNodes].forEach(n => { if (!n.classList?.contains("helpbar")) n.remove(); }));
   const s = b.querySelector("#saveState");
   if (s){ s.textContent = ""; for (const a of ["class", "title", "data-short"]) s.removeAttribute(a); }
   let h = (document.body.className + "\\n" + b.innerHTML).split(">" + BUILD + "<").join(">@B@<").split("build " + BUILD).join("build @B@");
@@ -105,7 +113,7 @@ def stap(groep, actie=None, data=False, wacht=0, hash=False):
         if wacht: p.wait_for_timeout(wacht)
     g = GROEPEN.setdefault(groep, [0, None]); g[0] += 1
     if g[1]: return
-    r = R.evaluate(CAP, {"hash": hash, "repl": [], "nieuw": NIEUW}); a = A.evaluate(CAP, {"hash": hash, "repl": [], "nieuw": NIEUW})
+    r = R.evaluate(CAP, {"hash": hash, "repl": REPL, "nieuw": NIEUW}); a = A.evaluate(CAP, {"hash": hash, "repl": REPL, "nieuw": NIEUW})
     if r != a:
         g[1] = f"stap {g[0]}: " + ("de HTML verschilt" if hash else verschil(r, a)); return
     if R.msgs != A.msgs:
@@ -183,8 +191,11 @@ with sync_playwright() as pw:
         M = A.evaluate("DATA.materials.map(m => m.id)")
         stap("elk materiaal", ev(VIEW, {"tab": "M", "id": None, "sub": None}))
         iconen = [p.evaluate("() => [document.querySelectorAll('#list svg.pyricon').length, document.querySelectorAll('#list span.pyricon').length]") for p in (R, A)]
-        check(f"de referentie tekent het icoontje als svg, deze bouw als één span; de vergelijking telt niveau, maat en kleur ({iconen})",
-              iconen[0][0] > 100 and iconen[0][1] == 0 and iconen[1][0] == 0 and iconen[1][1] == iconen[0][0])
+        check(f"beide tekenen het icoontje als één span (sinds 261011c); de vergelijking telt niveau, maat en kleur ({iconen})",
+              iconen[0][0] == 0 and iconen[1][0] == 0 and iconen[0][1] > 100 and iconen[1][1] == iconen[0][1])
+        stap("elk materiaal", ev(VIEW, {"tab": "M", "id": M[5], "sub": None}))
+        knop = [p.locator("#btnClassify").count() for p in (R, A)]
+        check(f"Classify several… staat op de materiaalpagina van deze bouw, niet in de referentie ({knop})", knop == [0, 1])
         for k in (3, 10, 11, 40, 3):
             stap("rijen in de lijst aanklikken", klik(f"#list .item >> nth={k}"), wacht=50)
         stap("rijen in de lijst aanklikken", ev(VIEW, {"tab": "F", "id": None, "sub": None}))

@@ -212,6 +212,8 @@ dialog label{display:block}
 dialog a{color:var(--accent-ink)}   /* the browser's blue was 1,75:1 on the dark theme */
 #firstFive a,#firstFiveHome a{color:var(--accent-ink)}   /* the first five minutes (build 261011b), likewise */
 @media (max-height:520px){dialog{max-height:94dvh}dialog h3{margin-top:0}}
+#clRows{height:max(9rem, calc(88dvh - 23rem))}   /* Classify materials: as tall as the window allows without scrolling (build 261011d) */
+@media (max-width:600px){#clRows{height:max(9rem, calc(88dvh - 27rem))}}   /* a phone wraps the lines around it */
 dialog::backdrop{background:rgba(0,0,0,.35)}
 #landing{position:fixed;inset:0;background:var(--ground);display:flex;align-items:center;justify-content:center;z-index:50}
 #landing .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:2rem 2.5rem;max-width:30rem;text-align:center}
@@ -428,7 +430,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261011c</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261011d</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -498,7 +500,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s17-coming-from-formulair">17</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a premix (sections <a href="#s7-changing-dilutions">7</a> to <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s16-import-export-and-sharing">16</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s10-bench-view-and-printing">10</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261011c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261011d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
@@ -549,6 +551,8 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p><strong>Storage.</strong> A material stored in the fridge shows a ❄ next to formula lines that use it at its base concentration, also on the printed weighing sheet, so you know which bottles to fetch first.</p>
 <p><strong>To order.</strong> A material you do not have yet, whether you added it from the order list or it came out of an import, carries the label "to order" and a 🛒 in the list until it is delivered.</p>
 <p>Materials come from <strong>+ New material…</strong> in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from <strong>Create premix…</strong>. With a materials library loaded (section <a href="#s16-import-export-and-sharing">16</a>) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. The search box in Materials also reaches the library: under your own results it lists what the library knows and you do not have ("Also in the materials library:", or "Not in your inventory. In the materials library:" when you have none of them), eight at a time with "and N more; narrow the search" underneath, each with a <strong>+ Add</strong>. <strong>Browse the library…</strong>, in the + New material window, opens the whole library with a search field and a tick box per material: useful when you start from nothing and want ten materials at once. Shift-click ticks a range, as in the formula table. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. <strong>Delete material</strong> refuses as long as any version uses the material, an older or a frozen one included, and names the formulas; the list of them stands on the page as well. Removing the lines from the latest version is the way out, and for a version that cannot be edited the refusal points at <strong>Delete version</strong>. When nothing uses it any more, deleting asks for confirmation and says how many order-list entries go with it.</p>
+<p><strong>Classify several…</strong>, beside <strong>+ New category</strong>, gives many materials a category, a pyramid level or both at once: every perfumer has a classification of their own, and the one of the starter set or the library need not be yours. The window lists your inventory with a search field (names, alternative names, categories and CAS numbers, as in <strong>Export my inventory as a library…</strong>) and a tick box per material; the material you came from is ticked already. <strong>Tick all shown</strong> ticks what the search shows, so "ionone" and one click take all your ionones; Shift-click ticks a range, and what you ticked stays ticked when you search for something else. Under the list, Category and Pyramid stay "unchanged" until you choose, so you can set one and leave the other, and <strong>+ New category</strong> makes a category there. <strong>Apply</strong> changes the ticked materials in a single Undo step and says how many it changed. Premixes are not in the list: they keep their own group.</p>
+<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s3-materials">Classify materials: the ionones, on their way to a category of their own.</a></p>
 <p>You cannot give a material the name of another one, and the app watches the alternative names in both directions. Type a name that one of your materials already carries as an alternative name and it says so before making a second material. Rename a material to a name that another one carries as an alternative name and it asks as well, with the consequence: from then on an import that uses that name lands on the renamed material instead of the other one.</p>
 <p><strong>Alternative names may be shared, and often have to be.</strong> Four ylangs come from the same plant, and two isomers with a profile of their own sit under one chemical name, so a botanical or common name can belong to several of your materials at once; the library published by miFormulas has twenty-one such names. Your own names always win, but a shared alternative name no longer says which jar you mean. The app therefore does not choose one behind your back: <strong>Add line</strong>, <strong>⇄ Replace</strong> and <strong>Delivered…</strong> ask which of them you mean, the import page shows the match it would make together with the other materials that answer to the same name, and the alternative names field tells you when a name you type is already carried by another material. It says which of the two cases you are in: another material carries it as an <strong>alternative name</strong> too, and typing it will ask which of you meant; or it is the <strong>own name</strong> of another material, and then that one always wins, so the alternative name you are typing will never reach this material at all. The suggestion lists behind those boxes carry one line per material with its alternative names beside it, and Chrome and Edge match what you type against those names too, so a botanical name four of your materials share brings up those four and picking one puts its own name in the box.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s3-materials">Browse the library: tick what belongs in your own inventory. What you already have is greyed out.</a></p>
@@ -2812,6 +2816,83 @@ function browseList(){   // pick several materials from the library in one go
   });
   draw(); $("#brQ").focus();
 }
+// Every perfumer has a classification of their own: a category or a pyramid level for many materials at once, in one
+// Undo step (build 261011d). The material you came from is ticked already; premixes keep their own group.
+function classifyMaterials(m0){
+  const all = DATA.materials.filter(m => !isPredil(m)).sort((a,b) => a.name.localeCompare(b.name));
+  const picked = new Set(m0 && !isPredil(m0) ? [m0.id] : []);
+  let shown = all.length, sel = all, lastPos = null;
+  const cats = [...new Set([...DATA.materialCategories, ...all.map(m => m.category).filter(Boolean)])].sort((a,b) => a.localeCompare(b));
+  const count = () => {
+    $("#clCount").textContent = `${nMats(picked.size)} ticked · ${shown} of ${all.length} shown`;
+    $("#dlgOk").textContent = picked.size ? `Apply to ${picked.size}` : "Apply";
+  };
+  const draw = () => {
+    lastPos = null;   // the positions shift with the filter, so a range starts afresh
+    const t = fold($("#clQ").value).trim(), w = searchWords(t);   // as in Export my inventory as a library…
+    sel = all.filter(m => !t || hasWords(m.name, w) || aliasHasWords(m.aliases, w) || hasWords(m.category, w) || fold(m.cas).includes(t));
+    shown = sel.length;
+    $("#clRows").innerHTML = sel.length ? sel.map(m => {
+      const facts = [m.category, m.pyramid != null ? PYR[m.pyramid] : "", m.cas].filter(Boolean).map(esc).join(" · ");
+      return `<label class="brRow"><input type="checkbox" data-i="${esc(m.id)}"${picked.has(m.id) ? " checked" : ""}><span>${esc(m.name)}</span><span class="sub">${facts}</span></label>`;
+    }).join("") : `<div class="hint" style="padding:.6rem">Nothing in your inventory matches.</div>`;
+    count();
+  };
+  openDialog(`<h3 style="margin:0 0 .3rem">Classify materials</h3>
+    <div class="hint">Tick the materials, then choose what they get. Shift-click ticks a range.</div>
+    <input id="clQ" placeholder="Search your inventory…" autocomplete="off" style="width:100%;margin:.6rem 0 .4rem">
+    <div id="clRows" style="overflow:auto;border:1px solid var(--line);border-radius:6px"></div>
+    <div class="toolRow" style="margin-top:.4rem"><button class="small" id="clAll" type="button">Tick all shown</button>
+      <button class="small" id="clNone" type="button">Untick all</button> <span class="hint" id="clCount"></span></div>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:.45rem .7rem;align-items:center;margin-top:.8rem">
+      <label for="clCat">Category</label><span><select id="clCat"><option value="">unchanged</option>${cats.map(c => `<option>${esc(c)}</option>`).join("")}</select>
+        <button class="small" id="clNewCat" type="button">+ New category</button></span>
+      <label for="clPyr">Pyramid</label><span><select id="clPyr"><option value="">unchanged</option>${PYR.map((p, i) => `<option value="${i}">${p}</option>`).join("")}</select></span>
+    </div>`, "Apply", () => {
+    const cat = $("#clCat").value, pyr = $("#clPyr").value === "" ? null : +$("#clPyr").value;
+    if (!picked.size){ alert("Tick the materials you want to classify."); return false; }
+    if (!cat && pyr === null){ alert("Choose a category, a pyramid level, or both."); return false; }
+    const ms = all.filter(m => picked.has(m.id) && ((cat && m.category !== cat) || (pyr !== null && m.pyramid !== pyr)));
+    if (!ms.length){ alert(`Nothing to change: the ${nMats(picked.size)} you ticked already have that.`); return; }
+    const before = ms.map(m => [m.id, m.category, m.pyramid, m.modified]);
+    const newCat = cat && !DATA.materialCategories.includes(cat) ? cat : null;
+    pushUndo(() => {
+      const put = (m, k, v) => { if (v === undefined) delete m[k]; else m[k] = v; };
+      for (const [id, c, p, mod] of before){ const m = DATA.materials.find(x => x.id === id);
+        if (m){ put(m, "category", c); put(m, "pyramid", p); put(m, "modified", mod); } }
+      if (newCat) DATA.materialCategories = DATA.materialCategories.filter(x => x !== newCat);
+    });
+    if (newCat){ DATA.materialCategories.push(newCat); DATA.materialCategories.sort((a,b) => a.localeCompare(b)); }
+    const stamp = now();
+    for (const m of ms){ if (cat) m.category = cat; if (pyr !== null) m.pyramid = pyr; m.modified = stamp; }
+    markDirty(); render();
+    alert(`${nMats(ms.length)} classified.` + (ms.length < picked.size ? ` ${picked.size - ms.length} already had it.` : ""));
+  }, "36rem");
+  $("#clQ").addEventListener("input", draw);
+  $("#clRows").addEventListener("click", e => {   // click, not change: only click carries shiftKey
+    const c = e.target.closest("input[data-i]"); if (!c) return;
+    const cbs = [...$("#clRows").querySelectorAll("input[data-i]")];
+    const pos = cbs.indexOf(c);
+    const tick = cb => { if (cb.checked) picked.add(cb.dataset.i); else picked.delete(cb.dataset.i); };
+    if (e.shiftKey && lastPos !== null && pos >= 0){
+      const [a, z] = [Math.min(lastPos, pos), Math.max(lastPos, pos)];
+      for (let j = a; j <= z; j++){ cbs[j].checked = c.checked; tick(cbs[j]); }
+    } else tick(c);
+    lastPos = pos;
+    count();
+  });
+  $("#clAll").addEventListener("click", () => { for (const m of sel) picked.add(m.id); draw(); });
+  $("#clNone").addEventListener("click", () => { picked.clear(); draw(); });
+  $("#clNewCat").addEventListener("click", () => {   // as + New category on the page: an existing name in other capitals is that one
+    const n = prompt("New category name:"); if (!n || !n.trim()) return;
+    const s = $("#clCat"), hit = sameCatOpt(s, n.trim());
+    if (!hit){ const o = document.createElement("option"); o.textContent = n.trim(); s.appendChild(o); }
+    s.value = hit ? hit.value : n.trim();
+  });
+  draw();
+  $("#clRows input:checked")?.closest("label").scrollIntoView({block: "center"});   // the material you came from, in sight
+  $("#clQ").focus();
+}
 function exportInventoryLibrary(){   // your own materials as a library file: the facts, your own descriptions, nothing else
   const all = DATA.materials.filter(m => !isPredil(m)).sort(   // a premix belongs to your formulas, not to a library (build 261002b)
     (a,b) => a.name.localeCompare(b.name));
@@ -4884,7 +4965,8 @@ function renderMaterial(m){
     ${F("CAS", `<input data-f="cas" value="${esc(m.cas)}">`)}
     ${F("Alternative names", `<input data-f="aliases" value="${esc(m.aliases||"")}" placeholder="trade or common names, e.g. Ambroxan; Ambrofix">`)}
     ${F("Category", `<select data-f="category">${DATA.materialCategories.map(x=>`<option${x===m.category?" selected":""}>${esc(x)}</option>`).join("")}${m.category && !DATA.materialCategories.includes(m.category) ? `<option selected>${esc(m.category)}</option>` : ""}</select>`
-      + ` <button class="small" id="btnNewMatCat" type="button">+ New category</button> ${catColourInput(m.category, "matCatCol")}`)}
+      + ` <button class="small" id="btnNewMatCat" type="button">+ New category</button> ${isPredil(m) ? catColourInput(m.category, "matCatCol")
+        : `<span id="matCatTools" style="display:flex;gap:.6rem;align-items:center">${catColourInput(m.category, "matCatCol")}<button class="small" id="btnClassify" type="button" title="Give several materials a category or a pyramid level at once">Classify several…</button></span>`}`)}
     ${F("Pyramid", `<span class="pyr" role="group" aria-label="Pyramid level">${PYR.map((p,i)=>`<button data-pyr="${i}" class="${m.pyramid===i?"sel":""}">${p}</button>`).join("")}</span>`)}
     ${F("Solvent", `<input type="checkbox" data-f="isSolvent" ${m.isSolvent?"checked":""} style="justify-self:start">`)}
     ${F("IFRA limit %", `<input data-f="ifraLimit" data-num="1" inputmode="decimal" value="${m.ifraLimit!=null?fmtSIn(m.ifraLimit,6):""}" placeholder="99 = checked, no limit; 0 = prohibited">`)}
@@ -4996,6 +5078,7 @@ function renderMaterial(m){
     if (!hit){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
     sel.value = nm; sel.dispatchEvent(new Event("change", {bubbles: true}));   // the field handler stores it and adds the category
   });
+  $("#btnClassify")?.addEventListener("click", () => classifyMaterials(m));
   $("#matCatCol")?.addEventListener("change", e => setCatColour(m.category, e.target.value));
   c.querySelectorAll("[data-pyr]").forEach(b => b.addEventListener("click", () => { snapM(m); m.pyramid = +b.dataset.pyr; markDirty(); render(); }));
   c.querySelector("a[data-copy]")?.addEventListener("click", e => { try{ navigator.clipboard.writeText(e.currentTarget.dataset.copy); }catch(_){} });   // IFRA link: CAS on the clipboard, the link itself opens the library
