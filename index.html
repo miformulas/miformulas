@@ -210,6 +210,7 @@ dialog button{min-height:2.3rem;touch-action:manipulation}
 dialog label{display:block}
 [hidden]{display:none !important}   /* "dialog label{display:block}" beat the attribute: Delivered showed "Density g/ml" without its field (build 260922l) */
 dialog a{color:var(--accent-ink)}   /* the browser's blue was 1,75:1 on the dark theme */
+#firstFive a,#firstFiveHome a{color:var(--accent-ink)}   /* the first five minutes (build 261011b), likewise */
 @media (max-height:520px){dialog{max-height:94dvh}dialog h3{margin-top:0}}
 dialog::backdrop{background:rgba(0,0,0,.35)}
 #landing{position:fixed;inset:0;background:var(--ground);display:flex;align-items:center;justify-content:center;z-index:50}
@@ -417,7 +418,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261011a</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261011b</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -456,7 +457,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <div id="landing">
   <div class="card">
     <h2 style="margin-top:0">mi<span style="color:var(--accent)">Formulas</span></h2>
-    <p>A perfume formulation app. Open your data file, or start with the starter set.</p>
+    <p>A perfume formulation app. Open your data file, or start with the starter set.<span id="firstFive"> New here? <a id="btnFirstFive" href="https://miformulas.com/docs/first-five-minutes.html" target="_blank" rel="noopener">Your first five minutes</a>.</span></p>
     <p><button class="primary" id="btnReopen" style="display:none"></button></p>
     <p><button class="primary" id="btnLandBrowser" style="display:none">Put the data kept in this browser on the server</button></p>
     <p><button class="primary" id="btnStarter" style="display:none">Start with the starter set</button></p>
@@ -487,10 +488,10 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s17-coming-from-formulair">17</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a premix (sections <a href="#s7-changing-dilutions">7</a> to <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s16-import-export-and-sharing">16</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s10-bench-view-and-printing">10</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261011a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261011b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
-<p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser.</p>
+<p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
 <p><strong>Which browser.</strong> Chrome or Edge give you everything, on Windows and on a Mac, and Chrome does on Android as well: your data in a file of your own and the app installed with its own icon. Safari on a Mac, on an iPhone or on an iPad, and Firefox keep your data in the browser's storage, where Backup is your safety net; section <a href="#s14-where-your-data-lives-and-the-other-ways-in">14</a> says what each of them can do.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The start screen of miformulas.com.</a></p>
 <p>The start screen offers three ways in, and a fourth for Formulair users:</p>
@@ -2625,6 +2626,7 @@ const searchWords = q => fold(q).trim().split(/\s+/).filter(Boolean);
 const hasWords = (x, w) => { const s = fold(x); return w.length > 0 && w.every(p => s.includes(p)); };
 const aliasHasWords = (aliases, w) => String(aliases || "").split(";").some(a => hasWords(a, w));   // each alternative name on its own
 /* ---------- the materials library: one imported file of facts, used when you add a material ---------- */
+const FIRST5 = "https://miformulas.com/docs/first-five-minutes.html";   // the first five minutes: a material, a formula and a version (build 261011b)
 const PROMPTS = "https://miformulas.com/docs/ai-prompts.html";   // the ready-made prompts for your own assistant, linked where they help
 const LIST_URL = "https://data.miformulas.com/miformulas-materials.json";   // the published library; while it is empty, Settings only offers Import
 const nMats = n => n + " material" + (n === 1 ? "" : "s");
@@ -5636,7 +5638,7 @@ function render(){
       <div class="toolRow"><button class="primary" id="homeOpenF">${DATA.formulas.length ? "Open a formula" : "+ New formula\u2026"}</button>
         ${DATA.formulas.length ? '<button class="small" id="homeNewF">+ New formula\u2026</button>' : ""}
         <button class="small" id="homeNewM">+ New material\u2026</button>
-        <span class="hint">${DATA.formulas.length ? (isMobile() ? "or pick one from the list behind \u2039 Formulas" : "or pick one from the list on the left") : `your list is empty: this is where a formula begins, or bring one in from a photo with the <a href="${PROMPTS}#s1-photo-pdf-or-spreadsheet-to-import-file" target="_blank" rel="noopener">AI prompts</a>`}</span></div></div>
+        <span class="hint">${DATA.formulas.length ? (isMobile() ? "or pick one from the list behind \u2039 Formulas" : "or pick one from the list on the left") : `your list is empty: this is where a formula begins, or bring one in from a photo with the <a href="${PROMPTS}#s1-photo-pdf-or-spreadsheet-to-import-file" target="_blank" rel="noopener">AI prompts</a>`}</span></div>${showRecent ? "" : `<p class="hint" id="firstFiveHome" style="margin:.5rem 0 0">New here? <a href="${FIRST5}" target="_blank" rel="noopener">Your first five minutes</a>: a material, a formula and a version, step by step.</p>`}</div>
     <p class="hint" id="whereData">Your data: ${REMOTE ? "on the server" : HANDLE ? `in <b>${esc(HANDLE.name)}</b>` : DEMO ? "kept in this browser" : "loaded read-only"}.${LOCKED ? " <b>Read-only here:</b> miFormulas is open in another window or tab of this browser, and that one saves. This window takes over by itself as soon as that one is closed." : ""}${DEMO && !HANDLE && !FALLBACK && window.showSaveFilePicker && !LOCKED ? ` <button class="small" id="homeToFile" style="display:none" title="Keep your data in a file of your own instead of in the browser">Save to a data file\u2026</button>` : ""}</p>
     ${showRecent ? `<div class="panelBox"><h3>Recently edited formulas</h3>${recent(DATA.formulas, "gof")}</div>
     <div class="panelBox"><h3>Recently edited materials</h3>${recent(DATA.materials.filter(m => !isPredil(m)), "gom")}</div>` : ""}

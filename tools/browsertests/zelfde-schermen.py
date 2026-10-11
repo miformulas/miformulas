@@ -1,8 +1,10 @@
 """Bouw 261011a (opruiming en de index van de library, bouw 2 van de analyse van 10/10): niets dat je ziet verandert.
-Twee browsers naast elkaar: de referentie, bouw 261010d uit git, en de bouw van de repo, met dezelfde data, dezelfde
+Twee browsers naast elkaar: de referentie REF uit git (eerst 261010d, sinds 261011b bouw 261011a) en de bouw van de repo, met dezelfde data, dezelfde
 klok en hetzelfde toeval (de ids). Na elke stap is de HTML van de pagina byte voor byte gelijk (kop, lijst, pagina,
 open venster en afdrukgebied; zonder het script, de ingebedde handleiding als sjabloon en de bewaarmelding, en met de
-bouwstempel weggelaten), net als serialize() en de meldingen. Eén bewust verschil: de HTML-opmerking in Help.
+bouwstempel weggelaten), net als serialize() en de meldingen. Wat een bouw bewust toevoegt, staat in NIEUW en telt niet
+mee (261011b: de links naar de eerste vijf minuten); in Help telt alleen de balk, want de tekst van de handleiding
+verandert met de handleiding en help.py test ze.
 De stappen: Welcome, Settings en Help; elke versie en de bench view van elke formule; alle sorteringen van de tabel,
 de bench en Compare; elk materiaal; zoeken in beide lijsten; To order; Browse the library…, + New material… en Add
 line met een naam uit de library; de kleurmerken, Lower en Create premix…; Import materials inventory from CSV…
@@ -17,14 +19,14 @@ Vereist de lokale webserver op poort 8765 (zie README) en git met de geschiedeni
 import json, os, subprocess, tempfile, time
 from playwright.sync_api import sync_playwright
 
-REF, REF_BOUW = "a01d67e", "261010d"
+REF, REF_BOUW = "c78b4c2", "261011a"
 URL = "http://localhost:8765/"
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
-HELP_OPM = "   <!-- a phone hides it in the header, and a problem report needs it -->"   # het bewuste verschil
+NIEUW = ["#firstFive", "#firstFiveHome"]   # bewust toegevoegd sinds REF (261011b: de links naar de eerste vijf minuten)
 TMP = tempfile.mkdtemp()
 ok = fail = 0
 def check(naam, cond):
@@ -52,9 +54,9 @@ LIB = json.load(open(GEPUB, encoding="utf-8")) if os.path.exists(GEPUB) else KLE
 # ---- de vergelijking ----
 SEED = """(() => { let a = 20261011; Math.random = () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
   t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; })();"""
-CAP = """async ({hash, repl}) => {
+CAP = """async ({hash, repl, nieuw}) => {
   const b = document.body.cloneNode(true);
-  b.querySelectorAll("script, template").forEach(x => x.remove());
+  b.querySelectorAll(["script", "template", ".help > :not(.helpbar)", ...nieuw].join(", ")).forEach(x => x.remove());
   const s = b.querySelector("#saveState");
   if (s){ s.textContent = ""; for (const a of ["class", "title", "data-short"]) s.removeAttribute(a); }
   let h = (document.body.className + "\\n" + b.innerHTML).split(">" + BUILD + "<").join(">@B@<").split("build " + BUILD).join("build @B@");
@@ -94,7 +96,7 @@ def stap(groep, actie=None, data=False, wacht=0, hash=False):
         if wacht: p.wait_for_timeout(wacht)
     g = GROEPEN.setdefault(groep, [0, None]); g[0] += 1
     if g[1]: return
-    r = R.evaluate(CAP, {"hash": hash, "repl": [[HELP_OPM, ""]]}); a = A.evaluate(CAP, {"hash": hash, "repl": []})
+    r = R.evaluate(CAP, {"hash": hash, "repl": [], "nieuw": NIEUW}); a = A.evaluate(CAP, {"hash": hash, "repl": [], "nieuw": NIEUW})
     if r != a:
         g[1] = f"stap {g[0]}: " + ("de HTML verschilt" if hash else verschil(r, a)); return
     if R.msgs != A.msgs:
@@ -142,8 +144,8 @@ with sync_playwright() as pw:
         stap("Welcome, Settings en Help", klik("#btnSettings"), wacht=300)
         stap("Welcome, Settings en Help", lambda p: p.keyboard.press("Escape"), wacht=200)
         stap("Welcome, Settings en Help", klik("#btnHelp"), wacht=300)
-        check("Help: de referentie droeg de HTML-opmerking, deze bouw niet",
-              HELP_OPM in R.evaluate(CAP, {"hash": False, "repl": []}) and "<!--" not in A.locator("#content").inner_html())
+        check("het bewust nieuwe staat er in deze bouw, niet in de referentie (de link op het startscherm)",
+              A.locator("#firstFive").count() == 1 and R.locator("#firstFive").count() == 0)
         stap("Welcome, Settings en Help", klik("#helpClose"), wacht=200)
 
         F = A.evaluate("DATA.formulas.map(f => ({id: f.id, n: f.versions.length}))")

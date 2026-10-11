@@ -1,6 +1,7 @@
 """Builds the HTML pages of the documentation from the Markdown sources, and optionally the PDF.
 
-    python tools/bouw-docs.py          # docs/manual.html, docs/ai-prompts.html, and the Help text in the app
+    python tools/bouw-docs.py          # docs/manual.html, docs/ai-prompts.html, docs/first-five-minutes.html,
+                                       # and the Help text in the app
     python tools/bouw-docs.py --pdf    # also docs/miFormulas-manual.pdf (needs Playwright 1.42 or later with Chromium)
     python tools/bouw-docs.py --app PATH   # the app file to update (default: ../miFormulas.html next to
                                            # the repo if it exists, else index.html); --no-app skips it
@@ -10,7 +11,7 @@ The Help button of the app shows the same manual: the script writes it, without 
 app file to public/index.html afterwards, as after any change to the app.
 
 Requires the "markdown" package (pip install markdown). The Markdown files stay the source:
-edit docs/manual.md or docs/ai-prompts.md and run this script again. The pages embed their
+edit docs/manual.md, docs/ai-prompts.md or docs/first-five-minutes.md and run this script again. The pages embed their
 CSS and a few lines of script (the copy buttons); images stay in docs/img.
 """
 import html, os, re, sys
@@ -135,7 +136,8 @@ def page(title, body, nav, description=""):
 """
 
 def nav(current):
-    items = [("https://miformulas.com", "miformulas.com"), ("manual.html", "Manual"), ("ai-prompts.html", "AI prompts"),
+    items = [("https://miformulas.com", "miformulas.com"), ("first-five-minutes.html", "First five minutes"),
+             ("manual.html", "Manual"), ("ai-prompts.html", "AI prompts"),
              ("miFormulas-manual.pdf", "Manual as PDF"), ("https://github.com/miformulas/miformulas", "GitHub")]
     return '<nav class="top"><b>miFormulas</b>' + "".join(
         f'<span>{label}</span>' if href == current else f'<a href="{href}">{label}</a>' for href, label in items) + "</nav>"
@@ -196,6 +198,16 @@ def build_prompts():
                "Ready-made prompts for using an AI assistant with miFormulas: photo to import file, materials check, Formulair grouping, server setup")
     open(os.path.join(DOCS, "ai-prompts.html"), "w", encoding="utf-8", newline="\n").write(out)
     print("wrote docs/ai-prompts.html", f"({len(prompts)} prompts)")
+
+def build_first():
+    """the first five minutes (build 261011b): one page for a newcomer, not in the Help and not in the PDF"""
+    src = open(os.path.join(DOCS, "first-five-minutes.md"), encoding="utf-8").read()
+    h = autolink(figures(convert(src), DOCS))
+    title = re.search(r"^# (.+)$", src, flags=re.M).group(1)
+    out = page(title, h, nav("first-five-minutes.html"),
+               "A material, a formula and a version: the first five minutes with miFormulas, step by step.")
+    open(os.path.join(DOCS, "first-five-minutes.html"), "w", encoding="utf-8", newline="\n").write(out)
+    print("wrote docs/first-five-minutes.html", f"({h.count('<figure')} figures)")
 
 ONLINE = "https://miformulas.com/docs/manual.html"
 
@@ -277,6 +289,7 @@ def build_pdf():
 if __name__ == "__main__":
     build_manual()
     build_prompts()
+    build_first()
     if "--no-app" not in sys.argv:
         if "--app" in sys.argv:
             app = sys.argv[sys.argv.index("--app") + 1]

@@ -8,7 +8,7 @@ There is nothing to install and no account, and your data stays with you: in you
 
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 261011a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
+This manual describes build 261011b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
 
 ## Contents
 
@@ -38,7 +38,7 @@ This manual describes build 261011a. The build number of the copy you are using 
 
 ## 1. Getting started
 
-Open https://miformulas.com in a modern browser.
+Open https://miformulas.com in a modern browser. New to miFormulas? https://miformulas.com/docs/first-five-minutes.html takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.
 
 **Which browser.** Chrome or Edge give you everything, on Windows and on a Mac, and Chrome does on Android as well: your data in a file of your own and the app installed with its own icon. Safari on a Mac, on an iPhone or on an iPad, and Firefox keep your data in the browser's storage, where Backup is your safety net; section 14 says what each of them can do.
 

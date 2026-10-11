@@ -5,7 +5,7 @@
 (build 260922p, the tail of the mini-audit on 260922m) Three plain dots where the app shows "…" are wrong too (C31); the
 manual calls the close button of the amber bar what the app shows, ✕, and does not assume the bar was ever there (C24);
 the online manual and the prompts page keep their grey at 4.5:1 or better, as the app does (C25). The script ends with
-exit code 1 when a check fails.
+exit code 1 when a check fails. Since build 261011b the page of the first five minutes counts as well.
 Needs the local web server on port 8765 (see README)."""
 import os, re
 from playwright.sync_api import sync_playwright
@@ -56,7 +56,7 @@ with sync_playwright() as p:
     PLAIN = {l for l in LABS if not l.endswith("…")}
     SAME = {"Settings"}   # the ⚙ button and its window are Settings; only the start screen's button reads "Settings…"
     bare, extra, dots = [], [], []
-    for rel in ("docs/manual.md", "README.md", "docs/ai-prompts.md"):
+    for rel in ("docs/manual.md", "README.md", "docs/ai-prompts.md", "docs/first-five-minutes.md"):
         d = open(os.path.join(PUB, rel), encoding="utf-8").read()
         # **bold** in the manual and the prompts, *italic* in the README; a name may wrap onto the next line there
         for m in re.finditer(r"(\*\*|(?<![*\w])\*(?![*\s]))((?:(?!\n\s*\n)[^*]){2,80}?)\1", d):
@@ -80,7 +80,7 @@ with sync_playwright() as p:
         c = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
         return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
     grijs = {}
-    for rel in ("docs/manual.html", "docs/ai-prompts.html"):
+    for rel in ("docs/manual.html", "docs/ai-prompts.html", "docs/first-five-minutes.html"):
         root = re.search(r":root\{([^}]*)\}", open(os.path.join(PUB, rel), encoding="utf-8").read()).group(1)
         v = dict(re.findall(r"--([a-z-]+):(#[0-9A-Fa-f]{6})", root))
         la, lb = sorted([lum(v["muted"]), lum(v["ground"])], reverse=True)

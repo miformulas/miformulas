@@ -10,6 +10,7 @@ Since build 261002d it also makes five figures that were captures of an older ap
 safari-start-add-to-dock (Chromium with the user agent of Safari, so not in Safari's font), edge-save-to-file, edge-settings
 and formulair-import (that one needs MIF_SQLITE, the Formulair database, as formulair-import.py does).
 Since release v2.2 also app-phone.png: a formula on a phone at the width of an iPhone (430 px at 2x, Safari's user agent).
+Since build 261011b also the three figures of docs/first-five-minutes.md (first-*.png): its own example, from the library to Compare.
 """
 import json, math, os, sys
 from playwright.sync_api import sync_playwright
@@ -394,6 +395,49 @@ with sync_playwright() as p:
     settle(page)
     shot(page, "app-phone.png", clip={"x": 0, "y": 0, "width": 430, "height": 720})
     ctx.close()
+
+    # ---- 18. the first five minutes (build 261011b): the example of docs/first-five-minutes.md, in a context of its own.
+    # Get the latest library is answered by the published library next to public/, or by a stand-in with Javanol ----
+    FIRST = {"first-material-dialog.png", "first-formula.png", "first-compare.png"}
+    if not ONLY or ONLY & FIRST:
+        lib = json.load(open(LIBRARY, encoding="utf-8")) if os.path.exists(LIBRARY) else {
+            "type": "miformulas-materials", "name": "miFormulas materials library", "version": "0000-00-00",
+            "licence": "CC BY 4.0", "materials": [
+                {"name": "Javanol", "aliases": ["Sandal Cyclopropane"], "cas": "198404-98-7", "category": "Woody - sandal",
+                 "pyramid": 4, "ifraLimit": 99, "odour": ["woody", "sandalwood", "fatty", "rose"], "strength": "high"}]}
+        ctx = new_context(b)
+        page = ctx.new_page()
+        page.on("dialog", lambda d: d.accept())
+        page.route("https://data.miformulas.com/**", lambda r: r.fulfill(status=200, content_type="application/json",
+                                                                           body=json.dumps(lib)))
+        page.goto(URL); page.wait_for_timeout(800)
+        page.click("#btnStarter"); page.wait_for_timeout(1200)
+        if page.locator("#storageHintClose").is_visible():
+            page.click("#storageHintClose")
+        page.click("#btnSettings"); page.wait_for_timeout(400)
+        page.click("#setListGet"); page.wait_for_timeout(900)
+        page.click("#btnNewMat"); page.wait_for_timeout(400)
+        page.fill("#nmName", "Javanol"); page.wait_for_timeout(300)
+        shot(page, "first-material-dialog.png", "#dlg")
+        page.click("#dlgOk"); page.wait_for_timeout(600)
+        page.fill("#newDil", "10"); page.click("#btnAddDil"); page.wait_for_timeout(400)
+        page.click("#btnNew"); page.wait_for_timeout(400)
+        page.fill("#nfName", "My first accord"); page.click("#dlgOk"); page.wait_for_timeout(600)
+        for n in ("Hedione", "Iso E Super", "Javanol", "Ethanol"):
+            page.fill("#addMat", n); page.press("#addMat", "Enter"); page.wait_for_timeout(350)
+        page.select_option('select[data-dil="2"]', "10"); page.wait_for_timeout(400)
+        for i, w in enumerate(("4", "3", "0.2", "2.8")):
+            page.fill(f'input.w[data-i="{i}"]', w); page.press(f'input.w[data-i="{i}"]', "Enter"); page.wait_for_timeout(300)
+        page.click("#content h2"); settle(page)
+        shot(page, "first-formula.png")
+        page.click("#btnNewV"); page.wait_for_timeout(600)
+        page.fill('input.w[data-i="2"]', "0.3"); page.press('input.w[data-i="2"]', "Enter"); page.wait_for_timeout(300)
+        page.click("#btnNameV"); page.wait_for_timeout(300)
+        page.fill("#vnName", "more javanol"); page.click("#dlgOk"); page.wait_for_timeout(400)
+        page.click("#btnCmp"); page.wait_for_timeout(600)
+        page.click("#content h2"); settle(page)
+        shot(page, "first-compare.png")
+        ctx.close()
     b.close()
 
 # 256-colour palette: a third of the size, no visible loss on UI screenshots

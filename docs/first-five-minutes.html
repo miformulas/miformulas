@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your first five minutes with miFormulas</title>
+<meta name="description" content="A material, a formula and a version: the first five minutes with miFormulas, step by step.">
+<link rel="icon" href="../icons/icon-192.png">
+<style>
+:root{--ground:#FBFCFD;--surface:#FFFFFF;--panel:#EDF1F5;--ink:#212A33;--muted:#5A6773;--line:#DCE3EA;
+  --accent:#A2277E;--accent-ink:#7E1B62;--accent-soft:#F9E3F1;--amber:#DD8500;--amber-soft:#FFEFD2}
+@media (prefers-color-scheme: dark){:root{--ground:#1C1122;--surface:#2A1833;--panel:#241430;--ink:#F2E6F2;--muted:#B292BC;
+  --line:#453050;--accent:#E667B0;--accent-ink:#F08CC5;--accent-soft:#3A1F38;--amber:#FFB454;--amber-soft:#3B2A12}}
+html{background:var(--ground)}
+body{margin:0;color:var(--ink);font:16px/1.55 "Segoe UI",system-ui,-apple-system,sans-serif}
+main{max-width:52rem;margin:0 auto;padding:1.5rem 1.2rem 4rem}
+nav.top{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:baseline;font-size:.9rem;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:.6rem;margin-bottom:1.6rem}
+nav.top b{color:var(--accent-ink);font-size:1rem}
+nav.top a{color:var(--accent-ink)}
+h1{font-size:2rem;line-height:1.2;margin:.2rem 0 1rem}
+h2{font-size:1.4rem;margin:2.6rem 0 .8rem;padding-top:.4rem;border-top:1px solid var(--line);color:var(--accent-ink)}
+h3{font-size:1.1rem;margin:1.6rem 0 .5rem}
+p,li{max-width:46rem}
+a{color:var(--accent-ink)}
+code{font:.92em/1.4 ui-monospace,Consolas,"SF Mono",Menlo,monospace;background:var(--panel);padding:.05em .3em;border-radius:3px}
+pre{background:var(--panel);padding:.8rem 1rem;border-radius:6px;overflow:auto;font:.88rem/1.45 ui-monospace,Consolas,"SF Mono",Menlo,monospace}
+pre code{background:none;padding:0;font:inherit}
+ol.toc{columns:2;column-gap:2rem;padding-left:2rem;font-size:.95rem}
+ol.toc li{break-inside:avoid;padding:.08rem 0}
+ol.toc a{text-decoration:none}
+ol.toc a:hover{text-decoration:underline}
+figure{margin:1.1rem 0 1.4rem;max-width:46rem}
+figure img{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+figure.small img{max-width:min(100%,30rem)}
+figcaption{font-size:.86rem;color:var(--muted);margin-top:.4rem}
+li > figure{margin-left:0}
+hr{border:0;border-top:1px solid var(--line);margin:1.6rem 0}
+.prompt{position:relative;margin:1rem 0 1.4rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;background:var(--surface)}
+.prompt pre{margin:0;background:none;white-space:pre-wrap;word-wrap:break-word;padding:1rem 5.5rem 1rem 1rem;font:.9rem/1.5 "Segoe UI",system-ui,-apple-system,sans-serif}
+.prompt button{position:absolute;top:.5rem;right:.5rem;font:.82rem system-ui,sans-serif;padding:.3rem .7rem;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);cursor:pointer}
+.prompt button:hover{border-color:var(--accent)}
+.prompt button.done{background:var(--accent-soft);border-color:var(--accent)}
+.footer{margin-top:3rem;padding-top:.8rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+@media print{
+  html{background:#fff} body{font-size:10.5pt;color:#000}
+  main{max-width:none;padding:0}
+  nav.top{display:none}
+  h2{break-before:page;border-top:0;margin-top:0;color:#000}
+  h2#contents,h2:first-of-type{break-before:auto}
+  h2.no-break{break-before:auto}
+  figure{break-inside:avoid}
+  figure img{border-color:#bbb;max-height:40vh;width:auto}
+  figure.small img{max-width:min(100%,22rem)}
+  a{color:#000;text-decoration:none}
+  ol.toc{columns:2;font-size:.88rem;padding-left:1.6rem}   /* small enough to stay on the title page */
+  ol.toc li{padding:0}
+  pre{white-space:pre-wrap;overflow-wrap:anywhere}
+  pre .w{white-space:nowrap}
+  .prompt{break-inside:avoid;border-color:#bbb}
+  .prompt button{display:none}
+}
+</style>
+</head>
+<body>
+<main>
+<nav class="top"><b>miFormulas</b><a href="https://miformulas.com">miformulas.com</a><span>First five minutes</span><a href="manual.html">Manual</a><a href="ai-prompts.html">AI prompts</a><a href="miFormulas-manual.pdf">Manual as PDF</a><a href="https://github.com/miformulas/miformulas">GitHub</a></nav>
+<h1 id="your-first-five-minutes-with-miformulas">Your first five minutes with miFormulas</h1>
+<p>Three things are worth doing first: make a material, make a formula with it, and make a second version of that formula. One small example runs through all three, and it takes about five minutes. The <a href="manual.html">manual</a> is the reference behind every step.</p>
+<h2 id="before-you-start-1-minute">Before you start (1 minute)</h2>
+<p>miFormulas runs in Chrome or Edge, in one of three ways. Choose one before you start:</p>
+<ul>
+<li><strong>On the site.</strong> Open <a href="https://miformulas.com">https://miformulas.com</a>. Your work stays in that browser, on that device.</li>
+<li><strong>As an app of its own.</strong> Open <a href="https://miformulas.com">https://miformulas.com</a> and click <strong>Install as an app</strong> on the start screen (on an iPhone or iPad, Safari's <strong>Add to Home Screen</strong> does the same): the site in a window of its own, with its own icon, and it updates by itself. As on the site, your work stays in the browser (section <a href="manual.html#s15-install-as-an-app-with-its-own-icon">15</a>).</li>
+<li><strong>As a file on your own PC or Mac</strong>, working offline. Open <a href="https://miformulas.com">https://miformulas.com</a>, click <strong>Download the app</strong> on the start screen, give <code>miFormulas.html</code> a folder of its own and open it there in Chrome or Edge. When you click <strong>Start with the starter set</strong> there, the app explains that it will create your data file and the browser asks where to save it: choose the folder of <code>miFormulas.html</code> and keep the name <code>miformulas-data.json</code>. <strong>Check for updates</strong> in its Settings brings the next version (section <a href="manual.html#s14-where-your-data-lives-and-the-other-ways-in">14</a>).</li>
+</ul>
+<p>Then click <strong>Start with the starter set</strong>: sixteen formulas and nearly two hundred materials to look at; each is marked "starter" so you'll be able to tell them apart from your own.</p>
+<figure class="small"><img src="img/app-start-browser.png" alt="The start screen of miformulas.com." loading="lazy"><figcaption>The start screen of miformulas.com.</figcaption></figure>
+<p>Next, open Settings (⚙ in the header) and click <strong>Get the latest library</strong>. The materials library is a reference list the app uses to retrieve data about the materials you want to add to your inventory. It adds nothing to the inventory, but a material you create from it arrives with its facts.</p>
+<h2 id="s1-a-material-1-minute">1. A material (1 minute)</h2>
+<p>A material is anything you weigh. Click <strong>+ New material…</strong> in the header (on a phone: on the Welcome page, under Start here) and type <code>Javanol</code>. The name is in the library, so the window shows what the material will arrive with: its CAS number, pyramid level, IFRA limit and a few odour facts, and it chooses the category. Click <strong>Create</strong>.</p>
+<figure class="small"><img src="img/first-material-dialog.png" alt="New material: the library knows Javanol." loading="lazy"><figcaption>New material: the library knows Javanol.</figcaption></figure>
+<p>The material page opens, and everything on it can be changed. You also keep a 10 % dilution of Javanol: type 10 in the field under the dilutions and click <strong>Add dilution</strong>. A formula offers a material only at the dilutions you have added. Price, supplier and stock are on the same page, for when you need them (section <a href="manual.html#s3-materials">3</a>).</p>
+<h2 id="s2-a-formula-2-minutes">2. A formula (2 minutes)</h2>
+<p>Click <strong>+ New formula…</strong> (in the header, or on a phone under Start here on the Welcome page), name it <code>My first accord</code> and click <strong>Create</strong>. Type a material in <strong>Add material…</strong> under the table and press Enter: the line appears with weight 0, and the cursor stays in <strong>Add material…</strong> for the next one. Add these four:</p>
+<ul>
+<li>Hedione</li>
+<li>Iso E Super</li>
+<li>Javanol</li>
+<li>Ethanol</li>
+</ul>
+<p>In the Dilution column of Javanol, choose 10 %. Then select the 0.000 of the first weight and type 4. If you're using a physical keyboard, Tab will confirm it and move to the next material's weight, where you type 3, then 0.2 and 2.8; on a touch screen, tap each weight in turn. Every change is saved automatically, and Ctrl+Z (or the undo arrow in the header) will undo your latest entry (section <a href="manual.html#s5-editing-a-formula">5</a>).</p>
+<figure><img src="img/first-formula.png" alt="My first accord: four lines, with their rel % and abs %." loading="lazy"><figcaption>My first accord: four lines, with their rel % and abs %.</figcaption></figure>
+<h2 id="s3-a-version-1-minute">3. A version (1 minute)</h2>
+<p>Let's assume you made this batch and it needs more javanol. Instead of changing v1, you can click <strong>+ New version</strong>. The app copies the version into v2, and v1 stays as it was, frozen, the record of what you made. In v2, set Javanol to 0.3 g. The pencil next to the version list gives v2 a label, say <code>more javanol</code>, so that the list tells the versions apart. <strong>Compare</strong> puts two versions side by side and marks what changed (sections <a href="manual.html#s4-formulas-and-versions">4</a> and <a href="manual.html#s11-comparing-versions">11</a>).</p>
+<figure><img src="img/first-compare.png" alt="Compare: v1 and v2 of My first accord." loading="lazy"><figcaption>Compare: v1 and v2 of My first accord.</figcaption></figure>
+<h2 id="where-your-work-is-and-where-to-go-next">Where your work is, and where to go next</h2>
+<p>On the site, and in the app you installed from it, your work is kept in the browser, on this device. Click <strong>Backup</strong> in the header now and then: it writes a copy of everything, with the date and time in its name. In Chrome and Edge, <strong>Save to a data file…</strong> (on the Welcome page, and in Settings) moves your work into a file of your own, which the app then keeps saving to.</p>
+<p>If you're using the downloaded app, it saves your work from the start in <code>miformulas-data.json</code>, the file you created next to <code>miFormulas.html</code> when you clicked <strong>Start with the starter set</strong> (sections <a href="manual.html#s14-where-your-data-lives-and-the-other-ways-in">14</a> and <a href="manual.html#s20-backups-and-recovery">20</a>).</p>
+<p>From here, the manual takes over:</p>
+<ul>
+<li>the bench view, to build a batch group by group: section <a href="manual.html#s10-bench-view-and-printing">10</a></li>
+<li>batch scaling and premixes: section <a href="manual.html#s8-batch-scaling-and-premixes">8</a></li>
+<li>the IFRA check: section <a href="manual.html#s12-ifra-check-and-category-panel">12</a></li>
+<li>coming from Formulair: section <a href="manual.html#s17-coming-from-formulair">17</a></li>
+<li>a formula from a photo, a PDF or a spreadsheet, with your own AI assistant: the <a href="ai-prompts.html">AI prompts</a></li>
+</ul>
+<div class="footer">miFormulas is free software (GPL v3 with two additional terms, see the licence section). Source and issues: <a href="https://github.com/miformulas/miformulas">github.com/miformulas/miformulas</a>.</div>
+</main>
+<script>
+document.querySelectorAll('.prompt button').forEach(b => b.addEventListener('click', async () => {
+  const t = b.parentElement.querySelector('pre').textContent;
+  try{ await navigator.clipboard.writeText(t); b.textContent = 'Copied'; b.classList.add('done'); }
+  catch(e){ const r = document.createRange(); r.selectNodeContents(b.parentElement.querySelector('pre'));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Select and copy'; }
+  setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('done'); }, 2500);
+}));
+</script>
+</body>
+</html>

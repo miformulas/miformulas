@@ -32,7 +32,7 @@ import importlib.util, os, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, ".."))
 # the files that link to the manual, and the files that only name a chapter
-LINKERS = ["index.html", "docs/manual.html", "docs/ai-prompts.html",
+LINKERS = ["index.html", "docs/manual.html", "docs/ai-prompts.html", "docs/first-five-minutes.html",
            "formulair-import.html", "tools/formulair-import.src.html"]
 NAMERS = ["index.html", "formulair-import.html", "tools/formulair-import.src.html",
           "server/worker.js", "server/data.php", "docs/ai-prompts.md", "README.md"]

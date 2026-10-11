@@ -119,7 +119,9 @@ free Cloudflare Worker if you do not. See below.
 
 The starter set holds sixteen formulas, each as a concentrate and diluted to 100 g,
 and nearly two hundred materials, marked "starter" so you can tell them from your
-own. The manual is at https://miformulas.com/docs/manual.html (also as a PDF:
+own. New here? https://miformulas.com/docs/first-five-minutes.html takes you through a
+material, a formula and a version in five minutes. The manual is at
+https://miformulas.com/docs/manual.html (also as a PDF:
 https://miformulas.com/docs/miFormulas-manual.pdf), and ready-made prompts for an
 AI assistant at https://miformulas.com/docs/ai-prompts.html; the Markdown sources
 are in `docs/`.
