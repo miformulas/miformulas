@@ -1,14 +1,16 @@
 """Bouw 261011a (opruiming en de index van de library, bouw 2 van de analyse van 10/10): niets dat je ziet verandert.
 Twee browsers naast elkaar: de referentie REF uit git (eerst 261010d, sinds 261011b bouw 261011a, sinds 261011c bouw
-261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d) en de bouw van de repo, met dezelfde data, dezelfde
+261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d, sinds 261012a bouw 261011e) en de bouw van de repo, met dezelfde data, dezelfde
 klok en hetzelfde toeval (de ids). Na elke stap is de HTML van de pagina byte voor byte gelijk (kop, lijst, pagina,
 open venster en afdrukgebied; zonder het script, de ingebedde handleiding als sjabloon en de bewaarmelding, en met de
 bouwstempel weggelaten), net als serialize() en de meldingen. Wat een bouw bewust toevoegt, staat in NIEUW en telt niet
-mee (261011e: de knoppen boven het zoekvak en de categorie op de formulepagina), en wat een bouw bewust in de HTML
-omzet, staat in REPL en RX (261011e: Change category… weg; de categorie op de materiaalpagina op één regel, die als
-@CAT@ telt); in Help telt alleen de balk, want de tekst van de handleiding
+mee (261012a: de versie als tekst in de bench view, en de lijst zolang er een zoekterm staat, want die is één lijst op
+naam geworden; zoeken-op-naam.py test haar), en wat een bouw bewust in de HTML omzet, staat in REPL en RX (261011e:
+Change category… weg; de categorie op de materiaalpagina op één regel, die als @CAT@ telt; sinds 261012a leeg); in Help
+telt alleen de balk, want de tekst van de handleiding
 verandert met de handleiding en help.py test ze. Het piramide-icoontje telt als zijn niveau, maat en kleur: sinds 261011c
 is het één span met een masker in plaats van een svg (geselecteerde-rij-en-icoon.py test hoe het eruitziet).
+Zolang er een zoekterm staat, telt de lijst niet mee, maar vinden beide bouwen dezelfde rijen (sinds 261012a).
 De stappen: Welcome, Settings en Help; elke versie en de bench view van elke formule; alle sorteringen van de tabel,
 de bench en Compare; elk materiaal; zoeken in beide lijsten; To order; Browse the library…, + New material… en Add
 line met een naam uit de library; de kleurmerken, Lower en Create premix…; Import materials inventory from CSV…
@@ -24,21 +26,20 @@ Vereist de lokale webserver op poort 8765 (zie README) en git met de geschiedeni
 import json, os, subprocess, tempfile, time
 from playwright.sync_api import sync_playwright
 
-REF, REF_BOUW = "84a6686", "261011d"
+REF, REF_BOUW = "c63b87d", "261011e"
 URL = "http://localhost:8765/"
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
-NIEUW = ["#listTools", "#fCatRow", "#content:has(.benchWrap) .fhead > .chipRow"]   # bewust toegevoegd of weggelaten sinds REF
-# (261011e: de knoppen boven het zoekvak, de categorie boven Version, en de regel van Version die de bench view niet meer toont)
-# bewust omgezet sinds REF: als tekst [weg, in de plaats] (261011e: Change category… staat niet meer naast Rename…), en
-# als patroon [patroon, in de plaats] (261011e: de categorie op de materiaalpagina, met Classify several… in REF en op
-# één regel met + New category in deze bouw; de keuzelijst van de pagina test materialen-classificeren.py)
-REPL = [['<button id="btnCatF" title="Move to another category">Change category…</button>', ""],
-        ['<button id="btnCatF" title="Move to another category" disabled="">Change category…</button>', ""]]   # alleen lezen
-RX = [[r'<label for="mf_category">Category</label>[\s\S]*?(?=\s*<span class="flabel">Pyramid</span>)', '<label for="mf_category">Category</label>@CAT@']]
+NIEUW = ["#benchVer", "#searchBox:not(:placeholder-shown) + #list"]   # bewust toegevoegd of omgezet sinds REF
+# (261012a: de versie als tekst boven de bank, en de lijst met een zoekterm: één lijst op naam, de beschrijvingen en de
+# library onderaan; zonder zoekterm telt de lijst wel)
+# bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261011e: Change
+# category… en de categorie op de materiaalpagina; sinds 261012a niets)
+REPL = []
+RX = []
 TMP = tempfile.mkdtemp()
 ok = fail = 0
 def check(naam, cond):
@@ -198,8 +199,6 @@ with sync_playwright() as pw:
         check(f"beide tekenen het icoontje als één span (sinds 261011c); de vergelijking telt niveau, maat en kleur ({iconen})",
               iconen[0][0] == 0 and iconen[1][0] == 0 and iconen[0][1] > 100 and iconen[1][1] == iconen[0][1])
         stap("elk materiaal", ev(VIEW, {"tab": "M", "id": M[5], "sub": None}))
-        knop = [[p.locator("#btnClassify").count(), p.locator("#listTools button").count()] for p in (R, A)]
-        check(f"Classify several… staat in de referentie op de materiaalpagina, in deze bouw boven het zoekvak ({knop})", knop == [[1, 0], [0, 2]])
         for k in (3, 10, 11, 40, 3):
             stap("rijen in de lijst aanklikken", klik(f"#list .item >> nth={k}"), wacht=50)
         stap("rijen in de lijst aanklikken", ev(VIEW, {"tab": "F", "id": None, "sub": None}))
@@ -208,11 +207,19 @@ with sync_playwright() as pw:
         stap("elk materiaal", ev(VIEW, {"tab": "M", "id": None, "sub": None}))
         for m in M:
             stap("elk materiaal", ev(VIEW, {"tab": "M", "id": m, "sub": None}))
+        # sinds 261012a telt de lijst niet mee zolang er een zoekterm staat (NIEUW: één lijst op naam in plaats van groepen);
+        # wat ze vindt, moet wel hetzelfde zijn: dezelfde rijen, de rijen met ✎ en wat de library aanbiedt
+        TREFFERS = """() => [[...document.querySelectorAll('#list .item')].map(e => e.dataset.id + (e.textContent.includes('✎') ? ' ✎' : '')).sort(),
+            [...document.querySelectorAll('#list .sugRow button')].map(b => b.dataset.add).sort()]"""
+        anders = []
         for q in ["a", "ros", "gamma decalactone", "decalactone", "haiti", "Haïti", "cœur", "coeur", "C-11", "c11",
                   "İstanbul", "istanbul", "ambr", "6790-58-5", "woody", "starter", "musk e", ""]:
             stap("zoeken in Materials", reeks(ev(VIEW, {"tab": "M", "id": None, "sub": None}), vul("#searchBox", q)))
+            if R.evaluate(TREFFERS) != A.evaluate(TREFFERS): anders.append("M " + q)
         for q in ["cool", "for men", "v2", "rose", "zzz", ""]:
             stap("zoeken in Formulas", reeks(ev(VIEW, {"tab": "F", "id": None, "sub": None}), vul("#searchBox", q)))
+            if R.evaluate(TREFFERS) != A.evaluate(TREFFERS): anders.append("F " + q)
+        check(f"zoeken vindt in beide bouwen dezelfde rijen, met ✎ en de library (anders: {anders})", not anders)
         m0 = A.evaluate("DATA.materials[3].id")
         stap("To order", ev("""m => { DATA.orderList.push({id: "o-1", materialId: m, name: "", note: "restock", price: "", added: today()},
             {id: "o-2", materialId: null, name: "Iets nieuws", note: "", price: "", added: today()}); markDirty(); switchTab("T"); }""", m0),
@@ -306,8 +313,11 @@ with sync_playwright() as pw:
             stap("je eigen data: de bench view van elke formule", ev(VIEW, {"tab": "F", "id": f["id"], "sub": {"type": "v", "idx": f["n"] - 1, "bench": True}}), hash=True)
         for m in A.evaluate("DATA.materials.map(m => m.id)"):
             stap("je eigen data: elk materiaal", ev(VIEW, {"tab": "M", "id": m, "sub": None}), hash=True)
+        anders = []
         for q in ["a", "ros", "gamma decalactone", "haiti", "cœur", "C-11", "dpg", "ambr", ""]:
             stap("je eigen data: zoeken in Materials", reeks(ev(VIEW, {"tab": "M", "id": None, "sub": None}), vul("#searchBox", q)), hash=True)
+            if R.evaluate(TREFFERS) != A.evaluate(TREFFERS): anders.append(q)
+        check(f"je eigen data: zoeken vindt in beide bouwen dezelfde rijen, met ✎ en de library (anders: {anders})", not anders)
         stap("je eigen data: zoeken in Materials", None, data=True, hash=True)
         verslag()
         check(f"geen fouten in de pagina ({R.errs[:1]}, {A.errs[:1]})", not R.errs and not A.errs)
