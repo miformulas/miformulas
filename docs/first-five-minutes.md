@@ -45,7 +45,7 @@ Let's assume you made this batch and it needs more javanol. Instead of changing 
 
 ## Where your work is, and where to go next
 
-On the site, and in the app you installed from it, your work is kept in the browser, on this device. Click **Backup** in the header now and then: it writes a copy of everything, with the date and time in its name. In Chrome and Edge, **Save to a data file…** (on the Welcome page, and in Settings) moves your work into a file of your own, which the app then keeps saving to.
+On the site, and in the app you installed from it, your work is kept in the browser, on this device. Click **Backup** in the header now and then: it writes a copy of everything, with the date and time in its name. In Chrome and Edge, **Save to a data file…** (in the amber bar under the header, on the Welcome page once that bar is closed, and in Settings) moves your work into a file of your own, which the app then keeps saving to.
 
 If you're using the downloaded app, it saves your work from the start in `miformulas-data.json`, the file you created next to `miFormulas.html` when you clicked **Start with the starter set** (sections [14](manual.html#s14-where-your-data-lives-and-the-other-ways-in) and [20](manual.html#s20-backups-and-recovery)).
 

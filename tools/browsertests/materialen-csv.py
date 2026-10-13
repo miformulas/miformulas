@@ -1,5 +1,7 @@
 """Materialen invoeren uit een CSV (bouw 260916, bibliotheekknop 260916b, Import/Export-venster 260916d): de rondgang met de eigen CSV-uitvoer, een vreemd
-blad met ; en decimale komma en andere kopnamen, een Windows-1252-bestand, dubbels, het sjabloon en undo.
+blad met ; en decimale komma en andere kopnamen, een Windows-1252-bestand, dubbels, het sjabloon en undo. Sinds bouw
+261013a (audit v3, A1) cureert de invoer niet: dezelfde naam twee keer in het blad blijft twee materialen, en een rij met
+een naam die de bibliotheek aan een eerdere rij hing, wordt een eigen materiaal; alleen een naam die je al had, slaat ze over.
 Vereist de lokale webserver op poort 8765, zie README."""
 import csv, io, json, os, tempfile
 from playwright.sync_api import sync_playwright
@@ -106,10 +108,10 @@ with sync_playwright() as pw:
           and v["dilutions"] == "6" and v["description"] == "7")
     check("een onbekende kop (Note) blijft ongekoppeld", v["pyramid"] == "")
     page.select_option("#csv_pyramid", "5"); page.wait_for_timeout(300)   # de gebruiker koppelt ze zelf
-    check("de teller: drie erbij, één dubbel, één zonder naam",
-          "3 material(s)" in page.text_content("#csvCount") and "1 skipped" in page.text_content("#csvCount") and "1 row(s) without a name" in page.text_content("#csvCount"))
+    check("de teller: vier erbij (iso e super staat twee keer in het blad en blijft twee keer), één zonder naam",
+          "4 material(s)" in page.text_content("#csvCount") and "skipped" not in page.text_content("#csvCount") and "1 row(s) without a name" in page.text_content("#csvCount"))
     msgs2.clear(); page.click("#dlgOk"); page.wait_for_timeout(1000)
-    check("drie materialen aangemaakt", page.evaluate("DATA.materials.length") == 3)
+    check("vier materialen aangemaakt", page.evaluate("DATA.materials.length") == 4)
     iso = mat(page, "Iso E Super")
     check(f"decimale komma gelezen ({iso['cost']})", iso["cost"] == 0.12)
     check(f"10% wordt dilutie 10 als basis ({iso['dil']}, basis {iso['base']})", iso["dil"] == [10] and iso["base"] == 10)
@@ -119,7 +121,8 @@ with sync_playwright() as pw:
     check(f"een aanhalingsteken in een veld overleeft ({hed['desc']!r})", hed["desc"] == 'jasmine; "radiant"')
     check(f"Heart wordt 2 en 100 / 10 geeft twee diluties ({hed['pyr']}, {hed['dil']})", hed["pyr"] == 2 and hed["dil"] == [100, 10])
     check("zonder solventkolom is niets solvent", page.evaluate("DATA.materials.filter(m => m.isSolvent).length") == 0)
-    check("de melding noemt de overgeslagen rij", any("1 row(s) skipped" in m for m in msgs2))
+    check(f"de melding noemt de naam die nu twee materialen draagt ({msgs2[-1:]})",
+          any("1 name(s) now belong to more than one of your materials" in m and "skipped" not in m for m in msgs2))
 
     # ---------------- 3. Windows-1252, zoals Excel het schrijft ----------------
     w = os.path.join(tmp, "excel.csv")
@@ -131,7 +134,7 @@ with sync_playwright() as pw:
           "Patchouli cœur" in namen and "Crème brulée base" in namen)
     check("een nieuwe categorie is aangemaakt", page.evaluate("DATA.materialCategories.includes('Gourmand')"))
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
-    check("undo neemt ook de categorie terug", not page.evaluate("DATA.materialCategories.includes('Gourmand')") and page.evaluate("DATA.materials.length") == 3)
+    check("undo neemt ook de categorie terug", not page.evaluate("DATA.materialCategories.includes('Gourmand')") and page.evaluate("DATA.materials.length") == 4)
 
     # ---------------- 4. het sjabloon ----------------
     with page.expect_download() as dl:
@@ -195,18 +198,19 @@ with sync_playwright() as pw:
     check("het venster blijft open", page.locator("#csvMap").is_visible())
     check(f"de bibliotheek is geladen ({page.evaluate('DATA.materialList && DATA.materialList.name')})", page.evaluate("DATA.materialList && DATA.materialList.name") == "Testbibliotheek")
     check("de regel noemt ze nu", "Testbibliotheek 2026-09-16" in page.text_content("#csvLib") and page.locator("#csvLibGet").count() == 0)
-    # sinds bouw 260920m telt het plan de aliassen mee die de invoer zelf meegeeft: de rij "Methyl dihydrojasmonate"
-    # landt straks op de Hedione die deze invoer aanmaakt, dus ze wordt niet meer als nieuw materiaal beloofd
+    # sinds bouw 261013a cureert de invoer niet: de rij "Methyl dihydrojasmonate" wordt een eigen materiaal, ook al hangt
+    # de bibliotheek die naam als alternatieve naam aan de Hedione van de rij ervoor (tot dan landde ze daarop)
     tel = page.text_content("#csvCount")
-    check(f"de teller belooft er drie, want de aliasrij landt op de stof die hier gemaakt wordt ({tel})",
-          "3 material(s) will be created" in tel)
-    check(f"en zegt hoeveel namen de bibliotheek kent ({tel})", "knows 2 of them" in tel)
+    check(f"de teller belooft er vier, ook de rij met de alternatieve naam ({tel})",
+          "4 material(s) will be created" in tel)
+    check(f"en zegt hoeveel namen de bibliotheek kent ({tel})", "knows 3 of them" in tel)
     check("de Welcome-pagina achter het venster is bijgewerkt", "Import & export" in page.text_content("#content .panelBox:last-of-type"))
     msgs3.clear(); page.click("#dlgOk"); page.wait_for_timeout(1000)
     iso = mat(page, "Iso E Super"); hed = mat(page, "Hedione"); mdj = mat(page, "Methyl dihydrojasmonate")
     check(f"de bibliotheek vult aan wat het blad niet had ({iso['cas']}, {iso['cat']}, {iso['pyr']})", iso["cas"] == "54464-57-2" and iso["cat"] == "Woody" and iso["pyr"] == 4)
-    check(f"de alias uit de bibliotheek komt bij de stof, en de rij met die alias is dezelfde stof en wordt overgeslagen ({hed['al']}, {msgs3})",
-          mdj is None and "Methyl dihydrojasmonate" in (hed["al"] or "") and any("1 row(s) skipped" in m for m in msgs3))
+    check(f"de alias uit de bibliotheek komt bij de stof, en de rij met die alias wordt toch een eigen materiaal met de feiten ({hed['al']}, {mdj and mdj['cas']}, {msgs3[-1:]})",
+          mdj is not None and mdj["cas"] == "24851-98-7" and "Methyl dihydrojasmonate" in (hed["al"] or "")
+          and any(m.startswith("4 material(s) imported") and "skipped" not in m for m in msgs3))
     check("een naam die ze niet kent komt kaal binnen", mat(page, "Nieuwe stof")["cas"] in (None, ""))
     page.keyboard.press("Control+z"); page.wait_for_timeout(700)
     check("undo neemt de invoer terug", page.evaluate("DATA.materials.length") == 0)
@@ -298,7 +302,8 @@ with sync_playwright() as pw:
 
     # ---------------- staart 28 en 34 (bouw 260920m) ----------------
     # 28: "100 / 100 / 10" maakte twee keer dezelfde dilutie, wat de app overal elders weigert
-    # 34: het plan kende de aliassen niet die de invoer zelf meegeeft, en beloofde meer dan er kwam
+    # 34: het plan kende de aliassen niet die de invoer zelf meegeeft, en beloofde meer dan er kwam; sinds 261013a komt
+    # elke rij binnen (ook Ambroxan, de alternatieve naam van Ambroxide in de bibliotheek), en het plan belooft ze alle drie
     page.evaluate("""() => { setMaterialList({type:"miformulas-materials", name:"Aliaslijst", version:"1",
         materials:[{name:"Ambroxide", aliases:["Ambroxan"], cas:"6790-58-5", category:"Test", pyramid:4}]});
         render(); }""")
@@ -309,16 +314,16 @@ with sync_playwright() as pw:
     msgs3.clear()
     page.set_input_files("#impCsv", dub); page.wait_for_timeout(900)
     telling = page.text_content("#csvCount")
-    check(f"het plan belooft twee materialen, niet drie: de alias telt mee ({telling.strip()[:60]!r})",
-          "2 material(s) will be created" in telling)
+    check(f"het plan belooft drie materialen ({telling.strip()[:60]!r})",
+          "3 material(s) will be created" in telling)
     page.click("#dlgOk"); page.wait_for_timeout(1200)
     dd = mat(page, "Dubbeldil")
     check(f"dezelfde dilutie komt maar één keer binnen ({dd['dil']}, basis {dd['base']})",
           sorted(dd["dil"]) == [10, 100] and dd["base"] == 100)
-    check(f"er kwamen er twee, zoals beloofd ({page.evaluate('DATA.materials.length')})",
-          page.evaluate("""() => DATA.materials.filter(m => /Dubbeldil|Ambroxide|Ambroxan/.test(m.name)).length""") == 2)
-    check(f"en de melding zegt waarom de derde rij wegviel ({[m[:110] for m in msgs3][-1:]})",
-          any("earlier row in this sheet" in m for m in msgs3))
+    check(f"er kwamen er drie, zoals beloofd ({page.evaluate('DATA.materials.length')})",
+          page.evaluate("""() => DATA.materials.filter(m => /Dubbeldil|Ambroxide|Ambroxan/.test(m.name)).length""") == 3)
+    check(f"en de melding slaat geen rij over ({[m[:110] for m in msgs3][-1:]})",
+          any(m.startswith("3 material(s) imported") and "skipped" not in m for m in msgs3))
 
     check(f"geen paginafouten in deel 6 ({errs3[:2]})", not errs3)
 

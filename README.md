@@ -129,8 +129,9 @@ are in `docs/`.
 Your own materials come in from the spreadsheet you already keep them in: save it
 as a CSV and use **Import materials inventory from CSV…** on the Welcome page,
 which shows your columns next to the fields of a material and lets you match them
-on screen. Only the name is required; **Download a template** shows the columns
-the app uses itself. Formulas travel the same way in the other direction:
+on screen. Only the name is required; the link **template** beside it writes a
+CSV with the columns the app uses itself. Formulas travel the same way in the
+other direction:
 **Export all formulas (Excel)** writes one CSV of everything, and **Import
 formula…** reads that CSV back, matching the columns the same way and grouping
 the rows by formula and version.
@@ -140,7 +141,7 @@ apps ship: a reference file of facts that you import (**Import materials library
 behind ⇅ in the header). With one loaded, a material you add arrives with its CAS
 number, category, pyramid level, IFRA limit, alternative names and a few lines of
 odour facts already filled in, all of it editable, and the materials you own are
-never touched. The library published by miFormulas holds several hundred
+never touched. The library published by miFormulas holds over a thousand
 materials under CC BY 4.0; **Get the latest library** in Settings fetches the
 current one. Its IFRA limits can be wrong or out of date: check them against
 the current IFRA Standards (section 12 of the manual). It is not in the
@@ -183,8 +184,9 @@ Nobody but you sees your formulas. The app runs entirely in your browser and you
 data lives where you put it: the browser's storage, a file on your disk, or a server
 you own. It sends your data nowhere but to a server you set up yourself, sends no
 telemetry and loads no scripts from elsewhere; it contacts miformulas.com and
-data.miformulas.com only for two files you ask for yourself, the starter set and the
-published materials library, and on the site once to see whether a `data.php`
+data.miformulas.com only for three files you ask for yourself: the starter set,
+the published materials library and, in a downloaded copy, the app itself behind
+Check for updates; and on the site once to see whether a `data.php`
 server sits next to it;
 apart from that it makes no network request at all. You can check this in the code: the whole app is this one readable file, and the
 manual (section 21) lists every network call it contains and how to verify them.

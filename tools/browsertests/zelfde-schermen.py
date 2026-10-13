@@ -1,6 +1,6 @@
 """Bouw 261011a (opruiming en de index van de library, bouw 2 van de analyse van 10/10): niets dat je ziet verandert.
 Twee browsers naast elkaar: de referentie REF uit git (eerst 261010d, sinds 261011b bouw 261011a, sinds 261011c bouw
-261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d, sinds 261012a bouw 261011e) en de bouw van de repo, met dezelfde data, dezelfde
+261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d, sinds 261012a bouw 261011e, sinds 261013a bouw 261012a) en de bouw van de repo, met dezelfde data, dezelfde
 klok en hetzelfde toeval (de ids). Na elke stap is de HTML van de pagina byte voor byte gelijk (kop, lijst, pagina,
 open venster en afdrukgebied; zonder het script, de ingebedde handleiding als sjabloon en de bewaarmelding, en met de
 bouwstempel weggelaten), net als serialize() en de meldingen. Wat een bouw bewust toevoegt, staat in NIEUW en telt niet
@@ -14,7 +14,8 @@ Zolang er een zoekterm staat, telt de lijst niet mee, maar vinden beide bouwen d
 De stappen: Welcome, Settings en Help; elke versie en de bench view van elke formule; alle sorteringen van de tabel,
 de bench en Compare; elk materiaal; zoeken in beide lijsten; To order; Browse the library…, + New material… en Add
 line met een naam uit de library; de kleurmerken, Lower en Create premix…; Import materials inventory from CSV…
-met dubbels en alternatieve namen; Import formula… (één formule, meerdere, een blad van formules); Undo; alleen-lezen
+met namen die je al hebt en alternatieve namen (sinds 261013a zonder een naam twee keer in het blad of een rij die een
+eerdere rij als alternatieve naam draagt: die cureert de invoer niet meer, audit-v3-ronde1.py test dat); Import formula… (één formule, meerdere, een blad van formules); Undo; alleen-lezen
 en een telefoon; rijen in de lijst aangeklikt met de muis. Staat miformulas-data.json naast public (de proef), dan ook
 elke versie en elk materiaal daarvan;
 staat de gepubliceerde library er, dan is zij de library, anders een kleine eigen.
@@ -26,19 +27,19 @@ Vereist de lokale webserver op poort 8765 (zie README) en git met de geschiedeni
 import json, os, subprocess, tempfile, time
 from playwright.sync_api import sync_playwright
 
-REF, REF_BOUW = "c63b87d", "261011e"
+REF, REF_BOUW = "e7047ab", "261012a"
 URL = "http://localhost:8765/"
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
-NIEUW = ["#benchVer", "#searchBox:not(:placeholder-shown) + #list"]   # bewust toegevoegd of omgezet sinds REF
-# (261012a: de versie als tekst boven de bank, en de lijst met een zoekterm: één lijst op naam, de beschrijvingen en de
-# library onderaan; zonder zoekterm telt de lijst wel)
+NIEUW = []   # bewust toegevoegd of omgezet sinds REF (261012a: de versie als tekst boven de bank en de lijst met een
+# zoekterm; sinds 261013a niets)
 # bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261011e: Change
-# category… en de categorie op de materiaalpagina; sinds 261012a niets)
-REPL = []
+# category… en de categorie op de materiaalpagina; 261013a: de teller van de CSV-import noemt geen naam meer die twee
+# keer in het blad staat, want zo'n rij komt nu binnen)
+REPL = [[", or twice in the sheet", ""]]
 RX = []
 TMP = tempfile.mkdtemp()
 ok = fail = 0
@@ -254,16 +255,18 @@ with sync_playwright() as pw:
         verslag()
 
         eerste = STARTER["materials"][0]["name"]
+        # sinds 261013a zonder "Foo Bar" (de alternatieve naam van Testolide X), een tweede Testolide X en "vetiver haiti":
+        # die slaat 261012a over en komen nu binnen (audit v3, A1)
         csv = "\n".join(["Name;CAS;Aliases;Category;Dilutions;Stock g (tracked)",
                          "Decalactone gamma;;;;100 / 10;5", "Peach Lactone;;;;;", "Testolide X;;Foo Bar;Musks;;",
-                         "Foo Bar;;;;;", "Testolide X;;;;;", f"{eerste};;;;;", ";;;;;", "Vetiver Haïti;;;;;",
-                         "vetiver haiti;;;;;", "Brand New Stuff;123-45-6;;;10;", "Ambroxan;;;;;"]) + "\n"
+                         f"{eerste};;;;;", ";;;;;", "Vetiver Haïti;;;;;",
+                         "Brand New Stuff;123-45-6;;;10;", "Ambroxan;;;;;"]) + "\n"
         stap("Import materials inventory from CSV…", reeks(ev("() => switchTab('M', null, null)"), kies("#impCsv", bestand("blad.csv", csv))), wacht=400)
         stap("Import materials inventory from CSV…", lambda p: p.select_option('#csvMap select[data-k="aliases"]', ""), wacht=50)
         stap("Import materials inventory from CSV…", lambda p: p.select_option('#csvMap select[data-k="aliases"]', "2"), wacht=50)
         stap("Import materials inventory from CSV…", klik("#dlgOk"), data=True, wacht=300)
-        check(f"de melding van de CSV-import telt de dubbels zoals voorheen ({A.msgs[-1:]})",
-              bool(A.msgs) and "skipped" in A.msgs[-1] and "earlier row" in A.msgs[-1])
+        check(f"de melding van de CSV-import telt de namen die je al hebt zoals voorheen ({A.msgs[-1:]})",
+              bool(A.msgs) and "skipped" in A.msgs[-1])
         stap("Import materials inventory from CSV…", ev("() => undo()"), data=True)
 
         een = {"type": "miformulas-import", "name": "Proefimport", "date": "2026-10-11", "lines": [
