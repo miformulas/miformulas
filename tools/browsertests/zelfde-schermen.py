@@ -1,6 +1,6 @@
 """Bouw 261011a (opruiming en de index van de library, bouw 2 van de analyse van 10/10): niets dat je ziet verandert.
 Twee browsers naast elkaar: de referentie REF uit git (eerst 261010d, sinds 261011b bouw 261011a, sinds 261011c bouw
-261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d, sinds 261012a bouw 261011e, sinds 261013a bouw 261012a, sinds 261014a bouw 261013a) en de bouw van de repo, met dezelfde data, dezelfde
+261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d, sinds 261012a bouw 261011e, sinds 261013a bouw 261012a, sinds 261014a bouw 261013a, sinds 261014b bouw 261014a) en de bouw van de repo, met dezelfde data, dezelfde
 klok en hetzelfde toeval (de ids). Na elke stap is de HTML van de pagina byte voor byte gelijk (kop, lijst, pagina,
 open venster en afdrukgebied; zonder het script, de ingebedde handleiding als sjabloon en de bewaarmelding, en met de
 bouwstempel weggelaten), net als serialize() en de meldingen. Wat een bouw bewust toevoegt, staat in NIEUW en telt niet
@@ -10,7 +10,9 @@ Change category… weg; de categorie op de materiaalpagina op één regel, die a
 telt alleen de balk, want de tekst van de handleiding
 verandert met de handleiding en help.py test ze. Het piramide-icoontje telt als zijn niveau, maat en kleur: sinds 261011c
 is het één span met een masker in plaats van een svg (geselecteerde-rij-en-icoon.py test hoe het eruitziet).
-Zolang er een zoekterm staat, telt de lijst niet mee, maar vinden beide bouwen dezelfde rijen (sinds 261012a).
+Zolang er een zoekterm staat, telt de lijst niet mee, maar vinden beide bouwen dezelfde rijen (sinds 261012a); op een
+CAS-nummer biedt sinds 261014b alleen de nieuwe bouw de library aan. Sinds 261014b zet migrate de materialen op naam:
+beide bouwen krijgen de data op naam (OPNAAM).
 De stappen: Welcome, Settings en Help; elke versie en de bench view van elke formule; alle sorteringen van de tabel,
 de bench en Compare; elk materiaal; zoeken in beide lijsten; To order; Browse the library…, + New material… en Add
 line met een naam uit de library; de kleurmerken, Lower en Create premix…; Import materials inventory from CSV…
@@ -27,22 +29,21 @@ Vereist de lokale webserver op poort 8765 (zie README) en git met de geschiedeni
 import json, os, subprocess, tempfile, time
 from playwright.sync_api import sync_playwright
 
-REF, REF_BOUW = "d384b78", "261013a"
+REF, REF_BOUW = "60cfe73", "261014a"
 URL = "http://localhost:8765/"
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
-NIEUW = ["#searchBox:not(:placeholder-shown) + #list"]   # bewust toegevoegd of omgezet sinds REF (261012a: de versie
-# als tekst boven de bank en de lijst met een zoekterm; 261014a: de lijst met een zoekterm, want een treffer op
-# alternatieve naam, CAS of leverancier zegt in het grijze regeltje wat er trof; beide bouwen vinden wel dezelfde rijen)
-# bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261011e: Change
-# category… en de categorie op de materiaalpagina; 261013a: de teller van de CSV-import; 261014a: keuzelijst, kleurvakje
-# en + New category van een formule als één groep, en de bron van de library als tooltip van de attributie in Settings)
-REPL = [['<span class="fcatctl">', ""]]
-RX = [[r'(id="btnNewFCat"[^>]*>\+ New category</button>)</span>', "$1"],
-      [r'<div class="hint"(?: title="[^"]*")?>(miFormulas materials library, https://miformulas\.com)(?: · [^<]*)?</div>', '<div class="hint">$1</div>']]
+NIEUW = []   # bewust toegevoegd of omgezet sinds REF (261014a: de lijst met een zoekterm; sinds 261014b niets)
+# bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261014a: de categoriegroep
+# van een formule en de bron van de library in Settings; sinds 261014b niets)
+REPL = []
+RX = []
+# sinds 261014b zet migrate de materialen op naam (audit v3, C17): beide bouwen krijgen de data op naam, zodat alleen
+# verschilt wat de bouw zelf verandert
+OPNAAM = "DATA.materials.sort((a, b) => a.name.localeCompare(b.name)); invalidateMats();"
 TMP = tempfile.mkdtemp()
 ok = fail = 0
 def check(naam, cond):
@@ -164,7 +165,7 @@ with sync_playwright() as pw:
               R.evaluate("BUILD") == REF_BOUW)
         stap("het startscherm")
         stap("de starterset met een library", reeks(klik("#btnStarter"), lambda p: p.wait_for_timeout(1500),
-             ev("pkg => { setMaterialList(normLibrary(pkg)); render(); }", LIB)), data=True, wacht=300)
+             ev("pkg => { setMaterialList(normLibrary(pkg)); " + OPNAAM + " render(); }", LIB)), data=True, wacht=300)
         stap("Welcome, Settings en Help", klik("#btnHome"), wacht=200)
         stap("Welcome, Settings en Help", klik("#btnSettings"), wacht=300)
         stap("Welcome, Settings en Help", lambda p: p.keyboard.press("Escape"), wacht=200)
@@ -216,9 +217,16 @@ with sync_playwright() as pw:
             [...document.querySelectorAll('#list .sugRow button')].map(b => b.dataset.add).sort()]"""
         anders = []
         for q in ["a", "ros", "gamma decalactone", "decalactone", "haiti", "Haïti", "cœur", "coeur", "C-11", "c11",
-                  "İstanbul", "istanbul", "ambr", "6790-58-5", "woody", "starter", "musk e", ""]:
+                  "İstanbul", "istanbul", "ambr", "woody", "starter", "musk e", ""]:
             stap("zoeken in Materials", reeks(ev(VIEW, {"tab": "M", "id": None, "sub": None}), vul("#searchBox", q)))
             if R.evaluate(TREFFERS) != A.evaluate(TREFFERS): anders.append("M " + q)
+        # sinds 261014b biedt de library ook aan wat op CAS treft (audit v3, C19): dezelfde rijen, en alleen de nieuwe bouw
+        # biedt de library aan; audit-v3-ronde3.py test dat verder
+        for p in (R, A): reeks(ev(VIEW, {"tab": "M", "id": None, "sub": None}), vul("#searchBox", "6790-58-5"))(p)
+        r, a = R.evaluate(TREFFERS), A.evaluate(TREFFERS)
+        check(f"zoeken op een CAS-nummer: dezelfde rijen, en alleen de nieuwe bouw biedt de library aan ({r[1]} | {a[1]})",
+              r[0] == a[0] and not r[1] and "Ambroxide" in a[1])
+        for p in (R, A): reeks(ev(VIEW, {"tab": "M", "id": None, "sub": None}), vul("#searchBox", ""))(p)
         for q in ["cool", "for men", "v2", "rose", "zzz", ""]:
             stap("zoeken in Formulas", reeks(ev(VIEW, {"tab": "F", "id": None, "sub": None}), vul("#searchBox", q)))
             if R.evaluate(TREFFERS) != A.evaluate(TREFFERS): anders.append("F " + q)
@@ -309,7 +317,7 @@ with sync_playwright() as pw:
         tekst = open(EIGEN, encoding="utf-8").read()
         R, A = opstarten(b, True), opstarten(b, False)
         laad = reeks(klik("#btnStarter"), lambda p: p.wait_for_timeout(1500),
-                     ev("([t, pkg]) => { DATA = migrate(JSON.parse(t)); invalidateMats(); setMaterialList(normLibrary(pkg)); clampView(); setTabs(); render(); }", [tekst, LIB]))
+                     ev("([t, pkg]) => { DATA = migrate(JSON.parse(t)); invalidateMats(); setMaterialList(normLibrary(pkg)); " + OPNAAM + " clampView(); setTabs(); render(); }", [tekst, LIB]))
         stap("je eigen data, geladen", laad, data=True, wacht=200, hash=True)
         F = A.evaluate("DATA.formulas.map(f => ({id: f.id, n: f.versions.length}))")
         for f in F:

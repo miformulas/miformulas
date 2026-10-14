@@ -36,7 +36,8 @@ with sync_playwright() as p:
         m.dilutions.push({pct: 7, isBase: false, date: today(), notes: ""});   // een dilutie die een ander niet heeft
         v.lines[0].dilutionPct = 7;
         v.lines[1].weightG = 0.0004;                       // een spoorregel: mag niet naar 0 afronden
-        const solv = DATA.materials.find(x => x.isSolvent);
+        // het solvent dat de versie al heeft (sinds 261014b staan de materialen op naam en is het eerste solvent een ander)
+        const solv = v.lines.map(l => matById(l.materialId)).find(x => x && x.isSolvent) || DATA.materials.find(x => x.isSolvent);
         v.lines.push({materialId: solv.id, dilutionPct: 100, weightG: 191, remark: 1});
         window.__f = f.name; window.__mat = m.name; window.__cas = m.cas || "";
         window.__solv = solv.name;

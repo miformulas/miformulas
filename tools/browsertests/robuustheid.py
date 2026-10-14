@@ -158,7 +158,7 @@ with sync_playwright() as p:
         dils: ((DATA.materials.find(m => m.name === "Lege dilutie") || {}).dilutions || []).length,
         bestel: (DATA.orderList || []).length})""")
     check(f"formules en materialen die geen object zijn vallen weg ({r['f']}, {r['m']})",
-          r["f"] == ["Goed", "Zonder nummers", "Rommelregels", "Versies geen lijst"] and r["m"] == ["Stof", "Lege dilutie"])
+          r["f"] == ["Goed", "Zonder nummers", "Rommelregels", "Versies geen lijst"] and r["m"] == ["Lege dilutie", "Stof"])   # op naam sinds 261014b (C17)
     check(f"versies zonder nummer worden doorgenummerd, bestaande nummers blijven ({r['vs']})", r["vs"] == [1, 2, 7])
     check(f"een versies-veld dat geen lijst is wordt er een ({r['geenlijst']})", r["geenlijst"] is True)
     check(f"stukke regels, diluties en bestelregels vallen weg ({r['regels']}, {r['dils']}, {r['bestel']})",

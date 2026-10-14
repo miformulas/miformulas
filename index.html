@@ -241,7 +241,7 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 .pyricon.lv2{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon fill='black' points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
 .pyricon.lv3{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon fill='black' points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
 .pyricon.lv4{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon fill='black' points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
-#verSel{max-width:26rem}
+#verSel{max-width:22rem}   /* Delete version stays on the line on a laptop with the list open (audit v3, C22) */
 .sortable{cursor:pointer;user-select:none;white-space:nowrap}
 .sortable:hover{color:var(--accent)}
 table.lines tbody tr:hover{background:var(--accent-soft)}
@@ -436,7 +436,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261014a</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261014b</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -506,7 +506,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s17-coming-from-formulair">17</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a premix (sections <a href="#s7-changing-dilutions">7</a> to <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s16-import-export-and-sharing">16</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s10-bench-view-and-printing">10</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261014a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261014b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
@@ -1163,6 +1163,10 @@ function migrate(d){
   d.materialCategories = toPremixes(d.materialCategories, "Predils"); d.formulaCategories = toPremixes(d.formulaCategories, "Predilutions");
   for (const old of ["Predils", "Predilutions"])
     if (old in d.categoryColours){ d.categoryColours.Premixes ||= d.categoryColours[old]; delete d.categoryColours[old]; }
+  // a library in a file goes through the same check as one you import: aliases written as text stopped the search (audit v3, C26)
+  d.materialList = d.materialList && typeof d.materialList === "object" && !Array.isArray(d.materialList) ? normLibrary(d.materialList) : null;
+  // the materials stand by name, as every addition puts them, so Undo of an addition gives the file back as it was (C17)
+  d.materials.sort((a, b) => a.name.localeCompare(b.name));
   d.orderList = rows(d.orderList);
   for (const o of d.orderList){            // old free-text amounts → number + unit
     if (typeof o.amount === "string"){
@@ -1560,7 +1564,9 @@ function pushUndo(fn){
 const now = () => { const d = new Date(); return `${today()} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`; };   // local time
 // keepDate: arranging the bench view is no change to the recipe, so the formula does not move up in Recently edited (B8)
 function snapF(f, keepDate){ const c = structuredClone(f); pushUndo(() => { const i = DATA.formulas.findIndex(x => x.id === c.id); if (i >= 0) DATA.formulas[i] = c; }); if (!keepDate) f.modified = now(); }
-function snapM(m){ const c = structuredClone(m); pushUndo(() => { const i = DATA.materials.findIndex(x => x.id === c.id); if (i >= 0) DATA.materials[i] = c; }); m.modified = now(); }
+// a name back is a place back: the materials stand by name (audit v3, C17)
+function snapM(m){ const c = structuredClone(m); pushUndo(() => { const i = DATA.materials.findIndex(x => x.id === c.id);
+  if (i >= 0){ const was = DATA.materials[i].name; DATA.materials[i] = c; if (was !== c.name) DATA.materials.sort((a, b) => a.name.localeCompare(b.name)); } }); m.modified = now(); }
 function clampView(){
   if (VIEW.tab === "F" && VIEW.sub){
     const f = DATA.formulas.find(x => x.id === VIEW.id);
@@ -2304,6 +2310,7 @@ function renderFormula(f){
     if (el.value === el.defaultValue) return;   // the field holds the rounded total: applying it unchanged would rewrite every weight
     const t = parseNum(el.value); if (!K.totalW) return;
     if (!(t > 0) || !isFinite(t)){ alert("Enter a target total above 0 g."); return; }
+    if (Math.abs(t - K.totalW) < 5e-4) return;   // the same total written otherwise ("100" for 100.000): no change, no Undo step (audit v3, C21)
     snapF(f);
     const k = t / K.totalW; item.lines.forEach(l => l.weightG = (l.weightG||0)*k);
     markDirty(); render();
@@ -2345,6 +2352,7 @@ function renderFormula(f){
     if (el.value === el.defaultValue) return;   // unchanged: it holds the rounded abs %, and applying it would move the ethanol line
     const p = parseNum(el.value);
     if (!p || p <= 0 || !isFinite(p)){ alert("Enter a target abs % above 0."); return; }
+    if (Math.abs(p - K.totalAbsPct) < 5e-3) return;   // the same percentage written otherwise: no change (C21)
     const content = K.rows.reduce((s,r) => s + r.cont, 0);
     const eIdx = item.lines.findIndex(l => isEthanol(matById(l.materialId)));
     const wOther = K.totalW - (eIdx >= 0 ? (item.lines[eIdx].weightG||0) : 0);
@@ -2792,7 +2800,10 @@ function listSuggest(q){   // entries of the library you do not have yet, by nam
   const t = fold(q).trim();
   if (t.length < 2) return [];
   const have = ownNames(), ownMain = ownMainNames(), w = searchWords(t);
-  return listMaterials().filter(e => listHit(e, w) && !ownsEntry(e, have, ownMain));
+  // a CAS number that only the library knows finds its entry too, as in Browse the library…; only a term of digits and
+  // dashes, so that "12" does not list half the library (audit v3, C19)
+  const cas = /^\d[\d-]{3,}$/.test(t);
+  return listMaterials().filter(e => (listHit(e, w) || (cas && fold(e.cas).includes(t))) && !ownsEntry(e, have, ownMain));
 }
 function addFromList(hit, name, pct, cat){   // one material from a library entry (or from a name alone); the caller sorts and does the Undo
   const want = cat || (hit && hit.category) || "Uncategorised";
@@ -4364,7 +4375,9 @@ function aggLines(lines){
   return {map, tw, content, abs: tw ? content/tw*100 : 0};
 }
 function cmpOptions(f){
-  return f.versions.map((v,i)=>({key:"v"+i, label:`${vName(v)} (${v.date||"no date"})${v.sourceName?` – ${v.sourceName}`:""}`}));
+  // the words of the version list (verText), unescaped, as the list escapes them itself: a hidden import reference stays
+  // hidden (audit v3, C20)
+  return f.versions.map((v,i)=>({key:"v"+i, label:`${vName(v)} (${v.date||"no date"})${v.sourceName && !v.hideSource ? `: ${v.sourceName}` : ""}${v.imported ? " 🔒" : ""}`}));
 }
 function cmpLines(f, key){
   return f.versions[+key.slice(1)]?.lines || [];
@@ -4521,9 +4534,10 @@ function resolveBulk(p){   // once per file: every line checked, then only the t
         const r = resolveImportLine(L, ws);
         if (r.bad){ bad++; fbad++; continue; }
         if (r.m){ matched++; if (!r.dilOwned) warn++; if (r.solvMismatch) solv++; }
-        else { const k = normName(L.material); if (!fresh.has(k)){ fresh.set(k, 1); fnew++;
+        else { const k = normName(L.material); if (!fresh.has(k)){ fresh.set(k, r.dil); fnew++;
                  const hit = listFind(L.material);   // the names that one material will answer to, counted once
-                 if (hit) for (const a of [hit.name, ...(hit.aliases || [])]){ const kk = normName(a); if (kk) fresh.set(kk, 1); } } }
+                 if (hit) for (const a of [hit.name, ...(hit.aliases || [])]){ const kk = normName(a); if (kk) fresh.set(kk, r.dil); } }
+               else if (fresh.get(k) !== r.dil) warn++; }   // another strength of a material still to make: ⚠ after the import (C25)
       }
       // applyBulkImport keeps only a version that holds lines, and only a formula that keeps a version. The
       // window used to count everything the file names, so it promised formulas and versions that never arrived.
@@ -4642,14 +4656,16 @@ function renderImport(){
   // The same counting as the bulk preview: one material, however many of its names the file uses. A library
   // entry gives the new material its own name and its aliases, so a later line carrying one of those lands
   // on it instead of making a second; counting the literal names promised more than ever arrived.
-  const seenNew = new Map(); let newCount = 0;
+  // A material still to make gets the dilution of its first line: a line at another strength shows ⚠ after the import,
+  // so it counts here as well (audit v3, C25)
+  const seenNew = new Map(); let newCount = 0, newWarn = 0;
   for (const r of rows){ if (r.bad || r.m) continue;
-    const k = normName(r.L.material); if (seenNew.has(k)) continue;
-    seenNew.set(k, 1); newCount++;
+    const k = normName(r.L.material); if (seenNew.has(k)){ if (seenNew.get(k) !== r.dil) newWarn++; continue; }
+    seenNew.set(k, r.dil); newCount++;
     const hit = listFind(r.L.material);
-    if (hit) for (const a of [hit.name, ...(hit.aliases || [])]){ const kk = normName(a); if (kk) seenNew.set(kk, 1); }
+    if (hit) for (const a of [hit.name, ...(hit.aliases || [])]){ const kk = normName(a); if (kk) seenNew.set(kk, r.dil); }
   }
-  const warnCount = rows.filter(r => !r.bad && r.m && !r.dilOwned).length;
+  const warnCount = rows.filter(r => !r.bad && r.m && !r.dilOwned).length + newWarn;
   const solvCount = rows.filter(r => r.solvMismatch).length;
   const shared = /^shared from miformulas/i.test(p.source || "");   // a file from another miFormulas: the round-number hint means nothing there
   const twin = DATA.formulas.find(x => normName(x.name) === normName(p.name));
@@ -5156,6 +5172,7 @@ function renderMaterial(m){
     if (k === "name"){ MATLIST = null; DATA.materials.sort((a,b)=>a.name.localeCompare(b.name)); invalidateMats(); render(); }
     else if (k === "aliases") invalidateMats();   // the name index holds the aliases too: without this the new name is not found yet
     else if (k === "category") render();
+    else if (k === "inventory" || k === "description") renderSidebar();   // the list shows the amount, and a search the description (audit v3, C18)
   }));
   $("#btnNewMatCat")?.addEventListener("click", () => {
     const n = askCatName(); if (!n) return;
@@ -5330,16 +5347,21 @@ $("#btnNewMat").addEventListener("click", () => {
       if (VIEW.id === m.id){ VIEW.id = null; VIEW.sub = null; } });
     VIEW = {tab:"M", id:m.id, sub:null}; HOMEVIEW = false; setTabs(); markDirty(); render();
   });
+  let byHit = null;   // the category a library hit chose, and what stood there before it (audit v3, C24)
   const lookup = () => {   // a name from the library: show what it brings and preselect its category
     const m = listFind($("#nmName").value);
     const facts = m ? (m.description || listFacts(m)) : "";   // the preview shows what will be filled in
     $("#nmFound").innerHTML = m
       ? `From the materials library: <b>${esc(m.name)}</b>${m.cas ? " · CAS " + esc(m.cas) : ""}${m.pyramid != null ? " · " + PYR[m.pyramid] : ""}${m.ifraLimit != null ? " · IFRA " + fmtS(m.ifraLimit, 3) : ""}${facts ? "<br>" + esc(facts).replace(/\n/g, "<br>") : ""}`
       : "";
+    const sel = $("#nmCat");
     if (m && m.category){
-      const sel = $("#nmCat");
+      if (!byHit) byHit = {was: sel.value};
       if (![...sel.options].some(o => o.value === m.category)) sel.add(new Option(m.category + " (new)", m.category));
-      sel.value = m.category;
+      sel.value = byHit.set = m.category;
+    } else if (byHit){   // the name no longer finds it: the category it chose goes, unless you chose one since
+      if (sel.value === byHit.set) sel.value = byHit.was;
+      byHit = null;
     }
   };
   $("#btnNewNmCat")?.addEventListener("click", () => {
