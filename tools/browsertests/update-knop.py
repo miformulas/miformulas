@@ -126,14 +126,14 @@ with sync_playwright() as p:
         SITE.update(abort=False)
 
         # 3. wat terugkomt is de app niet: een aanmeldpagina van een netwerk, of een pagina met een stempel maar zonder
-        # de titel van de app
+        # de titel van de app; sinds 261014a (audit v3, C14) zegt de melding dat, in plaats van naar de verbinding te wijzen
         SITE.update(body="<!doctype html><title>Sign in to the network</title><p>Accept the terms to continue.</p>")
         check_for_update()
-        check(f"een andere pagina: niets aangeboden ({msgs[:1]})", any("could not be fetched" in m for m in msgs) and not dlg_open(page))
+        check(f"een andere pagina: niets aangeboden ({msgs[:1]})", any("is not the app" in m for m in msgs) and not dlg_open(page))
         SITE.update(body=site_html(LATER).replace("<title>miFormulas</title>", "<title>Not found</title>", 1))
         check_for_update()
         check(f"een stempel zonder de titel van de app: niets aangeboden ({msgs[:1]})",
-              any("could not be fetched" in m for m in msgs) and not dlg_open(page))
+              any("is not the app" in m for m in msgs) and not dlg_open(page))
 
         # 4. de site heeft een nieuwere bouw: het venster
         SITE.update(body=site_html(LATER))

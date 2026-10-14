@@ -216,7 +216,10 @@ dialog a{color:var(--accent-ink)}   /* the browser's blue was 1,75:1 on the dark
 #firstFive a,#firstFiveHome a{color:var(--accent-ink)}   /* the first five minutes (build 261011b), likewise */
 @media (max-height:520px){dialog{max-height:94dvh}dialog h3{margin-top:0}}
 #clRows{height:max(9rem, calc(88dvh - 23rem))}   /* Classify materials: as tall as the window allows without scrolling (build 261011d) */
-@media (max-width:600px){#clRows{height:max(9rem, calc(88dvh - 27rem))}}   /* a phone wraps the lines around it */
+@media (max-width:600px){#clRows{height:max(5rem, calc(88dvh - 27rem))}   /* a phone wraps the lines around it */
+  #clRows .brRow .sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0} #clRows .brRow > span:first-of-type{flex-shrink:0;max-width:65%}}   /* the smallest keep Pyramid in sight and a name whole (audit v3, C6) */
+#matCatRow{flex-wrap:wrap} #matCatRow > button{white-space:nowrap}   /* on 320 px + New category goes under the list, not out of sight (C7) */
+.fcatctl{display:inline-flex;gap:.35rem;min-width:0;max-width:100%} .fcatctl > select{min-width:0}   /* the list, its colour and + New category stay together (C7) */
 dialog::backdrop{background:rgba(0,0,0,.35)}
 #landing{position:fixed;inset:0;background:var(--ground);display:flex;align-items:center;justify-content:center;z-index:50}
 #landing .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:2rem 2.5rem;max-width:30rem;text-align:center}
@@ -433,7 +436,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261013a</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261014a</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -503,7 +506,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s17-coming-from-formulair">17</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a premix (sections <a href="#s7-changing-dilutions">7</a> to <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s16-import-export-and-sharing">16</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s10-bench-view-and-printing">10</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261013a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261014a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
@@ -535,7 +538,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <h2 id="s2-the-screen">2. The screen</h2>
 <p>The <strong>header</strong> holds two groups. On the left what the content is: the list toggle (☰, also Ctrl+B), <strong>Home</strong>, <strong>+ New formula…</strong> and <strong>+ New material…</strong>; the installed app adds a back and a forward arrow there, because an app window has no toolbar of its own (see Back and forward below). On the right what the file is: the save state, <strong>Undo</strong> and <strong>Redo</strong> (arrows on a narrow window), <strong>Save</strong> (saving is automatic; this forces it now, also Ctrl+S), <strong>Backup</strong>, <strong>Import &amp; export</strong> (⇅, section <a href="#s16-import-export-and-sharing">16</a>), and then the four buttons you need rarely: reload (the circular arrow, for after an update), the theme (◐ auto, ● dark, ○ light; the icon is the setting and the tooltip spells it out), <strong>Help</strong> (?, this manual inside the app, without the screenshots) and Settings (⚙). On a window too narrow for one row, from around 1200 pixels down (a little more in the installed app, with its two arrows, or with a longer save state), the right group moves to a second row as a whole, so nothing ever runs off the edge.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s2-the-screen">The header.</a></p>
-<p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. Above the search box, Formulas has <strong>+ New formula…</strong> and <strong>Classify several…</strong>, Materials <strong>+ New material…</strong> and <strong>Classify several…</strong>: the same as the buttons in the header, which a phone leaves out, and the way to give many items a category at once (sections <a href="#s3-materials">3</a> and <a href="#s4-formulas-and-versions">4</a>). The search box filters the list, and then shows one list by name, without the categories: you know what you are looking for, and the groups would scatter it. A formula then shows its category in grey beside its name, where the number of versions stood; the tooltip still gives it. Formulas are searched by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description. A material found only in its description is the least likely to be the one you mean, so those come after the others, under <strong>In descriptions ✎</strong>, each marked with ✎. Names are searched word by word, in any order: "gamma decalactone" finds Decalactone gamma and "alpha damascone" finds Damascone Alpha. All the words have to be in the same name, so each word you add narrows the list, and only a space separates words ("C-11" stays one). The CAS number, the supplier and the description are searched for the whole term as typed. The search fields in <strong>Browse the library…</strong> and <strong>Export my inventory as a library…</strong> treat names and categories the same way. Accents and ligatures do not matter: "coeur" finds Vertofix cœur, and the same folding decides whether an import lands on a material you already have. Each tab keeps its own term, so the name of a material does not stay behind in the formula list when you switch. Typing "starter" lists the starter set. With a materials library loaded, the Materials tab also lists what the library knows and you do not have, at the very end, with <strong>+ Add</strong> (section <a href="#s3-materials">3</a>).</p>
+<p>The <strong>list panel</strong> on the left has three tabs. <strong>Formulas</strong> and <strong>Materials</strong> group their items by category with a coloured dot; the counter after each formula tells how many versions it holds. <strong>To order</strong> is the shopping list. Above the search box, Formulas has <strong>+ New formula…</strong> and <strong>Classify several…</strong>, Materials <strong>+ New material…</strong> and <strong>Classify several…</strong>: the same as the buttons in the header, which a phone leaves out, and the way to give many items a category at once (sections <a href="#s3-materials">3</a> and <a href="#s4-formulas-and-versions">4</a>). The search box filters the list, and then shows one list by name, without the categories: you know what you are looking for, and the groups would scatter it. A formula then shows its category in grey beside its name, where the number of versions stood; the tooltip still gives it. Formulas are searched by name; materials by name, alternative names, CAS number and supplier, and from three characters also by the text in their description. A material found only in its description is the least likely to be the one you mean, so those come after the others, under <strong>In descriptions ✎</strong>, each marked with ✎. A material found by an alternative name, its CAS number or its supplier shows what was found in grey on its right. Names are searched word by word, in any order: "gamma decalactone" finds Decalactone gamma and "alpha damascone" finds Damascone Alpha. All the words have to be in the same name, so each word you add narrows the list, and only a space separates words ("C-11" stays one). The CAS number, the supplier and the description are searched for the whole term as typed. The search fields in <strong>Browse the library…</strong> and <strong>Export my inventory as a library…</strong> treat names and categories the same way. Accents and ligatures do not matter: "coeur" finds Vertofix cœur, and the same folding decides whether an import lands on a material you already have. Each tab keeps its own term, so the name of a material does not stay behind in the formula list when you switch. Typing "starter" lists the starter set. With a materials library loaded, the Materials tab also lists what the library knows and you do not have, at the very end, with <strong>+ Add</strong> (section <a href="#s3-materials">3</a>).</p>
 <p>The <strong>page</strong> on the right shows the selected formula or material, the order list, or the Welcome page.</p>
 <p>The app stays in English: a browser that translates pages leaves it alone, because a translation also renames your formulas and materials on the screen. The manual on the site can still be translated by the browser.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s2-the-screen">The list panel on the left and a formula page on the right.</a></p>
@@ -838,7 +841,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>It returns the data with an ETag and accepts a save only when the ETag still matches, so that two devices cannot overwrite each other as long as the server passes that ETag through (the app then shows a conflict warning: make a Backup, reload and redo the change; the very first save, when there is no data file yet, has nothing to match and is simply written), and it keeps a snapshot of the previous state on the first save of each day, fourteen days long: in <code>data/snapshots</code> on a PHP server, under <code>snapshots/</code> in the bucket on Cloudflare. On a PHP server a save that finds no room for that snapshot is refused and changes nothing, so a full disk cannot take the state before today along with it; and a data file that is a link, into a synced folder for instance, stays a link, because the endpoint writes where it leads. A server that hides the ETag from the browser (a proxy that strips the header, or CORS without <code>Access-Control-Expose-Headers</code>) makes the app say so once: saving still works, but that protection is off until it is fixed. Both endpoints send that header themselves, together with the rest of the CORS block and an answer to the browser's preflight, so the app and the endpoint may sit at two different addresses; what can still take the header away is a proxy or a CDN in front of the server. A save is answered with the new ETag and with the number of bytes that were stored, the same figure <code>?ping=1</code> reports, so what is on the server can always be held against the size of your last Backup. Restoring a snapshot is copying that file over <code>miformulas-data.json</code>, or downloading it and reading it in with <strong>Restore a Backup…</strong> in Import &amp; export (section <a href="#s20-backups-and-recovery">20</a>). When the app starts without loading anything from the server, because it was unreachable or held no data file yet, the first save looks once more before it writes: if a data file has arrived in the meantime, nothing is sent and the app says so, so that a fresh start here cannot land on top of work that was saved elsewhere.</p>
 <p>If you would like step-by-step instructions for your own situation, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt for each way. Keep in mind that an assistant knows the miFormulas side of it well and the Cloudflare dashboard badly: for way A the screens in this section are the authority, not what an assistant remembers.</p>
 <h2 id="s19-settings-theme-and-keyboard-shortcuts">19. Settings, theme and keyboard shortcuts</h2>
-<p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case) and <strong>Open where you left off</strong>. That last one is off by default; with it on, the app starts on the formula or material you had open, and on the version you were looking at, as long as it is still there, instead of on the list. It is a setting of the device you set it on and not part of your data, so each computer and phone has its own, and switching it off forgets the place again. On the site there is also the <strong>server endpoint</strong> and its token; the app you downloaded has neither, because it always works on the data file next to it, and a server is set up in the Settings on the site. Emptying the server endpoint takes your data, as it is at that moment, along into this browser, where the app keeps it from then on; the server keeps its copy, and a data file you used before the server is no longer opened by itself. Under the number format and Open where you left off sits the materials library (section <a href="#s16-import-export-and-sharing">16</a>): the name, version, number of materials and licence of the one that is loaded, its attribution and source when it carries them, and the buttons <strong>Import materials library…</strong>, <strong>Remove the library</strong> and <strong>Get the latest library</strong>. Then come the server fields, and a few buttons that depend on the situation: <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser</strong> (which asks first, and takes the daily snapshot of section <a href="#s20-backups-and-recovery">20</a> with it) in browser-storage mode, and <strong>Forget the remembered data file</strong> when a file is remembered; <strong>Check for updates</strong> in the app you downloaded; and on the site <strong>Install as an app</strong>, when the browser offers it, and <strong>Download the app</strong>. The installed app has its own window and icon, runs from the site and updates by itself (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>); the downloaded app is a file on your own computer that works offline and that you update yourself (section <a href="#s14-where-your-data-lives-and-the-other-ways-in">14</a>).</p>
+<p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case) and <strong>Open where you left off</strong>. That last one is off by default; with it on, the app starts on the formula or material you had open, and on the version you were looking at, as long as it is still there, instead of on the list. It is a setting of the device you set it on and not part of your data, so each computer and phone has its own, and switching it off forgets the place again. On the site there is also the <strong>server endpoint</strong> and its token; the app you downloaded has neither, because it always works on the data file next to it, and a server is set up in the Settings on the site. Emptying the server endpoint takes your data, as it is at that moment, along into this browser, where the app keeps it from then on; the server keeps its copy, and a data file you used before the server is no longer opened by itself. Under the number format and Open where you left off sits the materials library (section <a href="#s16-import-export-and-sharing">16</a>): the name, version, number of materials and licence of the one that is loaded, its attribution when it carries one (with the source as its tooltip; a web address stays a link), and the buttons <strong>Import materials library…</strong>, <strong>Remove the library</strong> and <strong>Get the latest library</strong>. Then come the server fields, and a few buttons that depend on the situation: <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser</strong> (which asks first, and takes the daily snapshot of section <a href="#s20-backups-and-recovery">20</a> with it) in browser-storage mode, and <strong>Forget the remembered data file</strong> when a file is remembered; <strong>Check for updates</strong> in the app you downloaded; and on the site <strong>Install as an app</strong>, when the browser offers it, and <strong>Download the app</strong>. The installed app has its own window and icon, runs from the site and updates by itself (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>); the downloaded app is a file on your own computer that works offline and that you update yourself (section <a href="#s14-where-your-data-lives-and-the-other-ways-in">14</a>).</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s19-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
 <p>The <strong>theme</strong> button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.</p>
 <p><strong>Keyboard shortcuts.</strong> On a Mac use Cmd instead of Ctrl.</p>
@@ -1148,6 +1151,18 @@ function migrate(d){
     migrate._numWarned = true;
     alert(`This data file holds ${notNum} value(s) where a number belongs that are not a number: a weight, a dilution, a price, an IFRA limit or a density. They now read as empty: a weight as 0 g, a dilution as 100 %.`);
   }
+  // a colour goes into style="background:…": what is no #RRGGBB, from a file written elsewhere, is left out (audit v3, C16)
+  if (typeof d.categoryColours !== "object" || Array.isArray(d.categoryColours)) d.categoryColours = {};
+  for (const [k, c] of Object.entries(d.categoryColours)) if (!/^#[0-9a-f]{6}$/i.test(c)) delete d.categoryColours[k];
+  // v2.0 and v2.1 called a premix a predilution, in the categories Predils and Predilutions: a Backup from then gets the
+  // name of today, once, with its colour (audit v3, C10)
+  for (const m of d.materials) if (m.category === "Predils") m.category = "Premixes";
+  for (const f of d.formulas) if (f.category === "Predilutions") f.category = "Premixes";
+  const toPremixes = (list, old) => Array.isArray(list) && list.includes(old)
+    ? [...new Set(list.map(c => c === old ? "Premixes" : c))].sort((a, b) => a.localeCompare(b)) : list;
+  d.materialCategories = toPremixes(d.materialCategories, "Predils"); d.formulaCategories = toPremixes(d.formulaCategories, "Predilutions");
+  for (const old of ["Predils", "Predilutions"])
+    if (old in d.categoryColours){ d.categoryColours.Premixes ||= d.categoryColours[old]; delete d.categoryColours[old]; }
   d.orderList = rows(d.orderList);
   for (const o of d.orderList){            // old free-text amounts → number + unit
     if (typeof o.amount === "string"){
@@ -1586,16 +1601,22 @@ function redo(){
 // 260915e). Such a field now gets back what you typed and the cursor where it stood, and what you type on in it belongs
 // to the same Undo step. Enter, Tab and a click go on as before.
 let LEAVING = false, KEEP = null, HELD = null;
+// Typing a date sends change at every year that is valid on the way (0002, 0020, 0202, 2025): while the field keeps the
+// focus those changes are one Undo step, the one of the first change (audit v3, C3)
+let DATEHELD = null;
 const fieldKey = el => el.tagName.toLowerCase() + (el.id ? "#" + CSS.escape(el.id) : "") + [...el.classList].map(c => "." + CSS.escape(c)).join("")
   + [...el.attributes].filter(a => a.name.startsWith("data-")).map(a => `[${a.name}="${CSS.escape(a.value)}"]`).join("");
 document.addEventListener("change", e => {   // before the field's own handler
   const t = e.target, top = UNDO[UNDO.length - 1];
-  MERGE = !!HELD && HELD.el === t && HELD.step === top;   // the same field, and nothing else changed since you came back
+  MERGE = (!!HELD && HELD.el === t && HELD.step === top)   // the same field, and nothing else changed since you came back
+    || (!!DATEHELD && DATEHELD.el === t && DATEHELD.step === top);
   HELD = null;
   const text = t.tagName === "TEXTAREA" || (t.tagName === "INPUT" && !NOTTEXT.test(t.type || "text"));
   KEEP = text && !t.closest("dialog") && (LEAVING || document.visibilityState === "hidden" || !document.hasFocus())
     ? {el: t, key: fieldKey(t), value: t.value, from: t.selectionStart, to: t.selectionEnd, top, merge: MERGE} : null;
 }, true);
+document.addEventListener("change", e => { if (e.target.type === "date") DATEHELD = {el: e.target, step: UNDO[UNDO.length - 1]}; });
+document.addEventListener("focusout", e => { if (DATEHELD && DATEHELD.el === e.target) DATEHELD = null; });
 document.addEventListener("change", () => {   // after it, and after the redraw it did
   const k = KEEP; KEEP = null; MERGE = false;
   if (!k) return;
@@ -1761,11 +1782,14 @@ const catPickerHtml = (cur, w = "13rem") => `<select id="catSel" aria-label="Cat
 // A name you already have in other capitals or accents is that category: "musks" next to your "Musks" made a second one
 // for the same thing (build 260922j). The same comparison as a category from the library (addFromList).
 const sameCatOpt = (sel, nm) => [...sel.options].find(o => o.value.localeCompare(nm, undefined, {sensitivity: "base"}) === 0);
+// + New category: the name without spaces around it and with one space where there were more. A list cannot select a
+// name with two spaces in a row, so "Rose  chypre" did nothing, or left a material without a category (audit v3, C2)
+const askCatName = () => { const n = prompt("New category name:"); return n && n.trim() ? n.trim().replace(/\s+/g, " ") : ""; };
 function bindNewCat(){
   const sel = $("#catSel"), col = $("#catCol");
   const syncCol = () => { if (col){ col.value = catColourHex(sel.value); col.disabled = !sel.value; } };
   $("#btnNewCat")?.addEventListener("click", () => {
-    const n = prompt("New category name:"); if (!n || !n.trim()) return;
+    const n = askCatName(); if (!n) return;
     const hit = sameCatOpt(sel, n.trim()), nm = hit ? hit.value : n.trim();
     if (!hit){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
     sel.value = nm; syncCol();
@@ -1835,7 +1859,7 @@ $("#dlg").addEventListener("keydown", e => {   // bound once, not per dialog: En
   if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
   const t = e.target;
   if (t.tagName === "TEXTAREA" || t.tagName === "BUTTON" || t.tagName === "A") return;
-  if (t.tagName === "INPUT" && t.type === "checkbox") return;
+  if (t.tagName === "INPUT" && (t.type === "checkbox" || /^(brQ|clQ|exQ)$/.test(t.id))) return;   // a search field narrows its list: Enter there applies nothing (audit v3, C4)
   e.preventDefault(); $("#dlgOk")?.click();
 });
 function pyrLevels(K){
@@ -1948,7 +1972,13 @@ function renderSidebar(){
     }
     const byName = (a,b) => a.name.localeCompare(b.name);
     for (const g of Object.values(groups)) g.sort(byName);
-    const item = m => `<div class="item" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber-ink);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${m.wishlist?'<b style="color:var(--amber-ink)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':""))}</span></div>`;
+    // a hit on an alternative name, the CAS number or the supplier says in the grey line what it found, in place of the
+    // amount: it stood among the names without a reason (audit v3, C5)
+    const foundBy = m => { const v = via && via.get(m.id);
+      const t = v === "alias" ? String(m.aliases || "").split(";").map(a => a.trim()).find(a => a && hasWords(a, w))
+        : v === "cas" ? m.cas : v === "supplier" ? m.supplier : "";
+      return t ? `<span title="found by ${VIALABEL[v]}">${esc(t)}</span>` : ""; };
+    const item = m => `<div class="item" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber-ink);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${foundBy(m) || (m.wishlist?'<b style="color:var(--amber-ink)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':"")))}</span></div>`;
     for (const m of hits.sort(byName)) html += item(m);
     if (inDesc.length){
       html += `<div class="hint" id="descHead" style="padding:.8rem .8rem .3rem">In descriptions ✎ (${inDesc.length})</div>`;
@@ -2046,9 +2076,9 @@ $("#searchBox").addEventListener("input", () => { QBY[VIEW.tab] = $("#searchBox"
 // the category of a formula, on its page above the version, as on a material page: the picker, the colour of the
 // category and + New category (build 261011e; it was a window behind Change category…). Not in the bench view, which
 // works on the version it was opened from, and leaves the version list out as well
-const fCatRowHtml = f => `<div class="chipRow" id="fCatRow"><span class="hint">Category</span><select id="fCat" aria-label="Category of this formula">${
+const fCatRowHtml = f => `<div class="chipRow" id="fCatRow"><span class="hint">Category</span><span class="fcatctl"><select id="fCat" aria-label="Category of this formula">${
   f.category ? "" : '<option value="" selected></option>'}${allFormulaCats().map(x => `<option${x === f.category ? " selected" : ""}>${esc(x)}</option>`).join("")}</select>${
-  catColourInput(f.category, "fCatCol")}<button class="small" id="btnNewFCat" type="button">+ New category</button></div>`;
+  catColourInput(f.category, "fCatCol")}<button class="small" id="btnNewFCat" type="button">+ New category</button></span></div>`;
 function metaActionsHtml(f, withCopy){
   return `<button id="btnRenameF" title="Rename this formula">Rename…</button>
       ${withCopy ? '<button id="btnCopyF" title="The selected version becomes v1 of a new formula">Copy to new formula…</button>' : ""}
@@ -2067,11 +2097,12 @@ function bindFormulaMeta(f, sub){
   $("#btnMoveF")?.addEventListener("click", () => moveInto(f));
   const fcat = $("#fCat");   // the category above the version: a choice is a change, one Undo step (build 261011e)
   const setCat = () => { const cat = fcat.value; if (!cat || cat === f.category) return;
-    snapF(f); f.category = cat; undoCat(rememberCat(cat)); markDirty(); render(); };
+    snapF(f); f.category = cat; undoCat(rememberCat(cat)); markDirty(); render();
+    $("#fCat")?.focus(); };   // the list keeps the focus, so the arrow keys go on through it (audit v3, C9)
   fcat?.addEventListener("change", setCat);
   $("#fCatCol")?.addEventListener("change", e => setCatColour(f.category, e.target.value));
   $("#btnNewFCat")?.addEventListener("click", () => {   // as on a material page: a name you have in other capitals is that one
-    const n = prompt("New category name:"); if (!n || !n.trim()) return;
+    const n = askCatName(); if (!n) return;
     const hit = sameCatOpt(fcat, n.trim());
     if (!hit){ const o = document.createElement("option"); o.textContent = n.trim(); fcat.appendChild(o); }
     fcat.value = hit ? hit.value : n.trim(); setCat();
@@ -2457,7 +2488,7 @@ function bindLineEditors(f, item){
 }
 // the line itself, once it is settled which material it is about
 // lines added with Add line since the app was opened: copying a recipe, so a dilution chosen afterwards keeps the grams (B6)
-const NEWLINES = new Set();
+const NEWLINES = new Map();   // line id → the formula and version it was added to: only there is it fresh (audit v3, C1)
 function addLineWith(f, item, m, created, newCat, oc){
     const dils = m.dilutions||[];
     const base = dils.find(d=>d.isBase) || dils.reduce((a,b)=>!a||b.pct>a.pct?b:a, null);
@@ -2465,7 +2496,7 @@ function addLineWith(f, item, m, created, newCat, oc){
     if ((item.lines || []).some(l => l.materialId === m.id && (l.dilutionPct ?? 100) === bp)   // the same stuff at another dilution is fine
         && !confirm(`“${m.name}” is already in this version at ${fmtS(bp)}%.\n\nAdd it a second time?`)) return;
     const fClone = structuredClone(f);
-    const lid = uid("l-"); NEWLINES.add(lid);
+    const lid = uid("l-"); NEWLINES.set(lid, f.id + " " + item.v);
     item.lines.push({id: lid, materialId:m.id, dilutionPct: bp, weightG:0, remark:1});
     f.modified = now();
     pushUndo(() => {          // line, material, order line and category go back in one step
@@ -2595,7 +2626,7 @@ function changeDilution(f, item, i, d2, onCancel, noSnap){
   const sj = solventIdx(item.lines, i);
   const solv = sj >= 0 ? {j: sj, mm: matById(item.lines[sj].materialId)||{}, w: item.lines[sj].weightG||0} : null;
   const short = solv ? delta - solv.w : null;   // > 0 → not enough solvent to give back
-  const canEx = solv && short <= 0, fresh = NEWLINES.has(l.id);
+  const canEx = solv && short <= 0, fresh = NEWLINES.get(l.id) === f.id + " " + item.v;
   const exLabel = !solv ? `<span class="hint">no solvent line in this formula</span>`
     : canEx ? `${esc(solv.mm.name)}: ${fmt(solv.w)} → ${fmt(solv.w - delta)} g – total weight unchanged`
     : `<span style="color:var(--danger)">not possible: ${esc(solv.mm.name)} holds only ${fmt(solv.w)} g, ${fmt(delta)} g must be taken out (short ${fmt(short)} g)</span>`;
@@ -2705,9 +2736,12 @@ function libraryFits(p){   // false, with the reason, for a library that would n
 }
 function listCredit(){   // CC BY asks for the attribution to be visible, so Settings shows it
   const L = DATA && DATA.materialList; if (!L) return "";
-  const a = L.attribution ? esc(L.attribution) : "";
-  const src = L.source ? (/^https?:/i.test(L.source) ? `<a href="${esc(L.source)}" target="_blank" rel="noopener">${esc(L.source)}</a>` : esc(L.source)) : "";
-  return a || src ? `<div class="hint">${a}${a && src ? " · " : ""}${src}</div>` : "";
+  const a = L.attribution ? esc(L.attribution) : "", url = /^https?:/i.test(L.source || "");
+  // a source in words is the tooltip of the attribution: in full it took four lines of Settings and pushed the buttons
+  // under it out of sight on a laptop (audit v3, C8); a web address stays a link, and without an attribution it shows
+  const src = url ? `<a href="${esc(L.source)}" target="_blank" rel="noopener">${esc(L.source)}</a>` : !a && L.source ? esc(L.source) : "";
+  const tip = a && L.source && !url ? ` title="${esc(L.source)}"` : "";
+  return a || src ? `<div class="hint"${tip}>${a}${a && src ? " · " : ""}${src}</div>` : "";
 }
 const NOLIB = [];   // one empty library, so that the cache of listIndex holds without a library too (build 261011a)
 const listMaterials = () => (DATA && DATA.materialList && DATA.materialList.materials) || NOLIB;
@@ -2939,7 +2973,7 @@ function classifyItems(kind, openId){
   $("#clAll").addEventListener("click", () => { for (const x of sel) picked.add(x.id); draw(); });
   $("#clNone").addEventListener("click", () => { picked.clear(); draw(); });
   $("#clNewCat").addEventListener("click", () => {   // as + New category on the page: an existing name in other capitals is that one
-    const n = prompt("New category name:"); if (!n || !n.trim()) return;
+    const n = askCatName(); if (!n) return;
     const s = $("#clCat"), hit = sameCatOpt(s, n.trim());
     if (!hit){ const o = document.createElement("option"); o.textContent = n.trim(); s.appendChild(o); }
     s.value = hit ? hit.value : n.trim();
@@ -3130,7 +3164,7 @@ function mergeImport(pkg){
   addCats(DATA.formulaCategories ||= [], pkg.formulaCategories);
   addCats(DATA.suppliers ||= [], pkg.suppliers);
   DATA.categoryColours ||= {};
-  for (const [c, col] of Object.entries(pkg.categoryColours || {})) if (!DATA.categoryColours[c]) DATA.categoryColours[c] = col;
+  for (const [c, col] of Object.entries(pkg.categoryColours || {})) if (!DATA.categoryColours[c] && /^#[0-9a-f]{6}$/i.test(col)) DATA.categoryColours[c] = col;   // C16
   const known = new Set(DATA.formulas.flatMap(f => f.versions.filter(v => v.imported && v.sourceName).map(v => normName(v.sourceName))));
   const had = new Set(DATA.formulas.map(f => normName(f.name)));   // the names of your formulas before the import
   for (const inf of pkg.formulas || []){
@@ -5124,7 +5158,7 @@ function renderMaterial(m){
     else if (k === "category") render();
   }));
   $("#btnNewMatCat")?.addEventListener("click", () => {
-    const n = prompt("New category name:"); if (!n || !n.trim()) return;
+    const n = askCatName(); if (!n) return;
     const sel = c.querySelector('[data-f="category"]'), hit = sameCatOpt(sel, n.trim()), nm = hit ? hit.value : n.trim();
     if (hit && hit.value === sel.value) return;   // the category it already has: nothing changes
     if (!hit){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
@@ -5309,7 +5343,7 @@ $("#btnNewMat").addEventListener("click", () => {
     }
   };
   $("#btnNewNmCat")?.addEventListener("click", () => {
-    const n = prompt("New category name:"); if (!n || !n.trim()) return;
+    const n = askCatName(); if (!n) return;
     const sel = $("#nmCat"), hit = sameCatOpt(sel, n.trim()), nm = hit ? hit.value : n.trim();
     if (!hit){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
     sel.value = nm; $("#nmCatCol").value = catColourHex(nm); $("#nmCatCol").disabled = false;
@@ -5538,7 +5572,7 @@ async function openSettings(){
   // the downloaded app looks for a newer build only when you click; the site and the installed app update by themselves (build 261010b)
   $("#setUpdate")?.addEventListener("click", e => checkForUpdate(e.currentTarget));
   // the start screen with Download the app does not come back once the site holds data, so Settings has it too (build 261010b)
-  $("#setDownload")?.addEventListener("click", () => downloadApp(() => { const h = $("#setDownloadHint"); if (h) h.textContent = SET_DL_MSG; }));
+  $("#setDownload")?.addEventListener("click", () => downloadApp(() => { const h = $("#setDownloadHint"); if (h) h.textContent = SET_DL_MSG; else alert(SET_DL_MSG); }));
   $("#setInstall")?.addEventListener("click", async () => {
     $("#dlg").close(); if (!INSTALL_EVT) return;
     INSTALL_EVT.prompt(); try{ await INSTALL_EVT.userChoice; }catch(_){}
@@ -5599,9 +5633,11 @@ const APP_URL = "https://miformulas.com/index.html";
 const buildOf = s => (String(s).match(/id="build"[^>]*>(\d{6}[a-z]?)<\/span>/) || [])[1] || "";
 async function checkForUpdate(btn){
   btn.disabled = true; btn.textContent = "Checking…";
-  let buf = null, next = "";
+  let buf = null, next = "", answered = false;
   try{
-    const r = await fetch(APP_URL, {cache: "no-store"});
+    // no answer in 20 seconds is no answer (audit v3, C13); one that came back but is not the app says so (C14)
+    const r = await fetch(APP_URL, {cache: "no-store", signal: AbortSignal.timeout ? AbortSignal.timeout(20000) : undefined});
+    answered = true;
     if (!r.ok) throw new Error("HTTP " + r.status);
     buf = await r.arrayBuffer();
     const s = new TextDecoder().decode(buf);
@@ -5609,7 +5645,8 @@ async function checkForUpdate(btn){
     if (!next || !/<title>miFormulas<\/title>/.test(s)) throw new Error("not the app");   // an error page, a captive portal
   }catch(e){ buf = null; }
   $("#dlg").close();
-  if (!buf){ alert("The latest version could not be fetched from miformulas.com. Check your connection and try again."); return; }
+  if (!buf){ alert(answered ? "What came back from miformulas.com is not the app, so there is nothing to compare this copy with. Try again later."
+    : "The latest version could not be fetched from miformulas.com. Check your connection and try again."); return; }
   if (!(next > BUILD)){ alert(`This copy is up to date: build ${BUILD}.`); return; }
   let name = "miFormulas.html"; try{ name = decodeURIComponent(location.pathname.split("/").pop()) || name; }catch(e){}
   openDialog(`<h3 style="margin-top:0">Update miFormulas</h3>

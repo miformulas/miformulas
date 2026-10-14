@@ -1,6 +1,6 @@
 """Bouw 261011a (opruiming en de index van de library, bouw 2 van de analyse van 10/10): niets dat je ziet verandert.
 Twee browsers naast elkaar: de referentie REF uit git (eerst 261010d, sinds 261011b bouw 261011a, sinds 261011c bouw
-261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d, sinds 261012a bouw 261011e, sinds 261013a bouw 261012a) en de bouw van de repo, met dezelfde data, dezelfde
+261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d, sinds 261012a bouw 261011e, sinds 261013a bouw 261012a, sinds 261014a bouw 261013a) en de bouw van de repo, met dezelfde data, dezelfde
 klok en hetzelfde toeval (de ids). Na elke stap is de HTML van de pagina byte voor byte gelijk (kop, lijst, pagina,
 open venster en afdrukgebied; zonder het script, de ingebedde handleiding als sjabloon en de bewaarmelding, en met de
 bouwstempel weggelaten), net als serialize() en de meldingen. Wat een bouw bewust toevoegt, staat in NIEUW en telt niet
@@ -27,20 +27,22 @@ Vereist de lokale webserver op poort 8765 (zie README) en git met de geschiedeni
 import json, os, subprocess, tempfile, time
 from playwright.sync_api import sync_playwright
 
-REF, REF_BOUW = "e7047ab", "261012a"
+REF, REF_BOUW = "d384b78", "261013a"
 URL = "http://localhost:8765/"
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
-NIEUW = []   # bewust toegevoegd of omgezet sinds REF (261012a: de versie als tekst boven de bank en de lijst met een
-# zoekterm; sinds 261013a niets)
+NIEUW = ["#searchBox:not(:placeholder-shown) + #list"]   # bewust toegevoegd of omgezet sinds REF (261012a: de versie
+# als tekst boven de bank en de lijst met een zoekterm; 261014a: de lijst met een zoekterm, want een treffer op
+# alternatieve naam, CAS of leverancier zegt in het grijze regeltje wat er trof; beide bouwen vinden wel dezelfde rijen)
 # bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261011e: Change
-# category… en de categorie op de materiaalpagina; 261013a: de teller van de CSV-import noemt geen naam meer die twee
-# keer in het blad staat, want zo'n rij komt nu binnen)
-REPL = [[", or twice in the sheet", ""]]
-RX = []
+# category… en de categorie op de materiaalpagina; 261013a: de teller van de CSV-import; 261014a: keuzelijst, kleurvakje
+# en + New category van een formule als één groep, en de bron van de library als tooltip van de attributie in Settings)
+REPL = [['<span class="fcatctl">', ""]]
+RX = [[r'(id="btnNewFCat"[^>]*>\+ New category</button>)</span>', "$1"],
+      [r'<div class="hint"(?: title="[^"]*")?>(miFormulas materials library, https://miformulas\.com)(?: · [^<]*)?</div>', '<div class="hint">$1</div>']]
 TMP = tempfile.mkdtemp()
 ok = fail = 0
 def check(naam, cond):
