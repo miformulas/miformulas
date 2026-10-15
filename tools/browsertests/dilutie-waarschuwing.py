@@ -9,7 +9,7 @@ from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/index.html"
 PUB = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
-WARN = 'table.ftable tbody span[title^="This dilution is not among"]'
+WARN = 'table.ftable tbody span[title^="Not one of this material"]'   # the tooltip of build 261015a (audit v3, E1)
 ok = fail = 0
 def check(name, cond):
     global ok, fail

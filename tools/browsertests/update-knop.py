@@ -258,10 +258,11 @@ with sync_playwright() as p:
           "setInstall" in ids and "setDownload" in ids and ids.index("setInstall") + 1 == ids.index("setDownload"))
     uitleg = page.evaluate("""() => [...document.querySelectorAll('#dlg button[id]')].filter(b => ['setInstall', 'setDownload'].includes(b.id))
         .map(b => b.id + ': ' + (b.nextElementSibling ? b.nextElementSibling.textContent : ''))""")
+    # sinds 261015a korter, zodat Settings op een laptop van 1366×660 in beeld past (audit v3, C8)
     check(f"Install as an app: eigen venster, draait van de site en werkt zelf bij ({uitleg[:1]})",
-          "setInstall: with its own window and icon; it runs from this site and updates by itself" in uitleg)
+          "setInstall: its own window and icon; it runs from this site and updates itself" in uitleg)
     check(f"Download the app: een bestand, werkt offline, je werkt het zelf bij ({uitleg[1:2]})",
-          "setDownload: as a file on your own computer; it works offline, and you update it yourself" in uitleg)
+          "setDownload: a file on your computer; it works offline, and you update it" in uitleg)
     if heeft:
         with page.expect_download() as dl:
             page.click("#setDownload")

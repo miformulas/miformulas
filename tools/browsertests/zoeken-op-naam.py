@@ -3,13 +3,14 @@
   treft, dan onder "In descriptions ✎ (N)" wat alleen in de beschrijving treft (elk met ✎), helemaal onderaan wat de
   library nog kent. De regel "N match(es) in descriptions ✎" bovenaan is weg. Een rij opent zoals voordien.
 - Formulas met een zoekterm: ook één lijst op naam, de categorie in het grijze regeltje in de plaats van het aantal
-  versies (lang: afgekapt met …); de tooltip geeft de volledige categorie en het aantal versies.
+  versies (lang: afgekapt met …); de tooltip geeft de volledige categorie en het aantal versies. Sinds 261015a houdt een
+  formule zonder categorie haar aantal versies (audit v3, E9).
 - Zonder zoekterm: de groepen zoals voordien, en in Formulas geen categorie in het regeltje.
 - De bench view noemt de versie die open is als gewone tekst, met dezelfde woorden als de keuzelijst van de tabel; zonder
   keuzelijst of knoppen.
 - Op een telefoon past een lange categorie in de rij.
 Vereist de lokale webserver op poort 8765 (zie README)."""
-import json, os, tempfile
+import json, os, re, tempfile
 from playwright.sync_api import sync_playwright
 
 URL = "http://localhost:8765/index.html"
@@ -133,9 +134,10 @@ with sync_playwright() as pw:
     r = zoek("starter", "F")
     sub = page.evaluate("() => document.querySelector('#list .item .sub')?.textContent.trim()")
     opnaam = page.evaluate("r => JSON.stringify(r) === JSON.stringify([...r].sort((a, b) => a.localeCompare(b)))", r)
-    check(f"'starter' in Formulas: één lijst op naam, de categorie en starter in het regeltje ({sub})",
+    # sinds 261015a houdt een formule zonder categorie haar aantal versies (audit v3, E9)
+    check(f"'starter' in Formulas: één lijst op naam, zonder categorie het aantal versies, en starter in het regeltje ({sub})",
           not any(x.startswith("CAT") for x in r) and len(r) >= 10 and opnaam
-          and sub == "Uncategorised · starter")
+          and re.fullmatch(r"\d+ versions? · starter", sub or ""))
     r = zoek("", "F")
     subs = page.evaluate("() => [...document.querySelectorAll('#list .item .sub')].map(s => [s.textContent.trim(), s.className])")
     check(f"zonder zoekterm: de groepen, en het regeltje zonder categorie ({subs[:2]})",

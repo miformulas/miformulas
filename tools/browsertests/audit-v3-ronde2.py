@@ -203,7 +203,7 @@ with sync_playwright() as pw:
     ctx, p = pagina(b, viewport={"width": 1366, "height": 660})
     p.evaluate("pkg => { setMaterialList(normLibrary(pkg)); render(); }", LIB); p.wait_for_timeout(300)
     p.click("#btnSettings"); p.wait_for_timeout(400)
-    cr = p.evaluate("""() => { const d = [...document.querySelectorAll('#dlg .hint')].find(x => /materials library/i.test(x.textContent) && !/^Materials library:/.test(x.textContent));
+    cr = p.evaluate("""() => { const d = [...document.querySelectorAll('#dlg .hint')].find(x => /materials library/i.test(x.textContent) && !/^(Materials library|Library):/.test(x.textContent));   // "Library:" sinds 261015a
         return d ? [d.textContent, d.title] : null; }""")
     src = LIB.get("source") or ""
     check(f"C8 de attributie zonder de bron in de tekst, met de bron als tooltip ({cr and cr[0][:60]!r})",

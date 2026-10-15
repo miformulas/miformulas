@@ -1,6 +1,6 @@
 """Bouw 261011a (opruiming en de index van de library, bouw 2 van de analyse van 10/10): niets dat je ziet verandert.
 Twee browsers naast elkaar: de referentie REF uit git (eerst 261010d, sinds 261011b bouw 261011a, sinds 261011c bouw
-261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d, sinds 261012a bouw 261011e, sinds 261013a bouw 261012a, sinds 261014a bouw 261013a, sinds 261014b bouw 261014a) en de bouw van de repo, met dezelfde data, dezelfde
+261011b, sinds 261011d bouw 261011c, sinds 261011e bouw 261011d, sinds 261012a bouw 261011e, sinds 261013a bouw 261012a, sinds 261014a bouw 261013a, sinds 261014b bouw 261014a, sinds 261015a bouw 261014b) en de bouw van de repo, met dezelfde data, dezelfde
 klok en hetzelfde toeval (de ids). Na elke stap is de HTML van de pagina byte voor byte gelijk (kop, lijst, pagina,
 open venster en afdrukgebied; zonder het script, de ingebedde handleiding als sjabloon en de bewaarmelding, en met de
 bouwstempel weggelaten), net als serialize() en de meldingen. Wat een bouw bewust toevoegt, staat in NIEUW en telt niet
@@ -10,9 +10,9 @@ Change category… weg; de categorie op de materiaalpagina op één regel, die a
 telt alleen de balk, want de tekst van de handleiding
 verandert met de handleiding en help.py test ze. Het piramide-icoontje telt als zijn niveau, maat en kleur: sinds 261011c
 is het één span met een masker in plaats van een svg (geselecteerde-rij-en-icoon.py test hoe het eruitziet).
-Zolang er een zoekterm staat, telt de lijst niet mee, maar vinden beide bouwen dezelfde rijen (sinds 261012a); op een
-CAS-nummer biedt sinds 261014b alleen de nieuwe bouw de library aan. Sinds 261014b zet migrate de materialen op naam:
-beide bouwen krijgen de data op naam (OPNAAM).
+Met een zoekterm vinden beide bouwen dezelfde rijen (sinds 261012a; 261014b vergeleek een CAS-nummer apart, omdat alleen
+die bouw er de library op aanbood). Sinds 261014b zet migrate de materialen op naam: beide bouwen krijgen de data op naam
+(OPNAAM).
 De stappen: Welcome, Settings en Help; elke versie en de bench view van elke formule; alle sorteringen van de tabel,
 de bench en Compare; elk materiaal; zoeken in beide lijsten; To order; Browse the library…, + New material… en Add
 line met een naam uit de library; de kleurmerken, Lower en Create premix…; Import materials inventory from CSV…
@@ -29,18 +29,27 @@ Vereist de lokale webserver op poort 8765 (zie README) en git met de geschiedeni
 import json, os, subprocess, tempfile, time
 from playwright.sync_api import sync_playwright
 
-REF, REF_BOUW = "60cfe73", "261014a"
+REF, REF_BOUW = "9acdd9e", "261014b"
 URL = "http://localhost:8765/"
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
-NIEUW = []   # bewust toegevoegd of omgezet sinds REF (261014a: de lijst met een zoekterm; sinds 261014b niets)
+NIEUW = ["#dlg:has(#setLocale)"]   # bewust toegevoegd of omgezet sinds REF (261014a: de lijst met een zoekterm; 261015a:
+# Settings, breder en anders geschikt; audit-v3-teksten.py test het venster)
 # bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261014a: de categoriegroep
-# van een formule en de bron van de library in Settings; sinds 261014b niets)
-REPL = []
-RX = []
+# van een formule en de bron van de library in Settings; 261015a: de teksten van de audit v3, E1 tot E9)
+REPL = [['title="Settings: number format, materials library, server; install, download or update the app"',
+         'title="Settings: number format, server, materials library, install as an app"'],
+        ['title="Hide this reminder (the Welcome page tells you where your data lives)"',
+         'title="Hide this reminder (Settings tells you where your data lives)"'],
+        ['title="Not one of this material\'s dilutions. Change it to one it has with Preserve rel % and exchange solvent."',
+         'title="This dilution is not among the material\'s dilutions: convert to an available dilution (dilution dialog: preserve rel% + exchange solvent) in a next version"'],
+        ["use a dilution you do not stock (⚠).", "use a dilution you do not stock (⚠ convert them in a next version)."],
+        ["you don’t stock (⚠)", "you don’t stock (⚠ convert in a next version)"],
+        ["your inventory is not touched", "your inventory is untouched"]]
+RX = [[r'<span class="sub fcat" title="Uncategorised · (\d+ versions?)">\d+ versions?', '<span class="sub fcat" title="Uncategorised · $1">Uncategorised']]
 # sinds 261014b zet migrate de materialen op naam (audit v3, C17): beide bouwen krijgen de data op naam, zodat alleen
 # verschilt wat de bouw zelf verandert
 OPNAAM = "DATA.materials.sort((a, b) => a.name.localeCompare(b.name)); invalidateMats();"
@@ -217,16 +226,9 @@ with sync_playwright() as pw:
             [...document.querySelectorAll('#list .sugRow button')].map(b => b.dataset.add).sort()]"""
         anders = []
         for q in ["a", "ros", "gamma decalactone", "decalactone", "haiti", "Haïti", "cœur", "coeur", "C-11", "c11",
-                  "İstanbul", "istanbul", "ambr", "woody", "starter", "musk e", ""]:
+                  "İstanbul", "istanbul", "ambr", "6790-58-5", "woody", "starter", "musk e", ""]:
             stap("zoeken in Materials", reeks(ev(VIEW, {"tab": "M", "id": None, "sub": None}), vul("#searchBox", q)))
             if R.evaluate(TREFFERS) != A.evaluate(TREFFERS): anders.append("M " + q)
-        # sinds 261014b biedt de library ook aan wat op CAS treft (audit v3, C19): dezelfde rijen, en alleen de nieuwe bouw
-        # biedt de library aan; audit-v3-ronde3.py test dat verder
-        for p in (R, A): reeks(ev(VIEW, {"tab": "M", "id": None, "sub": None}), vul("#searchBox", "6790-58-5"))(p)
-        r, a = R.evaluate(TREFFERS), A.evaluate(TREFFERS)
-        check(f"zoeken op een CAS-nummer: dezelfde rijen, en alleen de nieuwe bouw biedt de library aan ({r[1]} | {a[1]})",
-              r[0] == a[0] and not r[1] and "Ambroxide" in a[1])
-        for p in (R, A): reeks(ev(VIEW, {"tab": "M", "id": None, "sub": None}), vul("#searchBox", ""))(p)
         for q in ["cool", "for men", "v2", "rose", "zzz", ""]:
             stap("zoeken in Formulas", reeks(ev(VIEW, {"tab": "F", "id": None, "sub": None}), vul("#searchBox", q)))
             if R.evaluate(TREFFERS) != A.evaluate(TREFFERS): anders.append("F " + q)
