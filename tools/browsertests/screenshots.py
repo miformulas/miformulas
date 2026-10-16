@@ -307,8 +307,11 @@ with sync_playwright() as p:
     page.fill("#setToken", "k7QwPz2mR4xL9vB3tNdY")     # not a real token: the field shows dots
     page.evaluate("""() => {        // step 9 is about the two fields and Apply: the rest of the window only makes the figure tall
         const box = document.querySelector("#dlg > div"), grid = document.querySelector("#setServer").closest(".fieldGrid");   // since 260930c the second grid
-        const keep = new Set([box.querySelector("h3"), grid, grid.nextElementSibling,
-                              [...box.querySelectorAll(".toolRow")].pop()]);
+        const col = grid.parentElement, cols = col.parentElement;   // since 261016b the right column of .setCols
+        for (const k of [...col.children]) if (k !== grid && k !== grid.nextElementSibling) k.remove();
+        for (const k of [...cols.children]) if (k !== col) k.remove();
+        cols.style.display = "block";
+        const keep = new Set([box.querySelector("h3"), cols, [...box.querySelectorAll(".toolRow")].pop()]);
         for (const k of [...box.children]) if (!keep.has(k)) k.remove();
     }""")
     page.wait_for_timeout(700)                             # let the shrunken dialog settle before the shot

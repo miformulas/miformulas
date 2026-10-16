@@ -216,7 +216,8 @@ with sync_playwright() as p:
     volg = page.evaluate("() => { const a = document.getElementById('setListImp'), b = document.getElementById('setServer'); return !!(a && b && (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING)); }")
     check("F3: in Settings staat de library vóór de server", volg)
     tekst = page.text_content("#dlg")
-    check(f"E2: Settings is korter ({len(tekst)} tekens)", "A server is optional" not in tekst and len(tekst) < 900)
+    # 261016b: de vijf koppen en de starterset (twee knoppen en hun telling) kwamen erbij, samen ongeveer 165 tekens
+    check(f"E2: Settings is korter ({len(tekst)} tekens)", "A server is optional" not in tekst and len(tekst) < 1000)
     page.click("#dlgCancel"); page.wait_for_timeout(300)
     # E3: de amberen balk in één regel
     bar = page.text_content("#storageHintText") or ""

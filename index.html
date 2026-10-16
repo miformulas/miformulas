@@ -221,11 +221,17 @@ dialog a{color:var(--accent-ink)}   /* the browser's blue was 1,75:1 on the dark
 #matCatRow{flex-wrap:wrap} #matCatRow > button{white-space:nowrap}   /* on 320 px + New category goes under the list, not out of sight (C7) */
 .fcatctl{display:inline-flex;gap:.35rem;min-width:0;max-width:100%} .fcatctl > select{min-width:0}   /* the list, its colour and + New category stay together (C7) */
 /* Settings is wider on a computer, so that it fits on a laptop of 1366×660 without scrolling (audit v3, C8); a phone keeps 94vw */
-dialog:has(#setLocale){max-width:min(40rem,94vw)}
+dialog:has(#setLocale){max-width:min(72rem,94vw)}
 dialog::backdrop{background:rgba(0,0,0,.35)}
 #landing{position:fixed;inset:0;background:var(--ground);display:flex;align-items:center;justify-content:center;z-index:50}
 #landing .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:2rem 2.5rem;max-width:30rem;text-align:center}
 .hint{font-size:.83rem;color:var(--muted)}
+.setSec{margin:1.1rem 0 .35rem;padding-top:.75rem;border-top:1px solid var(--line);font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)}
+.setRow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:.45rem}
+.setCols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:0 2rem}
+.setCols>div>.setSec:first-child{margin-top:0;padding-top:0;border-top:0}
+.setCols input:not([type=checkbox]){min-width:0;width:100%;box-sizing:border-box}
+@media (max-width:1000px){.setCols{grid-template-columns:minmax(0,1fr)}.setCols>div+div>.setSec:first-child{margin-top:1.1rem;padding-top:.75rem;border-top:1px solid var(--line)}}
 .legend{font-size:.78rem;color:var(--muted);margin:.3rem 0}
 .legend i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;vertical-align:-1px;margin:0 .2rem 0 .6rem}
 .swatch{width:1.15rem;height:1.15rem;border-radius:3px;border:1px solid var(--line);cursor:pointer;display:inline-block;vertical-align:middle}
@@ -438,7 +444,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261016a</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261016b</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -508,7 +514,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>A few things set it apart. It imports your formulas and materials from Formulair, complete with notes, dilutions and colour marks (section <a href="#s17-coming-from-formulair">17</a>). You can select several lines of a formula at once and act on them together: mark them, shift their dilutions, or bundle them into a premix (sections <a href="#s7-changing-dilutions">7</a> to <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>). You can let your own AI assistant turn a photo, a PDF or a spreadsheet into a formula ready for import (section <a href="#s16-import-export-and-sharing">16</a>). The bench view lays a formula out in open groupings of materials, the way a perfumer builds a batch at the bench, so that batches are prepared in the order you weigh them (section <a href="#s10-bench-view-and-printing">10</a>). And you can install it as an app with its own icon on Windows or macOS (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>).</p>
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261016a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261016b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
@@ -516,7 +522,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s1-getting-started">The start screen of miformulas.com.</a></p>
 <p>The start screen offers three ways in, and a fourth for Formulair users:</p>
 <ul>
-<li><strong>Start with the starter set</strong> loads sixteen formulas and nearly two hundred materials to explore. Each formula has two versions: the concentrate, and a second one diluted in ethanol to a sensible strength and scaled to 100 g. They are marked "starter" so you can tell them from your own; edit or delete them as you like. Whatever you change or add from here on is your work, so make a habit of <strong>Backup</strong> (in the header) before you close the browser: it writes a copy of the complete data file, named with date and time. In Chrome and Edge it asks where to put it and remembers that folder; elsewhere it lands in your downloads folder. Keep those copies together, for instance in <code>Documents\miFormulas\backups</code> (Windows) or <code>Documents/miFormulas/backups</code> (Mac).</li>
+<li><strong>Start with the starter set</strong> loads sixteen formulas and nearly two hundred materials to explore. Each formula has two versions: the concentrate, and a second one diluted in ethanol to a sensible strength and scaled to 100 g. They are marked "starter" so you can tell them from your own; edit or delete them as you like, or take them all out at once in Settings (section <a href="#s19-settings-theme-and-keyboard-shortcuts">19</a>) once you work on your own. Whatever you change or add from here on is your work, so make a habit of <strong>Backup</strong> (in the header) before you close the browser: it writes a copy of the complete data file, named with date and time. In Chrome and Edge it asks where to put it and remembers that folder; elsewhere it lands in your downloads folder. Keep those copies together, for instance in <code>Documents\miFormulas\backups</code> (Windows) or <code>Documents/miFormulas/backups</code> (Mac).</li>
 <li><strong>Open data file…</strong> opens a miFormulas data file you already have: the Backup you made last time, a file made by the Formulair importer, or a file a colleague sent you. This is how you get your own work back on another computer or in another browser: choose the most recent Backup from your backups folder and carry on where you left off. In Chrome and Edge the app then keeps saving to that file and offers to reopen it next time (section <a href="#s14-where-your-data-lives-and-the-other-ways-in">14</a>).</li>
 <li><strong>Start empty</strong> gives you nothing at all: no formulas, no materials, an inventory you fill yourself. Use it when the starter set would only be in the way; Settings can clear that data again later, which brings the start screen back.</li>
 <li><strong>Import from Formulair…</strong>, in the bottom line, takes you to the importer (section <a href="#s17-coming-from-formulair">17</a>).</li>
@@ -843,7 +849,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>It returns the data with an ETag and accepts a save only when the ETag still matches, so that two devices cannot overwrite each other as long as the server passes that ETag through (the app then shows a conflict warning: make a Backup, reload and redo the change; the very first save, when there is no data file yet, has nothing to match and is simply written), and it keeps a snapshot of the previous state on the first save of each day, fourteen days long: in <code>data/snapshots</code> on a PHP server, under <code>snapshots/</code> in the bucket on Cloudflare. On a PHP server a save that finds no room for that snapshot is refused and changes nothing, so a full disk cannot take the state before today along with it; and a data file that is a link, into a synced folder for instance, stays a link, because the endpoint writes where it leads. A server that hides the ETag from the browser (a proxy that strips the header, or CORS without <code>Access-Control-Expose-Headers</code>) makes the app say so once: saving still works, but that protection is off until it is fixed. Both endpoints send that header themselves, together with the rest of the CORS block and an answer to the browser's preflight, so the app and the endpoint may sit at two different addresses; what can still take the header away is a proxy or a CDN in front of the server. A save is answered with the new ETag and with the number of bytes that were stored, the same figure <code>?ping=1</code> reports, so what is on the server can always be held against the size of your last Backup. Restoring a snapshot is copying that file over <code>miformulas-data.json</code>, or downloading it and reading it in with <strong>Restore a Backup…</strong> in Import &amp; export (section <a href="#s20-backups-and-recovery">20</a>). When the app starts without loading anything from the server, because it was unreachable or held no data file yet, the first save looks once more before it writes: if a data file has arrived in the meantime, nothing is sent and the app says so, so that a fresh start here cannot land on top of work that was saved elsewhere.</p>
 <p>If you would like step-by-step instructions for your own situation, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt for each way. Keep in mind that an assistant knows the miFormulas side of it well and the Cloudflare dashboard badly: for way A the screens in this section are the authority, not what an assistant remembers.</p>
 <h2 id="s19-settings-theme-and-keyboard-shortcuts">19. Settings, theme and keyboard shortcuts</h2>
-<p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case) and <strong>Open where you left off</strong>. That last one is off by default; with it on, the app starts on the formula or material you had open, and on the version you were looking at, as long as it is still there, instead of on the list. It is a setting of the device you set it on and not part of your data, so each computer and phone has its own, and switching it off forgets the place again. On the site there is also the <strong>server endpoint</strong> and its token; the app you downloaded has neither, because it always works on the data file next to it, and a server is set up in the Settings on the site. Emptying the server endpoint takes your data, as it is at that moment, along into this browser, where the app keeps it from then on; the server keeps its copy, and a data file you used before the server is no longer opened by itself. Under the number format and Open where you left off sits the materials library (section <a href="#s16-import-export-and-sharing">16</a>): the name, version, number of materials and licence of the one that is loaded, its attribution when it carries one (with the source as its tooltip; a web address stays a link), and the buttons <strong>Import materials library…</strong>, <strong>Remove the library</strong> and <strong>Get the latest library</strong>. Then come the server fields, and a few buttons that depend on the situation: <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser</strong> (which asks first, and takes the daily snapshot of section <a href="#s20-backups-and-recovery">20</a> with it) in browser-storage mode, and <strong>Forget the remembered data file</strong> when a file is remembered; <strong>Check for updates</strong> in the app you downloaded; and on the site <strong>Install as an app</strong>, when the browser offers it, and <strong>Download the app</strong>. The installed app has its own window and icon, runs from the site and updates by itself (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>); the downloaded app is a file on your own computer that works offline and that you update yourself (section <a href="#s14-where-your-data-lives-and-the-other-ways-in">14</a>).</p>
+<p><strong>Settings</strong> (⚙, also on the start screen) has the number format (browser default, or a fixed locale such as 1.234,56 or 1,234.56; input accepts both comma and point in any case) and <strong>Open where you left off</strong>. That last one is off by default; with it on, the app starts on the formula or material you had open, and on the version you were looking at, as long as it is still there, instead of on the list. It is a setting of the device you set it on and not part of your data, so each computer and phone has its own, and switching it off forgets the place again. On the site there is also the <strong>server endpoint</strong> and its token; the app you downloaded has neither, because it always works on the data file next to it, and a server is set up in the Settings on the site. Emptying the server endpoint takes your data, as it is at that moment, along into this browser, where the app keeps it from then on; the server keeps its copy, and a data file you used before the server is no longer opened by itself. Under the number format and Open where you left off, the window groups the rest under four headings: Materials library, Starter set, Where your data lives and This app. First comes the materials library (section <a href="#s16-import-export-and-sharing">16</a>): the name, version, number of materials and licence of the one that is loaded, its attribution when it carries one (with the source as its tooltip; a web address stays a link), and the buttons <strong>Import materials library…</strong>, <strong>Remove the library</strong> and <strong>Get the latest library</strong>. Under it, <strong>Remove the starter formulas</strong> removes every formula marked "starter", with all its versions, and <strong>Remove the starter set materials</strong> every material marked "starter", including those you added stock, prices or notes to; a material that a formula still uses stays, and the message afterwards names it. Each asks first and is a single Undo step, and each is greyed out once there is nothing left to remove. Then come the server fields, and a few buttons that depend on the situation: <strong>Save to a data file…</strong> and <strong>Delete the data kept in this browser</strong> (which asks first, and takes the daily snapshot of section <a href="#s20-backups-and-recovery">20</a> with it) in browser-storage mode, and <strong>Forget the remembered data file</strong> when a file is remembered; <strong>Check for updates</strong> in the app you downloaded; and on the site <strong>Install as an app</strong>, when the browser offers it, and <strong>Download the app</strong>. The installed app has its own window and icon, runs from the site and updates by itself (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>); the downloaded app is a file on your own computer that works offline and that you update yourself (section <a href="#s14-where-your-data-lives-and-the-other-ways-in">14</a>).</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s19-settings-theme-and-keyboard-shortcuts">Settings in browser-storage mode.</a></p>
 <p>The <strong>theme</strong> button (◐, ● or ○, the icon showing which of the three is set) cycles between Auto (follows Windows or macOS), Dark and Light.</p>
 <p><strong>Keyboard shortcuts.</strong> On a Mac use Cmd instead of Ctrl.</p>
@@ -886,6 +892,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>These checks also tell you whether a copy of the app that reached you by another road was changed. Take the app from miformulas.com or from the repository.</p>
 <h2 id="s22-questions-and-answers">22. Questions and answers</h2>
 <p><strong>The start screen only offers Reopen, and I want the starter set.</strong> The browser still remembers your data file. <strong>Forget the remembered data file</strong>, under <strong>Settings…</strong> on the start screen, makes it offer the starter set again; the file itself stays where it is, untouched.</p>
+<p><strong>I worked in the starter set and now want only my own work.</strong> In Settings (section <a href="#s19-settings-theme-and-keyboard-shortcuts">19</a>), <strong>Remove the starter formulas</strong> and then <strong>Remove the starter set materials</strong>. Keep the materials if you built on them: the two are separate for that reason. With nothing of your own yet and your data kept in this browser, <strong>Delete the data kept in this browser</strong> and <strong>Start empty</strong> come to the same thing.</p>
 <p><strong>I opened the app in another browser and my data is not there.</strong> Browser storage and the remembered file belong to one browser: Backup in the first, <strong>Open data file…</strong> in the second (section <a href="#s14-where-your-data-lives-and-the-other-ways-in">14</a>).</p>
 <p><strong>Edge asks every time whether the app may edit the file.</strong> That is the browser's rule for a local file: one click per session. The site, and certainly the installed app, usually keep the permission (section <a href="#s14-where-your-data-lives-and-the-other-ways-in">14</a>).</p>
 <p><strong>The amber bar says my data lives in this browser.</strong> Until the browser promises to keep its storage, the bar reminds you to keep a Backup; <strong>Save to a data file…</strong> in that bar moves your work into a file of your own in Chrome and Edge (section <a href="#s14-where-your-data-lives-and-the-other-ways-in">14</a>).</p>
@@ -5540,32 +5547,45 @@ async function openSettings(){
   const web = /^https?:$/.test(location.protocol);   // the downloaded app never reads a server endpoint: see the start-up below
   const srv = web && !LOCKED;   // where the data lives is changed in the window that saves it
   const locales = [["","Browser default"],["nl-BE","1.234,56  (nl-BE)"],["de-DE","1.234,56  (de-DE)"],["fr-FR","1 234,56  (fr-FR)"],["en-GB","1,234.56  (en-GB)"],["en-US","1,234.56  (en-US)"]];
+  // Grouped under small headings in two columns, so the buttons no longer stand in one row and it all fits on a laptop (build 261016b)
+  const nSF = DATA ? DATA.formulas.filter(f => f.starter).length : 0, nSM = DATA ? DATA.materials.filter(m => m.starter).length : 0;
+  const appRows = [
+    !web && !FALLBACK && !LOCKED ? `<div class="setRow"><button class="small" id="setUpdate">Check for updates</button> <span class="hint">this copy: build ${esc(BUILD)}</span></div>` : "",
+    INSTALL_EVT && !window.matchMedia("(display-mode: standalone)").matches ? `<div class="setRow"><button class="small primary" id="setInstall">Install as an app</button> <span class="hint">its own window and icon; it runs from this site and updates itself</span></div>` : "",
+    web && !REMOTE && !MOBILE ? `<div class="setRow"><button class="small" id="setDownload">Download the app</button> <span class="hint" id="setDownloadHint">a file on your computer; it works offline, and you update it</span></div>` : ""].join("");
   openDialog(`<h3 style="margin-top:0">Settings</h3>
+    <div class="setCols"><div>
+    <div class="setSec">General</div>
     <div class="fieldGrid" style="--lab:11rem">
       <label for="setLocale">Number format</label><select id="setLocale">${locales.map(([v,l]) => `<option value="${v}"${v===loc?" selected":""}>${l}</option>`).join("")}</select>
       <label for="setOpenLast">Open where you left off</label><div><input type="checkbox" id="setOpenLast"${OPENLAST?" checked":""}> <span class="hint">start on the formula or material you had open</span></div>
     </div>
-    ${DATA ? `<div class="hint" style="margin-top:.9rem">${DATA.materialList
+    ${DATA ? `<div class="setSec">Materials library</div>
+    <div class="hint">${DATA.materialList
       ? `Library: <b>${esc(DATA.materialList.name)}</b>${DATA.materialList.version ? " " + esc(DATA.materialList.version) : ""}, ${nMats(DATA.materialList.materials.length)}${DATA.materialList.licence ? " · " + esc(DATA.materialList.licence) : ""}`
       : "No materials library loaded (it fills in the facts under + New material)."}</div>
     ${listCredit()}
-    <div style="margin-top:.3rem"><button class="small" id="setListImp"${readOnly() ? " disabled" : ""}>Import materials library…</button>${
+    <div class="setRow"><button class="small" id="setListImp"${readOnly() ? " disabled" : ""}>Import materials library…</button>${
       DATA.materialList ? ` <button class="small" id="setListDel"${readOnly() ? " disabled" : ""}>Remove the library</button>` : ""}${
       LIST_URL ? ` <button class="small" id="setListGet"${readOnly() ? " disabled" : ""}>Get the latest library</button>` : ""}${
-      readOnly() ? ` <span class="hint">${LOCKED ? "read-only here: another window saves your data" : "read-only here: there is nowhere to save a library to"}</span>` : ""}</div>` : ""}
-    ${srv ? `<div class="fieldGrid" style="margin-top:.9rem;--lab:11rem">
+      readOnly() ? ` <span class="hint">${LOCKED ? "read-only here: another window saves your data" : "read-only here: there is nowhere to save a library to"}</span>` : ""}</div>
+    <div class="setSec">Starter set</div>
+    <div class="hint">${nSF || nSM ? `${nSF} formula${nSF === 1 ? "" : "s"} and ${nMats(nSM)} marked “starter”` : "Nothing marked “starter” is left."}</div>
+    <div class="setRow"><button class="small danger" id="setStarterF"${readOnly() || !nSF ? " disabled" : ""}>Remove the starter formulas</button> <button class="small danger" id="setStarterM"${readOnly() || !nSM ? " disabled" : ""}>Remove the starter set materials</button></div>` : ""}
+    </div><div>
+    <div class="setSec">Where your data lives</div>
+    ${srv ? `<div class="fieldGrid" style="--lab:8.5rem">
       <label for="setServer">Server endpoint</label><input id="setServer" value="${esc(url)}" placeholder="empty = no server">
       <label for="setToken">Access token</label><input id="setToken" type="password" value="${esc(tok)}" autocomplete="off"></div>` : ""}
-    <div class="hint" style="margin-top:.6rem">${LOCKED
+    <div class="hint" style="margin-top:.5rem">${LOCKED
       ? "This window only shows your data: miFormulas is open in another window or tab of this browser, and that one saves it. Where your data lives is changed there."
       : web
       ? `Optional: <code>data.php</code> next to the app, or a full URL; changing it reloads the app.${HANDLE ? " Filling one in makes the app use that server from the next start on, instead of your data file." : REMOTE ? " Emptying it takes your data, as it is now, along into this browser; the server keeps its copy." : ""} Manual section 18, and the AI prompts for a free <a href="${PROMPTS}#s5-setting-up-a-free-cloudflare-worker" target="_blank" rel="noopener">Cloudflare Worker</a> or <a href="${PROMPTS}#s4-setting-up-your-own-server" target="_blank" rel="noopener">your own PHP server</a>.`
       : "This copy of miFormulas keeps its data in the data file next to it, so it has no server settings. A server is set up on the site, in the Settings there."}</div>
-    ${DEMO && !HANDLE && !LOCKED ? `<div style="margin-top:.6rem">${DATA && window.showSaveFilePicker ? `<button class="small primary" id="setToFile" title="Keep your data in a file of your own instead of in this browser">Save to a data file…</button> ` : ""}<button class="small" id="setReset">Delete the data kept in this browser</button></div>` : ""}
-    ${remembered && !LOCKED ? `<div style="margin-top:.5rem"><button class="small" id="setForget">Forget the remembered data file \u201c${esc(remembered.name)}\u201d</button></div>` : ""}
-    ${!web && !FALLBACK && !LOCKED ? `<div style="margin-top:.8rem"><button class="small" id="setUpdate">Check for updates</button> <span class="hint">this copy: build ${esc(BUILD)}</span></div>` : ""}
-    ${INSTALL_EVT && !window.matchMedia("(display-mode: standalone)").matches ? `<div style="margin-top:.6rem"><button class="small primary" id="setInstall">Install as an app</button> <span class="hint">its own window and icon; it runs from this site and updates itself</span></div>` : ""}
-    ${web && !REMOTE && !MOBILE ? `<div style="margin-top:.4rem"><button class="small" id="setDownload">Download the app</button> <span class="hint" id="setDownloadHint">a file on your computer; it works offline, and you update it</span></div>` : ""}`,
+    ${DEMO && !HANDLE && !LOCKED ? `<div class="setRow">${DATA && window.showSaveFilePicker ? `<button class="small primary" id="setToFile" title="Keep your data in a file of your own instead of in this browser">Save to a data file…</button> ` : ""}<button class="small danger" id="setReset">Delete the data kept in this browser</button></div>` : ""}
+    ${remembered && !LOCKED ? `<div class="setRow"><button class="small" id="setForget">Forget the remembered data file “${esc(remembered.name)}”</button></div>` : ""}
+    ${appRows ? `<div class="setSec">This app</div>${appRows}` : ""}
+    </div></div>`,
   "Apply", () => {
     const nl = $("#setLocale").value || null;
     const ns = srv ? ($("#setServer").value.trim() || null) : null, nt = srv ? ($("#setToken").value.trim() || null) : null;
@@ -5606,6 +5626,37 @@ async function openSettings(){
   $("#setListDel")?.addEventListener("click", () => {
     if (!confirm(`Remove the materials library “${DATA.materialList.name}”? Your inventory is not touched.`)) return;
     setMaterialList(null); $("#dlg").close(); render();
+  });
+  // The starter set out in one step each, for whoever moves on to their own work (build 261016b). The materials go apart
+  // from the formulas, so a starter set you built on can keep its materials; one that a formula still uses stays.
+  $("#setStarterF")?.addEventListener("click", () => {
+    const n = DATA.formulas.filter(f => f.starter).length;
+    if (!n || !confirm(`Remove the ${n} starter formula${n === 1 ? "" : "s"}, with all their versions? Your own formulas are not touched.`)) return;
+    const before = DATA.formulas;
+    pushUndo(() => { DATA.formulas = before; });
+    DATA.formulas = DATA.formulas.filter(f => !f.starter);
+    if (VIEW.tab === "F" && VIEW.id && !DATA.formulas.some(f => f.id === VIEW.id)){ VIEW.id = null; VIEW.sub = null; }
+    $("#dlg").close(); markDirty(); render();
+  });
+  $("#setStarterM")?.addEventListener("click", () => {
+    buildUsage();
+    const alle = DATA.materials.filter(m => m.starter), blijft = alle.filter(m => (USAGE[m.id] || []).length);
+    const weg = new Set(alle.filter(m => !(USAGE[m.id] || []).length));
+    if (!alle.length || !confirm(`Remove the ${alle.length} starter set material${alle.length === 1 ? "" : "s"}? This includes starter materials you added stock, prices or notes to. Materials used in a formula stay.`)) return;
+    if (weg.size){
+      const bm = DATA.materials, bo = DATA.orderList;
+      pushUndo(() => { DATA.materials = bm; DATA.orderList = bo; });
+      const ofM = new Set(DATA.orderList.filter(o => weg.has(orderMat(o))));   // before the name index loses them
+      DATA.materials = DATA.materials.filter(m => !weg.has(m)); invalidateMats();
+      DATA.orderList = DATA.orderList.filter(o => !ofM.has(o));
+      if (VIEW.tab === "M" && VIEW.id && !DATA.materials.some(m => m.id === VIEW.id)) VIEW.id = null;
+      markDirty();
+    }
+    $("#dlg").close(); render();
+    if (blijft.length){
+      const namen = blijft.map(m => m.name);
+      alert(`${nMats(weg.size)} removed. ${blijft.length} kept because a formula uses ${blijft.length === 1 ? "it" : "them"}: ${namen.slice(0, 8).join(", ")}${namen.length > 8 ? ", …" : ""}.`);
+    }
   });
   $("#setListGet")?.addEventListener("click", async () => {
     $("#dlg").close();
