@@ -6,9 +6,11 @@ A few things set it apart. It imports your formulas and materials from Formulair
 
 There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.
 
+What changed in each version, in plain words, is on the What’s new page: https://miformulas.com/docs/whats-new.html. The start screen links to it next to Manual, and so does the Help bar.
+
 And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.
 
-This manual describes build 261016b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
+This manual describes build 261017a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.
 
 ## Contents
 

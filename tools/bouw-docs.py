@@ -11,7 +11,7 @@ The Help button of the app shows the same manual: the script writes it, without 
 app file to public/index.html afterwards, as after any change to the app.
 
 Requires the "markdown" package (pip install markdown). The Markdown files stay the source:
-edit docs/manual.md, docs/ai-prompts.md or docs/first-five-minutes.md and run this script again. The pages embed their
+edit docs/manual.md, docs/ai-prompts.md, docs/first-five-minutes.md or docs/whats-new.md and run this script again. The pages embed their
 CSS and a few lines of script (the copy buttons); images stay in docs/img.
 """
 import html, os, re, sys
@@ -45,6 +45,8 @@ ol.toc{columns:2;column-gap:2rem;padding-left:2rem;font-size:.95rem}
 ol.toc li{break-inside:avoid;padding:.08rem 0}
 ol.toc a{text-decoration:none}
 ol.toc a:hover{text-decoration:underline}
+blockquote{margin:1.6rem 0;padding:.8rem 1.1rem;max-width:44rem;background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 6px 6px 0}
+blockquote p{margin:0}
 figure{margin:1.1rem 0 1.4rem;max-width:46rem}
 figure img{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
 figure.small img{max-width:min(100%,30rem)}
@@ -136,7 +138,7 @@ def page(title, body, nav, description=""):
 """
 
 def nav(current):
-    items = [("https://miformulas.com", "miformulas.com"), ("first-five-minutes.html", "First five minutes"),
+    items = [("https://miformulas.com", "miformulas.com"), ("first-five-minutes.html", "First five minutes"), ("whats-new.html", "What’s new"),
              ("manual.html", "Manual"), ("ai-prompts.html", "AI prompts"),
              ("miFormulas-manual.pdf", "Manual as PDF"), ("https://github.com/miformulas/miformulas", "GitHub")]
     return '<nav class="top"><b>miFormulas</b>' + "".join(
@@ -208,6 +210,15 @@ def build_first():
                "A material, a formula and a version: the first five minutes with miFormulas, step by step.")
     open(os.path.join(DOCS, "first-five-minutes.html"), "w", encoding="utf-8", newline="\n").write(out)
     print("wrote docs/first-five-minutes.html", f"({h.count('<figure')} figures)")
+
+def build_whats_new():
+    """What’s new (build 261017a): what changed per version, in plain words; not in the Help and not in the PDF"""
+    src = open(os.path.join(DOCS, "whats-new.md"), encoding="utf-8").read()
+    h = autolink(figures(convert(src), DOCS))
+    title = re.search(r"^# (.+)$", src, flags=re.M).group(1)
+    out = page(title, h, nav("whats-new.html"), "What changed in miFormulas, version by version, in plain words.")
+    open(os.path.join(DOCS, "whats-new.html"), "w", encoding="utf-8", newline="\n").write(out)
+    print("wrote docs/whats-new.html", f"({h.count('<h2')} updates)")
 
 ONLINE = "https://miformulas.com/docs/manual.html"
 
@@ -290,6 +301,7 @@ if __name__ == "__main__":
     build_manual()
     build_prompts()
     build_first()
+    build_whats_new()
     if "--no-app" not in sys.argv:
         if "--app" in sys.argv:
             app = sys.argv[sys.argv.index("--app") + 1]

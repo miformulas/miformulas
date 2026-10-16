@@ -48,7 +48,10 @@ REPL = [['title="Settings: number format, materials library, server; install, do
          'title="This dilution is not among the material\'s dilutions: convert to an available dilution (dilution dialog: preserve rel% + exchange solvent) in a next version"'],
         ["use a dilution you do not stock (⚠).", "use a dilution you do not stock (⚠ convert them in a next version)."],
         ["you don’t stock (⚠)", "you don’t stock (⚠ convert in a next version)"],
-        ["your inventory is not touched", "your inventory is untouched"]]
+        ["your inventory is not touched", "your inventory is untouched"],
+        # 261017a: de link What’s new op het startscherm en in de Help-balk (wat-is-nieuw.py test ze)
+        ['<a id="btnWhatsNew" class="small" style="margin-left:.6rem" href="https://miformulas.com/docs/whats-new.html" target="_blank" rel="noopener" title="What changed in each version, in plain words">What’s new</a>\n       ', ''],
+        ['\n    <a class="small" id="helpWhatsNew" href="https://miformulas.com/docs/whats-new.html" target="_blank" rel="noopener">What’s new</a>', '']]
 RX = [[r'<span class="sub fcat" title="Uncategorised · (\d+ versions?)">\d+ versions?', '<span class="sub fcat" title="Uncategorised · $1">Uncategorised']]
 # sinds 261014b zet migrate de materialen op naam (audit v3, C17): beide bouwen krijgen de data op naam, zodat alleen
 # verschilt wat de bouw zelf verandert

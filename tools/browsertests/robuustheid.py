@@ -28,7 +28,7 @@ with sync_playwright() as p:
         page.keyboard.press("Tab"); page.wait_for_timeout(60)
         focus.append(page.evaluate("() => document.activeElement.id || document.activeElement.tagName"))
     check(f"Tab loopt niet door de verborgen app ({focus[:4]})",
-          all(f in ("btnStarter", "btnOpen", "btnEmpty", "btnSettingsLanding", "btnManual", "btnFeedback",
+          all(f in ("btnStarter", "btnOpen", "btnEmpty", "btnSettingsLanding", "btnManual", "btnWhatsNew", "btnFeedback",
                     "btnDownload", "btnInstall", "btnFormulair", "btnReopen", "btnSnap", "btnFirstFive", "BODY", "HTML") for f in focus))
     check("de koptekst en de pagina zijn inert tot de app opstart",
           page.evaluate("() => !!document.querySelector('header').inert && !!(document.querySelector('#main') || {}).inert"))

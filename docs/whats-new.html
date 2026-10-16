@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What’s new in miFormulas</title>
+<meta name="description" content="What changed in miFormulas, version by version, in plain words.">
+<link rel="icon" href="../icons/icon-192.png">
+<style>
+:root{--ground:#FBFCFD;--surface:#FFFFFF;--panel:#EDF1F5;--ink:#212A33;--muted:#5A6773;--line:#DCE3EA;
+  --accent:#A2277E;--accent-ink:#7E1B62;--accent-soft:#F9E3F1;--amber:#DD8500;--amber-soft:#FFEFD2}
+@media (prefers-color-scheme: dark){:root{--ground:#1C1122;--surface:#2A1833;--panel:#241430;--ink:#F2E6F2;--muted:#B292BC;
+  --line:#453050;--accent:#E667B0;--accent-ink:#F08CC5;--accent-soft:#3A1F38;--amber:#FFB454;--amber-soft:#3B2A12}}
+html{background:var(--ground)}
+body{margin:0;color:var(--ink);font:16px/1.55 "Segoe UI",system-ui,-apple-system,sans-serif}
+main{max-width:52rem;margin:0 auto;padding:1.5rem 1.2rem 4rem}
+nav.top{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:baseline;font-size:.9rem;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:.6rem;margin-bottom:1.6rem}
+nav.top b{color:var(--accent-ink);font-size:1rem}
+nav.top a{color:var(--accent-ink)}
+h1{font-size:2rem;line-height:1.2;margin:.2rem 0 1rem}
+h2{font-size:1.4rem;margin:2.6rem 0 .8rem;padding-top:.4rem;border-top:1px solid var(--line);color:var(--accent-ink)}
+h3{font-size:1.1rem;margin:1.6rem 0 .5rem}
+p,li{max-width:46rem}
+a{color:var(--accent-ink)}
+code{font:.92em/1.4 ui-monospace,Consolas,"SF Mono",Menlo,monospace;background:var(--panel);padding:.05em .3em;border-radius:3px}
+pre{background:var(--panel);padding:.8rem 1rem;border-radius:6px;overflow:auto;font:.88rem/1.45 ui-monospace,Consolas,"SF Mono",Menlo,monospace}
+pre code{background:none;padding:0;font:inherit}
+ol.toc{columns:2;column-gap:2rem;padding-left:2rem;font-size:.95rem}
+ol.toc li{break-inside:avoid;padding:.08rem 0}
+ol.toc a{text-decoration:none}
+ol.toc a:hover{text-decoration:underline}
+blockquote{margin:1.6rem 0;padding:.8rem 1.1rem;max-width:44rem;background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 6px 6px 0}
+blockquote p{margin:0}
+figure{margin:1.1rem 0 1.4rem;max-width:46rem}
+figure img{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+figure.small img{max-width:min(100%,30rem)}
+figcaption{font-size:.86rem;color:var(--muted);margin-top:.4rem}
+li > figure{margin-left:0}
+hr{border:0;border-top:1px solid var(--line);margin:1.6rem 0}
+.prompt{position:relative;margin:1rem 0 1.4rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;background:var(--surface)}
+.prompt pre{margin:0;background:none;white-space:pre-wrap;word-wrap:break-word;padding:1rem 5.5rem 1rem 1rem;font:.9rem/1.5 "Segoe UI",system-ui,-apple-system,sans-serif}
+.prompt button{position:absolute;top:.5rem;right:.5rem;font:.82rem system-ui,sans-serif;padding:.3rem .7rem;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);cursor:pointer}
+.prompt button:hover{border-color:var(--accent)}
+.prompt button.done{background:var(--accent-soft);border-color:var(--accent)}
+.footer{margin-top:3rem;padding-top:.8rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+@media print{
+  html{background:#fff} body{font-size:10.5pt;color:#000}
+  main{max-width:none;padding:0}
+  nav.top{display:none}
+  h2{break-before:page;border-top:0;margin-top:0;color:#000}
+  h2#contents,h2:first-of-type{break-before:auto}
+  h2.no-break{break-before:auto}
+  figure{break-inside:avoid}
+  figure img{border-color:#bbb;max-height:40vh;width:auto}
+  figure.small img{max-width:min(100%,22rem)}
+  a{color:#000;text-decoration:none}
+  ol.toc{columns:2;font-size:.88rem;padding-left:1.6rem}   /* small enough to stay on the title page */
+  ol.toc li{padding:0}
+  pre{white-space:pre-wrap;overflow-wrap:anywhere}
+  pre .w{white-space:nowrap}
+  .prompt{break-inside:avoid;border-color:#bbb}
+  .prompt button{display:none}
+}
+</style>
+</head>
+<body>
+<main>
+<nav class="top"><b>miFormulas</b><a href="https://miformulas.com">miformulas.com</a><a href="first-five-minutes.html">First five minutes</a><span>What’s new</span><a href="manual.html">Manual</a><a href="ai-prompts.html">AI prompts</a><a href="miFormulas-manual.pdf">Manual as PDF</a><a href="https://github.com/miformulas/miformulas">GitHub</a></nav>
+<h1 id="whats-new-in-miformulas">What’s new in miFormulas</h1>
+<p>What changed in the app, newest first. The manual describes every function in full; the technical release notes are on GitHub.</p>
+<h2 id="on-miformulascom-since-16-october">On miformulas.com since 16 October</h2>
+<p>These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, you get them with the next version.</p>
+<h3 id="removing-the-starter-set">Removing the starter set</h3>
+<p>If you decided to have your formulas and materials “move in” to miFormulas, you may find that the starter set is in the way. <strong>Settings › Starter set</strong> now has two buttons: <strong>Remove the starter formulas</strong> and <strong>Remove the starter set materials</strong>. They are separate on purpose: if you added stock, prices or notes to the starter materials, you can remove the formulas only and keep the materials.</p>
+<p>If you want to remove both formulas and materials, it is best to start with <strong>Remove the starter formulas</strong>. Materials used in the remaining formulas will not be removed with <strong>Remove the starter set materials.</strong> This button removes every starter material, also the ones you already edited; there is an alert before you can confirm the removal. Each button asks first, and one Undo takes everything back.</p>
+<p>With nothing of your own yet, Delete the data kept in this browser and Start empty come to the same thing.</p>
+<p><em>Manual, section <a href="manual.html#s19-settings-theme-and-keyboard-shortcuts">19</a></em></p>
+<h3 id="settings">Settings</h3>
+<p>The Settings window is grouped under headings: General, Materials library, Starter set, Where your data lives and This app. The buttons that delete something are red.</p>
+<p><em>Manual, section <a href="manual.html#s19-settings-theme-and-keyboard-shortcuts">19</a></em></p>
+<blockquote>
+<p><strong>Do you have the latest version?</strong> When using the app on miformulas.com, in a browser or installed from there as an app, you always do: just reopen it.<br />
+A copy of miFormulas.html on your own computer does not change by itself: go to <strong>Settings › Check for updates</strong>. No such button in your Settings? Then your copy is v2.2 or older. Open miformulas.com in Chrome or Edge, go to <strong>Settings › Download the app</strong> and put the new miFormulas.html in place of the old one (same folder, same name). Your data file is not touched, and the app offers to reopen it.</p>
+</blockquote>
+<h2 id="v23-16-october-2026">v2.3 – 16 October 2026</h2>
+<h3 id="search">Search</h3>
+<p>The search finds the words of a name in any order: “gamma decalactone” finds Decalactone gamma. While you search, the list shows one list by name instead of the categories. When a material was found by an alternative name, its CAS number or its supplier, that is shown in grey beside it, and a match in the description comes last.</p>
+<p><em>Manual, section <a href="manual.html#s2-the-screen">2</a></em></p>
+<h3 id="classifying-several-items-at-once">Classifying several items at once</h3>
+<p><strong>Classify several…</strong>, above the search box of the Materials list, gives many materials a category in one go, and a pyramid level if you want. In its window the search field narrows the list and shift-click ticks a range. The ticks stay when you search again, so you can gather the materials over several searches. Then choose a category, a level or both, and apply. One Undo takes the whole batch back. Handy when your inventory came in from a spreadsheet and still has to be sorted.</p>
+<p>The same button sits above the Formulas list, for categories.</p>
+<p><em>Manual, sections <a href="manual.html#s3-materials">3</a> and <a href="manual.html#s4-formulas-and-versions">4</a></em></p>
+<h3 id="the-category-of-a-formula">The category of a formula</h3>
+<p>A formula’s category is now chosen on its page, above the version list, with + New category beside it, as on a material page. Change category… is gone.</p>
+<p><em>Manual, section <a href="manual.html#s4-formulas-and-versions">4</a></em></p>
+<h3 id="materials-from-a-spreadsheet">Materials from a spreadsheet</h3>
+<p><strong>Import materials inventory from CSV…</strong> (on the Welcome page, or in Import &amp; export, ⇅ in the header) now turns a stock column into a stocktake dated today, and keeps a description that runs over several lines in one cell, also after a round trip through Excel. Two rows with the same name become two materials; only a name you already have in your inventory is skipped. A large sheet goes much faster than before.</p>
+<p><em>Manual, section <a href="manual.html#s16-import-export-and-sharing">16</a></em></p>
+<h3 id="materials-library">Materials library</h3>
+<p>The library grew from 654 to 1,248 materials. Every material has a category, nearly all a pyramid level and a few odour words.</p>
+<p>The library and your inventory are easy to mix up. Your inventory is the Materials tab: the materials you own, with your dilutions, descriptions and stock. The library is a reference list the app looks things up in. Fetching a new library never touches your inventory: nothing is added, nothing is overwritten. Library materials only show up when you look for them: type a name in the Materials search (they appear under “Also in the materials library”, with + Add), or open Browse the library… in + New material.</p>
+<p>To get the latest library: <strong>Settings › Get the latest library</strong>. The app does not fetch it on its own; once fetched, it is saved with your data.</p>
+<p><em>Manual, sections <a href="manual.html#s3-materials">3</a> and <a href="manual.html#s16-import-export-and-sharing">16</a></em></p>
+<h3 id="tgsc-and-olfactorian">TGSC and Olfactorian</h3>
+<p>The TGSC and Olfactorian buttons on a material page open that material’s own page on those sites whenever the library has a link for it, instead of a search.</p>
+<p><em>Manual, section <a href="manual.html#s3-materials">3</a></em></p>
+<h3 id="updating-your-own-copy">Updating your own copy</h3>
+<p>A copy of miFormulas.html on your own computer now has an update button: <strong>Settings › Check for updates</strong>. It compares your copy with the one on miformulas.com and replaces it when there is a newer one. Copies from v2.2 or older do not have the button yet; see the box above.</p>
+<p><em>Manual, section <a href="manual.html#s14-where-your-data-lives-and-the-other-ways-in">14</a></em></p>
+<h3 id="your-first-five-minutes">Your first five minutes</h3>
+<p>A new short guide, Your first five minutes, takes one small task from start to finish: a material from the library, a formula of four lines, and a second version compared with the first.</p>
+<p><em><a href="first-five-minutes.html">Your first five minutes</a></em></p>
+<h3 id="smaller-changes">Smaller changes</h3>
+<ul>
+<li>
+<p>Opening a material from a long list is several times faster.</p>
+</li>
+<li>
+<p>Settings fits on a laptop screen without scrolling.</p>
+</li>
+<li>
+<p>The tooltip of ⚠ on a formula line explains how to move the line to a dilution you have.</p>
+</li>
+<li>
+<p>The bench view no longer shows the category and the version list above it.</p>
+</li>
+<li>
+<p>A save window only offers files ending in .html or .json.</p>
+</li>
+<li>
+<p>Download the app is no longer offered on a phone or tablet: the downloaded app is meant for Chrome or Edge on a computer.</p>
+</li>
+</ul>
+<p><em>Manual, sections <a href="manual.html#s3-materials">3</a>, <a href="manual.html#s10-bench-view-and-printing">10</a> and <a href="manual.html#s19-settings-theme-and-keyboard-shortcuts">19</a></em></p>
+<div class="footer">miFormulas is free software (GPL v3 with two additional terms, see the licence section). Source and issues: <a href="https://github.com/miformulas/miformulas">github.com/miformulas/miformulas</a>.</div>
+</main>
+<script>
+document.querySelectorAll('.prompt button').forEach(b => b.addEventListener('click', async () => {
+  const t = b.parentElement.querySelector('pre').textContent;
+  try{ await navigator.clipboard.writeText(t); b.textContent = 'Copied'; b.classList.add('done'); }
+  catch(e){ const r = document.createRange(); r.selectNodeContents(b.parentElement.querySelector('pre'));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Select and copy'; }
+  setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('done'); }, 2500);
+}));
+</script>
+</body>
+</html>
