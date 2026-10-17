@@ -36,7 +36,8 @@ PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
-NIEUW = ["#dlg:has(#setLocale)"]   # bewust toegevoegd of omgezet sinds REF (261014a: de lijst met een zoekterm; 261015a:
+NIEUW = ["#dlg:has(#setLocale)", "#dlg:has(#btnImpF)"]   # 261017b: Import & export in koppen (stock-en-import-export.py)
+#   # bewust toegevoegd of omgezet sinds REF (261014a: de lijst met een zoekterm; 261015a:
 # Settings, breder en anders geschikt; audit-v3-teksten.py test het venster)
 # bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261014a: de categoriegroep
 # van een formule en de bron van de library in Settings; 261015a: de teksten van de audit v3, E1 tot E9)
@@ -51,7 +52,9 @@ REPL = [['title="Settings: number format, materials library, server; install, do
         ["your inventory is not touched", "your inventory is untouched"],
         # 261017a: de link What’s new op het startscherm en in de Help-balk (wat-is-nieuw.py test ze)
         ['<a id="btnWhatsNew" class="small" style="margin-left:.6rem" href="https://miformulas.com/docs/whats-new.html" target="_blank" rel="noopener" title="What changed in each version, in plain words">What’s new</a>\n       ', ''],
-        ['\n    <a class="small" id="helpWhatsNew" href="https://miformulas.com/docs/whats-new.html" target="_blank" rel="noopener">What’s new</a>', '']]
+        ['\n    <a class="small" id="helpWhatsNew" href="https://miformulas.com/docs/whats-new.html" target="_blank" rel="noopener">What’s new</a>', ''],
+        # 261017b: een aankoop start het stockboek, en het lege paneel zegt dat (stock-en-import-export.py)
+        ["set a stocktake or add a purchase to start.", "set a stocktake to start."]]
 RX = [[r'<span class="sub fcat" title="Uncategorised · (\d+ versions?)">\d+ versions?', '<span class="sub fcat" title="Uncategorised · $1">Uncategorised']]
 # sinds 261014b zet migrate de materialen op naam (audit v3, C17): beide bouwen krijgen de data op naam, zodat alleen
 # verschilt wat de bouw zelf verandert

@@ -101,8 +101,11 @@ with sync_playwright() as p:
         page.wait_for_timeout(200)
     open_stock()
     n0 = page.locator("[data-delev]").count()
+    # since 261017b a purchase on a material that is not tracked starts the ledger: a stocktake of 0 comes with it
+    los = page.evaluate("() => !stockCalc(DATA.materials[0]).tracked")
     page.fill("#stBuyAmt", "25"); page.fill("#stBuyNote", "Test supplier")
     page.click("#btnBuy"); page.wait_for_timeout(400); open_stock()
+    n0 += 1 if los else 0
     check("the purchase is logged", page.locator("[data-delev]").count() == n0 + 1)
     msgs.clear(); mode["v"] = "dismiss"
     page.locator("[data-delev]").first.click(); page.wait_for_timeout(400); open_stock()

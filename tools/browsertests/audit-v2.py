@@ -207,7 +207,7 @@ with sync_playwright() as p:
     ids = page.evaluate("() => [...document.querySelectorAll('#dlg button, #dlg a.btn')].map(b => b.id).filter(id => !id.startsWith('dlg'))")
     check(f"F1: het venster begint met Import formula… en eindigt met de wegen terug ({ids})",
           ids[:4] == ["btnImpF", "ioCsv", "btnImpL", "ioFormulair"] and ids[4:8] == ["btnExpF", "btnExpM", "btnExpJ", "btnExpL"] and ids[8] == "ioRestore")
-    hints = page.evaluate("() => [...document.querySelectorAll('#dlg .toolRow .hint')].map(h => h.textContent.trim().length)")
+    hints = page.evaluate("() => [...document.querySelectorAll('#dlg .ioItem .hint, #dlg .toolRow .hint')].map(h => h.textContent.trim().length)")
     check(f"E1: elke hint in het venster is kort ({max(hints)} tekens op zijn langst)", hints and max(hints) <= 130)
     check("F1: Import from Formulair… is een gewone knop, niet de oranje", "accent" not in (page.get_attribute("#ioFormulair", "class") or ""))
     page.keyboard.press("Escape"); page.wait_for_timeout(300)

@@ -228,6 +228,8 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 .hint{font-size:.83rem;color:var(--muted)}
 .setSec{margin:1.1rem 0 .35rem;padding-top:.75rem;border-top:1px solid var(--line);font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)}
 .setRow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:.45rem}
+.ioItem{margin-top:.4rem}.ioItem>.hint{margin-top:.15rem}
+dialog:has(#btnImpF){max-width:min(66rem,94vw)}
 .setCols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:0 2rem}
 .setCols>div>.setSec:first-child{margin-top:0;padding-top:0;border-top:0}
 .setCols input:not([type=checkbox]){min-width:0;width:100%;box-sizing:border-box}
@@ -444,7 +446,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261017a</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261017b</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -516,7 +518,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>What changed in each version, in plain words, is on the What’s new page: <a href="https://miformulas.com/docs/whats-new.html">https://miformulas.com/docs/whats-new.html</a>. The start screen links to it next to Manual, and so does the Help bar.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261017a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261017b. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
@@ -650,13 +652,14 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table works per pyramid level, over the material that carries one: a line whose material still has no level (?) is left out, so those percentages are shares of what is classified, not of the whole concentrate.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s12-ifra-check-and-category-panel">The Categories panel.</a></p>
 <h2 id="s13-stock-orders-and-deliveries">13. Stock, orders and deliveries</h2>
-<p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking. From then on purchases add, and two things deduct: <strong>Dilution made</strong>, the row with the percentage, the total and the button <strong>Deduct base</strong> (you made 50 g of a 10 % dilution out of a base at 100 %, so 5 g of base left the bottle; with a base at 10 % it would be 50 g, and a dilution stronger than your base is refused) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one. The ledger does not follow a change of base: set another dilution as the base and the grams stay as they are, now counted as grams of that dilution, so set a new stocktake when you switch.</p>
+<p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking, or add a <strong>Purchase</strong> there: on a material that is not tracked yet, a purchase starts the ledger at once, with a stocktake of 0 g before it, so the stock is what you bought. From then on purchases add, and two things deduct: <strong>Dilution made</strong>, the row with the percentage, the total and the button <strong>Deduct base</strong> (you made 50 g of a 10 % dilution out of a base at 100 %, so 5 g of base left the bottle; with a base at 10 % it would be 50 g, and a dilution stronger than your base is refused) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one. The ledger does not follow a change of base: set another dilution as the base and the grams stay as they are, now counted as grams of that dilution, so set a new stocktake when you switch.</p>
 <p><strong>To order</strong> is the shopping list. Add a material from the list itself (existing or new), with <strong>Add to order list</strong> on a material page, or automatically when a formula or an import mentions a material you do not have. An entry you added before the material existed belongs to that material once you create it, so the list does not get a second entry for it, and an entry under the old name follows when you rename the material. Each entry has a note, an amount and unit, a price and a product link. A link shows as the name of the shop with ↗, which opens the page; <strong>✎</strong> beside it changes the link. The magnifier, <strong>Search my shops</strong>, opens a Google search limited to the web shops you listed under <strong>Edit shop list (0)…</strong> (one domain per line; the figure counts them). As long as that list is empty it is <strong>Search the web</strong>, because that is what it would do. The date an entry was added is in the list on the left and in the tooltip of its name.</p>
 <p><strong>Delivered…</strong> closes an entry. Its window says which material it is about to update, or that it creates a new one, and has these fields:</p>
 <ul>
 <li><strong>Amount purchased</strong>, a number with its unit (g or ml, gram to start with). It is recorded on the material, and with the price it gives <strong>Cost € / g</strong>, divided by the base dilution, because that field is the price of a gram of pure material.</li>
 <li><strong>Price paid €</strong>. It is only there to work out the cost per gram; the price itself is not kept.</li>
 <li><strong>Purchase date</strong>, today unless you change it, for a delivery you book in later.</li>
+<li>For a material whose stock you do not track yet, or a new one, <strong>Track stock</strong>, ticked to start with: the ledger starts with this purchase (a stocktake of 0 g, then the purchase), and <strong>Add to stock ledger</strong> below it follows the amount purchased. Untick it if you do not keep stock.</li>
 <li>For a material whose stock you track, <strong>Add to stock ledger</strong>, the same purchase booked into the ledger, which follows the amount purchased unless you change it, and <strong>Old stock used up</strong>. Leave that box off and the purchase is added to what the app still counts, the ordinary case of a second bottle beside the first; tick it and the ledger starts again from this purchase, with a stocktake of 0 g on the purchase date, so a bottle you finished long ago does not keep counting.</li>
 <li><strong>Density g/ml</strong>, when you bought in millilitres and the material has none yet: the window asks for it there and then and keeps it on the material, because without it neither the cost per gram nor the stock can be worked out.</li>
 </ul>
@@ -740,7 +743,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s15-install-as-an-app-with-its-own-icon">Chrome on Android asks for permission at every start.</a></p>
 <p>Firefox and Samsung Internet on Android have not been tried.</p>
 <h2 id="s16-import-export-and-sharing">16. Import, export and sharing</h2>
-<p>The ⇅ button in the header opens <strong>Import &amp; export</strong>, a window with everything that comes in and goes out. The window follows the order you use it in: <strong>Import formula…</strong> first, then the materials (a CSV, the library) and, on the site, <strong>Import from Formulair…</strong>, which opens the importer described in section <a href="#s17-coming-from-formulair">17</a> (the downloaded app leaves it out, because the importer is a page of the site); then the exports; and at the bottom the two ways back of section <a href="#s20-backups-and-recovery">20</a>, <strong>Restore a Backup…</strong> and <strong>Restore daily snapshot</strong>. The Welcome page keeps the two ways in that a new inventory starts with, and once you have work of your own a single line that points at the window.</p>
+<p>The ⇅ button in the header opens <strong>Import &amp; export</strong>, a window with everything that comes in and goes out. It is grouped under three headings, as in Settings, with what each button does under it. <strong>Import</strong>, on the left: <strong>Import formula…</strong> first, then the materials (a CSV, the library) and, on the site, <strong>Import from Formulair…</strong>, which opens the importer described in section <a href="#s17-coming-from-formulair">17</a> (the downloaded app leaves it out, because the importer is a page of the site). <strong>Export</strong>, on the right, and under it <strong>Back to an earlier state</strong>: the two ways back of section <a href="#s20-backups-and-recovery">20</a>, <strong>Restore a Backup…</strong> and <strong>Restore daily snapshot</strong>, in red because they replace all your data. On a narrow screen the headings stand under each other. The Welcome page keeps the two ways in that a new inventory starts with, and once you have work of your own a single line that points at the window.</p>
 <h3 id="sharing-a-version">Sharing a version</h3>
 <p><strong>Share this version</strong>, the third of the four buttons under the lines of a formula, downloads the version you are looking at as a miformulas-import file, the format <strong>Import formula…</strong> reads (below). Send it to someone who does use miFormulas and they import it in one action, instead of typing your formula line by line. It holds the material names with their dilution and weight, the CAS numbers, a mark on every line saying whether it is a solvent in your inventory, the category, the label and the date of this version and its notes, and nothing of your own lab: no price, no supplier, no stock, no trial log, no colour marks. The lines keep the order of the version, not the sort order on your screen. A line to a material you deleted is left out, after the app has said how many and asked. Weights and dilutions are never converted, here or on the way in, so a dilution the other does not stock arrives with a ⚠, and converting it is up to them. A material they do not own yet is created for them as "to order", with its CAS and, where the file says so, as a solvent, so that their rel % and abs % read the same as yours. Where the two of you disagree about what is a solvent, their own material decides and the import page says so. A premix goes as one line, without its recipe; when the version uses one, a message after the download names it, so that you share its formula as well.</p>
 <h3 id="formulas-coming-in">Formulas coming in</h3>
@@ -3879,26 +3882,33 @@ async function openImportExport(){
   // the daily snapshot of this browser, offered only to the data it was taken of (build 260922k)
   let bak = null; try{ bak = await idb.get("dailyBak"); }catch(e){}
   if (!bak || !bak.json || (bak.where && bak.where !== snapWhere())) bak = null;
+  // Grouped as in Settings, in two columns: what comes in, what goes out, and the ways back (build 261017b)
   openDialog(`<h3 style="margin-top:0">Import &amp; export</h3>
-    <div class="toolRow"><button class="small" id="btnImpF">Import formula…</button>
-      <span class="hint">a .json from a photo (<a href="${PROMPTS}#s1-photo-pdf-or-spreadsheet-to-import-file" target="_blank" rel="noopener">AI prompts</a>) or from another miFormulas, or the CSV of Export all formulas</span></div>
-    <div class="toolRow"><button class="small" id="ioCsv">Import materials inventory from CSV…</button>
-      <span class="hint">materials from a spreadsheet saved as CSV; you match the columns on screen · <a href="#" id="ioTpl">template</a></span></div>
-    <div class="toolRow"><button class="small" id="btnImpL">Import materials library…</button>
-      <span class="hint">${L ? `loaded: ${esc(L.name)}${L.version ? " " + esc(L.version) : ""}, ${nMats(L.materials.length)} · ` : ""}facts for + New material; your inventory is not touched</span></div>
-    ${web ? `<div class="toolRow"><a class="btn" id="ioFormulair" href="formulair-import.html" title="Coming from Formulair? Read its database file here and continue with all your materials and formulas">Import from Formulair…</a>
-      <span class="hint">the macOS app; see manual section 17</span></div>` : ""}
-    <div class="toolRow"><button class="small" id="btnExpF">Export all formulas (Excel)</button>
-      <button class="small" id="btnExpM">Export all materials (Excel)</button>
-      <span class="hint">CSV files that open in Excel · the materials export is what the <a href="${PROMPTS}#s2-checking-and-completing-your-materials" target="_blank" rel="noopener">AI prompts</a> check</span></div>
-    <div class="toolRow"><button class="small" id="btnExpJ">Export all my formulas</button>
-      <span class="hint">every formula with all its versions; no price, supplier, stock or trial log goes along</span></div>
-    <div class="toolRow"><button class="small" id="btnExpL">Export my inventory as a library…</button>
-      <span class="hint">the materials you pick, as a library file</span></div>
-    <div class="toolRow"><button class="small" id="ioRestore">Restore a Backup…</button>
-      <span class="hint">replaces all your data with a Backup; Undo takes it back</span></div>
-    ${bak ? `<div class="toolRow"><button class="small" id="ioSnap">Restore daily snapshot (${esc(bak.date)})</button>
-      <span class="hint">your data as it was before your first change today</span></div>` : ""}`,
+    <div class="setCols ioCols"><div>
+    <div class="setSec">Import</div>
+    <div class="ioItem"><button class="small" id="btnImpF">Import formula…</button>
+      <div class="hint">a .json from a photo (<a href="${PROMPTS}#s1-photo-pdf-or-spreadsheet-to-import-file" target="_blank" rel="noopener">AI prompts</a>) or from another miFormulas, or the CSV of Export all formulas</div></div>
+    <div class="ioItem"><button class="small" id="ioCsv">Import materials inventory from CSV…</button>
+      <div class="hint">materials from a spreadsheet saved as CSV; you match the columns on screen · <a href="#" id="ioTpl">template</a></div></div>
+    <div class="ioItem"><button class="small" id="btnImpL">Import materials library…</button>
+      <div class="hint">${L ? `loaded: ${esc(L.name)}${L.version ? " " + esc(L.version) : ""}, ${nMats(L.materials.length)} · ` : ""}facts for + New material; your inventory is not touched</div></div>
+    ${web ? `<div class="ioItem"><a class="btn" id="ioFormulair" href="formulair-import.html" title="Coming from Formulair? Read its database file here and continue with all your materials and formulas">Import from Formulair…</a>
+      <div class="hint">the macOS app; see manual section 17</div></div>` : ""}
+    </div><div>
+    <div class="setSec">Export</div>
+    <div class="ioItem"><div class="setRow" style="margin-top:0"><button class="small" id="btnExpF">Export all formulas (Excel)</button>
+      <button class="small" id="btnExpM">Export all materials (Excel)</button></div>
+      <div class="hint">CSV files that open in Excel · the materials export is what the <a href="${PROMPTS}#s2-checking-and-completing-your-materials" target="_blank" rel="noopener">AI prompts</a> check</div></div>
+    <div class="ioItem"><button class="small" id="btnExpJ">Export all my formulas</button>
+      <div class="hint">every formula with all its versions; no price, supplier, stock or trial log goes along</div></div>
+    <div class="ioItem"><button class="small" id="btnExpL">Export my inventory as a library…</button>
+      <div class="hint">the materials you pick, as a library file</div></div>
+    <div class="setSec">Back to an earlier state</div>
+    <div class="ioItem"><button class="small danger" id="ioRestore">Restore a Backup…</button>
+      <div class="hint">replaces all your data with a Backup; Undo takes it back</div></div>
+    ${bak ? `<div class="ioItem"><button class="small danger" id="ioSnap">Restore daily snapshot (${esc(bak.date)})</button>
+      <div class="hint">your data as it was before your first change today</div></div>` : ""}
+    </div></div>`,
     "Close", () => {}, "30rem");
   $("#dlgCancel").style.display = "none";   // a menu has nothing to cancel
   // every button closes the window first: the next step is a file picker, another window or the import page
@@ -4932,6 +4942,8 @@ function deliveredDialog(idx, chosen){
         <select id="dvU" aria-label="Unit of the amount purchased"><option${(o.unit||"g")==="g"?" selected":""}>g</option><option${o.unit==="ml"?" selected":""}>ml</option></select></span>
       <label for="dvPrice">Price paid €</label><input id="dvPrice" value="${esc(o.price||"")}" style="width:6rem;text-align:right">
       <label for="dvDate">Purchase date</label><input type="date" id="dvDate" value="${today()}" style="justify-self:start">
+      ${!tracked ? `<label for="dvTrack">Track stock</label><span><input type="checkbox" id="dvTrack" checked> <span class="hint">from this purchase on: the ledger starts here</span></span>
+      <label for="dvG" class="dvTrackRow">Add to stock ledger</label><span class="dvTrackRow"><input id="dvG" value="${o.amount!=null?fmtSIn(o.amount):""}" style="width:4.5rem;text-align:right" placeholder="amount"> <span class="hint" id="dvGU">${esc(o.unit||"g")}</span> · booked into the ledger</span>` : ""}
       ${tracked ? `<label for="dvG">Add to stock ledger</label><span><input id="dvG" value="${o.amount!=null?fmtSIn(o.amount):""}" style="width:4.5rem;text-align:right" placeholder="amount"> <span class="hint" id="dvGU">${esc(o.unit||"g")}</span> · booked into the ledger</span>
       <label for="dvFresh">Old stock used up</label><span><input type="checkbox" id="dvFresh"> <span class="hint">the old bottle was empty: the ledger restarts here (off: added to the ${fmt(st.qty||0)} g still counted)</span></span>` : ""}
       <label for="dvDens" id="dvDensL" hidden>Density g/ml</label><span id="dvDensW" hidden><input id="dvDens" value="${m && m.density != null ? fmtSIn(m.density, 4) : ""}" placeholder="e.g. 0,95" style="width:5rem;text-align:right" inputmode="decimal"> <span class="hint">needed to read ml as grams</span></span>
@@ -4946,6 +4958,8 @@ function deliveredDialog(idx, chosen){
     const gu = $("#dvGU"); if (gu) gu.textContent = $("#dvU").value;
   };
   $("#dvU").addEventListener("change", syncU); syncU();
+  const syncT = () => { const on = !!$("#dvTrack")?.checked; document.querySelectorAll(".dvTrackRow").forEach(e => e.hidden = !on); };
+  $("#dvTrack")?.addEventListener("change", syncT); syncT();
   let gTouched = false;   // the ledger follows the purchase until you say otherwise
   $("#dvG")?.addEventListener("input", () => { gTouched = true; });
   $("#dvAmt").addEventListener("input", () => { if (!gTouched && $("#dvG")) $("#dvG").value = $("#dvAmt").value; });
@@ -4978,21 +4992,30 @@ function deliveredDialog(idx, chosen){
       const cg = costPerGram(m.density, basePct(m));
       if (cg) m.costPerGram = +cg.toFixed(4);
       m.purchaseDate = date; m.modified = now(); delete m.wishlist;
-      const g = parseNum($("#dvG")?.value);
+      const g = parseNum($("#dvG")?.value), start = !tracked && !!$("#dvTrack")?.checked;
+      // not tracked yet and Track stock ticked: a stocktake of 0, then the purchase, so the ledger counts from here
+      const grams0 = g ? (unit === "g" ? g : (m.density ? g * m.density : null)) : null;
+      if (!tracked && !(start && grams0 != null)){ /* nothing for the ledger */ }
+      else {
+      if (start) (m.stockEvents ||= []).push({t:"take", date, g: 0, note: "start of tracking"});
       // the bottle you are replacing was empty: a stocktake of 0 on the purchase date, so the ledger starts
       // again here instead of counting this purchase on top of what it still thought was in the cupboard
       if ($("#dvFresh")?.checked) (m.stockEvents ||= []).push({t:"take", date, g: 0, note: "old stock used up"});
       if (g){ const grams = unit === "g" ? g : (m.density ? g * m.density : null);
         (m.stockEvents ||= []).push({t:"buy", date, amount: g, unit, g: grams, note: "delivered (order list)"}); }
+      }
       // every line of this material goes, and you stay on the list: a delivery rarely comes alone, and the page of the
       // material, on a phone above all, was one step back and one tab away from the next line (build 260922j)
       DATA.orderList = DATA.orderList.filter((x, j) => j !== idx && orderMat(x) !== m);
       markDirty(); render();
     } else {
       const cg = costPerGram(null, 100);   // a new material starts at 100 %
+      const dn = dvDens != null && dvDens > 0 ? dvDens : null, g = parseNum($("#dvG")?.value);
+      const grams = $("#dvTrack")?.checked && g ? (unit === "g" ? g : (dn ? g * dn : null)) : null;
       const r = newMaterialFrom(o.name, 100, {costPerGram: cg ? +cg.toFixed(4) : null, inventory: amt, purchaseDate: date,
-        density: dvDens != null && dvDens > 0 ? dvDens : null,
-        dilutions:[{pct:100, isBase:true, date, notes:""}]});
+        density: dn, dilutions:[{pct:100, isBase:true, date, notes:""}],
+        ...(grams != null ? {stockEvents: [{t:"take", date, g: 0, note: "start of tracking"},
+                                          {t:"buy", date, amount: g, unit, g: grams, note: "delivered (order list)"}]} : {})});
       const nm = r.m, newCat = r.newCat;
       pushUndo(() => { DATA.orderList = oc; DATA.materials = DATA.materials.filter(x => x.id !== nm.id);
         if (newCat) DATA.materialCategories = DATA.materialCategories.filter(x => x !== newCat);
@@ -5111,7 +5134,7 @@ function renderMaterial(m){
       <label for="mPurchDate">Purchase date</label><input type="date" id="mPurchDate" data-f="purchaseDate" value="${esc(m.purchaseDate||"")}" style="justify-self:start">
       <label for="mDensity">Density g/ml</label><input id="mDensity" data-f="density" data-num="1" value="${m.density!=null?fmtSIn(m.density,4):""}" placeholder="for ml purchases" style="width:8rem">
     </div>
-    <div style="font-size:1.1rem;font-weight:600;margin-bottom:.4rem">${st.tracked ? fmt(st.qty)+" g <span class='hint' style='font-weight:400'>estimated</span>" : '<span class="hint">Not tracked – set a stocktake to start.</span>'}</div>
+    <div style="font-size:1.1rem;font-weight:600;margin-bottom:.4rem">${st.tracked ? fmt(st.qty)+" g <span class='hint' style='font-weight:400'>estimated</span>" : '<span class="hint">Not tracked – set a stocktake or add a purchase to start.</span>'}</div>
     <div class="toolRow"><label for="stTake">Stocktake</label> <input id="stTake" style="width:5.5rem;text-align:right" placeholder="g"> g <button class="small" id="btnTake">Set</button></div>
     <div class="toolRow"><label for="stBuyAmt">Purchase</label> <input id="stBuyAmt" style="width:5rem;text-align:right"> <select id="stBuyUnit" aria-label="Unit of the purchase"><option>g</option><option>ml</option></select>
       <input id="stBuyNote" placeholder="supplier / note" aria-label="Supplier or note with the purchase" style="min-width:11rem"> <button class="small" id="btnBuy">Add</button></div>
@@ -5210,7 +5233,13 @@ function renderMaterial(m){
     if (!amt || amt < 0 || !isFinite(amt)){ alert("Enter the purchased amount, above 0."); return; }
     const unit = $("#stBuyUnit").value;
     const g = unit === "g" ? amt : (m.density ? amt * m.density : null);
-    snapM(m); (m.stockEvents ||= []).push({t:"buy", date: today(), amount: amt, unit, g, note: $("#stBuyNote").value.trim()});
+    // a purchase entered here is meant for the ledger: on a material that is not tracked yet it starts it, with a
+    // stocktake of 0 before it, instead of a line that counts nowhere (build 261017b)
+    const start = !stockCalc(m).tracked;
+    if (start && g == null){ alert("Fill in the density (g/ml) above first: without it the app cannot count millilitres."); return; }
+    snapM(m);
+    if (start) (m.stockEvents ||= []).push({t:"take", date: today(), g: 0, note: "start of tracking"});
+    (m.stockEvents ||= []).push({t:"buy", date: today(), amount: amt, unit, g, note: $("#stBuyNote").value.trim()});
     markDirty(); render();
   });
   $("#btnDil")?.addEventListener("click", () => {
