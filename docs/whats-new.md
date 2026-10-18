@@ -2,6 +2,31 @@
 
 What changed in the app, newest first. The manual describes every function in full; the technical release notes are on GitHub.
 
+## On miformulas.com since 18 October
+
+These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, you get them with the next version.
+
+### Starting empty on your own computer
+
+The downloaded app (miFormulas.html on your own computer) now has **Start empty** on its start screen, next to **Start with the starter set**. It creates your data file next to the app with nothing in it yet, and it does so without going online: the starter set has to be fetched from miformulas.com once, an empty file does not. With a data file in place, the app needs no internet connection at all.
+
+*Manual, sections [14](manual.html#s14-where-your-data-lives-and-the-other-ways-in) and [21](manual.html#s21-privacy-who-can-see-your-formulas)*
+
+### Import & export
+
+The Import & export window (⇅ in the header) is grouped under headings, as Settings is: what comes in on the left, what goes out and the ways back to an earlier state on the right, with what each button does under it. The two buttons that replace all your data, Restore a Backup… and Restore daily snapshot, are red.
+
+*Manual, section [16](manual.html#s16-import-export-and-sharing)*
+
+### A purchase starts the stock ledger
+
+On a material whose stock you do not track yet, **Purchase › Add** in the Stock panel now starts the ledger at once, with a stocktake of 0 g before the purchase, instead of noting a purchase that counted nowhere. **Delivered…** on the order list has a tick box **Track stock**, on by default, which does the same, also for a material it creates.
+
+*Manual, section [13](manual.html#s13-stock-orders-and-deliveries)*
+
+> **Do you have the latest version?** When using the app on miformulas.com, in a browser or installed from there as an app, you always do: just reopen it.  
+> A copy of miFormulas.html on your own computer does not change by itself: go to **Settings › Check for updates**. No such button in your Settings? Then your copy is v2.2 or older. Open miformulas.com in Chrome or Edge, go to **Settings › Download the app** and put the new miFormulas.html in place of the old one (same folder, same name). Your data file is not touched, and the app offers to reopen it.
+
 ## On miformulas.com since 16 October
 
 These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, you get them with the next version.
@@ -21,9 +46,6 @@ With nothing of your own yet, Delete the data kept in this browser and Start emp
 The Settings window is grouped under headings: General, Materials library, Starter set, Where your data lives and This app. The buttons that delete something are red.
 
 *Manual, section [19](manual.html#s19-settings-theme-and-keyboard-shortcuts)*
-
-> **Do you have the latest version?** When using the app on miformulas.com, in a browser or installed from there as an app, you always do: just reopen it.  
-> A copy of miFormulas.html on your own computer does not change by itself: go to **Settings › Check for updates**. No such button in your Settings? Then your copy is v2.2 or older. Open miformulas.com in Chrome or Edge, go to **Settings › Download the app** and put the new miFormulas.html in place of the old one (same folder, same name). Your data file is not touched, and the app offers to reopen it.
 
 ## v2.3 – 16 October 2026
 

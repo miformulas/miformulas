@@ -1,4 +1,4 @@
-"""Bestandsmodus (gedownloade app geopend via file://): hint, dialoog, starterset, aanmaak van het databestand, herstart met Reopen, verdwenen bestand.
+"""Bestandsmodus (gedownloade app geopend via file://): hint, dialoog, starterset, Start empty (261018a), aanmaak van het databestand, herstart met Reopen, verdwenen bestand.
 Draait rechtstreeks op public\index.html; de starterset wordt vanaf schijf geserveerd omdat de test miformulas.com nabootst."""
 import json, os, re, sys
 from playwright.sync_api import sync_playwright
@@ -53,6 +53,7 @@ with sync_playwright() as p:
     check("hint mentions backups subfolder", "backups" in hint)
     check("hint warns that the starter set creates a new file", "Open data file" in hint and "create a new one" in hint)
     check("starter button visible", page.locator("#btnStarter").is_visible())
+    check("Start empty visible in file mode (261018a)", page.locator("#btnEmpty").is_visible())
     check("open data file visible", page.locator("#btnOpen").is_visible())
     check("download link hidden in file mode", not page.locator("#btnDownload").is_visible())
     check("STARTER_URL absolute", page.evaluate("STARTER_URL") == "https://miformulas.com/data/miformulas-starter.json")
@@ -95,6 +96,7 @@ with sync_playwright() as p:
     check("restart: landing shown", pr.locator("#landing").is_visible())
     check("restart: Reopen button visible", pr.locator("#btnReopen").is_visible() and "miformulas-data.json" in pr.locator("#btnReopen").inner_text())
     check("restart: starter button hidden", not pr.locator("#btnStarter").is_visible())
+    check("restart: Start empty hidden", not pr.locator("#btnEmpty").is_visible())
     hr = pr.locator("#landingHint").inner_text()
     check("restart: hint says Reopen continues with the file", "Reopen continues with" in hr and "miformulas-data.json" in hr)
     pr.click("#btnReopen"); pr.wait_for_timeout(1200)
@@ -115,6 +117,8 @@ with sync_playwright() as p:
     check("gone: landing stays", pg.locator("#landing").is_visible())
     check("gone: Reopen hidden", not pg.locator("#btnReopen").is_visible())
     check("gone: starter offered", pg.locator("#btnStarter").is_visible())
+    check("gone: Start empty offered too", pg.locator("#btnEmpty").is_visible())
+    check("gone: hint names Start empty", "Start empty" in pg.locator("#landingHint").inner_text())
     check("gone: hint explains", "could not be opened" in pg.locator("#landingHint").inner_text())
     check("gone: handle forgotten", pg.evaluate("idb.get('fileHandle').then(h => !h)"))
     pg.evaluate("localStorage.removeItem('fakegone')")
@@ -152,6 +156,35 @@ with sync_playwright() as p:
     page3.click("#btnStarter"); page3.wait_for_timeout(1500)
     check("offline: alert mentions internet", any("internet connection" in m for m in dl))
     check("offline: landing stays, no dialog", page3.locator("#landing").is_visible() and not page3.locator("#dlg").evaluate("d => d.open"))
+
+    # Start empty (build 261018a): an empty data file next to the app, with the network switched off entirely
+    page3.close()
+    page4 = ctx.new_page()
+    page4.add_init_script(FAKE_FS)
+    netreq = []
+    page4.route("**/*", lambda r: (netreq.append(r.request.url), r.abort()) if r.request.url.startswith("http") else r.continue_())
+    page4.on("dialog", lambda d: d.accept())   # the snapshot warning of 260920a, if any
+    page4.goto(APP); page4.wait_for_timeout(800)
+    vis4 = page4.locator("#btnEmpty").is_visible()
+    check("empty: button visible", vis4)
+    if not vis4:   # on an older build the button is hidden: count the flow as failed instead of waiting on a click
+        check("empty: flow skipped, the button is missing", False)
+    else:
+        page4.click("#btnEmpty"); page4.wait_for_timeout(1000)
+        dt = page4.locator("#dlg").inner_text()
+        check("empty: the same dialog, about an empty file", page4.locator("#dlg").evaluate("d => d.open") and "miformulas-data.json" in dt and "no formulas and no materials" in dt)
+        check("empty: no confirm of the generic handler", page4.locator("#landing").is_visible())
+        page4.click("#dlgCancel"); page4.wait_for_timeout(300)
+        check("empty: cancel keeps the start screen, hint names Start empty", page4.locator("#landing").is_visible() and "Start empty" in page4.locator("#landingHint").inner_text())
+        page4.click("#btnEmpty"); page4.wait_for_timeout(1000); page4.click("#dlgOk"); page4.wait_for_timeout(1500)
+        check("empty: landing gone", not page4.locator("#landing").is_visible())
+        w4 = page4.evaluate("window.__written")
+        d4 = json.loads(w4[0]) if w4 else {}
+        check("empty: data file written once, with 0 formulas and 0 materials", len(w4) == 1 and d4.get("formulas") == [] and d4.get("materials") == [])
+        check("empty: state shows Saved (file)", page4.locator("#saveState").inner_text().startswith("Saved"))
+        check("empty: file handle stored", page4.evaluate("idb.get('fileHandle').then(h => !!h && h.name)") == "miformulas-data.json")
+        check(f"empty: not one network request ({netreq[:2]})", netreq == [])
+    page4.evaluate("idb.set('fileHandle', null)")
     b.close()
 
 print(f"\n{ok} OK, {fail} FAIL")
