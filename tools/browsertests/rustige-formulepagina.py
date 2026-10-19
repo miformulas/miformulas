@@ -1,5 +1,5 @@
 """Bouw 261019a: een rustiger formulepagina (Reddit, 19/10: "the formula creation view could use some focus").
-De kop in twee rijen met een menu ⋯, de tick bar pas bij een vinkje, onder de tabel Batch scaling als strook en een menu
+De kop in twee rijen met een menu ⋯ (sinds 261019d staat Bench view in de tweede rij, naast de volgorde), de tick bar pas bij een vinkje, onder de tabel Batch scaling als strook en een menu
 Print / export, de vier panelen twee aan twee met gewone titels, de piramide in het paneel van de categorieën.
 Draait op de lokale webserver (poort 8765, zie README)."""
 import os
@@ -32,13 +32,14 @@ with sync_playwright() as p:
 
     # ---------- 1. de kop in twee rijen ----------
     open_f("Jasmin 231")
-    r1 = {s: box(s) for s in ("#content h2", "#verSel", "#btnNameV", "#btnNewV", "#btnCmp", "#btnBenchToggle", "#fMore summary")}
-    check(f"eerste rij: naam, versie, potlood, + New version, Compare, Bench view en ⋯ op één lijn ({ {k: round(v['y']) if v else None for k, v in r1.items()} })",
+    r1 = {s: box(s) for s in ("#content h2", "#verSel", "#btnNameV", "#btnNewV", "#btnCmp", "#fMore summary")}
+    check(f"eerste rij: naam, versie, potlood, + New version, Compare en ⋯ op één lijn ({ {k: round(v['y']) if v else None for k, v in r1.items()} })",
           all(r1.values()) and max(v["y"] + v["h"] / 2 for v in r1.values()) - min(v["y"] + v["h"] / 2 for v in r1.values()) < 6)
-    check("⋯ staat rechts, na Bench view", r1["#fMore summary"] and r1["#btnBenchToggle"] and r1["#fMore summary"]["x"] > r1["#btnBenchToggle"]["x"] > r1["#btnCmp"]["x"])
-    r2 = {s: box(s) for s in ("#fCat", "#sortSel")}
-    check("tweede rij: de categorie en Order, onder de eerste",
-          all(r2.values()) and abs(r2["#fCat"]["y"] - r2["#sortSel"]["y"]) < 6 and r2["#fCat"]["y"] > r1["#verSel"]["y"] + 20)
+    check("⋯ staat rechts, na Compare", r1["#fMore summary"] and r1["#fMore summary"]["x"] > r1["#btnCmp"]["x"])
+    r2 = {s: box(s) for s in ("#fCatDd summary", "#sortSel", "#btnBenchToggle")}
+    check("tweede rij: de categorie, de volgorde en Bench view, onder de eerste",
+          all(r2.values()) and max(abs(v["y"] + v["h"] / 2 - r2["#sortSel"]["y"] - r2["#sortSel"]["h"] / 2) for v in r2.values()) < 6
+          and r2["#fCatDd summary"]["y"] > r1["#verSel"]["y"] + 20 and r2["#btnBenchToggle"]["x"] > r2["#sortSel"]["x"] > r2["#fCatDd summary"]["x"])
     meta = page.text_content(".fMeta") if page.locator(".fMeta").count() else ""
     check(f"de tweede rij zegt sinds wanneer en starter set ({meta.strip()[:80]!r})", "since " in meta and "starter set" in meta)
     t = page.evaluate("() => document.querySelector('table.ftable').getBoundingClientRect().top - document.querySelector('#content').getBoundingClientRect().top")

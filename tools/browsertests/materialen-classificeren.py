@@ -51,11 +51,15 @@ with sync_playwright() as pw:
           knoppen[0] == ["+ New material…", "Classify several…"] and all(knoppen[1:]))
     check("op de materiaalpagina zelf staat geen Classify several… meer", page.locator("#btnClassify").count() == 0
           and page.locator("#content button", has_text="Classify several").count() == 0)
-    rij = page.evaluate("""() => { const s = document.querySelector('#mf_category'), kl = document.querySelector('#matCatCol'),
-        n = document.querySelector('#btnNewMatCat'), p = document.querySelector('#content .pyr'), l = document.querySelector('label[for="mf_category"]');
+    rij = page.evaluate("""() => { const sm = document.querySelector('#mCatDd > summary'), p = document.querySelector('#content .pyr'), l = document.querySelector('label[for="mf_category"]');
       const r = x => x.getBoundingClientRect();
-      return [Math.abs(r(s).top - r(n).top) < 8, r(kl).left > r(s).right - 1, r(n).left > r(kl).right - 1, r(p).top > r(s).bottom - 2, !!l]; }""")
-    check(f"de categorie: keuzelijst, kleurvakje en + New category op één regel, Pyramid eronder, het label wijst naar de keuzelijst ({rij})", all(rij))
+      return [!!sm && !!sm.querySelector('.catdot'), !!sm && !sm.parentElement.open, !!sm && r(p).top > r(sm).bottom - 2, !!l]; }""")
+    check(f"de categorie: haar naam met haar kleur (sinds 261019d), Pyramid eronder, het label wijst naar de keuzelijst ({rij})", all(rij))
+    page.click("#mCatDd > summary"); page.wait_for_timeout(150)
+    pop = page.evaluate("""() => { const vis = x => !!x && x.getClientRects().length > 0;
+      return ['#mf_category', '#matCatCol', '#btnNewMatCat'].map(s => vis(document.querySelector(s))); }""")
+    check(f"een klik opent de keuzelijst, de kleur en + New category ({pop})", all(pop))
+    page.keyboard.press("Escape"); page.wait_for_timeout(150)
     page.click("#ltNew"); page.wait_for_timeout(300)
     check("+ New material… boven het zoekvak opent het venster van de kop", page.locator("#nmName").is_visible())
     page.click("#dlgCancel"); page.wait_for_timeout(200)

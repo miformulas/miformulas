@@ -1,5 +1,5 @@
 """Bouw 261019b: de materiaalpagina naar analogie met de formulapagina (kop in twee rijen met ⋯, de velden in twee kolommen,
-de vier panelen twee aan twee), de herinnering aan de library in + New material (Get the latest library zonder het venster te
+de vier panelen twee aan twee; sinds 261019d herhaalt de tweede rij CAS en categorie niet), de herinnering aan de library in + New material (Get the latest library zonder het venster te
 verliezen; Don’t remind me als vlag in het databestand; Remove the library zet ze ook), en de placeholder van Alternative names.
 Draait op de lokale webserver (poort 8765, zie README)."""
 import json, os
@@ -45,8 +45,10 @@ with sync_playwright() as p:
           and r1["#mMore summary"]["x"] > r1["#btnToOrder"]["x"])
     meta = txt(".fMeta")
     links = page.evaluate("() => [...document.querySelectorAll('.fMeta .fLinks a.lookup')].map(a => a.textContent.trim())")
-    check(f"tweede rij: CAS, categorie, starter set en de drie opzoeklinks ({meta.strip()[:60]!r}, {links})",
-          "106-24-1" in meta and "Flowers - red" in meta and "starter set" in meta and [l.split()[0] for l in links] == ["TGSC", "Olfactorian", "IFRA"])
+    check(f"tweede rij: starter set en de drie opzoeklinks, niet CAS en categorie die er vlak onder staan (261019d) ({meta.strip()[:60]!r}, {links})",
+          "106-24-1" not in meta and "Flowers - red" not in meta and "starter set" in meta and [l.split()[0] for l in links] == ["TGSC", "Olfactorian", "IFRA"])
+    cat = page.evaluate("() => { const s = document.querySelector('#mCatDd > summary'); return s ? [s.textContent.trim(), !!s.querySelector('.catdot')] : null; }")
+    check(f"de categorie als naam met haar kleur ({cat})", cat and cat[0].startswith("Flowers - red") and cat[1])
     check("Delete material staat niet in zicht", page.locator("#btnDelMat").count() == 1 and not vis("#btnDelMat"))
     klik("#mMore summary")
     st = page.evaluate("() => { const b = document.querySelector('#btnDelMat'); return [getComputedStyle(b).color, !!b.closest('#mMore .menuPop')]; }")

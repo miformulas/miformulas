@@ -42,8 +42,8 @@ with sync_playwright() as p:
     page.wait_for_timeout(500)
     check("Rename…", page.text_content("#btnRenameF").strip() == "Rename…")
     check("Copy to new formula…", page.text_content("#btnCopyF").strip() == "Copy to new formula…")
-    check("de categorie staat boven de versie, met + New category (sinds 261011e, in plaats van Change category…)",
-          page.text_content("#btnNewFCat").strip() == "+ New category" and page.locator("#btnCatF").count() == 0)
+    check("de categorie staat op de pagina, met + New category (sinds 261011e, in plaats van Change category…; sinds 261019d achter de categorie)",
+          page.locator("#fCatDd #btnNewFCat").count() == 1 and page.text_content("#btnNewFCat").strip() == "+ New category" and page.locator("#btnCatF").count() == 0)
     check("the pencil says so in its tooltip", page.get_attribute("#btnNameV", "title") == "Name this version…")
     check("the replace arrows say so in their tooltip",
           (page.get_attribute("[data-repl]", "title") or "").endswith("…"))

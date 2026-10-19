@@ -6,6 +6,18 @@ What changed in the app, newest first. The manual describes every function in fu
 
 These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, **Settings › Check for updates** brings them in (see “Do you have the latest version?”).
 
+### The head of a formula, tidied up
+
+The first row of a formula now holds what you work on: the name, the version, + New version, Compare and the menu **⋯**. The second row says what it is and, on the right, how you look at it: the order of the lines and **Bench view**. The category shows as its name with its colour; a click on it opens the list, the colour and + New category, which no longer stand there in full on every formula. The version list shows the whole name of an imported version again, with its lock, so the line “imported as …” went. The material page follows: its second row no longer repeats the CAS number, the category and the alternative names that stand right under it, and its category opens the same way.
+
+*Manual, sections [3](manual.html#s3-materials), [4](manual.html#s4-formulas-and-versions) and [5](manual.html#s5-editing-a-formula)*
+
+### Fits on a laptop screen
+
+Several things did not fit on a common laptop screen, mostly with the list open: the head of a formula with a long version name took three or four rows; with Dilutions and Stock open, the dilution table ran under the Stock panel; the bench view put the groups under Unsorted, two screens down; the header jumped at every change. Beside the list on a narrow window, Compare and a material page ran off the page; on a phone, Compare ran off the screen and the bench view cut the names short. All of these now fit, and a test checks every screen at a range of widths.
+
+*Manual, sections [2](manual.html#s2-the-screen) and [10](manual.html#s10-bench-view-and-printing)*
+
 ### Panels that stay as you leave them
 
 The panels under a formula (Notes, Trial log, Pyramid & categories, IFRA check) and on a material page (Dilutions, Stock, Description, Usage in formulas) now start closed, and their titles say what is in them: “Notes – recorded”, “Trial log – 2 entries”, “Dilutions – 100% base, 10%”. Open one and it stays open for every formula or material, also the next time you start the app on that computer, until you close it again.

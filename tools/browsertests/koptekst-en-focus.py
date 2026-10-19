@@ -67,7 +67,7 @@ with sync_playwright() as p:
       const kids = [...w.children].map(k => Math.round(k.getBoundingClientRect().right));
       return {cols: cs.gridTemplateColumns.split(" ").length, max: Math.max(...kids),
               win: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth}; })()""")
-    check(f"op 1280 px staat de bench in één kolom en past ze ({bw})", bw["cols"] == 1 and bw["max"] <= bw["win"] and bw["scroll"] <= bw["win"])
+    check(f"op 1280 px staat de bench in twee kolommen (sinds 261019d volgens de breedte van de pagina) en past ze ({bw})", bw["cols"] == 2 and bw["max"] <= bw["win"] and bw["scroll"] <= bw["win"])
     knop = page.evaluate("""(() => { const b = [...document.querySelectorAll("[data-bup],[data-bdown],[data-bempty],[data-bdel]")];
       const w = document.documentElement.clientWidth;
       return {n: b.length, buiten: b.filter(x => x.getBoundingClientRect().right > w + 1).length}; })()""")

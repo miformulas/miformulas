@@ -100,7 +100,9 @@ with sync_playwright() as p:
       markDirty(); VIEW = {tab:"F", id:"f-v", sub:{type:"v", idx:1}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(600)
     check("an imported version offers Delete version", page.locator("#btnDelV").count() == 1)
-    check("and it says where it came from", "imported as “Aura v05”" in page.text_content(".fMeta"))
+    src = page.evaluate("() => document.querySelector('#verSel').selectedOptions[0].textContent")
+    check(f"and its version list says where it came from ({src!r}; sinds 261019d niet meer als imported as in de tweede rij)",
+          ": Aura v05 🔒" in src and "imported as" not in page.text_content(".fMeta"))
 
     # the import reference can be hidden without losing it
     page.click("#btnNameV"); page.wait_for_timeout(400)

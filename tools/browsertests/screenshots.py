@@ -245,9 +245,10 @@ with sync_playwright() as p:
     row = page.locator("table.lines tbody tr").filter(has_text="Rose Oxide").first
     w = row.locator("input[type=text], input:not([type])").first
     w.fill("0.1"); w.press("Enter"); settle(page)
-    # since 261019a the head of a formula in two rows, with the menu ⋯ open over the table
-    page.mouse.move(5, 5); page.click("#fMore summary"); page.wait_for_timeout(300)
-    t1, t2, mp = page.locator(".fTop").bounding_box(), page.locator(".fMeta").bounding_box(), page.locator("#fMore .menuPop").bounding_box()
+    # since 261019a the head of a formula in two rows; since 261019d with the category open over the table (the menu ⋯
+    # covered the right of the second row, where the order of the lines and Bench view now stand)
+    page.mouse.move(5, 5); page.click("#fCatDd > summary"); page.wait_for_timeout(300)
+    t1, t2, mp = page.locator(".fTop").bounding_box(), page.locator(".fMeta").bounding_box(), page.locator("#fCatDd .menuPop").bounding_box()
     y0 = round(t1["y"]) - 10
     shot(page, "app-versions.png", clip={"x": round(t1["x"]) - 10, "y": y0, "width": round(t1["width"]) + 20,
                                          "height": round(max(t2["y"] + t2["height"], mp["y"] + mp["height"])) + 10 - y0})

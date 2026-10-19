@@ -44,7 +44,10 @@ NIEUW = ["#dlg:has(#setLocale)", "#dlg:has(#btnImpF)",   # 261017b: Import & exp
          "#content:has(> .fhead) > .panelBox", ".tickBar", ".fTop", ".fMeta", ".fEdit", "#scaleBox", ".fblocks",
          # 261019b: de materiaalpagina in twee rijen, twee kolommen en vier panelen (rustige-materiaalpagina.py test ze),
          # en de herinnering aan de library in + New material
-         "#content:has(> .fieldGrid) > *", "#content:has(> .mCols) > *", "#nmLibHint"]
+         "#content:has(> .fieldGrid) > *", "#content:has(> .mCols) > *", "#nmLibHint",
+         # 261019d: A en B van Compare elk met hun lijst, zonder Order:, en de categorie in + New material zonder kleurvakje
+         # (opmaak-breedtes.py, namen.py); de tabel van Compare blijft vergeleken, zonder de klassen van RX
+         "#content:has(#cmpA) > .toolRow", 'label[for="nmCat"] + span']
 #   # bewust toegevoegd of omgezet sinds REF (261014a: de lijst met een zoekterm; 261015a:
 # Settings, breder en anders geschikt; audit-v3-teksten.py test het venster)
 # bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261014a: de categoriegroep
@@ -65,7 +68,11 @@ REPL = [['title="Settings: number format, materials library, server; install, do
         ["set a stocktake or add a purchase to start.", "set a stocktake to start."]]
 RX = [[r'<span class="sub fcat" title="Uncategorised · (\d+ versions?)">\d+ versions?', '<span class="sub fcat" title="Uncategorised · $1">Uncategorised'],
       # 261019a: the two builds leave different elements out of the formula page (NIEUW), and so different blank lines
-      [r'>\s+<', '>\n<']]
+      [r'>\s+<', '>\n<'],
+      # 261019d: twee klassen voor de telefoon en het venster van een CSV (de rel %-kolommen van Compare, de voorbeeldtabel)
+      [r' cmpRel', ''], [r'class="lines (cmp|csvprev)"', 'class="lines"'],
+      # 261019d: in de lijst de hele hoeveelheid als tooltip (een lange hoeveelheid krijgt een beletselteken)
+      [r'<span class="sub"><span title="[^"]*">([^<]*)</span>', '<span class="sub">$1']]
 # sinds 261014b zet migrate de materialen op naam (audit v3, C17): beide bouwen krijgen de data op naam, zodat alleen
 # verschilt wat de bouw zelf verandert
 OPNAAM = "DATA.materials.sort((a, b) => a.name.localeCompare(b.name)); invalidateMats();"

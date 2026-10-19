@@ -136,16 +136,19 @@ body.hidebar #btnBar{background:var(--accent-soft);color:var(--accent-ink);borde
 .item:hover{background:var(--accent-soft);border-left-color:var(--accent)}
 .item:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .item.sel{background:var(--accent-soft);font-weight:600;border-left-color:var(--accent)}
-.item .sub{font-size:.75rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.item .sub{font-size:.75rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;max-width:60%;overflow:hidden;text-overflow:ellipsis;flex-shrink:0}   /* a long amount is cut, whole in its tooltip: it pushed the list sideways (build 261019d) */
+.item>span:first-child{min-width:0}
 .item .sub.fcat{flex-shrink:0;max-width:50%;overflow:hidden;text-overflow:ellipsis}   /* the category of a formula in a search: whole up to half the row, a longer one cut, the name keeps its room (build 261012a) */
 .sugRow{padding:.25rem .8rem;display:flex;justify-content:space-between;gap:.5rem;align-items:center}
 .sugRow .sub{font-size:.75rem;color:var(--muted)}
+.sugRow>span{min-width:0}.sugRow button{flex:none;white-space:nowrap}
 .brRow{display:flex;gap:.5rem;align-items:baseline;padding:.2rem .4rem;border-bottom:1px solid var(--line);user-select:none}
 .brRow:last-child{border-bottom:0}
 .brRow.have{opacity:.55}
 .brRow .sub{font-size:.75rem;color:var(--muted);margin-left:auto;text-align:right}
 #content{flex:1;overflow-y:auto;padding:1.2rem 1.6rem 3rem;min-width:0}
 h2{margin:.2rem 0 .3rem;font-size:1.35rem}
+.metaLine{color:var(--muted);font-size:.85rem;margin-bottom:.6rem;display:flex;flex-wrap:wrap;gap:.3rem .5rem;align-items:center}   /* under the title of Import formula (back in 261019d) */
 .badge{font-size:.72rem;border-radius:4px;padding:.05rem .4rem;background:var(--frozen-soft);color:var(--frozen);vertical-align:middle}
 .tblwrap{max-width:100%;overflow-x:auto}
 .nowrap{white-space:nowrap}
@@ -182,6 +185,13 @@ table.lines select.d{max-width:7rem}
    then the category, the date and the order of the lines, smaller */
 .fTop{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem .45rem;margin:.1rem 0 .35rem}
 .fTop h2{margin:0 .45rem 0 0}
+/* above a phone the name and the version list share what is left of the first row, each up to its whole text and below
+   that with an ellipsis and the whole text in its tooltip; the row breaks only where not even 8 and 12rem fit beside the
+   buttons (build 261019d; with a long import name the head took three or four rows at 1366 px) */
+@media (min-width:701px){
+  .fTop h2{flex:1 1 8rem;max-width:max-content;min-width:3rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fTop #verSel{flex:1 1 12rem;max-width:max-content}
+  .fTop>button,.fTop .fEnd{flex:none;white-space:nowrap}}
 .fTop .benchBtn{margin-left:0}
 .fTop .fEnd{margin-left:auto;display:flex;align-items:center;gap:.45rem}   /* the way you look at the version, and ⋯ */
 .fMeta{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .45rem;color:var(--muted);font-size:.85rem;margin:0 0 .25rem}
@@ -191,6 +201,16 @@ table.lines select.d{max-width:7rem}
 .fMeta select{font-size:.85rem;padding:.15rem .35rem}
 .fMeta button.small{font-size:.8rem}
 .fMeta .fOrder{margin-left:auto;display:inline-flex;gap:.45rem;align-items:center}
+/* the category of a formula or a material: its name and its colour, and a click opens the list, the colour and
+   + New category (build 261019d; the three stood there in full on every page, for a change made a few times a year) */
+.catDd>summary.catChip{border:1px solid transparent;background:none;padding:.1rem .35rem;margin-left:-.35rem;color:inherit;font-size:inherit;display:inline-flex;align-items:center;gap:.4rem}
+.catDd>summary.catChip:hover,.catDd[open]>summary.catChip{border-color:var(--line);background:var(--surface)}
+.catChip .caret{font-size:.75em;opacity:.7}
+.menuPop.catPop{left:0;right:auto;min-width:16rem;gap:.5rem;padding:.6rem}   /* under the name it belongs to, opening to the right */
+.catPop select{width:100%}
+.catPop .catColRow{display:flex;gap:.5rem;align-items:center;font-size:.85rem;color:var(--muted);cursor:pointer;white-space:nowrap}
+body.ro .catDd>summary{pointer-events:none} body.ro .catDd .caret{display:none}
+.cmpPick{display:inline-flex;gap:.35rem;align-items:center}   /* A or B with its list, the two never apart (build 261019d) */
 /* a menu is a details element whose summary is the button: ⋯ in the head, Print / export under the lines */
 .menuDd{position:relative;display:inline-block}
 .menuDd>summary{list-style:none;cursor:pointer;user-select:none;white-space:nowrap;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:.15rem .6rem;font-size:.85rem}
@@ -214,14 +234,14 @@ table.lines select.d{max-width:7rem}
 .help h3{font-size:1rem;margin:1.2rem 0 .4rem}.help p,.help li{line-height:1.5}.help ol.toc{columns:2;column-gap:2rem;padding-left:2rem;font-size:.92rem}.help ol.toc li{break-inside:avoid}
 .help code{background:var(--panel);padding:.05em .3em;border-radius:3px;font-size:.92em}.help pre{background:var(--panel);padding:.6rem .8rem;border-radius:6px;overflow:auto;font-size:.85rem;white-space:pre-wrap}
 .help .helpfig{font-size:.85rem;color:var(--muted);margin:.3rem 0 .6rem}.help .helpbar{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:.6rem}.help a{color:var(--accent-ink)}
-.fieldGrid{display:grid;grid-template-columns:var(--lab,9rem) 1fr;gap:.35rem .8rem;align-items:center;max-width:34rem}
+.fieldGrid{display:grid;grid-template-columns:var(--lab,9rem) minmax(0,1fr);gap:.35rem .8rem;align-items:center;max-width:34rem}
 /* the fields of a material in two columns where both fit side by side: what it is (it needs some 33rem, for the
    category row and the pyramid buttons) and what you have of it (some 23rem); otherwise one column under the other.
    A grid of two equal tracks from 24rem let the left one run over the right between about 1170 and 1390 px (261019c) */
 .mCols{display:flex;flex-wrap:wrap;gap:.2rem 2rem;align-items:flex-start;margin:.4rem 0 .2rem}
 .mCols>.fieldGrid:first-child{flex:1.25 1 34rem}
 .mCols>.fieldGrid:last-child{flex:1 1 23rem}
-.mCols .fieldGrid{max-width:none}
+.mCols .fieldGrid{max-width:none;min-width:0}
 .scaleStrip{display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;margin:0 0 .6rem;padding:.5rem .75rem;
   background:var(--panel);border:1px solid var(--line);border-radius:8px}   /* Batch scaling, one strip under the lines (build 261019a) */
 .scaleStrip .sg{display:inline-flex;gap:.4rem;align-items:center;white-space:nowrap}
@@ -240,6 +260,11 @@ dialog{padding:0;border:1px solid var(--line);border-radius:10px;background:var(
   position:fixed;inset:0;margin:auto;max-width:min(34rem,94vw);max-height:88dvh;overflow:auto;
   box-shadow:0 8px 30px rgba(0,0,0,.25)}
 dialog button{min-height:2.3rem;touch-action:manipulation}
+/* the width of a window is that of its content, its border on top: the content of Export my inventory was 2 px wider
+   than the window and Classify several 34 px, so on Windows they scrolled sideways (build 261019d) */
+dialog{box-sizing:content-box}
+dialog:has(#clRows){max-width:min(37rem,94vw)}
+dialog a.btn{min-height:2.3rem;display:inline-flex;align-items:center}
 dialog label{display:block}
 [hidden]{display:none !important}   /* "dialog label{display:block}" beat the attribute: Delivered showed "Density g/ml" without its field (build 260922l) */
 dialog a{color:var(--accent-ink)}   /* the browser's blue was 1,75:1 on the dark theme */
@@ -281,7 +306,7 @@ dialog:has(#btnImpF){max-width:min(66rem,94vw)}
 .pyricon.lv2{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon fill='black' points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
 .pyricon.lv3{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon fill='black' points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
 .pyricon.lv4{--pyr:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><g fill='none' stroke='black' stroke-width='.7'><polygon points='7,1 7,1 8.2,3.4 5.8,3.4'/><polygon points='5.8,3.4 8.2,3.4 9.4,5.8 4.6,5.8'/><polygon points='4.6,5.8 9.4,5.8 10.6,8.2 3.4,8.2'/><polygon points='3.4,8.2 10.6,8.2 11.8,10.6 2.2,10.6'/><polygon fill='black' points='2.2,10.6 11.8,10.6 13,13 1,13'/></g></svg>")}
-#verSel{max-width:22rem}   /* Delete version stays on the line on a laptop with the list open (audit v3, C22) */
+#verSel{max-width:100%;min-width:8rem}   /* the whole name of an import, with its lock, where there is room (build 261019d; 22rem while Delete version stood beside it, audit v3 C22) */
 .sortable{cursor:pointer;user-select:none;white-space:nowrap}
 .sortable:hover{color:var(--accent)}
 table.lines tbody tr:hover{background:var(--accent-soft)}
@@ -294,6 +319,8 @@ table.lines tbody tr:hover{background:var(--accent-soft)}
 .fblocks summary .sumst{font-weight:400;color:var(--muted)}
 .fblocks summary .warn{color:var(--danger)}
 .fblocks .usage{margin-top:.3rem}
+.fblocks.mblocks{grid-template-columns:repeat(auto-fit,minmax(min(100%,max(27rem,calc(50% - .5rem))),1fr))}   /* the dilution table needs some 26rem: between 1090 and 1195 px it ran under the Stock panel, ✕ out of reach (build 261019d) */
+#dilBox [data-setbase]{white-space:nowrap}
 @media (min-width:701px){#dilBox td:first-child{white-space:nowrap}}   /* "100% base" and "10% Set base" on one line in a half-width panel; a phone's fixed columns would cut them */
 .fpyr text{fill:var(--muted);font:500 9px "Segoe UI",system-ui,sans-serif;font-variant-numeric:tabular-nums}
 /* a path, a URL or a long link must not push the page sideways, on any width */
@@ -316,11 +343,12 @@ table.lines tbody tr:hover{background:var(--accent-soft)}
 .bghandle{cursor:grab;color:var(--muted);flex:none;font-size:.85rem;letter-spacing:-2px}
 .bghandle:hover{color:var(--accent)}
 .bpanel.gdropbefore{box-shadow:0 -3px 0 var(--amber)}
-.benchWrap{display:grid;grid-template-columns:1fr 1.15fr;gap:1rem;align-items:start;margin:.6rem 0}
+.benchWrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,26rem),1fr));gap:1rem;align-items:start;margin:.6rem 0}
 .benchWrap>*{min-width:0}   /* a grid column grew to its longest name, and on a phone the weights went off the screen (build 260922l) */
-@media (max-width:1450px){.benchWrap{grid-template-columns:1fr}}   /* below this the two columns are cut off by the sidebar */
+/* two columns wherever the page has room for two of 26rem, with or without the list: below a window of 1450 px it was
+   one column, and Group 1 started two screens below Unsorted on a laptop (build 261019d) */
 .bpanel{background:var(--surface);border:1px solid var(--line);border-radius:8px;margin-bottom:.8rem}
-.bhead{display:flex;gap:.5rem;align-items:center;padding:.45rem .7rem;border-bottom:2px solid var(--accent)}
+.bhead{display:flex;flex-wrap:wrap;gap:.3rem .5rem;align-items:center;padding:.45rem .7rem;border-bottom:2px solid var(--accent)}
 .bhead .hint{white-space:nowrap}
 .btitle{border:none;background:transparent;font-weight:600;flex:1;min-width:4rem;padding:.1rem .2rem}
 .btitle:focus{outline:none;box-shadow:0 2px 0 var(--accent)}
@@ -372,6 +400,13 @@ header.noplace #stWhere{display:none}   /* set by fitHeader() */
   body:not(.hidebar) table.ftable select.d{padding-left:.3rem;padding-right:.1rem}
   body:not(.hidebar) .bp{display:none} body:not(.hidebar) .bdil{width:3rem} body:not(.hidebar) .bw{width:4.4rem} body:not(.hidebar) .bhead{flex-wrap:wrap}
   body:not(.hidebar) table.ftable .abscol,body:not(.hidebar) table.ftable .costcol{display:none}
+  /* Compare and the dilutions of a material in that letter too: at 701 and 760 px both ran off the page (build 261019d) */
+  body:not(.hidebar) .cmpPick{flex:1 1 100%;max-width:100%;min-width:0} body:not(.hidebar) #cmpA,body:not(.hidebar) #cmpB{flex:1 1 auto;max-width:100%;min-width:0}
+  body:not(.hidebar) table.lines .cmpRel{display:none} body:not(.hidebar) table.lines.cmp td:first-child{white-space:normal;overflow-wrap:anywhere}
+  body:not(.hidebar) table.lines.cmp{font-size:.8rem} body:not(.hidebar) table.lines.cmp td,body:not(.hidebar) table.lines.cmp th{padding:.16rem .3rem}
+  body:not(.hidebar) #dilBox table.lines{width:100%;table-layout:fixed;font-size:.8rem} body:not(.hidebar) #dilBox td:first-child{white-space:normal}
+  body:not(.hidebar) #dilBox th.dilcol{width:5.5rem} body:not(.hidebar) #dilBox th.datecol{width:8.4rem} body:not(.hidebar) #dilBox th.xcol{width:2rem}
+  body:not(.hidebar) #mCatDd>.menuPop.catPop{left:auto;right:0}   /* the category of a material opens to the left there, within the page */
   body:not(.hidebar) table.ftable .replBtn{float:none;margin:0 0 0 .2rem} body:not(.hidebar) table.ftable a.matlink{overflow-wrap:anywhere}
 }
 @media (min-width:701px){table.ord th.onote{width:99%}table.ord .oname{display:inline-block;min-width:9rem}}   /* the note takes the room that is left, after the name (build 261002c) */
@@ -385,6 +420,7 @@ table.ord td.acts,table.ord thead th:last-child{position:sticky;right:0;backgrou
 table.ord tbody tr:nth-child(even) td.acts{background:linear-gradient(var(--zebra),var(--zebra)) var(--ground)}
 table.ord tbody tr:hover td.acts{background:var(--accent-soft)}
 @media (pointer:coarse){.swatch{width:1.5rem;height:1.5rem}}   /* a colour swatch is a tap target: 24 px */
+@media (pointer:coarse){.bgrip{display:none}}   /* dragging takes a mouse: on a touch screen the grip only took room from the name (build 261019d) */
 @media (max-width:700px){
   #btnNew,#btnNewMat,#btnRedo,#btnSave,.hsep,#btnBar{display:none}   /* creation is desktop work; saving is automatic */
   body.hidebar #sidebar{display:flex}          /* ☰ is out of reach here, so a hidden sidebar would be a blank screen */
@@ -395,7 +431,7 @@ table.ord tbody tr:hover td.acts{background:var(--accent-soft)}
   table.lines td,table.lines th{overflow:hidden;text-overflow:ellipsis;padding:.16rem .3rem}
   /* every column got the same width, the tick box as much as the name: "Jasmo… H", "Dihyd…". The narrow ones get a
      width of their own and the name the rest, and a long name breaks instead of being cut off (build 260922l) */
-  table.lines th.cbcol{width:1.9rem} table.lines th.dilcol{width:4.6rem} table.lines th.wcol{width:5.1rem}
+  table.lines th.cbcol{width:1.9rem} table.lines th.dilcol{width:5.2rem} table.lines th.wcol{width:5.1rem}
   table.lines th.relcol{width:3.3rem} table.lines th.xcol{width:2rem} table.lines th.datecol{width:8.4rem}
   /* the ✕ is a little wider than the room its column leaves it, and Safari drew an ellipsis after it: a dot at the
      end of every line on an iPhone (the test round of 261006). The cell clips instead */
@@ -424,6 +460,12 @@ table.ord tbody tr:hover td.acts{background:var(--accent-soft)}
   .deskcol{display:none}
   .scaleStrip .sg{white-space:normal;flex-wrap:wrap}
   #verSel{max-width:100%}
+  .fMeta>span::before{content:none !important}   /* a dot at the start of a line said nothing: the gap separates them (build 261019d) */
+  .bname{white-space:normal;overflow-wrap:anywhere}   /* at the scale you have to recognise the bottle: a name breaks, as in the table */
+  .cmpPick{flex:1 1 100%;max-width:100%;min-width:0} #cmpA,#cmpB{flex:1 1 auto;max-width:100%;min-width:0}   /* the two lists of Compare ran off the screen */
+  table.lines .cmpRel{display:none} table.lines.cmp{table-layout:auto} table.lines.cmp td:first-child{white-space:normal;overflow-wrap:anywhere}   /* Compare keeps the weights and Δ, and the names whole */
+  table.lines.csvprev{width:auto;table-layout:auto} table.lines.csvprev td,table.lines.csvprev th{overflow:visible}   /* the preview of a sheet scrolls in its own box */
+  @media (max-width:379px){table.lines th.dilcol{width:4.6rem}}   /* on the narrowest phones the name keeps its room; 10.01 may lose its % there */
   .benchBtn{margin-left:.4rem}
 }
 /* read-only mode (a phone without a way to save, or a second window while the first one saves: see LOCKED):
@@ -450,6 +492,8 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   /* the automatic dark branch is :root:not([data-theme="light"]) and outweighs a bare :root, so it has to be
      named here too, or a printout from the default theme keeps the dark values */
   :root,:root[data-theme="dark"],:root[data-theme="light"],:root:not([data-theme="light"]){--muted:#6C7A88;--ink:#212A33}
+  :root{color-scheme:light !important}   /* the margin printed black from the dark theme with background graphics on (build 261019d) */
+  #printArea tfoot{display:table-row-group}   /* Total once, at the end: it stood at the foot of every page */
   body>*{display:none !important}
   #printArea{display:block !important;font:14.5px/1.5 "Segoe UI",system-ui,sans-serif;color:#000}
   #printArea h2{margin:0 0 .2rem}
@@ -457,11 +501,11 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   @page{margin:1.8cm}
   #printArea table{border-collapse:collapse;width:14.5cm;table-layout:fixed;margin-top:.4rem}
   #printArea th,#printArea td{border-bottom:1px solid #999;text-align:left;padding:.26rem .3rem;overflow:hidden;font-size:14.5px}
-  #printArea th{font-size:12.5px;letter-spacing:.03em}
+  #printArea th{font-size:12.5px;letter-spacing:.03em;white-space:nowrap}
   #printArea td.num,#printArea th.num{text-align:right}
   #printArea col.cbc{width:1.1cm}
   #printArea col.pyc{width:.7cm}
-  #printArea col.matc{width:7.6cm}
+  #printArea col.matc{width:7cm}
   #printArea col.dilc{width:2.1cm}
   #printArea col.wc{width:2.1cm}
   #printArea col.rc{width:2.1cm}
@@ -479,7 +523,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261019c</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261019d</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -551,7 +595,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>What changed in each version, in plain words, is on the What’s new page: <a href="https://miformulas.com/docs/whats-new.html">https://miformulas.com/docs/whats-new.html</a>. The start screen links to it next to Manual, and so does the Help bar.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261019c. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261019d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
@@ -592,7 +636,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p><strong>Back and forward.</strong> Every place you open is a step: a formula and the version you were looking at, with the comparison or the bench view you had open, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the <strong>back and forward buttons of your mouse</strong> work, and so do the browser's own two buttons, <strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. Switching to another version of the same formula is a step of its own, so back returns you to the version you were reading. Each step also remembers how far down its page you were when you clicked away, so back to a long formula lands on the line you left it at, not at its top. A step whose formula or material has been deleted since shows the Welcome page instead; one more step back takes you past it. Reloading the page lands you back on the step you were on when <strong>Open where you left off</strong> is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends, and also when the browser has run out of steps to give, because a browser keeps only the last fifty or so. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.</p>
 <h2 id="s3-materials">3. Materials</h2>
 <p>The <strong>Materials</strong> tab is your inventory: the materials you own or have on order. A <strong>materials library</strong> is something else, a reference file of facts that you import (section <a href="#s16-import-export-and-sharing">16</a>); it never changes what you own.</p>
-<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own premixes. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (the categories that come with the starter set and with a Formulair import carry a colour, used for the dots and the pyramid; beside the picker sits a small colour square that sets the colour of the chosen category, so a category you make yourself does not have to stay grey, and <strong>+ New category</strong> makes one without leaving the page), its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?), whether it is a solvent, IFRA limit, supplier, the amount purchased (free text, so an imported “2 × 50 ml” stays exactly as it was), cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), and where it is stored (cupboard, fridge, freezer). The page is laid out like a formula page: the name at the top with <strong>Add to order list</strong> (or <strong>Mark as owned</strong>) and the menu <strong>⋯</strong>, which holds <strong>Delete material</strong>; under it, smaller, the CAS number, the category, the alternative names, starter set or to order where that applies, and the three look-up links; then the fields in two columns where the window is wide enough, what the material is on the left and what you have of it on the right. Below the fields stand four panels, two by two: the dilutions, the optional stock ledger (which also holds the date you bought it and the density in g/ml that section <a href="#s13-stock-orders-and-deliveries">13</a> uses to read a volume as a weight), a free description, and the list of every formula the material appears in, one line per formula with the versions that hold it (v1–v3); click a name there to jump to its latest version. The panels start closed, and the title of each says what is in it: the dilutions, the stock, "recorded" or "empty" for the description, the number of formulas. Open one with a click on its title and it stays open for every material, also the next time you start the app on this computer, until you close it again. The usage list shows the first sixty, with "and N more" underneath when there are more. A material always keeps at least one dilution, so the last one cannot be deleted: add the other one first.</p>
+<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own premixes. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (the categories that come with the starter set and with a Formulair import carry a colour, used for the dots and the pyramid; the field shows the category with its colour, and a click on it opens the list of categories, the colour of the chosen one, so that a category you make yourself does not have to stay grey, and <strong>+ New category</strong>, which makes one without leaving the page), its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?), whether it is a solvent, IFRA limit, supplier, the amount purchased (free text, so an imported “2 × 50 ml” stays exactly as it was), cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), and where it is stored (cupboard, fridge, freezer). The page is laid out like a formula page: the name at the top with <strong>Add to order list</strong> (or <strong>Mark as owned</strong>) and the menu <strong>⋯</strong>, which holds <strong>Delete material</strong>; under it, smaller, starter set or to order where that applies, and the three look-up links; then the fields in two columns where the window is wide enough, what the material is on the left and what you have of it on the right. Below the fields stand four panels, two by two: the dilutions, the optional stock ledger (which also holds the date you bought it and the density in g/ml that section <a href="#s13-stock-orders-and-deliveries">13</a> uses to read a volume as a weight), a free description, and the list of every formula the material appears in, one line per formula with the versions that hold it (v1–v3); click a name there to jump to its latest version. The panels start closed, and the title of each says what is in it: the dilutions, the stock, "recorded" or "empty" for the description, the number of formulas. Open one with a click on its title and it stays open for every material, also the next time you start the app on this computer, until you close it again. The usage list shows the first sixty, with "and N more" underneath when there are more. A material always keeps at least one dilution, so the last one cannot be deleted: add the other one first.</p>
 <p><strong>Look it up.</strong> Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around. <strong>TGSC</strong> and <strong>Olfactorian</strong> open the material's own page on that site when the materials library (section <a href="#s16-import-export-and-sharing">16</a>) links to it, and otherwise look the material up through DuckDuckGo by its CAS number (only the number itself, whatever else the field holds; or the name, if there is no CAS), Olfactorian within that site and TGSC as a search for the number with "tgsc"; the tooltip says which of the two a link does. The library's link counts when your material carries the name of a library material, as its own name or as an alternative name (a material made from the library under another name keeps the library's name there), or when exactly one library material carries your material's name as an alternative name; never on the CAS number alone, because one number can stand for several materials. <strong>IFRA</strong> opens the IFRA Standards library with the CAS number (or the name) already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your inventory; what you enter is up to you.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s3-materials">A material page: its fields and dilutions.</a></p>
 <p><strong>Dilutions.</strong> A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. Add one with <strong>Add dilution</strong> (a percentage and an optional note) and make it the base with <strong>Set base</strong>; <strong>✕</strong> removes one after a question that says whether formulas use it, and the highest remaining dilution becomes the base if you remove that one. One of them is the <strong>base</strong> dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, and on the version you can still edit they get the ⚠ of a dilution you do not stock (section <a href="#s7-changing-dilutions">7</a>); new lines no longer offer it. The date and the note of a dilution can be changed in the table.</p>
@@ -611,20 +655,20 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>What some apps ship as a built-in materials database, miFormulas keeps as a file you import: a <strong>materials library</strong> (section <a href="#s16-import-export-and-sharing">16</a>). With one loaded, a new material arrives with its CAS number, category, pyramid level, IFRA limit, alternative names and a few lines of odour facts already in place, all of it editable. Those are facts, and facts can be shared freely; the odour descriptions on supplier sites are somebody's writing and are not in it. The library published by miFormulas holds over a thousand materials under CC BY 4.0, and <strong>Get the latest library</strong> in Settings fetches the current one. Its IFRA limits can be wrong or out of date: check them against the current IFRA Standards (section <a href="#s12-ifra-check-and-category-panel">12</a>). It is not inside the app, the repository or the ZIP: it changes more often than the app does, so the app asks for it when you do.</p>
 <h2 id="s4-formulas-and-versions">4. Formulas and versions</h2>
 <p>A <strong>formula</strong> is a named recipe in a category. Its history is a row of <strong>versions</strong>: v1, v2, v3 and so on, each with a date, an optional label, notes and its own lines. Only the latest version can be edited; every earlier version is a frozen record of what you did, kept exactly as it was. When you want to change something, create a new version (<strong>+ New version</strong> copies the lines of the version you are looking at, with their marks and the bench arrangement, under today's date; its label, notes and trial log stay with that version) and edit that. Deleting a version is possible, deleting the past is not: a new version never rewrites an old one.</p>
-<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s4-formulas-and-versions">The head of a formula: the name, the version with the pencil, + New version and Compare, Bench view and the open menu ⋯; under them the category and the date</a></p>
-<p>The head of a formula has two rows. The first holds what you work on: the name, the list of its versions with the <strong>pencil</strong>, <strong>+ New version</strong> and <strong>Compare</strong>, and at its end <strong>Bench view</strong> (section <a href="#s10-bench-view-and-printing">10</a>) and <strong>⋯</strong>, the menu with <strong>Rename…</strong>, <strong>Copy to new formula…</strong>, <strong>Move into…</strong>, <strong>Delete version</strong> and <strong>Delete formula</strong>. The second row, smaller, says what the formula is: its category, the day it was made, the name a version was imported under, and starter set or frozen where that applies; on its right, <strong>Order</strong> sets the order of the lines (section <a href="#s5-editing-a-formula">5</a>). A menu closes again with a click beside it or with <strong>Escape</strong>.</p>
+<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s4-formulas-and-versions">The head of a formula: the name, the version with the pencil, + New version, Compare and the menu ⋯; under them the category, open here with its list, its colour and + New category, the date, and on the right the order of the lines and Bench view</a></p>
+<p>The head of a formula has two rows. The first holds what you work on: the name, the list of its versions with the <strong>pencil</strong>, <strong>+ New version</strong> and <strong>Compare</strong>, and at its end <strong>⋯</strong>, the menu with <strong>Rename…</strong>, <strong>Copy to new formula…</strong>, <strong>Move into…</strong>, <strong>Delete version</strong> and <strong>Delete formula</strong>. The second row, smaller, says what the formula is: its category, the day it was made, and starter set or frozen where that applies; on its right is how you look at it: the order of the lines (section <a href="#s5-editing-a-formula">5</a>) and <strong>Bench view</strong> (section <a href="#s10-bench-view-and-printing">10</a>). On a narrow window the version list and then the name give way, with the whole text in their tooltip, before the first row breaks. A menu closes again with a click beside it or with <strong>Escape</strong>.</p>
 <p>Another presentation of the same recipe is a version too: the formula at 20 % instead of 15 %, with the costly material taken from the 10 % dilution instead of the pure one (make a new version and change the dilutions with <strong>Preserve rel % and exchange solvent</strong>, section <a href="#s7-changing-dilutions">7</a>), or made up as a 44 g batch instead of 100 g (Batch scaling, section <a href="#s8-batch-scaling-and-premixes">8</a>). Give such a version a label with the <strong>pencil</strong> ("20%", "soap", "44gr") so the list tells them apart.</p>
 <p>Formulas imported from Formulair are frozen too (section <a href="#s17-coming-from-formulair">17</a>): you read them, compare them and copy them, but to work on one you make a new version.</p>
 <p>Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with the <strong>pencil</strong>, write notes, add trial-log entries, set colour marks, arrange the bench view and use <strong>Mark as prepared</strong> on a frozen version: those are your annotations about it, not the recipe itself. In the version list a <strong>🔒</strong> marks a version that came in from an import, and the name it carried there is shown after the version number as a reference; the window behind the <strong>pencil</strong> has a tick box <strong>show the import reference</strong> to hide that name in the list once the grouping is done. It only hides it: the reference stays in the file, so a second Formulair import still recognises the formula, and the app writes "Imported as “…”." once into the notes of the version.</p>
 <p><strong>Move into…</strong>, in the menu <strong>⋯</strong>, appears on any formula that still has one version, whatever it came from: a formula from the Formulair import, one you brought in with Import formula…, or one you typed yourself. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along; an import keeps its import name as a reference and stays frozen, a formula of your own arrives as an ordinary version that keeps its name as the version label, so nothing of it is lost from the list. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s17-coming-from-formulair">17</a>). When other single-version formulas share the name, the dialog lists them under <strong>Move together</strong>: those whose name carries a version number straight after the shared name ("Aura v04", "Aura v.5", "Aura versie 6", "Aura 7", "Aura v05 20%"; "Aura blanche 2" is another formula) come ticked and go into the target in the same go, as its next versions, in the order of that number and then by name. Untick what should stay, and add any other single-version formula with the search field below the list. Opened from one of the numbered ones, the dialog suggests the one with the lowest number (or with no number at all) as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it; opened from the one without a number, choose <strong>this formula</strong> yourself. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s4-formulas-and-versions">Move into…: three imported formulas about to become one formula with its own history.</a></p>
-<p><strong>Copy to new formula…</strong>, also in <strong>⋯</strong>, takes the version you are looking at as v1 of a new formula, with its lines, bench arrangement, notes and trial log; the notes open with a line saying which formula and version it was copied from. <strong>Rename…</strong> does what it says. The category of a formula is chosen on its page, in the second row of its head, as on a material page: the picker, the colour square that sets the colour of its dot, and <strong>+ New category</strong>. Categories are shared between formulas. <strong>Classify several…</strong> above the Formulas list gives several formulas a category at once, in the same window as for materials but without the pyramid; a frozen formula takes part too, because the category belongs to the formula and not to a version. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
+<p><strong>Copy to new formula…</strong>, also in <strong>⋯</strong>, takes the version you are looking at as v1 of a new formula, with its lines, bench arrangement, notes and trial log; the notes open with a line saying which formula and version it was copied from. <strong>Rename…</strong> does what it says. The category of a formula is chosen on its page, in the second row of its head, as on a material page: a click on the category opens the list, the colour of the category, which its dot follows, and <strong>+ New category</strong>. Categories are shared between formulas. <strong>Classify several…</strong> above the Formulas list gives several formulas a category at once, in the same window as for materials but without the pyramid; a frozen formula takes part too, because the category belongs to the formula and not to a version. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
 <p><strong>Delete version</strong>, in <strong>⋯</strong> with Delete formula, asks first and names the formula and the version it is about. When it is the only version it says so: the formula then stays in your list without lines, and <strong>Delete formula</strong> is what removes the formula itself. Undo (Ctrl+Z) brings a deleted version back during the session.</p>
 <h2 id="s5-editing-a-formula">5. Editing a formula</h2>
 <p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and press Enter or click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one (a trace dilution keeps the decimals it needs, so 0,001 % and 0,01 % do not both read as 0 %), or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s7-changing-dilutions">7</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own (give your Ambroxide the alternative name Ambroxan, and typing Ambroxan finds it), so you do not create the same material twice, and the suggestion list shows each material with its alternative names beside it, so typing one of those names brings up the materials that carry it. When nothing of yours carries the name you typed, the app does not go straight to creating one: it runs the same search as the list panel in section <a href="#s2-the-screen">2</a> (name, alternative names, CAS number, supplier, and the description) and opens <strong>Which material?</strong> with what that finds and what it matched on: <strong>Use this one</strong> takes the material you meant, <strong>None of these</strong> goes on to create it. <strong>⇄</strong> never creates a material: its <strong>Which material?</strong> has <strong>Replace</strong> in place of those two buttons, and a name the search finds nothing for gets a message. Adding a material the version already holds at that same dilution asks first, because a second line means the weighing sheet lists it twice while Compare adds the two together. Say yes and an amber line keeps warning about those <strong>duplicate lines</strong>, in the table and in the bench view alike, because it is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight you typed and moves to the next one (after the last, to <strong>Add material…</strong>), Shift+Tab to the previous, and Enter keeps you in the field you are in. A weight you leave as it is does not move you on: Tab then goes to the next control on its line. Step away in the middle of a number, to another tab or another program, and the field keeps what you typed with the cursor where it was: you type on when you come back.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
 <p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s16-import-export-and-sharing">16</a>) it arrives with the facts the library holds, exactly as <strong>+ New material…</strong> does; the same goes for a formula import and for <strong>Delivered…</strong> on the order list.</p>
-<p>With <strong>Order</strong>, on the right in the second row of the head, the table can be ordered by original entry, by category or by pyramid level (top to base, or base to top), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
+<p>With the list on the right in the second row of the head (<strong>Original order</strong>, <strong>By category</strong>, <strong>Pyramid top → base</strong>, <strong>Pyramid base → top</strong>), or by clicking a column heading, the table changes its order; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
 <p>Under the table, on the left, are <strong>Add material…</strong>, <strong>Add line</strong> and <strong>Batch scaling</strong> (section <a href="#s8-batch-scaling-and-premixes">8</a>, on the editable version only), which opens a strip under them; on the right <strong>Mark as prepared</strong> for the stock ledger (section <a href="#s13-stock-orders-and-deliveries">13</a>), <strong>Print / export</strong> and <strong>Print weighing sheet</strong> (section <a href="#s10-bench-view-and-printing">10</a>). Below them stand four panels, two by two where the window is wide enough: <strong>Notes</strong> and the <strong>Trial log</strong> (section <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>), <strong>Pyramid &amp; categories</strong> (just <strong>Categories</strong> while no line has a pyramid level) and the <strong>IFRA check</strong> (section <a href="#s12-ifra-check-and-category-panel">12</a>). They start closed, and their titles say what is in them: "recorded" or "empty" for Notes, the number of entries in the Trial log, the number of categories, and the verdict of the IFRA check. A panel opens and closes with a click on its title and stays as you left it, for every formula and version, also the next time you start the app on this computer. That is a setting of the computer and not part of your data, so Undo leaves it alone.</p>
 <h2 id="s6-percentages-and-the-perfumery-arithmetic">6. Percentages and the perfumery arithmetic</h2>
 <p>The table shows two percentages per line, and they follow perfumery practice rather than plain weight shares.</p>
@@ -666,8 +710,8 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and the <strong>tick bar</strong> appears, with the number of lines you ticked; it stays at the bottom of the window while the table runs on below it, and goes when you untick the last line. In it you mark the ticked lines red, green, blue or yellow, unmark them, or clear every mark in the version at once with <strong>Clear all</strong>, which asks first and says how many go (or that there are none). Marks are per version, and they carry over into new versions and copies, and into a formula you move into another with <strong>Move into…</strong>. They stay inside the app: a shared file, the Excel exports and <strong>Export all my formulas</strong> carry the recipe, not your marks, because a colour means something to you and nothing to the person you send it to. Use them as you like: what changed, what to smell for, what to check.</p>
 <p><strong>Notes</strong> is a free text per version, shown on the formula sheet; while its panel is closed, the title says "recorded" when it holds text. The <strong>Trial log</strong> is a dated list of short entries ("day 3, macerated, top too sharp") that also prints on the formula sheet.</p>
 <h2 id="s10-bench-view-and-printing">10. Bench view and printing</h2>
-<p><strong>Bench view</strong> (the button at the end of the first row of the head, next to <strong>⋯</strong>, which reads <strong>Table view</strong> while the bench is open) is something you will not find in other formulation apps. It follows the way many perfumers build a batch: start with the core materials, smell, then add the next group step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column; drag them into named groups, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid top to base or base to top), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong>, above them, makes as many more as your batch needs, and you can rename, reorder (the ⠿ handle, or ↑ and ↓) and delete groups as you like; <strong>⇤</strong> empties one back into Unsorted without deleting it. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version from the first thing you move, and it hangs on the lines themselves, so changing a dilution or deleting one of two identical lines leaves the other where you put it; opening the bench view changes nothing, and arranging it does not change the date of the formula. Weights are changed in Table view; the bench view shows them. The groups stand beside the Unsorted column on a wide screen and below it on a narrower one, so the group buttons are always within reach. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them, and what is still in Unsorted as a last block, so the sheet holds the whole version; like the weighing sheet, it marks a material you do not own yet "(to order)". The bench view works on the version you opened it from, named above the bench: the category and the version list stay in the table view, where you choose them.</p>
-<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s10-bench-view-and-printing">Bench view: the Unsorted column with its own sort order, and the groups you build the batch with underneath it (beside it on a wide screen).</a></p>
+<p><strong>Bench view</strong> (the button at the end of the second row of the head, which reads <strong>Table view</strong> while the bench is open) is something you will not find in other formulation apps. It follows the way many perfumers build a batch: start with the core materials, smell, then add the next group step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column; drag them into named groups, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid top to base or base to top), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong>, above them, makes as many more as your batch needs, and you can rename, reorder (the ⠿ handle, or ↑ and ↓) and delete groups as you like; <strong>⇤</strong> empties one back into Unsorted without deleting it. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version from the first thing you move, and it hangs on the lines themselves, so changing a dilution or deleting one of two identical lines leaves the other where you put it; opening the bench view changes nothing, and arranging it does not change the date of the formula. Weights are changed in Table view; the bench view shows them. The groups stand beside the Unsorted column wherever the page has room for two columns, with the list open on a laptop too, and below it on a narrower one, so the group buttons are always within reach. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them, and what is still in Unsorted as a last block, so the sheet holds the whole version; like the weighing sheet, it marks a material you do not own yet "(to order)". The bench view works on the version you opened it from, named above the bench: the category and the version list stay in the table view, where you choose them.</p>
+<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s10-bench-view-and-printing">Bench view: the Unsorted column with its own sort order, and beside it the groups you build the batch with.</a></p>
 <p>From the table view, under the lines on the right: <strong>Print weighing sheet</strong>, and the menu <strong>Print / export</strong> with <strong>Print full formula</strong>, <strong>Excel export</strong> and <strong>Share this version</strong>. Each says in its tooltip who it is for. The two prints are not the same sheet: the full formula is the record of the version, the weighing sheet is what you work from at the bench. <strong>Ctrl+P</strong> or File › Print without one of these buttons prints that same weighing sheet of the version you are looking at, in bench view as well; outside a formula it prints a line saying so, and from this manual a line that points at the version to print online, so what goes to the printer is never a sheet left over from earlier.</p>
 <ul>
 <li><strong>Print weighing sheet</strong> prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, exactly as the version holds them; it never rescales, so what you weigh always matches a version number (section <a href="#s8-batch-scaling-and-premixes">8</a>). A fridge material carries the ❄ on the lines at its base dilution, and a material you do not own yet reads "(to order)", so you notice at the bench and not at the cupboard.</li>
@@ -700,7 +744,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>Confirm, and the material is created if it was new and loses its "to order" label. Every entry of that material goes, and you stay on the list, because a delivery rarely comes alone. What counts as new is decided by the same folding as everywhere else, alternative names included: type "Vertofix coeur" while you have "Vertofix cœur" and the entry is that material, not a second one; when several of your materials answer to the name, the window asks which one first (section <a href="#s3-materials">3</a>). A material that still carries the label while it is no longer on the list shows <strong>Mark as owned</strong> at the top right of its page, in place of <strong>Add to order list</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s13-stock-orders-and-deliveries">The order list.</a></p>
 <h2 id="s14-where-your-data-lives-and-the-other-ways-in">14. Where your data lives, and the other ways in</h2>
-<p>miFormulas stores everything in one JSON file, <code>miformulas-data.json</code>. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server"). When the header would otherwise need a second row (a long file name, a clock with AM and PM, or a window narrower than about 1300 pixels), only the time is shown; the place is then in the tooltip. Between a change and the save that follows it a few seconds later, the header says "Unsaved changes" in colour, which disappears by itself. When something goes wrong the header says so in full and names the way out; section <a href="#s20-backups-and-recovery">20</a> lists those messages.</p>
+<p>miFormulas stores everything in one JSON file, <code>miformulas-data.json</code>. The app can keep that file in three places, and the top-right of the header always tells you which one is in use. Before the first save of a session it says where the data came from ("Data kept in this browser", "Loaded", "Connected to server"); after every save it names the time and the place ("Saved 14:02 · this browser", "Saved 14:02 · miformulas-data.json", with the name of your own file, or "Saved 14:02 · server"). When the header would otherwise need a second row (a long file name, a clock with AM and PM, or a window narrower than about 1300 pixels), only the time is shown; the place is then in the tooltip. Where it would still need one, the state is short as well ("Unsaved", "Browser", "Server"), so the header keeps its height while you work. Between a change and the save that follows it a few seconds later, the header says "Unsaved changes" ("Unsaved" on a narrower window) in colour, which disappears by itself. When something goes wrong the header says so in full and names the way out; section <a href="#s20-backups-and-recovery">20</a> lists those messages.</p>
 <p><strong>In the browser.</strong> On miformulas.com the app keeps the data in the browser's own storage on that computer. This is the quickest way to try things out, and it is fine for everyday use if you download a Backup regularly. Two things to know: every browser has its own storage (Edge and Chrome on the same computer do not see each other's data), and a browser that is set to clear site data when it closes will take your formulas with it. The app asks the browser to keep the storage persistent; as long as the browser has not confirmed that, a bar with an amber edge under the header reminds you to make backups. It is one line, and the ✕ closes it for good, because it says the same thing every time; the Welcome page keeps telling you where your data lives, under <strong>Start here</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s14-where-your-data-lives-and-the-other-ways-in">Browser storage: the amber bar reminds you, and Save to a data file… moves your work into a file (Chrome and Edge).</a></p>
 <p><strong>In a file.</strong> In Chrome or Edge the app can read and write a data file on your disk directly. You see the file, you can copy it, put it in a synced folder, and open it on another computer. The app remembers which file you used; the next time you open it you click <strong>Reopen</strong> and, if the browser asks, allow it to write to the file again. This works with the downloaded app (below) and just as well on miformulas.com itself: <strong>Save to a data file…</strong> (in the amber bar when there is one, otherwise on the Welcome page, and in Settings) moves your work from the browser's storage into a file, <strong>Open data file…</strong> on the start screen switches to an existing file, and the site remembers the file for next time. For a site the browser can also remember the permission itself, in particular once the site is installed as an app: the app then opens straight into your data, and Reopen only appears when the browser wants a fresh click. Combined with "Install as an app" (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>) that gives you an app with its own icon, your own data file, and updates that arrive by themselves. Firefox cannot write to files. On the site you work in the browser's storage and use Backup to save; a downloaded copy opened in Firefox runs in the read-only fallback, where you pick the data file once, the app keeps a cached copy of it, the start screen offers <strong>Continue with data from …</strong> with the date and time of that copy next time, and Backup is the way to save what you change. Safari has no direct file access either: on the site and in the Dock app (section <a href="#s15-install-as-an-app-with-its-own-icon">15</a>) your data lives in the browser's storage and Backup is the way to save; a downloaded copy opened in Safari has only been tried as far as the start screen.</p>
@@ -1335,8 +1379,14 @@ function setState(main, where, dirty){
 function fitHeader(){
   const h = document.querySelector("header"), l = h && h.querySelector(".hleft"), r = h && h.querySelector(".hright");
   if (!l || !r) return;
+  const s = h.querySelector("#saveState"), m = h.querySelector("#stMain");
   h.classList.remove("noplace");
+  if (m && m.dataset.full){ m.textContent = m.dataset.full; delete m.dataset.full; }
   if (innerWidth > 700 && r.offsetTop > l.offsetTop + 4) h.classList.add("noplace");
+  // still two rows: the short state too ("Unsaved" for "Unsaved changes"), so the header keeps its height at every
+  // change (build 261019d: it jumped 42 px between 1180 and 1259 px); a warning keeps its words and may wrap
+  if (innerWidth > 700 && m && !s.classList.contains("wide") && s.dataset.short !== m.textContent && r.offsetTop > l.offsetTop + 4){
+    m.dataset.full = m.textContent; m.textContent = s.dataset.short; }
 }
 window.addEventListener("resize", fitHeader);
 let saveTimer = null, SAVEGEN = 0, SAVING = null, SAVEAGAIN = false;
@@ -1904,6 +1954,7 @@ function openDialog(bodyHtml, okLabel = "Apply", onOk, minW = "24rem"){
       <button id="dlgCancel" type="button">Cancel</button><button class="primary" id="dlgOk" type="button">${okLabel}</button></div></div>`;
   dlg.showModal();
   $("#dlgCancel").addEventListener("click", () => { dlg.close(); dlg.dispatchEvent(new Event("cancelled")); });
+  dlg.oncancel = () => dlg.dispatchEvent(new Event("cancelled"));   // Escape is Cancel: without it a waiting listener stayed and spoke up at the next Cancel (build 261019d)
   $("#dlgOk").addEventListener("click", () => { if (onOk() !== false) dlg.close(); });
   return dlg;
 }
@@ -2028,7 +2079,7 @@ function renderSidebar(){
       const t = v === "alias" ? String(m.aliases || "").split(";").map(a => a.trim()).find(a => a && hasWords(a, w))
         : v === "cas" ? m.cas : v === "supplier" ? m.supplier : "";
       return t ? `<span title="found by ${VIALABEL[v]}">${esc(t)}</span>` : ""; };
-    const item = m => `<div class="item" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber-ink);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${foundBy(m) || (m.wishlist?'<b style="color:var(--amber-ink)">to order</b>':(m.inventory?esc(m.inventory):(m.starter?'<span title="part of the starter set">starter</span>':"")))}</span></div>`;
+    const item = m => `<div class="item" data-id="${m.id}" tabindex="0" role="button"><span${m.wishlist?' style="color:var(--amber-ink);font-weight:600"':""}>${pyrIcon(m.pyramid, catColour(m), 12)}${esc(m.name)}${m.wishlist?" 🛒":""}${descHits.has(m.id)?' <span title="match in description" style="color:var(--frozen)">✎</span>':""}</span><span class="sub">${foundBy(m) || (m.wishlist?'<b style="color:var(--amber-ink)">to order</b>':(m.inventory?`<span title="${esc(m.inventory)}">${esc(m.inventory)}</span>`:(m.starter?'<span title="part of the starter set">starter</span>':"")))}</span></div>`;
     for (const m of hits.sort(byName)) html += item(m);
     if (inDesc.length){
       html += `<div class="hint" id="descHead" style="padding:.8rem .8rem .3rem">In descriptions ✎ (${inDesc.length})</div>`;
@@ -2126,9 +2177,14 @@ $("#searchBox").addEventListener("input", () => { QBY[VIEW.tab] = $("#searchBox"
 // the category of a formula, in the second row of its head, as on a material page: the picker, the colour of the
 // category and + New category (build 261011e; it was a window behind Change category…). Not in the bench view, which
 // works on the version it was opened from, and leaves the version list out as well
-const fCatRowHtml = f => `<span id="fCatRow" class="fcatctl"><select id="fCat" aria-label="Category of this formula">${
+// a category as its name and its colour; a click opens the list, the colour of the category and + New category, on a
+// formula and on a material alike (build 261019d)
+const catChipHtml = (id, cat, inner, title) => `<details class="menuDd catDd" id="${id}"><summary class="catChip" title="${title}"><span class="catdot" style="background:${catColourByName(cat)}"></span>${esc(cat || "Uncategorised")}<span class="caret" aria-hidden="true">▾</span></summary>
+  <div class="menuPop catPop">${inner}</div></details>`;
+const catPopColour = (cat, id) => `<label class="catColRow">${catColourInput(cat, id)}Colour of this category</label>`;
+const fCatRowHtml = f => catChipHtml("fCatDd", f.category, `<select id="fCat" aria-label="Category of this formula">${
   f.category ? "" : '<option value="" selected></option>'}${allFormulaCats().map(x => `<option${x === f.category ? " selected" : ""}>${esc(x)}</option>`).join("")}</select>${
-  catColourInput(f.category, "fCatCol")}<button class="small" id="btnNewFCat" type="button">+ New category</button></span>`;
+  catPopColour(f.category, "fCatCol")}<button id="btnNewFCat" type="button">+ New category</button>`, "Category of this formula: click to change it");
 // the rare actions of a formula and the two that delete, behind ⋯ at the end of its head: in sight they were five
 // buttons on every formula, two of them red (build 261019a, after "the formula creation view could use some focus")
 function fMoreHtml(f, withCopy, withDelV){
@@ -2157,9 +2213,11 @@ function bindFormulaMeta(f, sub){
   $("#btnCopyF")?.addEventListener("click", () => copyFormula(f, sub));
   $("#btnMoveF")?.addEventListener("click", () => moveInto(f));
   const fcat = $("#fCat");   // the category above the version: a choice is a change, one Undo step (build 261011e)
+  let byKey = false;   // an arrow key changes the category at once: the list stays open and keeps the focus (audit v3, C9)
+  fcat?.addEventListener("keydown", () => { byKey = true; });
   const setCat = () => { const cat = fcat.value; if (!cat || cat === f.category) return;
     snapF(f); f.category = cat; undoCat(rememberCat(cat)); markDirty(); render();
-    $("#fCat")?.focus(); };   // the list keeps the focus, so the arrow keys go on through it (audit v3, C9)
+    if (byKey){ const d = $("#fCatDd"); if (d) d.open = true; $("#fCat")?.focus(); } };
   fcat?.addEventListener("change", setCat);
   $("#fCatCol")?.addEventListener("change", e => setCatColour(f.category, e.target.value));
   $("#btnNewFCat")?.addEventListener("click", () => {   // as on a material page: a name you have in other capitals is that one
@@ -2200,15 +2258,18 @@ function renderFormula(f){
   // you look at it, ⋯ for the rest), then what it is (category, date, starter, frozen) and the order of the lines. The
   // pyramid went to the panel of the categories under the table, Delete version and Delete formula behind ⋯
   const verCtl = sub.bench ? `<span id="benchVer">${verText(item)}</span>`
-    : `<select id="verSel" aria-label="Version of this formula">${f.versions.map((v,i) =>
+    : `<select id="verSel" aria-label="Version of this formula" title="${verText(item)}">${f.versions.map((v,i) =>
       `<option value="${i}"${i===sub.idx?" selected":""}>${verText(v)}</option>`).join("")}</select>
     <button class="small ico" id="btnNameV" title="Name this version…" aria-label="Name this version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19.5 8.5a2.12 2.12 0 0 0-3-3L5 17z"/><path d="M14.5 6.5l3 3"/></svg></button>
     <button class="small" id="btnNewV">+ New version</button>
     ${f.versions.length >= 2 ? '<button class="small" id="btnCmp">Compare</button>' : ""}`;
-  let h = `<div class="fTop"><h2>${esc(f.name)}</h2>${verCtl}
-    <span class="fEnd"><button id="btnBenchToggle" class="benchBtn">${sub.bench?"Table view":"Bench view"}</button>${fMoreHtml(f, true, !sub.bench)}</span></div>
-  <div class="fMeta">${sub.bench ? (f.category ? `<span>${esc(f.category)}</span>` : "") : fCatRowHtml(f)}${f.created ? `<span>since ${f.created}</span>` : ""}${item.sourceName && !item.hideSource?`<span>imported as “${esc(item.sourceName)}”</span>`:""}${f.starter?'<span><span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other formula.">starter set</span></span>':""}${frozen?`<span><span class="badge" title="Read-only: an older version, or an import">frozen</span></span>`:""}
-    ${sub.bench ? "" : `<span class="fOrder"><span class="hint">Order</span>${sortSelHtml()}</span>`}</div>`;
+  // row 1: what you work on (the name, the version and what you do with versions, ⋯ for the rest); row 2: what it is
+  // (category, date, starter set, frozen) and, on the right, how you look at it (the order of the lines, Bench view).
+  // The import name went: the version list shows it (build 261019d)
+  let h = `<div class="fTop"><h2 title="${esc(f.name)}">${esc(f.name)}</h2>${verCtl}
+    <span class="fEnd">${fMoreHtml(f, true, !sub.bench)}</span></div>
+  <div class="fMeta">${sub.bench ? (f.category ? `<span><span class="catdot" style="background:${catColourByName(f.category)}"></span> ${esc(f.category)}</span>` : "") : fCatRowHtml(f)}${f.created ? `<span>since ${f.created}</span>` : ""}${f.starter?'<span><span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other formula.">starter set</span></span>':""}${frozen?`<span><span class="badge" title="Read-only: an older version, or an import">frozen</span></span>`:""}
+    <span class="fOrder">${sub.bench ? "" : sortSelHtml()}<button id="btnBenchToggle" class="small benchBtn">${sub.bench?"Table view":"Bench view"}</button></span></div>`;
   if (item){
     // the same material at the same dilution twice, warned about in both views: it used to sit in the
     // table branch alone, so it fell away in the bench view, where you have the two rows in front of you
@@ -2444,8 +2505,8 @@ function renderFormula(f){
 function sortSelHtml(){
   const arrow = k => SORT.key===k ? (SORT.dir>0?" ▲":" ▼") : "";
   return `<select id="sortSel" aria-label="Sort the lines">
-      <option value="orig"${SORT.key==="orig"?" selected":""}>Original</option>
-      <option value="cat"${SORT.key==="cat"?" selected":""}>Category</option>
+      <option value="orig"${SORT.key==="orig"?" selected":""}>Original order</option>
+      <option value="cat"${SORT.key==="cat"?" selected":""}>By category</option>
       <option value="pyr"${SORT.key==="pyr"?" selected":""}>Pyramid top → base</option>
       <option value="pyrb"${SORT.key==="pyrb"?" selected":""}>Pyramid base → top</option>
       ${["name","dil","weight","rel","abs"].includes(SORT.key)?`<option value="" selected hidden>${{name:"Material",dil:"Dilution",weight:"Weight",rel:"Rel %",abs:"Abs %"}[SORT.key]}${arrow(SORT.key)}</option>`:""}
@@ -3647,7 +3708,7 @@ function openCsvImport(parsed, filename){
     <div class="fieldGrid" id="csvMap" style="max-width:none;gap:.25rem .8rem">
       ${CSV_FIELDS.map(f => `<label for="csv_${f.k}">${f.label}${f.req ? " *" : ""}</label><select id="csv_${f.k}" data-k="${f.k}" style="width:100%;min-width:0;font-size:.85rem;padding:.15rem .3rem">${opts(map[f.k])}</select>`).join("")}
     </div>
-    <div style="margin-top:.8rem;overflow:auto;max-height:9rem"><table class="lines" style="font-size:.8rem;white-space:nowrap"><thead><tr>${parsed.header.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
+    <div style="margin-top:.8rem;overflow:auto;max-height:9rem"><table class="lines csvprev" style="font-size:.8rem;white-space:nowrap"><thead><tr>${parsed.header.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
       <tbody>${preview.map(r => `<tr>${parsed.header.map((_, i) => `<td>${esc(csvCell(r, i).slice(0, 40))}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
     <div class="hint" id="csvCount" style="margin-top:.5rem"></div>
     <div class="hint" id="csvLib" style="margin-top:.3rem">${libLine()}</div>
@@ -3895,7 +3956,7 @@ function openCsvFormulas(parsed, filename){
     <div class="fieldGrid" id="fcsvMap" style="max-width:none;gap:.25rem .8rem">
       ${FCSV_FIELDS.map(f => `<label for="fcsv_${f.k}">${f.label}${f.req ? " *" : ""}</label><select id="fcsv_${f.k}" data-k="${f.k}" style="width:100%;min-width:0;font-size:.85rem;padding:.15rem .3rem">${opts(map[f.k])}</select>`).join("")}
     </div>
-    <div style="margin-top:.8rem;overflow:auto;max-height:9rem"><table class="lines" style="font-size:.8rem;white-space:nowrap"><thead><tr>${parsed.header.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
+    <div style="margin-top:.8rem;overflow:auto;max-height:9rem"><table class="lines csvprev" style="font-size:.8rem;white-space:nowrap"><thead><tr>${parsed.header.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
       <tbody>${preview.map(r => `<tr>${parsed.header.map((_, i) => `<td>${esc(csvCell(r, i).slice(0, 40))}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
     <div class="hint" id="fcsvCount" style="margin-top:.5rem"></div>
     <div class="hint" style="margin-top:.3rem">The next screen shows what was read, line by line or as a summary; nothing changes until you confirm there.</div>`,
@@ -4516,26 +4577,27 @@ function renderCompare(f, sub){
   const relCell = e => e ? (e.rel==null ? "–" : fmt(e.rel,2)) : "–";
   const sel = (id, cur) => `<select id="${id}" aria-label="Version ${id === "cmpA" ? "A" : "B"}">${opts.map(o=>`<option value="${o.key}"${o.key===cur?" selected":""}>${esc(o.label)}</option>`).join("")}</select>`;
   const arrow = k => CSORT.key===k ? (CSORT.dir>0?" ▲":" ▼") : "";
-  const hdr = (k, label, num) => `<th${num?' class="num"':''}><span class="sortable" data-csort="${k}">${label}${arrow(k)}</span></th>`;
+  const hdr = (k, label, num, cls) => { const c = [num ? "num" : "", cls || ""].join(" ").trim();
+    return `<th${c ? ` class="${c}"` : ""}><span class="sortable" data-csort="${k}">${label}${arrow(k)}</span></th>`; };
   c.innerHTML = `<h2>${esc(f.name)} – compare</h2>
-  <div class="toolRow"><span class="hint">A</span>${sel("cmpA", sub.a)}<span class="hint">B</span>${sel("cmpB", sub.b)}
+  <div class="toolRow"><span class="cmpPick nowrap"><span class="hint">A</span> ${sel("cmpA", sub.a)}</span><span class="cmpPick nowrap"><span class="hint">B</span> ${sel("cmpB", sub.b)}</span>
     <button class="small" id="btnCmpClose" style="margin-left:auto">Close compare</button></div>
-  <div class="toolRow"><span class="hint">Order:</span>
+  <div class="toolRow">
     <select id="cmpSortSel" aria-label="Sort the comparison">
-      <option value="diff"${CSORT.key==="diff"?" selected":""}>Difference (largest first)</option>
-      <option value="cat"${CSORT.key==="cat"?" selected":""}>Category</option>
+      <option value="diff"${CSORT.key==="diff"?" selected":""}>Largest difference first</option>
+      <option value="cat"${CSORT.key==="cat"?" selected":""}>By category</option>
       <option value="pyr"${CSORT.key==="pyr"?" selected":""}>Pyramid top → base</option>
       <option value="pyrb"${CSORT.key==="pyrb"?" selected":""}>Pyramid base → top</option>
       ${["name","wA","relA","wB","relB","dlt"].includes(CSORT.key)?`<option value="" selected hidden>${{name:"Material",wA:"A weight",relA:"A rel %",wB:"B weight",relB:"B rel %",dlt:"Δ rel %"}[CSORT.key]}${arrow(CSORT.key)}</option>`:""}
     </select></div>
-  <table class="lines"><thead><tr>${hdr("name","Material")}${hdr("wA","A weight",1)}${hdr("relA","A rel %",1)}
-    ${hdr("wB","B weight",1)}${hdr("relB","B rel %",1)}${hdr("dlt","Δ rel %",1)}</tr></thead><tbody>
+  <table class="lines cmp"><thead><tr>${hdr("name","Material")}${hdr("wA","A weight",1)}${hdr("relA","A rel %",1,"cmpRel")}
+    ${hdr("wB","B weight",1)}${hdr("relB","B rel %",1,"cmpRel")}${hdr("dlt","Δ rel %",1)}</tr></thead><tbody>
   ${rows.map(r => `<tr class="${r.cls}"><td>${pyrIcon(r.m.pyramid, catColour(r.m), 13)}${esc(r.m.name||"(deleted material)")}${r.m.isSolvent?" (solvent)":""}</td>
-    <td class="num${r.a?"":" dim"}">${cell(r.a)}</td><td class="num${r.a?"":" dim"}">${relCell(r.a)}</td>
-    <td class="num${r.b?"":" dim"}">${cell(r.b)}</td><td class="num${r.b?"":" dim"}">${relCell(r.b)}</td>
+    <td class="num${r.a?"":" dim"}">${cell(r.a)}</td><td class="num cmpRel${r.a?"":" dim"}">${relCell(r.a)}</td>
+    <td class="num${r.b?"":" dim"}">${cell(r.b)}</td><td class="num cmpRel${r.b?"":" dim"}">${relCell(r.b)}</td>
     <td class="num">${r.d==null?"":(r.d>0?"+":"")+fmt(r.d,2)}</td></tr>`).join("")}
-  </tbody><tfoot><tr><td>Total</td><td class="num">${fmt(A.tw)} g</td><td class="num">abs ${fmt(A.abs,2)}%</td>
-    <td class="num">${fmt(B.tw)} g</td><td class="num">abs ${fmt(B.abs,2)}%</td><td></td></tr></tfoot></table>
+  </tbody><tfoot><tr><td>Total</td><td class="num">${fmt(A.tw)} g</td><td class="num cmpRel">abs ${fmt(A.abs,2)}%</td>
+    <td class="num">${fmt(B.tw)} g</td><td class="num cmpRel">abs ${fmt(B.abs,2)}%</td><td></td></tr></tfoot></table>
   <div class="legend">Differences: <i style="background:var(--hl4)"></i>only in B <i style="background:var(--hl2)"></i>only in A <i style="background:var(--hl3)"></i>changed – sorted by size of change; rel % compares per material (dilutions aggregated)</div>`;
   $("#cmpA").addEventListener("change", e => { sub.a = e.target.value; render(); notePlace(); });
   $("#cmpB").addEventListener("change", e => { sub.b = e.target.value; render(); notePlace(); });
@@ -5012,10 +5074,10 @@ function deliveredDialog(idx, chosen){
       <label for="dvPrice">Price paid €</label><input id="dvPrice" value="${esc(o.price||"")}" style="width:6rem;text-align:right">
       <label for="dvDate">Purchase date</label><input type="date" id="dvDate" value="${today()}" style="justify-self:start">
       ${!tracked ? `<label for="dvTrack">Track stock</label><span><input type="checkbox" id="dvTrack" checked> <span class="hint">from this purchase on: the ledger starts here</span></span>
-      <label for="dvG" class="dvTrackRow">Add to stock ledger</label><span class="dvTrackRow"><input id="dvG" value="${o.amount!=null?fmtSIn(o.amount):""}" style="width:4.5rem;text-align:right" placeholder="amount"> <span class="hint" id="dvGU">${esc(o.unit||"g")}</span> · booked into the ledger</span>` : ""}
-      ${tracked ? `<label for="dvG">Add to stock ledger</label><span><input id="dvG" value="${o.amount!=null?fmtSIn(o.amount):""}" style="width:4.5rem;text-align:right" placeholder="amount"> <span class="hint" id="dvGU">${esc(o.unit||"g")}</span> · booked into the ledger</span>
+      <label for="dvG" class="dvTrackRow">Add to stock ledger</label><span class="dvTrackRow"><input id="dvG" value="${o.amount!=null?fmtSIn(o.amount):""}" style="width:4.5rem;text-align:right" placeholder="g"> <span class="hint" id="dvGU">${esc(o.unit||"g")}</span> · booked into the ledger</span>` : ""}
+      ${tracked ? `<label for="dvG">Add to stock ledger</label><span><input id="dvG" value="${o.amount!=null?fmtSIn(o.amount):""}" style="width:4.5rem;text-align:right" placeholder="g"> <span class="hint" id="dvGU">${esc(o.unit||"g")}</span> · booked into the ledger</span>
       <label for="dvFresh">Old stock used up</label><span><input type="checkbox" id="dvFresh"> <span class="hint">the old bottle was empty: the ledger restarts here (off: added to the ${fmt(st.qty||0)} g still counted)</span></span>` : ""}
-      <label for="dvDens" id="dvDensL" hidden>Density g/ml</label><span id="dvDensW" hidden><input id="dvDens" value="${m && m.density != null ? fmtSIn(m.density, 4) : ""}" placeholder="e.g. 0,95" style="width:5rem;text-align:right" inputmode="decimal"> <span class="hint">needed to read ml as grams</span></span>
+      <label for="dvDens" id="dvDensL" hidden>Density g/ml</label><span id="dvDensW" hidden><input id="dvDens" value="${m && m.density != null ? fmtSIn(m.density, 4) : ""}" placeholder="0,95" style="width:5rem;text-align:right" inputmode="decimal"> <span class="hint">needed to read ml as grams</span></span>
     </div>${m && basePct(m) !== 100 ? `
     <div class="hint" style="margin-top:.4rem">${esc(m.name)} has a base dilution of ${fmtS(basePct(m))} %: the cost per gram is for the pure material.</div>` : ""}
     <div class="toolRow" style="justify-content:flex-end;margin-top:.9rem"><button id="dlgCancel">Cancel</button><button class="primary" id="dlgOk">Confirm</button></div></div>`;
@@ -5159,7 +5221,7 @@ function renderMaterial(m){
     const field = id ? inputHtml.replace(/^(\s*<(?:input|select|textarea))/, `$1 id="${id}"`) : inputHtml;
     // a <label> without a field to point at names nothing: those two are groups, so they get a plain span
     return `<${id ? "label" : 'span class="flabel"'}${id ? ` for="${id}"` : ""}${hint ? ' style="align-self:start;margin-top:.45rem"' : ""}>${k}</${id ? "label" : "span"}>`
-      + (hint ? `<span style="display:grid;gap:.15rem">${field}<span class="hint">${hint}</span></span>` : field);
+      + (hint ? `<span style="display:grid;grid-template-columns:minmax(0,1fr);gap:.15rem">${field}<span class="hint">${hint}</span></span>` : field);
   };
   // the head in two rows, as on a formula page (build 261019b): the name, and at the end what you do with the material
   // (Add to order list, or Mark as owned, and ⋯ with Delete material); under it what it is: CAS, category, the alternative
@@ -5170,16 +5232,15 @@ function renderMaterial(m){
       : '<button class="small" id="btnToOrder">Add to order list</button>'}
       <details class="menuDd" id="mMore"><summary title="Delete this material" aria-label="More actions for this material">⋯</summary>
         <div class="menuPop"><button id="btnDelMat" class="danger" title="Delete this material (only when no version uses it; undo possible)">Delete material</button></div></details></span></div>
-  <div class="fMeta"><span>${esc(m.cas||"no CAS")}</span>${m.category ? `<span>${esc(m.category)}</span>` : ""}${m.aliases?`<span title="Alternative names">also ${esc(m.aliases)}</span>`:""}${
-    m.wishlist?`<span><span class="badge" style="background:var(--amber-soft);color:var(--amber-ink)">to order – not yet owned</span></span>`:""}${
+  <div class="fMeta">${m.wishlist?`<span><span class="badge" style="background:var(--amber-soft);color:var(--amber-ink)" title="Not owned yet">to order</span></span>`:""}${
     m.starter?'<span><span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other material.">starter set</span></span>':""}
     <span class="fLinks">${lookupLinks(m)}</span></div>
   <div class="mCols"><div class="fieldGrid">
     ${F("Name", `<input data-f="name" value="${esc(m.name)}">`)}
     ${F("CAS", `<input data-f="cas" value="${esc(m.cas)}">`)}
     ${F("Alternative names", `<input data-f="aliases" value="${esc(m.aliases||"")}" placeholder="Use a semicolon to separate names, e.g. Ambroxan; Ambrofix.">`)}
-    ${F("Category", `<span id="matCatRow" style="display:flex;gap:.5rem;align-items:center"><select id="mf_category" data-f="category" style="flex:1 1 auto;min-width:0">${DATA.materialCategories.map(x=>`<option${x===m.category?" selected":""}>${esc(x)}</option>`).join("")}${m.category && !DATA.materialCategories.includes(m.category) ? `<option selected>${esc(m.category)}</option>` : ""}</select>${
-        catColourInput(m.category, "matCatCol")}<button class="small" id="btnNewMatCat" type="button">+ New category</button></span>`)}
+    ${F("Category", catChipHtml("mCatDd", m.category, `<select id="mf_category" data-f="category" aria-label="Category of this material">${DATA.materialCategories.map(x=>`<option${x===m.category?" selected":""}>${esc(x)}</option>`).join("")}${m.category && !DATA.materialCategories.includes(m.category) ? `<option selected>${esc(m.category)}</option>` : ""}</select>${
+        catPopColour(m.category, "matCatCol")}<button id="btnNewMatCat" type="button">+ New category</button>`, "Category of this material: click to change it"))}
     ${F("Pyramid", `<span class="pyr" role="group" aria-label="Pyramid level">${PYR.map((p,i)=>`<button data-pyr="${i}" class="${m.pyramid===i?"sel":""}">${p}</button>`).join("")}</span>`)}
     ${F("Solvent", `<input type="checkbox" data-f="isSolvent" ${m.isSolvent?"checked":""} style="justify-self:start">`)}
     ${F("IFRA limit %", `<input data-f="ifraLimit" data-num="1" inputmode="decimal" value="${m.ifraLimit!=null?fmtSIn(m.ifraLimit,6):""}" placeholder="99 = checked, no limit; 0 = prohibited">`)}
@@ -5194,7 +5255,7 @@ function renderMaterial(m){
       <label><input type="checkbox" data-loc="frigo" ${m.locations?.frigo?"checked":""}> Fridge ❄</label>
       <label><input type="checkbox" data-loc="diepvries" ${m.locations?.diepvries?"checked":""}> Freezer (reserve)</label></span>`)}
   </div></div>
-  <div class="fblocks"><details class="panelBox" id="dilBox"${DILOPEN ? " open" : ""}><summary>Dilutions<span class="sumst"> – ${(m.dilutions||[]).map(d => fmtS(d.pct) + "%" + (d.isBase ? " base" : "")).join(", ") || "none"}</span></summary>
+  <div class="fblocks mblocks"><details class="panelBox" id="dilBox"${DILOPEN ? " open" : ""}><summary>Dilutions<span class="sumst"> – ${(m.dilutions||[]).map(d => fmtS(d.pct) + "%" + (d.isBase ? " base" : "")).join(", ") || "none"}</span></summary>
     <table class="lines"><thead><tr><th class="dilcol">%</th><th class="datecol">Date</th><th>Notes</th><th class="xcol"></th></tr></thead><tbody>
     ${(m.dilutions||[]).map((d,i)=>`<tr><td>${fmtS(d.pct)}%${d.isBase?' <span class="badge">base</span>':` <button class="small" data-setbase="${i}" title="Make this the default concentration for new formula lines">Set base</button>`}</td>
       <td><input type="date" data-dildate="${i}" value="${esc(d.date||"")}" aria-label="Date of the ${fmtS(d.pct)}% dilution" style="width:9.5rem;max-width:100%"></td>
@@ -5209,7 +5270,7 @@ function renderMaterial(m){
     <summary>Stock<span class="sumst"> – ${st.tracked?`${fmt(st.qty)} g (base concentration)`:"not tracked"}</span></summary>
     <div class="fieldGrid" style="margin:.6rem 0 .4rem">
       <label for="mPurchDate">Purchase date</label><input type="date" id="mPurchDate" data-f="purchaseDate" value="${esc(m.purchaseDate||"")}" style="justify-self:start">
-      <label for="mDensity">Density g/ml</label><input id="mDensity" data-f="density" data-num="1" value="${m.density!=null?fmtSIn(m.density,4):""}" placeholder="for ml purchases" style="width:8rem">
+      <label for="mDensity">Density g/ml</label><input id="mDensity" data-f="density" data-num="1" value="${m.density!=null?fmtSIn(m.density,4):""}" title="Grams per millilitre: needed to count a purchase in ml" style="width:8rem">
     </div>
     <div style="font-size:1.1rem;font-weight:600;margin-bottom:.4rem">${st.tracked ? fmt(st.qty)+" g <span class='hint' style='font-weight:400'>estimated</span>" : '<span class="hint">Not tracked – set a stocktake or add a purchase to start.</span>'}</div>
     <div class="toolRow"><label for="stTake">Stocktake</label> <input id="stTake" style="width:5.5rem;text-align:right" placeholder="g"> g <button class="small" id="btnTake">Set</button></div>
@@ -5438,8 +5499,8 @@ $("#btnNewMat").addEventListener("click", () => {
   openDialog(`<h3 style="margin:0 0 .3rem">New material</h3>
     <div class="fieldGrid" style="margin-top:.7rem">
       <label for="nmName">Name</label><input id="nmName" placeholder="e.g. Hedione HC" style="min-width:16rem"${list.length ? ` list="nmList" autocomplete="off"` : ""}>
-      <label for="nmCat">Category</label><span><select id="nmCat">${DATA.materialCategories.map(x => `<option${x==="Uncategorised"?" selected":""}>${esc(x)}</option>`).join("")}</select>
-        <button class="small" id="btnNewNmCat" type="button">+ New category</button> ${catColourInput("Uncategorised", "nmCatCol")}</span>
+      <label for="nmCat">Category</label><span style="display:flex;gap:.5rem;align-items:center"><select id="nmCat" style="flex:1 1 auto;min-width:0">${DATA.materialCategories.map(x => `<option${x==="Uncategorised"?" selected":""}>${esc(x)}</option>`).join("")}</select>
+        <button class="small nowrap" id="btnNewNmCat" type="button">+ New category</button></span>
       <label for="nmDil">Base dilution %</label><input id="nmDil" value="100" inputmode="decimal" style="width:5rem;text-align:right">
     </div>
     ${list.length ? `<datalist id="nmList">${(() => { const seen = new Set(), out = [];   // "Rosa damascena" and "rosa damascena" are one suggestion
@@ -5492,10 +5553,8 @@ $("#btnNewMat").addEventListener("click", () => {
     const n = askCatName(); if (!n) return;
     const sel = $("#nmCat"), hit = sameCatOpt(sel, n.trim()), nm = hit ? hit.value : n.trim();
     if (!hit){ const o = document.createElement("option"); o.textContent = nm; sel.appendChild(o); }
-    sel.value = nm; $("#nmCatCol").value = catColourHex(nm); $("#nmCatCol").disabled = false;
+    sel.value = nm;
   });
-  $("#nmCat").addEventListener("change", () => { $("#nmCatCol").value = catColourHex($("#nmCat").value); });
-  $("#nmCatCol")?.addEventListener("change", e => setCatColour($("#nmCat").value, e.target.value));
   $("#nmName").addEventListener("input", lookup);
   $("#nmName").addEventListener("change", lookup);
   if (list.length) $("#nmBrowse").addEventListener("click", () => { $("#dlg").close(); browseList(); });

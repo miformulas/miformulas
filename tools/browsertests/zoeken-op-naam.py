@@ -151,7 +151,7 @@ with sync_playwright() as pw:
         page.click("#btnBenchToggle"); page.wait_for_timeout(400)
         bank = page.evaluate("""() => { const r = document.querySelector('#benchVer'); if (!r) return null;
             return [null, r.textContent, r.querySelectorAll('select,button,input').length,   // since 261019a the text alone, in the head
-                    !!document.querySelector('#verSel'), !!document.querySelector('#fCatRow'), !!document.querySelector('.benchWrap')]; }""")
+                    !!document.querySelector('#verSel'), !!document.querySelector('#fCatDd'), !!document.querySelector('.benchWrap')]; }""")
         check(f"de bench view noemt {verwacht}: de woorden van de keuzelijst ({keuze!r}), zonder keuzelijst of knoppen ({bank})",
               bool(bank) and bank[1] == verwacht == keuze and bank[2] == 0
               and not bank[3] and not bank[4] and bank[5])

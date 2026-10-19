@@ -231,8 +231,8 @@ with sync_playwright() as p:
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
     page.click("#tabM"); page.wait_for_timeout(300)
     page.click("#btnNewMat"); page.wait_for_timeout(500)
-    check("+ New material heeft ze ook",
-          page.locator("#btnNewNmCat").count() == 1 and page.locator("#nmCatCol").count() == 1)
+    check("+ New material heeft + New category, zonder kleurvakje (sinds 261019d: de kleur hoort bij de categorie, op de pagina)",
+          page.locator("#btnNewNmCat").count() == 1 and page.locator("#nmCatCol").count() == 0)
     page.click("#dlgCancel"); page.wait_for_timeout(400)
 
     # ---------- 9. B15 (bouw 260920d): het venster "Name version" zet de importverwijzing één keer bij ----------
@@ -654,7 +654,7 @@ with sync_playwright() as p:
 
     # ---------- C-b 14 (bouw 260922j): + New category kiest de categorie die je in andere hoofdletters hebt ----------
     page.evaluate("""() => { window.prompt = () => "musks"; switchTab("M", "m-b2a", null); }"""); page.wait_for_timeout(500)
-    page.click("#btnNewMatCat"); page.wait_for_timeout(600)
+    page.click("#mCatDd > summary"); page.click("#btnNewMatCat"); page.wait_for_timeout(600)   # sinds 261019d achter de categorie
     cats = page.evaluate("""() => [DATA.materials.find(x => x.id === "m-b2a").category, DATA.materialCategories.filter(c => c.toLowerCase() === "musks")]""")
     check(f"op de materiaalpagina ({cats})", cats == ["Musks", ["Musks"]])
     page.evaluate("""() => { window.prompt = () => "UNCATEGORISED"; }""")

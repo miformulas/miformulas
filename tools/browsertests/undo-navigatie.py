@@ -46,7 +46,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(500)
     oud = page.evaluate("() => DATA.formulas.find(x => x.id === VIEW.id).category")
     page.evaluate('''() => { window.prompt = () => "Catproef"; }''')
-    page.click("#btnNewFCat"); page.wait_for_timeout(700)   # sinds 261011e op de pagina, boven de versie
+    page.click("#fCatDd > summary"); page.click("#btnNewFCat"); page.wait_for_timeout(700)   # sinds 261011e op de pagina, sinds 261019d achter de categorie
     check("the formula moved to a category that did not exist yet",
           page.evaluate("() => DATA.formulas.find(x => x.id === VIEW.id).category") == "Catproef"
           and page.evaluate('''DATA.formulaCategories.includes("Catproef")'''))

@@ -88,11 +88,11 @@ with sync_playwright() as pw:
     p.click("#dlgCancel"); p.wait_for_timeout(200)
 
     # C2: + New category met twee spaties
-    p.antwoord = "Rose  chypre"; p.click("#btnNewFCat"); p.wait_for_timeout(300)
+    p.antwoord = "Rose  chypre"; p.click("#fCatDd > summary"); p.click("#btnNewFCat"); p.wait_for_timeout(300)   # sinds 261019d achter de categorie
     cat = p.evaluate(F + ".category")
     check(f"C2 formulepagina: de categorie heet Rose chypre ({cat!r})", cat == "Rose chypre" and p.evaluate("DATA.formulaCategories.includes('Rose chypre')"))
     # C9: een pijltje in Category houdt de focus
-    p.focus("#fCat"); c0 = p.evaluate(F + ".category")
+    p.click("#fCatDd > summary"); p.focus("#fCat"); c0 = p.evaluate(F + ".category")
     p.keyboard.press("ArrowUp"); p.wait_for_timeout(300)
     c1 = p.evaluate(F + ".category"); act = p.evaluate("document.activeElement && document.activeElement.id")
     check(f"C9 pijl omhoog wisselt de categorie en de keuzelijst houdt de focus ({c0} → {c1}, {act})", c1 != c0 and act == "fCat")
@@ -100,7 +100,7 @@ with sync_playwright() as pw:
     check(f"C9 een tweede pijl wisselt opnieuw ({p.evaluate(F + '.category')})", p.evaluate(F + ".category") != c1)
     mid = p.evaluate("DATA.materials.find(m => m.name === 'Hedione').id")
     open_m(p, mid)
-    p.antwoord = "Woody  dry"; p.click("#btnNewMatCat"); p.wait_for_timeout(300)
+    p.antwoord = "Woody  dry"; p.click("#mCatDd > summary"); p.click("#btnNewMatCat"); p.wait_for_timeout(300)
     mc = p.evaluate("id => DATA.materials.find(m => m.id === id).category", mid)
     check(f"C2 materiaalpagina: de categorie heet Woody dry ({mc!r})", mc == "Woody dry")
     p.click("#ltClassify"); p.wait_for_timeout(300)
@@ -196,8 +196,9 @@ with sync_playwright() as pw:
         if (!DATA.formulaCategories.includes(f.category)) DATA.formulaCategories.push(f.category); render(); }""")
     open_f(p, "1881 for men")
     lijst = p.evaluate("() => { const s = document.querySelector('#sidebar'); return !!s && s.getBoundingClientRect().width > 100; }")
-    r7 = p.evaluate("() => { const s = document.querySelector('#fCat').getBoundingClientRect(), n = document.querySelector('#btnNewFCat').getBoundingClientRect(); return [Math.round(s.top), Math.round(n.top), Math.round(n.right), innerWidth]; }")
-    check(f"C7 op 820 px met de lijst open ({lijst}): + New category naast de keuzelijst ({r7})", lijst and abs(r7[0] - r7[1]) < 8 and r7[2] <= r7[3])
+    p.click("#fCatDd > summary"); p.wait_for_timeout(200)
+    r7 = p.evaluate("() => { const s = document.querySelector('#fCat').getBoundingClientRect(), n = document.querySelector('#btnNewFCat').getBoundingClientRect(); return [Math.round(s.width), Math.round(n.width), Math.round(Math.max(s.right, n.right)), innerWidth]; }")
+    check(f"C7 op 820 px met de lijst open ({lijst}): de keuzelijst en + New category heel in het venster (sinds 261019d achter de categorie) ({r7})", lijst and r7[0] > 100 and r7[1] > 60 and r7[2] <= r7[3])
     ctx.close()
 
     # ================= C8: Settings op 1366×660 met de library =================

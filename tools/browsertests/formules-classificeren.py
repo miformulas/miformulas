@@ -48,30 +48,36 @@ with sync_playwright() as pw:
     page.click("#dlgCancel"); page.wait_for_timeout(200)
 
     # ---- de categorie op de formulepagina ----
-    rij = page.evaluate("""() => { const r = document.querySelector('#fCatRow'), v = document.querySelector('#verSel');
-      const s = document.querySelector('#fCat'), kl = document.querySelector('#fCatCol'), n = document.querySelector('#btnNewFCat');
+    rij = page.evaluate("""() => { const d = document.querySelector('#fCatDd'), v = document.querySelector('#verSel'), sm = d && d.querySelector('summary');
       const b = x => x.getBoundingClientRect();
-      // since 261019a in the second row of the head, under the version
-      return [s.getAttribute('aria-label'), s.value, b(r).top >= b(v).bottom - 1, Math.abs(b(s).top - b(n).top) < 8,
-              b(kl).left > b(s).right - 1, b(n).left > b(kl).right - 1, n.textContent, s.getAttribute('aria-label')]; }""")
-    check(f"de categorie staat onder de versie, in de tweede rij van de kop: keuzelijst, kleurvakje en + New category op één regel ({rij})",
-          rij[0] == "Category of this formula" and rij[1] == "Uncategorised" and all(rij[2:6]) and rij[6] == "+ New category" and rij[7])
+      // since 261019a in the second row of the head, under the version; since 261019d its name and colour, the rest behind a click
+      return [!!d && !d.open, sm && sm.textContent.trim(), !!(sm && sm.querySelector('.catdot')), !!sm && b(sm).top >= b(v).bottom - 1, sm && sm.title]; }""")
+    check(f"de categorie staat onder de versie, in de tweede rij van de kop: haar naam met haar kleur ({rij})",
+          rij[0] and (rij[1] or "").startswith("Uncategorised") and rij[2] and rij[3] and rij[4] == "Category of this formula: click to change it")
+    page.click("#fCatDd > summary"); page.wait_for_timeout(150)
+    pop = page.evaluate("""() => { const s = document.querySelector('#fCat'), kl = document.querySelector('#fCatCol'), n = document.querySelector('#btnNewFCat');
+      const vis = x => !!x && x.getClientRects().length > 0;
+      return [s.getAttribute('aria-label'), s.value, vis(s), vis(kl), vis(n), n.textContent]; }""")
+    check(f"een klik erop opent de keuzelijst, de kleur en + New category ({pop})",
+          pop[0] == "Category of this formula" and pop[1] == "Uncategorised" and all(pop[2:5]) and pop[5] == "+ New category")
+    page.keyboard.press("Escape"); page.wait_for_timeout(150)
+    check("Escape sluit ze weer", not page.evaluate("document.querySelector('#fCatDd').open"))
     check("Change category… is weg", page.locator("#btnCatF").count() == 0
           and page.locator("#content button", has_text="Change category").count() == 0)
     voor = page.evaluate("serialize()"); undo0 = page.evaluate("UNDO.length")
-    page.select_option("#fCat", "Bases & Accords"); page.wait_for_timeout(400)
+    page.click("#fCatDd > summary"); page.select_option("#fCat", "Bases & Accords"); page.wait_for_timeout(400)
     groep = page.evaluate("() => [...document.querySelectorAll('#list .cat')].map(x => x.textContent.trim().replace(/\\s+/g, ' '))")
     check(f"een andere keuze is de nieuwe categorie, meteen ook in de lijst ({groep})",
           cat(page, "Angel") == "Bases & Accords" and "Bases & Accords 5" in groep and page.evaluate("$('#fCat').value") == "Bases & Accords")
     check("één Undo-stap", page.evaluate("UNDO.length") == undo0 + 1)
     page.keyboard.press("Control+z"); page.wait_for_timeout(400)
     check("Undo zet ze terug (serialize() gelijk aan ervoor)", page.evaluate("serialize()") == voor and cat(page, "Angel") == "Uncategorised")
-    page.click("#btnNewFCat"); page.wait_for_timeout(400)
+    page.click("#fCatDd > summary"); page.click("#btnNewFCat"); page.wait_for_timeout(400)
     check("+ New category maakt Violet en geeft ze de formule", cat(page, "Angel") == "Violet"
           and "Violet" in page.evaluate("DATA.formulaCategories") and page.evaluate("$('#fCat').value") == "Violet")
     page.keyboard.press("Control+z"); page.wait_for_timeout(400)
     check("één Undo neemt de categorie en de nieuwe naam terug", page.evaluate("serialize()") == voor)
-    ANTWOORD["prompt"] = "bases & accords"; page.click("#btnNewFCat"); page.wait_for_timeout(400)
+    ANTWOORD["prompt"] = "bases & accords"; page.click("#fCatDd > summary"); page.click("#btnNewFCat"); page.wait_for_timeout(400)
     check("een bestaande naam in andere hoofdletters is die categorie, zonder een tweede",
           cat(page, "Angel") == "Bases & Accords" and not any(x == "bases & accords" for x in page.evaluate("allFormulaCats()")))
     page.keyboard.press("Control+z"); page.wait_for_timeout(400)
@@ -82,18 +88,18 @@ with sync_playwright() as pw:
     page.keyboard.press("Control+z"); page.wait_for_timeout(300)
     open_f(page, "Angel", bench=True)
     check("de bench view toont Category en Version niet: daar weeg je de versie die je opende",
-          page.locator("#fCatRow").count() == 0 and page.locator("#verSel").count() == 0 and page.locator(".benchWrap").count() == 1)
+          page.locator("#fCatDd").count() == 0 and page.locator("#verSel").count() == 0 and page.locator(".benchWrap").count() == 1)
     page.evaluate("() => { const f = DATA.formulas.find(f => f.name === 'Brut'); f.frozenImport = true; }")
     open_f(page, "Brut")
     frozen = page.evaluate("() => [document.querySelectorAll('#content input.w').length, document.querySelector('#fCat').disabled]")
-    page.select_option("#fCat", "Bases & Accords"); page.wait_for_timeout(300)
+    page.click("#fCatDd > summary"); page.select_option("#fCat", "Bases & Accords"); page.wait_for_timeout(300)
     check(f"een bevroren formule krijgt ook een andere categorie: ze hoort bij de formule ({frozen})",
           frozen == [0, False] and cat(page, "Brut") == "Bases & Accords")
     page.keyboard.press("Control+z"); page.wait_for_timeout(300)
     page.evaluate("""() => { DATA.formulas.push({id: "f-leeg", name: "Leeggelopen", category: "Uncategorised", created: today(),
         frozenImport: false, versions: []}); buildUsage(); markDirty(); switchTab("F", "f-leeg", null); }""")
     page.wait_for_timeout(500)
-    page.select_option("#fCat", "Bases & Accords"); page.wait_for_timeout(300)
+    page.click("#fCatDd > summary"); page.select_option("#fCat", "Bases & Accords"); page.wait_for_timeout(300)
     check("ook op een formule zonder versies", cat(page, "Leeggelopen") == "Bases & Accords")
     page.evaluate("() => { DATA.formulas = DATA.formulas.filter(f => f.id !== 'f-leeg'); switchTab('F', null, null); }")
     open_f(page, "Angel")
@@ -161,8 +167,9 @@ with sync_playwright() as pw:
     check(f"en het venster past zonder te scrollen ({vak})", all(vak))
     page.click("#dlgCancel"); page.wait_for_timeout(200)
     open_f(page, "Angel")
-    rij = page.evaluate("() => { const r = document.querySelector('#fCatRow').getBoundingClientRect(); return [r.right <= innerWidth, document.querySelector('#fCat').getBoundingClientRect().width > 100]; }")
-    check(f"op een telefoon past de regel van de categorie in het scherm ({rij})", all(rij))
+    page.click("#fCatDd > summary"); page.wait_for_timeout(200)
+    rij = page.evaluate("() => { const r = document.querySelector('#fCatDd .menuPop').getBoundingClientRect(); return [r.left >= 0, r.right <= innerWidth, document.querySelector('#fCat').getBoundingClientRect().width > 100]; }")
+    check(f"op een telefoon opent de categorie binnen het scherm ({rij})", all(rij))
     check(f"geen fouten in de pagina op een telefoon ({errs[:2]})", not errs)
     b.close()
 
