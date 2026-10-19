@@ -36,7 +36,12 @@ PUB = os.path.abspath(os.path.join(HERE, "..", ".."))
 EIGEN = os.path.join(PUB, "..", "miformulas-data.json")
 GEPUB = os.path.join(PUB, "..", "miformulas-materials.json")
 STARTER = json.load(open(os.path.join(PUB, "data", "miformulas-starter.json"), encoding="utf-8"))
-NIEUW = ["#dlg:has(#setLocale)", "#dlg:has(#btnImpF)"]   # 261017b: Import & export in koppen (stock-en-import-export.py)
+NIEUW = ["#dlg:has(#setLocale)", "#dlg:has(#btnImpF)",   # 261017b: Import & export in koppen (stock-en-import-export.py)
+         # 261019a: de formulepagina rond de tabel (rustige-formulepagina.py test ze): in REF de kop met de piramide, de
+         # rijen Order en de knoppen, de tick bar en de panelen; in de nieuwe bouw de twee rijen van de kop, de rij onder de
+         # tabel, Batch scaling en de panelen. De tabel, de bench en Compare blijven vergeleken
+         "#content:has(> .fhead) > h2", "#content:has(> .fhead) > .metaLine", ".fhead", "#content:has(> .fhead) > .toolRow",
+         "#content:has(> .fhead) > .panelBox", ".tickBar", ".fTop", ".fMeta", ".fEdit", "#scaleBox", ".fblocks"]
 #   # bewust toegevoegd of omgezet sinds REF (261014a: de lijst met een zoekterm; 261015a:
 # Settings, breder en anders geschikt; audit-v3-teksten.py test het venster)
 # bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261014a: de categoriegroep
@@ -55,7 +60,9 @@ REPL = [['title="Settings: number format, materials library, server; install, do
         ['\n    <a class="small" id="helpWhatsNew" href="https://miformulas.com/docs/whats-new.html" target="_blank" rel="noopener">What’s new</a>', ''],
         # 261017b: een aankoop start het stockboek, en het lege paneel zegt dat (stock-en-import-export.py)
         ["set a stocktake or add a purchase to start.", "set a stocktake to start."]]
-RX = [[r'<span class="sub fcat" title="Uncategorised · (\d+ versions?)">\d+ versions?', '<span class="sub fcat" title="Uncategorised · $1">Uncategorised']]
+RX = [[r'<span class="sub fcat" title="Uncategorised · (\d+ versions?)">\d+ versions?', '<span class="sub fcat" title="Uncategorised · $1">Uncategorised'],
+      # 261019a: the two builds leave different elements out of the formula page (NIEUW), and so different blank lines
+      [r'>\s+<', '>\n<']]
 # sinds 261014b zet migrate de materialen op naam (audit v3, C17): beide bouwen krijgen de data op naam, zodat alleen
 # verschilt wat de bouw zelf verandert
 OPNAAM = "DATA.materials.sort((a, b) => a.name.localeCompare(b.name)); invalidateMats();"

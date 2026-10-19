@@ -69,6 +69,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(400)
 
     # ---------- a trial note asks before it goes ----------
+    page.evaluate("document.querySelector('#trialBox').open = true")   # an empty Trial log is closed since 261019a
     page.fill("#trialText", "Smells of pear drops."); page.click("#btnAddTrial"); page.wait_for_timeout(400)
     check("the trial note is there", page.locator("[data-deltrial]").count() == 1)
     msgs.clear(); mode["v"] = "dismiss"
@@ -242,7 +243,7 @@ with sync_playwright() as p:
     # Delete version: welke formule, wat er overblijft, en dat Undo het terughaalt
     page.evaluate("""() => switchTab("F", "f-oud", {type:"v", idx:1})"""); page.wait_for_timeout(700)
     msgs.clear(); mode["v"] = "dismiss"
-    page.click("#btnDelV"); page.wait_for_timeout(600)
+    page.click("#fMore summary"); page.click("#btnDelV"); page.wait_for_timeout(600)
     eerste = (msgs[0] if msgs else "")
     check(f"Delete version noemt de formule ({eerste[:60]!r})",
           any("Oude versie" in m for m in msgs))
@@ -259,7 +260,7 @@ with sync_playwright() as p:
         f.versions.splice(1,1); markDirty(); switchTab("F", "f-oud", {type:"v", idx:0}); }""")
     page.wait_for_timeout(600)
     msgs.clear()
-    page.click("#btnDelV"); page.wait_for_timeout(600)
+    page.click("#fMore summary"); page.click("#btnDelV"); page.wait_for_timeout(600)
     laatste_msg = (msgs[0] if msgs else "")
     check(f"bij de laatste versie zegt het wat er overblijft ({laatste_msg[-90:]!r})",
           any("only version" in m and "without lines" in m and "Delete formula" in m for m in msgs))
@@ -310,7 +311,7 @@ with sync_playwright() as p:
     check("de uitleg staat er nog",
           "Empty formula" in page.evaluate("""() => document.querySelector("#content").innerText"""))
     mode["v"] = "accept"; msgs.clear()
-    page.click("#btnDelF"); page.wait_for_timeout(700)
+    page.click("#fMore summary"); page.click("#btnDelF"); page.wait_for_timeout(700)
     check(f"en Delete formula werkt er ook echt ({[m[:40] for m in msgs]})",
           page.evaluate("""() => !DATA.formulas.some(x => x.id === "f-leeg")"""))
     page.keyboard.press("Control+z"); page.wait_for_timeout(600)
@@ -414,7 +415,7 @@ with sync_playwright() as p:
 
     # 19: Copy to new formula neemt de notities en het proeflog mee
     page.evaluate("""() => switchTab("F", "f-staart", {type:"v", idx:0})"""); page.wait_for_timeout(400)
-    page.click("#btnCopyF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnCopyF"); page.wait_for_timeout(400)
     page.fill("#cpName", "Staarttest kopie"); page.click("#dlgOk"); page.wait_for_timeout(700)
     kop = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Staarttest kopie");
         return f ? {notes: f.versions[0].notes, trials: (f.versions[0].trials||[]).length} : null; }""")
@@ -446,18 +447,20 @@ with sync_playwright() as p:
           "more" not in page.evaluate("""() => document.querySelector(".panelBox.usage").innerText"""))
 
     # ---------- staart 42 (bouw 260920n): Clear all vraagt, en Ctrl+Z haalt ze terug ----------
+    def tick_bar():   # sinds 261019a staat Clear all in de tick bar, die er pas is met een vinkje
+        if not page.locator(".tickBar").is_visible(): page.locator("input.selCb").first.click(); page.wait_for_timeout(150)
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.versions[0].lines.length > 1);
         window.__cid = f.id; f.versions[0].lines.forEach((l, i) => l.remark = i < 2 ? 2 : 1);
         markDirty(); switchTab("F", f.id, {type:"v", idx:0}); }""")
     page.wait_for_timeout(700)
     mode["v"] = "dismiss"; msgs.clear()
-    page.click("#btnClearMarks"); page.wait_for_timeout(500)
+    tick_bar(); page.click("#btnClearMarks"); page.wait_for_timeout(500)
     gemerkt = page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__cid);
         return f.versions[0].lines.filter(l => (l.remark ?? 1) !== 1).length; }""")
     check(f"Clear all vraagt eerst, en Cancel laat de merktekens staan ({[m[:60] for m in msgs]})",
           any("colour mark" in m for m in msgs) and gemerkt == 2)   # sinds 260930c zonder Undo-zin (E10 van de audit v2)
     mode["v"] = "accept"; msgs.clear()
-    page.click("#btnClearMarks"); page.wait_for_timeout(600)
+    tick_bar(); page.click("#btnClearMarks"); page.wait_for_timeout(600)
     check("en na ja zijn ze weg",
           page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__cid);
             return f.versions[0].lines.every(l => (l.remark ?? 1) === 1); }"""))
@@ -465,8 +468,8 @@ with sync_playwright() as p:
     check("Ctrl+Z brengt ze terug",
           page.evaluate("""() => { const f = DATA.formulas.find(x => x.id === window.__cid);
             return f.versions[0].lines.filter(l => (l.remark ?? 1) !== 1).length; }""") == 2)
-    msgs.clear(); page.click("#btnClearMarks"); page.wait_for_timeout(500)
-    page.click("#btnClearMarks"); page.wait_for_timeout(500)
+    msgs.clear(); tick_bar(); page.click("#btnClearMarks"); page.wait_for_timeout(500)
+    tick_bar(); page.click("#btnClearMarks"); page.wait_for_timeout(500)
     check(f"zonder merktekens zegt de knop dat er niets te wissen valt ({[m[:40] for m in msgs][-1:]})",
           any("no marks" in m for m in msgs))
     check("Delete material draagt een tooltip, zoals de andere wisknoppen",
@@ -485,9 +488,8 @@ with sync_playwright() as p:
     def kleur(regels, code):
         for i in regels: page.check(f'#content input.selCb[data-i="{i}"]')
         page.click(f'#content [data-mark="{code}"]'); page.wait_for_timeout(400)
-    msgs.clear(); kleur([], 2)
-    check(f"een kleur zonder aangevinkte regel vraagt eerst een vinkje ({[m[:40] for m in msgs]})",
-          any("Tick one or more lines first" in m for m in msgs) and set(merk()) == {1})
+    zicht = page.locator('#content [data-mark="2"]').first.is_visible()   # sinds 261019a komt de tick bar pas met een vinkje
+    check(f"zonder aangevinkte regel is er geen kleur om te kiezen ({zicht})", not zicht and set(merk()) == {1})
     kleur([0, 1], 2); kleur([2], 4); kleur([3], 0); kleur([4], 3)
     check(f"rood, groen, blauw en geel komen op de aangevinkte regels ({merk()[:6]})", merk()[:6] == [2, 2, 4, 0, 3, 1])
     rijen = page.evaluate("""() => [...document.querySelectorAll("#content table.lines tbody tr")].slice(0, 6).map(tr =>

@@ -143,7 +143,7 @@ with sync_playwright() as pw:
           page.evaluate(versies) == [[1, "", 0.2], [2, "more javanol", 0.3]])
     page.evaluate("() => { VIEW.sub = {type: 'v', idx: 0}; render(); }")
     page.wait_for_timeout(300)
-    check("v1 is bevroren: geen gewichtsvelden", page.locator("input.w").count() == 0 and "frozen" in page.inner_text("#content .metaLine"))
+    check("v1 is bevroren: geen gewichtsvelden", page.locator("input.w").count() == 0 and "frozen" in page.inner_text("#content .fMeta"))
     page.evaluate("() => { VIEW.sub = {type: 'v', idx: 1}; render(); }"); page.wait_for_timeout(300)
     page.click("#btnCmp"); page.wait_for_timeout(500)
     rij = page.locator("#content table tbody tr").first.inner_text()

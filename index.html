@@ -148,7 +148,6 @@ body.hidebar #btnBar{background:var(--accent-soft);color:var(--accent-ink);borde
 h2{margin:.2rem 0 .3rem;font-size:1.35rem}
 .metaLine{color:var(--muted);font-size:.85rem;margin-bottom:.6rem;display:flex;flex-wrap:wrap;gap:.3rem .5rem;align-items:center}
 .metaLine a.lookup{margin-left:.4rem}
-.chipRow{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0}
 .badge{font-size:.72rem;border-radius:4px;padding:.05rem .4rem;background:var(--frozen-soft);color:var(--frozen);vertical-align:middle}
 .tblwrap{max-width:100%;overflow-x:auto}
 .nowrap{white-space:nowrap}
@@ -178,14 +177,37 @@ table.lines select.d{max-width:7rem}
 .toolRow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.6rem 0}
 .outBtns{margin-left:auto;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:flex-end}   /* the four ways out of a version wrap as one group (C12) */
 .tickBar{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;align-items:center;margin:.2rem 0 .8rem;padding:.45rem .8rem;
-  background:var(--panel);border-radius:8px;border:1px solid var(--line)}
+  background:var(--panel);border-radius:8px;border:1px solid var(--line);
+  position:sticky;bottom:.6rem;z-index:5;box-shadow:0 3px 14px rgba(0,0,0,.16)}   /* it appears with the first ticked line and stays in sight while the table runs on below the window (build 261019a) */
 .tickGrp{display:inline-flex;gap:.35rem;align-items:center}
-.actions{margin-left:auto;display:flex;gap:.1rem;align-items:center}
-.actions button{border:none;background:none;color:var(--muted);padding:.15rem .5rem;font-size:.83rem;border-radius:5px}
-.actions button:hover{color:var(--accent-ink);background:var(--accent-soft)}
-.actions button.danger{color:var(--danger)}
-.actions button.danger:hover{background:var(--danger-soft);color:var(--danger)}
-.actions i{width:1px;height:1rem;background:var(--line);margin:0 .3rem}
+/* the head of a formula in two rows (build 261019a): the name, the version and what you do with it, ⋯ for the rest;
+   then the category, the date and the order of the lines, smaller */
+.fTop{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem .45rem;margin:.1rem 0 .35rem}
+.fTop h2{margin:0 .45rem 0 0}
+.fTop .benchBtn{margin-left:0}
+.fTop .fEnd{margin-left:auto;display:flex;align-items:center;gap:.45rem}   /* the way you look at the version, and ⋯ */
+.fMeta{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .45rem;color:var(--muted);font-size:.85rem;margin:0 0 .25rem}
+.fMeta>span:not(:first-child):not(.fOrder)::before{content:"·";margin-right:.45rem}
+.fMeta select{font-size:.85rem;padding:.15rem .35rem}
+.fMeta button.small{font-size:.8rem}
+.fMeta .fOrder{margin-left:auto;display:inline-flex;gap:.45rem;align-items:center}
+/* a menu is a details element whose summary is the button: ⋯ in the head, Print / export under the lines */
+.menuDd{position:relative;display:inline-block}
+.menuDd>summary{list-style:none;cursor:pointer;user-select:none;white-space:nowrap;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:.15rem .6rem;font-size:.85rem}
+.menuDd>summary::-webkit-details-marker{display:none}
+.menuDd>summary:hover,.menuDd[open]>summary{border-color:var(--accent)}
+.menuDd>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#fMore>summary{min-width:2.25rem;min-height:2.25rem;display:flex;align-items:center;justify-content:center;padding:0 .4rem;font-size:1.15rem;line-height:1}
+.menuPop{position:absolute;right:0;top:calc(100% + 4px);z-index:20;display:flex;flex-direction:column;min-width:13rem;padding:.3rem;
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.menuDd.up>.menuPop{top:auto;bottom:calc(100% + 4px)}
+.menuPop button{border:none;background:none;text-align:left;padding:.4rem .7rem;border-radius:5px;white-space:nowrap}
+.menuPop button:hover,.menuPop button:focus-visible{background:var(--accent-soft);color:var(--accent-ink)}
+.menuPop button.danger{color:var(--danger)}
+.menuPop button.danger:hover,.menuPop button.danger:focus-visible{background:var(--danger-soft);color:var(--danger)}
+.menuPop hr{border:none;border-top:1px solid var(--line);margin:.25rem .3rem;width:auto}
+.fEdit .outBtns{align-items:center}   /* the small buttons keep their height beside Print weighing sheet */
+#catsBox td:first-child{white-space:nowrap}   /* in a column of half the page the name of a category stays on one line */
 .notes{width:100%;min-height:9.5rem;margin-top:.3rem;line-height:1.5}
 .noteRead{white-space:pre-wrap;background:var(--amber-soft);border-radius:6px;padding:.6rem .8rem;font-size:.9rem}
 .help{max-width:52rem}.help h1{font-size:1.5rem;margin:.2rem 0 .8rem}.help h2{font-size:1.15rem;margin:1.8rem 0 .5rem;padding-top:.4rem;border-top:1px solid var(--line);color:var(--accent-ink)}
@@ -193,9 +215,10 @@ table.lines select.d{max-width:7rem}
 .help code{background:var(--panel);padding:.05em .3em;border-radius:3px;font-size:.92em}.help pre{background:var(--panel);padding:.6rem .8rem;border-radius:6px;overflow:auto;font-size:.85rem;white-space:pre-wrap}
 .help .helpfig{font-size:.85rem;color:var(--muted);margin:.3rem 0 .6rem}.help .helpbar{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:.6rem}.help a{color:var(--accent-ink)}
 .fieldGrid{display:grid;grid-template-columns:var(--lab,9rem) 1fr;gap:.35rem .8rem;align-items:center;max-width:34rem}
-.scaleGrid{display:grid;grid-template-columns:12rem 8rem auto 1fr;gap:.5rem .8rem;align-items:center;max-width:46rem}
-.scaleGrid input{width:5.5rem;text-align:right}
-.scaleGrid button{justify-self:start;min-width:6.5rem}
+.scaleStrip{display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;margin:0 0 .6rem;padding:.5rem .75rem;
+  background:var(--panel);border:1px solid var(--line);border-radius:8px}   /* Batch scaling, one strip under the lines (build 261019a) */
+.scaleStrip .sg{display:inline-flex;gap:.4rem;align-items:center;white-space:nowrap}
+.scaleStrip input{width:4.5rem;text-align:right}
 .fieldGrid label,.fieldGrid .flabel{color:var(--muted);font-size:.85rem}
 .pyr{display:flex;gap:.2rem}
 .pyr button{padding:.15rem .5rem;font-size:.8rem}
@@ -255,14 +278,17 @@ dialog:has(#btnImpF){max-width:min(66rem,94vw)}
 .sortable{cursor:pointer;user-select:none;white-space:nowrap}
 .sortable:hover{color:var(--accent)}
 table.lines tbody tr:hover{background:var(--accent-soft)}
-.pyrbar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:.1rem 0 .7rem;max-width:34rem;box-shadow:0 1px 3px rgba(0,0,0,.15)}
-.fhead{position:relative;padding-right:12.5rem;margin-bottom:.6rem;min-height:62px}   /* the chart is 62 px */
-.fpyr{position:absolute;right:0;top:0}
+.fpyr{display:block;margin:.35rem 0 .2rem}
+/* the four panels under a formula in two columns where there is room for two of 22rem, one kind of frame (build 261019a) */
+.fblocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,max(22rem,calc(50% - .5rem))),1fr));gap:0 1rem;align-items:start;margin-top:.2rem}
+#content .fblocks>.panelBox:nth-of-type(n){border-top:1px solid var(--line);margin:.5rem 0;min-width:0}
+/* their titles plain, what they say in grey; only the ⚠ of an IFRA limit that is exceeded keeps its colour */
+.fblocks summary{cursor:pointer;font-size:.9rem;font-weight:600;color:var(--ink)}
+.fblocks summary .sumst{font-weight:400;color:var(--muted)}
+.fblocks summary .warn{color:var(--danger)}
 .fpyr text{fill:var(--muted);font:500 9px "Segoe UI",system-ui,sans-serif;font-variant-numeric:tabular-nums}
 /* a path, a URL or a long link must not push the page sideways, on any width */
 .help code,.help pre,.help a{overflow-wrap:anywhere}
-@media (max-width:900px){.fhead{padding-right:0;min-height:0}.fpyr{display:none}}
-.pyrbar span{min-width:2px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.7rem;margin:.9rem 0;max-width:46rem}
 .tile{border-radius:10px;padding:.75rem 1rem;display:flex;flex-direction:column}
 .tile b{font-size:1.55rem;line-height:1.25;font-variant-numeric:tabular-nums}
@@ -336,7 +362,6 @@ header.noplace #stWhere{display:none}   /* set by fitHeader() */
   body:not(.hidebar) table.ftable input.w,body:not(.hidebar) table.ftable select.d{width:100%;max-width:none;min-width:0}
   body:not(.hidebar) table.ftable select.d{padding-left:.3rem;padding-right:.1rem}
   body:not(.hidebar) .bp{display:none} body:not(.hidebar) .bdil{width:3rem} body:not(.hidebar) .bw{width:4.4rem} body:not(.hidebar) .bhead{flex-wrap:wrap}
-  body:not(.hidebar) .actions{flex-wrap:wrap}   /* Delete formula stood 27 px off the screen on 701 */
   body:not(.hidebar) table.ftable .abscol,body:not(.hidebar) table.ftable .costcol{display:none}
   body:not(.hidebar) table.ftable .replBtn{float:none;margin:0 0 0 .2rem} body:not(.hidebar) table.ftable a.matlink{overflow-wrap:anywhere}
 }
@@ -354,7 +379,6 @@ table.ord tbody tr:hover td.acts{background:var(--accent-soft)}
 @media (max-width:700px){
   #btnNew,#btnNewMat,#btnRedo,#btnSave,.hsep,#btnBar{display:none}   /* creation is desktop work; saving is automatic */
   body.hidebar #sidebar{display:flex}          /* ☰ is out of reach here, so a hidden sidebar would be a blank screen */
-  .actions{margin-left:0;width:100%;flex-wrap:wrap}
   header{gap:.4rem;padding:.45rem .6rem}
   header h1{font-size:1rem}
   #build{display:none}
@@ -389,13 +413,13 @@ table.ord tbody tr:hover td.acts{background:var(--accent-soft)}
   table.lines.ord td,table.lines.ord th{overflow:visible}
   table.lines.ord td.nowrap{white-space:normal}
   .deskcol{display:none}
-  .scaleGrid{grid-template-columns:auto 1fr;gap:.4rem .6rem}
+  .scaleStrip .sg{white-space:normal;flex-wrap:wrap}
   #verSel{max-width:100%}
   .benchBtn{margin-left:.4rem}
 }
 /* read-only mode (a phone without a way to save, or a second window while the first one saves: see LOCKED):
    editing controls disappear entirely */
-body.ro #btnNewV,body.ro #btnDelV,body.ro #btnRenameF,body.ro #btnCopyF,body.ro #btnDelF,body.ro #btnMoveF,
+body.ro #fMore,body.ro #btnNewV,body.ro #btnDelV,body.ro #btnRenameF,body.ro #btnCopyF,body.ro #btnDelF,body.ro #btnMoveF,
 body.ro #btnApplyFactor,body.ro #scaleF,body.ro #btnApplyScale,body.ro #btnSetAbs,body.ro #targetAbs,body.ro #btnAddTrial,body.ro #trialDate,body.ro #trialText,
 body.ro #btnDelMat,body.ro #btnAddDil,body.ro #newDil,body.ro #newDilNote,body.ro #btnAddLine,body.ro #addMat,body.ro #btnPredil,body.ro #btnDilDown,body.ro #btnDilUp,
 body.ro .swatch,body.ro [data-mark],body.ro #btnClearMarks,body.ro .selCb,body.ro .bsel,body.ro #bMoveSel,body.ro #btnAddGroup,body.ro #btnNameV,
@@ -446,7 +470,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261018a</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261019a</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -518,7 +542,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>What changed in each version, in plain words, is on the What’s new page: <a href="https://miformulas.com/docs/whats-new.html">https://miformulas.com/docs/whats-new.html</a>. The start screen links to it next to Manual, and so does the Help bar.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261018a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261019a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
@@ -578,20 +602,21 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>What some apps ship as a built-in materials database, miFormulas keeps as a file you import: a <strong>materials library</strong> (section <a href="#s16-import-export-and-sharing">16</a>). With one loaded, a new material arrives with its CAS number, category, pyramid level, IFRA limit, alternative names and a few lines of odour facts already in place, all of it editable. Those are facts, and facts can be shared freely; the odour descriptions on supplier sites are somebody's writing and are not in it. The library published by miFormulas holds over a thousand materials under CC BY 4.0, and <strong>Get the latest library</strong> in Settings fetches the current one. Its IFRA limits can be wrong or out of date: check them against the current IFRA Standards (section <a href="#s12-ifra-check-and-category-panel">12</a>). It is not inside the app, the repository or the ZIP: it changes more often than the app does, so the app asks for it when you do.</p>
 <h2 id="s4-formulas-and-versions">4. Formulas and versions</h2>
 <p>A <strong>formula</strong> is a named recipe in a category. Its history is a row of <strong>versions</strong>: v1, v2, v3 and so on, each with a date, an optional label, notes and its own lines. Only the latest version can be edited; every earlier version is a frozen record of what you did, kept exactly as it was. When you want to change something, create a new version (<strong>+ New version</strong> copies the version you are looking at) and edit that. Deleting a version is possible, deleting the past is not: a new version never rewrites an old one.</p>
-<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s4-formulas-and-versions">Above the table: the category of the formula, then the version list, + New version and Compare</a></p>
+<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s4-formulas-and-versions">The head of a formula: the name, the version with the pencil, + New version and Compare, Bench view and ⋯; under them the category, the date and the order of the lines</a></p>
+<p>The head of a formula has two rows. The first holds what you work on: the name, the list of its versions with the <strong>pencil</strong>, <strong>+ New version</strong> and <strong>Compare</strong>, and at its end <strong>Bench view</strong> (section <a href="#s10-bench-view-and-printing">10</a>) and <strong>⋯</strong>, the menu with <strong>Rename…</strong>, <strong>Copy to new formula…</strong>, <strong>Move into…</strong>, <strong>Delete version</strong> and <strong>Delete formula</strong>. The second row, smaller, says what the formula is: its category, the day it was made, and starter set or frozen where that applies; on its right, <strong>Order</strong> sets the order of the lines (section <a href="#s5-editing-a-formula">5</a>). A menu closes again with a click beside it or with <strong>Escape</strong>.</p>
 <p>Another presentation of the same recipe is a version too: the formula at 20 % instead of 15 %, with the costly material taken from the 10 % dilution instead of the pure one (make a new version and change the dilutions with <strong>Preserve rel % and exchange solvent</strong>, section <a href="#s7-changing-dilutions">7</a>), or made up as a 44 g batch instead of 100 g (Batch scaling, section <a href="#s8-batch-scaling-and-premixes">8</a>). Give such a version a label with the <strong>pencil</strong> ("20%", "soap", "44gr") so the list tells them apart.</p>
 <p>Formulas imported from Formulair are frozen too (section <a href="#s17-coming-from-formulair">17</a>): you read them, compare them and copy them, but to work on one you make a new version.</p>
 <p>Frozen means the amounts are fixed, not that the entry is untouchable. You can still name a version with the <strong>pencil</strong>, write notes, add trial-log entries, set colour marks, arrange the bench view and use <strong>Mark as prepared</strong> on a frozen version: those are your annotations about it, not the recipe itself. In the version list a <strong>🔒</strong> marks a version that came in from an import, and the name it carried there is shown after the version number as a reference; the window behind the <strong>pencil</strong> has a tick box <strong>show the import reference</strong> to hide that name in the list once the grouping is done. It only hides it: the reference stays in the file, so a second Formulair import still recognises the formula, and the app writes "Imported as “…”." once into the notes of the version.</p>
-<p><strong>Move into…</strong> appears on any formula that still has one version, whatever it came from: a formula from the Formulair import, one you brought in with Import formula…, or one you typed yourself. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along; an import keeps its import name as a reference and stays frozen, a formula of your own arrives as an ordinary version that keeps its name as the version label, so nothing of it is lost from the list. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s17-coming-from-formulair">17</a>). When other single-version formulas share the name, the dialog lists them under <strong>Move together</strong>: those whose name carries a version number straight after the shared name ("Aura v04", "Aura v.5", "Aura versie 6", "Aura 7", "Aura v05 20%"; "Aura blanche 2" is another formula) come ticked and go into the target in the same go, as versions numbered by that number and then by name. Untick what should stay, and add any other single-version formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
+<p><strong>Move into…</strong>, in the menu <strong>⋯</strong>, appears on any formula that still has one version, whatever it came from: a formula from the Formulair import, one you brought in with Import formula…, or one you typed yourself. It makes that formula a new version of another formula and removes it from the list. Lines, notes, date, colour marks and trial log come along; an import keeps its import name as a reference and stays frozen, a formula of your own arrives as an ordinary version that keeps its name as the version label, so nothing of it is lost from the list. Everything is one Undo step. This is how you group the flat Formulair import (section <a href="#s17-coming-from-formulair">17</a>). When other single-version formulas share the name, the dialog lists them under <strong>Move together</strong>: those whose name carries a version number straight after the shared name ("Aura v04", "Aura v.5", "Aura versie 6", "Aura 7", "Aura v05 20%"; "Aura blanche 2" is another formula) come ticked and go into the target in the same go, as versions numbered by that number and then by name. Untick what should stay, and add any other single-version formula with the search field below the list. It does not matter which of them you open: the dialog suggests the one with the lowest number as the target, and if that is the formula you opened, it offers <strong>this formula</strong> and the others move into it. You can always choose another target; a formula that has already received versions cannot be moved itself any more.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s4-formulas-and-versions">Move into…: three imported formulas about to become one formula with its own history.</a></p>
-<p><strong>Copy to new formula…</strong> takes the version you are looking at as v1 of a new formula, with its lines, bench arrangement, notes and trial log; the notes open with a line saying which formula and version it was copied from. <strong>Rename…</strong> does what it says. The category of a formula is chosen on its page, above the version list, as on a material page: the picker, the colour square that sets the colour of its dot, and <strong>+ New category</strong>. Categories are shared between formulas. <strong>Classify several…</strong> above the Formulas list gives several formulas a category at once, in the same window as for materials but without the pyramid; a frozen formula takes part too, because the category belongs to the formula and not to a version. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
-<p><strong>Delete version</strong> asks first and names the formula and the version it is about. When it is the only version it says so: the formula then stays in your list without lines, and <strong>Delete formula</strong> is what removes the formula itself. Undo (Ctrl+Z) brings a deleted version back during the session.</p>
+<p><strong>Copy to new formula…</strong>, also in <strong>⋯</strong>, takes the version you are looking at as v1 of a new formula, with its lines, bench arrangement, notes and trial log; the notes open with a line saying which formula and version it was copied from. <strong>Rename…</strong> does what it says. The category of a formula is chosen on its page, in the second row of its head, as on a material page: the picker, the colour square that sets the colour of its dot, and <strong>+ New category</strong>. Categories are shared between formulas. <strong>Classify several…</strong> above the Formulas list gives several formulas a category at once, in the same window as for materials but without the pyramid; a frozen formula takes part too, because the category belongs to the formula and not to a version. A new formula starts in <strong>Uncategorised</strong> unless you pick another category, whatever you happened to be looking at.</p>
+<p><strong>Delete version</strong>, in <strong>⋯</strong> with Delete formula, asks first and names the formula and the version it is about. When it is the only version it says so: the formula then stays in your list without lines, and <strong>Delete formula</strong> is what removes the formula itself. Undo (Ctrl+Z) brings a deleted version back during the session.</p>
 <h2 id="s5-editing-a-formula">5. Editing a formula</h2>
 <p>A formula line is a material, a dilution and a weight in grams. To add one, type the material's name in the <strong>Add material…</strong> box under the table (the list suggests as you type) and press Enter or click <strong>Add line</strong>; the line starts at the material's base dilution with weight 0. Type the weight, choose another dilution from the list if you have one (a trace dilution keeps the decimals it needs, so 0,001 % and 0,01 % do not both read as 0 %), or pick <strong>custom…</strong> for a percentage you do not stock (the app then warns with ⚠ that this dilution is not in your list, see section <a href="#s7-changing-dilutions">7</a>). Remove a line with ✕, and swap the material on a line for another with <strong>⇄</strong>: the dilution and the weight are carried over, so a line you weighed stays weighed. Both the box and ⇄ accept an alternative name of a material you own (give your Ambroxide the alternative name Ambroxan, and typing Ambroxan finds it), so you do not create the same material twice, and the suggestion list shows each material with its alternative names beside it, so typing one of those names brings up the materials that carry it. When nothing of yours carries the name you typed, the app does not go straight to creating one: it runs the same search as the list panel in section <a href="#s2-the-screen">2</a> (name, alternative names, CAS number, supplier, and the description) and opens <strong>Which material?</strong> with what that finds and what it matched on: <strong>Use this one</strong> takes the material you meant, <strong>None of these</strong> goes on to create it. <strong>⇄</strong> never creates a material: its <strong>Which material?</strong> has <strong>Replace</strong> in place of those two buttons, and a name the search finds nothing for gets a message. Adding a material the version already holds at that same dilution asks first, because a second line means the weighing sheet lists it twice while Compare adds the two together. Say yes and an amber line keeps warning about those <strong>duplicate lines</strong>, in the table and in the bench view alike, because it is nearly always a slip. Weights can be typed one after another without the mouse: <strong>Tab</strong> confirms the weight you typed and moves to the next one (after the last, to <strong>Add material…</strong>), Shift+Tab to the previous, and Enter keeps you in the field you are in. Step away in the middle of a number, to another tab or another program, and the field keeps what you typed with the cursor where it was: you type on when you come back.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s5-editing-a-formula">A formula page: the lines table with dilution, weight, rel % and abs %.</a></p>
 <p>If you add a material that is not in your inventory, the app offers to create it as a "to order" material: it goes on the order list, and the line is marked until the material is delivered. With a materials library loaded (section <a href="#s16-import-export-and-sharing">16</a>) it arrives with the facts the library holds, exactly as <strong>+ New material…</strong> does; the same goes for a formula import and for <strong>Delivered…</strong> on the order list.</p>
-<p>The table can be ordered by original entry, by category or by pyramid level (top to base, or base to top), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
-<p>Below the table sit <strong>Batch scaling</strong> (section <a href="#s8-batch-scaling-and-premixes">8</a>, on the editable version only), <strong>Notes</strong>, the <strong>Trial log</strong> (section <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>), the <strong>Categories</strong> panel and the <strong>IFRA check</strong> (section <a href="#s12-ifra-check-and-category-panel">12</a>), and <strong>Mark as prepared</strong> for the stock ledger (section <a href="#s13-stock-orders-and-deliveries">13</a>).</p>
+<p>With <strong>Order</strong>, on the right in the second row of the head, the table can be ordered by original entry, by category or by pyramid level (top to base, or base to top), or by clicking a column heading; the order is also used for the printed sheets. The little icon before each material name shows its pyramid level in the colour of its category.</p>
+<p>Under the table, on the left, are <strong>Add material…</strong>, <strong>Add line</strong> and <strong>Batch scaling</strong> (section <a href="#s8-batch-scaling-and-premixes">8</a>, on the editable version only), which opens a strip under them; on the right <strong>Mark as prepared</strong> for the stock ledger (section <a href="#s13-stock-orders-and-deliveries">13</a>), <strong>Print / export</strong> and <strong>Print weighing sheet</strong> (section <a href="#s10-bench-view-and-printing">10</a>). Below them stand four panels, two by two where the window is wide enough: <strong>Notes</strong> and the <strong>Trial log</strong> (section <a href="#s9-colour-marks-notes-and-the-trial-log">9</a>), <strong>Pyramid &amp; categories</strong> and the <strong>IFRA check</strong> (section <a href="#s12-ifra-check-and-category-panel">12</a>). A panel opens and closes with a click on its title and stays as you left it while you work. Notes and the Trial log are open when they hold something, and say "empty" when they do not; the title of the IFRA check gives its verdict even when the panel is closed.</p>
 <h2 id="s6-percentages-and-the-perfumery-arithmetic">6. Percentages and the perfumery arithmetic</h2>
 <p>The table shows two percentages per line, and they follow perfumery practice rather than plain weight shares.</p>
 <p>The <strong>content</strong> of a line is its weight corrected for the dilution: 2 g of a 10 % dilution is 0.2 g of material.</p>
@@ -613,7 +638,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s7-changing-dilutions">Ticked lines and the tick bar: marks, Lower and Higher, Create premix…</a></p>
 <p>Lines with a dilution you do not stock are marked ⚠, typically after an import. They compute correctly; to change one to a dilution you have, use <strong>Preserve rel % and exchange solvent</strong>. Only the version you can still edit shows the mark; a new version made from an older or frozen one shows it again.</p>
 <h2 id="s8-batch-scaling-and-premixes">8. Batch scaling and premixes</h2>
-<p><strong>Batch scaling</strong> sits under the table, in the order you use it. <strong>Concentration (abs %)</strong> with <strong>Set EtOH</strong> changes only the ethanol line so that the formula reaches the concentration you type, adding an ethanol line if there is none (ethanol is a material ticked as a solvent with Ethanol or EtOH in its name, so an "Alcohol 96 %" is not taken for it, and without such a material the button says so); the hint shows the maximum reachable with no ethanol at all. <strong>Target total</strong> then rescales the whole formula to a given weight, and <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). Scaling far down loses nothing in the arithmetic: the app keeps every weight to six decimals and shows three. For 50 g at 20 %, set the concentration first and the total after it: the other way round, the ethanol comes on top of the 50 g. Batch scaling is there on the editable version only, and the printed weighing sheet always shows the weights as they are stored. To weigh another quantity, make a new version and scale that one: the batch on your bench then carries a version number that points back into the app, which a rescaled print would not.</p>
+<p><strong>Batch scaling</strong>, the button under the table, opens a strip with three fields, in the order you use them. <strong>Concentration (abs %)</strong> with <strong>Set EtOH</strong> changes only the ethanol line so that the formula reaches the concentration you type, adding an ethanol line if there is none (ethanol is a material ticked as a solvent with Ethanol or EtOH in its name, so an "Alcohol 96 %" is not taken for it, and without such a material the button says so); the figure after it, max …%, is the most you can reach with no ethanol at all. <strong>Target total</strong> then rescales the whole formula to a given weight, and <strong>Apply factor</strong> multiplies every weight (2.5 turns a 40 g trial into 100 g). Scaling far down loses nothing in the arithmetic: the app keeps every weight to six decimals and shows three. For 50 g at 20 %, set the concentration first and the total after it: the other way round, the ethanol comes on top of the 50 g. Batch scaling is there on the editable version only, and the printed weighing sheet always shows the weights as they are stored. To weigh another quantity, make a new version and scale that one: the batch on your bench then carries a version number that points back into the app, which a rescaled print would not.</p>
 <p><strong>Premixes.</strong> You scale a formula to the weight you intend to make, and that nearly always leaves lines too small to weigh. The limit is the drop: you cannot weigh out less than one drop of a liquid. Let's say that 25 mg is a practical minimum. <strong>Create premix…</strong> groups the lines you ticked into a premix, which you can scale up by a factor until even the smallest line can be weighed. A new version of the formula is automatically created in which one line of the premix takes the place of the materials you selected.</p>
 <p>An example from the starter set: <em>Acqua di Gio for men</em>, its v2 at 12 %, taken into a new version and scaled to 20 g with <strong>Target total</strong>. Click the <strong>Weight (g)</strong> heading to sort the lines by weight: fifteen lines stand under 25 mg, from 0.005 g to 0.024 g. The first remedy is the 10 % dilution that you keep of most materials: tick the fifteen (a click on the first, a Shift-click on the last) and choose <strong>Lower</strong> in the bar under the table (section <a href="#s7-changing-dilutions">7</a>). The five that were at 100 % move to their 10 % dilution and weigh ten times as much: Patchouli Oil, Rosemary CT camphor EO and Benzyl Salicylate go from 0.012 g to 0.118 g, Clary Sage Oil and Calone from 0.024 g to 0.236 g, and the ethanol line gives up the 0.743 g they gained, so the total stays at 20 g. The other ten were at 10 % already, the lowest dilution they have, and the app reports them as skipped. From Allyl Cyclohexyl Propionate at 0.005 g to Evernyl at 0.024 g, together 0.158 g, they are still too small: tick those ten and choose <strong>Create premix…</strong>.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-batch-scaling-and-premixes">Acqua di Gio for men at 20 g after Lower, sorted by weight: the ten lines at 10 % that are still under 25 mg, ticked.</a></p>
@@ -629,12 +654,12 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s8-batch-scaling-and-premixes">The premix itself: from 0.048 g of Allyl Cyclohexyl Propionate to 0.236 g of Evernyl, 1.582 g in all.</a></p>
 <p>You weigh the mix once and then 0.158 g of it into the batch: one weighing instead of ten, and the 1.424 g that is left will do for nine more. A ticked solvent line, or a line of 0 g, is left out, because neither belongs in a premix. The IFRA check cannot look inside a premix, so it switches off on a version that holds one (section <a href="#s12-ifra-check-and-category-panel">12</a>). The premix material keeps out of the way: it sits in a closed group <strong>Premixes</strong> at the bottom of the Materials list, the Welcome page does not count it, and <strong>Export my inventory as a library…</strong> leaves it out; a search finds it, and so do <strong>Add line</strong> and <strong>⇄</strong>.</p>
 <h2 id="s9-colour-marks-notes-and-the-trial-log">9. Colour marks, notes and the trial log</h2>
-<p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and use the <strong>tick bar</strong>: mark them red, green, blue or yellow, unmark them, or clear every mark in the version at once, which asks first and says how many go (or that there are none). Marks are per version, and they carry over into new versions and copies, and into a formula you move into another with <strong>Move into…</strong>. They stay inside the app: a shared file, the Excel exports and <strong>Export all my formulas</strong> carry the recipe, not your marks, because a colour means something to you and nothing to the person you send it to. Use them as you like: what changed, what to smell for, what to check.</p>
+<p>Tick lines with the checkboxes on the left (Shift-click ticks a range) and the <strong>tick bar</strong> appears, with the number of lines you ticked; it stays at the bottom of the window while the table runs on below it, and goes when you untick the last line. In it you mark the ticked lines red, green, blue or yellow, unmark them, or clear every mark in the version at once with <strong>Clear all</strong>, which asks first and says how many go (or that there are none). Marks are per version, and they carry over into new versions and copies, and into a formula you move into another with <strong>Move into…</strong>. They stay inside the app: a shared file, the Excel exports and <strong>Export all my formulas</strong> carry the recipe, not your marks, because a colour means something to you and nothing to the person you send it to. Use them as you like: what changed, what to smell for, what to check.</p>
 <p><strong>Notes</strong> is a free text per version, shown on the formula sheet. The <strong>Trial log</strong> is a dated list of short entries ("day 3, macerated, top too sharp") that also prints on the formula sheet.</p>
 <h2 id="s10-bench-view-and-printing">10. Bench view and printing</h2>
-<p><strong>Bench view</strong> (the button next to the formula name, which reads <strong>Table view</strong> while the bench is open) is something you will not find in other formulation apps. It follows the way many perfumers build a batch: start with the core materials, smell, then add the next group step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column; drag them into named groups, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid top to base or base to top), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong>, above them, makes as many more as your batch needs, and you can rename, reorder (the ⠿ handle, or ↑ and ↓) and delete groups as you like; <strong>⇤</strong> empties one back into Unsorted without deleting it. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version from the first thing you move, and it hangs on the lines themselves, so changing a dilution or deleting one of two identical lines leaves the other where you put it; opening the bench view changes nothing, and arranging it does not change the date of the formula. Weights are changed in Table view; the bench view shows them. The groups stand beside the Unsorted column on a wide screen and below it on a narrower one, so the group buttons are always within reach. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them, and what is still in Unsorted as a last block, so the sheet holds the whole version; like the weighing sheet, it marks a material you do not own yet "(to order)". The bench view works on the version you opened it from, named above the bench: the category and the version list stay in the table view, where you choose them.</p>
+<p><strong>Bench view</strong> (the button at the end of the first row of the head, next to <strong>⋯</strong>, which reads <strong>Table view</strong> while the bench is open) is something you will not find in other formulation apps. It follows the way many perfumers build a batch: start with the core materials, smell, then add the next group step by step. Bench view turns the formula table into that kind of worksheet. The lines start in the <strong>Unsorted</strong> column; drag them into named groups, or tick several lines and choose <strong>Move ticked to…</strong>. The Unsorted column keeps every sort order of the table (original, A to Z, dilution, weight, rel %, category, pyramid top to base or base to top), so sorting by category, ticking all the rose materials and moving them into one group takes a few clicks. Five groups are there to start with; <strong>+ Add group</strong>, above them, makes as many more as your batch needs, and you can rename, reorder (the ⠿ handle, or ↑ and ↓) and delete groups as you like; <strong>⇤</strong> empties one back into Unsorted without deleting it. Each group shows its line count, weight, rel % and aromatic strength, so you see what each step adds to the batch. The arrangement is saved with the version from the first thing you move, and it hangs on the lines themselves, so changing a dilution or deleting one of two identical lines leaves the other where you put it; opening the bench view changes nothing, and arranging it does not change the date of the formula. Weights are changed in Table view; the bench view shows them. The groups stand beside the Unsorted column on a wide screen and below it on a narrower one, so the group buttons are always within reach. <strong>Print bench sheet</strong> prints the groups with a checkbox per line, in the order you will weigh them, and what is still in Unsorted as a last block, so the sheet holds the whole version; like the weighing sheet, it marks a material you do not own yet "(to order)". The bench view works on the version you opened it from, named above the bench: the category and the version list stay in the table view, where you choose them.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s10-bench-view-and-printing">Bench view: the Unsorted column with its own sort order, and the groups you build the batch with underneath it (beside it on a wide screen).</a></p>
-<p>From the table view, four buttons under the lines, in this order: <strong>Print full formula</strong>, <strong>Excel export</strong>, <strong>Share this version</strong> and <strong>Print weighing sheet</strong>. Each says in its tooltip who it is for. The two prints are not the same sheet: the full formula is the record of the version, the weighing sheet is what you work from at the bench. <strong>Ctrl+P</strong> or File › Print without one of these buttons prints that same weighing sheet of the version you are looking at, in bench view as well; outside a formula it prints a line saying so, and from this manual a line that points at the version to print online, so what goes to the printer is never a sheet left over from earlier.</p>
+<p>From the table view, under the lines on the right: <strong>Print weighing sheet</strong>, and the menu <strong>Print / export</strong> with <strong>Print full formula</strong>, <strong>Excel export</strong> and <strong>Share this version</strong>. Each says in its tooltip who it is for. The two prints are not the same sheet: the full formula is the record of the version, the weighing sheet is what you work from at the bench. <strong>Ctrl+P</strong> or File › Print without one of these buttons prints that same weighing sheet of the version you are looking at, in bench view as well; outside a formula it prints a line saying so, and from this manual a line that points at the version to print online, so what goes to the printer is never a sheet left over from earlier.</p>
 <ul>
 <li><strong>Print weighing sheet</strong> prints the lines in the current order with a checkbox, the pyramid icon, the dilution, the grams to weigh and rel %, exactly as the version holds them; it never rescales, so what you weigh always matches a version number (section <a href="#s8-batch-scaling-and-premixes">8</a>). Fridge materials carry the ❄, and a material you do not own yet reads "(to order)", so you notice at the bench and not at the cupboard.</li>
 <li><strong>Print full formula</strong> prints the complete entry with weights, both percentages, the total, and the notes and the trial log underneath; the cost per line is there once a material of yours carries a price, exactly as the column on the screen appears only then. This is the record of the version, the one to keep on paper or as a PDF.</li>
@@ -649,8 +674,8 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>The <strong>IFRA check</strong> panel judges the formula against the limits you entered on the materials. An IFRA limit is a percentage of the <strong>finished product</strong>, and the finished product is everything in the bottle, so the check works from each material's share of the whole weight of this version, solvent lines included, and not from its rel %, which stands on the non-solvent content alone. That share is compared with the material's limit: the version as it stands, with whatever solvents it holds, is what ends up on skin. A concentrate therefore reads high here; to check it at the strength you will use, dilute it in a new version (Set EtOH, section <a href="#s8-batch-scaling-and-premixes">8</a>) and look at that one. The starter formulas show both: v1 is the concentrate, v2 the same formula diluted in ethanol.</p>
 <p>The heading says at once whether the formula is within limits or how many materials are over (a share exactly on its limit is within it); the table shows the restricted materials with their share in the product, their limit and the percentage of the limit that is used, the worst first. It stops at eight rows, or at however many are over their limit, so nothing over a limit is ever left out; a line under the table says how many further materials stayed below theirs. A material you ticked as a <strong>solvent</strong> stands in that table like any other, with its own share: IFRA counts it as part of the finished product whatever role it has in your formula. Materials without a limit entered are listed as not yet verified, and so are materials with a figure below zero, which cannot be a limit; when nothing in the formula carries a limit yet the heading says so, because an empty check is not a clearance. A limit of 0 reads as prohibited. A line whose material you have since deleted is named separately: it still counts in the weights, but there is nothing left to check it against. <strong>A premix switches the check off.</strong> Its materials live as text in the description of the premix material, not as lines, so the app cannot see them; checking anyway would report the formula as clean while a restricted material sits in the mix. The heading then says the check is off and names the premix, and you check the version from before the premix was made, or the premix itself under Premixes, where its materials are lines again. The check knows only what you entered, and only for the product category you had in mind when you entered it. The limits that the miFormulas materials library brings along were looked up one by one in the IFRA Standards Library for Category 4 when the library was compiled. IFRA limits can be wrong or out of date: a later amendment does not reach them by itself, and miFormulas is not affiliated with IFRA. Check them against the current IFRA Standards before you rely on them, and certainly before you sell or give away a product.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s12-ifra-check-and-category-panel">The IFRA check panel: materials over their limit come first.</a></p>
-<p>The <strong>Categories</strong> panel shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category. The pyramid drawing above the table works per pyramid level, over the material that carries one: a line whose material still has no level (?) is left out, so those percentages are shares of what is classified, not of the whole concentrate.</p>
-<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s12-ifra-check-and-category-panel">The Categories panel.</a></p>
+<p>The <strong>Pyramid &amp; categories</strong> panel shows what the concentrate is made of, in two ways. The pyramid drawing works per pyramid level, over the material that carries one: a line whose material still has no level (?) is left out, so those percentages are shares of what is classified, not of the whole concentrate. The table under it shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category.</p>
+<p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s12-ifra-check-and-category-panel">The Pyramid &amp; categories panel.</a></p>
 <h2 id="s13-stock-orders-and-deliveries">13. Stock, orders and deliveries</h2>
 <p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking, or add a <strong>Purchase</strong> there: on a material that is not tracked yet, a purchase starts the ledger at once, with a stocktake of 0 g before it, so the stock is what you bought. From then on purchases add, and two things deduct: <strong>Dilution made</strong>, the row with the percentage, the total and the button <strong>Deduct base</strong> (you made 50 g of a 10 % dilution out of a base at 100 %, so 5 g of base left the bottle; with a base at 10 % it would be 50 g, and a dilution stronger than your base is refused) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one. The ledger does not follow a change of base: set another dilution as the base and the grams stay as they are, now counted as grams of that dilution, so set a new stocktake when you switch.</p>
 <p><strong>To order</strong> is the shopping list. Add a material from the list itself (existing or new), with <strong>Add to order list</strong> on a material page, or automatically when a formula or an import mentions a material you do not have. An entry you added before the material existed belongs to that material once you create it, so the list does not get a second entry for it, and an entry under the old name follows when you rename the material. Each entry has a note, an amount and unit, a price and a product link. A link shows as the name of the shop with ↗, which opens the page; <strong>✎</strong> beside it changes the link. The magnifier, <strong>Search my shops</strong>, opens a Google search limited to the web shops you listed under <strong>Edit shop list (0)…</strong> (one domain per line; the figure counts them). As long as that list is empty it is <strong>Search the web</strong>, because that is what it would do. The date an entry was added is in the list on the left and in the tooltip of its name.</p>
@@ -745,7 +770,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <h2 id="s16-import-export-and-sharing">16. Import, export and sharing</h2>
 <p>The ⇅ button in the header opens <strong>Import &amp; export</strong>, a window with everything that comes in and goes out. It is grouped under three headings, as in Settings, with what each button does under it. <strong>Import</strong>, on the left: <strong>Import formula…</strong> first, then the materials (a CSV, the library) and, on the site, <strong>Import from Formulair…</strong>, which opens the importer described in section <a href="#s17-coming-from-formulair">17</a> (the downloaded app leaves it out, because the importer is a page of the site). <strong>Export</strong>, on the right, and under it <strong>Back to an earlier state</strong>: the two ways back of section <a href="#s20-backups-and-recovery">20</a>, <strong>Restore a Backup…</strong> and <strong>Restore daily snapshot</strong>, in red because they replace all your data. On a narrow screen the headings stand under each other. The Welcome page keeps the two ways in that a new inventory starts with, and once you have work of your own a single line that points at the window.</p>
 <h3 id="sharing-a-version">Sharing a version</h3>
-<p><strong>Share this version</strong>, the third of the four buttons under the lines of a formula, downloads the version you are looking at as a miformulas-import file, the format <strong>Import formula…</strong> reads (below). Send it to someone who does use miFormulas and they import it in one action, instead of typing your formula line by line. It holds the material names with their dilution and weight, the CAS numbers, a mark on every line saying whether it is a solvent in your inventory, the category, the label and the date of this version and its notes, and nothing of your own lab: no price, no supplier, no stock, no trial log, no colour marks. The lines keep the order of the version, not the sort order on your screen. A line to a material you deleted is left out, after the app has said how many and asked. Weights and dilutions are never converted, here or on the way in, so a dilution the other does not stock arrives with a ⚠, and converting it is up to them. A material they do not own yet is created for them as "to order", with its CAS and, where the file says so, as a solvent, so that their rel % and abs % read the same as yours. Where the two of you disagree about what is a solvent, their own material decides and the import page says so. A premix goes as one line, without its recipe; when the version uses one, a message after the download names it, so that you share its formula as well.</p>
+<p><strong>Share this version</strong>, in the menu <strong>Print / export</strong> under the lines of a formula, downloads the version you are looking at as a miformulas-import file, the format <strong>Import formula…</strong> reads (below). Send it to someone who does use miFormulas and they import it in one action, instead of typing your formula line by line. It holds the material names with their dilution and weight, the CAS numbers, a mark on every line saying whether it is a solvent in your inventory, the category, the label and the date of this version and its notes, and nothing of your own lab: no price, no supplier, no stock, no trial log, no colour marks. The lines keep the order of the version, not the sort order on your screen. A line to a material you deleted is left out, after the app has said how many and asked. Weights and dilutions are never converted, here or on the way in, so a dilution the other does not stock arrives with a ⚠, and converting it is up to them. A material they do not own yet is created for them as "to order", with its CAS and, where the file says so, as a solvent, so that their rel % and abs % read the same as yours. Where the two of you disagree about what is a solvent, their own material decides and the import page says so. A premix goes as one line, without its recipe; when the version uses one, a message after the download names it, so that you share its formula as well.</p>
 <h3 id="formulas-coming-in">Formulas coming in</h3>
 <p><strong>Import formula…</strong> reads a miformulas-import JSON file: a formula transcribed from a photo or a document, or shared by another miFormulas user, either as a new formula or as a new version of an existing one. The import page shows every line with its match in your inventory (always by name, or by one of the alternative names of a material; a material id in the file is ignored, because an id from another data file points at another material). When the file names the material differently from you, that name is shown behind the match ("Ambroxide ← Ambroxan"), because this is the one moment at which you can check it; and when several of your materials answer to the name in the file, they are all named, so you see which one the import would take. It also shows the total weight (with, for a transcription, the reminder that a round number such as 100 or 1000 suggests a complete one; a file shared from another miFormulas is not a transcription, so there that line stays away), which materials are new (they are created as "to order" and put on the order list) and which dilutions you do not stock (⚠). It also reads the file critically, because such a file is written elsewhere: a line without a material name, a weight that is not a number or is negative, and a dilution outside 0 to 100 are shown in red with the reason, and <strong>Confirm import</strong> stays out of reach until you correct them in the file. A number is a number: "1:10", "3-4", "2 drops" or "0,5 ml" are refused as well rather than guessed at (write a dilution in percent: 1:10 is 10). A file with no lines at all is refused before the page opens, with a message that says what an import file needs; a file of several formulas none of which holds a line opens the page, which says there is nothing to import and keeps <strong>Confirm import</strong> out of reach. What can be read is repaired quietly: a decimal comma, thousands in groups of three, a percent sign after a dilution, a g after a weight, a missing dilution (which means 100), and a list or a number where text belongs, such as notes written as a list, which become lines; a field that cannot be read as text is left out, and the page says how many. A date may be written 2026-09-22 or in the short form of a spreadsheet (22/09/2026, 22.09.2026, or 9/22/2026 when the number format is American); a date the app cannot read is named on the page, and the version arrives without one. Where the file marks its solvent lines (a shared file does) and you disagree about one, your own material decides and the page says so; a file that says nothing about solvents, such as a transcription, has nothing to disagree about. If you already have a formula with the same name, a new version of it is preselected. Nothing else is converted: dilutions and weights come in exactly as written, and converting is up to you. The notes of the new version, or of the new formula, record where it came from (the day, the name and the source in the file) and the comments the file carries on its lines. Confirm, and the formula opens; Undo takes the whole import back, including the materials, order lines and categories it created. The file format is the small JSON shown in prompt 1 of <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a>; anything that writes such a file can feed the app.</p>
 <p>The same button reads a file that holds <strong>several formulas at once</strong>, the kind <strong>Export all my formulas</strong> writes. Such a file can hold tens of thousands of lines, so the page shows a summary instead of a table of lines: how many formulas, versions and lines, how many lines matched a material you own and how many materials will be created, how many lines use a dilution you do not stock and how many you and the sender disagree about being a solvent. Under that, one row per formula with its versions, lines and new materials. Every line is checked exactly as in a single import, and one that cannot be read blocks <strong>Confirm import</strong> with the formula it sits in named. The formulas arrive as new formulas, each with all its versions; one whose name you already have arrives as "Name (import)" and nothing of yours is touched, so you can join them afterwards with <strong>Move into…</strong> (section <a href="#s4-formulas-and-versions">4</a>). The materials it creates are marked "to order" in Materials but are <strong>not</strong> put on the order list, because hundreds of rows there would drown the list you keep yourself; add the ones you want with <strong>Add to order list</strong> on the material page. The whole import is a single Undo step.</p>
@@ -778,7 +803,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 </li>
 </ol>
 <p>Every Formulair formula becomes a miFormulas formula with one frozen version, keeping its notes, its date as Formulair showed it (also for a formula made after midnight), its category and its colour marks per line, and every material comes with its dilutions, CAS (if you wrote other names next to the CAS number in Formulair, the number stays and those names become alternative names), supplier, cost, IFRA limit, pyramid level, stock and description; categories keep their colours. Nothing is converted, amounts are in grams, and the one name the import changes is a formula name you already had.</p>
-<p>Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4, v5 and v6 is a decision for you, made afterwards in the app with <strong>Move into…</strong> (section <a href="#s4-formulas-and-versions">4</a>): open "Aura v04", the one with the lowest number, and click Move into…: the app suggests <strong>this formula</strong> as the target and lists "Aura v05", "Aura v05 20%" and "Aura v06" under Move together, ticked. Click Move: they become the next versions of "Aura v04" in one go, in the order of the numbers in their names; then rename "Aura v04" to "Aura" and give the 20 % one its label with the <strong>pencil</strong>. Opening another one first works too: the app then suggests the lowest-numbered formula as the target. A formula that already holds several versions can no longer be moved itself, so stragglers are moved from their own page. The app never groups by itself, because every perfumer names things differently. For a large collection, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.</p>
+<p>Formulair is flat: "Aura v04" and "Aura v05" are two separate formulas there, and they stay separate here. Grouping them into one formula with versions v4, v5 and v6 is a decision for you, made afterwards in the app with <strong>Move into…</strong> (section <a href="#s4-formulas-and-versions">4</a>): open "Aura v04", the one with the lowest number, and choose <strong>⋯ › Move into…</strong>: the app suggests <strong>this formula</strong> as the target and lists "Aura v05", "Aura v05 20%" and "Aura v06" under Move together, ticked. Click Move: they become the next versions of "Aura v04" in one go, in the order of the numbers in their names; then rename "Aura v04" to "Aura" and give the 20 % one its label with the <strong>pencil</strong>. Opening another one first works too: the app then suggests the lowest-numbered formula as the target. A formula that already holds several versions can no longer be moved itself, so stragglers are moved from their own page. The app never groups by itself, because every perfumer names things differently. For a large collection, <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> has a prompt that lets an AI assistant propose the grouping from the list of names, for you to review before you start.</p>
 <p>The same conversion exists as a command-line script, <code>tools/formulair-naar-json.py</code>, for those who prefer a terminal.</p>
 <h2 id="s18-a-server-setup-for-cross-device-use">18. A server setup for cross-device use</h2>
 <p>A data file keeps your work on one computer. The moment you want the same formulas on a second computer and on your phone, something has to hold them in one place that all three can reach. That place is what the app calls a <strong>server</strong>: it loads from it at the start, saves to it after every change, and checks before each save that no other device wrote in the meantime.</p>
@@ -864,7 +889,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <li><strong>Shift-click</strong> on a checkbox ticks a range.</li>
 <li>In a formula, <strong>Enter</strong> in <strong>Add material…</strong> adds the line; in a weight you have just typed, <strong>Tab</strong> confirms it and moves to the next one (after the last, to Add material…), <strong>Shift+Tab</strong> to the previous, and <strong>Enter</strong> keeps you in the field.</li>
 <li><strong>Enter</strong> in a small field with a button of its own presses that button: a trial-log note, the Batch scaling fields, a new dilution, a stocktake or a purchase, a material on the order list.</li>
-<li>In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add, Confirm, Move and so on) and <strong>Escape</strong> closes it.</li>
+<li>In a dialog <strong>Enter</strong> is the button on the right (Create, Apply, Add, Confirm, Move and so on) and <strong>Escape</strong> closes it. <strong>Escape</strong> also closes a menu (<strong>⋯</strong>, <strong>Print / export</strong>).</li>
 <li>In the list panel a row takes focus with <strong>Tab</strong> and opens with <strong>Enter</strong>, and the same goes for material names, sort headers and colour swatches.</li>
 <li><strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac) go back and forward through the places you opened (section <a href="#s2-the-screen">2</a>).</li>
 </ul>
@@ -1898,7 +1923,7 @@ function pyrPyramid(K){
   const {buckets, tot} = pyrLevels(K);
   if (tot <= 0) return "";
   // five equal-height, centred bands; the WIDTH of each band shows its share
-  const W = 128, H = 54, cx = W/2, rowH = H/5, gap = 2.2;   // as tall as the bar and the version row together, so nothing sits below the head
+  const W = 128, H = 54, cx = W/2, rowH = H/5, gap = 2.2;   // in the panel Pyramid & categories since build 261019a
   const maxFrac = Math.max(...buckets)/tot;
   let parts = "";
   for (let i = 0; i < 5; i++){
@@ -1912,12 +1937,6 @@ function pyrPyramid(K){
   }
   return `<svg class="fpyr" width="185" height="${H+8}" viewBox="0 0 185 ${H+8}" role="img"
     aria-label="Olfactive pyramid: share of each level, counted over the material that carries a level">${parts}</svg>`;
-}
-function pyrBar(K){
-  const {buckets, tot} = pyrLevels(K);
-  if (tot <= 0) return "";
-  return `<div class="pyrbar">` + buckets.map((b,i) =>
-    b > 0 ? `<span style="flex:${(b/tot).toFixed(4)};background:${PYRCOLS[i]}" title="${PYRLABS[i]} ${fmt(b/tot*100,1)}% of the material with a level"></span>` : "").join("") + `</div>`;
 }
 let SORT = {key:"orig", dir:1};
 let TABSTEP = 0;   // -1, 0 or +1: a Tab or Shift+Tab that triggered the change event of a weight
@@ -2094,19 +2113,30 @@ $("#searchBox").addEventListener("input", () => { QBY[VIEW.tab] = $("#searchBox"
 // The buttons of the formula itself, and their handlers. They are their own pair because a formula without versions
 // needs them too: Delete version on the only version leaves the formula in the list, and the confirmation that got
 // you there points at Delete formula, which used to exist nowhere on that page.
-// the category of a formula, on its page above the version, as on a material page: the picker, the colour of the
+// the category of a formula, in the second row of its head, as on a material page: the picker, the colour of the
 // category and + New category (build 261011e; it was a window behind Change category…). Not in the bench view, which
 // works on the version it was opened from, and leaves the version list out as well
-const fCatRowHtml = f => `<div class="chipRow" id="fCatRow"><span class="hint">Category</span><span class="fcatctl"><select id="fCat" aria-label="Category of this formula">${
+const fCatRowHtml = f => `<span id="fCatRow" class="fcatctl"><select id="fCat" aria-label="Category of this formula">${
   f.category ? "" : '<option value="" selected></option>'}${allFormulaCats().map(x => `<option${x === f.category ? " selected" : ""}>${esc(x)}</option>`).join("")}</select>${
-  catColourInput(f.category, "fCatCol")}<button class="small" id="btnNewFCat" type="button">+ New category</button></span></div>`;
-function metaActionsHtml(f, withCopy){
-  return `<button id="btnRenameF" title="Rename this formula">Rename…</button>
+  catColourInput(f.category, "fCatCol")}<button class="small" id="btnNewFCat" type="button">+ New category</button></span>`;
+// the rare actions of a formula and the two that delete, behind ⋯ at the end of its head: in sight they were five
+// buttons on every formula, two of them red (build 261019a, after "the formula creation view could use some focus")
+function fMoreHtml(f, withCopy, withDelV){
+  return `<details class="menuDd" id="fMore"><summary title="Rename, copy, move or delete" aria-label="More actions for this formula">⋯</summary>
+    <div class="menuPop"><button id="btnRenameF" title="Rename this formula">Rename…</button>
       ${withCopy ? '<button id="btnCopyF" title="The selected version becomes v1 of a new formula">Copy to new formula…</button>' : ""}
       ${canMoveInto(f) ? '<button id="btnMoveF" title="This formula becomes a version of another formula">Move into…</button>' : ""}
-      <i></i>
-      <button id="btnDelF" class="danger" title="Delete the whole formula (undo possible)">Delete formula</button>`;
+      <hr>${withDelV ? '<button id="btnDelV" class="danger" title="Delete this version (undo possible)">Delete version</button>' : ""}
+      <button id="btnDelF" class="danger" title="Delete the whole formula (undo possible)">Delete formula</button></div></details>`;
 }
+// a menu (details.menuDd) closes on a click outside it, on Escape, and once one of its items is chosen; it opens
+// upwards when the window has no room for it below
+document.addEventListener("click", e => document.querySelectorAll("details.menuDd[open]").forEach(d => {
+  if (!d.contains(e.target) || e.target.closest(".menuPop button")) d.open = false; }));
+document.addEventListener("keydown", e => { const d = e.key === "Escape" && document.querySelector("details.menuDd[open]");
+  if (d){ d.open = false; d.querySelector("summary").focus(); } });
+document.addEventListener("toggle", e => { const d = e.target;
+  if (d.matches?.("details.menuDd") && d.open){ const r = d.getBoundingClientRect(); d.classList.toggle("up", innerHeight - r.bottom < 180 && r.top > 180); } }, true);
 function bindFormulaMeta(f, sub){
   $("#btnRenameF")?.addEventListener("click", () => {
     const n = (prompt("Formula name:", f.name) ?? "").trim();   // spaces alone left the formula without a name (build 260922j)
@@ -2140,17 +2170,16 @@ function renderFormula(f){
   const c = $("#content");
   let sub = VIEW.sub || {type:"v", idx: f.versions.length-1};
   const stamp = f.id + "|" + sub.type + "|" + sub.idx;
-  if (stamp !== renderFormula._last){ renderFormula._last = stamp; NOTESOPEN = null; }   // new formula/version: follow content again
+  if (stamp !== renderFormula._last){ renderFormula._last = stamp; NOTESOPEN = null; TRIALOPEN = null; }   // new formula/version: follow content again
   if (sub.type === "cmp"){ renderCompare(f, sub); return; }
   if (!f.versions[sub.idx]) sub = {type:"v", idx:f.versions.length-1};
   VIEW.sub = sub;
   const item = f.versions[sub.idx];
   if (!item){
-    c.innerHTML = `<h2>${esc(f.name)}</h2>
-      <div class="metaLine"><span>${esc(f.category||"")}${f.created?" · since "+f.created:""}</span>
-        <span class="actions">${metaActionsHtml(f, false)}</span></div>
-      ${fCatRowHtml(f)}<p class="hint">Empty formula – add a version.</p>
-      <div class="toolRow"><button class="small" id="btnNewV">+ New version</button></div>`;
+    c.innerHTML = `<div class="fTop"><h2>${esc(f.name)}</h2><button class="small" id="btnNewV">+ New version</button>
+        <span class="fEnd">${fMoreHtml(f, false, false)}</span></div>
+      <div class="fMeta">${fCatRowHtml(f)}${f.created ? `<span>since ${f.created}</span>` : ""}</div>
+      <p class="hint">Empty formula – add a version.</p>`;
     $("#btnNewV").addEventListener("click", e => { e.currentTarget.disabled = true; newVersion(f, null); });
     bindFormulaMeta(f, sub);
     return;
@@ -2159,20 +2188,19 @@ function renderFormula(f){
   const editable = !frozen && !readOnly();
   const lines = item.lines;
   const K = calc(lines);
-  let h = `<h2>${esc(f.name)}${item ? `<button id="btnBenchToggle" class="benchBtn">${sub.bench?"Table view":"Bench view"}</button>` : ""}</h2>
-  <div class="metaLine"><span>${esc(f.category||"")}${f.created?" · since "+f.created:""}${item.sourceName && !item.hideSource?` · imported as “${esc(item.sourceName)}”`:""}${f.starter?' · <span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other formula.">starter set</span>':""}</span>
-    ${frozen?`<span class="badge" title="Read-only: an older version, or an import">frozen</span>`:""}
-    <span class="actions">${metaActionsHtml(f, true)}</span></div>
-  <div class="fhead">${pyrPyramid(K)}
-  ${pyrBar(K)}
-  ${sub.bench ? `<div class="chipRow" id="benchVer" style="align-items:baseline"><span class="hint">Version</span><span>${verText(item)}</span></div>`
-    : fCatRowHtml(f) + `<div class="chipRow"><span class="hint">Version</span>
-    <select id="verSel" aria-label="Version of this formula">${f.versions.map((v,i) =>
+  // the head in two rows (build 261019a): what you work on (the name, the version and what you do with versions, the way
+  // you look at it, ⋯ for the rest), then what it is (category, date, starter, frozen) and the order of the lines. The
+  // pyramid went to the panel of the categories under the table, Delete version and Delete formula behind ⋯
+  const verCtl = sub.bench ? `<span id="benchVer">${verText(item)}</span>`
+    : `<select id="verSel" aria-label="Version of this formula">${f.versions.map((v,i) =>
       `<option value="${i}"${i===sub.idx?" selected":""}>${verText(v)}</option>`).join("")}</select>
     <button class="small ico" id="btnNameV" title="Name this version…" aria-label="Name this version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19.5 8.5a2.12 2.12 0 0 0-3-3L5 17z"/><path d="M14.5 6.5l3 3"/></svg></button>
     <button class="small" id="btnNewV">+ New version</button>
-    ${f.versions.length >= 2 ? '<button class="small" id="btnCmp">Compare</button>' : ""}
-    <button class="small danger" id="btnDelV" title="Delete this version (undo possible)">Delete version</button></div>`}</div>`;
+    ${f.versions.length >= 2 ? '<button class="small" id="btnCmp">Compare</button>' : ""}`;
+  let h = `<div class="fTop"><h2>${esc(f.name)}</h2>${verCtl}
+    <span class="fEnd"><button id="btnBenchToggle" class="benchBtn">${sub.bench?"Table view":"Bench view"}</button>${fMoreHtml(f, true, !sub.bench)}</span></div>
+  <div class="fMeta">${sub.bench ? (f.category ? `<span>${esc(f.category)}</span>` : "") : fCatRowHtml(f)}${f.created ? `<span>since ${f.created}</span>` : ""}${item.sourceName && !item.hideSource?`<span>imported as “${esc(item.sourceName)}”</span>`:""}${f.starter?'<span><span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other formula.">starter set</span></span>':""}${frozen?`<span><span class="badge" title="Read-only: an older version, or an import">frozen</span></span>`:""}
+    ${sub.bench ? "" : `<span class="fOrder"><span class="hint">Order</span>${sortSelHtml()}</span>`}</div>`;
   if (item){
     // the same material at the same dilution twice, warned about in both views: it used to sit in the
     // table branch alone, so it fell away in the bench view, where you have the two rows in front of you
@@ -2182,8 +2210,8 @@ function renderFormula(f){
     if (dupNames.size) h += `<div class="hint" style="color:var(--amber-ink);font-weight:600">⚠ Duplicate lines (same material and dilution twice): ${[...dupNames].map(esc).join(", ")}</div>`;
     if (sub.bench){ h += renderBench(f, item, lines, K); } else {
     h += renderLines(K, editable);
-    if (lines.length){   // everything that acts on the ticked lines lives here, in one place
-      h += `<div class="tickBar"><span class="hint">Ticked lines:</span>
+    if (lines.length){   // everything that acts on the ticked lines lives here, in one place: it shows once a line is ticked
+      h += `<div class="tickBar" hidden><span class="hint" id="tickCount">Ticked lines:</span>
         <span class="tickGrp"><span class="hint">mark</span>
           <span class="swatch" data-mark="2" style="background:var(--hl2)" title="Red"></span>
           <span class="swatch" data-mark="4" style="background:var(--hl4)" title="Green"></span>
@@ -2201,35 +2229,46 @@ function renderFormula(f){
     const ethIdx = lines.findIndex(l => isEthanol(matById(l.materialId)));
     const wOther = K.totalW - (ethIdx >= 0 ? (lines[ethIdx].weightG||0) : 0);
     const maxAbs = wOther > 0 ? content/wOther*100 : 0;
-    // Only on the editable version: scaling changes the formula, and the printed sheet always shows the
-    // weights as they are stored. A read-only entry that could be printed at another weight would put a
-    // batch on the bench that no version number points back to.
-    if (editable) h += `<details class="panelBox" id="scaleBox"${SCALEOPEN?" open":""}>
-      <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Batch scaling</summary>
-      <div class="scaleGrid" style="margin-top:.6rem">
-      <span>Concentration (abs %)</span><span><input type="text" id="targetAbs" inputmode="decimal" value="${fmtIn(K.totalAbsPct,2)}" aria-label="Concentration in abs %, reached with the ethanol line"> %</span>
-        <button class="small" id="btnSetAbs">Set EtOH</button><span class="hint">max ${fmt(maxAbs,2)} % (EtOH at 0 g)</span>
-      <span>Target total</span><span><input type="text" id="scaleW" inputmode="decimal" value="${fmtIn(K.totalW)}" aria-label="Target total in grams"> g</span>
-      <button class="small" id="btnApplyScale">Apply</button><span></span>
-      <span>Apply factor</span><span><input type="text" id="scaleF" inputmode="decimal" placeholder="2.5" aria-label="Apply factor"> ×</span>
-        <button class="small" id="btnApplyFactor">Apply</button><span></span>
-    </div>
-    </details>`;
+    // under the lines: adding a line and Batch scaling on the left, the ways out of the version on the right, the three
+    // that are not for the bench in one menu (build 261019a)
+    h += `<div class="toolRow fEdit">${editable ? `<input id="addMat" list="matList" aria-label="Material to add as a line" placeholder="Add material…" style="min-width:14rem">
+      <datalist id="matList">${matListHtml()}</datalist>
+      <button class="small" id="btnAddLine">Add line</button>
+      <button class="small" id="btnScale" aria-expanded="${SCALEOPEN}" aria-controls="scaleBox">Batch scaling ${SCALEOPEN ? "▴" : "▾"}</button>` : ""}
+      <span class="outBtns">${item.prepared
+      ? `<span class="badge" style="background:var(--accent-soft);color:var(--accent-ink)">prepared ${item.prepared.date} · ${item.prepared.materials} tracked material(s) · −${fmt(item.prepared.deductedG)} g</span>`
+      : `<button class="small" id="btnPrep" title="Deducts the base-dilution lines from tracked stock, once per version">Mark as prepared</button>`}
+        <details class="menuDd" id="outMenu"><summary title="Print the full formula, export it for a spreadsheet, or share it with another miFormulas user">Print / export ▾</summary>
+          <div class="menuPop"><button id="btnSheet" title="For the record">Print full formula</button>
+            <button id="btnCsv" title="For someone without miFormulas">Excel export</button>
+            <button id="btnShare" title="For another miFormulas user">Share this version</button></div></details>
+        <button class="primary" id="btnPrint" title="For the bench">Print weighing sheet</button></span></div>`;
+    // Batch scaling, under the lines it scales. Only on the editable version: scaling changes the formula, and the printed
+    // sheet always shows the weights as they are stored. A read-only entry that could be printed at another weight would
+    // put a batch on the bench that no version number points back to.
+    if (editable) h += `<div class="scaleStrip" id="scaleBox"${SCALEOPEN ? "" : " hidden"}>
+      <span class="sg"><span>Concentration (abs %)</span><input type="text" id="targetAbs" inputmode="decimal" value="${fmtIn(K.totalAbsPct,2)}" aria-label="Concentration in abs %, reached with the ethanol line"> %
+        <button class="small" id="btnSetAbs">Set EtOH</button><span class="hint" title="With the ethanol line at 0 g">max ${fmt(maxAbs,2)} %</span></span>
+      <span class="sg"><span>Target total</span><input type="text" id="scaleW" inputmode="decimal" value="${fmtIn(K.totalW)}" aria-label="Target total in grams"> g
+        <button class="small" id="btnApplyScale">Apply</button></span>
+      <span class="sg"><span>Apply factor</span><input type="text" id="scaleF" inputmode="decimal" placeholder="2.5" aria-label="Apply factor"> ×
+        <button class="small" id="btnApplyFactor">Apply</button></span></div>`;
+    // the four panels in two columns, of one kind: what you write about the version, then what the app works out
     const hasNotes = !!(item.notes || "").trim();
-    h += `<details class="panelBox" id="notesBox"${(NOTESOPEN ?? hasNotes) ? " open" : ""}>
-      <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Notes${hasNotes ? "" : ' <span class="hint" style="font-weight:400;text-transform:none;letter-spacing:0">– empty</span>'}</summary>
-      <textarea class="notes" id="notesEd" aria-label="Notes on this version">${esc(item.notes || "")}</textarea></details>`;
     const trials = item.trials || [];
-    h += `<div class="panelBox"><h3>Trial log</h3>
+    const sumHint = t => `<span class="sumst"> – ${t}</span>`;
+    h += `<div class="fblocks"><details class="panelBox" id="notesBox"${(NOTESOPEN ?? hasNotes) ? " open" : ""}>
+      <summary>Notes${hasNotes ? "" : sumHint("empty")}</summary>
+      <textarea class="notes" id="notesEd" aria-label="Notes on this version">${esc(item.notes || "")}</textarea></details>
+    <details class="panelBox" id="trialBox"${(TRIALOPEN ?? trials.length > 0) ? " open" : ""}>
+      <summary>Trial log${sumHint(trials.length ? trials.length + (trials.length === 1 ? " entry" : " entries") : "empty")}</summary>
       ${trials.map((t,i)=>`<div class="trial"><span class="hint">${esc(t.date||"")}</span><span class="txt">${esc(t.text)}</span><button class="ghost small" data-deltrial="${i}" title="Remove entry">✕</button></div>`).join("")}
       <div class="toolRow"><input type="date" id="trialDate" value="${today()}" aria-label="Date of this trial-log entry">
         <input id="trialText" aria-label="Trial-log entry" placeholder="Smelling note, maceration observation…" style="flex:1;min-width:14rem">
-        <button class="small" id="btnAddTrial">Add</button></div></div>`;
+        <button class="small" id="btnAddTrial">Add</button></div></details>`;
     h += catPanel(K);
     h += ifraPanel(f, item, K, editable);
-    h += `<div class="toolRow" style="margin-top:.6rem">${item.prepared
-      ? `<span class="badge" style="background:var(--accent-soft);color:var(--accent-ink)">prepared ${item.prepared.date} · ${item.prepared.materials} tracked material(s) · −${fmt(item.prepared.deductedG)} g</span>`
-      : `<button class="small" id="btnPrep" title="Deducts the base-dilution lines from tracked stock, once per version">Mark as prepared</button>`}</div>`;
+    h += `</div>`;
     }
   }
   c.innerHTML = h;
@@ -2286,13 +2325,17 @@ function renderFormula(f){
   if (item && !sub.bench){
     let lastCb = null;
     const cbs = [...c.querySelectorAll("input.selCb")];   // DOM order = displayed (sorted) order
+    const tb = c.querySelector(".tickBar");   // the bar comes with the first ticked line and says how many (build 261019a)
+    const showTick = () => { const n = cbs.filter(x => x.checked).length;
+      if (tb){ tb.hidden = !n; $("#tickCount").textContent = n === 1 ? "1 line ticked:" : `${n} lines ticked:`; } };
     cbs.forEach((cb, pos) => cb.addEventListener("click", e => {
       if (e.shiftKey && lastCb !== null){
         const [a,b] = [Math.min(lastCb,pos), Math.max(lastCb,pos)];
         for (let j = a; j <= b; j++) cbs[j].checked = cb.checked;
       }
-      lastCb = pos;
+      lastCb = pos; showTick();
     }));
+    cbs.forEach(cb => cb.addEventListener("change", showTick));   // also a box ticked by the keyboard or a script
     c.querySelectorAll("[data-mark]").forEach(b => b.addEventListener("click", () => {
       const sel = [...c.querySelectorAll("input.selCb:checked")].map(x => +x.dataset.i);
       if (!sel.length){ alert("Tick one or more lines first (checkboxes on the left)."); return; }
@@ -2317,7 +2360,11 @@ function renderFormula(f){
   $("#btnCsv")?.addEventListener("click", ()=> csvDownload(f, item, lines, K));
   $("#btnShare")?.addEventListener("click", ()=> shareVersion(f, item, K));
   $("#ifraBox")?.addEventListener("toggle", e => { IFRAOPEN = e.target.open; });
-  $("#scaleBox")?.addEventListener("toggle", e => { SCALEOPEN = e.target.open; });
+  $("#btnScale")?.addEventListener("click", e => {   // Batch scaling opens under the lines and stays as you left it
+    SCALEOPEN = !SCALEOPEN; $("#scaleBox").hidden = !SCALEOPEN;
+    e.currentTarget.setAttribute("aria-expanded", SCALEOPEN); e.currentTarget.textContent = `Batch scaling ${SCALEOPEN ? "▴" : "▾"}`;
+  });
+  $("#trialBox")?.addEventListener("toggle", e => { TRIALOPEN = e.target.open; });
   $("#catsBox")?.addEventListener("toggle", e => { CATSOPEN = e.target.open; });
   $("#notesBox")?.addEventListener("toggle", e => { NOTESOPEN = e.target.open; });
   $("#btnApplyScale")?.addEventListener("click", ()=>{
@@ -2385,18 +2432,22 @@ function renderFormula(f){
   });
   if (editable && !sub.bench) bindLineEditors(f, item);
 }
-function renderLines(K, editable){   // the tick column is always there (marks, Lower and Higher, premix)
-  const anyCost = DATA.materials.some(m => m.costPerGram);   // a column of "0.00" says nothing: it appears with the first price
+// the order of the lines, in the second row of the head since build 261019a; it holds for the printed sheets too
+function sortSelHtml(){
   const arrow = k => SORT.key===k ? (SORT.dir>0?" ▲":" ▼") : "";
-  const hdr = (k, label, num, cls) => `<th class="${[num ? "num" : "", cls || ""].join(" ").trim()}"><span class="sortable" data-sort="${k}">${label}${arrow(k)}</span></th>`;
-  let h = `<div class="toolRow"><span class="hint">Order:</span>
-    <select id="sortSel" aria-label="Sort the lines">
+  return `<select id="sortSel" aria-label="Sort the lines">
       <option value="orig"${SORT.key==="orig"?" selected":""}>Original</option>
       <option value="cat"${SORT.key==="cat"?" selected":""}>Category</option>
       <option value="pyr"${SORT.key==="pyr"?" selected":""}>Pyramid top → base</option>
       <option value="pyrb"${SORT.key==="pyrb"?" selected":""}>Pyramid base → top</option>
       ${["name","dil","weight","rel","abs"].includes(SORT.key)?`<option value="" selected hidden>${{name:"Material",dil:"Dilution",weight:"Weight",rel:"Rel %",abs:"Abs %"}[SORT.key]}${arrow(SORT.key)}</option>`:""}
-    </select></div>`;
+    </select>`;
+}
+function renderLines(K, editable){   // the tick column is always there (marks, Lower and Higher, premix)
+  const anyCost = DATA.materials.some(m => m.costPerGram);   // a column of "0.00" says nothing: it appears with the first price
+  const arrow = k => SORT.key===k ? (SORT.dir>0?" ▲":" ▼") : "";
+  const hdr = (k, label, num, cls) => `<th class="${[num ? "num" : "", cls || ""].join(" ").trim()}"><span class="sortable" data-sort="${k}">${label}${arrow(k)}</span></th>`;
+  let h = "";
   h += `<div class="tblwrap"><table class="lines ftable"><thead><tr><th class="cbcol"></th>${hdr("name","Material")}${hdr("dil","Dilution",0,"dilcol")}${hdr("weight","Weight (g)",1,"wcol")}
     ${hdr("rel","Rel %",1,"relcol")}<th class="num abscol"><span class="sortable" data-sort="abs">Abs %${arrow("abs")}</span></th>${anyCost?'<th class="num costcol">Cost €</th>':""}${editable?'<th class="xcol"></th>':""}</tr></thead><tbody>`;
   sortRows(K.rows).forEach(r => {
@@ -2420,20 +2471,6 @@ function renderLines(K, editable){   // the tick column is always there (marks, 
   });
   h += `</tbody><tfoot><tr><td></td><td>Total</td><td></td><td class="num">${fmt(K.totalW)}</td><td class="num">${K.content > 0 ? "100" : "–"}</td>
     <td class="num abscol">${fmt(K.totalAbsPct,2)}</td>${anyCost?`<td class="num costcol">${fmt(K.totalCost,2)}</td>`:""}${editable?"<td></td>":""}</tr></tfoot></table></div>`;
-  if (editable){
-    h += `<div class="toolRow"><input id="addMat" list="matList" aria-label="Material to add as a line" placeholder="Add material…" style="min-width:16rem">
-      <datalist id="matList">${matListHtml()}</datalist>
-      <button class="small" id="btnAddLine">Add line</button>
-      <span class="outBtns"><button class="small" id="btnSheet" title="For the record">Print full formula</button>
-      <button class="small" id="btnCsv" title="For someone without miFormulas">Excel export</button>
-      <button class="small" id="btnShare" title="For another miFormulas user">Share this version</button>
-      <button class="primary" id="btnPrint" title="For the bench">Print weighing sheet</button></span></div>`;
-  } else {
-    h += `<div class="toolRow"><span class="outBtns"><button class="small" id="btnSheet" title="For the record">Print full formula</button>
-      <button class="small" id="btnCsv" title="For someone without miFormulas">Excel export</button>
-      <button class="small" id="btnShare" title="For another miFormulas user">Share this version</button>
-      <button class="primary" id="btnPrint" title="For the bench">Print weighing sheet</button></span></div>`;
-  }
   return h;
 }
 function dilSelect(m, cur, i){
@@ -4080,7 +4117,7 @@ function formulaSheetPrint(f, item, lines, K){
   ${(item.trials||[]).length ? `<h3>Trial log</h3>${item.trials.map(t=>`<div>${esc(t.date||"")} · ${esc(t.text)}</div>`).join("")}` : ""}`;
   window.print();
 }
-let IFRAOPEN = false, SCALEOPEN = false, NOTESOPEN = null, CATSOPEN = false;   // NOTESOPEN null = follow content
+let IFRAOPEN = false, SCALEOPEN = false, NOTESOPEN = null, CATSOPEN = false, TRIALOPEN = null;   // NOTESOPEN and TRIALOPEN null = follow content
 function catPanel(K){
   const agg = new Map();
   let tot = 0;
@@ -4093,8 +4130,12 @@ function catPanel(K){
   const rows = [...agg.entries()].filter(([,e]) => e.rel > 0).sort((a,b) => b[1].rel - a[1].rel);
   if (!rows.length) return "";
   const max = rows[0][1].rel;
+  // the pyramid joined the categories here in build 261019a: both say what the concentrate is made of, the pyramid per
+  // level over the material that carries one, the table per category over the non-solvent content
+  const pyr = pyrPyramid(K);
   return `<details class="panelBox" id="catsBox"${CATSOPEN?" open":""}>
-    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--accent-ink)">Categories – ${rows.length} used</summary>
+    <summary>${pyr ? "Pyramid & categories" : "Categories"}<span class="sumst"> – ${rows.length} ${pyr ? "categories" : "used"}</span></summary>
+    ${pyr}
     <table class="lines" style="margin-top:.5rem"><thead><tr><th>Category</th><th class="num">Lines</th><th class="num">Rel %</th><th style="width:40%"></th></tr></thead><tbody>
     ${rows.map(([c,e]) => `<tr><td><span class="catdot" style="background:${catColourByName(c)};margin-right:.55rem"></span>${esc(c)}</td>
       <td class="num">${e.n}</td><td class="num">${fmt(e.rel,2)}</td>
@@ -4110,7 +4151,7 @@ function ifraPanel(f, item, K, editable){
   const predils = [...new Set(K.rows.filter(r => isPredil(r.m)).map(r => r.m.name).filter(Boolean))];
   if (predils.length){   // switched off rather than wrong: a check that looks past a mix reads as a clearance
     return `<details class="panelBox" id="ifraBox"${IFRAOPEN?" open":""}>
-    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:var(--amber-ink)">IFRA check – off (premix in this version)</summary>
+    <summary>IFRA check<span class="sumst"> – off (premix in this version)</span></summary>
     <div class="hint" id="ifraOff" style="color:var(--amber-ink);margin-top:.5rem">This version holds a premix (${predils.slice(0,6).map(esc).join(", ")}${predils.length>6?", …":""}), whose materials the app cannot see, so the check is off. Check the version before the premix, or the premix itself under <b>Premixes</b>.</div></details>`;
   }
   const agg = new Map();
@@ -4139,12 +4180,12 @@ function ifraPanel(f, item, K, editable){
   const isOver = r => r.ratio > 1 + 1e-9;
   const over = restricted.filter(isOver);
   const nMat = agg.size, nUnknown = unknown.length;
-  const verdict = over.length ? `⚠ ${over.length} over limit`
+  const verdict = over.length ? `<span class="warn">⚠</span> ${over.length} over limit`
     : restricted.length ? "✓ within limits"
     : nUnknown === nMat && nMat ? `nothing verified yet (${nMat})`   // not a clearance: no limit was ever filled in
     : "no restricted materials";
   let h = `<details class="panelBox" id="ifraBox"${IFRAOPEN?" open":""}>
-    <summary style="cursor:pointer;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600;color:${over.length?"var(--danger)":"var(--accent-ink)"}">IFRA check – ${verdict}</summary>`;
+    <summary>IFRA check<span class="sumst"> – ${verdict}</span></summary>`;
   if (!restricted.length){
     h += `<div class="hint" style="margin-top:.5rem">${nUnknown === nMat && nMat
       ? "None of the materials here carries an IFRA limit yet, so nothing was checked against one."

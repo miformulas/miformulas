@@ -67,7 +67,7 @@ with sync_playwright() as p:
 
     # ---------- uitvoeren ----------
     with page.expect_download() as dl:
-        page.click("#btnShare")
+        page.click("#outMenu summary"); page.click("#btnShare")
     d = dl.value
     f = os.path.join(tempfile.mkdtemp(), d.suggested_filename)
     d.save_as(f)
@@ -112,7 +112,7 @@ with sync_playwright() as p:
         buildUsage(); switchTab("F", "f-leeg", {type: "v", idx: 0});
     }""")
     page.wait_for_timeout(500)
-    page.click("#btnShare"); page.wait_for_timeout(400)
+    page.click("#outMenu summary"); page.click("#btnShare"); page.wait_for_timeout(400)
     check(f"een lege versie wordt niet gedeeld ({[m[:40] for m in msgs]})",
           any("no lines to share" in m for m in msgs))
     msgs.clear()
@@ -125,7 +125,7 @@ with sync_playwright() as p:
     }""")
     page.wait_for_timeout(400)
     with page.expect_download() as dl2:
-        page.click("#btnShare")
+        page.click("#outMenu summary"); page.click("#btnShare")
     weespkg = json.load(open(dl2.value.path(), encoding="utf-8"))
     check(f"een regel naar een verdwenen materiaal wordt gemeld ({[m[:40] for m in msgs]})",
           any("no longer exists" in m for m in msgs))
@@ -199,7 +199,7 @@ with sync_playwright() as p:
     page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68"); switchTab("F", f.id, {type: "v", idx: 0}); }""")   # v1, het concentraat
     page.wait_for_timeout(500)
     with page.expect_download() as dl3:
-        page.click("#btnShare")
+        page.click("#outMenu summary"); page.click("#btnShare")
     conc = os.path.join(tempfile.mkdtemp(), dl3.value.suggested_filename); dl3.value.save_as(conc)
     cpkg = json.load(open(conc, encoding="utf-8"))
     check(f"B3: elke regel van een concentraat zegt dat ze geen solvent is ({[L.get('solvent') for L in cpkg['lines']][:3]}…)",

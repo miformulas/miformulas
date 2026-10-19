@@ -74,7 +74,7 @@ with sync_playwright() as p:
     # ---------- Share this version… zonder premix noemt niets
     msgs.clear()
     with page.expect_download() as dl:
-        page.click("#btnShare")
+        page.click("#outMenu summary"); page.click("#btnShare")
     page.wait_for_timeout(400)
     check(f"Share this version… zonder premix: geen melding ({msgs})", not any("premix" in m for m in msgs))
 
@@ -126,7 +126,7 @@ with sync_playwright() as p:
     open_formula(page, "Acqua di Gio for men")
     msgs.clear()
     with page.expect_download() as dl:
-        page.click("#btnShare")
+        page.click("#outMenu summary"); page.click("#btnShare")
     page.wait_for_timeout(400)
     m = next((x for x in msgs if "premix" in x), "")
     check(f"Share this version… noemt de premix na het schrijven ({m[:90]!r})",

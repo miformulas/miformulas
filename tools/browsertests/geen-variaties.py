@@ -46,7 +46,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(500)
     txt = page.text_content("#content")
     check("but nothing of them is shown on the formula page",
-          "20%" not in page.locator(".chipRow").all_inner_texts()[0] and "Variations" not in txt and "44gr" not in txt)
+          "20%" not in page.locator(".fTop").all_inner_texts()[0] and "Variations" not in txt and "44gr" not in txt)
     check("no variation buttons", all(page.locator(s).count() == 0 for s in ("#btnNewVar", "#btnFreeze", "#btnDelVar", "#varBase", "[data-va]")))
     check("the Welcome tile counts versions", (page.evaluate("() => { HOMEVIEW = true; VIEW = {tab:'F', id:null, sub:null}; render(); return document.querySelector('.tiles').textContent; }") or "").count("versions") == 1
           and "variations" not in page.text_content(".tiles"))
@@ -61,14 +61,14 @@ with sync_playwright() as p:
         versions:[{v:1, date:today(), imported:true, sourceName:"Imp v02", lines:[{materialId:m, dilutionPct:100, weightG:3, remark:1}]}]});
       buildUsage(); markDirty(); switchTab('F', "f-i2", {type:'v', idx:0}); }""")
     page.wait_for_timeout(500)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
     check("Move into… knows versions only", page.locator("#mvLabel").count() == 0 and page.locator("input[name=mvMode]").count() == 0
           and "a new version" in page.text_content("#dlg"))
     page.click("#dlgOk"); page.wait_for_timeout(600)
     got = page.evaluate("""(() => { const f = DATA.formulas.find(x => x.id === "f-i1"); return f.versions.map(v => v.sourceName); })()""")
     check(f"and moves the formula in as a version ({got})", got == ["Imp v01", "Imp v02"])
     check("the list counter reads 2 versions", "2 versions" in page.locator("#list .item", has_text="Imp v01").first.inner_text())
-    page.click("#btnCopyF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnCopyF"); page.wait_for_timeout(400)
     check("Copy to new formula has no variations box", page.locator("#cpVars").count() == 0 and page.locator("#cpName").count() == 1)
     page.click("#dlgCancel"); page.wait_for_timeout(300)
     page.click("#btnCmp"); page.wait_for_timeout(500)

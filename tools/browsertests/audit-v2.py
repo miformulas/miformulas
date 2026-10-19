@@ -43,9 +43,10 @@ with sync_playwright() as p:
     fid = page.evaluate(OPEN_FIRST); page.wait_for_timeout(500)
 
     # ---------- C12: de vier knoppen samen op één rij op 1280 px met de lijst open
-    tops = page.evaluate("() => ['btnSheet','btnCsv','btnShare','btnPrint'].map(id => Math.round(document.getElementById(id).getBoundingClientRect().top))")
-    inGroup = page.evaluate("() => ['btnSheet','btnCsv','btnShare','btnPrint'].every(id => document.getElementById(id).parentElement.classList.contains('outBtns'))")
-    check(f"C12: de vier uitvoerknoppen in één groep en op één rij op 1280 px ({tops})", inGroup and len(set(tops)) == 1)
+    # since 261019a three of them in the menu Print / export, next to Print weighing sheet
+    tops = page.evaluate("() => ['#outMenu > summary','#btnPrint'].map(s => Math.round(document.querySelector(s).getBoundingClientRect().top + document.querySelector(s).getBoundingClientRect().height / 2))")
+    inGroup = page.evaluate("() => ['btnSheet','btnCsv','btnShare'].every(id => document.getElementById(id).closest('#outMenu')) && document.getElementById('btnPrint').parentElement.classList.contains('outBtns')")
+    check(f"C12: de uitvoer in één groep en op één rij op 1280 px ({tops})", inGroup and abs(tops[0] - tops[1]) <= 1)
 
     # ---------- B3: Tab op het laatste gewicht gaat naar Add material…
     n = page.evaluate("() => document.querySelectorAll('input.w').length")
@@ -59,26 +60,26 @@ with sync_playwright() as p:
     check(f"B3: Tab midden in de kolom gaat nog altijd naar het volgende gewicht ({idx})", idx == 1)
 
     # ---------- B2: Enter in de kleine velden van de formulepagina
-    page.evaluate("() => { const d = document.getElementById('notesBox'); if (d) d.open = true; const s = document.getElementById('scaleBox'); if (s) s.open = true; }")
+    page.evaluate("() => { const d = document.getElementById('notesBox'); if (d) d.open = true; const t = document.getElementById('trialBox'); if (t) t.open = true; if (!SCALEOPEN) document.getElementById('btnScale')?.click(); }")
     page.wait_for_timeout(200)
     nt = page.evaluate(f"() => (DATA.formulas.find(x => x.id === '{fid}').versions.at(-1).trials || []).length")
     page.fill("#trialText", "Enter werkt"); page.press("#trialText", "Enter"); page.wait_for_timeout(300)
     nt2 = page.evaluate(f"() => (DATA.formulas.find(x => x.id === '{fid}').versions.at(-1).trials || []).length")
     check(f"B2: Enter in het proeflog voegt de notitie toe ({nt} → {nt2})", nt2 == nt + 1)
-    page.evaluate("() => { const s = document.getElementById('scaleBox'); if (s) s.open = true; }"); page.wait_for_timeout(200)
+    page.evaluate("() => { if (!SCALEOPEN) document.getElementById('btnScale')?.click(); }"); page.wait_for_timeout(200)
     tot = page.evaluate("() => calc(currentVersion(DATA.formulas.find(x => x.id === VIEW.id)).lines).totalW")
     page.fill("#scaleF", "2"); page.press("#scaleF", "Enter"); page.wait_for_timeout(300)
     tot2 = page.evaluate("() => calc(currentVersion(DATA.formulas.find(x => x.id === VIEW.id)).lines).totalW")
     check(f"B2: Enter in Apply factor past de factor toe ({tot:.3f} → {tot2:.3f})", abs(tot2 - 2 * tot) < 1e-6)
 
     # ---------- B4: de volgorde van Batch scaling, en 50 g op 20 % in die volgorde
-    page.evaluate("() => { const s = document.getElementById('scaleBox'); if (s) s.open = true; }"); page.wait_for_timeout(200)
-    labels = page.evaluate("() => [...document.querySelectorAll('#scaleBox .scaleGrid > span:first-child, #scaleBox .scaleGrid > span')].map(s => s.textContent.trim()).filter(t => /^(Concentration|Target total|Apply factor)/.test(t))")
+    page.evaluate("() => { if (!SCALEOPEN) document.getElementById('btnScale')?.click(); }"); page.wait_for_timeout(200)
+    labels = page.evaluate("() => [...document.querySelectorAll('#scaleBox .sg > span:first-child')].map(s => s.textContent.trim()).filter(t => /^(Concentration|Target total|Apply factor)/.test(t))")
     check(f"B4: Batch scaling in de volgorde concentratie, totaal, factor ({labels})",
           labels[:3] == ["Concentration (abs %)", "Target total", "Apply factor"])
     check(f"B4: de knop van de concentratie heet Set EtOH ({page.text_content('#btnSetAbs')!r})", page.text_content("#btnSetAbs").strip() == "Set EtOH")
     page.fill("#targetAbs", "20"); page.press("#targetAbs", "Enter"); page.wait_for_timeout(400)
-    page.evaluate("() => { const s = document.getElementById('scaleBox'); if (s) s.open = true; }"); page.wait_for_timeout(200)
+    page.evaluate("() => { if (!SCALEOPEN) document.getElementById('btnScale')?.click(); }"); page.wait_for_timeout(200)
     page.fill("#scaleW", "50"); page.press("#scaleW", "Enter"); page.wait_for_timeout(400)
     K = page.evaluate("() => { const K = calc(currentVersion(DATA.formulas.find(x => x.id === VIEW.id)).lines); return [K.totalW, K.totalAbsPct]; }")
     check(f"B4 en B2: 20 % en dan 50 g, met Enter, geeft 50 g op 20 % ({K[0]:.3f} g, {K[1]:.2f} %)", abs(K[0] - 50) < 1e-6 and abs(K[1] - 20) < 1e-6)
@@ -124,7 +125,7 @@ with sync_playwright() as p:
     page.evaluate("""() => { const src = DATA.formulas.find(x => x.id !== VIEW.id);   // de starterformules hebben twee versies
         const f = {...structuredClone(src), id: "f-b7", name: "B7 single", versions: [structuredClone(src.versions[0])]};
         DATA.formulas.push(f); switchTab('F', f.id, {type:'v', idx:0}); }"""); page.wait_for_timeout(400)
-    page.click("#btnMoveF"); page.wait_for_timeout(300)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(300)
     page.select_option("#mvTarget", ""); page.dispatch_event("#mvTarget", "change"); page.wait_for_timeout(100)
     dis = page.evaluate("() => document.getElementById('dlgOk').disabled")
     n0 = len(msgs); page.keyboard.press("Enter"); page.wait_for_timeout(200)

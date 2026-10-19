@@ -37,9 +37,9 @@ with sync_playwright() as p:
 
     page.click("#tabF"); page.wait_for_timeout(300)
     page.click("#list .item"); page.wait_for_timeout(500)
-    page.click("#scaleBox summary"); page.wait_for_timeout(300)
+    page.click("#btnScale"); page.wait_for_timeout(300)   # a button that opens a strip since 261019a
     page.fill("#scaleW", "1500"); page.click("#btnApplyScale"); page.wait_for_timeout(600)
-    page.click("#scaleBox summary") if not page.locator("#scaleW").is_visible() else None
+    page.click("#btnScale") if not page.locator("#scaleW").is_visible() else None
     page.wait_for_timeout(200)
     shown = page.locator("#scaleW").input_value()
     check(f"the target total is shown without a thousands separator ({shown!r})", "," not in shown)
@@ -109,7 +109,7 @@ with sync_playwright() as p:
     # ---------- 4. Ctrl+Z does not run under an open dialog ----------
     items.nth(0).click(); page.wait_for_timeout(500)
     before = page.evaluate("DATA.formulas.length")
-    page.click("#btnCopyF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnCopyF"); page.wait_for_timeout(400)
     page.keyboard.press("Control+z"); page.wait_for_timeout(300)
     page.fill("#cpName", "Copy under a dialog"); page.click("#dlgOk"); page.wait_for_timeout(600)
     after = page.evaluate("DATA.formulas.length")

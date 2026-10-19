@@ -60,7 +60,7 @@ with sync_playwright() as p:
       markDirty(); VIEW = {tab:"F", id:"f-x", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(700)
     with page.expect_download() as dl:
-        page.click("#btnCsv")
+        page.click("#outMenu summary"); page.click("#btnCsv")
     d = dl.value
     name = d.suggested_filename
     body = io.open(d.path(), encoding="utf-8-sig", newline="").read()
@@ -205,17 +205,17 @@ with sync_playwright() as p:
       f.versions.push({v: 2, date: today(), notes: "", lines: f.versions[0].lines.map(l => ({...l}))});
       switchTab("F", f.id, {type: "v", idx: 1}); }""")
     page.wait_for_timeout(500)
+    # since 261019a: Delete version in the menu ⋯, in red; Order in the second row of the head; the pyramid in the panel
+    page.click("#fMore summary"); page.wait_for_timeout(200)
     head = page.evaluate("""() => { const r = s => { const e = document.querySelector(s); return e ? e.getBoundingClientRect() : null; };
       const del = document.querySelector("#btnDelV"), cs = getComputedStyle(del);
-      return {cmp: r("#btnCmp"), del: r("#btnDelV"), sel: r("#verSel"), order: r("#sortSel"), chart: r(".fpyr"),
-              border: parseFloat(cs.borderTopWidth), colour: cs.color, bg: cs.backgroundColor}; }""")
-    check("Delete version is a bordered button in red next to Compare…",
-          head["border"] > 0 and head["colour"] == "rgb(196, 47, 31)" and head["bg"] != "rgba(0, 0, 0, 0)"
-          and abs(head["del"]["y"] - head["cmp"]["y"]) < 4 and head["del"]["x"] > head["cmp"]["x"])
+      return {cmp: r("#btnCmp"), del: r("#btnDelV"), sel: r("#verSel"), order: r("#sortSel"), chart: r(".fTop .fpyr, .fMeta .fpyr"),
+              inMenu: !!del.closest("#fMore .menuPop"), inPanel: !!document.querySelector("#catsBox .fpyr"), colour: cs.color}; }""")
+    page.keyboard.press("Escape"); page.wait_for_timeout(200)
+    check("Delete version is in the menu ⋯, in red", head["inMenu"] and head["colour"] == "rgb(196, 47, 31)")
     check(f"the Order row follows the version row directly ({head['order']['y'] - head['sel']['y'] - head['sel']['height']:.0f} px)",
-          head["order"]["y"] - (head["sel"]["y"] + head["sel"]["height"]) < 32)
-    check("the pyramid chart stays inside the head, above the Order row",
-          head["chart"] and head["chart"]["y"] + head["chart"]["height"] <= head["order"]["y"] + 1)
+          0 <= head["order"]["y"] - (head["sel"]["y"] + head["sel"]["height"]) < 32)
+    check("the pyramid chart is in the panel Pyramid & categories, not in the head", not head["chart"] and head["inPanel"])
     page.click("#content h2"); page.keyboard.press("Control+z"); page.wait_for_timeout(400)
 
     # ---------- 9. B17 (bouw 260920d): de piramide zegt waarover ze rekent ----------
@@ -234,7 +234,7 @@ with sync_playwright() as p:
     pyr = page.evaluate("""() => { const svg = document.querySelector(".fpyr");
         return {label: svg ? svg.getAttribute("aria-label") : null,
                 titels: [...document.querySelectorAll(".fpyr title")].map(t => t.textContent),
-                balk: [...document.querySelectorAll(".pyrbar span")].map(s => s.getAttribute("title")),
+                balk: document.querySelectorAll(".pyrbar").length,   // the bar went in 261019a
                 pct: [...document.querySelectorAll(".fpyr text")].map(t => parseFloat(t.textContent))}; }""")
     check(f"de piramide rekent over wat een niveau draagt ({pyr['pct']})",
           abs(sum(pyr["pct"]) - 100) < 0.2 and len(pyr["pct"]) == 2)
@@ -242,8 +242,7 @@ with sync_playwright() as p:
           "carries a level" in (pyr["label"] or "") and "non-solvent" not in (pyr["label"] or ""))
     check(f"elke band zegt het in haar tooltip ({pyr['titels'][:1]})",
           pyr["titels"] and all("of the material with a level" in t for t in pyr["titels"]))
-    check(f"en elk segment van de balk ook ({pyr['balk'][:1]})",
-          pyr["balk"] and all("of the material with a level" in t for t in pyr["balk"]))
+    check(f"de balk die hetzelfde zei, is weg (261019a; {pyr['balk']})", pyr["balk"] == 0)
     page.evaluate("""() => { DATA.formulas = DATA.formulas.filter(x => x.id !== "f-pyr"); buildUsage(); render(); }""")
     page.wait_for_timeout(300)
 

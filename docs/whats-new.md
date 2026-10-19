@@ -2,6 +2,23 @@
 
 What changed in the app, newest first. The manual describes every function in full; the technical release notes are on GitHub.
 
+## On miformulas.com since 19 October
+
+These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, you get them with the next version.
+
+### The formula page, rearranged
+
+The page of a formula shows less at once. Its head has two rows: the name and the version, with what you do with versions, and under them, smaller, the category, the date and the order of the lines. Rename, copy, move and delete are in the menu **⋯** at the end of the first row, next to Bench view.
+
+The bar with the colour marks, Lower, Higher and Create premix… appears only once you tick a line. It says how many you ticked and stays at the bottom of the window while you scroll through a long formula.
+
+Under the table, **Print / export** holds Print full formula, Excel export and Share this version; **Print weighing sheet** stays a button of its own, and **Batch scaling** opens a strip under the table. The four panels below it, Notes, Trial log, Pyramid & categories and IFRA check, stand two by two. The pyramid, which stood in the head, is now in the panel with the categories.
+
+*Manual, sections [4](manual.html#s4-formulas-and-versions), [5](manual.html#s5-editing-a-formula), [10](manual.html#s10-bench-view-and-printing) and [12](manual.html#s12-ifra-check-and-category-panel)*
+
+> **Do you have the latest version?** When using the app on miformulas.com, in a browser or installed from there as an app, you always do: just reopen it.  
+> A copy of miFormulas.html on your own computer does not change by itself: go to **Settings › Check for updates**. No such button in your Settings? Then your copy is v2.2 or older. Open miformulas.com in Chrome or Edge, go to **Settings › Download the app** and put the new miFormulas.html in place of the old one (same folder, same name). Your data file is not touched, and the app offers to reopen it.
+
 ## On miformulas.com since 18 October
 
 These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, you get them with the next version.
@@ -23,9 +40,6 @@ The Import & export window (⇅ in the header) is grouped under headings, as Set
 On a material whose stock you do not track yet, **Purchase › Add** in the Stock panel now starts the ledger at once, with a stocktake of 0 g before the purchase, instead of noting a purchase that counted nowhere. **Delivered…** on the order list has a tick box **Track stock**, on by default, which does the same, also for a material it creates.
 
 *Manual, section [13](manual.html#s13-stock-orders-and-deliveries)*
-
-> **Do you have the latest version?** When using the app on miformulas.com, in a browser or installed from there as an app, you always do: just reopen it.  
-> A copy of miFormulas.html on your own computer does not change by itself: go to **Settings › Check for updates**. No such button in your Settings? Then your copy is v2.2 or older. Open miformulas.com in Chrome or Edge, go to **Settings › Download the app** and put the new miFormulas.html in place of the old one (same folder, same name). Your data file is not touched, and the app offers to reopen it.
 
 ## On miformulas.com since 16 October
 

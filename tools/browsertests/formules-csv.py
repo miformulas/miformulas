@@ -319,7 +319,7 @@ with sync_playwright() as pw:
         return {id: f.id, n: f.versions.length, lines: f.versions[f.versions.length - 1].lines.length}; }""")
     pg4.wait_for_timeout(600)
     with pg4.expect_download() as dl4:
-        pg4.click("#btnCsv")
+        pg4.click("#outMenu summary"); pg4.click("#btnCsv")
     een = os.path.join(tmp, dl4.value.suggested_filename); dl4.value.save_as(een)
     eerste = open(een, encoding="utf-8-sig").readline()
     check(f"B17: de uitvoer begint met de titelrij ({eerste.strip()[:30]!r})", eerste.startswith('"Angel – v'))
@@ -406,7 +406,7 @@ with sync_playwright() as pw:
             switchTab("F", f.id, {type: "v", idx: k}); return {id: f.id, lines: f.versions[k].lines.length}; }""", [naam, idx])
         pg5.wait_for_timeout(600)
         with pg5.expect_download() as d:
-            pg5.click("#btnCsv")
+            pg5.click("#outMenu summary"); pg5.click("#btnCsv")
         pad = os.path.join(tmp, "b2-" + d.value.suggested_filename); d.value.save_as(pad)
         return info, pad
     def voorbeeld(pad):

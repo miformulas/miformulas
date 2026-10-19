@@ -139,7 +139,7 @@ with sync_playwright() as p:
       f.versions.push({v:2, date:today(), lines:[{materialId:"m-u1", dilutionPct:100, weightG:9, remark:1}]});
       markDirty(); VIEW = {tab:"F", id:"f-u", sub:{type:"v", idx:0}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(600)
-    page.click("#btnCopyF"); page.wait_for_timeout(500)
+    page.click("#fMore summary"); page.click("#btnCopyF"); page.wait_for_timeout(500)
     page.fill("#cpName", "Kopie van v1"); page.click("#dlgOk"); page.wait_for_timeout(800)
     cp = page.evaluate("""(() => { const f = DATA.formulas.find(x => x.name === "Kopie van v1");
       return f && {lines: f.versions[0].lines.length, w: f.versions[0].lines[0].weightG}; })()""")
@@ -432,7 +432,7 @@ with sync_playwright() as p:
     # ---------- 14. C-a 4 en C-a 5 (bouw 260922j): geen naam van spaties, en Apply zonder wijziging is geen stap ----------
     page.evaluate("""() => { window.prompt = () => "   "; }""")
     u3 = page.evaluate("UNDO.length")
-    page.click("#btnRenameF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnRenameF"); page.wait_for_timeout(400)
     check("Rename refuses a name of spaces alone",
           page.evaluate("""() => DATA.formulas.find(x => x.id === "f-u").name""") == "Undotest" and page.evaluate("UNDO.length") == u3)
     page.click("#btnNameV"); page.wait_for_timeout(400); page.click("#dlgOk"); page.wait_for_timeout(400)

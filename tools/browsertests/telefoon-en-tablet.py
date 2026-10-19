@@ -76,7 +76,7 @@ with sync_playwright() as p, tempfile.TemporaryDirectory() as tmp:
     ctx, page = phone(b)
     starter(page); open_1881(page)
     with page.expect_download() as dl:
-        page.get_by_role("button", name="Share this version").click()
+        page.click("#outMenu summary"); page.get_by_role("button", name="Share this version").click()   # in Print / export since 261019a
     dl.value.save_as(share)
     page.locator("#btnBack").click(); page.wait_for_timeout(400)
     from_the_list(page, share)

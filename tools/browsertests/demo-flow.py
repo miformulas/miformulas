@@ -108,7 +108,7 @@ async def main():
         await page.wait_for_timeout(300)
         await page.click("#list .item >> nth=0")
         await page.wait_for_timeout(400)
-        fb = await page.evaluate("[...document.querySelectorAll('#content .metaLine .badge')].map(b => b.textContent)")
+        fb = await page.evaluate("[...document.querySelectorAll('#content .fMeta .badge')].map(b => b.textContent)")
         check("starter set" in fb, f"formulepagina toont badge 'starter set' ({fb})")
         tot = await page.evaluate("calc(DATA.formulas[0].versions[0].lines).totalW")
         check(tot > 0, f"rekenkern werkt op de starterdata (eerste formule {tot:.3f} g)")

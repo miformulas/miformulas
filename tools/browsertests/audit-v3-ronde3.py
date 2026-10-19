@@ -115,7 +115,7 @@ with sync_playwright() as pw:
     check(f"C20 Compare: de verborgen referentie blijft verborgen, met 🔒 ({opt!r})", "Bron 1881" not in opt and opt.endswith("🔒"))
     open_f(p, "1881 for men")
     F = f"DATA.formulas.find(x => x.id === {json.dumps(fid)})"
-    p.evaluate("() => { const d = document.querySelector('#scaleW').closest('details'); if (d) d.open = true; }"); p.wait_for_timeout(100)
+    p.evaluate("() => { if (!SCALEOPEN) document.getElementById('btnScale')?.click(); }")   # a strip behind a button since 261019a; p.wait_for_timeout(100)
     n0 = p.evaluate("UNDO.length"); mod = p.evaluate(F + ".modified")
     p.fill("#scaleW", "100"); p.click("#btnApplyScale"); p.wait_for_timeout(300)
     check(f"C21 Target total 100 bij 100.000 g: geen Undo-stap, geen nieuwe datum ({p.evaluate('UNDO.length') - n0})",
@@ -140,8 +140,8 @@ with sync_playwright() as pw:
     fid = open_f(p, "1881 for men")
     p.evaluate("id => { const v = DATA.formulas.find(x => x.id === id).versions.at(-1); v.sourceName = 'Bewonder v11 met een lange naam erbij'; v.imported = true; v.date = '2026-08-30'; render(); }", fid)
     p.wait_for_timeout(300)
-    r = p.evaluate("() => { const a = document.querySelector('#btnNewV').getBoundingClientRect(), d = document.querySelector('#btnDelV').getBoundingClientRect(), s = document.querySelector('#sidebar').getBoundingClientRect(); return [Math.round(a.top), Math.round(d.top), Math.round(s.width)]; }")
-    check(f"C22 met de lijst open ({r[2]} px) staat Delete version op de regel van + New version ({r[0]}, {r[1]})", r[2] > 100 and abs(r[0] - r[1]) < 8)
+    r = p.evaluate("() => { const a = document.querySelector('#btnNewV').getBoundingClientRect(), d = document.querySelector('#fMore summary').getBoundingClientRect(), s = document.querySelector('#sidebar').getBoundingClientRect(); return [Math.round(a.top), Math.round(d.top), Math.round(s.width)]; }")
+    check(f"C22 met de lijst open ({r[2]} px) staat ⋯ (met Delete version, 261019a) op de regel van + New version ({r[0]}, {r[1]})", r[2] > 100 and abs(r[0] - r[1]) < 8)
     ctx.close()
 
     # ================= C25: een nieuw materiaal op twee diluties =================

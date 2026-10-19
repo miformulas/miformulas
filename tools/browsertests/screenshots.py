@@ -184,8 +184,8 @@ with sync_playwright() as p:
     cbs = pp.locator("table.ftable input.selCb")                                   # the ten still under 25 mg
     cbs.nth(0).click(); pp.keyboard.down("Shift"); cbs.nth(9).click(); pp.keyboard.up("Shift"); pp.wait_for_timeout(300)
     pp.mouse.move(5, 5); pp.evaluate("document.activeElement.blur()")             # no focus ring on the last tick
-    pp.evaluate("document.querySelector('#sortSel').scrollIntoView({block: 'start'}); window.scrollBy(0, -70)"); pp.wait_for_timeout(300)
-    top = pp.locator("#sortSel").bounding_box(); tbl = pp.locator("table.ftable").first.bounding_box()
+    pp.evaluate("document.querySelector('table.ftable').scrollIntoView({block: 'start'}); window.scrollBy(0, -70)"); pp.wait_for_timeout(300)
+    tbl = pp.locator("table.ftable").first.bounding_box(); top = tbl   # since 261019a Order is in the head: the shot starts at the table
     last = pp.locator("table.ftable tbody tr").nth(11).bounding_box()                 # the ten ticked and the two after them
     hb = pp.locator("header").first.bounding_box()
     y0 = max(round(top["y"]) - 6, round(hb["y"] + hb["height"]) + 2)                 # never the edge of the header
@@ -242,7 +242,13 @@ with sync_playwright() as p:
     row = page.locator("table.lines tbody tr").filter(has_text="Rose Oxide").first
     w = row.locator("input[type=text], input:not([type])").first
     w.fill("0.1"); w.press("Enter"); settle(page)
-    shot(page, "app-versions.png", clip={"x": 310, "y": 106, "width": 970, "height": 190})   # since 261011e with the category above
+    # since 261019a the head of a formula in two rows, with the menu ⋯ open over the table
+    page.mouse.move(5, 5); page.click("#fMore summary"); page.wait_for_timeout(300)
+    t1, t2, mp = page.locator(".fTop").bounding_box(), page.locator(".fMeta").bounding_box(), page.locator("#fMore .menuPop").bounding_box()
+    y0 = round(t1["y"]) - 10
+    shot(page, "app-versions.png", clip={"x": round(t1["x"]) - 10, "y": y0, "width": round(t1["width"]) + 20,
+                                         "height": round(max(t2["y"] + t2["height"], mp["y"] + mp["height"])) + 10 - y0})
+    page.keyboard.press("Escape"); page.wait_for_timeout(200)
     page.click("#btnCmp"); page.wait_for_timeout(500)
     shot(page, "app-compare.png")
     page.click("#btnCmpClose"); page.wait_for_timeout(300)
@@ -290,7 +296,7 @@ with sync_playwright() as p:
         switchTab("F", f.id, {type: "v", idx: 0});
     }""")
     page.wait_for_timeout(600)
-    page.click("#btnMoveF"); page.wait_for_timeout(600)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(600)
     shot(page, "app-move-into.png", "#dlg")
     page.click("#dlgCancel"); page.wait_for_timeout(300)
     page.evaluate("""() => {                                   // leave the starter set as it was

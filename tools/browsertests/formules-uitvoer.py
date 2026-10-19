@@ -87,7 +87,7 @@ with sync_playwright() as pw:
     tmp3 = tempfile.mkdtemp()
     msgs.clear()
     with page.expect_download() as dl3:
-        page.click("#btnCsv")
+        page.click("#outMenu summary"); page.click("#btnCsv")
     pad3 = os.path.join(tmp3, "versie.csv"); dl3.value.save_as(pad3)
     page.wait_for_timeout(300)
     tekst3 = open(pad3, encoding="utf-8-sig").read()

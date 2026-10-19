@@ -98,8 +98,8 @@ with sync_playwright() as p:
         lines:[{materialId: DATA.materials[0].id, dilutionPct:100, weightG:5, remark:1}]});
       markDirty(); VIEW = {tab:"F", id:"f-v", sub:{type:"v", idx:1}}; HOMEVIEW = false; setTabs(); render(); }""")
     page.wait_for_timeout(600)
-    check("an imported version offers Delete version", page.locator("#btnDelV").is_visible())
-    check("and it says where it came from", "imported as “Aura v05”" in page.text_content(".metaLine"))
+    check("an imported version offers Delete version", page.locator("#btnDelV").count() == 1)
+    check("and it says where it came from", "imported as “Aura v05”" in page.text_content(".fMeta"))
 
     # the import reference can be hidden without losing it
     page.click("#btnNameV"); page.wait_for_timeout(400)
@@ -108,9 +108,9 @@ with sync_playwright() as p:
       return {src: v.sourceName, hide: !!v.hideSource, notes: v.notes || ""}; })()""")
     check(f"the reference is hidden but kept, so a second import still knows it ({v2})",
           v2["src"] == "Aura v05" and v2["hide"] and "Imported as" in v2["notes"])
-    check("and the line above no longer shows it", "imported as" not in page.text_content(".metaLine"))
+    check("and the line above no longer shows it", "imported as" not in page.text_content(".fMeta"))
     msgs.clear()
-    page.click("#btnDelV"); page.wait_for_timeout(600)
+    page.click("#fMore summary"); page.click("#btnDelV"); page.wait_for_timeout(600)
     check(f"deleting it asks first and then does it ({msgs})",
           any("Delete" in m for m in msgs)
           and page.evaluate("""(() => DATA.formulas.find(x => x.id === "f-v").versions.length)()""") == 1)

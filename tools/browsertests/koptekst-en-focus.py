@@ -188,7 +188,7 @@ with sync_playwright() as p:
         window.__ro = f.id; DEMO = false; HANDLE = null; REMOTE = false;
         switchTab("F", f.id, {type:"v", idx: 0}); }""")
     page.wait_for_timeout(700)
-    zicht = page.evaluate("""() => {
+    zicht = page.evaluate("""() => { const om = document.querySelector('#outMenu'); if (om) om.open = true;   // the menu Print / export (261019a)
         const z = id => { const e = document.querySelector(id); return e ? !!e.offsetParent && !e.disabled : null; };
         return {sheet: z("#btnSheet"), csv: z("#btnCsv"), share: z("#btnShare"), print: z("#btnPrint"),
                 move: z("#btnMoveF"), addline: z("#btnAddLine")}; }""")

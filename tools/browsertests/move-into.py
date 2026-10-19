@@ -47,8 +47,8 @@ with sync_playwright() as p:
     page.wait_for_timeout(300)
     nBefore = page.evaluate("DATA.formulas.length")
     page.locator("#list").get_by_text("Aura v05", exact=True).click(); page.wait_for_timeout(400)
-    check("Move into… shown on an imported formula", page.locator("#btnMoveF").is_visible())
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    check("Move into… shown on an imported formula", page.locator("#btnMoveF").count() == 1)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
     dlg = page.locator("#dlg")
     check("dialog opens", dlg.evaluate("d => d.open"))
     target = page.locator("#mvTarget")
@@ -78,7 +78,7 @@ with sync_playwright() as p:
 
     # cancel does nothing; the moved-in formula is not offered as its own target
     page.locator("#list").get_by_text("Aura v05", exact=True).click(); page.wait_for_timeout(400)
-    page.click("#btnMoveF"); page.wait_for_timeout(300)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(300)
     own = page.evaluate("[...document.querySelectorAll('#mvTarget option')].map(o => o.textContent).filter(t => t.includes('Aura v05'))")
     check(f"the formula itself is in the target list only as 'this formula' ({own})", own == ["this formula (Aura v05)"])
     page.click("#dlgCancel"); page.wait_for_timeout(300)
@@ -94,7 +94,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(300)
     n0 = page.evaluate("DATA.formulas.length")
     page.locator("#list").get_by_text("Aura v05", exact=True).click(); page.wait_for_timeout(400)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
     rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked, cb.disabled])")
     check(f"Move together lists the other Aura formulas ({rows})", sorted(r[0] for r in rows) == ["Aura v04", "Aura v05 20%", "Aura v06"])
     check("the suggested target Aura v04 is listed but disabled and unticked", any(r[0] == "Aura v04" and not r[1] and r[2] for r in rows))
@@ -120,7 +120,7 @@ with sync_playwright() as p:
     check("one Undo brings all three back", page.evaluate("DATA.formulas.length") == n0 and page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').versions.length") == 1)
     # opened on the lowest number: the formula itself is the target, and the others move into it
     page.locator("#list").get_by_text("Aura v04", exact=True).click(); page.wait_for_timeout(400)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
     sel_name = page.locator("#mvTarget").evaluate("s => s.options[s.selectedIndex].textContent")
     check(f"opened on Aura v04: 'this formula' is suggested ({sel_name})", sel_name == "this formula (Aura v04)")
     check("hint says the others move into it", "this formula has the lowest number" in dlg.inner_text())
@@ -142,7 +142,7 @@ with sync_playwright() as p:
     check("one Undo brings all three back and Aura v04 has one version again", page.evaluate("DATA.formulas.length") == n0 and page.evaluate("DATA.formulas.find(x => x.name === 'Aura v04').versions.length") == 1)
     # nothing ticked: a message, and nothing moves
     page.locator("#list").get_by_text("Aura v04", exact=True).click(); page.wait_for_timeout(400)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
     page.evaluate("document.querySelectorAll('#mvTogether input.mvTog').forEach(c => c.checked = false)")
     msgs.clear(); page.click("#dlgOk"); page.wait_for_timeout(400)
     check(f"nothing ticked: asks to tick formulas ({msgs})", any("Tick the formulas" in m for m in msgs) and page.evaluate("DATA.formulas.length") == n0)
@@ -158,7 +158,7 @@ with sync_playwright() as p:
     }""")
     page.wait_for_timeout(400)
     check("Move into… is offered on it", page.locator("#btnMoveF").count() == 1)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
     check("the intro says its name stays as the version label",
           "its name as the version label" in page.locator("#mvIntro").inner_text())
     check("nothing is pre-ticked under Move together, because no name matches",
@@ -189,7 +189,7 @@ with sync_playwright() as p:
     }""")
     page.wait_for_timeout(600)
     check("de versie draagt de badge prepared", "prepared" in page.text_content("#content").lower())
-    page.click("#btnMoveF"); page.wait_for_timeout(500)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(500)
     page.select_option("#mvTarget", label="Rose de Mai 68 (1 version)"); page.wait_for_timeout(300)
     page.click("#dlgOk"); page.wait_for_timeout(800)
     got = page.evaluate("""() => { const f = DATA.formulas.find(x => x.name === "Rose de Mai 68");
@@ -212,12 +212,12 @@ with sync_playwright() as p:
           versions:[{v:1, date:today(), lines:[{id:"m2", materialId:m.id, dilutionPct:100, weightG:12, remark:1}]}]});
         buildUsage(); switchTab("F", "f-eigen2", {type:"v", idx:0}); }""")
     page.wait_for_timeout(600)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
     page.select_option("#mvTarget", "f-imp2"); page.wait_for_timeout(200)
     page.click("#dlgOk"); page.wait_for_timeout(800)
     r = page.evaluate("""() => { const t = DATA.formulas.find(x => x.id === "f-imp2"), nv = t.versions[t.versions.length-1];
         return {frozenImport: t.frozenImport, versieFrozen: !!nv.frozen, label: nv.name,
-                badge: !!document.querySelector(".metaLine .badge[title*='Read-only']"),
+                badge: !!document.querySelector(".fMeta .badge[title*='Read-only']"),
                 velden: document.querySelectorAll("input.w").length}; }""")
     check(f"een eigen versie in een import blijft bewerkbaar ({r})",
           r["frozenImport"] is False and r["versieFrozen"] is False and r["velden"] == 1 and not r["badge"])
@@ -231,7 +231,7 @@ with sync_playwright() as p:
           versions:[{v:1, date:today(), lines:[{id:"m4", materialId:m.id, dilutionPct:100, weightG:2, remark:1}]}]});
         buildUsage(); switchTab("F", "f-pre2", {type:"v", idx:0}); }""")
     page.wait_for_timeout(600)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
     page.select_option("#mvTarget", "f-doel2"); page.wait_for_timeout(200)
     page.click("#dlgOk"); page.wait_for_timeout(800)
     r = page.evaluate("""() => { const t = DATA.formulas.find(x => x.id === "f-doel2"), nv = t.versions[t.versions.length-1];
@@ -249,7 +249,7 @@ with sync_playwright() as p:
         DATA.formulas.push(mk("f-r1", "Rose 1"), mk("f-r2", "Rose 2"), mk("f-r3", "Rose 3"), mk("f-r4", "Rose v4 zacht"));
         buildUsage(); switchTab("F", "f-r2", {type: "v", idx: 0}); }""")
     page.wait_for_timeout(600)
-    page.click("#btnMoveF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
     rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked])")
     check(f"Rose 3 en Rose v4 zacht staan aangevinkt, Rose de Mai 68 niet ({rows})",
           sorted(r[0] for r in rows if r[1]) == ["Rose 3", "Rose v4 zacht"] and not any("Rose de Mai" in r[0] for r in rows))
@@ -275,7 +275,7 @@ with sync_playwright() as p:
     def open_move(naam):
         page.evaluate("n => switchTab('F', DATA.formulas.find(x => x.name === n).id, {type: 'v', idx: 0})", naam)
         page.wait_for_timeout(500)
-        page.click("#btnMoveF"); page.wait_for_timeout(400)
+        page.click("#fMore summary"); page.click("#btnMoveF"); page.wait_for_timeout(400)
         doel = page.locator("#mvTarget").evaluate("s => s.selectedIndex > 0 ? s.options[s.selectedIndex].textContent : ''")
         rows = page.evaluate("[...document.querySelectorAll('#mvTogether input.mvTog')].map(cb => [cb.parentElement.textContent.trim(), cb.checked, cb.disabled])")
         return doel, rows

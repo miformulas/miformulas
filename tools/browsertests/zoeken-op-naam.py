@@ -150,10 +150,10 @@ with sync_playwright() as pw:
         keuze = page.evaluate("() => { const s = document.querySelector('#verSel'); return s && s.options[s.selectedIndex].textContent; }")
         page.click("#btnBenchToggle"); page.wait_for_timeout(400)
         bank = page.evaluate("""() => { const r = document.querySelector('#benchVer'); if (!r) return null;
-            return [r.querySelector('.hint')?.textContent, r.lastElementChild.textContent, r.querySelectorAll('select,button,input').length,
+            return [null, r.textContent, r.querySelectorAll('select,button,input').length,   // since 261019a the text alone, in the head
                     !!document.querySelector('#verSel'), !!document.querySelector('#fCatRow'), !!document.querySelector('.benchWrap')]; }""")
         check(f"de bench view noemt {verwacht}: de woorden van de keuzelijst ({keuze!r}), zonder keuzelijst of knoppen ({bank})",
-              bool(bank) and bank[0] == "Version" and bank[1] == verwacht == keuze and bank[2] == 0
+              bool(bank) and bank[1] == verwacht == keuze and bank[2] == 0
               and not bank[3] and not bank[4] and bank[5])
         page.click("#btnBenchToggle"); page.wait_for_timeout(400)
         check(f"Table view: de keuzelijst terug, de tekstregel weg ({naam} v{idx + 1})",

@@ -51,10 +51,11 @@ with sync_playwright() as pw:
     rij = page.evaluate("""() => { const r = document.querySelector('#fCatRow'), v = document.querySelector('#verSel');
       const s = document.querySelector('#fCat'), kl = document.querySelector('#fCatCol'), n = document.querySelector('#btnNewFCat');
       const b = x => x.getBoundingClientRect();
-      return [r.querySelector('.hint').textContent, s.value, b(r).bottom <= b(v).top + 1, Math.abs(b(s).top - b(n).top) < 8,
+      // since 261019a in the second row of the head, under the version
+      return [s.getAttribute('aria-label'), s.value, b(r).top >= b(v).bottom - 1, Math.abs(b(s).top - b(n).top) < 8,
               b(kl).left > b(s).right - 1, b(n).left > b(kl).right - 1, n.textContent, s.getAttribute('aria-label')]; }""")
-    check(f"de categorie staat boven Version: keuzelijst, kleurvakje en + New category op één regel ({rij})",
-          rij[0] == "Category" and rij[1] == "Uncategorised" and all(rij[2:6]) and rij[6] == "+ New category" and rij[7])
+    check(f"de categorie staat onder de versie, in de tweede rij van de kop: keuzelijst, kleurvakje en + New category op één regel ({rij})",
+          rij[0] == "Category of this formula" and rij[1] == "Uncategorised" and all(rij[2:6]) and rij[6] == "+ New category" and rij[7])
     check("Change category… is weg", page.locator("#btnCatF").count() == 0
           and page.locator("#content button", has_text="Change category").count() == 0)
     voor = page.evaluate("serialize()"); undo0 = page.evaluate("UNDO.length")

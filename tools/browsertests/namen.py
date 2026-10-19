@@ -92,7 +92,7 @@ with sync_playwright() as p:
     other = page.evaluate("(() => DATA.formulas.find(x => x.id !== VIEW.id).name)()")
     msgs.clear()
     page.evaluate(f"""() => {{ window.prompt = () => {json.dumps(other)}; }}""")
-    page.click("#btnRenameF"); page.wait_for_timeout(500)
+    page.click("#fMore summary"); page.click("#btnRenameF"); page.wait_for_timeout(500)
     check(f"renaming a formula onto an existing name is refused ({msgs})",
           any("Another formula is already called" in m for m in msgs)
           and page.evaluate("(() => DATA.formulas.find(x => x.id === VIEW.id).name)()") == first)
@@ -459,7 +459,7 @@ with sync_playwright() as p:
     page.evaluate("""() => { DATA.formulas.push({id:"f-rose", name:"Rose", category:"Uncategorised", created:today(),
         versions:[{v:1, date:today(), lines:[]}]}); buildUsage(); switchTab("F", "f-rose", {type:"v", idx:0}); }""")
     page.wait_for_timeout(600)
-    page.click("#btnCopyF"); page.wait_for_timeout(400)
+    page.click("#fMore summary"); page.click("#btnCopyF"); page.wait_for_timeout(400)
     page.fill("#cpName", "Rosé"); page.click("#dlgOk"); page.wait_for_timeout(600)
     check(f"Copy to new formula weigert “Rosé” naast “Rose” ({[m[:40] for m in msgs]})",
           any("already exists" in m for m in msgs) and
