@@ -136,7 +136,7 @@ with sync_playwright() as p:
     page.click("#dlgCancel"); page.wait_for_timeout(200)
 
     # ---------- B2: Enter op de materiaalpagina en in de bestellijst
-    page.evaluate("() => { const m = DATA.materials.find(x => x.name === 'Geraniol'); switchTab('M', m.id); }"); page.wait_for_timeout(400)
+    page.evaluate("() => { DILOPEN = true; const m = DATA.materials.find(x => x.name === 'Geraniol'); switchTab('M', m.id); }"); page.wait_for_timeout(400)   # Dilutions starts closed since 261019c
     nd = page.evaluate("() => DATA.materials.find(x => x.name === 'Geraniol').dilutions.length")
     page.fill("#newDil", "3"); page.press("#newDil", "Enter"); page.wait_for_timeout(300)
     nd2 = page.evaluate("() => DATA.materials.find(x => x.name === 'Geraniol').dilutions.length")
@@ -170,7 +170,7 @@ with sync_playwright() as p:
           versions: [1, 2, 3].map(v => ({v, date: today(), lines: [line("a" + v)]}))});
         DATA.formulas.push({id: "f-use2", name: "Gebruik gat", category: "Uncategorised", created: today(),
           versions: [{v: 1, date: today(), lines: [line("b1")]}, {v: 2, date: today(), lines: []}, {v: 3, date: today(), lines: [line("b3")]}]});
-        buildUsage(); switchTab('M', m.id);
+        buildUsage(); USEOPEN = true; switchTab('M', m.id);   // Usage in formulas starts closed since 261019c
         const box = document.querySelector('.panelBox.usage');
         const rows = [...box.querySelectorAll('[data-go]')].map(a => a.closest('div').innerText.replace(/\s+/g, ' ').trim());
         const nF = new Set(USAGE[m.id].map(u => u.fid)).size;

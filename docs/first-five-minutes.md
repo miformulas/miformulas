@@ -8,7 +8,7 @@ miFormulas runs in Chrome or Edge, in one of three ways. Choose one before you s
 
 - **On the site.** Open https://miformulas.com. Your work stays in that browser, on that device.
 - **As an app of its own.** Open https://miformulas.com and click **Install as an app** on the start screen (on an iPhone or iPad, Safari's **Add to Home Screen** does the same): the site in a window of its own, with its own icon, and it updates by itself. As on the site, your work stays in the browser (section [15](manual.html#s15-install-as-an-app-with-its-own-icon)).
-- **As a file on your own PC or Mac**, working offline. Open https://miformulas.com, click **Download the app** on the start screen, give `miFormulas.html` a folder of its own and open it there in Chrome or Edge. When you click **Start with the starter set** there, the app explains that it will create your data file and the browser asks where to save it: choose the folder of `miFormulas.html` and keep the name `miformulas-data.json`. **Check for updates** in its Settings brings the next version (section [14](manual.html#s14-where-your-data-lives-and-the-other-ways-in)).
+- **As a file on your own PC or Mac**, working offline. Open https://miformulas.com, click **Download the app** on the start screen, give `miFormulas.html` a folder of its own and open it there in Chrome or Edge. When you click **Start with the starter set** there, the app explains that it will create your data file and the browser asks where to save it: choose the folder of `miFormulas.html` and keep the name `miformulas-data.json`. **Check for updates** in its Settings brings in the latest version from the site (section [14](manual.html#s14-where-your-data-lives-and-the-other-ways-in)).
 
 Then click **Start with the starter set**: sixteen formulas and nearly two hundred materials to look at; each is marked "starter" so you'll be able to tell them apart from your own.
 
@@ -22,7 +22,7 @@ A material is anything you weigh. Click **+ New material…** in the header (on 
 
 ![New material: the library knows Javanol.](img/first-material-dialog.png)
 
-The material page opens, and everything on it can be changed. You also keep a 10 % dilution of Javanol: type 10 in the field under the dilutions and click **Add dilution**. A formula offers a material only at the dilutions you have added. Price, supplier and stock are on the same page, for when you need them (section [3](manual.html#s3-materials)).
+The material page opens, and everything on it can be changed. You also keep a 10 % dilution of Javanol: click **Dilutions** to open that panel, type 10 in the field under the dilutions and click **Add dilution**. A formula offers a material only at the dilutions you have added. Price, supplier and stock are on the same page, for when you need them (section [3](manual.html#s3-materials)).
 
 ## 2. A formula (2 minutes)
 

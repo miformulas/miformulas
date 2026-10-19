@@ -138,7 +138,10 @@ with sync_playwright() as p:
     # ---- 4. materials list and a material page ----
     page.click("#tabM"); page.wait_for_timeout(300)
     page.locator("#list").get_by_text("Geraniol", exact=True).click(); page.wait_for_timeout(400)
+    # since 261019c the panels start closed and the two columns need about 59rem: a wider window, with Dilutions open
+    page.set_viewport_size({"width": 1440, "height": 800}); page.evaluate("DILOPEN = true; render()"); page.wait_for_timeout(400)
     shot(page, "app-material.png")
+    page.evaluate("DILOPEN = false; render()"); page.set_viewport_size({"width": 1280, "height": 800}); page.wait_for_timeout(300)
 
     # ---- 5. dilution dialog: change the dilution of a line that has a second dilution ----
     open_formula(page, "A Men")
@@ -429,6 +432,7 @@ with sync_playwright() as p:
         page.fill("#nmName", "Javanol"); page.wait_for_timeout(300)
         shot(page, "first-material-dialog.png", "#dlg")
         page.click("#dlgOk"); page.wait_for_timeout(600)
+        page.click("#dilBox summary"); page.wait_for_timeout(200)   # Dilutions starts closed since 261019c, as the guide says
         page.fill("#newDil", "10"); page.click("#btnAddDil"); page.wait_for_timeout(400)
         page.click("#btnNew"); page.wait_for_timeout(400)
         page.fill("#nfName", "My first accord"); page.click("#dlgOk"); page.wait_for_timeout(600)

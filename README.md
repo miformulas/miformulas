@@ -38,7 +38,7 @@ The other ways in:
   where; the others put it in your downloads folder).
 - **The app file on your own computer.** Click *Download the app* on the start
   screen and save `miFormulas.html` in a folder of its own; open it in Chrome or
-  Edge, choose *Start with the starter set* and keep `miformulas-data.json` next
+  Edge, choose *Start with the starter set* or *Start empty* and keep `miformulas-data.json` next
   to it. Next time the app offers *Reopen*. Updating: *Check for updates* in
   Settings fetches the new version and puts it in place of the old file; your
   data file stays untouched.

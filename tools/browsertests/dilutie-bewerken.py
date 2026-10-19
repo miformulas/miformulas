@@ -18,7 +18,7 @@ def check(name, cond):
 
 GER = "() => DATA.materials.find(m => m.name === 'Geraniol')"
 def open_geraniol(pg):
-    pg.evaluate(f"() => {{ VIEW = {{tab: 'M', id: ({GER})().id}}; setTabs(); render(); }}")
+    pg.evaluate(f"() => {{ DILOPEN = true; VIEW = {{tab: 'M', id: ({GER})().id}}; setTabs(); render(); }}")   # Dilutions starts closed since 261019c
     pg.wait_for_timeout(400)
 
 with sync_playwright() as p:

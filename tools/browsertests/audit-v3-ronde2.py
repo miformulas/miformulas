@@ -63,7 +63,7 @@ def sluit(p):   # het venster dicht als het nog open staat (op de vorige bouw sl
     p.wait_for_timeout(200)
 
 def open_m(p, mid):
-    p.evaluate("id => { HOMEVIEW = false; HELPVIEW = false; switchTab('M', id, null); }", mid); p.wait_for_timeout(200)
+    p.evaluate("id => { HOMEVIEW = false; HELPVIEW = false; DILOPEN = true; switchTab('M', id, null); }", mid); p.wait_for_timeout(200)   # Dilutions starts closed since 261019c
 
 with sync_playwright() as pw:
     b = pw.chromium.launch()
@@ -143,6 +143,7 @@ with sync_playwright() as pw:
     pd = p.evaluate("id => DATA.materials.find(m => m.id === id).purchaseDate", mid) or ""
     check(f"C3 Purchase date getypt: één Undo-stap ({pd}, {p.evaluate('UNDO.length') - n0})", pd.startswith("2024-") and p.evaluate("UNDO.length") - n0 == 1)
     # Tab blijft in een datumveld (het springt naar dag, maand of jaar): wie het veld verlaat, gaat naar een ander veld
+    p.evaluate("() => { const d = document.getElementById('dilBox'); if (d) d.open = true; }")   # Dilutions starts closed since 261019c
     p.focus("[data-dildate='0']"); p.fill("[data-dildate='0']", "2024-12-24"); p.focus("[data-dilnote='0']"); p.wait_for_timeout(200)
     n1 = p.evaluate("UNDO.length")
     p.focus("[data-dildate='0']"); p.fill("[data-dildate='0']", "2024-12-25"); p.focus("[data-dilnote='0']"); p.wait_for_timeout(200)

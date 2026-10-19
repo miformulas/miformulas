@@ -4,17 +4,23 @@ What changed in the app, newest first. The manual describes every function in fu
 
 ## On miformulas.com since 19 October
 
-These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, you get them with the next version.
+These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, **Settings › Check for updates** brings them in (see “Do you have the latest version?”).
+
+### Panels that stay as you leave them
+
+The panels under a formula (Notes, Trial log, Pyramid & categories, IFRA check) and on a material page (Dilutions, Stock, Description, Usage in formulas) now start closed, and their titles say what is in them: “Notes – recorded”, “Trial log – 2 entries”, “Dilutions – 100% base, 10%”. Open one and it stays open for every formula or material, also the next time you start the app on that computer, until you close it again.
+
+*Manual, sections [3](manual.html#s3-materials) and [5](manual.html#s5-editing-a-formula)*
 
 ### Finding the materials library
 
-The materials library, which fills in CAS, category, pyramid level, IFRA limit and alternative names when you type a name, has to be fetched once, and the only place to do that was Settings. Now **+ New material…** says so while no library is loaded, with **Get the latest library** right there, so the facts arrive for the material you are typing. Don’t want a library? The ✕ next to it stops the reminder for good; Settings keeps the button.
+The materials library, which fills in CAS, category, pyramid level, IFRA limit and alternative names when you type a name, has to be fetched once, and the only place to do that was Settings. Now **+ New material…** says so while no library is loaded, with **Get the latest library** right there, so the facts arrive for the material you are typing. Don’t want a library? **Don’t remind me** stops the reminder for good; Settings keeps the button.
 
 *Manual, section [3](manual.html#s3-materials)*
 
 ### The material page, rearranged
 
-The page of a material follows the formula page: the name at the top with Add to order list and the menu **⋯** (Delete material); under it the CAS number, the category, the alternative names and the look-up links; the fields in two columns, what the material is on the left and what you have of it on the right; and the four panels, Dilutions, Stock, Description and Usage in formulas, two by two under them. The Alternative names field now says how to enter several: separated by semicolons.
+The page of a material follows the formula page: the name at the top with Add to order list and the menu **⋯** (Delete material); under it the CAS number, the category, the alternative names and the look-up links; the fields in two columns where the window is wide enough, what the material is on the left and what you have of it on the right; and the four panels, Dilutions, Stock, Description and Usage in formulas, two by two under them. The Alternative names field now says how to enter several: separated by semicolons.
 
 *Manual, section [3](manual.html#s3-materials)*
 
@@ -28,12 +34,12 @@ Under the table, **Print / export** holds Print full formula, Excel export and S
 
 *Manual, sections [4](manual.html#s4-formulas-and-versions), [5](manual.html#s5-editing-a-formula), [10](manual.html#s10-bench-view-and-printing) and [12](manual.html#s12-ifra-check-and-category-panel)*
 
-> **Do you have the latest version?** When using the app on miformulas.com, in a browser or installed from there as an app, you always do: just reopen it.  
-> A copy of miFormulas.html on your own computer does not change by itself: go to **Settings › Check for updates**. No such button in your Settings? Then your copy is v2.2 or older. Open miformulas.com in Chrome or Edge, go to **Settings › Download the app** and put the new miFormulas.html in place of the old one (same folder, same name). Your data file is not touched, and the app offers to reopen it.
+> **Do you have the latest version?** When using the app on miformulas.com, in a browser or installed from there as an app, you get the latest version each time it loads: reload the page, or click the circular arrow in the header.  
+> A copy of miFormulas.html on your own computer does not change by itself: go to **Settings › Check for updates**. No such button in your Settings? Then your copy is older than build 261010b of 10 October (the build is next to the name in the top-left corner). Open miformulas.com in Chrome or Edge, go to **Settings › Download the app** and put the new miFormulas.html in place of the old one (same folder, same name). Your data file is not touched, and the app offers to reopen it.
 
 ## On miformulas.com since 18 October
 
-These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, you get them with the next version.
+These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, **Settings › Check for updates** brings them in (see “Do you have the latest version?”).
 
 ### Starting empty on your own computer
 
@@ -55,7 +61,7 @@ On a material whose stock you do not track yet, **Purchase › Add** in the Stoc
 
 ## On miformulas.com since 16 October
 
-These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, you get them with the next version.
+These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, **Settings › Check for updates** brings them in (see “Do you have the latest version?”).
 
 ### Removing the starter set
 
@@ -63,13 +69,13 @@ If you decided to have your formulas and materials “move in” to miFormulas, 
 
 If you want to remove both formulas and materials, it is best to start with **Remove the starter formulas**. Materials used in the remaining formulas will not be removed with **Remove the starter set materials.** This button removes every starter material, also the ones you already edited; there is an alert before you can confirm the removal. Each button asks first, and one Undo takes everything back.
 
-With nothing of your own yet, Delete the data kept in this browser and Start empty come to the same thing.
+With nothing of your own yet and your data kept in this browser, Delete the data kept in this browser and Start empty come to the same thing.
 
 *Manual, section [19](manual.html#s19-settings-theme-and-keyboard-shortcuts)*
 
 ### Settings
 
-The Settings window is grouped under headings: General, Materials library, Starter set, Where your data lives and This app. The buttons that delete something are red.
+The Settings window is grouped under headings: General, Materials library, Starter set, Where your data lives and This app. The buttons that remove formulas, materials or the data kept in this browser are red.
 
 *Manual, section [19](manual.html#s19-settings-theme-and-keyboard-shortcuts)*
 
@@ -119,7 +125,7 @@ The TGSC and Olfactorian buttons on a material page open that material’s own p
 
 ### Updating your own copy
 
-A copy of miFormulas.html on your own computer now has an update button: **Settings › Check for updates**. It compares your copy with the one on miformulas.com and replaces it when there is a newer one. Copies from v2.2 or older do not have the button yet; see the box above.
+A copy of miFormulas.html on your own computer now has an update button: **Settings › Check for updates**. It compares your copy with the one on miformulas.com and replaces it when there is a newer one. Copies older than build 261010b do not have the button; see “Do you have the latest version?”.
 
 *Manual, section [14](manual.html#s14-where-your-data-lives-and-the-other-ways-in)*
 

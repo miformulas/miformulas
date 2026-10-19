@@ -71,7 +71,7 @@ with sync_playwright() as p:
     check("twee aan twee op 1366 px", all(pb.values()) and abs(pb["#dilBox"]["y"] - pb["#stockBox"]["y"]) < 2 and abs(pb["#descBox"]["y"] - pb["#useBox"]["y"]) < 2
           and pb["#descBox"]["y"] > pb["#dilBox"]["y"])
     opn = page.evaluate("() => ['dilBox','stockBox','descBox','useBox'].map(i => document.getElementById(i)?.open)")
-    check(f"Dilutions en Usage open, Stock en Description dicht ({opn})", opn == [True, False, False, True])
+    check(f"de vier panelen beginnen dicht (sinds 261019c; {opn})", opn == [False, False, False, False])
     sums = page.evaluate("() => [...document.querySelectorAll('.fblocks > details > summary')].map(s => s.textContent.trim())")
     check(f"de titels noemen de stand ({sums})", len(sums) == 4 and sums[0].startswith("Dilutions – 100% base") and sums[1] == "Stock – not tracked"
           and sums[2] == "Description – empty" and sums[3].startswith("Usage in formulas – ") and sums[3].endswith("formulas"))

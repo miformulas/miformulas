@@ -313,7 +313,7 @@ with sync_playwright() as p:
     page.evaluate("""() => {
       DATA.materials.push({id:"m-st", name:"Voorraadstof", category:"Test", pyramid:2, isSolvent:false,
         dilutions:[{pct:10, isBase:true}, {pct:1}], stockEvents:[{t:"take", date: today(), g: 100}]});
-      invalidateMats(); markDirty(); VIEW = {tab:"M", id:"m-st", sub:null}; HOMEVIEW = false; setTabs(); render(); }""")
+      invalidateMats(); markDirty(); VIEW = {tab:"M", id:"m-st", sub:null}; HOMEVIEW = false; setTabs(); STOCKOPEN = true; render(); }""")   # the panels start closed since 261019c
     page.wait_for_timeout(700)
     page.fill("#stDilPct", "1"); page.fill("#stDilG", "50")
     page.click("#btnDil"); page.wait_for_timeout(700)
@@ -333,7 +333,7 @@ with sync_playwright() as p:
     # ---------- 3e. de laatste dilutie blijft staan ----------
     msgs.clear()
     page.evaluate("""() => { const m = DATA.materials.find(x => x.id === "m-st"); m.dilutions = [{pct: 10, isBase: true}];
-        invalidateMats(); markDirty(); render(); }""")
+        invalidateMats(); markDirty(); DILOPEN = true; render(); }""")   # Dilutions starts closed since 261019c
     page.wait_for_timeout(600)
     page.click("[data-deldil='0']"); page.wait_for_timeout(600)
     check(f"de laatste dilutie kan niet weg ({[m[:45] for m in msgs]})",

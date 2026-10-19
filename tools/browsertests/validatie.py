@@ -59,6 +59,7 @@ with sync_playwright() as p:
     page.click("#tabM"); page.wait_for_timeout(300)
     page.fill("#searchBox", "Hedione"); page.wait_for_timeout(400)
     page.click("#list .item"); page.wait_for_timeout(500)
+    page.evaluate("() => { const d = document.getElementById('dilBox'); if (d) d.open = true; }")   # closed to start since 261019c
     before = page.evaluate("""(() => { const m = DATA.materials.find(x => x.name === "Hedione"); return m.dilutions.length; })()""")
     msgs.clear()
     page.fill("#newDil", "100"); page.click("#btnAddDil"); page.wait_for_timeout(500)
@@ -222,7 +223,7 @@ with sync_playwright() as p:
           page.evaluate("() => DATA.orderList[0].amount") == 20)
 
     page.evaluate("""() => { const m = DATA.materials[0]; m.stockEvents = [{t:"take", date: today(), g: 100}];
-        switchTab("M", m.id, null); }""")
+        STOCKOPEN = true; switchTab("M", m.id, null); }""")   # Stock starts closed since 261019c
     page.wait_for_timeout(700)
     msgs.clear()
     page.fill("#stBuyAmt", "-40"); page.click("#btnBuy"); page.wait_for_timeout(600)

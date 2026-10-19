@@ -93,6 +93,7 @@ with sync_playwright() as pw:
     jav = "() => DATA.materials.find(m => m.name === 'Javanol')"
     check("de materiaalpagina opent, met de feiten van de library; Javanol puur, zoals hij verkocht wordt",
           page.evaluate(f"(() => {{ const m = ({jav})(); return !!m && m.cas === '198404-98-7' && m.dilutions.length === 1 && m.dilutions[0].pct === 100 && VIEW.tab === 'M' && VIEW.id === m.id; }})()"))
+    page.click("#dilBox summary"); page.wait_for_timeout(200)   # the guide: open Dilutions (closed to start since 261019c)
     page.fill("#newDil", "10"); page.click("#btnAddDil"); page.wait_for_timeout(400)
     check("Add dilution: de 10 % erbij",
           page.evaluate(f"(() => {{ const d = ({jav})().dilutions; return d.length === 2 && d.some(x => x.pct === 10) && d.some(x => x.pct === 100); }})()"))

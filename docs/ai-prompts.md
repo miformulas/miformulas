@@ -8,7 +8,7 @@ Attachments: ChatGPT, Claude and Gemini accept photos, PDFs and CSV files as att
 
 miFormulas imports formulas from a small JSON file (type `miformulas-import`). An assistant produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet. Save the answer as a `.json` file, then in miFormulas click ⇅ in the header and **Import formula…**, choose the file, check the preview and confirm.
 
-Tip: attach the file **Export all materials (Excel)** (⇅ in the header) as well. The assistant then uses the exact names of your own inventory, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your inventory are created as "to order" for you to merge or rename.
+Tip: attach the file **Export all materials (Excel)** (⇅ in the header) as well. The assistant then uses the exact names of your own inventory, and every line lands on the right material. Without it the assistant keeps the names as written, and materials that are not in your inventory are created as "to order" for you to rename, or to swap for one of your own with Replace material on the line.
 
 ---
 

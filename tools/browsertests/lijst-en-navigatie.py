@@ -95,7 +95,7 @@ with sync_playwright() as p:
         DATA.formulas.forEach(f => f.versions.forEach(v => v.lines.forEach(l =>
           n[l.materialId] = (n[l.materialId] || 0) + 1)));
         const id = Object.keys(n).sort((a,b) => n[b] - n[a])[0];
-        switchTab('M', id, null); }""")
+        DILOPEN = true; USEOPEN = true; switchTab('M', id, null); }""")   # the panels start closed since 261019c
     page.wait_for_timeout(700)
     page.evaluate("() => { const c = document.querySelector('#content'); c.scrollTop = c.scrollHeight; }")
     page.wait_for_timeout(300)

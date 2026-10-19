@@ -431,7 +431,7 @@ with sync_playwright() as p:
       const m = DATA.materials[0];
       for (let i = 1; i <= 65; i++) DATA.formulas.push({id:"f-u"+i, name:"Gebruik "+i, category:"Uncategorised",
         created:today(), versions:[{v:1, date:today(), lines:[{id:"u"+i, materialId:m.id, dilutionPct:100, weightG:1, remark:1}]}]});
-      buildUsage(); switchTab("M", m.id, null); }""")
+      buildUsage(); USEOPEN = true; switchTab("M", m.id, null); }""")   # closed to start since 261019c
     page.wait_for_timeout(800)
     kop = page.evaluate("""() => document.querySelector(".panelBox.usage summary").textContent""")   # a panel with a title since 261019b
     tekst = page.evaluate("""() => document.querySelector(".panelBox.usage").innerText""")
