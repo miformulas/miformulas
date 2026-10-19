@@ -36,6 +36,7 @@ with sync_playwright() as p:
     page.click("#btnNewMat"); page.wait_for_timeout(300)
     page.fill("#nmName", "Proefmateriaal X"); page.wait_for_timeout(200)
     page.click("#dlgOk"); page.wait_for_timeout(500)
+    page.evaluate("() => { const d = document.querySelector('#descBox'); if (d) d.open = true; }")   # an empty Description is closed since 261019b
     page.fill('textarea[data-f="description"]', DESC); page.dispatch_event('textarea[data-f="description"]', "change")
     page.wait_for_timeout(300)
     check("the description is on the material", page.evaluate(

@@ -174,12 +174,12 @@ with sync_playwright() as p:
         const box = document.querySelector('.panelBox.usage');
         const rows = [...box.querySelectorAll('[data-go]')].map(a => a.closest('div').innerText.replace(/\s+/g, ' ').trim());
         const nF = new Set(USAGE[m.id].map(u => u.fid)).size;
-        return {kop: box.querySelector('h3').textContent, rows, nF}; }""")
+        return {kop: box.querySelector('summary').textContent, rows, nF}; }""")   # a panel with a title since 261019b
     drie = [r for r in uses["rows"] if r.startswith("Gebruik drie")]
     gat = [r for r in uses["rows"] if r.startswith("Gebruik gat")]
     check(f"B10: één regel per formule, met de versies als reeks ({drie}, {gat})",
           drie == ["Gebruik drie v1–v3"] and gat == ["Gebruik gat v1, v3"])
-    check(f"B10: de kop telt formules ({uses['kop']!r}, {uses['nF']} formules)", uses["kop"].endswith(f"({uses['nF']})") and len(uses["rows"]) == min(uses["nF"], 60))
+    check(f"B10: de kop telt formules ({uses['kop']!r}, {uses['nF']} formules)", f"– {uses['nF']} formula" in uses["kop"] and len(uses["rows"]) == min(uses["nF"], 60))
     page.click(".panelBox.usage a[data-go='f-use1']"); page.wait_for_timeout(400)
     check("B10: de link opent de laatste versie", page.evaluate("() => VIEW.id === 'f-use1' && VIEW.sub && VIEW.sub.idx === 2"))
     page.evaluate("() => { DATA.formulas = DATA.formulas.filter(f => !/^f-use/.test(f.id)); buildUsage(); }")

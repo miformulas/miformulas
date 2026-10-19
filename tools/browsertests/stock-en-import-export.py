@@ -32,7 +32,7 @@ with sync_playwright() as p:
     check(f"Add begint meteen te volgen, zonder vraag ({msgs})", not msgs and s["t"])
     check(f"de stock is wat je kocht: 25 g ({s['q']})", s["q"] == 25)
     check(f"met een stocktake van 0 g ervoor ({s['ev']})", s["ev"][-2:] == ["take:0 start of tracking", "buy:25"])
-    check("het paneel toont de stand", "25" in page.text_content("details.panelBox summary"))
+    check("het paneel toont de stand", "25" in page.text_content("#stockBox summary"))
     page.keyboard.press("Control+z"); page.wait_for_timeout(400)
     s = st(mid)
     check(f"één Undo neemt beide terug ({s['ev']})", not s["t"] and not s["ev"])

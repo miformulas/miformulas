@@ -163,7 +163,7 @@ with sync_playwright() as p:
     page.click("#tabM"); page.wait_for_timeout(300)
     page.fill("#searchBox", unused); page.wait_for_timeout(400)
     page.click("#list .item"); page.wait_for_timeout(400)
-    msgs.clear(); page.click("#btnDelMat"); page.wait_for_timeout(500)
+    msgs.clear(); page.click("#mMore summary"); page.click("#btnDelMat"); page.wait_for_timeout(500)
     gone = page.evaluate(f"!DATA.materials.some(x => x.name === {unused!r})")
     check(f"the line just added counts as usage, so {unused} cannot be deleted ({msgs})",
           not gone and any("Cannot delete" in m for m in msgs))

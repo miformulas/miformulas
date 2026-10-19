@@ -41,7 +41,10 @@ NIEUW = ["#dlg:has(#setLocale)", "#dlg:has(#btnImpF)",   # 261017b: Import & exp
          # rijen Order en de knoppen, de tick bar en de panelen; in de nieuwe bouw de twee rijen van de kop, de rij onder de
          # tabel, Batch scaling en de panelen. De tabel, de bench en Compare blijven vergeleken
          "#content:has(> .fhead) > h2", "#content:has(> .fhead) > .metaLine", ".fhead", "#content:has(> .fhead) > .toolRow",
-         "#content:has(> .fhead) > .panelBox", ".tickBar", ".fTop", ".fMeta", ".fEdit", "#scaleBox", ".fblocks"]
+         "#content:has(> .fhead) > .panelBox", ".tickBar", ".fTop", ".fMeta", ".fEdit", "#scaleBox", ".fblocks",
+         # 261019b: de materiaalpagina in twee rijen, twee kolommen en vier panelen (rustige-materiaalpagina.py test ze),
+         # en de herinnering aan de library in + New material
+         "#content:has(> .fieldGrid) > *", "#content:has(> .mCols) > *", "#nmLibHint"]
 #   # bewust toegevoegd of omgezet sinds REF (261014a: de lijst met een zoekterm; 261015a:
 # Settings, breder en anders geschikt; audit-v3-teksten.py test het venster)
 # bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261014a: de categoriegroep

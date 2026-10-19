@@ -203,7 +203,7 @@ with sync_playwright() as p:
     # op de pagina zelf, en na Remove the library en Undo
     lijst("Decalactone gamma"); page.click("#list .item >> nth=0"); page.wait_for_timeout(400)
     def opdepagina():
-        return page.evaluate("""() => [...document.querySelectorAll("#content .metaLine a.lookup")].map(a =>
+        return page.evaluate("""() => [...document.querySelectorAll("#content .fMeta a.lookup")].map(a =>
             [a.textContent.trim(), a.getAttribute("href"), a.target, a.rel])""")
     pg = opdepagina()
     check(f"de materiaalpagina toont de directe links, in een nieuw tabblad ({pg[:2]})", len(pg) == 3

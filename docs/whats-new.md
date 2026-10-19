@@ -6,6 +6,18 @@ What changed in the app, newest first. The manual describes every function in fu
 
 These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, you get them with the next version.
 
+### Finding the materials library
+
+The materials library, which fills in CAS, category, pyramid level, IFRA limit and alternative names when you type a name, has to be fetched once, and the only place to do that was Settings. Now **+ New material…** says so while no library is loaded, with **Get the latest library** right there, so the facts arrive for the material you are typing. Don’t want a library? The ✕ next to it stops the reminder for good; Settings keeps the button.
+
+*Manual, section [3](manual.html#s3-materials)*
+
+### The material page, rearranged
+
+The page of a material follows the formula page: the name at the top with Add to order list and the menu **⋯** (Delete material); under it the CAS number, the category, the alternative names and the look-up links; the fields in two columns, what the material is on the left and what you have of it on the right; and the four panels, Dilutions, Stock, Description and Usage in formulas, two by two under them. The Alternative names field now says how to enter several: separated by semicolons.
+
+*Manual, section [3](manual.html#s3-materials)*
+
 ### The formula page, rearranged
 
 The page of a formula shows less at once. Its head has two rows: the name and the version, with what you do with versions, and under them, smaller, the category, the date and the order of the lines. Rename, copy, move and delete are in the menu **⋯** at the end of the first row, next to Bench view.

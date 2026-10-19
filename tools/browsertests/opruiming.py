@@ -230,13 +230,13 @@ with sync_playwright() as p:
       buildUsage(); markDirty(); switchTab("M", "m-oud", null); }""")
     page.wait_for_timeout(700)
     msgs.clear()
-    page.click("#btnDelMat"); page.wait_for_timeout(600)
+    page.click("#mMore summary"); page.click("#btnDelMat"); page.wait_for_timeout(600)
     check(f"een materiaal dat alleen in een oudere versie zit, zegt wat je wel kan doen ({[m[-70:] for m in msgs]})",
           any("older or frozen version" in m and "Delete version" in m for m in msgs))
     check("en het materiaal staat er nog", page.evaluate("""() => !!matById("m-oud")"""))
     page.evaluate("""() => switchTab("M", "m-nu", null)"""); page.wait_for_timeout(600)
     msgs.clear()
-    page.click("#btnDelMat"); page.wait_for_timeout(600)
+    page.click("#mMore summary"); page.click("#btnDelMat"); page.wait_for_timeout(600)
     check(f"een materiaal in de laatste versie krijgt die zin niet ({[m[-60:] for m in msgs]})",
           msgs and not any("older or frozen version" in m for m in msgs))
 
@@ -433,10 +433,10 @@ with sync_playwright() as p:
         created:today(), versions:[{v:1, date:today(), lines:[{id:"u"+i, materialId:m.id, dilutionPct:100, weightG:1, remark:1}]}]});
       buildUsage(); switchTab("M", m.id, null); }""")
     page.wait_for_timeout(800)
-    kop = page.evaluate("""() => document.querySelector(".panelBox.usage h3").textContent""")
+    kop = page.evaluate("""() => document.querySelector(".panelBox.usage summary").textContent""")   # a panel with a title since 261019b
     tekst = page.evaluate("""() => document.querySelector(".panelBox.usage").innerText""")
     getoond = page.evaluate("""() => document.querySelectorAll(".panelBox.usage [data-go]").length""")
-    n = int("".join(ch for ch in kop.split("(")[-1] if ch.isdigit()))
+    n = int("".join(ch for ch in kop.split("–")[-1] if ch.isdigit()))
     check(f"de kop telt alles ({kop!r}) en de lijst toont er zestig ({getoond})", n > 60 and getoond == 60)
     check(f"en eronder staat hoeveel er niet getoond worden ({[l for l in tekst.split(chr(10)) if 'more' in l]})",
           f"and {n - 60} more" in tekst)

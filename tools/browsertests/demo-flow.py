@@ -62,7 +62,7 @@ async def main():
         badge = await page.evaluate("[...document.querySelectorAll('#content .badge')].map(b => b.textContent)")
         check("starter set" in badge, f"materiaalpagina toont badge 'starter set' ({badge})")
         # opzoeklinks: TGSC en Olfactorian via DuckDuckGo op CAS (of naam), IFRA naar de library met de CAS op het klembord
-        links = await page.evaluate("[...document.querySelectorAll('#content .metaLine a.lookup')].map(a => [a.textContent.trim(), a.href, a.target, a.rel, a.dataset.copy || ''])")
+        links = await page.evaluate("[...document.querySelectorAll('#content .fMeta a.lookup')].map(a => [a.textContent.trim(), a.href, a.target, a.rel, a.dataset.copy || ''])")
         cas = await page.evaluate("(document.querySelector('#content input[data-f=cas]').value || document.querySelector('#content input[data-f=name]').value).trim()")
         from urllib.parse import quote
         check(len(links) == 3 and [l[0] for l in links] == ["TGSC ↗", "Olfactorian ↗", "IFRA ↗"], f"drie opzoeklinks in de metaLine ({[l[0] for l in links]})")

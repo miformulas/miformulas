@@ -648,7 +648,7 @@ with sync_playwright() as p:
         DATA.orderList = [{id:"o-w", materialId:null, name:"wegstof", added:today()}]; switchTab("M", "m-weg1", null); }""")
     page.wait_for_timeout(500)
     n5 = len(msgs)
-    page.click("#btnDelMat"); page.wait_for_timeout(600)
+    page.click("#mMore summary"); page.click("#btnDelMat"); page.wait_for_timeout(600)
     check(f"Delete material noemt en wist ook een regel onder een andere schrijfwijze ({msgs[n5:][:1]})",
           any("1 entry(ies) on the order list" in m for m in msgs[n5:]) and page.evaluate("DATA.orderList.length") == 0)
 
