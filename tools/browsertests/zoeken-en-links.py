@@ -145,6 +145,7 @@ with sync_playwright() as p:
     check(f"Browse: naam en categorie tellen niet samen: 'jasmin white' vindt niets ({r})", r == [])
     r = browse("706-14-9")
     check(f"Browse: het CAS zoals getypt ({r})", r == ["Decalactone gamma"])
+    page.click("#dlgCancel"); page.wait_for_timeout(400)   # Cancel in Browse goes back to New material (build 261021a)
     page.click("#dlgCancel"); page.wait_for_timeout(300)
 
     page.click("#btnHome"); page.wait_for_timeout(400)

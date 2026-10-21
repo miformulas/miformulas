@@ -472,7 +472,7 @@ table.ord tbody tr:hover td.acts{background:var(--accent-soft)}
    editing controls disappear entirely */
 body.ro #fMore,body.ro #mMore,body.ro #btnNewV,body.ro #btnDelV,body.ro #btnRenameF,body.ro #btnCopyF,body.ro #btnDelF,body.ro #btnMoveF,
 body.ro #btnApplyFactor,body.ro #scaleF,body.ro #btnApplyScale,body.ro #btnSetAbs,body.ro #targetAbs,body.ro #btnAddTrial,body.ro #trialDate,body.ro #trialText,
-body.ro #btnDelMat,body.ro #btnAddDil,body.ro #newDil,body.ro #newDilNote,body.ro #btnAddLine,body.ro #addMat,body.ro #btnPredil,body.ro #btnDilDown,body.ro #btnDilUp,
+body.ro #btnDelMat,body.ro #btnFillLib,body.ro #btnAddDil,body.ro #newDil,body.ro #newDilNote,body.ro #btnAddLine,body.ro #addMat,body.ro #btnPredil,body.ro #btnDilDown,body.ro #btnDilUp,
 body.ro .swatch,body.ro [data-mark],body.ro #btnClearMarks,body.ro .selCb,body.ro .bsel,body.ro #bMoveSel,body.ro #btnAddGroup,body.ro #btnNameV,
 body.ro [data-add],body.ro [data-deltrial],body.ro [data-deldil],body.ro [data-setbase],body.ro [data-del],body.ro [data-pyr],body.ro [data-repl],
 body.ro .bghandle,body.ro [data-bup],body.ro [data-bdown],body.ro [data-bempty],body.ro [data-bdel],
@@ -523,7 +523,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
   <div class="hleft">
     <button id="btnBack" class="small">‹ List</button>
     <h1>mi<span>Formulas</span></h1>
-    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261019d</span>
+    <span id="build" title="Build date of this app file" style="font-size:.7rem;opacity:.6;letter-spacing:.04em">261021a</span>
     <span class="hsep"></span>
     <button id="btnBar" class="small ico" title="Show/hide the list panel (Ctrl+B)">☰</button>
     <button id="btnNavPrev" class="small ico" hidden disabled title="Back (also the back button of your mouse, and Alt+Left)" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -595,7 +595,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>There is nothing to install and no account, and your data stays with you: in your browser, in a file of your own, or on a server of your own.</p>
 <p>What changed in each version, in plain words, is on the What’s new page: <a href="https://miformulas.com/docs/whats-new.html">https://miformulas.com/docs/whats-new.html</a>. The start screen links to it next to Manual, and so does the Help bar.</p>
 <p>And it will keep working. Before leaving Formulair the question was whether the next app would still exist in five years: many are one developer's hobby, and hosted ones stop when the hosting stops. miFormulas is one file that runs without any server, so your copy keeps working as it is, whatever happens to the site or the author. Your data is a plain JSON file you can read with any text editor. And the source is free software under the GPL: if the author loses interest, anyone can take it further.</p>
-<p>This manual describes build 261019d. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
+<p>This manual describes build 261021a. The build number of the copy you are using is shown next to the name in the top-left corner of the app, and in the Help bar; on a phone, and in the installed app on a screen narrower than about 1360 pixels, the header leaves it out, so read it there.</p>
 <h2 id="contents">Contents</h2><ol class="toc"><li><a href="#s1-getting-started">Getting started</a></li><li><a href="#s2-the-screen">The screen</a></li><li><a href="#s3-materials">Materials</a></li><li><a href="#s4-formulas-and-versions">Formulas and versions</a></li><li><a href="#s5-editing-a-formula">Editing a formula</a></li><li><a href="#s6-percentages-and-the-perfumery-arithmetic">Percentages and the perfumery arithmetic</a></li><li><a href="#s7-changing-dilutions">Changing dilutions</a></li><li><a href="#s8-batch-scaling-and-premixes">Batch scaling and premixes</a></li><li><a href="#s9-colour-marks-notes-and-the-trial-log">Colour marks, notes and the trial log</a></li><li><a href="#s10-bench-view-and-printing">Bench view and printing</a></li><li><a href="#s11-comparing-versions">Comparing versions</a></li><li><a href="#s12-ifra-check-and-category-panel">IFRA check and category panel</a></li><li><a href="#s13-stock-orders-and-deliveries">Stock, orders and deliveries</a></li><li><a href="#s14-where-your-data-lives-and-the-other-ways-in">Where your data lives, and the other ways in</a></li><li><a href="#s15-install-as-an-app-with-its-own-icon">Install as an app with its own icon</a></li><li><a href="#s16-import-export-and-sharing">Import, export and sharing</a></li><li><a href="#s17-coming-from-formulair">Coming from Formulair</a></li><li><a href="#s18-a-server-setup-for-cross-device-use">A server setup for cross-device use</a></li><li><a href="#s19-settings-theme-and-keyboard-shortcuts">Settings, theme and keyboard shortcuts</a></li><li><a href="#s20-backups-and-recovery">Backups and recovery</a></li><li><a href="#s21-privacy-who-can-see-your-formulas">Privacy: who can see your formulas</a></li><li><a href="#s22-questions-and-answers">Questions and answers</a></li><li><a href="#s23-licence">Licence</a></li></ol>
 <h2 id="s1-getting-started">1. Getting started</h2>
 <p>Open <a href="https://miformulas.com">https://miformulas.com</a> in a modern browser. New to miFormulas? <a href="https://miformulas.com/docs/first-five-minutes.html">https://miformulas.com/docs/first-five-minutes.html</a> takes you through a material, a formula and a version in five minutes, with pictures; this manual is the reference behind it.</p>
@@ -636,7 +636,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p><strong>Back and forward.</strong> Every place you open is a step: a formula and the version you were looking at, with the comparison or the bench view you had open, a material, the order list, the Welcome page, the manual. Moving through those steps uses the browser's own history, so the <strong>back and forward buttons of your mouse</strong> work, and so do the browser's own two buttons, <strong>Alt+Left</strong> and <strong>Alt+Right</strong> (Cmd+[ and Cmd+] on a Mac), the swipe gesture on a trackpad, and the back button of an Android phone. Going back moves you, it never changes your data: Ctrl+Z stays the way to take a change back. Switching to another version of the same formula is a step of its own, so back returns you to the version you were reading. Each step also remembers how far down its page you were when you clicked away, so back to a long formula lands on the line you left it at, not at its top. A step whose formula or material has been deleted since shows the Welcome page instead; one more step back takes you past it. Reloading the page lands you back on the step you were on when <strong>Open where you left off</strong> is ticked; with it off a reload starts on the list, like any other start. The installed app has no toolbar, so it shows the two arrows in the header instead; they grey out at the ends, and also when the browser has run out of steps to give, because a browser keeps only the last fifty or so. One step too far back at the very start leaves the app, as on any web page, and if you have unsaved work the browser asks first.</p>
 <h2 id="s3-materials">3. Materials</h2>
 <p>The <strong>Materials</strong> tab is your inventory: the materials you own or have on order. A <strong>materials library</strong> is something else, a reference file of facts that you import (section <a href="#s16-import-export-and-sharing">16</a>); it never changes what you own.</p>
-<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own premixes. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (the categories that come with the starter set and with a Formulair import carry a colour, used for the dots and the pyramid; the field shows the category with its colour, and a click on it opens the list of categories, the colour of the chosen one, so that a category you make yourself does not have to stay grey, and <strong>+ New category</strong>, which makes one without leaving the page), its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?), whether it is a solvent, IFRA limit, supplier, the amount purchased (free text, so an imported “2 × 50 ml” stays exactly as it was), cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), and where it is stored (cupboard, fridge, freezer). The page is laid out like a formula page: the name at the top with <strong>Add to order list</strong> (or <strong>Mark as owned</strong>) and the menu <strong>⋯</strong>, which holds <strong>Delete material</strong>; under it, smaller, starter set or to order where that applies, and the three look-up links; then the fields in two columns where the window is wide enough, what the material is on the left and what you have of it on the right. Below the fields stand four panels, two by two: the dilutions, the optional stock ledger (which also holds the date you bought it and the density in g/ml that section <a href="#s13-stock-orders-and-deliveries">13</a> uses to read a volume as a weight), a free description, and the list of every formula the material appears in, one line per formula with the versions that hold it (v1–v3); click a name there to jump to its latest version. The panels start closed, and the title of each says what is in it: the dilutions, the stock, "recorded" or "empty" for the description, the number of formulas. Open one with a click on its title and it stays open for every material, also the next time you start the app on this computer, until you close it again. The usage list shows the first sixty, with "and N more" underneath when there are more. A material always keeps at least one dilution, so the last one cannot be deleted: add the other one first.</p>
+<p>A material is anything you weigh: a raw material, a natural, a base, a solvent, one of your own premixes. Its page holds the name, CAS number, alternative names (trade or common names such as Ambroxan for Ambroxide, separated by semicolons; they count in the search box and when an import matches its lines), category (the categories that come with the starter set and with a Formulair import carry a colour, used for the dots and the pyramid; the field shows the category with its colour, and a click on it opens the list of categories, the colour of the chosen one, so that a category you make yourself does not have to stay grey, and <strong>+ New category</strong>, which makes one without leaving the page), its position in the olfactive pyramid (Top, Top-heart, Heart, Heart-base, Base, or ?), whether it is a solvent, IFRA limit, supplier, the amount purchased (free text, so an imported “2 × 50 ml” stays exactly as it was), cost per gram (of the pure material: for a dilution you bought, divide the price by its percentage), and where it is stored (cupboard, fridge, freezer). The page is laid out like a formula page: the name at the top with <strong>Add to order list</strong> (or <strong>Mark as owned</strong>) and the menu <strong>⋯</strong>, which holds <strong>Fill in from the library…</strong> (while a materials library is loaded) and <strong>Delete material</strong>; under it, smaller, starter set or to order where that applies, and the three look-up links; then the fields in two columns where the window is wide enough, what the material is on the left and what you have of it on the right. Below the fields stand four panels, two by two: the dilutions, the optional stock ledger (which also holds the date you bought it, the density in g/ml that section <a href="#s13-stock-orders-and-deliveries">13</a> uses to read a volume as a weight, and a note), a free description, and the list of every formula the material appears in, one line per formula with the versions that hold it (v1–v3); click a name there to jump to its latest version. The panels start closed, and the title of each says what is in it: the dilutions, the stock (with “· note” when its note holds text), "recorded" or "empty" for the description, the number of formulas. Open one with a click on its title and it stays open for every material, also the next time you start the app on this computer, until you close it again. The usage list shows the first sixty, with "and N more" underneath when there are more. A material always keeps at least one dilution, so the last one cannot be deleted: add the other one first.</p>
 <p><strong>Look it up.</strong> Next to the CAS number and category sit three small links that open in a new tab, so that checking a material is one click instead of copying its name around. <strong>TGSC</strong> and <strong>Olfactorian</strong> open the material's own page on that site when the materials library (section <a href="#s16-import-export-and-sharing">16</a>) links to it, and otherwise look the material up through DuckDuckGo by its CAS number (only the number itself, whatever else the field holds; or the name, if there is no CAS), Olfactorian within that site and TGSC as a search for the number with "tgsc"; the tooltip says which of the two a link does. The library's link counts when your material carries the name of a library material, as its own name or as an alternative name (a material made from the library under another name keeps the library's name there), or when exactly one library material carries your material's name as an alternative name; never on the CAS number alone, because one number can stand for several materials. <strong>IFRA</strong> opens the IFRA Standards library with the CAS number (or the name) already on your clipboard, because that library has no address per material: paste it in the search box there. The app copies nothing from those sites into your inventory; what you enter is up to you.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s3-materials">A material page: its fields and dilutions.</a></p>
 <p><strong>Dilutions.</strong> A material offers only the dilutions you actually own. If you have Iso E Super at 100 % and at 10 % in ethanol, add both; if you only ever bought a 10 % dilution of a costly absolute, add only 10 %. Add one with <strong>Add dilution</strong> (a percentage and an optional note) and make it the base with <strong>Set base</strong>; <strong>✕</strong> removes one after a question that says whether formulas use it, and the highest remaining dilution becomes the base if you remove that one. One of them is the <strong>base</strong> dilution, the concentration that new formula lines start with; any dilution can be the base, and 100 % is not assumed. Deleting a dilution that formulas use is allowed: those lines keep their value, and on the version you can still edit they get the ⚠ of a dilution you do not stock (section <a href="#s7-changing-dilutions">7</a>); new lines no longer offer it. The date and the note of a dilution can be changed in the table.</p>
@@ -645,7 +645,8 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p><strong>IFRA limit.</strong> Enter the limit in percent of the finished product for Category 4 (fine fragrance), taken from the standards library on ifrafragrance.org. Three special values: <strong>99</strong> means checked, no restriction; <strong>0</strong> means prohibited in this category; empty means not yet checked (a figure below zero from an imported file counts as empty too). The IFRA panel of a formula uses these figures (section <a href="#s12-ifra-check-and-category-panel">12</a>).</p>
 <p><strong>Storage.</strong> A material stored in the fridge shows a ❄ next to formula lines that use it at its base concentration, also on the printed weighing sheet, so you know which bottles to fetch first.</p>
 <p><strong>To order.</strong> A material you do not have yet, whether you added it from the order list or it came out of an import, carries the label "to order" and a 🛒 in the list until it is delivered.</p>
-<p>Materials come from <strong>+ New material…</strong> in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from <strong>Create premix…</strong>. With a materials library loaded (section <a href="#s16-import-export-and-sharing">16</a>) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. While no library is loaded, the window says so and offers <strong>Get the latest library</strong> on the spot, so that the facts are there for the material you are typing; <strong>Don’t remind me</strong>, next to it, stops that reminder for good (so does removing a library in Settings), and Settings keeps the button for whenever you want it after all. The search box in Materials also reaches the library: under your own results it lists what the library knows and you do not have ("Also in the materials library:", or "Not in your inventory. In the materials library:" when you have none of them), the first eight, with "and N more; narrow the search" underneath, each with a <strong>+ Add</strong>. <strong>Browse the library…</strong>, in the + New material window, opens the whole library with a search field and a tick box per material: useful when you start from nothing and want ten materials at once. Shift-click ticks a range, as in the formula table. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. <strong>Delete material</strong> refuses as long as any version uses the material, an older or a frozen one included, and names the formulas; the list of them stands on the page as well. Removing the lines from the latest version is the way out, and for a version that cannot be edited the refusal points at <strong>Delete version</strong>. When nothing uses it any more, deleting asks for confirmation and says how many order-list entries go with it.</p>
+<p>Materials come from <strong>+ New material…</strong> in the header (name, category and base dilution; the rest is filled in on the page), from the order list, from an import, or from <strong>Create premix…</strong>. With a materials library loaded (section <a href="#s16-import-export-and-sharing">16</a>) the name field suggests the names in it, by name and by alternative name, and a match brings its facts along: CAS, category, pyramid level, IFRA limit, the alternative names, and a few lines at the top of the description: the odour words, then the impact, the substantivity and the concentration it is typically used at. Everything stays editable, and one Undo takes the whole material back. While no library is loaded, the window says so and offers <strong>Get the latest library</strong> on the spot, so that the facts are there for the material you are typing; <strong>Don’t remind me</strong>, next to it, stops that reminder for good (so does removing a library in Settings), and Settings keeps the button for whenever you want it after all. The search box in Materials also reaches the library: under your own results it lists what the library knows and you do not have ("Also in the materials library:", or "Not in your inventory. In the materials library:" when you have none of them), the first eight, with "and N more; narrow the search" underneath, each with a <strong>+ Add</strong>. <strong>Browse the library…</strong>, in the + New material window, opens the whole library with a search field, which starts with the name you typed, and a tick box per material: useful when you start from nothing and want ten materials at once. <strong>Cancel</strong> there takes you back to the + New material window as you left it. Shift-click ticks a range, as in the formula table. What you already have is greyed out and cannot be ticked, everything arrives at 100 % base dilution, and the whole batch is a single Undo step. <strong>Delete material</strong> refuses as long as any version uses the material, an older or a frozen one included, and names the formulas; the list of them stands on the page as well. Removing the lines from the latest version is the way out, and for a version that cannot be edited the refusal points at <strong>Delete version</strong>. When nothing uses it any more, deleting asks for confirmation and says how many order-list entries go with it.</p>
+<p><strong>Fill in from the library…</strong>, in the menu ⋯ of a material, brings the facts of the library to a material you already have: one that came from Formulair or from a spreadsheet, or a second bottle of the same material under a name of its own, such as a rose absolute from another country. Pick its entry in the list, which you search by name, alternative name or CAS number; an entry you already have can be picked too. Only what is still empty is filled in: the CAS number, the category (Uncategorised counts as empty), the pyramid level (?), the IFRA limit and the description. What you filled in yourself stays. The name of the entry and its alternative names are added as alternative names, so that the TGSC and Olfactorian links of the page open the pages the library links to; a name that another material of yours carries as an alternative name is left out, so that an import never has to ask which of the two you mean. The window says what it will fill in before you confirm, and one Undo takes it all back.</p>
 <p><strong>Classify several…</strong>, above the search box of the Materials list, gives many materials a category, a pyramid level or both at once: every perfumer has a classification of their own, and the one of the starter set or the library need not be yours. The window lists your inventory with a search field (names, alternative names, categories and CAS numbers, as in <strong>Export my inventory as a library…</strong>) and a tick box per material; the material you have open is ticked already. <strong>Tick all shown</strong> ticks what the search shows, so "ionone" and one click take all your ionones; Shift-click ticks a range, <strong>Untick all</strong> starts again, and what you ticked stays ticked when you search for something else. Under the list, Category and Pyramid stay "unchanged" until you choose, so you can set one and leave the other, and <strong>+ New category</strong> makes a category there. <strong>Apply</strong> (it counts what you ticked: Apply to 12) changes the ticked materials in a single Undo step and says how many it changed. Premixes are not in the list: they keep their own group. The same button above the Formulas list does this for formulas (section <a href="#s4-formulas-and-versions">4</a>).</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s3-materials">Classify materials: the ionones, on their way to a category of their own.</a></p>
 <p>You cannot give a material the name of another one, and the app watches the alternative names in both directions. Type a name that one of your materials already carries as an alternative name and it says so before making a second material. Rename a material to a name that another one carries as an alternative name and it asks as well, with the consequence: from then on an import that uses that name lands on the renamed material instead of the other one.</p>
@@ -730,7 +731,7 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p>The <strong>Pyramid &amp; categories</strong> panel shows what the concentrate is made of, in two ways; as long as no material in the version has a pyramid level, it shows only the table and is called <strong>Categories</strong>. The pyramid drawing works per pyramid level, over the material that carries one: a line whose material still has no level (?) is left out, so those percentages are shares of what is classified, not of the whole concentrate. The table under it shows how the non-solvent content is spread over material categories, dilution-corrected, with a bar per category.</p>
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s12-ifra-check-and-category-panel">The Pyramid &amp; categories panel.</a></p>
 <h2 id="s13-stock-orders-and-deliveries">13. Stock, orders and deliveries</h2>
-<p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking, or add a <strong>Purchase</strong> there: on a material that is not tracked yet, a purchase starts the ledger at once, with a stocktake of 0 g before it, so the stock is what you bought. From then on purchases add, and two things deduct: <strong>Dilution made</strong>, the row with the percentage, the total and the button <strong>Deduct base</strong> (you made 50 g of a 10 % dilution out of a base at 100 %, so 5 g of base left the bottle; with a base at 10 % it would be 50 g, and a dilution stronger than your base is refused) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted, and a first purchase in millilitres, the one that would start the ledger, asks for the density first. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one. The ledger does not follow a change of base: set another dilution as the base and the grams stay as they are, now counted as grams of that dilution, so set a new stocktake when you switch.</p>
+<p><strong>Stock</strong> is an optional ledger per material, in grams of the base concentration. Open the Stock panel on a material and set a <strong>stocktake</strong> (what is in the bottle now) to start tracking, or add a <strong>Purchase</strong> there: on a material that is not tracked yet, a purchase starts the ledger at once, with a stocktake of 0 g before it, so the stock is what you bought. From then on purchases add, and two things deduct: <strong>Dilution made</strong>, the row with the percentage, the total and the button <strong>Deduct base</strong> (you made 50 g of a 10 % dilution out of a base at 100 %, so 5 g of base left the bottle; with a base at 10 % it would be 50 g, and a dilution stronger than your base is refused; a percentage the material did not have yet joins its dilutions, dated today) and <strong>Mark as prepared</strong> on a formula, which deducts every base-dilution line of tracked materials, once per version. Purchases in millilitres are converted with the material's density; without a density they are logged but not counted, and a first purchase in millilitres, the one that would start the ledger, asks for the density first. A purchase also looks at the purchase date of the material: an empty one becomes today, and when it holds another date the app asks whether to change it, with a calendar on today. <strong>Set date</strong> gives the material that date and books the purchase on it too, as Delivered… does below; <strong>No change</strong>, or Escape, leaves it as it was. The ledger follows the base material only, not the dilutions you made from it: a formula line at 10 % does not touch the stock, and an empty bottle of dilution is no problem as long as the base material is still there, because you can make a fresh dilution and log it as <strong>Dilution made</strong>. The estimate is only as good as the entries; the ledger keeps the last events so you can remove a wrong one. The ledger does not follow a change of base: set another dilution as the base and the grams stay as they are, now counted as grams of that dilution, so set a new stocktake when you switch. The <strong>Note</strong> under the purchase date and the density is for what the figures do not say, such as what is left of an older bottle next to a new one; while the panel is closed, its title ends in “· note” when the note holds text.</p>
 <p><strong>To order</strong> is the shopping list. Add a material from the list itself (existing or new), with <strong>Add to order list</strong> on a material page, or automatically when a formula or an import mentions a material you do not have. An entry you added before the material existed belongs to that material once you create it, so the list does not get a second entry for it, and an entry under the old name follows when you rename the material. Each entry has a note, an amount and unit, a price and a product link. A link shows as the name of the shop with ↗, which opens the page; <strong>✎</strong> beside it changes the link. The magnifier, <strong>Search my shops</strong>, opens a Google search limited to the web shops you listed under <strong>Edit shop list (0)…</strong> (one domain per line; the figure counts them). As long as that list is empty it is <strong>Search the web</strong>, because that is what it would do. The date an entry was added is in the list on the left and in the tooltip of its name.</p>
 <p><strong>Delivered…</strong> closes an entry. Its window says which material it is about to update, or that it creates a new one, and has these fields:</p>
 <ul>
@@ -831,8 +832,8 @@ body.locked #btnSnap,body.locked #btnDownload,body.locked #btnFormulair,body.loc
 <p class="helpfig">Screenshot in the online manual: <a href="https://miformulas.com/docs/manual.html#s16-import-export-and-sharing">The import page: every line with its match, the total weight, new materials and dilutions you do not stock.</a></p>
 <p><strong>Turning a photo, PDF or spreadsheet into an import file.</strong> You do not have to write that file by hand. Any AI assistant that can read images and files (ChatGPT, Claude, Gemini, Copilot and others) produces it from a photo of a handwritten sheet, a scan, a PDF or a spreadsheet: paste the ready-made prompt from <a href="https://miformulas.com/docs/ai-prompts.html"><code>docs/ai-prompts.md</code></a> (also at https://miformulas.com/docs/ai-prompts.html), attach the photo or file, save the answer as a <code>.json</code> file and import it. The prompt tells the AI assistant to transcribe verbatim, to leave dilutions and weights as they are (only a sheet in percentages or parts becomes grams on a 100 g batch, and the notes say so), to mark the solvent lines, to use the name on the sheet and never to invent one, and to report the total weight and every doubtful line. Attach the <strong>Export all materials (Excel)</strong> export as well and the assistant uses the exact names of your inventory, so that every line lands on the right material. The app offers the prompts where they help: next to Import formula… and next to the Excel exports in Import &amp; export, under the server fields in Settings, in <strong>Move into…</strong> for grouping a Formulair import, and on the Welcome page while your list of formulas is still empty. The app itself never talks to an AI; the conversion happens in the assistant of your choice, with your files, on your account. That separation is deliberate: a built-in AI would need a paid API key and would send your formulas to a third party, and neither fits an app that keeps everything on your own computer.</p>
 <h3 id="materials-coming-in">Materials coming in</h3>
-<p><strong>Import materials inventory from CSV…</strong> is the way in for the materials you already keep in Excel, Numbers or Google Sheets, which is where almost everyone keeps them. Save the sheet as a CSV first (in Excel: <strong>File › Save As › CSV</strong>; the app reads the comma, the semicolon and the tab, a decimal comma as well as a point, and the Windows encoding Excel uses when you do not choose "CSV UTF-8"). Then choose the file, and the app shows its columns next to the fields of a material and lets you match them on screen. It fills the matches in itself when it recognises the headers: its own, from <strong>Export all materials (Excel)</strong>, and the usual names (Material or Ingredient for the name, CAS No., Vendor, Price, IFRA, Level for the pyramid, and Notes, which goes to the description, among others); anything it did not recognise you pick from the list, and only <strong>Name</strong> is required. Under the matching you see the first rows of your sheet as they were read, and a count of what will happen: how many materials will be created, how many rows are skipped because you already have a material with that name, and how many rows have no name. Every other row becomes a material of its own, also when the sheet holds the same name more than once: the same material bought from three shops stays three materials, and the final message names such names, so that you can rename one of each. An alternative name of yours does not count as a name you have. Nothing of yours is touched by an import. What the sheet leaves empty, the materials library fills in when it knows the name (section <a href="#s3-materials">3</a>), so a sheet with nothing but names still arrives with CAS numbers, categories and pyramid levels. The window names the library that is loaded and says how many of the new names it knows; when none is loaded, it offers <strong>Get the latest library</strong> right there, so the first import does not have to pass through Settings. Pyramid takes the words Top, Top-heart, Heart, Heart-base, Base or the numbers 0 to 4; Solvent, Cupboard, Fridge and Freezer take yes or nothing; Dilutions takes the base first and the others after a slash ("100 / 10"), and a single figure like "10%" makes that the base; the same percentage twice in one cell is read once, as it is everywhere else in the app. A purchase date may stand as 2026-01-15 or in the short form of your spreadsheet (15/01/2026); one the app cannot read is left empty, and the final message counts it. A stock column (<strong>Stock g (tracked)</strong> in the export) becomes a stocktake dated today, so the ledger starts from that figure (section <a href="#s13-stock-orders-and-deliveries">13</a>). A description over several lines in one cell keeps its lines. The whole import is one Undo step. <strong>Download a template</strong> in that window, or the link <strong>template</strong> beside this button in Import &amp; export and on the Welcome page, writes a CSV with the columns the app uses itself and two example rows to overwrite, so nobody has to guess the format with an empty inventory.</p>
-<p><strong>Import materials library…</strong> reads a miformulas-materials JSON file: a library of materials with their facts, which the app uses when you add a material, when you tick several in <strong>Browse the library…</strong>, and in a search in Materials, under what your inventory finds. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. Its pyramid level may be a number from 0 (Top) to 4 (Base) or the word, as in the CSV above. A library can also link each material to its page on The Good Scents Company and on Olfactorian, as the published one does for most of its materials; the <strong>TGSC</strong> and <strong>Olfactorian</strong> links on the material page then open that page (section <a href="#s3-materials">3</a>). One library is loaded at a time, so importing a newer or fuller one replaces the previous one, after a question that names both; the materials you own are never touched. Settings (⚙) names the library that is loaded, with its version, its number of materials and its licence, removes it again (after which + New material stops reminding you of it), and fetches the latest miFormulas library straight from the site with <strong>Get the latest library</strong>, so you do not have to download a file first; + New material offers that same button while no library is loaded. The library travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step. That is also why its size matters: it sits inside your data file, and every change you make writes that file whole, so a large library would be sent to your disk or your server over and over. The app names the size when you load one, and refuses a library above <strong>2 MB</strong>; the published miFormulas library is a fraction of that.</p>
+<p><strong>Import materials inventory from CSV…</strong> is the way in for the materials you already keep in Excel, Numbers or Google Sheets, which is where almost everyone keeps them. Save the sheet as a CSV first (in Excel: <strong>File › Save As › CSV</strong>; the app reads the comma, the semicolon and the tab, a decimal comma as well as a point, and the Windows encoding Excel uses when you do not choose "CSV UTF-8"). Then choose the file, and the app shows its columns next to the fields of a material and lets you match them on screen. It fills the matches in itself when it recognises the headers: its own, from <strong>Export all materials (Excel)</strong>, and the usual names (Material or Ingredient for the name, CAS No., Vendor, Price, IFRA, Level for the pyramid, and Notes, which goes to the description, among others); anything it did not recognise you pick from the list, and only <strong>Name</strong> is required. Under the matching you see the first rows of your sheet as they were read, and a count of what will happen: how many materials will be created, how many rows are skipped because you already have a material with that name, and how many rows have no name. Every other row becomes a material of its own, also when the sheet holds the same name more than once: the same material bought from three shops stays three materials, and the final message names such names, so that you can rename one of each. An alternative name of yours does not count as a name you have. Nothing of yours is touched by an import. What the sheet leaves empty, the materials library fills in when it knows the name (section <a href="#s3-materials">3</a>), so a sheet with nothing but names still arrives with CAS numbers, categories and pyramid levels. The window names the library that is loaded and says how many of the new names it knows; when none is loaded, it offers <strong>Get the latest library</strong> right there, so the first import does not have to pass through Settings. Pyramid takes the words Top, Top-heart, Heart, Heart-base, Base or the numbers 0 to 4; Solvent, Cupboard, Fridge and Freezer take yes or nothing; Dilutions takes the base first and the others after a slash ("100 / 10"), and a single figure like "10%" makes that the base; the same percentage twice in one cell is read once, as it is everywhere else in the app. A purchase date may stand as 2026-01-15 or in the short form of your spreadsheet (15/01/2026); one the app cannot read is left empty, and the final message counts it. A stock column (<strong>Stock g (tracked)</strong> in the export) becomes a stocktake dated today, so the ledger starts from that figure (section <a href="#s13-stock-orders-and-deliveries">13</a>), and <strong>Stock note</strong>, the last column of the export, goes to the note of the Stock panel. A description over several lines in one cell keeps its lines. The whole import is one Undo step. <strong>Download a template</strong> in that window, or the link <strong>template</strong> beside this button in Import &amp; export and on the Welcome page, writes a CSV with the columns the app uses itself and two example rows to overwrite, so nobody has to guess the format with an empty inventory.</p>
+<p><strong>Import materials library…</strong> reads a miformulas-materials JSON file: a library of materials with their facts, which the app uses when you add a material, when you tick several in <strong>Browse the library…</strong>, when you fill in a material you already have with <strong>Fill in from the library…</strong>, and in a search in Materials, under what your inventory finds. It is a reference, not your cupboard: nothing appears in your Materials tab until you create a material yourself. Its pyramid level may be a number from 0 (Top) to 4 (Base) or the word, as in the CSV above. A library can also link each material to its page on The Good Scents Company and on Olfactorian, as the published one does for most of its materials; the <strong>TGSC</strong> and <strong>Olfactorian</strong> links on the material page then open that page (section <a href="#s3-materials">3</a>). One library is loaded at a time, so importing a newer or fuller one replaces the previous one, after a question that names both; the materials you own are never touched. Settings (⚙) names the library that is loaded, with its version, its number of materials and its licence, removes it again (after which + New material stops reminding you of it), and fetches the latest miFormulas library straight from the site with <strong>Get the latest library</strong>, so you do not have to download a file first; + New material offers that same button while no library is loaded. The library travels with your data, so it is in your Backup and on your other devices, and Undo takes an import or a removal back in one step. That is also why its size matters: it sits inside your data file, and every change you make writes that file whole, so a large library would be sent to your disk or your server over and over. The app names the size when you load one, and refuses a library above <strong>2 MB</strong>; the published miFormulas library is a fraction of that.</p>
 <h3 id="exports">Exports</h3>
 <p><strong>Export all formulas (Excel)</strong> and <strong>Export all materials (Excel)</strong> download everything as CSV files, one row per formula line with both percentages and cost, and one row per material with all its fields, stock and dilutions. Read back with <strong>Import materials inventory from CSV…</strong> in another copy of the app, the materials file passes on your inventory without a single formula; what stays behind is the stock history (the stock arrives as a stocktake), the dates and notes of the dilutions, the order list and the colours of the categories. The formulas export carries a last column <strong>Notes</strong>, filled on the first line of each version, and writes more decimals whenever three would not hold the weight exactly, so that the file can be read back whole with <strong>Import formula…</strong>; only the trial log stays behind. The separators follow the number format in Settings: a comma for the decimal and a semicolon between the columns in Belgian and most European settings, a point and a comma in English ones, which is what Excel expects in each.</p>
 <p><strong>Export all my formulas</strong> writes every formula with all its versions as one miformulas-import file, the same format a single shared formula uses. It is the counterpart of Export my inventory as a library: the formulas and their lines, with the material names, their dilutions and weights, the CAS numbers and a mark on every line saying whether it is a solvent in your inventory, plus the label, date and notes of each version. Nothing of your own lab goes along: no price, supplier, stock, trial log or colour marks. Use it to hand a colleague your whole collection, or to bring the formulas of one miFormulas into another without overwriting what is there, which is what a Backup would do. A line pointing to a material you have since deleted has no name to match on: the app says how many there are and asks before it writes the file, as the other exports do.</p>
@@ -1224,7 +1225,7 @@ function migrate(d){
   }
   for (const m of d.materials){
     freshId(m, "m-");
-    text(m, ["name", "cas", "category", "supplier", "inventory", "purchaseDate", "description"], {category: "Uncategorised"});
+    text(m, ["name", "cas", "category", "supplier", "inventory", "purchaseDate", "description", "stockNote"], {category: "Uncategorised"});
     m.name ||= "Unnamed material";
     m.dilutions = rows(m.dilutions);   // the calculation reads d.pct on every render: an empty slot there would stop it
     m.dilutions = m.dilutions.filter(x => { if (typeof x.pct !== "string") return true; x.pct = numOr(x.pct, null, "%"); return x.pct != null; });
@@ -1965,7 +1966,7 @@ $("#dlg").addEventListener("keydown", e => {   // bound once, not per dialog: En
   if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
   const t = e.target;
   if (t.tagName === "TEXTAREA" || t.tagName === "BUTTON" || t.tagName === "A") return;
-  if (t.tagName === "INPUT" && (t.type === "checkbox" || /^(brQ|clQ|exQ)$/.test(t.id))) return;   // a search field narrows its list: Enter there applies nothing (audit v3, C4)
+  if (t.tagName === "INPUT" && (t.type === "checkbox" || /^(brQ|clQ|exQ|flQ)$/.test(t.id))) return;   // a search field narrows its list: Enter there applies nothing (audit v3, C4)
   e.preventDefault(); $("#dlgOk")?.click();
 });
 function pyrLevels(K){
@@ -2979,7 +2980,9 @@ function addOneFromList(name){   // the + Add button under a search that found n
   if (!ids.length) return;
   VIEW = {tab:"M", id: ids[0], sub:null}; HOMEVIEW = false; setTabs(); render();
 }
-function browseList(){   // pick several materials from the library in one go
+// From + New material (build 261021a): q is the name typed there and the first search; back brings that window again
+// on Cancel or Escape, once this one has closed
+function browseList(q = "", back = null){   // pick several materials from the library in one go
   const all = listMaterials();
   if (!all.length) return;
   const have = ownNames(), ownMain = ownMainNames();
@@ -3011,10 +3014,14 @@ function browseList(){   // pick several materials from the library in one go
     <div id="brRows" style="max-height:50vh;overflow:auto;border:1px solid var(--line);border-radius:6px"></div>
     <div class="hint" id="brCount" style="margin-top:.4rem"></div>`, "Add", () => {
     if (!picked.size){ alert("Tick the materials you want to add."); return false; }
+    if (onCancel) $("#dlg").removeEventListener("cancelled", onCancel);
     const ids = addListMaterials([...picked]);
     VIEW = {tab:"M", id:null, sub:null}; HOMEVIEW = false; setTabs(); render();
     alert(`${nMats(ids.length)} added to your inventory.`);
   }, "34rem");
+  const onCancel = back && (() => setTimeout(back));   // Escape announces it while the window is still open
+  if (onCancel) $("#dlg").addEventListener("cancelled", onCancel, {once: true});
+  $("#brQ").value = q;
   $("#brQ").addEventListener("input", draw);
   $("#brRows").addEventListener("click", e => {   // click, not change: only click carries shiftKey
     const c = e.target.closest("input[data-n]"); if (!c) return;
@@ -3028,7 +3035,93 @@ function browseList(){   // pick several materials from the library in one go
     lastPos = pos;
     count();
   });
-  draw(); $("#brQ").focus();
+  draw(); $("#brQ").focus(); $("#brQ").setSelectionRange(q.length, q.length);
+}
+// + New material… again with what was typed in it: after Get the latest library, and after Cancel in Browse the library…
+// (build 261021a). The name first, so that a hit in the library picks its category; then a category chosen by hand, which
+// wins over it (the one the window starts with is no choice)
+function reopenNewMat(keep){
+  $("#btnNewMat").click();
+  if (!$("#nmName")) return;
+  const sel = $("#nmCat"), dflt = sel.value;
+  $("#nmName").value = keep.name; $("#nmName").dispatchEvent(new Event("input"));
+  if (keep.cat && keep.cat !== dflt){
+    if (![...sel.options].some(o => o.value === keep.cat)) sel.add(new Option(keep.cat, keep.cat));
+    sel.value = keep.cat;
+  }
+  $("#nmDil").value = keep.dil;
+}
+// Fill in from the library…, in the menu ⋯ of a material (build 261021a): the facts of one library entry go into the fields
+// that are still empty, and what you filled in yourself stays; one Undo takes it back. Any entry can be picked, one you own
+// already too: a second bottle of the same material (a rose absolute from another country) has a name the library lacks.
+const FILLKEYS = [["cas", "CAS"], ["category", "category"], ["pyramid", "pyramid level"], ["ifraLimit", "IFRA limit"], ["description", "description"]];
+function listFillPlan(m, e){   // what Fill in would do: {keys: the fields it fills, val: their new values, aliases: the names it adds}
+  const empty = {cas: !String(m.cas || "").trim(), category: !m.category || m.category === "Uncategorised",
+    pyramid: m.pyramid == null || m.pyramid === 5, ifraLimit: m.ifraLimit == null || m.ifraLimit < 0,
+    description: !String(m.description || "").trim()};
+  const val = {cas: e.cas || "", category: e.category && e.category !== "Uncategorised" ? e.category : "",
+    pyramid: e.pyramid != null && e.pyramid !== 5 ? e.pyramid : null, ifraLimit: e.ifraLimit != null && e.ifraLimit >= 0 ? e.ifraLimit : null,
+    description: e.description || listFacts(e)};
+  const keys = FILLKEYS.map(([k]) => k).filter(k => empty[k] && val[k] != null && val[k] !== "");
+  // the names of the entry become alternative names, as with + New material, except one that another material carries as an
+  // alternative name: an import would then ask which of the two you mean. The own name of another material may come along:
+  // a name of your own always wins (matByName), so no import changes, and the look-up links find the entry through it
+  const have = new Set([m.name, ...String(m.aliases || "").split(";")].map(normName).filter(Boolean));
+  const theirs = new Set(DATA.materials.filter(x => x !== m).flatMap(x => String(x.aliases || "").split(";")).map(normName).filter(Boolean));
+  const aliases = [];
+  for (const a of [e.name, ...(e.aliases || [])]){
+    const k = normName(a);
+    if (!k || have.has(k) || theirs.has(k)) continue;
+    have.add(k); aliases.push(String(a).trim());
+  }
+  return {keys, val, aliases};
+}
+function fillFromList(m){
+  const all = listMaterials();
+  if (!all.length || readOnly()) return;
+  const have = ownNames(), ownMain = ownMainNames(), pos = new Map(all.map((e, i) => [e, i]));
+  let chosen = null;
+  const what = () => {   // under the list: what the entry you picked would fill in
+    if (!chosen){ $("#flWhat").textContent = ""; return; }
+    const p = listFillPlan(m, chosen), names = FILLKEYS.filter(([k]) => p.keys.includes(k)).map(([, l]) => l);
+    const parts = [names.length ? "Fills in " + (names.length > 1 ? names.slice(0, -1).join(", ") + " and " + names.at(-1) : names[0]) : "",
+      p.aliases.length ? `adds ${p.aliases.length} alternative name${p.aliases.length === 1 ? "" : "s"}` : ""].filter(Boolean);
+    $("#flWhat").textContent = parts.length ? parts.join("; ") + "." : "Nothing to fill in: those fields have a value already.";
+  };
+  const draw = () => {   // names word by word and the CAS as typed, as in Browse the library…
+    const t = fold($("#flQ").value).trim(), w = searchWords(t);
+    const sel = all.filter(e => !t || listHit(e, w) || fold(e.cas).includes(t));
+    $("#flRows").innerHTML = sel.length ? sel.map(e => {
+      const facts = [ownsEntry(e, have, ownMain) ? "in your inventory" : "", e.category, e.pyramid != null ? PYR[e.pyramid] : "", e.cas]
+        .filter(Boolean).map(esc).join(" · ");
+      return `<label class="brRow"><input type="radio" name="flPick" data-i="${pos.get(e)}"${e === chosen ? " checked" : ""}><span>${esc(e.name)}</span><span class="sub">${facts}</span></label>`;
+    }).join("") : `<div class="hint" style="padding:.6rem">Nothing in the library matches.</div>`;
+  };
+  openDialog(`<h3 style="margin:0 0 .3rem">Fill in from the library</h3>
+    <div class="hint">Pick the entry for “${esc(m.name)}”. Its facts go into the fields that are still empty; what you filled in yourself stays.</div>
+    <input id="flQ" placeholder="Search the library…" autocomplete="off" style="width:100%;margin:.6rem 0 .4rem">
+    <div id="flRows" style="max-height:50vh;overflow:auto;border:1px solid var(--line);border-radius:6px"></div>
+    <div class="hint" id="flWhat" style="margin-top:.4rem;min-height:1.2em"></div>`, "Fill in", () => {
+    if (!chosen){ alert("Pick an entry of the library."); return false; }
+    const p = listFillPlan(m, chosen);
+    if (!p.keys.length && !p.aliases.length) return;   // nothing changes, so no Undo step either
+    snapM(m);
+    let newCat = null;
+    for (const k of p.keys){
+      if (k !== "category"){ m[k] = p.val[k]; continue; }
+      // "musks" beside your own "Musks" would be a second category for one thing, as in addFromList
+      const same = DATA.materialCategories.find(x => x.localeCompare(p.val.category, undefined, {sensitivity: "base"}) === 0);
+      m.category = same || p.val.category;
+      if (!same){ newCat = m.category; DATA.materialCategories.push(newCat); DATA.materialCategories.sort((a, b) => a.localeCompare(b)); }
+    }
+    if (p.aliases.length) m.aliases = [...String(m.aliases || "").split(";").map(a => a.trim()).filter(Boolean), ...p.aliases].join("; ");
+    if (newCat) alsoUndo(() => { DATA.materialCategories = DATA.materialCategories.filter(x => x !== newCat); });
+    invalidateMats(); markDirty(); render();
+  }, "34rem");
+  $("#flQ").value = ((m.cas || "").match(CAS_RE) || [])[0] || m.name || "";
+  $("#flQ").addEventListener("input", draw);
+  $("#flRows").addEventListener("change", e => { const r = e.target.closest("input[data-i]"); if (r){ chosen = all[+r.dataset.i]; what(); } });
+  draw(); $("#flQ").focus(); $("#flQ").select();
 }
 // Every perfumer has a classification of their own: a category (and for a material a pyramid level) for many materials
 // or formulas at once, in one Undo step (build 261011d; formulas and the list buttons since 261011e). kind is the tab,
@@ -3548,6 +3641,21 @@ function stockCalc(m){
   }});
   return {tracked:true, qty:q, ev};
 }
+// After Purchase › Add (build 261021a), when the material has another purchase date than today: the calendar starts on
+// today, Set date gives the material that date and dates this purchase too (as Delivered… does), No change and Escape
+// leave it. The purchase was written before the question, so the date stays in its Undo step: snapM took the material
+function askPurchaseDate(m, was, evs){
+  openDialog(`<h3 style="margin:0 0 .3rem">Purchase date</h3>
+    <div class="hint">The purchase date of “${esc(m.name)}” is ${esc(was)}. Change it to:</div>
+    <input type="date" id="pdDate" value="${today()}" aria-label="New purchase date" style="margin-top:.6rem">`, "Set date", () => {
+    const d = okDate($("#pdDate").value);
+    if (!d){ alert("Pick a date."); return false; }
+    m.purchaseDate = d; for (const e of evs) e.date = d;
+    markDirty(); render();
+  });
+  $("#dlgCancel").textContent = "No change";
+  $("#pdDate").focus();
+}
 function evLabel(e){
   const map = {take:"stocktake", buy:"purchase", dil:"dilution made", prep:"prepared"};
   let s = `${e.date} · ${map[e.t]||e.t}`;
@@ -3671,6 +3779,7 @@ const CSV_FIELDS = [   // the columns of Export all materials (Excel), and what 
   {k: "stock", label: "Stock g (tracked)", num: true, syn: ["stock", "stock g", "stock (g)", "in stock", "on hand", "voorraad"]},   // read as a stocktake (build 261010d)
   {k: "dilutions", label: "Dilutions %", syn: ["dilutions", "dilution", "dilution %", "concentration", "strength"]},
   {k: "description", label: "Description", syn: ["notes", "remarks", "odour", "odor", "smell", "comments", "beschrijving"]},
+  {k: "stockNote", label: "Stock note", syn: ["stock notes", "stock remark"]},   // the note of the Stock panel (build 261021a)
 ];
 const csvKey = s => (s || "").trim().toLowerCase().replace(/\s+/g, " ");
 function csvAutoMap(header, fields = CSV_FIELDS){   // each field finds its column by the export's own name or a synonym; a column serves one field
@@ -3786,6 +3895,7 @@ function applyCsvImport(parsed, map){
     // page: the ledger starts from that figure (build 261010d); a negative balance or a cell without a number is left out
     const sg = parseNum(v(r, "stock"));
     if (sg != null && sg >= 0) m.stockEvents = [{t: "take", date: today(), g: sg, note: "from spreadsheet"}];
+    if (v(r, "stockNote")) m.stockNote = v(r, "stockNote").replace(/\r\n?/g, "\n");
     added.push(m.id);
   }
   if (!added.length){ alert("Nothing to import: every row was empty or a name you already have."); return; }
@@ -3809,8 +3919,8 @@ function applyCsvImport(parsed, map){
 function csvTemplate(){   // the columns the app writes itself, with two example rows to overwrite
   const rows = [CSV_FIELDS.map(f => f.label)];
   rows.push(["Example: Iso E Super", "54464-57-2", "OTNE; Iso E", "Woody", "Example supplier", "100 g", "2026-01-15", nBE(0.12), "99", "Base", "", "yes", "", "", nBE(0.96), "85", "100 / 10",
-             "Two example rows: overwrite or delete them. Dilutions: the base first, the others after a slash. IFRA 99 means checked, no limit. Solvent, Cupboard, Fridge and Freezer take yes or nothing. Stock: the grams in the bottle now, or nothing."]);
-  rows.push(["Example: Ethanol 96%", "64-17-5", "", "Solvents", "", "1000 ml", "", nBE(0.01), "", "", "yes", "yes", "", "", nBE(0.81), "", "100", "A solvent: rel % leaves it out of the concentrate."]);
+             "Two example rows: overwrite or delete them. Dilutions: the base first, the others after a slash. IFRA 99 means checked, no limit. Solvent, Cupboard, Fridge and Freezer take yes or nothing. Stock: the grams in the bottle now, or nothing.", "About 20 g left of an older bottle"]);
+  rows.push(["Example: Ethanol 96%", "64-17-5", "", "Solvents", "", "1000 ml", "", nBE(0.01), "", "", "yes", "yes", "", "", nBE(0.81), "", "100", "A solvent: rel % leaves it out of the concentrate.", ""]);
   dlCsv(rows, "miformulas-materials-template.csv");
 }
 /* ---------- formulas from a CSV: the round trip of Export all formulas (Excel) ---------- */
@@ -4085,7 +4195,7 @@ function exportAllFormulas(){
 function exportAllMaterials(){
   if (!DATA.materials.length){ alert("There are no materials in your inventory yet."); return; }
   const rows = [["Name","CAS","Alternative names","Category","Supplier","Amount purchased","Purchase date","Cost EUR/g","IFRA limit %","Pyramid","Solvent",
-    "Cupboard","Fridge","Freezer","Density g/ml","Stock g (tracked)","Dilutions %","Description"]];
+    "Cupboard","Fridge","Freezer","Density g/ml","Stock g (tracked)","Dilutions %","Description","Stock note"]];
   for (const m of DATA.materials){
     const st = stockCalc(m);
     rows.push([m.name, m.cas||"", m.aliases||"", m.category||"", m.supplier||"", m.inventory||"", m.purchaseDate||"",
@@ -4093,7 +4203,7 @@ function exportAllMaterials(){
       m.locations?.kast?"yes":"", m.locations?.frigo?"yes":"", m.locations?.diepvries?"yes":"",
       m.density!=null?nBE(m.density):"", st.tracked?nBE(st.qty.toFixed(3)):"",
       [...(m.dilutions||[])].sort((a,b) => (b.isBase?1:0) - (a.isBase?1:0)).map(d=>nBE(d.pct)).join(" / "),   // base first: the import reads it back that way
-      m.description||""]);   // its lines stay lines in the cell, as the notes do in Export all formulas (build 261010d)
+      m.description||"", m.stockNote||""]);   // its lines stay lines in the cell, as the notes do in Export all formulas (build 261010d)
   }
   dlCsv(rows, `${stamp()} miFormulas materials.csv`);
 }
@@ -5230,8 +5340,8 @@ function renderMaterial(m){
   c.innerHTML = `<div class="fTop"><h2>${pyrIcon(m.pyramid, catColour(m), 20)}${esc(m.name)}</h2>
     <span class="fEnd">${m.wishlist && !onList ? '<button class="small" id="btnOwned" title="Not on the order list: remove the to-order label">Mark as owned</button>'
       : '<button class="small" id="btnToOrder">Add to order list</button>'}
-      <details class="menuDd" id="mMore"><summary title="Delete this material" aria-label="More actions for this material">⋯</summary>
-        <div class="menuPop"><button id="btnDelMat" class="danger" title="Delete this material (only when no version uses it; undo possible)">Delete material</button></div></details></span></div>
+      <details class="menuDd" id="mMore"><summary title="${listMaterials().length ? "Fill in from the library, or delete this material" : "Delete this material"}" aria-label="More actions for this material">⋯</summary>
+        <div class="menuPop">${listMaterials().length ? '<button id="btnFillLib" title="Fill in the empty fields from an entry of the materials library">Fill in from the library…</button>' : ""}<button id="btnDelMat" class="danger" title="Delete this material (only when no version uses it; undo possible)">Delete material</button></div></details></span></div>
   <div class="fMeta">${m.wishlist?`<span><span class="badge" style="background:var(--amber-soft);color:var(--amber-ink)" title="Not owned yet">to order</span></span>`:""}${
     m.starter?'<span><span class="badge" style="background:var(--frozen-soft);color:var(--frozen)" title="Came with the app. Edit or delete it like any other material.">starter set</span></span>':""}
     <span class="fLinks">${lookupLinks(m)}</span></div>
@@ -5267,10 +5377,11 @@ function renderMaterial(m){
   </details>
   ${(() => { const st = stockCalc(m);
     return `<details class="panelBox" id="stockBox"${STOCKOPEN?" open":""}>
-    <summary>Stock<span class="sumst"> – ${st.tracked?`${fmt(st.qty)} g (base concentration)`:"not tracked"}</span></summary>
+    <summary>Stock<span class="sumst"> – ${st.tracked?`${fmt(st.qty)} g (base concentration)`:"not tracked"}${String(m.stockNote || "").trim() ? " · note" : ""}</span></summary>
     <div class="fieldGrid" style="margin:.6rem 0 .4rem">
       <label for="mPurchDate">Purchase date</label><input type="date" id="mPurchDate" data-f="purchaseDate" value="${esc(m.purchaseDate||"")}" style="justify-self:start">
       <label for="mDensity">Density g/ml</label><input id="mDensity" data-f="density" data-num="1" value="${m.density!=null?fmtSIn(m.density,4):""}" title="Grams per millilitre: needed to count a purchase in ml" style="width:8rem">
+      <label for="mStockNote" style="align-self:start;margin-top:.45rem">Note</label><textarea id="mStockNote" data-f="stockNote" rows="2" placeholder="e.g. 20 g left of an older bottle" style="width:100%;min-width:0;resize:vertical">${esc(m.stockNote||"")}</textarea>
     </div>
     <div style="font-size:1.1rem;font-weight:600;margin-bottom:.4rem">${st.tracked ? fmt(st.qty)+" g <span class='hint' style='font-weight:400'>estimated</span>" : '<span class="hint">Not tracked – set a stocktake or add a purchase to start.</span>'}</div>
     <div class="toolRow"><label for="stTake">Stocktake</label> <input id="stTake" style="width:5.5rem;text-align:right" placeholder="g"> g <button class="small" id="btnTake">Set</button></div>
@@ -5378,9 +5489,14 @@ function renderMaterial(m){
     const start = !stockCalc(m).tracked;
     if (start && g == null){ alert("Fill in the density (g/ml) above first: without it the app cannot count millilitres."); return; }
     snapM(m);
-    if (start) (m.stockEvents ||= []).push({t:"take", date: today(), g: 0, note: "start of tracking"});
-    (m.stockEvents ||= []).push({t:"buy", date: today(), amount: amt, unit, g, note: $("#stBuyNote").value.trim()});
+    const evs = [...(start ? [{t:"take", date: today(), g: 0, note: "start of tracking"}] : []),
+      {t:"buy", date: today(), amount: amt, unit, g, note: $("#stBuyNote").value.trim()}];
+    (m.stockEvents ||= []).push(...evs);
+    // the purchase date of the material (build 261021a): an empty one becomes today, another one is asked about
+    const was = m.purchaseDate || "";
+    if (!was) m.purchaseDate = today();
     markDirty(); render();
+    if (was && was !== today()) askPurchaseDate(m, was, evs);
   });
   $("#btnDil")?.addEventListener("click", () => {
     const pct = parseNum($("#stDilPct").value), tot = parseNum($("#stDilG").value);
@@ -5388,6 +5504,10 @@ function renderMaterial(m){
     const bp = basePct(m);   // the stock is kept in the base concentration: 50 g of 1 % out of a 10 % base takes 5 g, not 0,5 g
     if (pct > bp){ alert(`A ${fmtS(pct)}% dilution cannot be made out of a ${fmtS(bp)}% base.\n\nSet the stronger concentration as the base first, or enter the amount by hand with Stocktake.`); return; }
     snapM(m); (m.stockEvents ||= []).push({t:"dil", date: today(), pct, totalG: tot, base: bp, g: tot * pct / bp});
+    // a strength the material did not have is one it has now: it joins Dilutions, dated today, as with Add dilution (build 261021a)
+    if (!(m.dilutions || []).some(d => d.pct === pct)){
+      (m.dilutions ||= []).push({pct, isBase: false, date: today(), notes: ""}); m.dilutions.sort((a, b) => b.pct - a.pct);
+    }
     markDirty(); render();
   });
   c.querySelectorAll("[data-delev]").forEach(b => b.addEventListener("click", () => {
@@ -5438,6 +5558,7 @@ function renderMaterial(m){
   c.querySelectorAll("[data-go]").forEach(a => a.addEventListener("click", () => {
     switchTab("F", a.dataset.go, null);
   }));
+  $("#btnFillLib")?.addEventListener("click", () => fillFromList(m));
   // the label stayed for good once the line was off the list: Delivered was the only way to lose it (build 260922j)
   $("#btnOwned")?.addEventListener("click", () => { snapM(m); delete m.wishlist; markDirty(); render(); });
   $("#btnToOrder")?.addEventListener("click", () => {
@@ -5508,7 +5629,7 @@ $("#btnNewMat").addEventListener("click", () => {
         return out.map(n => `<option value="${esc(n)}">`).join(""); })()}</datalist>` : ""}
     <div class="hint" id="nmFound" style="margin-top:.5rem"></div>
     <div class="hint" style="margin-top:.5rem">Details (CAS, supplier, cost, pyramid…) are filled in on the material page.${list.length ? " A name from the materials library brings its facts along." : ""}</div>
-    ${list.length ? `<div style="margin-top:.6rem"><button type="button" class="small" id="nmBrowse">Browse the library…</button> <span class="hint">to tick several at once</span></div>`
+    ${list.length ? `<div style="margin-top:.6rem"><button type="button" class="small" id="nmBrowse">Browse the library…</button> <span class="hint">search the whole library and add one or more</span></div>`
       : !DATA.materialList && LIST_URL && !DATA.libraryHintOff && !readOnly() ? `<div id="nmLibHint" style="margin-top:.7rem;padding-top:.6rem;border-top:1px solid var(--line)">
         <div class="hint">No materials library loaded. It fills in CAS, category, pyramid level, IFRA limit and alternative names as you type.</div>
         <div class="toolRow" style="margin:.4rem 0 0"><button type="button" class="small" id="nmLibGet">Get the latest library</button>
@@ -5557,7 +5678,11 @@ $("#btnNewMat").addEventListener("click", () => {
   });
   $("#nmName").addEventListener("input", lookup);
   $("#nmName").addEventListener("change", lookup);
-  if (list.length) $("#nmBrowse").addEventListener("click", () => { $("#dlg").close(); browseList(); });
+  // Browse starts from the name typed here, and Cancel there brings this window back as you left it (build 261021a)
+  const keepNew = () => ({name: $("#nmName").value, cat: $("#nmCat").value, dil: $("#nmDil").value});
+  if (list.length) $("#nmBrowse").addEventListener("click", () => {
+    const keep = keepNew(); $("#dlg").close(); browseList(keep.name.trim(), () => reopenNewMat(keep));
+  });
   // the reminder (build 261019b): the library is fetched without losing what you typed, and the window opens again with the
   // suggestions and Browse the library…; ✕ puts a flag in the data file, so it follows you to another browser or device
   $("#nmLibGet")?.addEventListener("click", async e => {
@@ -5565,11 +5690,9 @@ $("#btnNewMat").addEventListener("click", () => {
     try{
       const p = await fetchLibrary();
       if (!libraryFits(p)){ b.disabled = false; b.textContent = "Get the latest library"; return; }
-      const keep = {name: $("#nmName").value, cat: $("#nmCat").value, dil: $("#nmDil").value};
+      const keep = keepNew();
       setMaterialList(p); render();
-      $("#dlg").close(); $("#btnNewMat").click();
-      $("#nmName").value = keep.name; $("#nmCat").value = keep.cat; $("#nmDil").value = keep.dil;
-      $("#nmName").dispatchEvent(new Event("input"));
+      $("#dlg").close(); reopenNewMat(keep);
     }catch(err){
       b.disabled = false; b.textContent = "Get the latest library";
       alert("The library could not be fetched. Check your connection, or import the file by hand in Settings.");

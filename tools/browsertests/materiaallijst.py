@@ -235,6 +235,7 @@ with sync_playwright() as p:
     check("Alpha is greyed out in Browse, Beta is not",
           page.locator('#brRows input[data-n="Alpha"]').is_disabled()
           and not page.locator('#brRows input[data-n="Beta"]').is_disabled())
+    page.click("#dlgCancel"); page.wait_for_timeout(400)   # Cancel in Browse goes back to New material (build 261021a)
     page.click("#dlgCancel"); page.wait_for_timeout(300)
     page.keyboard.press("Control+z"); page.wait_for_timeout(500)   # Alpha weer weg
     page.click("#btnHome"); page.wait_for_timeout(300)

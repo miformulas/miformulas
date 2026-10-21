@@ -286,7 +286,8 @@ with sync_playwright() as p:
     for i in range(min(3, boxes.count())):
         boxes.nth(i).click(); page.wait_for_timeout(120)
     shot(page, "app-browse-library.png", "#dlg")
-    page.click("#dlgCancel"); page.wait_for_timeout(300)   # Browse reuses the same dialog, so one Cancel closes both
+    page.click("#dlgCancel"); page.wait_for_timeout(400)   # Cancel in Browse goes back to New material (build 261021a)
+    page.click("#dlgCancel"); page.wait_for_timeout(300)
 
     # ---- 10c. Move into… with Move together, on three imported formulas ----
     page.evaluate("""() => {

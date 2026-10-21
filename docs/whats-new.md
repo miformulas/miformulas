@@ -2,6 +2,31 @@
 
 What changed in the app, newest first. The manual describes every function in full; the technical release notes are on GitHub.
 
+## On miformulas.com since 21 October
+
+These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, **Settings › Check for updates** brings them in (see “Do you have the latest version?”).
+
+### Facts from the library for a material you already have
+
+A material that came from Formulair or from a spreadsheet, or a second bottle of the same material under a name of its own, could not get the facts of the materials library afterwards. **Fill in from the library…**, in the menu ⋯ of a material, lets you pick the entry it belongs to. The CAS number, category, pyramid level, IFRA limit and description are filled in where they are still empty; what you filled in yourself stays.
+
+*Manual, sections [3](manual.html#s3-materials) and [16](manual.html#s16-import-export-and-sharing)*
+
+### The Stock panel of a material
+
+A dilution you log with **Dilution made** at a percentage the material did not have yet now also appears under Dilutions. A **Note** holds what the figures do not say, such as what is left of an older bottle next to a new one. And a purchase asks whether the purchase date of the material should change, with the calendar on today.
+
+*Manual, section [13](manual.html#s13-stock-orders-and-deliveries)*
+
+### Back from Browse the library
+
+**Browse the library…** in + New material now starts with the name you typed, and Cancel takes you back to + New material as you left it, instead of closing both.
+
+*Manual, section [3](manual.html#s3-materials)*
+
+> **Do you have the latest version?** When using the app on miformulas.com, in a browser or installed from there as an app, you get the latest version each time it loads: reload the page, or click the circular arrow in the header.  
+> A copy of miFormulas.html on your own computer does not change by itself: go to **Settings › Check for updates**. No such button in your Settings? Then your copy is older than build 261010b of 10 October (the build is next to the name in the top-left corner). Open miformulas.com in Chrome or Edge, go to **Settings › Download the app** and put the new miFormulas.html in place of the old one (same folder, same name). Your data file is not touched, and the app offers to reopen it.
+
 ## On miformulas.com since 19 October
 
 These changes are on the site and in the app installed from it. If you run miFormulas.html from your own computer, **Settings › Check for updates** brings them in (see “Do you have the latest version?”).
@@ -45,9 +70,6 @@ The bar with the colour marks, Lower, Higher and Create premix… appears only o
 Under the table, **Print / export** holds Print full formula, Excel export and Share this version; **Print weighing sheet** stays a button of its own, and **Batch scaling** opens a strip under the table. The four panels below it, Notes, Trial log, Pyramid & categories and IFRA check, stand two by two. The pyramid, which stood in the head, is now in the panel with the categories.
 
 *Manual, sections [4](manual.html#s4-formulas-and-versions), [5](manual.html#s5-editing-a-formula), [10](manual.html#s10-bench-view-and-printing) and [12](manual.html#s12-ifra-check-and-category-panel)*
-
-> **Do you have the latest version?** When using the app on miformulas.com, in a browser or installed from there as an app, you get the latest version each time it loads: reload the page, or click the circular arrow in the header.  
-> A copy of miFormulas.html on your own computer does not change by itself: go to **Settings › Check for updates**. No such button in your Settings? Then your copy is older than build 261010b of 10 October (the build is next to the name in the top-left corner). Open miformulas.com in Chrome or Edge, go to **Settings › Download the app** and put the new miFormulas.html in place of the old one (same folder, same name). Your data file is not touched, and the app offers to reopen it.
 
 ## On miformulas.com since 18 October
 

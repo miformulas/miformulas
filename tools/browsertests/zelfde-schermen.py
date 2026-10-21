@@ -47,7 +47,9 @@ NIEUW = ["#dlg:has(#setLocale)", "#dlg:has(#btnImpF)",   # 261017b: Import & exp
          "#content:has(> .fieldGrid) > *", "#content:has(> .mCols) > *", "#nmLibHint",
          # 261019d: A en B van Compare elk met hun lijst, zonder Order:, en de categorie in + New material zonder kleurvakje
          # (opmaak-breedtes.py, namen.py); de tabel van Compare blijft vergeleken, zonder de klassen van RX
-         "#content:has(#cmpA) > .toolRow", 'label[for="nmCat"] + span']
+         "#content:has(#cmpA) > .toolRow", 'label[for="nmCat"] + span',
+         # 261021a: de kolom Stock note in het venster van de CSV-invoer (materiaalpagina-aanvullingen.py)
+         'label[for="csv_stockNote"]', "#csv_stockNote"]
 #   # bewust toegevoegd of omgezet sinds REF (261014a: de lijst met een zoekterm; 261015a:
 # Settings, breder en anders geschikt; audit-v3-teksten.py test het venster)
 # bewust omgezet sinds REF: als tekst [weg, in de plaats] en als patroon [patroon, in de plaats] (261014a: de categoriegroep
@@ -65,7 +67,9 @@ REPL = [['title="Settings: number format, materials library, server; install, do
         ['<a id="btnWhatsNew" class="small" style="margin-left:.6rem" href="https://miformulas.com/docs/whats-new.html" target="_blank" rel="noopener" title="What changed in each version, in plain words">What’s new</a>\n       ', ''],
         ['\n    <a class="small" id="helpWhatsNew" href="https://miformulas.com/docs/whats-new.html" target="_blank" rel="noopener">What’s new</a>', ''],
         # 261017b: een aankoop start het stockboek, en het lege paneel zegt dat (stock-en-import-export.py)
-        ["set a stocktake or add a purchase to start.", "set a stocktake to start."]]
+        ["set a stocktake or add a purchase to start.", "set a stocktake to start."],
+        # 261021a: de uitleg naast Browse the library… (materiaalpagina-aanvullingen.py)
+        ["search the whole library and add one or more", "to tick several at once"]]
 RX = [[r'<span class="sub fcat" title="Uncategorised · (\d+ versions?)">\d+ versions?', '<span class="sub fcat" title="Uncategorised · $1">Uncategorised'],
       # 261019a: the two builds leave different elements out of the formula page (NIEUW), and so different blank lines
       [r'>\s+<', '>\n<'],
